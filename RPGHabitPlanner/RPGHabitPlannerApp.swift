@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct RPGHabitPlannerApp: App {
-
     var body: some Scene {
         WindowGroup {
             SplashView()

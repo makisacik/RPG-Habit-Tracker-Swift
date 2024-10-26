@@ -19,10 +19,10 @@ struct SplashView: View {
         (Color(hex: "#B99470"), 0.28),
         (Color(hex: "#54473F"), 0.35)
     ]
-    
+
     var body: some View {
         ZStack {
-            ForEach(0..<colorsTuple.count , id: \.self) { index in
+            ForEach(0..<colorsTuple.count, id: \.self) { index in
                 let colorDelay = colorsTuple[index]
                 AnimatedTitleView(title: title, color: colorDelay.color, initialDelay: colorDelay.delay, animationType: .spring(duration: 1))
             }
