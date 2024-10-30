@@ -12,7 +12,7 @@ struct QuestCreationView: View {
     @State private var questDescription: String = ""
     @State private var questDueDate = Date()
     @State private var isMainQuest: Bool = false
-    @State private var questHardness: Int = 3
+    @State private var difficulty: Int = 3
     @State private var isRepetitiveQuest: Bool = false
     
     var body: some View {
@@ -56,15 +56,15 @@ struct QuestCreationView: View {
                 
                 // Hardness Input (Star Rating)
                 VStack {
-                    Text("Quest Hardness")
+                    Text("Quest Difficulty")
                         .font(.headline)
                     
-                    StarRatingView(rating: $questHardness)
+                    StarRatingView(rating: $difficulty)
                 }
                 .padding()
                 
                 Button(action: {
-                    print("Quest saved: \(questTitle), Hardness: \(questHardness), Repetitive: \(isRepetitiveQuest)")
+                    print("Quest saved: \(questTitle), Difficulty: \(difficulty), Repetitive: \(isRepetitiveQuest)")
                 }) {
                     Text("Save Quest")
                         .font(.headline)

@@ -6,6 +6,10 @@
 //
 
 import Foundation
+import CoreData
 
 final class QuestCreationViewModel {
+    func createQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, completion: @escaping (Error?) -> Void) {
+        completion(nil)
+    }
 }
