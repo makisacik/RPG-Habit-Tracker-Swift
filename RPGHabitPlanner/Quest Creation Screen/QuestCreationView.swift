@@ -62,7 +62,7 @@ struct QuestCreationView: View {
                     StarRatingView(rating: $difficulty)
                 }
                 .padding()
-                
+
                 Button(action: {
                     print("Quest saved: \(questTitle), Difficulty: \(difficulty), Repetitive: \(isRepetitiveQuest)")
                 }) {

@@ -7,12 +7,13 @@
 
 import Foundation
 
-final class QuestFirebaseService: QuestDataService {
-    func saveQuest(_ quest: any QuestProtocol, completion: @escaping ((any Error)?) -> ()) {
-        
+final class QuestFirebaseService: QuestDataServiceProtocol {
+    func deleteQuest(withId id: UUID, completion: @escaping ((any Error)?) -> Void) {
     }
     
-    func fetchAllQuests(completion: @escaping ([any QuestProtocol], (any Error)?) -> ()) {
-        
+    func saveQuest(_ quest: Quest, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
+    func fetchAllQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
     }
 }
