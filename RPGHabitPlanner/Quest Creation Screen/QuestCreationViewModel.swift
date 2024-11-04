@@ -6,10 +6,28 @@
 //
 
 import Foundation
-import CoreData
 
-final class QuestCreationViewModel {
+final class QuestCreationViewModel: ObservableObject {
+    private let questDataService: QuestDataServiceProtocol
+    
+    init(questDataService: QuestDataServiceProtocol) {
+        self.questDataService = questDataService
+    }
+    
     func createQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, completion: @escaping (Error?) -> Void) {
-        completion(nil)
+        let newQuest = Quest(
+            title: title,
+            isMainQuest: isMainQuest,
+            info: info,
+            difficulty: difficulty,
+            creationDate: creationDate,
+            dueDate: dueDate
+        )
+        
+        questDataService.saveQuest(newQuest) { error in
+            DispatchQueue.main.async {
+                completion(error)
+            }
+        }
     }
 }

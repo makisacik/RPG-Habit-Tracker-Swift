@@ -8,23 +8,33 @@
 import SwiftUI
 
 struct QuestCreationView: View {
+    @StateObject private var viewModel: QuestCreationViewModel
+    
     @State private var questTitle: String = ""
     @State private var questDescription: String = ""
     @State private var questDueDate = Date()
     @State private var isMainQuest: Bool = false
     @State private var difficulty: Int = 3
     @State private var isRepetitiveQuest: Bool = false
+    @State private var showAlert: Bool = false
+    @State private var errorMessage: String?
+
+    init(viewModel: QuestCreationViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
                 TextField("Quest Title", text: $questTitle)
+                    .autocorrectionDisabled()
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                     .shadow(radius: 3)
                 
                 TextField("Quest Description", text: $questDescription)
+                    .autocorrectionDisabled()
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
@@ -54,7 +64,6 @@ struct QuestCreationView: View {
                 .cornerRadius(8)
                 .shadow(radius: 3)
                 
-                // Hardness Input (Star Rating)
                 VStack {
                     Text("Quest Difficulty")
                         .font(.headline)
@@ -63,9 +72,7 @@ struct QuestCreationView: View {
                 }
                 .padding()
 
-                Button(action: {
-                    print("Quest saved: \(questTitle), Difficulty: \(difficulty), Repetitive: \(isRepetitiveQuest)")
-                }) {
+                Button(action: saveQuest) {
                     Text("Save Quest")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -76,6 +83,9 @@ struct QuestCreationView: View {
                         .shadow(radius: 3)
                 }
                 .padding(.top, 20)
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Error"), message: Text(errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
+                }
                 
                 Spacer()
             }
@@ -83,40 +93,35 @@ struct QuestCreationView: View {
             .navigationTitle("Create New Quest")
         }
     }
-}
-
-struct StarRatingView: View {
-    @Binding var rating: Int
     
-    var maxRating = 5
-    var offImage: Image?
-    var onImage = Image(systemName: "star.fill")
-    
-    var offColor = Color.gray
-    var onColor = Color.yellow
-    
-    var body: some View {
-        HStack {
-            ForEach(1..<maxRating + 1, id: \.self) { number in
-                image(for: number)
-                    .foregroundColor(number > rating ? offColor : onColor)
-                    .onTapGesture {
-                        rating = number
-                    }
+    private func saveQuest() {
+        viewModel.createQuest(
+            title: questTitle,
+            isMainQuest: isMainQuest,
+            info: questDescription,
+            difficulty: difficulty,
+            creationDate: Date(),
+            dueDate: questDueDate
+        ) { error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+                showAlert = true
+            } else {
+                // Clear input fields after saving successfully
+                questTitle = ""
+                questDescription = ""
+                questDueDate = Date()
+                isMainQuest = false
+                difficulty = 3
+                isRepetitiveQuest = false
             }
         }
-        .font(.largeTitle)
-    }
-    
-    func image(for number: Int) -> Image {
-        if number > rating {
-            return offImage ?? onImage
-        } else {
-            return onImage
-        }
     }
 }
 
+
 #Preview {
-    QuestCreationView()
+    let questDataService = QuestCoreDataService()
+    let viewModel = QuestCreationViewModel(questDataService: questDataService)
+    QuestCreationView(viewModel: viewModel)
 }
