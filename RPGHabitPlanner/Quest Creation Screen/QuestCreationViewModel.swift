@@ -6,27 +6,37 @@
 //
 
 import Foundation
+import SwiftUI
+import Combine
 
 final class QuestCreationViewModel: ObservableObject {
     private let questDataService: QuestDataServiceProtocol
+    
+    @Published var didSaveQuest = false
+    @Published var errorMessage: String?
     
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
     }
     
-    func createQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, completion: @escaping (Error?) -> Void) {
+    func saveQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, dueDate: Date) {
         let newQuest = Quest(
             title: title,
             isMainQuest: isMainQuest,
             info: info,
             difficulty: difficulty,
-            creationDate: creationDate,
+            creationDate: Date(),
             dueDate: dueDate
         )
         
-        questDataService.saveQuest(newQuest) { error in
+        questDataService.saveQuest(newQuest) { [weak self] error in
             DispatchQueue.main.async {
-                completion(error)
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                    self?.didSaveQuest = false
+                } else {
+                    self?.didSaveQuest = true
+                }
             }
         }
     }

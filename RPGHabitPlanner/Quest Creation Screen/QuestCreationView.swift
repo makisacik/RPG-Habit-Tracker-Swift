@@ -17,8 +17,8 @@ struct QuestCreationView: View {
     @State private var difficulty: Int = 3
     @State private var isRepetitiveQuest: Bool = false
     @State private var showAlert: Bool = false
-    @State private var errorMessage: String?
-
+    @State private var showSuccessMessage: Bool = false
+    
     init(viewModel: QuestCreationViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -72,7 +72,15 @@ struct QuestCreationView: View {
                 }
                 .padding()
 
-                Button(action: saveQuest) {
+                Button(action: {
+                    viewModel.saveQuest(
+                        title: questTitle,
+                        isMainQuest: isMainQuest,
+                        info: questDescription,
+                        difficulty: difficulty,
+                        dueDate: questDueDate
+                    )
+                }) {
                     Text("Save Quest")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -84,41 +92,45 @@ struct QuestCreationView: View {
                 }
                 .padding(.top, 20)
                 .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Error"), message: Text(errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
+                    Alert(
+                        title: Text("Error"),
+                        message: Text(viewModel.errorMessage ?? "Unknown error"),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+                .alert(isPresented: $showSuccessMessage) {
+                    Alert(
+                        title: Text("Success"),
+                        message: Text("Quest saved successfully!"),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
                 
                 Spacer()
             }
             .padding()
             .navigationTitle("Create New Quest")
-        }
-    }
-    
-    private func saveQuest() {
-        viewModel.createQuest(
-            title: questTitle,
-            isMainQuest: isMainQuest,
-            info: questDescription,
-            difficulty: difficulty,
-            creationDate: Date(),
-            dueDate: questDueDate
-        ) { error in
-            if let error = error {
-                errorMessage = error.localizedDescription
-                showAlert = true
-            } else {
-                // Clear input fields after saving successfully
-                questTitle = ""
-                questDescription = ""
-                questDueDate = Date()
-                isMainQuest = false
-                difficulty = 3
-                isRepetitiveQuest = false
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
+            .onReceive(viewModel.$didSaveQuest) { success in
+                if success {
+                    showSuccessMessage = true
+                    resetFields()
+                }
             }
         }
     }
+    
+    private func resetFields() {
+        questTitle = ""
+        questDescription = ""
+        questDueDate = Date()
+        isMainQuest = false
+        difficulty = 3
+        isRepetitiveQuest = false
+    }
 }
-
 
 #Preview {
     let questDataService = QuestCoreDataService()
