@@ -12,8 +12,7 @@ struct RPGHabitPlannerApp: App {
     var body: some Scene {
         WindowGroup {
             let questDataService = QuestCoreDataService()
-            let viewModel = QuestCreationViewModel(questDataService: questDataService)
-            QuestCreationView(viewModel: viewModel)
+            HomeView(questDataService: questDataService)
         }
     }
 }
