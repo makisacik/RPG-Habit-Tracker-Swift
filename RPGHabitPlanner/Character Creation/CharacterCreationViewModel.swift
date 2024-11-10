@@ -33,7 +33,7 @@ class CharacterCreationViewModel: ObservableObject {
     
     private func updateAvailableWeapons() {
         availableWeapons = weapons[selectedClass] ?? []
-        selectedWeapon = availableWeapons.first ?? .swordBroad // Set to the first available weapon
+        selectedWeapon = availableWeapons.first ?? .swordBroad
     }
     
     var previousClass: CharacterClass? {
@@ -46,6 +46,22 @@ class CharacterCreationViewModel: ObservableObject {
         return CharacterClass.allCases[index + 1]
     }
     
+    func selectPreviousClass() {
+        if let previousClass = previousClass {
+            withAnimation {
+                selectedClass = previousClass
+            }
+        }
+    }
+    
+    func selectNextClass() {
+        if let nextClass = nextClass {
+            withAnimation {
+                selectedClass = nextClass
+            }
+        }
+    }
+
     func previousWeapon(for weapon: Weapon) -> Weapon? {
         guard let index = availableWeapons.firstIndex(of: weapon), index > 0 else { return nil }
         return availableWeapons[index - 1]
@@ -55,6 +71,22 @@ class CharacterCreationViewModel: ObservableObject {
         guard let index = availableWeapons.firstIndex(of: weapon), index < availableWeapons.count - 1 else { return nil }
         return availableWeapons[index + 1]
     }
+    
+    func selectPreviousWeapon() {
+        if let previous = previousWeapon(for: selectedWeapon) {
+            withAnimation {
+                selectedWeapon = previous
+            }
+        }
+    }
+
+    func selectNextWeapon() {
+        if let next = nextWeapon(for: selectedWeapon) {
+            withAnimation {
+                selectedWeapon = next
+            }
+        }
+    }
 
     func confirmSelection() {
         selectedCharacterClass = selectedClass.rawValue
@@ -63,18 +95,18 @@ class CharacterCreationViewModel: ObservableObject {
     }
     
     func handleClassSwipe(_ value: CGSize) {
-        if value.width < -100, let next = nextClass {
-            selectedClass = next
-        } else if value.width > 100, let previous = previousClass {
-            selectedClass = previous
+        if value.width < -100 {
+            selectNextClass()
+        } else if value.width > 100 {
+            selectPreviousClass()
         }
     }
     
     func handleWeaponSwipe(_ value: CGSize) {
-        if value.width < -100, let next = nextWeapon(for: selectedWeapon) {
-            selectedWeapon = next
-        } else if value.width > 100, let previous = previousWeapon(for: selectedWeapon) {
-            selectedWeapon = previous
+        if value.width < -100 {
+            selectNextWeapon()
+        } else if value.width > 100 {
+            selectPreviousWeapon()
         }
     }
 }

@@ -47,15 +47,16 @@ struct CharacterCreationView: View {
                 }
 
                 HStack {
-                    if let previousClass = viewModel.previousClass {
-                        Image(uiImage: UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
+                    if let previousClass = viewModel.previousClass,
+                    let previousClassImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                        Image(uiImage: previousClassImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                             .foregroundColor(.gray)
                             .padding(.leading, 10)
                             .onTapGesture {
-                                viewModel.selectedClass = previousClass
+                                viewModel.selectPreviousClass()
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -63,15 +64,16 @@ struct CharacterCreationView: View {
 
                     Spacer()
 
-                    if let nextClass = viewModel.nextClass {
-                        Image(uiImage: UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
+                    if let nextClass = viewModel.nextClass,
+                    let nextClassImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                        Image(uiImage: nextClassImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                             .foregroundColor(.gray)
                             .padding(.trailing, 10)
                             .onTapGesture {
-                                viewModel.selectedClass = nextClass
+                                viewModel.selectNextClass()
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -114,15 +116,16 @@ struct CharacterCreationView: View {
                 }
 
                 HStack {
-                    if let previousWeapon = viewModel.previousWeapon(for: viewModel.selectedWeapon) {
-                        Image(uiImage: UIImage(named: previousWeapon.iconName)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
+                    if let previousWeapon = viewModel.previousWeapon(for: viewModel.selectedWeapon),
+                    let previousWeaponImage = UIImage(named: previousWeapon.iconName)?.withRenderingMode(.alwaysTemplate) {
+                        Image(uiImage: previousWeaponImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                             .foregroundColor(.gray)
                             .padding(.leading, 10)
                             .onTapGesture {
-                                viewModel.selectedWeapon = previousWeapon
+                                viewModel.selectPreviousWeapon()
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -130,15 +133,16 @@ struct CharacterCreationView: View {
 
                     Spacer()
 
-                    if let nextWeapon = viewModel.nextWeapon(for: viewModel.selectedWeapon) {
-                        Image(uiImage: UIImage(named: nextWeapon.iconName)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
+                    if let nextWeapon = viewModel.nextWeapon(for: viewModel.selectedWeapon),
+                    let nextWeaponImage = UIImage(named: nextWeapon.iconName)?.withRenderingMode(.alwaysTemplate) {
+                        Image(uiImage: nextWeaponImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                             .foregroundColor(.gray)
                             .padding(.trailing, 10)
                             .onTapGesture {
-                                viewModel.selectedWeapon = nextWeapon
+                                viewModel.selectNextWeapon()
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
