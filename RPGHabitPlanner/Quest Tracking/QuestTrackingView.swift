@@ -13,12 +13,6 @@ struct QuestTrackingView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            Text("Active Quests")
-                .font(.title2)
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal)
-            
             Text("Main Quests")
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -28,11 +22,12 @@ struct QuestTrackingView: View {
                 ForEach(viewModel.mainQuests) { quest in
                     MainQuestCardView(quest: quest)
                         .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
                         .padding(.horizontal, 16)
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-            .frame(height: 200)
+            .frame(height: 170)
             
             Text("Side Quests")
                 .font(.headline)
@@ -43,7 +38,8 @@ struct QuestTrackingView: View {
                 HStack(spacing: 15) {
                     ForEach(viewModel.sideQuests) { quest in
                         SideQuestCardView(quest: quest)
-                            .frame(width: 150)
+                            .frame(width: 160)
+                            .padding(.vertical, 10)
                     }
                 }
                 .padding(.horizontal)
@@ -65,6 +61,7 @@ struct QuestTrackingView: View {
                 }
             )
         }
+        .navigationTitle("Quest Journal")
     }
 }
 
