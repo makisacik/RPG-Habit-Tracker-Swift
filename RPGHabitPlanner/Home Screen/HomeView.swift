@@ -19,6 +19,15 @@ struct HomeView: View {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: QuestCreationView(viewModel: QuestCreationViewModel(questDataService: questDataService))) {
+                        Image(systemName: "plus")
+                            .font(.title2)
+                            .foregroundStyle(.yellow)
+                    }
+                }
+            }
         }
     }
 }

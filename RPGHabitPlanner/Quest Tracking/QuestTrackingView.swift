@@ -61,7 +61,7 @@ struct QuestTrackingView: View {
                 }
             )
         }
-        .navigationTitle("Quest Journal")
+        .navigationTitle("Quest Journal ⚔")
     }
 }
 
