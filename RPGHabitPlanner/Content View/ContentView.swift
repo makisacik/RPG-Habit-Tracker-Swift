@@ -17,9 +17,9 @@ struct ContentView: View {
                 SplashView()
                     .transition(.opacity)
             } else {
-//                HomeView(questDataService: questDataService)
+//               HomeView(questDataService: questDataService)
 //                    .transition(.opacity)
-                  CharacterCreationView()
+                CharacterCreationView()
                     .transition(.opacity)
             }
         }

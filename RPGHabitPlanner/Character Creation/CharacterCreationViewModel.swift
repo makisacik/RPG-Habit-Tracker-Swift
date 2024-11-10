@@ -8,13 +8,16 @@
 import SwiftUI
 
 class CharacterCreationViewModel: ObservableObject {
-    @Published var selectedClass: CharacterClass = .knight
+    @Published var selectedClass: CharacterClass = .knight {
+        didSet {
+            updateAvailableWeapons()
+        }
+    }
     @Published var availableWeapons: [String] = []
     @Published var selectedWeapon = "sword-broad"
     
     init() {
-        selectClass(.knight)
-        selectedWeapon = "sword-broad"
+        updateAvailableWeapons()
     }
     
     private let weapons: [CharacterClass: [String]] = [
@@ -24,32 +27,30 @@ class CharacterCreationViewModel: ObservableObject {
         .wizard: ["staff", "spellbook"]
     ]
     
-    func selectClass(_ characterClass: CharacterClass) {
-        selectedClass = characterClass
-        availableWeapons = weapons[characterClass] ?? []
+    private func updateAvailableWeapons() {
+        availableWeapons = weapons[selectedClass] ?? []
+        selectedWeapon = availableWeapons.first ?? "" // Set to the first available weapon
     }
     
-    func previousClassName(for characterClass: CharacterClass) -> String {
-        guard let index = CharacterClass.allCases.firstIndex(of: characterClass) else { return "" }
-        let previousIndex = (index - 1 + CharacterClass.allCases.count) % CharacterClass.allCases.count
-        return CharacterClass.allCases[previousIndex].rawValue
+    var previousClass: CharacterClass? {
+        guard let index = CharacterClass.allCases.firstIndex(of: selectedClass),
+            index > 0 else { return nil }
+        return CharacterClass.allCases[index - 1]
     }
     
-    func nextClassName(for characterClass: CharacterClass) -> String {
-        guard let index = CharacterClass.allCases.firstIndex(of: characterClass) else { return "" }
-        let nextIndex = (index + 1) % CharacterClass.allCases.count
-        return CharacterClass.allCases[nextIndex].rawValue
+    var nextClass: CharacterClass? {
+        guard let index = CharacterClass.allCases.firstIndex(of: selectedClass),
+            index < CharacterClass.allCases.count - 1 else { return nil }
+        return CharacterClass.allCases[index + 1]
     }
     
-    func previousWeaponName(for weapon: String) -> String {
-        guard let index = availableWeapons.firstIndex(of: weapon) else { return "" }
-        let previousIndex = (index - 1 + availableWeapons.count) % availableWeapons.count
-        return availableWeapons[previousIndex]
+    func previousWeaponName(for weapon: String) -> String? {
+        guard let index = availableWeapons.firstIndex(of: weapon), index > 0 else { return nil }
+        return availableWeapons[index - 1]
     }
 
-    func nextWeaponName(for weapon: String) -> String {
-        guard let index = availableWeapons.firstIndex(of: weapon) else { return "" }
-        let nextIndex = (index + 1) % availableWeapons.count
-        return availableWeapons[nextIndex]
+    func nextWeaponName(for weapon: String) -> String? {
+        guard let index = availableWeapons.firstIndex(of: weapon), index < availableWeapons.count - 1 else { return nil }
+        return availableWeapons[index + 1]
     }
 }
