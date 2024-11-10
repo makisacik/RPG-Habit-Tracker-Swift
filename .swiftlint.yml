@@ -4,8 +4,8 @@ disabled_rules:
   - orphaned_doc_comment
   - todo
   - unused_capture_list
-
-
+  - function_parameter_count
+  - line_length
 opt_in_rules:
   - array_init
   - attributes
@@ -65,7 +65,7 @@ function_body_length:
   warning: 90
 # rules that have both warning and error levels, can set just the warning level
 # implicitly
-line_length: 180
+line_length: 200
 # they can set both implicitly with an array
 type_body_length:
   - 300 # warning

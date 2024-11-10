@@ -11,7 +11,9 @@ import SwiftUI
 struct RPGHabitPlannerApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            let questDataService = QuestCoreDataService()
+            let viewModel = QuestCreationViewModel(questDataService: questDataService)
+            QuestCreationView(viewModel: viewModel)
         }
     }
 }
