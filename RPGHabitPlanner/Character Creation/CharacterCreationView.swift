@@ -36,8 +36,8 @@ struct CharacterCreationView: View {
                             .tag(characterClass)
                         }
                     }
-                    .tabViewStyle(PageTabViewStyle())
-                    .frame(height: 200)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(height: 230)
                     .gesture(
                         DragGesture().updating($weaponDragOffset) { value, state, _ in
                             state = value.translation
@@ -86,22 +86,22 @@ struct CharacterCreationView: View {
                     TabView(selection: $viewModel.selectedWeapon) {
                         ForEach(viewModel.availableWeapons, id: \.self) { weapon in
                             VStack {
-                                if let image = UIImage(named: weapon) {
+                                if let image = UIImage(named: weapon.iconName) {
                                     Image(uiImage: image)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(height: 150)
                                         .padding()
                                 }
-                                Text(weapon)
+                                Text(weapon.rawValue)
                                     .font(.title3)
                                     .bold()
                             }
                             .tag(weapon)
                         }
                     }
-                    .tabViewStyle(PageTabViewStyle())
-                    .frame(height: 200)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(height: 230)
                     .gesture(
                         DragGesture().updating($weaponDragOffset) { value, state, _ in
                             state = value.translation
@@ -110,8 +110,8 @@ struct CharacterCreationView: View {
                 }
                 
                 HStack {
-                    if let previousWeapon = viewModel.previousWeaponName(for: viewModel.selectedWeapon) {
-                        Image(uiImage: UIImage(named: previousWeapon)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
+                    if let previousWeapon = viewModel.previousWeapon(for: viewModel.selectedWeapon) {
+                        Image(uiImage: UIImage(named: previousWeapon.iconName)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
@@ -125,8 +125,8 @@ struct CharacterCreationView: View {
                     
                     Spacer()
                     
-                    if let nextWeapon = viewModel.nextWeaponName(for: viewModel.selectedWeapon) {
-                        Image(uiImage: UIImage(named: nextWeapon)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
+                    if let nextWeapon = viewModel.nextWeapon(for: viewModel.selectedWeapon) {
+                        Image(uiImage: UIImage(named: nextWeapon.iconName)?.withRenderingMode(.alwaysTemplate) ?? UIImage())
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
@@ -138,11 +138,9 @@ struct CharacterCreationView: View {
                         Color.clear.frame(width: 80, height: 80)
                     }
                 }
-                .frame(height: 200)
+                .frame(height: 230)
             }
-            
-            Spacer()
-            
+                        
             Button(action: {
                 // Handle confirmation logic
             }) {
