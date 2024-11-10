@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct CharacterCreationView: View {
-
     @StateObject private var viewModel = CharacterCreationViewModel()
     @GestureState private var dragOffset: CGSize = .zero
-    @AppStorage("isCharacterCreated") private var isCharacterCreated: Bool = false
-    @AppStorage("selectedCharacterClass") private var selectedCharacterClass: String = ""
-    @AppStorage("selectedWeapon") private var selectedWeapon: String = ""
     
     var body: some View {
         VStack(spacing: 20) {
@@ -45,15 +41,7 @@ struct CharacterCreationView: View {
                     .gesture(
                         DragGesture()
                             .onEnded { value in
-                                if value.translation.width < -100, let nextClass = viewModel.nextClass {
-                                    withAnimation {
-                                        viewModel.selectedClass = nextClass
-                                    }
-                                } else if value.translation.width > 100, let previousClass = viewModel.previousClass {
-                                    withAnimation {
-                                        viewModel.selectedClass = previousClass
-                                    }
-                                }
+                                viewModel.handleClassSwipe(value.translation)
                             }
                     )
                 }
@@ -67,9 +55,7 @@ struct CharacterCreationView: View {
                             .foregroundColor(.gray)
                             .padding(.leading, 10)
                             .onTapGesture {
-                                withAnimation {
-                                    viewModel.selectedClass = previousClass
-                                }
+                                viewModel.selectedClass = previousClass
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -85,9 +71,7 @@ struct CharacterCreationView: View {
                             .foregroundColor(.gray)
                             .padding(.trailing, 10)
                             .onTapGesture {
-                                withAnimation {
-                                    viewModel.selectedClass = nextClass
-                                }
+                                viewModel.selectedClass = nextClass
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -124,16 +108,7 @@ struct CharacterCreationView: View {
                     .gesture(
                         DragGesture()
                             .onEnded { value in
-                                // Detect swipe direction for changing weapon
-                                if value.translation.width < -100, let nextWeapon = viewModel.nextWeapon(for: viewModel.selectedWeapon) {
-                                    withAnimation {
-                                        viewModel.selectedWeapon = nextWeapon
-                                    }
-                                } else if value.translation.width > 100, let previousWeapon = viewModel.previousWeapon(for: viewModel.selectedWeapon) {
-                                    withAnimation {
-                                        viewModel.selectedWeapon = previousWeapon
-                                    }
-                                }
+                                viewModel.handleWeaponSwipe(value.translation)
                             }
                     )
                 }
@@ -147,9 +122,7 @@ struct CharacterCreationView: View {
                             .foregroundColor(.gray)
                             .padding(.leading, 10)
                             .onTapGesture {
-                                withAnimation {
-                                    viewModel.selectedWeapon = previousWeapon
-                                }
+                                viewModel.selectedWeapon = previousWeapon
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -165,9 +138,7 @@ struct CharacterCreationView: View {
                             .foregroundColor(.gray)
                             .padding(.trailing, 10)
                             .onTapGesture {
-                                withAnimation {
-                                    viewModel.selectedWeapon = nextWeapon
-                                }
+                                viewModel.selectedWeapon = nextWeapon
                             }
                     } else {
                         Color.clear.frame(width: 80, height: 80)
@@ -177,9 +148,7 @@ struct CharacterCreationView: View {
             }
 
             Button(action: {
-                selectedCharacterClass = viewModel.selectedClass.rawValue
-                selectedWeapon = viewModel.selectedWeapon.rawValue
-                isCharacterCreated = true
+                viewModel.confirmSelection()
             }) {
                 Text("Confirm Selection")
                     .padding()
@@ -191,6 +160,7 @@ struct CharacterCreationView: View {
         .padding()
     }
 }
+
 
 #Preview {
     CharacterCreationView()

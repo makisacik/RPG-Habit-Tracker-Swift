@@ -28,7 +28,17 @@ struct HomeView: View {
                     }
                 }
             }
+            Button("Reset Character Data") {
+                resetCharacterCreationData()
+            }
         }
+    }
+    
+    
+    func resetCharacterCreationData() {
+        UserDefaults.standard.removeObject(forKey: "isCharacterCreated")
+        UserDefaults.standard.removeObject(forKey: "selectedCharacterClass")
+        UserDefaults.standard.removeObject(forKey: "selectedWeapon")
     }
 }
 
