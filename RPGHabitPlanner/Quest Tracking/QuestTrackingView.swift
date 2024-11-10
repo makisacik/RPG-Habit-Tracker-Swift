@@ -13,18 +13,38 @@ struct QuestTrackingView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Quests")
-                .font(.title)
+            Text("Active Quests")
+                .font(.title2)
                 .bold()
                 .padding(.horizontal)
             
-            ScrollView {
-                ForEach(viewModel.quests) { quest in
+            HStack {
+                ForEach(viewModel.displayedQuests) { quest in
                     QuestCardView(quest: quest)
-                        .padding(.horizontal)
-                        .padding(.vertical, 4)
+                        .frame(maxWidth: .infinity)
                 }
             }
+            .padding()
+            .background(Color(UIColor.systemGray6))
+            .cornerRadius(10)
+            .padding(.horizontal)
+            
+            HStack {
+                Button(action: viewModel.previousPage) {
+                    Image(systemName: "chevron.left")
+                }
+                .disabled(viewModel.currentPage == 0)
+                
+                Spacer()
+                
+                Button(action: viewModel.nextPage) {
+                    Image(systemName: "chevron.right")
+                }
+                .disabled((viewModel.currentPage + 1) * 2 >= viewModel.quests.count)
+            }
+            .padding()
+            .font(.title2)
+            .padding(.horizontal)
         }
         .onAppear {
             viewModel.fetchQuests()

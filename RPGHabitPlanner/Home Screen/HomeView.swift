@@ -13,6 +13,8 @@ struct HomeView: View {
     var body: some View {
         QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
             .padding()
+        
+        Spacer()
     }
 }
 

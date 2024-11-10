@@ -10,8 +10,9 @@ import Combine
 
 class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
+    @Published var currentPage: Int = 0
     @Published var errorMessage: String?
-    
+
     private let questDataService: QuestDataServiceProtocol
     
     init(questDataService: QuestDataServiceProtocol) {
@@ -28,6 +29,24 @@ class QuestTrackingViewModel: ObservableObject {
                     self?.quests = quests
                 }
             }
+        }
+    }
+    
+    var displayedQuests: [Quest] {
+        let start = currentPage * 2
+        let end = min(start + 2, quests.count)
+        return Array(quests[start..<end])
+    }
+    
+    func nextPage() {
+        if (currentPage + 1) * 2 < quests.count {
+            currentPage += 1
+        }
+    }
+    
+    func previousPage() {
+        if currentPage > 0 {
+            currentPage -= 1
         }
     }
 }
