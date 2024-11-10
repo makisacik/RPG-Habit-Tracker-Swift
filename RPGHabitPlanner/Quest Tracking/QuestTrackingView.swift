@@ -12,39 +12,39 @@ struct QuestTrackingView: View {
     @State private var showAlert: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Active Quests")
-                .font(.title2)
-                .bold()
+        VStack(alignment: .center) {
+            Text("Main Quests")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal)
             
-            HStack {
-                ForEach(viewModel.displayedQuests) { quest in
-                    QuestCardView(quest: quest)
+            TabView {
+                ForEach(viewModel.mainQuests) { quest in
+                    MainQuestCardView(quest: quest)
                         .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 16)
                 }
             }
-            .padding()
-            .background(Color(UIColor.systemGray6))
-            .cornerRadius(10)
-            .padding(.horizontal)
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+            .frame(height: 170)
             
-            HStack {
-                Button(action: viewModel.previousPage) {
-                    Image(systemName: "chevron.left")
+            Text("Side Quests")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    ForEach(viewModel.sideQuests) { quest in
+                        SideQuestCardView(quest: quest)
+                            .frame(width: 160)
+                            .padding(.vertical, 10)
+                    }
                 }
-                .disabled(viewModel.currentPage == 0)
-                
-                Spacer()
-                
-                Button(action: viewModel.nextPage) {
-                    Image(systemName: "chevron.right")
-                }
-                .disabled((viewModel.currentPage + 1) * 2 >= viewModel.quests.count)
+                .padding(.horizontal)
             }
-            .padding()
-            .font(.title2)
-            .padding(.horizontal)
+            .padding(.bottom, 20)
         }
         .onAppear {
             viewModel.fetchQuests()
@@ -61,32 +61,7 @@ struct QuestTrackingView: View {
                 }
             )
         }
-    }
-}
-
-struct QuestCardView: View {
-    let quest: Quest
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(quest.title)
-                .font(.headline)
-            Text("Difficulty: \(quest.difficulty)")
-                .font(.subheadline)
-            Text("Due: \(quest.dueDate, style: .date)")
-                .font(.caption)
-            
-            if quest.isMainQuest {
-                Text("Main Quest")
-                    .font(.footnote)
-                    .bold()
-                    .foregroundColor(.red)
-            }
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 3)
+        .navigationTitle("Quest Journal")
     }
 }
 
