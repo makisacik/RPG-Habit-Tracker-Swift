@@ -11,10 +11,15 @@ struct HomeView: View {
     let questDataService: QuestDataServiceProtocol
     
     var body: some View {
-        QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
-            .padding()
-        
-        Spacer()
+        NavigationStack {
+            ScrollView {
+                QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
+                    .padding()
+                
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
 }
 
