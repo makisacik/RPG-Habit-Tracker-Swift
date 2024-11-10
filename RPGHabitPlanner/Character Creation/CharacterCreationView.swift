@@ -12,51 +12,80 @@ struct CharacterCreationView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Select Your Character Class")
-                .font(.headline)
+            Text("Choose Your Class!")
+                .font(.title2)
+                .bold()
             
-            ForEach(CharacterClass.allCases) { characterClass in
-                Button(action: {
-                    viewModel.selectClass(characterClass)
-                }) {
-                    HStack {
+            // TabView for character classes
+            TabView(selection: $viewModel.selectedClass) {
+                ForEach(CharacterClass.allCases, id: \.self) { characterClass in
+                    VStack {
                         if let image = UIImage(named: characterClass.iconName) {
                             Image(uiImage: image)
                                 .resizable()
-                                .frame(width: 40, height: 40)
+                                .scaledToFit()
+                                .frame(height: 150)
+                                .padding()
                         }
                         Text(characterClass.rawValue)
-                            .padding()
+                            .font(.title3)
+                            .bold()
+                        
+                        HStack {
+                            Text(viewModel.previousClassName(for: characterClass))
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text(viewModel.nextClassName(for: characterClass))
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        .padding(.horizontal)
                     }
-                    .background(viewModel.selectedClass == characterClass ? Color.blue : Color.gray)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .tag(characterClass)
                 }
             }
+            .tabViewStyle(PageTabViewStyle())
+            .frame(height: 200)
+            .onChange(of: viewModel.selectedClass) { newClass in
+                viewModel.selectClass(newClass)
+            }
             
-            if let selectedClass = viewModel.selectedClass {
-                Text("Select a Starter Weapon for \(selectedClass.rawValue)")
-                    .font(.subheadline)
+                Text("Choose Your Starter Weapon!")
+                    .font(.title2)
+                    .bold()
                 
-                ForEach(viewModel.availableWeapons, id: \.self) { weapon in
-                    Button(action: {
-                        viewModel.selectedWeapon = weapon
-                    }) {
-                        HStack {
+                TabView(selection: $viewModel.selectedWeapon) {
+                    ForEach(viewModel.availableWeapons, id: \.self) { weapon in
+                        VStack {
                             if let image = UIImage(named: weapon) {
                                 Image(uiImage: image)
                                     .resizable()
-                                    .frame(width: 40, height: 40)
+                                    .scaledToFit()
+                                    .frame(height: 150)
+                                    .padding()
                             }
                             Text(weapon)
-                                .padding()
+                                .font(.title3)
+                                .bold()
+                            
+                            HStack {
+                                Text(viewModel.previousWeaponName(for: weapon))
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                Spacer()
+                                Text(viewModel.nextWeaponName(for: weapon))
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding(.horizontal)
                         }
-                        .background(viewModel.selectedWeapon == weapon ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .tag(weapon)
                     }
                 }
-            }
+                .tabViewStyle(PageTabViewStyle())
+                .frame(height: 200)
+            
             
             Spacer()
             
