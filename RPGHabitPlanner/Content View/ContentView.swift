@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showSplash = true
+    @AppStorage("isCharacterCreated") private var isCharacterCreated: Bool = false
     let questDataService: QuestDataServiceProtocol
 
     var body: some View {
@@ -16,8 +17,11 @@ struct ContentView: View {
             if showSplash {
                 SplashView()
                     .transition(.opacity)
-            } else {
+            } else if isCharacterCreated {
                 HomeView(questDataService: questDataService)
+                    .transition(.opacity)
+            } else {
+                CharacterCreationView()
                     .transition(.opacity)
             }
         }

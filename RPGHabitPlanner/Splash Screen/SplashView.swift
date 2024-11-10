@@ -1,7 +1,7 @@
 //
 //  SplashView.swift
 //  RPGHabitPlanner
-//
+// purpose of the advanturer ??
 //  Created by Mehmet Ali Kısacık on 26.10.2024.
 //
 
