@@ -94,6 +94,7 @@ class CharacterCreationViewModel: ObservableObject {
         isCharacterCreated = true
     }
     
+    // Separate swipe handlers for class and weapon
     func handleClassSwipe(_ value: CGSize) {
         if value.width < -100 {
             selectNextClass()

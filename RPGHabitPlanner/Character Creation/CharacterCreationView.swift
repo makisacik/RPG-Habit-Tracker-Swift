@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CharacterCreationView: View {
     @StateObject private var viewModel = CharacterCreationViewModel()
-    @GestureState private var dragOffset: CGSize = .zero
     
     var body: some View {
         VStack(spacing: 20) {
@@ -38,17 +37,18 @@ struct CharacterCreationView: View {
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 230)
-                    .gesture(
-                        DragGesture()
-                            .onEnded { value in
-                                viewModel.handleClassSwipe(value.translation)
-                            }
-                    )
                 }
-
+                
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            viewModel.handleClassSwipe(value.translation)
+                        }
+                )
+                
                 HStack {
                     if let previousClass = viewModel.previousClass,
-                    let previousClassImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                       let previousClassImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
                         Image(uiImage: previousClassImage)
                             .resizable()
                             .scaledToFit()
@@ -65,7 +65,7 @@ struct CharacterCreationView: View {
                     Spacer()
 
                     if let nextClass = viewModel.nextClass,
-                    let nextClassImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                       let nextClassImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
                         Image(uiImage: nextClassImage)
                             .resizable()
                             .scaledToFit()
@@ -80,6 +80,12 @@ struct CharacterCreationView: View {
                     }
                 }
                 .frame(height: 200)
+                .simultaneousGesture(
+                    DragGesture()
+                        .onEnded { value in
+                            viewModel.handleClassSwipe(value.translation)
+                        }
+                )
             }
 
             Text("Choose Your Starter Weapon!")
@@ -107,13 +113,14 @@ struct CharacterCreationView: View {
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 230)
-                    .gesture(
-                        DragGesture()
-                            .onEnded { value in
-                                viewModel.handleWeaponSwipe(value.translation)
-                            }
-                    )
                 }
+
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            viewModel.handleWeaponSwipe(value.translation)
+                        }
+                )
 
                 HStack {
                     if let previousWeapon = viewModel.previousWeapon(for: viewModel.selectedWeapon),
@@ -149,6 +156,12 @@ struct CharacterCreationView: View {
                     }
                 }
                 .frame(height: 230)
+                .simultaneousGesture(
+                    DragGesture()
+                        .onEnded { value in
+                            viewModel.handleWeaponSwipe(value.translation)
+                        }
+                )
             }
 
             Button(action: {
@@ -164,7 +177,6 @@ struct CharacterCreationView: View {
         .padding()
     }
 }
-
 
 #Preview {
     CharacterCreationView()
