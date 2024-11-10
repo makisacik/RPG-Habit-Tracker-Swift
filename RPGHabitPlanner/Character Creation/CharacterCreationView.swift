@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct CharacterCreationView: View {
+
     @StateObject private var viewModel = CharacterCreationViewModel()
     @GestureState private var dragOffset: CGSize = .zero
-
+    @AppStorage("isCharacterCreated") private var isCharacterCreated: Bool = false
+    @AppStorage("selectedCharacterClass") private var selectedCharacterClass: String = ""
+    @AppStorage("selectedWeapon") private var selectedWeapon: String = ""
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Choose Your Class!")
@@ -173,7 +177,9 @@ struct CharacterCreationView: View {
             }
 
             Button(action: {
-                // Handle confirmation logic
+                selectedCharacterClass = viewModel.selectedClass.rawValue
+                selectedWeapon = viewModel.selectedWeapon.rawValue
+                isCharacterCreated = true
             }) {
                 Text("Confirm Selection")
                     .padding()

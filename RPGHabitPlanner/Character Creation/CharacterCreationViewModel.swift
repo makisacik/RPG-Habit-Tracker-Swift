@@ -34,13 +34,13 @@ class CharacterCreationViewModel: ObservableObject {
     
     var previousClass: CharacterClass? {
         guard let index = CharacterClass.allCases.firstIndex(of: selectedClass),
-              index > 0 else { return nil }
+            index > 0 else { return nil }
         return CharacterClass.allCases[index - 1]
     }
     
     var nextClass: CharacterClass? {
         guard let index = CharacterClass.allCases.firstIndex(of: selectedClass),
-              index < CharacterClass.allCases.count - 1 else { return nil }
+            index < CharacterClass.allCases.count - 1 else { return nil }
         return CharacterClass.allCases[index + 1]
     }
     
