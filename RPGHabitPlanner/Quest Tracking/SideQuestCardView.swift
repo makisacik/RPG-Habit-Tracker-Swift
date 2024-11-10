@@ -22,7 +22,7 @@ struct SideQuestCardView: View {
                     ForEach(1...5, id: \.self) { index in
                         Image(systemName: "star.fill")
                             .resizable()
-                            .frame(width: 12, height: 12) // Small star size
+                            .frame(width: 12, height: 12)
                             .foregroundColor(index <= quest.difficulty ? .yellow : .gray)
                     }
                 }
