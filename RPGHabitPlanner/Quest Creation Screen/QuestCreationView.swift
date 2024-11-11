@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct QuestCreationView: View {
-    @StateObject private var viewModel: QuestCreationViewModel
-    
+    @ObservedObject var viewModel: QuestCreationViewModel
+
     @State private var questTitle: String = ""
     @State private var questDescription: String = ""
     @State private var questDueDate = Date()
@@ -18,10 +18,6 @@ struct QuestCreationView: View {
     @State private var isRepetitiveQuest: Bool = false
     @State private var showAlert: Bool = false
     @State private var showSuccessMessage: Bool = false
-    
-    init(viewModel: QuestCreationViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
         NavigationView {
@@ -133,11 +129,4 @@ struct QuestCreationView: View {
         difficulty = 3
         isRepetitiveQuest = false
     }
-}
-
-
-#Preview {
-    let questDataService = QuestCoreDataService()
-    let viewModel = QuestCreationViewModel(questDataService: questDataService)
-    QuestCreationView(viewModel: viewModel)
 }

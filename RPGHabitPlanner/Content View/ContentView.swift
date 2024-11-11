@@ -9,8 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showSplash = true
-    @AppStorage("isCharacterCreated") private var isCharacterCreated: Bool = false
-    let questDataService: QuestDataServiceProtocol
+    @State private var isCharacterCreated = false
+    private let questDataService: QuestDataServiceProtocol
+    private let userManager: UserManager
+    private let homeViewModel: HomeViewModel
+    
+    init(questDataService: QuestDataServiceProtocol) {
+        self.questDataService = questDataService
+        self.userManager = UserManager()
+        self.homeViewModel = HomeViewModel(userManager: self.userManager)
+    }
 
     var body: some View {
         ZStack {
@@ -18,14 +26,21 @@ struct ContentView: View {
                 SplashView()
                     .transition(.opacity)
             } else if isCharacterCreated {
-                HomeView(questDataService: questDataService)
+                HomeView(viewModel: homeViewModel, questDataService: questDataService)
                     .transition(.opacity)
             } else {
-                CharacterCreationView()
+                let characterViewModel = CharacterCreationViewModel()
+                CharacterCreationView(viewModel: characterViewModel, isCharacterCreated: $isCharacterCreated)
                     .transition(.opacity)
             }
         }
         .onAppear {
+            userManager.fetchUser { user, _ in
+                DispatchQueue.main.async {
+                    self.isCharacterCreated = (user != nil)
+                }
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 withAnimation {
                     showSplash = false

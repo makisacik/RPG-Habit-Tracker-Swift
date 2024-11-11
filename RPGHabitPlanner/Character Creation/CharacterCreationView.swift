@@ -8,10 +8,21 @@
 import SwiftUI
 
 struct CharacterCreationView: View {
-    @StateObject private var viewModel = CharacterCreationViewModel()
+    @ObservedObject var viewModel: CharacterCreationViewModel
+    @Binding var isCharacterCreated: Bool
     
     var body: some View {
         VStack(spacing: 20) {
+            Text("Enter Your Nickname")
+                .font(.title2)
+                .bold()
+            
+            TextField("Nickname", text: $viewModel.nickname)
+                .padding()
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(8)
+                .padding(.horizontal)
+            
             Text("Choose Your Class!")
                 .font(.title2)
                 .bold()
@@ -38,7 +49,6 @@ struct CharacterCreationView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 230)
                 }
-                
                 .gesture(
                     DragGesture()
                         .onEnded { value in
@@ -48,7 +58,7 @@ struct CharacterCreationView: View {
                 
                 HStack {
                     if let previousClass = viewModel.previousClass,
-                       let previousClassImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                    let previousClassImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
                         Image(uiImage: previousClassImage)
                             .resizable()
                             .scaledToFit()
@@ -65,7 +75,7 @@ struct CharacterCreationView: View {
                     Spacer()
 
                     if let nextClass = viewModel.nextClass,
-                       let nextClassImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                    let nextClassImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
                         Image(uiImage: nextClassImage)
                             .resizable()
                             .scaledToFit()
@@ -114,7 +124,6 @@ struct CharacterCreationView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 230)
                 }
-
                 .gesture(
                     DragGesture()
                         .onEnded { value in
@@ -175,9 +184,8 @@ struct CharacterCreationView: View {
             }
         }
         .padding()
+        .onChange(of: viewModel.isCharacterCreated) { newValue in
+            isCharacterCreated = newValue
+        }
     }
-}
-
-#Preview {
-    CharacterCreationView()
 }
