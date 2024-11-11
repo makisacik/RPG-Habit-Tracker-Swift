@@ -8,17 +8,24 @@
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var viewModel: HomeViewModel
     let questDataService: QuestDataServiceProtocol
-    
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
-                    .padding()
+            VStack {
+                ScrollView {
+                    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
+                        .padding()
+                    
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                Spacer()
+                BottomBarCharacterView(user: viewModel.user)
+                    .frame(height: 100) // Adjust height as needed
+                    .background(Color(UIColor.systemGray6))
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: QuestCreationView(viewModel: QuestCreationViewModel(questDataService: questDataService))) {
@@ -28,11 +35,17 @@ struct HomeView: View {
                     }
                 }
             }
+            .onAppear {
+                viewModel.fetchUserData()
+            }
         }
     }
 }
 
 #Preview {
     let questDataService = QuestCoreDataService()
-    HomeView(questDataService: questDataService)
+    let userManager = UserManager()
+    let homeViewModel = HomeViewModel(userManager: userManager)
+    
+    HomeView(viewModel: homeViewModel, questDataService: questDataService)
 }

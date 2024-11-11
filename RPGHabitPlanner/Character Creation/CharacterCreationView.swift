@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CharacterCreationView: View {
-    @StateObject private var viewModel = CharacterCreationViewModel()
+    @ObservedObject var viewModel: CharacterCreationViewModel
     @Binding var isCharacterCreated: Bool
     
     var body: some View {
@@ -49,7 +49,6 @@ struct CharacterCreationView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 230)
                 }
-                
                 .gesture(
                     DragGesture()
                         .onEnded { value in
@@ -125,7 +124,6 @@ struct CharacterCreationView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .frame(height: 230)
                 }
-
                 .gesture(
                     DragGesture()
                         .onEnded { value in
