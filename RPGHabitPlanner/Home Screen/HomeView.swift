@@ -23,7 +23,7 @@ struct HomeView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 BottomBarCharacterView(user: viewModel.user)
-                    .frame(height: 100) // Adjust height as needed
+                    .frame(height: 100)
                     .background(Color(UIColor.systemGray6))
             }
             .toolbar {
