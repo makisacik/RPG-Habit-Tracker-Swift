@@ -15,10 +15,10 @@ class CharacterCreationViewModel: ObservableObject {
     }
     @Published var availableWeapons: [Weapon] = []
     @Published var selectedWeapon: Weapon = .swordBroad
-
-    @AppStorage("isCharacterCreated") private var isCharacterCreated: Bool = false
-    @AppStorage("selectedCharacterClass") private var selectedCharacterClass: String = ""
-    @AppStorage("selectedWeapon") private var selectedWeaponStorage: String = ""
+    @Published var nickname: String = ""
+    @Published var isCharacterCreated: Bool = false
+    
+    private let userManager = UserManager()
     
     private let weapons: [CharacterClass: [Weapon]] = [
         .knight: [.swordBroad, .swordLong, .swordDouble],
@@ -87,14 +87,23 @@ class CharacterCreationViewModel: ObservableObject {
             }
         }
     }
-
+    
     func confirmSelection() {
-        selectedCharacterClass = selectedClass.rawValue
-        selectedWeaponStorage = selectedWeapon.rawValue
-        isCharacterCreated = true
+        userManager.saveUser(
+            nickname: nickname,
+            characterClass: selectedClass,
+            weapon: selectedWeapon
+        ) { error in
+            if let error = error {
+                print("Failed to save user: \(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    self.isCharacterCreated = true
+                }
+            }
+        }
     }
     
-    // Separate swipe handlers for class and weapon
     func handleClassSwipe(_ value: CGSize) {
         if value.width < -100 {
             selectNextClass()
