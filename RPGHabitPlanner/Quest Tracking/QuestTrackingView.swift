@@ -20,17 +20,16 @@ struct QuestTrackingView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
-
-            TabView {
-                ForEach(questsToDisplay) { quest in
-                    QuestCardView(quest: quest)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 16)
+            ScrollView {
+                VStack {
+                    ForEach(questsToDisplay) { quest in
+                        QuestCardView(quest: quest)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 16)
+                    }
                 }
-            }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-            .frame(height: 170)
+            }.scrollIndicators(.hidden)
         }
         .onAppear {
             viewModel.fetchQuests()

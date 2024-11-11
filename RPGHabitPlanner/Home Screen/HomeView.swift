@@ -14,13 +14,10 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                ScrollView {
-                    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
-                        .padding()
+                QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
+                    .padding()
                     
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Spacer()
                 
                 BottomBarCharacterView(user: viewModel.user)
                     .frame(height: 100)
