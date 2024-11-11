@@ -9,18 +9,21 @@ import SwiftUI
 
 struct QuestTrackingView: View {
     @ObservedObject var viewModel: QuestTrackingViewModel
+    @State private var selectedTab: QuestTab = .main
     @State private var showAlert: Bool = false
     
     var body: some View {
         VStack(alignment: .center) {
-            Text("Main Quests")
-                .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal)
-            
+            Picker("Quest Type", selection: $selectedTab) {
+                Text("Main").tag(QuestTab.main)
+                Text("Side").tag(QuestTab.side)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+
             TabView {
-                ForEach(viewModel.mainQuests) { quest in
-                    MainQuestCardView(quest: quest)
+                ForEach(questsToDisplay) { quest in
+                    QuestCardView(quest: quest)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 16)
@@ -28,23 +31,6 @@ struct QuestTrackingView: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .frame(height: 170)
-            
-            Text("Side Quests")
-                .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 15) {
-                    ForEach(viewModel.sideQuests) { quest in
-                        SideQuestCardView(quest: quest)
-                            .frame(width: 160)
-                            .padding(.vertical, 10)
-                    }
-                }
-                .padding(.horizontal)
-            }
-            .padding(.bottom, 20)
         }
         .onAppear {
             viewModel.fetchQuests()
@@ -63,8 +49,16 @@ struct QuestTrackingView: View {
         }
         .navigationTitle("Quest Journal ⚔")
     }
+    
+    private var questsToDisplay: [Quest] {
+        selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests
+    }
 }
 
+enum QuestTab: String, CaseIterable {
+    case main
+    case side
+}
 
 #Preview {
     let questDataService = QuestCoreDataService()

@@ -1,5 +1,5 @@
 //
-//  SideQuestCardView.swift
+//  MainQuestCardView.swift
 //  RPGHabitPlanner
 //
 //  Created by Mehmet Ali Kısacık on 10.11.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SideQuestCardView: View {
+struct QuestCardView: View {
     let quest: Quest
     
     var body: some View {
@@ -15,8 +15,13 @@ struct SideQuestCardView: View {
             Text(quest.title)
                 .font(.headline)
             
-            Spacer()
+            Text(quest.info)
+                .font(.body)
+                .lineLimit(2)
+                .truncationMode(.tail)
             
+            Spacer()
+
             HStack {
                 HStack(spacing: 2) {
                     ForEach(1...5, id: \.self) { index in
@@ -37,5 +42,6 @@ struct SideQuestCardView: View {
         .background(Color.white)
         .cornerRadius(10)
         .shadow(radius: 3)
+        .frame(maxWidth: .infinity)
     }
 }
