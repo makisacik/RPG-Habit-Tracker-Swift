@@ -2,6 +2,15 @@
 
 The purpose of this project is to create an App Store application that will help users to build their habits, but with a concept of RPG game structure so that user can gamify their lives with concepts such as main quests, side quests, optional quests, and repetitive quests. The app will offer good practice on building iOS apps. It will be built with SwiftUI, MVVM, clean architecture and dependency injection.
 
+## Current Development Screenshoots
+<img src="https://github.com/user-attachments/assets/ce8be633-111a-496a-b670-9a1f65b9c83d" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 21 54" width="180">
+
+<img src="https://github.com/user-attachments/assets/060c9d04-ec94-467c-83af-a9031b84c854" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 22 14 17" width="180">
+
+<img src="https://github.com/user-attachments/assets/c382ef96-f6a7-45b8-8ce6-b94e1ddd69cd" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
+<img src="https://github.com/user-attachments/assets/f72c000c-bd16-44ad-bb65-263f84801a56" alt="Simulator Screenshot - iPhone 16 - 2024-11-11 at 11 30 49" width="180">
+
 ## Testability
 The app will be designed with testability in mind through the use of abstractions achieved by protocols/interfaces and the dependency injection technique. Although I’m not implementing TDD (Test-Driven Development) as it's currently a solo project, I will write tests for critical components and make the app scalable for future testing.
 
