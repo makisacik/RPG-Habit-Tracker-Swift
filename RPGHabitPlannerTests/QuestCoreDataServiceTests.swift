@@ -17,7 +17,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
             info: "info",
             difficulty: 3,
             creationDate: Date(),
-            dueDate: Date())
+            dueDate: Date(), isActive: true)
         
         sut.saveQuest(quest) { error in
             XCTAssertNil(error, "Error \(String(describing: error?.localizedDescription))")
@@ -40,7 +40,9 @@ final class QuestCoreDataServiceTests: XCTestCase {
             info: "This quest will be deleted",
             difficulty: 2,
             creationDate: Date(),
-            dueDate: Date())
+            dueDate: Date(),
+            isActive: true
+        )
         
         sut.saveQuest(quest) { error in
             XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")

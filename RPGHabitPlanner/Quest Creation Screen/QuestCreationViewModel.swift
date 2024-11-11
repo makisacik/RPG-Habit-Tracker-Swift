@@ -19,15 +19,17 @@ final class QuestCreationViewModel: ObservableObject {
         self.questDataService = questDataService
     }
     
-    func saveQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, dueDate: Date) {
+    func saveQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, dueDate: Date, isActive: Bool) {
         let newQuest = Quest(
             title: title,
             isMainQuest: isMainQuest,
             info: info,
             difficulty: difficulty,
             creationDate: Date(),
-            dueDate: dueDate
+            dueDate: dueDate,
+            isActive: isActive
         )
+        
         
         questDataService.saveQuest(newQuest) { [weak self] error in
             DispatchQueue.main.async {

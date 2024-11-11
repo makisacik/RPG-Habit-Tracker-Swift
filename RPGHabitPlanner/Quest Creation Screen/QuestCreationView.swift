@@ -15,7 +15,7 @@ struct QuestCreationView: View {
     @State private var questDueDate = Date()
     @State private var isMainQuest: Bool = false
     @State private var difficulty: Int = 3
-    @State private var isRepetitiveQuest: Bool = false
+    @State private var isActiveQuest: Bool = false
     @State private var showAlert: Bool = false
     @State private var showSuccessMessage: Bool = false
     
@@ -34,7 +34,7 @@ struct QuestCreationView: View {
                         .shadow(radius: 3)
                     
                     Toggle(isOn: $isMainQuest) {
-                        Text("Is this a main quest?")
+                        Text("Main quest?")
                             .font(.headline)
                     }
                     .padding()
@@ -42,8 +42,8 @@ struct QuestCreationView: View {
                     .cornerRadius(8)
                     .shadow(radius: 3)
                     
-                    Toggle(isOn: $isRepetitiveQuest) {
-                        Text("Is this a repetitive quest?")
+                    Toggle(isOn: $isActiveQuest) {
+                        Text("Activate the quest now?")
                             .font(.headline)
                     }
                     .padding()
@@ -65,7 +65,8 @@ struct QuestCreationView: View {
                             isMainQuest: isMainQuest,
                             info: questDescription,
                             difficulty: difficulty,
-                            dueDate: questDueDate
+                            dueDate: questDueDate,
+                            isActive: isActiveQuest
                         )
                     }) {
                         Text("Save Quest")
@@ -115,7 +116,7 @@ struct QuestCreationView: View {
         questDueDate = Date()
         isMainQuest = false
         difficulty = 3
-        isRepetitiveQuest = false
+        isActiveQuest = false
     }
 }
 

@@ -25,7 +25,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.difficulty = Int16(quest.difficulty)
         questEntity.creationDate = quest.creationDate
         questEntity.dueDate = quest.dueDate
-
+        questEntity.isActive = quest.isActive
+        
         do {
             try context.save()
             completion(nil)
@@ -47,7 +48,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     info: entity.info ?? "",
                     difficulty: Int(entity.difficulty),
                     creationDate: entity.creationDate ?? Date(),
-                    dueDate: entity.dueDate ?? Date()
+                    dueDate: entity.dueDate ?? Date(),
+                    isActive: true
                 )
             }
             completion(quests, nil)

@@ -15,4 +15,5 @@ struct Quest: Identifiable {
     let difficulty: Int
     let creationDate: Date
     let dueDate: Date
+    let isActive: Bool
 }
