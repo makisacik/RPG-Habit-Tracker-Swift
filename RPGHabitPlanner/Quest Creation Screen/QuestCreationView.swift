@@ -23,19 +23,9 @@ struct QuestCreationView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    TextField("Quest Title", text: $questTitle)
-                        .autocorrectionDisabled()
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .shadow(radius: 3)
+                    QuestInputField(title: "Quest Title", text: $questTitle, icon: "pencil.circle.fill")
                     
-                    TextField("Quest Description", text: $questDescription)
-                        .autocorrectionDisabled()
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .shadow(radius: 3)
+                    QuestInputField(title: "Quest Description", text: $questDescription, icon: "doc.text.fill")
                     
                     DatePicker("Due Date", selection: $questDueDate, displayedComponents: [.date])
                         .padding()
@@ -102,8 +92,6 @@ struct QuestCreationView: View {
                             dismissButton: .default(Text("OK"))
                         )
                     }
-                    
-                    Spacer()
                 }
                 .padding()
             }
@@ -128,5 +116,24 @@ struct QuestCreationView: View {
         isMainQuest = false
         difficulty = 3
         isRepetitiveQuest = false
+    }
+}
+
+
+struct QuestInputField: View {
+    var title: String
+    @Binding var text: String
+    var icon: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+            TextField(title, text: $text)
+                .autocorrectionDisabled()
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(10)
+        .shadow(radius: 3)
     }
 }
