@@ -9,6 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>SWXMLHashPlayground (Playground).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>3290C1E42CCCD5C3008B92F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3290C1F92CCCD5C4008B92F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3290C2032CCCD5C4008B92F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>
