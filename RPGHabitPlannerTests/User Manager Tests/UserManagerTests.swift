@@ -16,7 +16,6 @@ final class UserManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        // Create an in-memory NSPersistentContainer for testing
         testContainer = NSPersistentContainer(name: "RPGHabitPlanner")
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
@@ -108,7 +107,6 @@ final class UserManagerTests: XCTestCase {
         
         waitForExpectations(timeout: 1)
         
-        // Fetch and verify the level was updated
         userManager.fetchUser { user, error in
             XCTAssertNil(error)
             XCTAssertEqual(user?.level, 10)
@@ -126,7 +124,6 @@ final class UserManagerTests: XCTestCase {
         
         waitForExpectations(timeout: 1)
         
-        // Fetch and verify the experience was updated
         userManager.fetchUser { user, error in
             XCTAssertNil(error)
             XCTAssertEqual(user?.exp, 100)
