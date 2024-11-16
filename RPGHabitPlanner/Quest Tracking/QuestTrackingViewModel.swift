@@ -8,9 +8,16 @@
 import SwiftUI
 import Combine
 
-class QuestTrackingViewModel: ObservableObject {
+enum QuestStatusFilter: String, CaseIterable {
+    case all
+    case active
+    case inactive
+}
+
+final class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
     @Published var errorMessage: String?
+    @Published var selectedStatus: QuestStatusFilter = .active
     
     private let questDataService: QuestDataServiceProtocol
     
@@ -32,10 +39,21 @@ class QuestTrackingViewModel: ObservableObject {
     }
     
     var mainQuests: [Quest] {
-        quests.filter { $0.isMainQuest }
+        filteredQuests(for: quests.filter { $0.isMainQuest })
     }
     
     var sideQuests: [Quest] {
-        quests.filter { !$0.isMainQuest }
+        filteredQuests(for: quests.filter { !$0.isMainQuest })
+    }
+    
+    private func filteredQuests(for quests: [Quest]) -> [Quest] {
+        switch selectedStatus {
+        case .all:
+            return quests
+        case .active:
+            return quests.filter { $0.isActive }
+        case .inactive:
+            return quests.filter { !$0.isActive }
+        }
     }
 }

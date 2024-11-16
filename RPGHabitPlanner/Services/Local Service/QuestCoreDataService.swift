@@ -49,7 +49,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     difficulty: Int(entity.difficulty),
                     creationDate: entity.creationDate ?? Date(),
                     dueDate: entity.dueDate ?? Date(),
-                    isActive: true
+                    isActive: entity.isActive
                 )
             }
             completion(quests, nil)

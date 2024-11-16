@@ -20,6 +20,14 @@ struct QuestTrackingView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
+            
+            Picker("Status", selection: $viewModel.selectedStatus) {
+                Text("All").tag(QuestStatusFilter.all)
+                Text("Active").tag(QuestStatusFilter.active)
+                Text("Inactive").tag(QuestStatusFilter.inactive)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
             ScrollView {
                 VStack {
                     ForEach(questsToDisplay) { quest in
