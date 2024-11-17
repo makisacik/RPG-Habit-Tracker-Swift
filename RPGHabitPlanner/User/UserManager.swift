@@ -100,6 +100,11 @@ final class UserManager {
             let context = self.persistentContainer.viewContext
             user.exp += additionalExp
             
+            while user.exp >= 100 {
+                user.exp -= 100
+                user.level += 1
+            }
+            
             do {
                 try context.save()
                 completion(nil)
