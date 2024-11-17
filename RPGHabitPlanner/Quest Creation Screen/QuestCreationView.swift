@@ -95,6 +95,7 @@ struct QuestCreationView: View {
                 if didSave {
                     showAlert(title: "Success", message: "Quest saved successfully!")
                     viewModel.resetInputs()
+                    viewModel.didSaveQuest = false
                 }
             }
         }
