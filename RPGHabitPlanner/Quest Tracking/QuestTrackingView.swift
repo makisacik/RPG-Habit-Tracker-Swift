@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct QuestTrackingView: View {
-    @ObservedObject var viewModel: QuestTrackingViewModel
-    @State private var selectedTab: QuestTab = .main
+    @StateObject var viewModel: QuestTrackingViewModel
     @State private var showAlert: Bool = false
+    @State private var lastScrollPosition: UUID?
     
     var body: some View {
         VStack(alignment: .center) {
@@ -37,7 +37,7 @@ struct QuestTrackingView: View {
     }
     
     private var questTypePicker: some View {
-        Picker("Quest Type", selection: $selectedTab) {
+        Picker("Quest Type", selection: $viewModel.selectedTab) {
             Text("Main").tag(QuestTab.main)
             Text("Side").tag(QuestTab.side)
         }
@@ -56,25 +56,35 @@ struct QuestTrackingView: View {
     }
     
     private var questList: some View {
-        ScrollView {
-            VStack {
-                ForEach(questsToDisplay) { quest in
-                    QuestCardView(quest: quest) { id in
-                        viewModel.markQuestAsCompleted(id: id)
+        ScrollViewReader { scrollViewProxy in
+            ScrollView {
+                VStack {
+                    ForEach(questsToDisplay) { quest in
+                        QuestCardView(quest: quest) { id in
+                            lastScrollPosition = quest.id
+                            viewModel.markQuestAsCompleted(id: id)
+                        }
+                        .id(quest.id)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 16)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 16)
                 }
             }
+            .onChange(of: viewModel.quests) { _ in
+                if let lastScrollPosition = lastScrollPosition {
+                    scrollViewProxy.scrollTo(lastScrollPosition, anchor: .center)
+                }
+            }
+            .scrollIndicators(.hidden)
         }
-        .scrollIndicators(.hidden)
     }
     
     private var questsToDisplay: [Quest] {
-        selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests
+        viewModel.selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests
     }
 }
+
 
 enum QuestTab: String, CaseIterable {
     case main

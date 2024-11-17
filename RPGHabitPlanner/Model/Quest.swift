@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Quest: Identifiable {
+struct Quest: Identifiable, Equatable {
     let id: UUID
     let title: String
     let isMainQuest: Bool
