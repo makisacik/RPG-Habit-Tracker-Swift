@@ -20,26 +20,20 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var questDueDate = Date()
     @Published var isMainQuest: Bool = false
     @Published var difficulty: Int = 3
-    @Published var isActiveQuest: Bool = false
+    @Published var isActiveQuest: Bool = true
 
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
     }
 
     func validateInputs() -> Bool {
-        if questTitle.isEmpty && questDescription.isEmpty {
-            errorMessage = "Quest title and description cannot be empty."
-            return false
-        } else if questTitle.isEmpty {
+        if questTitle.isEmpty {
             errorMessage = "Quest title cannot be empty."
             return false
-        } else if questDescription.isEmpty {
-            errorMessage = "Quest description cannot be empty."
-            return false
         }
-        errorMessage = nil
         return true
     }
+
 
     func saveQuest() {
         guard validateInputs() else { return }

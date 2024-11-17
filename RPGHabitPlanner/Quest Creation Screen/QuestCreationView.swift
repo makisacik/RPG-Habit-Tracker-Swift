@@ -27,6 +27,7 @@ struct QuestCreationView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
                         .shadow(radius: 3)
+                        .accentColor(.yellow)
                     
                     Toggle(isOn: $viewModel.isMainQuest) {
                         Text("Main quest?")
@@ -36,6 +37,7 @@ struct QuestCreationView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                     .shadow(radius: 3)
+                    .tint(.yellow)
                     
                     Toggle(isOn: $viewModel.isActiveQuest) {
                         Text("Activate the quest now?")
@@ -45,6 +47,7 @@ struct QuestCreationView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                     .shadow(radius: 3)
+                    .tint(.yellow)
                     
                     VStack {
                         Text("Quest Difficulty")
@@ -69,7 +72,7 @@ struct QuestCreationView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.blue)
+                                .background(Color.yellow)
                                 .cornerRadius(8)
                                 .shadow(radius: 3)
                         }
@@ -107,7 +110,6 @@ struct QuestCreationView: View {
         showAlert = true
     }
 }
-
 
 struct QuestInputField: View {
     var title: String

@@ -24,17 +24,6 @@ final class QuestCreationViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    // Test 1: Validate quest title and description
-    func testValidateInputs_whenTitleAndDescriptionAreEmpty_returnsError() {
-        viewModel.questTitle = ""
-        viewModel.questDescription = ""
-
-        let isValid = viewModel.validateInputs()
-
-        XCTAssertFalse(isValid)
-        XCTAssertEqual(viewModel.errorMessage, "Quest title and description cannot be empty.")
-    }
-
     func testValidateInputs_whenTitleIsEmpty_returnsError() {
         viewModel.questTitle = ""
         viewModel.questDescription = "Description"
@@ -45,14 +34,14 @@ final class QuestCreationViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.errorMessage, "Quest title cannot be empty.")
     }
 
-    func testValidateInputs_whenDescriptionIsEmpty_returnsError() {
+    func testValidateInputs_whenTitleIsValidAndDescriptionIsEmpty_returnsTrue() {
         viewModel.questTitle = "Title"
         viewModel.questDescription = ""
 
         let isValid = viewModel.validateInputs()
 
-        XCTAssertFalse(isValid)
-        XCTAssertEqual(viewModel.errorMessage, "Quest description cannot be empty.")
+        XCTAssertTrue(isValid)
+        XCTAssertNil(viewModel.errorMessage)
     }
 
     func testValidateInputs_whenTitleAndDescriptionAreValid_returnsTrue() {
@@ -88,7 +77,6 @@ final class QuestCreationViewModelTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
 
-
     func testSaveQuest_whenSaveFails_didSaveQuestIsFalse_andErrorMessageIsSet() {
         let error = NSError(domain: "MockQuestDataService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to save quest."])
         mockQuestDataService.mockError = error
@@ -112,7 +100,6 @@ final class QuestCreationViewModelTests: XCTestCase {
 
         waitForExpectations(timeout: 1, handler: nil)
     }
-
 
     func testResetInputs_resetsAllProperties() {
         viewModel.questTitle = "Title"
