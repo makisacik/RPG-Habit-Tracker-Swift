@@ -15,7 +15,7 @@ struct Quest: Identifiable {
     let difficulty: Int
     let creationDate: Date
     let dueDate: Date
-    let isActive: Bool
+    var isActive: Bool
     var isCompleted = false
     
     init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, isCompleted: Bool = false) {
