@@ -34,7 +34,7 @@ final class QuestTrackingViewModel: ObservableObject {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    self?.quests = quests
+                    self?.quests = quests.reversed()
                 }
             }
         }

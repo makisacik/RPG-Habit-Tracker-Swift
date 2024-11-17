@@ -25,7 +25,7 @@ final class CompletedQuestsViewModel: ObservableObject {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    self?.completedQuests = quests
+                    self?.completedQuests = quests.reversed()
                 }
             }
         }
