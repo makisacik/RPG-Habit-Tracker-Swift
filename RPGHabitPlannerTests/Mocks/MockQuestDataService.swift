@@ -12,7 +12,6 @@ class MockQuestDataService: QuestDataServiceProtocol {
     var mockQuests: [Quest] = []
     var mockError: Error?
 
-    // MARK: - Save Quest
     func saveQuest(_ quest: Quest, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
@@ -22,27 +21,22 @@ class MockQuestDataService: QuestDataServiceProtocol {
         }
     }
 
-    // MARK: - Fetch Non-Completed Quests
     func fetchNonCompletedQuests(completion: @escaping ([Quest], Error?) -> Void) {
         if let error = mockError {
             completion([], error)
         } else {
-            let nonCompletedQuests = mockQuests.filter { !$0.isActive }
-            completion(nonCompletedQuests, nil)
+            completion(mockQuests, nil)
         }
     }
 
-    // MARK: - Fetch Completed Quests
     func fetchCompletedQuests(completion: @escaping ([Quest], Error?) -> Void) {
         if let error = mockError {
             completion([], error)
         } else {
-            let completedQuests = mockQuests.filter { $0.isActive }
-            completion(completedQuests, nil)
+            completion(mockQuests, nil)
         }
     }
 
-    // MARK: - Fetch Quest By ID
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void) {
         if let error = mockError {
             completion(nil, error)
@@ -52,7 +46,6 @@ class MockQuestDataService: QuestDataServiceProtocol {
         }
     }
 
-    // MARK: - Fetch All Quests
     func fetchAllQuests(completion: @escaping ([Quest], Error?) -> Void) {
         if let error = mockError {
             completion([], error)
@@ -61,7 +54,6 @@ class MockQuestDataService: QuestDataServiceProtocol {
         }
     }
 
-    // MARK: - Delete Quest
     func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
@@ -71,7 +63,6 @@ class MockQuestDataService: QuestDataServiceProtocol {
         }
     }
 
-    // MARK: - Update Quest Completion Status
     func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
