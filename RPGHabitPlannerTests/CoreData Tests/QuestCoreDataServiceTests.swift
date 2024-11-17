@@ -9,8 +9,19 @@ import XCTest
 @testable import RPGHabitPlanner
 
 final class QuestCoreDataServiceTests: XCTestCase {
-    func testSaveQuest() throws {
-        let sut = QuestCoreDataService()
+    var sut: QuestCoreDataService!
+    
+    override func setUp() {
+        super.setUp()
+        sut = QuestCoreDataService()
+    }
+    
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
+
+    func testSaveQuest() {
         let quest = Quest(
             title: "exampleTitle",
             isMainQuest: true,
@@ -18,23 +29,56 @@ final class QuestCoreDataServiceTests: XCTestCase {
             difficulty: 3,
             creationDate: Date(),
             dueDate: Date(),
-            isActive: true)
+            isActive: true
+        )
         
+        let expectation = XCTestExpectation(description: "Save quest")
         sut.saveQuest(quest) { error in
             XCTAssertNil(error, "Error \(String(describing: error?.localizedDescription))")
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 2.0)
     }
     
-    func testFetchAllQuests() throws {
-        let sut = QuestCoreDataService()
-        
-        sut.fetchAllQuests { _, error in
+    func testFetchAllQuests() {
+        let expectation = XCTestExpectation(description: "Fetch all quests")
+        sut.fetchAllQuests { quests, error in
             XCTAssertNil(error, "Error \(String(describing: error?.localizedDescription))")
+            XCTAssertNotNil(quests, "Quests should not be nil")
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    func testFetchQuestById() {
+        let quest = Quest(
+            title: "FetchSpecificQuest",
+            isMainQuest: false,
+            info: "Specific quest for testing fetchQuestById",
+            difficulty: 1,
+            creationDate: Date(),
+            dueDate: Date(),
+            isActive: true
+        )
+        
+        let saveExpectation = XCTestExpectation(description: "Save quest")
+        sut.saveQuest(quest) { error in
+            XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
+            saveExpectation.fulfill()
+        }
+        wait(for: [saveExpectation], timeout: 2.0)
+        
+        let fetchExpectation = XCTestExpectation(description: "Fetch quest by ID")
+        sut.fetchQuestById(quest.id) { fetchedQuest, error in
+            XCTAssertNil(error, "Error fetching quest by ID: \(String(describing: error?.localizedDescription))")
+            XCTAssertNotNil(fetchedQuest, "Fetched quest should not be nil")
+            XCTAssertEqual(fetchedQuest?.id, quest.id, "Fetched quest ID should match")
+            fetchExpectation.fulfill()
+        }
+        wait(for: [fetchExpectation], timeout: 2.0)
     }
     
-    func testDeleteQuest() throws {
-        let sut = QuestCoreDataService()
+    func testDeleteQuest() {
         let quest = Quest(
             title: "QuestToDelete",
             isMainQuest: false,
@@ -45,22 +89,30 @@ final class QuestCoreDataServiceTests: XCTestCase {
             isActive: true
         )
         
+        let saveExpectation = XCTestExpectation(description: "Save quest to delete")
         sut.saveQuest(quest) { error in
             XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
+            saveExpectation.fulfill()
         }
+        wait(for: [saveExpectation], timeout: 2.0)
         
+        let deleteExpectation = XCTestExpectation(description: "Delete quest")
         sut.deleteQuest(withId: quest.id) { error in
             XCTAssertNil(error, "Error deleting quest: \(String(describing: error?.localizedDescription))")
+            deleteExpectation.fulfill()
         }
+        wait(for: [deleteExpectation], timeout: 2.0)
         
+        let fetchExpectation = XCTestExpectation(description: "Fetch all quests after deletion")
         sut.fetchAllQuests { quests, error in
             XCTAssertNil(error, "Error fetching quests: \(String(describing: error?.localizedDescription))")
             XCTAssertFalse(quests.contains { $0.id == quest.id }, "Quest was not deleted")
+            fetchExpectation.fulfill()
         }
+        wait(for: [fetchExpectation], timeout: 2.0)
     }
     
-    func testUpdateQuestCompletion() throws {
-        let sut = QuestCoreDataService()
+    func testUpdateQuestCompletion() {
         let quest = Quest(
             title: "QuestToComplete",
             isMainQuest: false,
@@ -71,29 +123,27 @@ final class QuestCoreDataServiceTests: XCTestCase {
             isActive: true
         )
         
-        // Save the quest
+        let saveExpectation = XCTestExpectation(description: "Save quest to update")
         sut.saveQuest(quest) { error in
             XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
+            saveExpectation.fulfill()
         }
+        wait(for: [saveExpectation], timeout: 2.0)
         
-        print("Quest ID to update: \(quest.id)")
-
-        // Update the quest completion status
+        let updateExpectation = XCTestExpectation(description: "Update quest completion status")
         sut.updateQuestCompletion(forId: quest.id, to: true) { error in
             XCTAssertNil(error, "Error updating quest completion: \(String(describing: error?.localizedDescription))")
+            updateExpectation.fulfill()
         }
+        wait(for: [updateExpectation], timeout: 2.0)
         
-        // Fetch all quests and verify the update
-        sut.fetchAllQuests { quests, error in
-            print("Fetched Quests: \(quests.map { $0.id })")
-
-            XCTAssertNil(error, "Error fetching quests: \(String(describing: error?.localizedDescription))")
-            
-            if let updatedQuest = quests.first(where: { $0.id == quest.id }) {
-                XCTAssertTrue(updatedQuest.isCompleted, "Quest completion status was not updated")
-            } else {
-                XCTFail("Quest not found in fetched results")
-            }
+        let fetchExpectation = XCTestExpectation(description: "Fetch all quests after update")
+        sut.fetchQuestById(quest.id) { updatedQuest, error in
+            XCTAssertNil(error, "Error fetching quest by ID after update: \(String(describing: error?.localizedDescription))")
+            XCTAssertNotNil(updatedQuest, "Updated quest should not be nil")
+            XCTAssertTrue(updatedQuest?.isCompleted ?? false, "Quest completion status was not updated")
+            fetchExpectation.fulfill()
         }
+        wait(for: [fetchExpectation], timeout: 2.0)
     }
 }

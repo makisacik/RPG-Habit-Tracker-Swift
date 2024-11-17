@@ -60,8 +60,35 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completion([], error)
         }
     }
+    
+    func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
 
-    func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void) { // New function
+        do {
+            if let questEntity = try context.fetch(fetchRequest).first {
+                let quest = Quest(
+                    id: questEntity.id ?? UUID(),
+                    title: questEntity.title ?? "",
+                    isMainQuest: questEntity.isMainQuest,
+                    info: questEntity.info ?? "",
+                    difficulty: Int(questEntity.difficulty),
+                    creationDate: questEntity.creationDate ?? Date(),
+                    dueDate: questEntity.dueDate ?? Date(),
+                    isActive: questEntity.isActive,
+                    isCompleted: questEntity.isCompleted
+                )
+                completion(quest, nil)
+            } else {
+                completion(nil, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+
+    func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
@@ -78,7 +105,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completion(error)
         }
     }
-    
+
     func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
