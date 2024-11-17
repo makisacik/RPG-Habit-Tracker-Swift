@@ -12,6 +12,7 @@ struct HomeView: View {
     let questDataService: QuestDataServiceProtocol
 
     @State private var selectedTab: HomeTab = .tracking
+    @State private var isCharacterDetailsPresented: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -29,20 +30,37 @@ struct HomeView: View {
                         }
                         .tag(HomeTab.completed)
                 }
-
-                Spacer()
-
-                BottomBarCharacterView(user: viewModel.user)
-                    .frame(height: 100)
-                    .background(Color(UIColor.systemGray6))
             }
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        isCharacterDetailsPresented.toggle()
+                    }) {
+                        HStack {
+                            if let user = viewModel.user,
+                            let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
+                                Image(characterClass.iconName)
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            }
+                            Text("Level \(viewModel.user?.level ?? 1)")
+                                .font(.subheadline)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: QuestCreationView(viewModel: QuestCreationViewModel(questDataService: questDataService))) {
                         Image(systemName: "plus")
                             .font(.title2)
                             .foregroundStyle(.yellow)
                     }
+                }
+            }
+            .sheet(isPresented: $isCharacterDetailsPresented) {
+                if let user = viewModel.user {
+                    CharacterDetailsView(user: user)
                 }
             }
             .onAppear {
@@ -55,12 +73,4 @@ struct HomeView: View {
 enum HomeTab: Hashable {
     case tracking
     case completed
-}
-
-#Preview {
-    let questDataService = QuestCoreDataService()
-    let userManager = UserManager()
-    let homeViewModel = HomeViewModel(userManager: userManager)
-
-    HomeView(viewModel: homeViewModel, questDataService: questDataService)
 }

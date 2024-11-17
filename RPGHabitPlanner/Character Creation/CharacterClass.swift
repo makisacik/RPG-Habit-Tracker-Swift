@@ -23,4 +23,13 @@ enum CharacterClass: String, CaseIterable, Identifiable {
         case .wizard: return "wizard"
         }
     }
+    
+    var displayName: String {
+        switch self {
+        case .knight: return "Knight"
+        case .archer: return "Archer"
+        case .wizard: return "Wizard"
+        case .assassin: return "Assassin"
+        }
+    }
 }
