@@ -38,6 +38,18 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
     
+    func toggleQuestCompletion(id: UUID, isCompleted: Bool) {
+        questDataService.updateQuestCompletion(forId: id, to: isCompleted) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                } else {
+                    self?.fetchQuests()
+                }
+            }
+        }
+    }
+    
     var mainQuests: [Quest] {
         filteredQuests(for: quests.filter { $0.isMainQuest })
     }
