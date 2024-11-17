@@ -26,7 +26,6 @@ final class QuestTrackingViewModel: ObservableObject {
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
         self.userManager = userManager
-        fetchQuests()
     }
     
     func fetchQuests() {

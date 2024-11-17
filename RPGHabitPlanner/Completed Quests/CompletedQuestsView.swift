@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CompletedQuestsView: View {
-    @ObservedObject var viewModel: CompletedQuestsViewModel
+    @StateObject var viewModel: CompletedQuestsViewModel
     @State private var showAlert: Bool = false
 
     var body: some View {

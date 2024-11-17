@@ -30,6 +30,9 @@ struct QuestTrackingView: View {
                 }
             )
         }
+        .onAppear {
+            viewModel.fetchQuests()
+        }
     }
     
     private var questTypePicker: some View {
@@ -75,6 +78,7 @@ struct QuestTrackingView: View {
             .scrollIndicators(.hidden)
         }
     }
+
     
     private var questsToDisplay: [Quest] {
         viewModel.selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests
