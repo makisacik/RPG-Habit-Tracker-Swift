@@ -9,7 +9,9 @@ The purpose of this project is to create an App Store application that will help
 
 <img src="https://github.com/user-attachments/assets/c382ef96-f6a7-45b8-8ce6-b94e1ddd69cd" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
 
-<img src="https://github.com/user-attachments/assets/4f10cb2d-5f21-4712-aa49-0658a0e6afe3" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+<img src="https://github.com/user-attachments/assets/85bd25cc-3449-45b0-bb93-7bf2a3fc94cf" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
+<img src="https://github.com/user-attachments/assets/e184b29e-732c-4c0f-b707-57f759a1931c" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
 
 ## Testability
 The app will be designed with testability in mind through the use of abstractions achieved by protocols/interfaces and the dependency injection technique. Although I’m not implementing TDD (Test-Driven Development) as it's currently a solo project, I will write tests for critical components and make the app scalable for future testing.
