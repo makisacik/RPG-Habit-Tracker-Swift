@@ -31,6 +31,7 @@ struct HomeView: View {
                         .tag(HomeTab.completed)
                 }
             }
+            .navigationTitle(navigationTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -38,7 +39,7 @@ struct HomeView: View {
                     }) {
                         HStack {
                             if let user = viewModel.user,
-                            let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
+                               let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
                                 Image(characterClass.iconName)
                                     .resizable()
                                     .frame(width: 30, height: 30)
@@ -68,7 +69,17 @@ struct HomeView: View {
             }
         }
     }
+
+    private var navigationTitle: String {
+        switch selectedTab {
+        case .tracking:
+            return "Quest Journal ⚔"
+        case .completed:
+            return "Completed Quests"
+        }
+    }
 }
+
 
 enum HomeTab: Hashable {
     case tracking

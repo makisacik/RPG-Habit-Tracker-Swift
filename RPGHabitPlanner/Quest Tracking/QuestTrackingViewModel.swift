@@ -17,7 +17,7 @@ enum QuestStatusFilter: String, CaseIterable {
 final class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
     @Published var errorMessage: String?
-    @Published var selectedTab: QuestTab = .main // Moved from View
+    @Published var selectedTab: QuestTab = .main
     @Published var selectedStatus: QuestStatusFilter = .active
     
     private let questDataService: QuestDataServiceProtocol

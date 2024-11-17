@@ -18,9 +18,6 @@ struct QuestTrackingView: View {
             statusPicker
             questList
         }
-        .onAppear {
-            viewModel.fetchQuests()
-        }
         .onChange(of: viewModel.errorMessage) { errorMessage in
             showAlert = errorMessage != nil
         }
@@ -33,7 +30,6 @@ struct QuestTrackingView: View {
                 }
             )
         }
-        .navigationTitle("Quest Journal ⚔")
     }
     
     private var questTypePicker: some View {
