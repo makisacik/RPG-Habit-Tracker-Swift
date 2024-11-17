@@ -100,12 +100,22 @@ final class UserManager {
             let context = self.persistentContainer.viewContext
             user.exp += additionalExp
             
+            while user.exp >= 100 {
+                user.exp -= 100
+                user.level += 1
+            }
+            
             do {
                 try context.save()
+                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(nil)
             } catch {
                 completion(error)
             }
         }
     }
+}
+
+extension Notification.Name {
+    static let userDidUpdate = Notification.Name("userDidUpdate")
 }

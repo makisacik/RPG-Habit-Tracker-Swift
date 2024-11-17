@@ -113,11 +113,11 @@ final class UserManagerTests: XCTestCase {
         }
     }
     
-    func testUpdateUserExperience() {
+    func testUpdateUserExperience_LevelUp() {
         testSaveUser()
         
-        let updateExpectation = expectation(description: "User experience updated successfully")
-        userManager.updateUserExperience(additionalExp: 100) { error in
+        let updateExpectation = expectation(description: "User experience updated successfully with level up")
+        userManager.updateUserExperience(additionalExp: 150) { error in
             XCTAssertNil(error)
             updateExpectation.fulfill()
         }
@@ -126,29 +126,44 @@ final class UserManagerTests: XCTestCase {
         
         userManager.fetchUser { user, error in
             XCTAssertNil(error)
-            XCTAssertEqual(user?.exp, 100)
+            XCTAssertEqual(user?.exp, 50)
+            XCTAssertEqual(user?.level, 2)
         }
     }
     
-    func testUpdateUserExperience_AddMultiple() {
+    func testUpdateUserExperience_LevelUpMultipleTimes() {
         testSaveUser()
         
-        let updateExpectation = expectation(description: "User experience updated twice")
-
-        userManager.updateUserExperience(additionalExp: 50) { error in
+        let updateExpectation = expectation(description: "User experience updated successfully with multiple level ups")
+        userManager.updateUserExperience(additionalExp: 250) { error in
             XCTAssertNil(error)
-            
-            self.userManager.updateUserExperience(additionalExp: 75) { error in
-                XCTAssertNil(error)
-                
-                self.userManager.fetchUser { user, error in
-                    XCTAssertNil(error)
-                    XCTAssertEqual(user?.exp, 125)
-                    updateExpectation.fulfill()
-                }
-            }
+            updateExpectation.fulfill()
         }
         
-        waitForExpectations(timeout: 2)
+        waitForExpectations(timeout: 1)
+        
+        userManager.fetchUser { user, error in
+            XCTAssertNil(error)
+            XCTAssertEqual(user?.exp, 50)
+            XCTAssertEqual(user?.level, 3)
+        }
+    }
+    
+    func testUpdateUserExperience_NoLevelUp() {
+        testSaveUser()
+        
+        let updateExpectation = expectation(description: "User experience updated successfully without level up")
+        userManager.updateUserExperience(additionalExp: 80) { error in
+            XCTAssertNil(error)
+            updateExpectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1)
+        
+        userManager.fetchUser { user, error in
+            XCTAssertNil(error)
+            XCTAssertEqual(user?.exp, 80)
+            XCTAssertEqual(user?.level, 1)
+        }
     }
 }

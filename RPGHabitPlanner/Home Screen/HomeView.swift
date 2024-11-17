@@ -18,7 +18,7 @@ struct HomeView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 TabView(selection: $selectedTab) {
-                    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
+                    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService, userManager: viewModel.userManager))
                         .tabItem {
                             Label("Tracking", systemImage: "list.bullet")
                         }
