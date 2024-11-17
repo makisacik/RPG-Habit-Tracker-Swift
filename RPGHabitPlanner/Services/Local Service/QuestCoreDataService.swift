@@ -26,6 +26,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.creationDate = quest.creationDate
         questEntity.dueDate = quest.dueDate
         questEntity.isActive = quest.isActive
+        questEntity.isCompleted = quest.isCompleted
         
         do {
             try context.save()
@@ -43,13 +44,15 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             let questEntities = try context.fetch(fetchRequest)
             let quests: [Quest] = questEntities.map { entity in
                 Quest(
+                    id: entity.id ?? UUID(),
                     title: entity.title ?? "",
                     isMainQuest: entity.isMainQuest,
                     info: entity.info ?? "",
                     difficulty: Int(entity.difficulty),
                     creationDate: entity.creationDate ?? Date(),
                     dueDate: entity.dueDate ?? Date(),
-                    isActive: entity.isActive
+                    isActive: entity.isActive,
+                    isCompleted: entity.isCompleted
                 )
             }
             completion(quests, nil)
@@ -66,6 +69,24 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         do {
             if let questEntity = try context.fetch(fetchRequest).first {
                 context.delete(questEntity)
+                try context.save()
+                completion(nil)
+            } else {
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(error)
+        }
+    }
+    
+    func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            if let questEntity = try context.fetch(fetchRequest).first {
+                questEntity.isCompleted = isCompleted
                 try context.save()
                 completion(nil)
             } else {

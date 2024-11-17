@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "B44ED9F2-F4C0-4236-8CB9-018CD9DBE921",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:RPGHabitPlanner.xcodeproj",
+        "identifier" : "3290C2032CCCD5C4008B92F4",
+        "name" : "RPGHabitPlannerUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:RPGHabitPlanner.xcodeproj",
+        "identifier" : "3290C1F92CCCD5C4008B92F4",
+        "name" : "RPGHabitPlannerTests"
+      }
+    }
+  ],
+  "version" : 1
+}
