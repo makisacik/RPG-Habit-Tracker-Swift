@@ -11,28 +11,53 @@ import Combine
 
 final class QuestCreationViewModel: ObservableObject {
     private let questDataService: QuestDataServiceProtocol
-    
+
     @Published var didSaveQuest = false
     @Published var errorMessage: String?
-    
+    @Published var isSaving = false
+    @Published var questTitle: String = ""
+    @Published var questDescription: String = ""
+    @Published var questDueDate = Date()
+    @Published var isMainQuest: Bool = false
+    @Published var difficulty: Int = 3
+    @Published var isActiveQuest: Bool = false
+
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
     }
-    
-    func saveQuest(title: String, isMainQuest: Bool, info: String, difficulty: Int, dueDate: Date, isActive: Bool) {
+
+    func validateInputs() -> Bool {
+        if questTitle.isEmpty && questDescription.isEmpty {
+            errorMessage = "Quest title and description cannot be empty."
+            return false
+        } else if questTitle.isEmpty {
+            errorMessage = "Quest title cannot be empty."
+            return false
+        } else if questDescription.isEmpty {
+            errorMessage = "Quest description cannot be empty."
+            return false
+        }
+        errorMessage = nil
+        return true
+    }
+
+    func saveQuest() {
+        guard validateInputs() else { return }
+
+        isSaving = true
         let newQuest = Quest(
-            title: title,
+            title: questTitle,
             isMainQuest: isMainQuest,
-            info: info,
+            info: questDescription,
             difficulty: difficulty,
             creationDate: Date(),
-            dueDate: dueDate,
-            isActive: isActive
+            dueDate: questDueDate,
+            isActive: isActiveQuest
         )
-        
-        
+
         questDataService.saveQuest(newQuest) { [weak self] error in
             DispatchQueue.main.async {
+                self?.isSaving = false
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                     self?.didSaveQuest = false
@@ -41,5 +66,14 @@ final class QuestCreationViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    func resetInputs() {
+        questTitle = ""
+        questDescription = ""
+        questDueDate = Date()
+        isMainQuest = false
+        difficulty = 3
+        isActiveQuest = false
     }
 }
