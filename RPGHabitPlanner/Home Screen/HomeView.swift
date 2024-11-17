@@ -11,14 +11,27 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     let questDataService: QuestDataServiceProtocol
 
+    @State private var selectedTab: HomeTab = .tracking
+
     var body: some View {
         NavigationStack {
-            VStack {
-                QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
-                    .padding()
-                    
+            VStack(spacing: 0) {
+                TabView(selection: $selectedTab) {
+                    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
+                        .tabItem {
+                            Label("Tracking", systemImage: "list.bullet")
+                        }
+                        .tag(HomeTab.tracking)
+
+                    CompletedQuestsView(viewModel: CompletedQuestsViewModel(questDataService: questDataService))
+                        .tabItem {
+                            Label("Completed", systemImage: "checkmark.circle")
+                        }
+                        .tag(HomeTab.completed)
+                }
+
                 Spacer()
-                
+
                 BottomBarCharacterView(user: viewModel.user)
                     .frame(height: 100)
                     .background(Color(UIColor.systemGray6))
@@ -39,10 +52,15 @@ struct HomeView: View {
     }
 }
 
+enum HomeTab: Hashable {
+    case tracking
+    case completed
+}
+
 #Preview {
     let questDataService = QuestCoreDataService()
     let userManager = UserManager()
     let homeViewModel = HomeViewModel(userManager: userManager)
-    
+
     HomeView(viewModel: homeViewModel, questDataService: questDataService)
 }
