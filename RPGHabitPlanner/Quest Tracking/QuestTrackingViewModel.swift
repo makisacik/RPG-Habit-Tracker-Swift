@@ -27,7 +27,7 @@ final class QuestTrackingViewModel: ObservableObject {
     }
     
     func fetchQuests() {
-        questDataService.fetchAllQuests { [weak self] quests, error in
+        questDataService.fetchNonCompletedQuests { [weak self] quests, error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
@@ -37,9 +37,10 @@ final class QuestTrackingViewModel: ObservableObject {
             }
         }
     }
+
     
-    func toggleQuestCompletion(id: UUID, isCompleted: Bool) {
-        questDataService.updateQuestCompletion(forId: id, to: isCompleted) { [weak self] error in
+    func markQuestAsCompleted(id: UUID) {
+        questDataService.updateQuestCompletion(forId: id, to: true) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription

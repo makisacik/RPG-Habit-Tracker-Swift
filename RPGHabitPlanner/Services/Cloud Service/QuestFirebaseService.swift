@@ -8,6 +8,12 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func fetchCompletedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
+    }
+    
+    func fetchNonCompletedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
+    }
+    
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, (any Error)?) -> Void) {
     }
     

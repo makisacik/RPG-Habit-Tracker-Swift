@@ -61,6 +61,60 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         }
     }
     
+    func fetchCompletedQuests(completion: @escaping ([Quest], Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isCompleted == YES")
+        
+        do {
+            let questEntities = try context.fetch(fetchRequest)
+            let quests: [Quest] = questEntities.map { entity in
+                Quest(
+                    id: entity.id ?? UUID(),
+                    title: entity.title ?? "",
+                    isMainQuest: entity.isMainQuest,
+                    info: entity.info ?? "",
+                    difficulty: Int(entity.difficulty),
+                    creationDate: entity.creationDate ?? Date(),
+                    dueDate: entity.dueDate ?? Date(),
+                    isActive: entity.isActive,
+                    isCompleted: entity.isCompleted
+                )
+            }
+            completion(quests, nil)
+        } catch {
+            completion([], error)
+        }
+    }
+
+    
+    func fetchNonCompletedQuests(completion: @escaping ([Quest], Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isCompleted == NO")
+
+        do {
+            let questEntities = try context.fetch(fetchRequest)
+            let quests: [Quest] = questEntities.map { entity in
+                Quest(
+                    id: entity.id ?? UUID(),
+                    title: entity.title ?? "",
+                    isMainQuest: entity.isMainQuest,
+                    info: entity.info ?? "",
+                    difficulty: Int(entity.difficulty),
+                    creationDate: entity.creationDate ?? Date(),
+                    dueDate: entity.dueDate ?? Date(),
+                    isActive: entity.isActive,
+                    isCompleted: entity.isCompleted
+                )
+            }
+            completion(quests, nil)
+        } catch {
+            completion([], error)
+        }
+    }
+
+    
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
