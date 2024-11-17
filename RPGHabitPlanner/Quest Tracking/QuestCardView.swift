@@ -9,7 +9,9 @@ import SwiftUI
 
 struct QuestCardView: View {
     let quest: Quest
-    let onToggleCompletion: (UUID, Bool) -> Void
+    let onMarkComplete: (UUID) -> Void
+    
+    @State private var isMenuPresented: Bool = false
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -46,12 +48,14 @@ struct QuestCardView: View {
             .shadow(radius: 3)
             .frame(maxWidth: .infinity)
             
-            Button(action: {
-                onToggleCompletion(quest.id, !quest.isCompleted)
-            }) {
-                Image(systemName: quest.isCompleted ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(quest.isCompleted ? .green : .gray)
+            Menu {
+                Button("Mark as Completed") {
+                    onMarkComplete(quest.id)
+                }
+            } label: {
+                Image(systemName: "ellipsis")
                     .padding()
+                    .foregroundColor(.gray)
             }
         }
     }

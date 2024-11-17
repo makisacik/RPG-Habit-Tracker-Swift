@@ -14,32 +14,9 @@ struct QuestTrackingView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            Picker("Quest Type", selection: $selectedTab) {
-                Text("Main").tag(QuestTab.main)
-                Text("Side").tag(QuestTab.side)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            
-            Picker("Status", selection: $viewModel.selectedStatus) {
-                Text("All").tag(QuestStatusFilter.all)
-                Text("Active").tag(QuestStatusFilter.active)
-                Text("Inactive").tag(QuestStatusFilter.inactive)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            
-            ScrollView {
-                VStack {
-                    ForEach(questsToDisplay) { quest in
-                        QuestCardView(quest: quest) { id, isCompleted in
-                            viewModel.toggleQuestCompletion(id: id, isCompleted: isCompleted)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 16)
-                    }
-                }
-            }.scrollIndicators(.hidden)
+            questTypePicker
+            statusPicker
+            questList
         }
         .onAppear {
             viewModel.fetchQuests()
@@ -57,6 +34,42 @@ struct QuestTrackingView: View {
             )
         }
         .navigationTitle("Quest Journal ⚔")
+    }
+    
+    // Picker for quest type (Main/Side)
+    private var questTypePicker: some View {
+        Picker("Quest Type", selection: $selectedTab) {
+            Text("Main").tag(QuestTab.main)
+            Text("Side").tag(QuestTab.side)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding()
+    }
+    
+    private var statusPicker: some View {
+        Picker("Status", selection: $viewModel.selectedStatus) {
+            Text("All").tag(QuestStatusFilter.all)
+            Text("Active").tag(QuestStatusFilter.active)
+            Text("Inactive").tag(QuestStatusFilter.inactive)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding()
+    }
+    
+    private var questList: some View {
+        ScrollView {
+            VStack {
+                ForEach(questsToDisplay) { quest in
+                    QuestCardView(quest: quest) { id in
+                        viewModel.markQuestAsCompleted(id: id)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
+                }
+            }
+        }
+        .scrollIndicators(.hidden)
     }
     
     private var questsToDisplay: [Quest] {
