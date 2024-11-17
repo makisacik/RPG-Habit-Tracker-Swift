@@ -59,14 +59,17 @@ struct QuestTrackingView: View {
             ScrollView {
                 VStack {
                     ForEach(questsToDisplay) { quest in
-                        QuestCardView(quest: quest) { id in
-                            lastScrollPosition = quest.id
-                            viewModel.markQuestAsCompleted(id: id)
+                        if !quest.isCompleted {
+                            QuestCardView(quest: quest) { id in
+                                withAnimation {
+                                    viewModel.markQuestAsCompleted(id: id)
+                                }
+                            }
+                            .id(quest.id)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 16)
                         }
-                        .id(quest.id)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 16)
                     }
                 }
             }

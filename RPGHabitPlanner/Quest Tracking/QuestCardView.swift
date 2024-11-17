@@ -18,12 +18,15 @@ struct QuestCardView: View {
             VStack(alignment: .leading) {
                 Text(quest.title)
                     .font(.headline)
-                
-                Text(quest.info)
-                    .font(.body)
-                    .lineLimit(2)
-                    .truncationMode(.tail)
-                
+                    .foregroundStyle(.black)
+                if !quest.info.isEmpty {
+                    Text(quest.info)
+                        .font(.body)
+                        .lineLimit(2)
+                        .truncationMode(.tail)
+                        .foregroundStyle(.black)
+                }
+
                 Spacer()
                 
                 HStack {

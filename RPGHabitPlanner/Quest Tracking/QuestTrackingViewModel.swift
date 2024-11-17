@@ -41,24 +41,27 @@ final class QuestTrackingViewModel: ObservableObject {
     }
 
     func markQuestAsCompleted(id: UUID) {
-        guard let quest = quests.first(where: { $0.id == id }) else { return }
+        guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
+        withAnimation {
+            quests[index].isCompleted = true
+        }
         
         questDataService.updateQuestCompletion(forId: id, to: true) { [weak self] error in
             DispatchQueue.main.async {
+                guard let self else { return }
                 if let error = error {
-                    self?.errorMessage = error.localizedDescription
+                    self.errorMessage = error.localizedDescription
                 } else {
-                    self?.userManager.updateUserExperience(additionalExp: Int16(10 * quest.difficulty)) { expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(10 * self.quests[index].difficulty)) { expError in
                         if let expError = expError {
-                            self?.errorMessage = expError.localizedDescription
-                        } else {
-                            self?.fetchQuests()
+                            self.errorMessage = expError.localizedDescription
                         }
                     }
                 }
             }
         }
     }
+
     
     var mainQuests: [Quest] {
         filteredQuests(for: quests.filter { $0.isMainQuest })
