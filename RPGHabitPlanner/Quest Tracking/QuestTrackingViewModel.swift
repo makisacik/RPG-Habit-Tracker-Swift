@@ -20,9 +20,11 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var selectedStatus: QuestStatusFilter = .active
     
     private let questDataService: QuestDataServiceProtocol
+    private let userManager: UserManager
     
-    init(questDataService: QuestDataServiceProtocol) {
+    init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
+        self.userManager = userManager
         fetchQuests()
     }
     
@@ -38,14 +40,21 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
-    
     func markQuestAsCompleted(id: UUID) {
+        guard let quest = quests.first(where: { $0.id == id }) else { return }
+        
         questDataService.updateQuestCompletion(forId: id, to: true) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    self?.fetchQuests()
+                    self?.userManager.updateUserExperience(additionalExp: Int16(10 * quest.difficulty)) { expError in
+                        if let expError = expError {
+                            self?.errorMessage = expError.localizedDescription
+                        } else {
+                            self?.fetchQuests()
+                        }
+                    }
                 }
             }
         }

@@ -107,10 +107,15 @@ final class UserManager {
             
             do {
                 try context.save()
+                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(nil)
             } catch {
                 completion(error)
             }
         }
     }
+}
+
+extension Notification.Name {
+    static let userDidUpdate = Notification.Name("userDidUpdate")
 }

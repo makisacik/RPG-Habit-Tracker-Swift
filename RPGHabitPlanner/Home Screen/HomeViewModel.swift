@@ -7,13 +7,18 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 class HomeViewModel: ObservableObject {
     @Published var user: UserEntity?
-    private let userManager: UserManager
+    let userManager: UserManager
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init(userManager: UserManager) {
         self.userManager = userManager
+        observeUserUpdates()
+        fetchUserData()
     }
     
     func fetchUserData() {
@@ -26,5 +31,13 @@ class HomeViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    private func observeUserUpdates() {
+        NotificationCenter.default.publisher(for: .userDidUpdate)
+            .sink { [weak self] _ in
+                self?.fetchUserData()
+            }
+            .store(in: &cancellables)
     }
 }

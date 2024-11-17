@@ -36,7 +36,6 @@ struct QuestTrackingView: View {
         .navigationTitle("Quest Journal ⚔")
     }
     
-    // Picker for quest type (Main/Side)
     private var questTypePicker: some View {
         Picker("Quest Type", selection: $selectedTab) {
             Text("Main").tag(QuestTab.main)
@@ -84,5 +83,6 @@ enum QuestTab: String, CaseIterable {
 
 #Preview {
     let questDataService = QuestCoreDataService()
-    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService))
+    let userManager = UserManager(container: PersistenceController.shared.container)
+    QuestTrackingView(viewModel: QuestTrackingViewModel(questDataService: questDataService, userManager: userManager))
 }
