@@ -11,4 +11,6 @@ protocol QuestDataServiceProtocol {
     func saveQuest(_ quest: Quest, completion: @escaping (Error?) -> Void)
     func fetchAllQuests(completion: @escaping ([Quest], Error?) -> Void)
     func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void)
+    func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void)
+    func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void)
 }

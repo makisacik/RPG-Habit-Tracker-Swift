@@ -31,10 +31,12 @@ struct QuestTrackingView: View {
             ScrollView {
                 VStack {
                     ForEach(questsToDisplay) { quest in
-                        QuestCardView(quest: quest)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 16)
+                        QuestCardView(quest: quest) { id, isCompleted in
+                            viewModel.toggleQuestCompletion(id: id, isCompleted: isCompleted)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 16)
                     }
                 }
             }.scrollIndicators(.hidden)

@@ -37,4 +37,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             completion(nil)
         }
     }
+    
+    func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping ((any Error)?) -> Void) {
+    }
 }
