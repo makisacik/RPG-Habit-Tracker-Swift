@@ -10,30 +10,25 @@ import SwiftUI
 struct QuestCreationView: View {
     @ObservedObject var viewModel: QuestCreationViewModel
 
-    @State private var questTitle: String = ""
-    @State private var questDescription: String = ""
-    @State private var questDueDate = Date()
-    @State private var isMainQuest: Bool = false
-    @State private var difficulty: Int = 3
-    @State private var isActiveQuest: Bool = false
     @State private var showAlert: Bool = false
-    @State private var showSuccessMessage: Bool = false
-    
+    @State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
+
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    QuestInputField(title: "Quest Title", text: $questTitle, icon: "pencil.circle.fill")
+                    QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
                     
-                    QuestInputField(title: "Quest Description", text: $questDescription, icon: "doc.text.fill")
+                    QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
                     
-                    DatePicker("Due Date", selection: $questDueDate, displayedComponents: [.date])
+                    DatePicker("Due Date", selection: $viewModel.questDueDate, displayedComponents: [.date])
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
                         .shadow(radius: 3)
                     
-                    Toggle(isOn: $isMainQuest) {
+                    Toggle(isOn: $viewModel.isMainQuest) {
                         Text("Main quest?")
                             .font(.headline)
                     }
@@ -42,7 +37,7 @@ struct QuestCreationView: View {
                     .cornerRadius(8)
                     .shadow(radius: 3)
                     
-                    Toggle(isOn: $isActiveQuest) {
+                    Toggle(isOn: $viewModel.isActiveQuest) {
                         Text("Activate the quest now?")
                             .font(.headline)
                     }
@@ -55,44 +50,32 @@ struct QuestCreationView: View {
                         Text("Quest Difficulty")
                             .font(.headline)
                         
-                        StarRatingView(rating: $difficulty)
+                        StarRatingView(rating: $viewModel.difficulty)
                     }
                     .padding()
 
                     Button(action: {
-                        viewModel.saveQuest(
-                            title: questTitle,
-                            isMainQuest: isMainQuest,
-                            info: questDescription,
-                            difficulty: difficulty,
-                            dueDate: questDueDate,
-                            isActive: isActiveQuest
-                        )
+                        if viewModel.validateInputs() {
+                            viewModel.saveQuest()
+                        } else {
+                            showAlert(title: "Warning", message: viewModel.errorMessage ?? "Unknown error")
+                        }
                     }) {
-                        Text("Save Quest")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(8)
-                            .shadow(radius: 3)
+                        if viewModel.isSaving {
+                            ProgressView()
+                        } else {
+                            Text("Save Quest")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                                .shadow(radius: 3)
+                        }
                     }
+                    .disabled(viewModel.isSaving)
                     .padding(.top, 20)
-                    .alert(isPresented: $showAlert) {
-                        Alert(
-                            title: Text("Error"),
-                            message: Text(viewModel.errorMessage ?? "Unknown error"),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    }
-                    .alert(isPresented: $showSuccessMessage) {
-                        Alert(
-                            title: Text("Success"),
-                            message: Text("Quest saved successfully!"),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    }
                 }
                 .padding()
             }
@@ -101,22 +84,26 @@ struct QuestCreationView: View {
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
-            .onReceive(viewModel.$didSaveQuest) { success in
-                if success {
-                    showSuccessMessage = true
-                    resetFields()
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text(alertTitle),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+            .onChange(of: viewModel.didSaveQuest) { didSave in
+                if didSave {
+                    showAlert(title: "Success", message: "Quest saved successfully!")
+                    viewModel.resetInputs()
                 }
             }
         }
     }
-    
-    private func resetFields() {
-        questTitle = ""
-        questDescription = ""
-        questDueDate = Date()
-        isMainQuest = false
-        difficulty = 3
-        isActiveQuest = false
+
+    private func showAlert(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        showAlert = true
     }
 }
 
