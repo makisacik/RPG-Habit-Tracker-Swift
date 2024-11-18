@@ -18,7 +18,7 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var questTitle: String = ""
     @Published var questDescription: String = ""
     @Published var questDueDate = Date()
-    @Published var isMainQuest: Bool = false
+    @Published var isMainQuest: Bool = true
     @Published var difficulty: Int = 3
     @Published var isActiveQuest: Bool = true
 

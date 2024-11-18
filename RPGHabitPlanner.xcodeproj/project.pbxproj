@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		328CC4672CEAAB8F00E65114 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 328CC4662CEAAB8F00E65114 /* Lottie */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3290C1FB2CCCD5C4008B92F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				328CC4672CEAAB8F00E65114 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +118,7 @@
 			);
 			name = RPGHabitPlanner;
 			packageProductDependencies = (
+				328CC4662CEAAB8F00E65114 /* Lottie */,
 			);
 			productName = RPGHabitPlanner;
 			productReference = 3290C1E52CCCD5C3008B92F4 /* RPGHabitPlanner.app */;
@@ -198,6 +204,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				326F8BDC2CCDA913005064B0 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				328CC4652CEAAB8F00E65114 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3290C1E62CCCD5C3008B92F4 /* Products */;
@@ -598,7 +605,23 @@
 				minimumVersion = 0.57.0;
 			};
 		};
+		328CC4652CEAAB8F00E65114 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		328CC4662CEAAB8F00E65114 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 328CC4652CEAAB8F00E65114 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3290C1DD2CCCD5C3008B92F4 /* Project object */;
 }
