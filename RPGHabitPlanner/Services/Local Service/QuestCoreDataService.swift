@@ -177,4 +177,49 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completion(error)
         }
     }
+    
+    func updateQuest(
+        withId id: UUID,
+        title: String?,
+        isMainQuest: Bool?,
+        info: String?,
+        difficulty: Int?,
+        dueDate: Date?,
+        isActive: Bool?,
+        completion: @escaping (Error?) -> Void
+        ) {
+            let context = persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+            do {
+                if let questEntity = try context.fetch(fetchRequest).first {
+                    if let title {
+                        questEntity.title = title
+                    }
+                    if let isMainQuest {
+                        questEntity.isMainQuest = isMainQuest
+                    }
+                    if let info {
+                        questEntity.info = info
+                    }
+                    if let difficulty {
+                        questEntity.difficulty = Int16(difficulty)
+                    }
+                    if let dueDate {
+                        questEntity.dueDate = dueDate
+                    }
+                    if let isActive {
+                        questEntity.isActive = isActive
+                    }
+
+                    try context.save()
+                    completion(nil)
+                } else {
+                    completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+                }
+            } catch {
+                completion(error)
+            }
+        }
 }

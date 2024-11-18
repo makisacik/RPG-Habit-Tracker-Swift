@@ -15,7 +15,7 @@ final class QuestTrackingViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockService = MockQuestDataService()
-        viewModel = QuestTrackingViewModel(questDataService: mockService)
+        viewModel = QuestTrackingViewModel(questDataService: mockService, userManager: UserManager())
     }
     
     override func tearDown() {
@@ -63,10 +63,10 @@ final class QuestTrackingViewModelTests: XCTestCase {
         let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false)
         mockService.mockQuests = [mainQuest, sideQuest]
         
-        viewModel.fetchQuests()
         viewModel.selectedStatus = .active
+        viewModel.fetchQuests()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             XCTAssertEqual(self.viewModel.mainQuests.count, 1)
             XCTAssertEqual(self.viewModel.mainQuests.first?.title, "Main Quest")
             expectation.fulfill()

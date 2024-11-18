@@ -8,6 +8,9 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
     func fetchCompletedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
     }
     

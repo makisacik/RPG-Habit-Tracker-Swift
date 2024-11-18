@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct QuestTrackingView: View {
     @StateObject var viewModel: QuestTrackingViewModel
     @State private var showAlert: Bool = false
+    @State private var showSuccessAnimation: Bool = false
     @State private var lastScrollPosition: UUID?
-    
+    @State private var selectedQuestForEditing: Quest? // Tracks the quest to edit
+
     var body: some View {
         VStack(alignment: .center) {
             questTypePicker
@@ -30,9 +33,47 @@ struct QuestTrackingView: View {
                 }
             )
         }
+        .sheet(item: $selectedQuestForEditing) { quest in
+            EditQuestView(
+                quest: Binding(
+                    get: {
+                        quest
+                    },
+                    set: { updatedQuest in
+                        if let index = viewModel.quests.firstIndex(where: { $0.id == updatedQuest.id }) {
+                            viewModel.quests[index] = updatedQuest
+                        }
+                        selectedQuestForEditing = nil // Ensure modal closes
+                    }
+                ),
+                onSave: { updatedQuest in
+                    viewModel.updateQuest(updatedQuest)
+                    selectedQuestForEditing = nil // Close modal after saving
+                },
+                onCancel: {
+                    selectedQuestForEditing = nil // Close modal on cancel
+                }
+            )
+        }
         .onAppear {
             viewModel.fetchQuests()
         }
+        .overlay(
+            Group {
+                if showSuccessAnimation {
+                    LottieView(animation: .named("success"))
+                        .playbackMode(.playing(.toProgress(1, loopMode: .playOnce)))
+                        .frame(width: 200, height: 200)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                withAnimation {
+                                    showSuccessAnimation = false
+                                }
+                            }
+                        }
+                }
+            }
+        )
     }
     
     private var questTypePicker: some View {
@@ -59,14 +100,24 @@ struct QuestTrackingView: View {
             ScrollView {
                 VStack {
                     ForEach(questsToDisplay) { quest in
-                        QuestCardView(quest: quest) { id in
-                            lastScrollPosition = quest.id
-                            viewModel.markQuestAsCompleted(id: id)
+                        if !quest.isCompleted {
+                            QuestCardView(
+                                quest: quest,
+                                onMarkComplete: { id in
+                                    withAnimation {
+                                        viewModel.markQuestAsCompleted(id: id)
+                                        showSuccessAnimation = true // Trigger animation only here
+                                    }
+                                },
+                                onEditQuest: { questToEdit in
+                                    selectedQuestForEditing = questToEdit // Set selected quest for editing
+                                }
+                            )
+                            .id(quest.id)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 16)
                         }
-                        .id(quest.id)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 16)
                     }
                 }
             }
@@ -78,7 +129,6 @@ struct QuestTrackingView: View {
             .scrollIndicators(.hidden)
         }
     }
-
     
     private var questsToDisplay: [Quest] {
         viewModel.selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests

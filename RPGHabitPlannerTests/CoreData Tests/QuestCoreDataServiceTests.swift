@@ -146,4 +146,56 @@ final class QuestCoreDataServiceTests: XCTestCase {
         }
         wait(for: [fetchExpectation], timeout: 2.0)
     }
+    
+    func testUpdateQuest() {
+        let quest = Quest(
+            title: "QuestToUpdate",
+            isMainQuest: false,
+            info: "This quest will be updated",
+            difficulty: 2,
+            creationDate: Date(),
+            dueDate: Date(),
+            isActive: true
+        )
+        
+        let saveExpectation = XCTestExpectation(description: "Save quest to update")
+        sut.saveQuest(quest) { error in
+            XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
+            saveExpectation.fulfill()
+        }
+        wait(for: [saveExpectation], timeout: 2.0)
+        
+        let updatedTitle = "UpdatedTitle"
+        let updatedIsMainQuest = true
+        let updatedDifficulty = 5
+        let updatedDueDate = Calendar.current.date(byAdding: .day, value: 7, to: quest.dueDate)!
+        let updatedIsActive = false
+        
+        let updateExpectation = XCTestExpectation(description: "Update quest fields")
+        sut.updateQuest(
+            withId: quest.id,
+            title: updatedTitle,
+            isMainQuest: updatedIsMainQuest,
+            difficulty: updatedDifficulty,
+            dueDate: updatedDueDate,
+            isActive: updatedIsActive
+        ) { error in
+            XCTAssertNil(error, "Error updating quest: \(String(describing: error?.localizedDescription))")
+            updateExpectation.fulfill()
+        }
+        wait(for: [updateExpectation], timeout: 2.0)
+        
+        let fetchExpectation = XCTestExpectation(description: "Fetch quest to verify updates")
+        sut.fetchQuestById(quest.id) { updatedQuest, error in
+            XCTAssertNil(error, "Error fetching updated quest: \(String(describing: error?.localizedDescription))")
+            XCTAssertNotNil(updatedQuest, "Updated quest should not be nil")
+            XCTAssertEqual(updatedQuest?.title, updatedTitle, "Quest title was not updated correctly")
+            XCTAssertEqual(updatedQuest?.isMainQuest, updatedIsMainQuest, "Quest isMainQuest flag was not updated correctly")
+            XCTAssertEqual(updatedQuest?.difficulty, updatedDifficulty, "Quest difficulty was not updated correctly")
+            XCTAssertEqual(updatedQuest?.dueDate, updatedDueDate, "Quest due date was not updated correctly")
+            XCTAssertEqual(updatedQuest?.isActive, updatedIsActive, "Quest isActive flag was not updated correctly")
+            fetchExpectation.fulfill()
+        }
+        wait(for: [fetchExpectation], timeout: 2.0)
+    }
 }

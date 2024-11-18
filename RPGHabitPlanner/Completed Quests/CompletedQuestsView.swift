@@ -64,6 +64,7 @@ struct CompletedQuestCardView: View {
                 .font(.body)
                 .lineLimit(2)
                 .truncationMode(.tail)
+                .foregroundStyle(.black)
 
             Spacer()
 

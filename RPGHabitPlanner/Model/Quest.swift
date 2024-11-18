@@ -9,12 +9,12 @@ import Foundation
 
 struct Quest: Identifiable, Equatable {
     let id: UUID
-    let title: String
-    let isMainQuest: Bool
-    let info: String
-    let difficulty: Int
+    var title: String
+    var isMainQuest: Bool
+    var info: String
+    var difficulty: Int
     let creationDate: Date
-    let dueDate: Date
+    var dueDate: Date
     var isActive: Bool
     var isCompleted = false
     
