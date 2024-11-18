@@ -13,7 +13,8 @@ struct QuestTrackingView: View {
     @State private var showAlert: Bool = false
     @State private var showSuccessAnimation: Bool = false
     @State private var lastScrollPosition: UUID?
-    
+    @State private var selectedQuestForEditing: Quest? // Tracks the quest to edit
+
     var body: some View {
         VStack(alignment: .center) {
             questTypePicker
@@ -29,6 +30,28 @@ struct QuestTrackingView: View {
                 message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
                 dismissButton: .default(Text("OK")) {
                     viewModel.errorMessage = nil
+                }
+            )
+        }
+        .sheet(item: $selectedQuestForEditing) { quest in
+            EditQuestView(
+                quest: Binding(
+                    get: {
+                        quest
+                    },
+                    set: { updatedQuest in
+                        if let index = viewModel.quests.firstIndex(where: { $0.id == updatedQuest.id }) {
+                            viewModel.quests[index] = updatedQuest
+                        }
+                        selectedQuestForEditing = nil // Ensure modal closes
+                    }
+                ),
+                onSave: { updatedQuest in
+                    viewModel.updateQuest(updatedQuest)
+                    selectedQuestForEditing = nil // Close modal after saving
+                },
+                onCancel: {
+                    selectedQuestForEditing = nil // Close modal on cancel
                 }
             )
         }
@@ -78,19 +101,22 @@ struct QuestTrackingView: View {
                 VStack {
                     ForEach(questsToDisplay) { quest in
                         if !quest.isCompleted {
-                            QuestCardView(quest: quest) { id in
-                                withAnimation {
-                                    viewModel.markQuestAsCompleted(id: id)
+                            QuestCardView(
+                                quest: quest,
+                                onMarkComplete: { id in
+                                    withAnimation {
+                                        viewModel.markQuestAsCompleted(id: id)
+                                        showSuccessAnimation = true // Trigger animation only here
+                                    }
+                                },
+                                onEditQuest: { questToEdit in
+                                    selectedQuestForEditing = questToEdit // Set selected quest for editing
                                 }
-                            }
+                            )
                             .id(quest.id)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 16)
-                            .onDisappear {
-                                // Trigger Lottie animation on card removal
-                                showSuccessAnimation = true
-                            }
                         }
                     }
                 }

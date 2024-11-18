@@ -62,6 +62,26 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
+    func updateQuest(_ quest: Quest) {
+        questDataService.updateQuest(
+            withId: quest.id,
+            title: quest.title,
+            isMainQuest: quest.isMainQuest,
+            info: quest.info,
+            difficulty: quest.difficulty,
+            dueDate: quest.dueDate,
+            isActive: quest.isActive
+        ) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                } else {
+                    self?.fetchQuests()
+                }
+            }
+        }
+    }
+
     
     var mainQuests: [Quest] {
         filteredQuests(for: quests.filter { $0.isMainQuest })

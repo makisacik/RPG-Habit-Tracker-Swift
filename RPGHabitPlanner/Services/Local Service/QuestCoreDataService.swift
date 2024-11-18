@@ -179,13 +179,14 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
     }
     
     func updateQuest(
-            withId id: UUID,
-            title: String?,
-            isMainQuest: Bool?,
-            difficulty: Int?,
-            dueDate: Date?,
-            isActive: Bool?,
-            completion: @escaping (Error?) -> Void
+        withId id: UUID,
+        title: String?,
+        isMainQuest: Bool?,
+        info: String?,
+        difficulty: Int?,
+        dueDate: Date?,
+        isActive: Bool?,
+        completion: @escaping (Error?) -> Void
         ) {
             let context = persistentContainer.viewContext
             let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
@@ -193,19 +194,22 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
 
             do {
                 if let questEntity = try context.fetch(fetchRequest).first {
-                    if let title = title {
+                    if let title {
                         questEntity.title = title
                     }
-                    if let isMainQuest = isMainQuest {
+                    if let isMainQuest {
                         questEntity.isMainQuest = isMainQuest
                     }
-                    if let difficulty = difficulty {
+                    if let info {
+                        questEntity.info = info
+                    }
+                    if let difficulty {
                         questEntity.difficulty = Int16(difficulty)
                     }
-                    if let dueDate = dueDate {
+                    if let dueDate {
                         questEntity.dueDate = dueDate
                     }
-                    if let isActive = isActive {
+                    if let isActive {
                         questEntity.isActive = isActive
                     }
 

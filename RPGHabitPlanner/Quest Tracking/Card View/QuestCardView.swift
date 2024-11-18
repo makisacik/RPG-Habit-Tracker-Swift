@@ -10,9 +10,10 @@ import SwiftUI
 struct QuestCardView: View {
     let quest: Quest
     let onMarkComplete: (UUID) -> Void
-    
+    let onEditQuest: (Quest) -> Void
+
     @State private var isMenuPresented: Bool = false
-    
+
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading) {
@@ -28,7 +29,7 @@ struct QuestCardView: View {
                 }
 
                 Spacer()
-                
+
                 HStack {
                     HStack(spacing: 2) {
                         ForEach(1...5, id: \.self) { index in
@@ -50,10 +51,13 @@ struct QuestCardView: View {
             .cornerRadius(10)
             .shadow(radius: 3)
             .frame(maxWidth: .infinity)
-            
+
             Menu {
                 Button("Mark as Completed") {
                     onMarkComplete(quest.id)
+                }
+                Button("Edit Quest") {
+                    onEditQuest(quest)
                 }
             } label: {
                 Image(systemName: "ellipsis")
