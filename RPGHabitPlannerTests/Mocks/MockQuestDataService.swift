@@ -9,6 +9,7 @@ import Foundation
 @testable import RPGHabitPlanner
 
 class MockQuestDataService: QuestDataServiceProtocol {
+
     var mockQuests: [Quest] = []
     var mockError: Error?
 
@@ -75,4 +76,8 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
+    
+    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, difficulty: Int?, dueDate: Date?, isActive: Bool?, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
 }
