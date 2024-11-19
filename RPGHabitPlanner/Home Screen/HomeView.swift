@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
@@ -66,6 +67,7 @@ struct HomeView: View {
             }
             .onAppear {
                 viewModel.fetchUserData()
+                WidgetCenter.shared.reloadAllTimelines()
             }
         }
     }
