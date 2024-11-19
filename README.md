@@ -3,20 +3,28 @@
 The purpose of this project is to create an App Store application that will help users to build their habits, but with a concept of RPG game structure so that user can gamify their lives with concepts such as main quests, side quests, optional quests, and repetitive quests. The app will offer good practice on building iOS apps. It will be built with SwiftUI, MVVM, clean architecture and dependency injection.
 
 ## Current Development Screenshoots
-<img src="https://github.com/user-attachments/assets/ce8be633-111a-496a-b670-9a1f65b9c83d" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 21 54" width="180">
 
-<img src="https://github.com/user-attachments/assets/060c9d04-ec94-467c-83af-a9031b84c854" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 22 14 17" width="180">
 
-<img src="https://github.com/user-attachments/assets/c382ef96-f6a7-45b8-8ce6-b94e1ddd69cd" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+<img src="https://github.com/user-attachments/assets/3c83a0dc-16b0-4668-b2a1-4660ea8255de" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 21 54" width="180">
+
+<img src="https://github.com/user-attachments/assets/296cbe68-2863-481e-aa40-a82a9ee968d9" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 22 14 17" width="180">
+
+<img src="https://github.com/user-attachments/assets/497b1eaf-6c34-4177-8d9a-abc646ac3aea" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
+<img src="https://github.com/user-attachments/assets/ba9e127b-1d9d-41f8-8a11-d79ab8d6254f" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
 
 <img src="https://github.com/user-attachments/assets/61a50141-f830-484b-bfa7-287d29d221d1" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
 
 <img src="https://github.com/user-attachments/assets/5bfe5ed6-31bd-40b1-ba37-1c985ed42444" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
 
+<img src="https://github.com/user-attachments/assets/2d261574-89b3-4388-9387-c5b7dab278fa" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
+<img src="https://github.com/user-attachments/assets/5e634507-a30b-4150-8ad6-b09c64b092cd" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
+<img src="https://github.com/user-attachments/assets/3bac5af9-4dbb-4ec1-b938-43e0723db543" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+
 <img src="https://github.com/user-attachments/assets/f706d0b7-0378-4f2e-8a87-60e25e630309" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/b5f6e16b-813d-4390-af07-f03aa2741529" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
 
 ## Testability
 The app will be designed with testability in mind through the use of abstractions achieved by protocols/interfaces and the dependency injection technique. Although I’m not implementing TDD (Test-Driven Development) as it's currently a solo project, I will write tests for critical components and make the app scalable for future testing.
