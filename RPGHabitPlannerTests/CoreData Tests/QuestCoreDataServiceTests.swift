@@ -176,6 +176,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
             withId: quest.id,
             title: updatedTitle,
             isMainQuest: updatedIsMainQuest,
+            info: "",
             difficulty: updatedDifficulty,
             dueDate: updatedDueDate,
             isActive: updatedIsActive

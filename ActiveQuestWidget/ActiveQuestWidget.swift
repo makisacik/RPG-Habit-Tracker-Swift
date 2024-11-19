@@ -13,17 +13,17 @@ struct Provider: TimelineProvider {
     let persistenceController = PersistenceController.shared
 
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀", questTitle: "Sample Quest")
+        SimpleEntry(date: Date(), dueDate: Date(), questTitle: "Sample Title", progress: 0.5)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = fetchLatestQuestEntry() ?? SimpleEntry(date: Date(), emoji: "😀", questTitle: "No Active Quest")
+        let entry = fetchLatestQuestEntry() ?? SimpleEntry(date: Date(), dueDate: Date(), questTitle: "No Active Quest", progress: 0.5)
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         let currentDate = Date()
-        let entry = fetchLatestQuestEntry() ?? SimpleEntry(date: currentDate, emoji: "😀", questTitle: "No Active Quest")
+        let entry = fetchLatestQuestEntry() ?? SimpleEntry(date: Date(), dueDate: Date(), questTitle: "No Active Quest", progress: 0.5)
         
         // Create a single entry for now
         let timeline = Timeline(entries: [entry], policy: .atEnd)
@@ -38,50 +38,59 @@ struct Provider: TimelineProvider {
         
         do {
             if let latestQuest = try context.fetch(fetchRequest).first {
-                print(latestQuest.title)
-                let emoji = mapDifficultyToEmoji(latestQuest.difficulty)
-                return SimpleEntry(date: Date(), emoji: emoji, questTitle: latestQuest.title ?? "Untitled Quest")
+                return SimpleEntry(date: Date(), dueDate: latestQuest.dueDate ?? Date(), questTitle: latestQuest.title ?? "Untitled Quest", progress: 0.6)
             }
         } catch {
             print("Failed to fetch latest quest: \(error)")
         }
         return nil
     }
-
-    private func mapDifficultyToEmoji(_ difficulty: Int16) -> String {
-        switch difficulty {
-        case 1: return "😊"
-        case 2: return "😃"
-        case 3: return "😤"
-        default: return "😀"
-        }
-    }
 }
 
 struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let emoji: String
+    var date: Date
+    let dueDate: Date
     let questTitle: String
+    let progress: Double
 }
 
 struct ActiveQuestWidgetEntryView: View {
     var entry: Provider.Entry
-
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Active Quest:")
+        VStack(alignment: .leading, spacing: 10) {
+            // Header
+            Text("Active Quest ⚔")
                 .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .center)
+            
+            // Quest Title
             Text(entry.questTitle)
                 .font(.subheadline)
                 .foregroundColor(.primary)
-
+                .frame(maxWidth: .infinity, alignment: .center)
+            
+            // Due Date
+            Text("Due: \(entry.dueDate.formatted(.dateTime.day().month().year()))")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
+            
+            // Progress Bar (Dummy Progress for Now)
+            ProgressView(value: entry.progress) // Example: 50% progress
+                .tint(.yellow)
+                .progressViewStyle(LinearProgressViewStyle())
+                .frame(height: 8)
+                .cornerRadius(4)
+                .padding(.horizontal)
+            
             Spacer()
-
-            Text("Emoji:")
-            Text(entry.emoji)
-                .font(.largeTitle)
         }
-        .padding()
+//        .background(
+//            RoundedRectangle(cornerRadius: 12)
+//                .fill(Color(.systemBackground))
+//                .shadow(radius: 4)
+//        )
     }
 }
 
@@ -95,9 +104,10 @@ struct ActiveQuestWidget: Widget {
             if #available(iOS 17.0, *) {
                 ActiveQuestWidgetEntryView(entry: entry)
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .containerBackground(.fill.tertiary, for: .widget)
+                    .containerBackground(.gray.gradient, for: .widget)
             } else {
                 ActiveQuestWidgetEntryView(entry: entry)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .padding()
                     .background()
             }
@@ -106,10 +116,3 @@ struct ActiveQuestWidget: Widget {
         .description("This is an example widget.")
     }
 }
-
-// #Preview(as: .systemSmall) {
-//    ActiveQuestWidget()
-// } timeline: {
-//    SimpleEntry(date: .now, emoji: "😀")
-//    SimpleEntry(date: .now, emoji: "🤩")
-// }
