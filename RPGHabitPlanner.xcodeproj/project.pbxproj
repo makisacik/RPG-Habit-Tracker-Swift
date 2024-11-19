@@ -68,11 +68,22 @@
 			);
 			target = 32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */;
 		};
+		32B57BC02CECAA73004D2A27 /* Exceptions for "RPGHabitPlanner" folder in "ActiveQuestWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Persistence.swift,
+				RPGHabitPlanner.xcdatamodeld,
+			);
+			target = 32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3290C1E72CCCD5C3008B92F4 /* RPGHabitPlanner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				32B57BC02CECAA73004D2A27 /* Exceptions for "RPGHabitPlanner" folder in "ActiveQuestWidgetExtension" target */,
+			);
 			path = RPGHabitPlanner;
 			sourceTree = "<group>";
 		};
