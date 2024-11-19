@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		328CC4672CEAAB8F00E65114 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 328CC4662CEAAB8F00E65114 /* Lottie */; };
+		32B57BAC2CEC159C004D2A27 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32B57BAB2CEC159C004D2A27 /* WidgetKit.framework */; };
+		32B57BAE2CEC159C004D2A27 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32B57BAD2CEC159C004D2A27 /* SwiftUI.framework */; };
+		32B57BB92CEC159D004D2A27 /* ActiveQuestWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 32B57BA92CEC159C004D2A27 /* ActiveQuestWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,13 +28,47 @@
 			remoteGlobalIDString = 3290C1E42CCCD5C3008B92F4;
 			remoteInfo = RPGHabitPlanner;
 		};
+		32B57BB72CEC159D004D2A27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3290C1DD2CCCD5C3008B92F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 32B57BA82CEC159C004D2A27;
+			remoteInfo = ActiveQuestWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		32B57BBA2CEC159D004D2A27 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				32B57BB92CEC159D004D2A27 /* ActiveQuestWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3290C1E52CCCD5C3008B92F4 /* RPGHabitPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RPGHabitPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3290C1FA2CCCD5C4008B92F4 /* RPGHabitPlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RPGHabitPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3290C2042CCCD5C4008B92F4 /* RPGHabitPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RPGHabitPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		32B57BA92CEC159C004D2A27 /* ActiveQuestWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ActiveQuestWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		32B57BAB2CEC159C004D2A27 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		32B57BAD2CEC159C004D2A27 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		32B57BBD2CEC159D004D2A27 /* Exceptions for "ActiveQuestWidget" folder in "ActiveQuestWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3290C1E72CCCD5C3008B92F4 /* RPGHabitPlanner */ = {
@@ -47,6 +84,14 @@
 		3290C2072CCCD5C4008B92F4 /* RPGHabitPlannerUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RPGHabitPlannerUITests;
+			sourceTree = "<group>";
+		};
+		32B57BAF2CEC159C004D2A27 /* ActiveQuestWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				32B57BBD2CEC159D004D2A27 /* Exceptions for "ActiveQuestWidget" folder in "ActiveQuestWidgetExtension" target */,
+			);
+			path = ActiveQuestWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -74,6 +119,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		32B57BA62CEC159C004D2A27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32B57BAE2CEC159C004D2A27 /* SwiftUI.framework in Frameworks */,
+				32B57BAC2CEC159C004D2A27 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -83,6 +137,8 @@
 				3290C1E72CCCD5C3008B92F4 /* RPGHabitPlanner */,
 				3290C1FD2CCCD5C4008B92F4 /* RPGHabitPlannerTests */,
 				3290C2072CCCD5C4008B92F4 /* RPGHabitPlannerUITests */,
+				32B57BAF2CEC159C004D2A27 /* ActiveQuestWidget */,
+				32B57BAA2CEC159C004D2A27 /* Frameworks */,
 				3290C1E62CCCD5C3008B92F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,8 +149,18 @@
 				3290C1E52CCCD5C3008B92F4 /* RPGHabitPlanner.app */,
 				3290C1FA2CCCD5C4008B92F4 /* RPGHabitPlannerTests.xctest */,
 				3290C2042CCCD5C4008B92F4 /* RPGHabitPlannerUITests.xctest */,
+				32B57BA92CEC159C004D2A27 /* ActiveQuestWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		32B57BAA2CEC159C004D2A27 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32B57BAB2CEC159C004D2A27 /* WidgetKit.framework */,
+				32B57BAD2CEC159C004D2A27 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,10 +174,12 @@
 				3290C1E22CCCD5C3008B92F4 /* Frameworks */,
 				3290C1E32CCCD5C3008B92F4 /* Resources */,
 				326F8BDD2CCDA9FE005064B0 /* ShellScript */,
+				32B57BBA2CEC159D004D2A27 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				32B57BB82CEC159D004D2A27 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				3290C1E72CCCD5C3008B92F4 /* RPGHabitPlanner */,
@@ -170,6 +238,28 @@
 			productReference = 3290C2042CCCD5C4008B92F4 /* RPGHabitPlannerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32B57BBE2CEC159D004D2A27 /* Build configuration list for PBXNativeTarget "ActiveQuestWidgetExtension" */;
+			buildPhases = (
+				32B57BA52CEC159C004D2A27 /* Sources */,
+				32B57BA62CEC159C004D2A27 /* Frameworks */,
+				32B57BA72CEC159C004D2A27 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				32B57BAF2CEC159C004D2A27 /* ActiveQuestWidget */,
+			);
+			name = ActiveQuestWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = ActiveQuestWidgetExtension;
+			productReference = 32B57BA92CEC159C004D2A27 /* ActiveQuestWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -190,6 +280,9 @@
 					3290C2032CCCD5C4008B92F4 = {
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 3290C1E42CCCD5C3008B92F4;
+					};
+					32B57BA82CEC159C004D2A27 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -214,6 +307,7 @@
 				3290C1E42CCCD5C3008B92F4 /* RPGHabitPlanner */,
 				3290C1F92CCCD5C4008B92F4 /* RPGHabitPlannerTests */,
 				3290C2032CCCD5C4008B92F4 /* RPGHabitPlannerUITests */,
+				32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -234,6 +328,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3290C2022CCCD5C4008B92F4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32B57BA72CEC159C004D2A27 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -286,6 +387,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		32B57BA52CEC159C004D2A27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -298,6 +406,11 @@
 			isa = PBXTargetDependency;
 			target = 3290C1E42CCCD5C3008B92F4 /* RPGHabitPlanner */;
 			targetProxy = 3290C2052CCCD5C4008B92F4 /* PBXContainerItemProxy */;
+		};
+		32B57BB82CEC159D004D2A27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */;
+			targetProxy = 32B57BB72CEC159D004D2A27 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -555,6 +668,62 @@
 			};
 			name = Release;
 		};
+		32B57BBB2CEC159D004D2A27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FYS62UHY46;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActiveQuestWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActiveQuestWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makisacik.RPGHabitPlanner.ActiveQuestWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		32B57BBC2CEC159D004D2A27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FYS62UHY46;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ActiveQuestWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ActiveQuestWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makisacik.RPGHabitPlanner.ActiveQuestWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -590,6 +759,15 @@
 			buildConfigurations = (
 				3290C2152CCCD5C4008B92F4 /* Debug */,
 				3290C2162CCCD5C4008B92F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		32B57BBE2CEC159D004D2A27 /* Build configuration list for PBXNativeTarget "ActiveQuestWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32B57BBB2CEC159D004D2A27 /* Debug */,
+				32B57BBC2CEC159D004D2A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
