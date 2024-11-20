@@ -32,6 +32,8 @@ struct CompletedQuestsView: View {
                 .scrollIndicators(.hidden)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensures full space
+        .background(Color(.appBackground)) // Applies background to full view
         .onAppear {
             viewModel.fetchCompletedQuests()
         }
@@ -74,7 +76,7 @@ struct CompletedQuestCardView: View {
                         Image(systemName: "star.fill")
                             .resizable()
                             .frame(width: 12, height: 12)
-                            .foregroundColor(index <= quest.difficulty ? .yellow : .gray)
+                            .foregroundColor(index <= quest.difficulty ? Color(.appYellow) : .gray)
                     }
                 }
                 Spacer()

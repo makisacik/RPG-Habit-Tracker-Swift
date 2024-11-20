@@ -19,13 +19,11 @@ struct QuestCardView: View {
             VStack(alignment: .leading) {
                 Text(quest.title)
                     .font(.headline)
-                    .foregroundStyle(.black)
                 if !quest.info.isEmpty {
                     Text(quest.info)
                         .font(.body)
                         .lineLimit(2)
                         .truncationMode(.tail)
-                        .foregroundStyle(.black)
                 }
 
                 Spacer()
@@ -47,7 +45,7 @@ struct QuestCardView: View {
                 .padding(.top, 4)
             }
             .padding()
-            .background(Color.white)
+            .background(Color(.secondarySystemGroupedBackground))
             .cornerRadius(10)
             .shadow(radius: 3)
             .frame(maxWidth: .infinity)

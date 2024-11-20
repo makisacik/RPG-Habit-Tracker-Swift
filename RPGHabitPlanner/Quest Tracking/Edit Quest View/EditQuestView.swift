@@ -36,9 +36,9 @@ struct EditQuestView: View {
                     
                     DatePicker("Due Date", selection: $localQuest.dueDate, displayedComponents: .date)
                     Toggle("Main Quest", isOn: $localQuest.isMainQuest)
-                        .tint(.yellow)
+                        .tint(Color(.appYellow))
                     Toggle("Active", isOn: $localQuest.isActive)
-                        .tint(.yellow)
+                        .tint(Color(.appYellow))
                 }
             }
             .navigationTitle("Edit Quest")

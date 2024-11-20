@@ -38,7 +38,7 @@ struct CharacterDetailsView: View {
             HStack {
                 HStack(spacing: 4) {
                     Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(Color(.appYellow))
                     Text("Level \(user.level)")
                         .font(.headline)
                 }

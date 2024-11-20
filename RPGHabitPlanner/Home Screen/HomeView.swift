@@ -56,7 +56,7 @@ struct HomeView: View {
                     NavigationLink(destination: QuestCreationView(viewModel: QuestCreationViewModel(questDataService: questDataService))) {
                         Image(systemName: "plus")
                             .font(.title2)
-                            .foregroundStyle(.yellow)
+                            .foregroundStyle(Color(.appYellow))
                     }
                 }
             }

@@ -13,7 +13,7 @@ struct QuestTrackingView: View {
     @State private var showAlert: Bool = false
     @State private var showSuccessAnimation: Bool = false
     @State private var lastScrollPosition: UUID?
-    @State private var selectedQuestForEditing: Quest? // Tracks the quest to edit
+    @State private var selectedQuestForEditing: Quest?
 
     var body: some View {
         VStack(alignment: .center) {
@@ -21,6 +21,7 @@ struct QuestTrackingView: View {
             statusPicker
             questList
         }
+        .background(Color(.appBackground))
         .onChange(of: viewModel.errorMessage) { errorMessage in
             showAlert = errorMessage != nil
         }
@@ -43,15 +44,15 @@ struct QuestTrackingView: View {
                         if let index = viewModel.quests.firstIndex(where: { $0.id == updatedQuest.id }) {
                             viewModel.quests[index] = updatedQuest
                         }
-                        selectedQuestForEditing = nil // Ensure modal closes
+                        selectedQuestForEditing = nil
                     }
                 ),
                 onSave: { updatedQuest in
                     viewModel.updateQuest(updatedQuest)
-                    selectedQuestForEditing = nil // Close modal after saving
+                    selectedQuestForEditing = nil
                 },
                 onCancel: {
-                    selectedQuestForEditing = nil // Close modal on cancel
+                    selectedQuestForEditing = nil
                 }
             )
         }

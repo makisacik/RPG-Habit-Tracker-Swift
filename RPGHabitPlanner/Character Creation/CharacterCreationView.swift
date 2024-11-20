@@ -178,7 +178,7 @@ struct CharacterCreationView: View {
             }) {
                 Text("Confirm Selection")
                     .padding()
-                    .background(Color.green)
+                    .background(.appYellow)
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
