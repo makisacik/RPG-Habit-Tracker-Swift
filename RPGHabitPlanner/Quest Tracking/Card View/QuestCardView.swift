@@ -11,6 +11,7 @@ struct QuestCardView: View {
     let quest: Quest
     let onMarkComplete: (UUID) -> Void
     let onEditQuest: (Quest) -> Void
+    let onUpdateProgress: (UUID, Int) -> Void
 
     @State private var isMenuPresented: Bool = false
 
@@ -26,6 +27,28 @@ struct QuestCardView: View {
                         .truncationMode(.tail)
                 }
 
+                HStack {
+                    Button(action: { onUpdateProgress(quest.id, -20) }) {
+                        Text("-")
+                            .font(.title2)
+                            .foregroundColor(.appYellow)
+                            .contentShape(Rectangle())
+                            .padding(.leading, 4)
+                    }
+
+                    ProgressView(value: Double(quest.progress) / 100.0)
+                        .frame(height: 8)
+                        .tint(.appYellow)
+                        .padding(.horizontal, 4)
+
+                    Button(action: { onUpdateProgress(quest.id, 20) }) {
+                        Text("+")
+                            .font(.title2)
+                            .foregroundColor(.appYellow)
+                            .contentShape(Rectangle())
+                            .padding(.trailing, 4)
+                    }
+                }
                 Spacer()
 
                 HStack {

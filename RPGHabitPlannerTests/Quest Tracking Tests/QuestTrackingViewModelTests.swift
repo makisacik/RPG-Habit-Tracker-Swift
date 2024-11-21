@@ -95,4 +95,112 @@ final class QuestTrackingViewModelTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1.0)
     }
+    
+    func testUpdateQuestProgress_Increase() {
+        let quest = Quest(
+            title: "Test Quest",
+            isMainQuest: true,
+            info: "Test Info",
+            difficulty: 1,
+            creationDate: Date(),
+            dueDate: Date().addingTimeInterval(3600),
+            isActive: true,
+            progress: 40
+        )
+        mockService.mockQuests = [quest]
+        viewModel.fetchQuests()
+
+        let expectation = XCTestExpectation(description: "Increase quest progress")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.viewModel.updateQuestProgress(id: quest.id, by: 20)
+
+            XCTAssertEqual(self.viewModel.quests.first?.progress, 60, "Quest progress should have increased by 20")
+            XCTAssertNil(self.viewModel.errorMessage)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+    }
+    
+    func testUpdateQuestProgress_Decrease() {
+        let quest = Quest(
+            title: "Test Quest",
+            isMainQuest: true,
+            info: "Test Info",
+            difficulty: 1,
+            creationDate: Date(),
+            dueDate: Date().addingTimeInterval(3600),
+            isActive: true,
+            progress: 60
+        )
+        mockService.mockQuests = [quest]
+        viewModel.fetchQuests()
+
+        let expectation = XCTestExpectation(description: "Decrease quest progress")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.viewModel.updateQuestProgress(id: quest.id, by: -20)
+
+            XCTAssertEqual(self.viewModel.quests.first?.progress, 40, "Quest progress should have decreased by 20")
+            XCTAssertNil(self.viewModel.errorMessage)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    func testUpdateQuestProgress_NotBelowZero() {
+        let quest = Quest(
+            title: "Test Quest",
+            isMainQuest: true,
+            info: "Test Info",
+            difficulty: 1,
+            creationDate: Date(),
+            dueDate: Date().addingTimeInterval(3600),
+            isActive: true,
+            progress: 10
+        )
+        mockService.mockQuests = [quest]
+        viewModel.fetchQuests()
+
+        let expectation = XCTestExpectation(description: "Progress should not drop below 0")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.viewModel.updateQuestProgress(id: quest.id, by: -20)
+
+            XCTAssertEqual(self.viewModel.quests.first?.progress, 0, "Quest progress should not be less than 0")
+            XCTAssertNil(self.viewModel.errorMessage)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    func testUpdateQuestProgress_NotAbove100() {
+        let quest = Quest(
+            title: "Test Quest",
+            isMainQuest: true,
+            info: "Test Info",
+            difficulty: 1,
+            creationDate: Date(),
+            dueDate: Date().addingTimeInterval(3600),
+            isActive: true,
+            progress: 90
+        )
+        mockService.mockQuests = [quest]
+        viewModel.fetchQuests()
+
+        let expectation = XCTestExpectation(description: "Progress should not exceed 100")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.viewModel.updateQuestProgress(id: quest.id, by: 20)
+
+            XCTAssertEqual(self.viewModel.quests.first?.progress, 100, "Quest progress should not exceed 100")
+            XCTAssertNil(self.viewModel.errorMessage)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 2.0)
+    }
 }
