@@ -70,7 +70,8 @@ final class QuestTrackingViewModel: ObservableObject {
             info: quest.info,
             difficulty: quest.difficulty,
             dueDate: quest.dueDate,
-            isActive: quest.isActive
+            isActive: quest.isActive,
+            progress: quest.progress
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {

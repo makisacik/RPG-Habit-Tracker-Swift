@@ -26,7 +26,7 @@ final class QuestTrackingViewModelTests: XCTestCase {
     
     func testFetchQuests_Success() {
         let expectation = XCTestExpectation(description: "Quests fetched successfully")
-        let quest = Quest(title: "Test Quest", isMainQuest: true, info: "Test Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true)
+        let quest = Quest(title: "Test Quest", isMainQuest: true, info: "Test Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 60)
         mockService.mockQuests = [quest]
         
         viewModel.fetchQuests()
@@ -34,6 +34,7 @@ final class QuestTrackingViewModelTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XCTAssertEqual(self.viewModel.quests.count, 1)
             XCTAssertEqual(self.viewModel.quests.first?.title, "Test Quest")
+            XCTAssertEqual(self.viewModel.quests.first?.progress, 60)
             XCTAssertNil(self.viewModel.errorMessage)
             expectation.fulfill()
         }
@@ -59,8 +60,8 @@ final class QuestTrackingViewModelTests: XCTestCase {
     
     func testMainQuestsFilter() {
         let expectation = XCTestExpectation(description: "Main quests filtered successfully")
-        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true)
-        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false)
+        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80)
+        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20)
         mockService.mockQuests = [mainQuest, sideQuest]
         
         viewModel.selectedStatus = .active
@@ -69,6 +70,7 @@ final class QuestTrackingViewModelTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             XCTAssertEqual(self.viewModel.mainQuests.count, 1)
             XCTAssertEqual(self.viewModel.mainQuests.first?.title, "Main Quest")
+            XCTAssertEqual(self.viewModel.mainQuests.first?.progress, 80)
             expectation.fulfill()
         }
         
@@ -77,8 +79,8 @@ final class QuestTrackingViewModelTests: XCTestCase {
 
     func testSideQuestsFilter() {
         let expectation = XCTestExpectation(description: "Side quests filtered successfully")
-        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true)
-        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false)
+        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80)
+        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20)
         mockService.mockQuests = [mainQuest, sideQuest]
         
         viewModel.fetchQuests()
@@ -87,6 +89,7 @@ final class QuestTrackingViewModelTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XCTAssertEqual(self.viewModel.sideQuests.count, 1)
             XCTAssertEqual(self.viewModel.sideQuests.first?.title, "Side Quest")
+            XCTAssertEqual(self.viewModel.sideQuests.first?.progress, 20)
             expectation.fulfill()
         }
         

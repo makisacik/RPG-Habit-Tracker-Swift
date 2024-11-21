@@ -46,7 +46,8 @@ final class QuestCreationViewModel: ObservableObject {
             difficulty: difficulty,
             creationDate: Date(),
             dueDate: questDueDate,
-            isActive: isActiveQuest
+            isActive: isActiveQuest,
+            progress: 0
         )
 
         questDataService.saveQuest(newQuest) { [weak self] error in

@@ -27,6 +27,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.dueDate = quest.dueDate
         questEntity.isActive = quest.isActive
         questEntity.isCompleted = quest.isCompleted
+        questEntity.progress = Int16(quest.progress)
         
         do {
             try context.save()
@@ -35,6 +36,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completion(error)
         }
     }
+
 
     func fetchAllQuests(completion: @escaping ([Quest], Error?) -> Void) {
         let context = persistentContainer.viewContext
@@ -52,6 +54,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     creationDate: entity.creationDate ?? Date(),
                     dueDate: entity.dueDate ?? Date(),
                     isActive: entity.isActive,
+                    progress: Int(entity.progress),
                     isCompleted: entity.isCompleted
                 )
             }
@@ -78,6 +81,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     creationDate: entity.creationDate ?? Date(),
                     dueDate: entity.dueDate ?? Date(),
                     isActive: entity.isActive,
+                    progress: Int(entity.progress),
                     isCompleted: entity.isCompleted
                 )
             }
@@ -105,6 +109,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     creationDate: entity.creationDate ?? Date(),
                     dueDate: entity.dueDate ?? Date(),
                     isActive: entity.isActive,
+                    progress: Int(entity.progress),
                     isCompleted: entity.isCompleted
                 )
             }
@@ -131,6 +136,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     creationDate: questEntity.creationDate ?? Date(),
                     dueDate: questEntity.dueDate ?? Date(),
                     isActive: questEntity.isActive,
+                    progress: Int(questEntity.progress),
                     isCompleted: questEntity.isCompleted
                 )
                 completion(quest, nil)
@@ -186,6 +192,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         difficulty: Int?,
         dueDate: Date?,
         isActive: Bool?,
+        progress: Int?,
         completion: @escaping (Error?) -> Void
         ) {
             let context = persistentContainer.viewContext
@@ -212,7 +219,11 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     if let isActive {
                         questEntity.isActive = isActive
                     }
-
+                    
+                    if let progress {
+                        questEntity.progress = Int16(progress)
+                    }
+                    
                     try context.save()
                     completion(nil)
                 } else {
