@@ -16,9 +16,10 @@ struct Quest: Identifiable, Equatable {
     let creationDate: Date
     var dueDate: Date
     var isActive: Bool
+    var progress: Int
     var isCompleted = false
     
-    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, isCompleted: Bool = false) {
+    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false) {
         self.id = id
         self.title = title
         self.isMainQuest = isMainQuest
@@ -28,5 +29,6 @@ struct Quest: Identifiable, Equatable {
         self.dueDate = dueDate
         self.isActive = isActive
         self.isCompleted = isCompleted
+        self.progress = progress
     }
 }

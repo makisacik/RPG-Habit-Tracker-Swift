@@ -107,11 +107,14 @@ struct QuestTrackingView: View {
                                 onMarkComplete: { id in
                                     withAnimation {
                                         viewModel.markQuestAsCompleted(id: id)
-                                        showSuccessAnimation = true // Trigger animation only here
+                                        showSuccessAnimation = true
                                     }
                                 },
                                 onEditQuest: { questToEdit in
-                                    selectedQuestForEditing = questToEdit // Set selected quest for editing
+                                    selectedQuestForEditing = questToEdit
+                                },
+                                onUpdateProgress: { id, change in
+                                    viewModel.updateQuestProgress(id: id, by: change)
                                 }
                             )
                             .id(quest.id)

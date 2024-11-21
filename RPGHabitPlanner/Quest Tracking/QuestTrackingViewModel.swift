@@ -70,7 +70,8 @@ final class QuestTrackingViewModel: ObservableObject {
             info: quest.info,
             difficulty: quest.difficulty,
             dueDate: quest.dueDate,
-            isActive: quest.isActive
+            isActive: quest.isActive,
+            progress: quest.progress
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -82,7 +83,30 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
-    
+    func updateQuestProgress(id: UUID, by change: Int) {
+        guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
+        var quest = quests[index]
+        quest.progress = max(0, min(100, quest.progress + change)) // Ensure progress stays between 0 and 100
+        quests[index] = quest
+
+        questDataService.updateQuest(
+            withId: quest.id,
+            title: quest.title,
+            isMainQuest: quest.isMainQuest,
+            info: quest.info,
+            difficulty: quest.difficulty,
+            dueDate: quest.dueDate,
+            isActive: quest.isActive,
+            progress: quest.progress
+        ) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+
     var mainQuests: [Quest] {
         filteredQuests(for: quests.filter { $0.isMainQuest })
     }

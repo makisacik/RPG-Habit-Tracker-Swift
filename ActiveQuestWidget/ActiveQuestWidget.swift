@@ -38,7 +38,7 @@ struct Provider: TimelineProvider {
         
         do {
             if let latestQuest = try context.fetch(fetchRequest).first {
-                return SimpleEntry(date: Date(), dueDate: latestQuest.dueDate ?? Date(), questTitle: latestQuest.title ?? "Untitled Quest", progress: 0.6)
+                return SimpleEntry(date: Date(), dueDate: latestQuest.dueDate ?? Date(), questTitle: latestQuest.title ?? "Untitled Quest", progress: 0.01 * Double(latestQuest.progress))
             }
         } catch {
             print("Failed to fetch latest quest: \(error)")
@@ -78,7 +78,7 @@ struct ActiveQuestWidgetEntryView: View {
             
             // Progress Bar (Dummy Progress for Now)
             ProgressView(value: entry.progress) // Example: 50% progress
-                .tint(.yellow)
+                .tint(.appYellow)
                 .progressViewStyle(LinearProgressViewStyle())
                 .frame(height: 8)
                 .cornerRadius(4)

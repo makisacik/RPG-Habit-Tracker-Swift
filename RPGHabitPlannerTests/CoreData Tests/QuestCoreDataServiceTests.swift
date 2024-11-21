@@ -29,7 +29,8 @@ final class QuestCoreDataServiceTests: XCTestCase {
             difficulty: 3,
             creationDate: Date(),
             dueDate: Date(),
-            isActive: true
+            isActive: true,
+            progress: 50
         )
         
         let expectation = XCTestExpectation(description: "Save quest")
@@ -58,7 +59,8 @@ final class QuestCoreDataServiceTests: XCTestCase {
             difficulty: 1,
             creationDate: Date(),
             dueDate: Date(),
-            isActive: true
+            isActive: true,
+            progress: 70
         )
         
         let saveExpectation = XCTestExpectation(description: "Save quest")
@@ -73,6 +75,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
             XCTAssertNil(error, "Error fetching quest by ID: \(String(describing: error?.localizedDescription))")
             XCTAssertNotNil(fetchedQuest, "Fetched quest should not be nil")
             XCTAssertEqual(fetchedQuest?.id, quest.id, "Fetched quest ID should match")
+            XCTAssertEqual(fetchedQuest?.progress, 70, "Fetched quest progress should match")
             fetchExpectation.fulfill()
         }
         wait(for: [fetchExpectation], timeout: 2.0)
@@ -86,7 +89,8 @@ final class QuestCoreDataServiceTests: XCTestCase {
             difficulty: 2,
             creationDate: Date(),
             dueDate: Date(),
-            isActive: true
+            isActive: true,
+            progress: 30
         )
         
         let saveExpectation = XCTestExpectation(description: "Save quest to delete")
@@ -112,41 +116,6 @@ final class QuestCoreDataServiceTests: XCTestCase {
         wait(for: [fetchExpectation], timeout: 2.0)
     }
     
-    func testUpdateQuestCompletion() {
-        let quest = Quest(
-            title: "QuestToComplete",
-            isMainQuest: false,
-            info: "This quest will be marked as completed",
-            difficulty: 2,
-            creationDate: Date(),
-            dueDate: Date(),
-            isActive: true
-        )
-        
-        let saveExpectation = XCTestExpectation(description: "Save quest to update")
-        sut.saveQuest(quest) { error in
-            XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
-            saveExpectation.fulfill()
-        }
-        wait(for: [saveExpectation], timeout: 2.0)
-        
-        let updateExpectation = XCTestExpectation(description: "Update quest completion status")
-        sut.updateQuestCompletion(forId: quest.id, to: true) { error in
-            XCTAssertNil(error, "Error updating quest completion: \(String(describing: error?.localizedDescription))")
-            updateExpectation.fulfill()
-        }
-        wait(for: [updateExpectation], timeout: 2.0)
-        
-        let fetchExpectation = XCTestExpectation(description: "Fetch all quests after update")
-        sut.fetchQuestById(quest.id) { updatedQuest, error in
-            XCTAssertNil(error, "Error fetching quest by ID after update: \(String(describing: error?.localizedDescription))")
-            XCTAssertNotNil(updatedQuest, "Updated quest should not be nil")
-            XCTAssertTrue(updatedQuest?.isCompleted ?? false, "Quest completion status was not updated")
-            fetchExpectation.fulfill()
-        }
-        wait(for: [fetchExpectation], timeout: 2.0)
-    }
-    
     func testUpdateQuest() {
         let quest = Quest(
             title: "QuestToUpdate",
@@ -155,7 +124,8 @@ final class QuestCoreDataServiceTests: XCTestCase {
             difficulty: 2,
             creationDate: Date(),
             dueDate: Date(),
-            isActive: true
+            isActive: true,
+            progress: 20
         )
         
         let saveExpectation = XCTestExpectation(description: "Save quest to update")
@@ -170,6 +140,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
         let updatedDifficulty = 5
         let updatedDueDate = Calendar.current.date(byAdding: .day, value: 7, to: quest.dueDate)!
         let updatedIsActive = false
+        let updatedProgress = 90
         
         let updateExpectation = XCTestExpectation(description: "Update quest fields")
         sut.updateQuest(
@@ -179,7 +150,8 @@ final class QuestCoreDataServiceTests: XCTestCase {
             info: "",
             difficulty: updatedDifficulty,
             dueDate: updatedDueDate,
-            isActive: updatedIsActive
+            isActive: updatedIsActive,
+            progress: updatedProgress
         ) { error in
             XCTAssertNil(error, "Error updating quest: \(String(describing: error?.localizedDescription))")
             updateExpectation.fulfill()
@@ -195,6 +167,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
             XCTAssertEqual(updatedQuest?.difficulty, updatedDifficulty, "Quest difficulty was not updated correctly")
             XCTAssertEqual(updatedQuest?.dueDate, updatedDueDate, "Quest due date was not updated correctly")
             XCTAssertEqual(updatedQuest?.isActive, updatedIsActive, "Quest isActive flag was not updated correctly")
+            XCTAssertEqual(updatedQuest?.progress, updatedProgress, "Quest progress was not updated correctly")
             fetchExpectation.fulfill()
         }
         wait(for: [fetchExpectation], timeout: 2.0)

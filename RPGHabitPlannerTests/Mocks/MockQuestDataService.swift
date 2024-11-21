@@ -76,6 +76,35 @@ class MockQuestDataService: QuestDataServiceProtocol {
         }
     }
     
-    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, completion: @escaping ((any Error)?) -> Void) {
+    func updateQuest(
+        withId id: UUID,
+        title: String?,
+        isMainQuest: Bool?,
+        info: String?,
+        difficulty: Int?,
+        dueDate: Date?,
+        isActive: Bool?,
+        progress: Int?,
+        completion: @escaping (Error?) -> Void
+    ) {
+        if let error = mockError {
+            completion(error)
+            return
+        }
+
+        guard let index = mockQuests.firstIndex(where: { $0.id == id }) else {
+            completion(NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            return
+        }
+
+        if let title = title { mockQuests[index].title = title }
+        if let isMainQuest = isMainQuest { mockQuests[index].isMainQuest = isMainQuest }
+        if let info = info { mockQuests[index].info = info }
+        if let difficulty = difficulty { mockQuests[index].difficulty = difficulty }
+        if let dueDate = dueDate { mockQuests[index].dueDate = dueDate }
+        if let isActive = isActive { mockQuests[index].isActive = isActive }
+        if let progress = progress { mockQuests[index].progress = max(0, min(100, progress)) } // Ensure progress stays between 0 and 100
+
+        completion(nil)
     }
 }
