@@ -18,7 +18,7 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
     @Published var errorMessage: String?
     @Published var selectedTab: QuestTab = .main
-    @Published var selectedStatus: QuestStatusFilter = .active
+    @Published var selectedStatus: QuestStatusFilter = .all
     
     private let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
