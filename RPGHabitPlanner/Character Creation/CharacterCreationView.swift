@@ -24,17 +24,17 @@ struct CharacterCreationView: View {
                         .frame(height: 60)
                         .overlay(
                             Text("Create Your Character")
-                                .font(.title2)
-                                .bold()
+                                .font(.appFont(size: 18, weight: .black))
                                 .foregroundColor(.black)
+                                .padding(.top, 10)
                         )
 
                     VStack(spacing: 16) {
                         Text("Enter Your Nickname")
-                            .font(.title3)
-                            .bold()
+                            .font(.appFont(size: 18))
 
                         TextField("Nickname", text: $viewModel.nickname)
+                            .font(.appFont(size: 18))
                             .padding()
                             .background(
                                 Image("panel_brown_dark")
@@ -46,16 +46,14 @@ struct CharacterCreationView: View {
 
                     VStack(spacing: 8) {
                         Text("Choose Your Class!")
-                            .font(.title3)
-                            .bold()
+                            .font(.appFont(size: 18))
 
                         classSelectionView
                     }
 
                     VStack(spacing: 8) {
                         Text("Choose Your Starter Weapon!")
-                            .font(.title3)
-                            .bold()
+                            .font(.appFont(size: 18))
 
                         weaponSelectionView
                     }
@@ -64,8 +62,8 @@ struct CharacterCreationView: View {
                         viewModel.confirmSelection()
                     }) {
                         Text("Confirm Selection")
-                            .font(.headline)
-                            .foregroundColor(.white)
+                            .font(.appFont(size: 18))
+                            .foregroundColor(.brown)
                             .padding(.horizontal)
                             .frame(height: 44)
                             .background(
@@ -73,6 +71,7 @@ struct CharacterCreationView: View {
                                     .resizable()
                                     .frame(height: 44)
                             )
+                            .padding(.bottom)
                             .cornerRadius(8)
                     }
                 }
@@ -104,8 +103,7 @@ struct CharacterCreationView: View {
                                     .padding()
                             }
                             Text(characterClass.rawValue)
-                                .font(.title3)
-                                .bold()
+                                .font(.appFont(size: 18, weight: .black))
                         }
                         .tag(characterClass)
                     }
@@ -171,8 +169,7 @@ struct CharacterCreationView: View {
                                     .padding()
                             }
                             Text(weapon.rawValue)
-                                .font(.title3)
-                                .bold()
+                                .font(.appFont(size: 18))
                         }
                         .tag(weapon)
                     }

@@ -72,10 +72,18 @@
 		32B57BC02CECAA73004D2A27 /* Exceptions for "RPGHabitPlanner" folder in "ActiveQuestWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Fonts/IMFellEnglishSC-Regular.ttf",
 				Persistence.swift,
 				RPGHabitPlanner.xcdatamodeld,
 			);
 			target = 32B57BA82CEC159C004D2A27 /* ActiveQuestWidgetExtension */;
+		};
+		32D894B72E298D4D00B1BA53 /* Exceptions for "RPGHabitPlanner" folder in "RPGHabitPlanner" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3290C1E42CCCD5C3008B92F4 /* RPGHabitPlanner */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -83,6 +91,7 @@
 		3290C1E72CCCD5C3008B92F4 /* RPGHabitPlanner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				32D894B72E298D4D00B1BA53 /* Exceptions for "RPGHabitPlanner" folder in "RPGHabitPlanner" target */,
 				32B57BC02CECAA73004D2A27 /* Exceptions for "RPGHabitPlanner" folder in "ActiveQuestWidgetExtension" target */,
 			);
 			path = RPGHabitPlanner;
@@ -560,6 +569,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RPGHabitPlanner/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -592,6 +602,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RPGHabitPlanner/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
