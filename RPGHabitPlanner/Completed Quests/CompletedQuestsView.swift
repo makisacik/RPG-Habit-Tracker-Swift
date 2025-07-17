@@ -12,44 +12,64 @@ struct CompletedQuestsView: View {
     @State private var showAlert: Bool = false
 
     var body: some View {
-        VStack {
-            if viewModel.completedQuests.isEmpty {
-                Text("No completed quests yet!")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-                    .padding()
-            } else {
-                ScrollView {
-                    VStack {
-                        ForEach(viewModel.completedQuests) { quest in
-                            CompletedQuestCardView(quest: quest)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 16)
+        ZStack {
+            Image("pattern_grid_paper")
+                .resizable(resizingMode: .tile)
+                .ignoresSafeArea()
+
+            VStack {
+                Image("banner_hanging")
+                    .resizable()
+                    .frame(height: 60)
+                    .overlay(
+                        Text("Completed Quests 🏆")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                    )
+                    .padding(.bottom, 5)
+
+                if viewModel.completedQuests.isEmpty {
+                    Text("No completed quests yet!")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(viewModel.completedQuests) { quest in
+                                CompletedQuestCardView(quest: quest)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.horizontal, 16)
+                            }
                         }
+                        .padding()
+                        .background(
+                            Image("panel_brown")
+                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                        )
+                        .cornerRadius(16)
+                        .padding()
                     }
+                    .scrollIndicators(.hidden)
                 }
-                .scrollIndicators(.hidden)
+            }
+            .onAppear {
+                viewModel.fetchCompletedQuests()
+            }
+            .onChange(of: viewModel.errorMessage) { errorMessage in
+                showAlert = errorMessage != nil
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
+                    dismissButton: .default(Text("OK")) {
+                        viewModel.errorMessage = nil
+                    }
+                )
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensures full space
-        .background(Color(.appBackground)) // Applies background to full view
-        .onAppear {
-            viewModel.fetchCompletedQuests()
-        }
-        .onChange(of: viewModel.errorMessage) { errorMessage in
-            showAlert = errorMessage != nil
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Error"),
-                message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
-                dismissButton: .default(Text("OK")) {
-                    viewModel.errorMessage = nil
-                }
-            )
-        }
-        .navigationTitle("Completed Quests 🏆")
     }
 }
 
@@ -57,18 +77,18 @@ struct CompletedQuestCardView: View {
     let quest: Quest
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(quest.title)
                 .font(.headline)
                 .foregroundColor(.green)
 
-            Text(quest.info)
-                .font(.body)
-                .lineLimit(2)
-                .truncationMode(.tail)
-                .foregroundStyle(.black)
-
-            Spacer()
+            if !quest.info.isEmpty {
+                Text(quest.info)
+                    .font(.body)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                    .foregroundColor(.black)
+            }
 
             HStack {
                 HStack(spacing: 2) {
@@ -84,14 +104,16 @@ struct CompletedQuestCardView: View {
                     .font(.caption)
                     .foregroundColor(.gray)
             }
-            .padding(.top, 4)
         }
         .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 3)
+        .background(
+            Image("panel_brown_dark")
+                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+        )
+        .cornerRadius(12)
     }
 }
+
 
 #Preview {
     let questDataService = QuestCoreDataService()

@@ -17,9 +17,10 @@ struct QuestCardView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(quest.title)
                     .font(.headline)
+
                 if !quest.info.isEmpty {
                     Text(quest.info)
                         .font(.body)
@@ -49,18 +50,15 @@ struct QuestCardView: View {
                             .padding(.trailing, 4)
                     }
                 }
+
                 Spacer()
 
                 HStack {
-                    HStack(spacing: 2) {
-                        ForEach(1...5, id: \.self) { index in
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(index <= quest.difficulty ? .yellow : .gray)
-                        }
-                    }
+                    StarRatingView(rating: .constant(quest.difficulty))
+                        .disabled(true)
+
                     Spacer()
+
                     Text(quest.dueDate, format: .dateTime.day().month(.abbreviated))
                         .font(.caption)
                         .foregroundColor(.gray)
@@ -68,7 +66,10 @@ struct QuestCardView: View {
                 .padding(.top, 4)
             }
             .padding()
-            .background(Color(.secondarySystemGroupedBackground))
+            .background(
+                Image("panel_brown_dark")
+                    .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16), resizingMode: .stretch)
+            )
             .cornerRadius(10)
             .shadow(radius: 3)
             .frame(maxWidth: .infinity)

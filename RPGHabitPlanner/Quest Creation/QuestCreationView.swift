@@ -1,10 +1,3 @@
-//
-//  QuestCreationView.swift
-//  RPGHabitPlanner
-//
-//  Created by Mehmet Ali Kısacık on 28.10.2024.
-//
-
 import SwiftUI
 
 struct QuestCreationView: View {
@@ -16,75 +9,90 @@ struct QuestCreationView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
-                    
-                    QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
-                    
-                    DatePicker("Due Date", selection: $viewModel.questDueDate, displayedComponents: [.date])
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .shadow(radius: 3)
-                        .accentColor(Color(.appYellow))
-                    
-                    Toggle(isOn: $viewModel.isMainQuest) {
-                        Text("Main quest?")
-                            .font(.headline)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .shadow(radius: 3)
-                    .tint(Color(.appYellow))
-                    
-                    Toggle(isOn: $viewModel.isActiveQuest) {
-                        Text("Activate the quest now?")
-                            .font(.headline)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .shadow(radius: 3)
-                    .tint(Color(.appYellow))
-                    
-                    VStack {
-                        Text("Quest Difficulty")
-                            .font(.headline)
-                        
-                        StarRatingView(rating: $viewModel.difficulty)
-                    }
-                    .padding()
+            ZStack {
+                Image("pattern_grid_paper")
+                    .resizable(resizingMode: .tile)
+                    .ignoresSafeArea()
 
-                    Button(action: {
-                        if viewModel.validateInputs() {
-                            viewModel.saveQuest()
-                        } else {
-                            showAlert(title: "Warning", message: viewModel.errorMessage ?? "Unknown error")
-                        }
-                    }) {
-                        if viewModel.isSaving {
-                            ProgressView()
-                        } else {
-                            Text("Save Quest")
+                ScrollView {
+                    VStack(spacing: 20) {
+                        Image("banner_hanging")
+                            .resizable()
+                            .frame(height: 60)
+                            .overlay(
+                                Text("Create New Quest")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.black)
+                            )
+                            .padding(.bottom, 10)
+
+                        QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
+                        QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Due Date")
                                 .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
+
+                            DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
+                                .labelsHidden()
                                 .padding()
-                                .background(Color(.appYellow))
-                                .cornerRadius(8)
-                                .shadow(radius: 3)
+                                .background(
+                                    Image("panel_brown_dark")
+                                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                                )
+                                .cornerRadius(10)
                         }
+
+                        ToggleCard(label: "Main quest?", isOn: $viewModel.isMainQuest)
+                        ToggleCard(label: "Activate the quest now?", isOn: $viewModel.isActiveQuest)
+
+                        VStack {
+                            Text("Quest Difficulty")
+                                .font(.headline)
+                            StarRatingView(rating: $viewModel.difficulty)
+                        }
+                        .padding()
+
+                        Button(action: {
+                            if viewModel.validateInputs() {
+                                viewModel.saveQuest()
+                            } else {
+                                showAlert(title: "Warning", message: viewModel.errorMessage ?? "Unknown error")
+                            }
+                        }) {
+                            if viewModel.isSaving {
+                                ProgressView()
+                            } else {
+                                HStack {
+                                    Spacer()
+                                    Text("Save Quest")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(
+                                    Image("button_brown")
+                                        .resizable()
+                                        .frame(height: 44)
+                                )
+                                .cornerRadius(8)
+                            }
+                        }
+                        .disabled(viewModel.isSaving)
+                        .padding(.top, 20)
                     }
-                    .disabled(viewModel.isSaving)
-                    .padding(.top, 20)
+                    .padding()
+                    .background(
+                        Image("panel_brown")
+                            .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                    )
+                    .cornerRadius(16)
+                    .padding()
                 }
-                .padding()
+                .scrollDismissesKeyboard(.interactively)
             }
-            .background(Color(.appBackground))
-            .scrollDismissesKeyboard(.interactively)
-            .navigationTitle("Create New Quest")
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
@@ -116,16 +124,38 @@ struct QuestInputField: View {
     var title: String
     @Binding var text: String
     var icon: String
-    
+
     var body: some View {
         HStack {
             Image(systemName: icon)
+                .foregroundColor(.gray)
             TextField(title, text: $text)
                 .autocorrectionDisabled()
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(
+            Image("panel_brown_dark")
+                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+        )
         .cornerRadius(10)
-        .shadow(radius: 3)
+    }
+}
+
+struct ToggleCard: View {
+    var label: String
+    @Binding var isOn: Bool
+
+    var body: some View {
+        Toggle(isOn: $isOn) {
+            Text(label)
+                .font(.headline)
+        }
+        .padding()
+        .background(
+            Image("panel_brown_dark")
+                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+        )
+        .cornerRadius(10)
+        .tint(Color.yellow)
     }
 }

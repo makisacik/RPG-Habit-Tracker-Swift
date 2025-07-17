@@ -10,182 +10,217 @@ import SwiftUI
 struct CharacterCreationView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     @Binding var isCharacterCreated: Bool
-    
+
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Enter Your Nickname")
-                .font(.title2)
-                .bold()
-            
-            TextField("Nickname", text: $viewModel.nickname)
+        ZStack {
+            Image("pattern_grid_paper")
+                .resizable(resizingMode: .tile)
+                .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 24) {
+                    Image("banner_hanging")
+                        .resizable()
+                        .frame(height: 60)
+                        .overlay(
+                            Text("Create Your Character")
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.black)
+                        )
+
+                    VStack(spacing: 16) {
+                        Text("Enter Your Nickname")
+                            .font(.title3)
+                            .bold()
+
+                        TextField("Nickname", text: $viewModel.nickname)
+                            .padding()
+                            .background(
+                                Image("panel_brown_dark")
+                                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                            )
+                            .cornerRadius(8)
+                            .padding(.horizontal)
+                    }
+
+                    VStack(spacing: 8) {
+                        Text("Choose Your Class!")
+                            .font(.title3)
+                            .bold()
+
+                        classSelectionView
+                    }
+
+                    VStack(spacing: 8) {
+                        Text("Choose Your Starter Weapon!")
+                            .font(.title3)
+                            .bold()
+
+                        weaponSelectionView
+                    }
+
+                    Button(action: {
+                        viewModel.confirmSelection()
+                    }) {
+                        Text("Confirm Selection")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.horizontal)
+                            .frame(height: 44)
+                            .background(
+                                Image("button_brown")
+                                    .resizable()
+                                    .frame(height: 44)
+                            )
+                            .cornerRadius(8)
+                    }
+                }
                 .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(8)
-                .padding(.horizontal)
-            
-            Text("Choose Your Class!")
-                .font(.title2)
-                .bold()
-
-            ZStack {
-                GeometryReader { _ in
-                    TabView(selection: $viewModel.selectedClass) {
-                        ForEach(CharacterClass.allCases, id: \.self) { characterClass in
-                            VStack {
-                                if let image = UIImage(named: characterClass.iconName) {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 150)
-                                        .padding()
-                                }
-                                Text(characterClass.rawValue)
-                                    .font(.title3)
-                                    .bold()
-                            }
-                            .tag(characterClass)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: 230)
-                }
-                .gesture(
-                    DragGesture()
-                        .onEnded { value in
-                            viewModel.handleClassSwipe(value.translation)
-                        }
+                .background(
+                    Image("panel_brown")
+                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                 )
-                
-                HStack {
-                    if let previousClass = viewModel.previousClass,
-                    let previousClassImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
-                        Image(uiImage: previousClassImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.gray)
-                            .padding(.leading, 10)
-                            .onTapGesture {
-                                viewModel.selectPreviousClass()
-                            }
-                    } else {
-                        Color.clear.frame(width: 80, height: 80)
-                    }
-
-                    Spacer()
-
-                    if let nextClass = viewModel.nextClass,
-                    let nextClassImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
-                        Image(uiImage: nextClassImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.gray)
-                            .padding(.trailing, 10)
-                            .onTapGesture {
-                                viewModel.selectNextClass()
-                            }
-                    } else {
-                        Color.clear.frame(width: 80, height: 80)
-                    }
-                }
-                .frame(height: 200)
-                .simultaneousGesture(
-                    DragGesture()
-                        .onEnded { value in
-                            viewModel.handleClassSwipe(value.translation)
-                        }
-                )
+                .cornerRadius(20)
+                .padding()
             }
-
-            Text("Choose Your Starter Weapon!")
-                .font(.title2)
-                .bold()
-
-            ZStack {
-                GeometryReader { _ in
-                    TabView(selection: $viewModel.selectedWeapon) {
-                        ForEach(viewModel.availableWeapons, id: \.self) { weapon in
-                            VStack {
-                                if let image = UIImage(named: weapon.iconName) {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 150)
-                                        .padding()
-                                }
-                                Text(weapon.rawValue)
-                                    .font(.title3)
-                                    .bold()
-                            }
-                            .tag(weapon)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .frame(height: 230)
-                }
-                .gesture(
-                    DragGesture()
-                        .onEnded { value in
-                            viewModel.handleWeaponSwipe(value.translation)
-                        }
-                )
-
-                HStack {
-                    if let previousWeapon = viewModel.previousWeapon(for: viewModel.selectedWeapon),
-                    let previousWeaponImage = UIImage(named: previousWeapon.iconName)?.withRenderingMode(.alwaysTemplate) {
-                        Image(uiImage: previousWeaponImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.gray)
-                            .padding(.leading, 10)
-                            .onTapGesture {
-                                viewModel.selectPreviousWeapon()
-                            }
-                    } else {
-                        Color.clear.frame(width: 80, height: 80)
-                    }
-
-                    Spacer()
-
-                    if let nextWeapon = viewModel.nextWeapon(for: viewModel.selectedWeapon),
-                    let nextWeaponImage = UIImage(named: nextWeapon.iconName)?.withRenderingMode(.alwaysTemplate) {
-                        Image(uiImage: nextWeaponImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.gray)
-                            .padding(.trailing, 10)
-                            .onTapGesture {
-                                viewModel.selectNextWeapon()
-                            }
-                    } else {
-                        Color.clear.frame(width: 80, height: 80)
-                    }
-                }
-                .frame(height: 230)
-                .simultaneousGesture(
-                    DragGesture()
-                        .onEnded { value in
-                            viewModel.handleWeaponSwipe(value.translation)
-                        }
-                )
-            }
-
-            Button(action: {
-                viewModel.confirmSelection()
-            }) {
-                Text("Confirm Selection")
-                    .padding()
-                    .background(.appYellow)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            .onChange(of: viewModel.isCharacterCreated) { newValue in
+                isCharacterCreated = newValue
             }
         }
-        .padding()
-        .onChange(of: viewModel.isCharacterCreated) { newValue in
-            isCharacterCreated = newValue
+    }
+
+    private var classSelectionView: some View {
+        ZStack {
+            GeometryReader { _ in
+                TabView(selection: $viewModel.selectedClass) {
+                    ForEach(CharacterClass.allCases, id: \.self) { characterClass in
+                        VStack {
+                            if let image = UIImage(named: characterClass.iconName) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 150)
+                                    .padding()
+                            }
+                            Text(characterClass.rawValue)
+                                .font(.title3)
+                                .bold()
+                        }
+                        .tag(characterClass)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .frame(height: 230)
+            }
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        viewModel.handleClassSwipe(value.translation)
+                    }
+            )
+
+            HStack {
+                if let previousClass = viewModel.previousClass,
+                   let previousImage = UIImage(named: previousClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                    Image(uiImage: previousImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.gray)
+                        .padding(.leading, 10)
+                        .onTapGesture {
+                            viewModel.selectPreviousClass()
+                        }
+                } else {
+                    Color.clear.frame(width: 80, height: 80)
+                }
+
+                Spacer()
+
+                if let nextClass = viewModel.nextClass,
+                   let nextImage = UIImage(named: nextClass.iconName)?.withRenderingMode(.alwaysTemplate) {
+                    Image(uiImage: nextImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.gray)
+                        .padding(.trailing, 10)
+                        .onTapGesture {
+                            viewModel.selectNextClass()
+                        }
+                } else {
+                    Color.clear.frame(width: 80, height: 80)
+                }
+            }
+            .frame(height: 200)
+        }
+    }
+
+    private var weaponSelectionView: some View {
+        ZStack {
+            GeometryReader { _ in
+                TabView(selection: $viewModel.selectedWeapon) {
+                    ForEach(viewModel.availableWeapons, id: \.self) { weapon in
+                        VStack {
+                            if let image = UIImage(named: weapon.iconName) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 150)
+                                    .padding()
+                            }
+                            Text(weapon.rawValue)
+                                .font(.title3)
+                                .bold()
+                        }
+                        .tag(weapon)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .frame(height: 230)
+            }
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        viewModel.handleWeaponSwipe(value.translation)
+                    }
+            )
+
+            HStack {
+                if let previous = viewModel.previousWeapon(for: viewModel.selectedWeapon),
+                   let previousImage = UIImage(named: previous.iconName)?.withRenderingMode(.alwaysTemplate) {
+                    Image(uiImage: previousImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.gray)
+                        .padding(.leading, 10)
+                        .onTapGesture {
+                            viewModel.selectPreviousWeapon()
+                        }
+                } else {
+                    Color.clear.frame(width: 80, height: 80)
+                }
+
+                Spacer()
+
+                if let next = viewModel.nextWeapon(for: viewModel.selectedWeapon),
+                   let nextImage = UIImage(named: next.iconName)?.withRenderingMode(.alwaysTemplate) {
+                    Image(uiImage: nextImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.gray)
+                        .padding(.trailing, 10)
+                        .onTapGesture {
+                            viewModel.selectNextWeapon()
+                        }
+                } else {
+                    Color.clear.frame(width: 80, height: 80)
+                }
+            }
+            .frame(height: 230)
         }
     }
 }
