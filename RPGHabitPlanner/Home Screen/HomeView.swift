@@ -92,12 +92,12 @@ struct HomeView: View {
         HStack {
             Button(action: { selectedTab = .tracking }) {
                 VStack(spacing: 2) {
-                    Image("panel_brown_arrows")
+                    Image("panel_grey_bolts_red")
                         .resizable()
-                        .frame(width: 100, height: 40)
+                        .frame(width: 120, height: 40)
                         .overlay(Text("Tracking")
-                            .font(.caption)
-                            .foregroundColor(.black)
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(.white)
                         )
                 }
             }
@@ -106,10 +106,10 @@ struct HomeView: View {
                 VStack(spacing: 2) {
                     Image("panel_grey_bolts_red")
                         .resizable()
-                        .frame(width: 100, height: 40)
+                        .frame(width: 120, height: 40)
                         .overlay(Text("Completed")
-                            .font(.caption)
-                            .foregroundColor(.black)
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(.white)
                         )
                 }
             }

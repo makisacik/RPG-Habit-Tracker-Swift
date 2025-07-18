@@ -27,9 +27,9 @@ struct QuestTrackingView: View {
                     .frame(height: 60)
                     .overlay(
                         Text("Quest Journal")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
+                            .padding(.top, 10)
+                            .font(.appFont(size: 18, weight: .black))
+                            .foregroundColor(.white)
                     )
                     .padding(.bottom, 5)
 
@@ -64,12 +64,6 @@ struct QuestTrackingView: View {
                                 }
                             }
                         }
-                        .padding()
-                        .background(
-                            Image("panel_brown")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                        )
-                        .cornerRadius(16)
                         .padding()
                     }
                     .onChange(of: viewModel.quests) { _ in
@@ -134,18 +128,23 @@ struct QuestTrackingView: View {
     private var questTypePicker: some View {
         VStack(alignment: .leading) {
             Text("Quest Type")
-                .font(.headline)
+                .font(.appFont(size: 18, weight: .black))
                 .padding(.leading)
 
             Picker("Quest Type", selection: $viewModel.selectedTab) {
-                Text("Main").tag(QuestTab.main)
-                Text("Side").tag(QuestTab.side)
+                Text("Main")
+                    .font(.appFont(size: 18, weight: .black))
+                    .tag(QuestTab.main)
+                    
+                Text("Side")
+                    .font(.appFont(size: 18, weight: .black))
+                    .tag(QuestTab.side)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
             .background(
-                Image("panel_brown_dark")
-                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                Image("panel_brown_dark_corners_b")
+                    .resizable(capInsets: EdgeInsets(top: 15, leading: 40, bottom: 15, trailing: 40), resizingMode: .stretch)
             )
             .cornerRadius(10)
             .padding(.horizontal)
@@ -155,7 +154,7 @@ struct QuestTrackingView: View {
     private var statusPicker: some View {
         VStack(alignment: .leading) {
             Text("Status")
-                .font(.headline)
+                .font(.appFont(size: 18, weight: .black))
                 .padding(.leading)
 
             Picker("Status", selection: $viewModel.selectedStatus) {
@@ -166,8 +165,8 @@ struct QuestTrackingView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding()
             .background(
-                Image("panel_brown_dark")
-                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                Image("panel_brown_dark_corners_b")
+                    .resizable(capInsets: EdgeInsets(top: 15, leading: 40, bottom: 15, trailing: 40), resizingMode: .stretch)
             )
             .cornerRadius(10)
             .padding(.horizontal)
