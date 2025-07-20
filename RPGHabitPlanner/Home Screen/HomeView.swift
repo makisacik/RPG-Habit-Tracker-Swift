@@ -69,7 +69,7 @@ struct HomeView: View {
                         NavigationLink(destination: QuestCreationView(
                             viewModel: QuestCreationViewModel(questDataService: questDataService)
                         )) {
-                            Image("button_brown")
+                            Image("cursorSword_bronze")
                                 .resizable()
                                 .frame(width: 40, height: 40)
                         }
