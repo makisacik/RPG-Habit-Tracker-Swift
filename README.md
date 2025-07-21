@@ -4,27 +4,12 @@ The purpose of this project is to create an App Store application that will help
 
 ## Current Development Screenshoots
 
-
-<img src="https://github.com/user-attachments/assets/3c83a0dc-16b0-4668-b2a1-4660ea8255de" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 21 54" width="180">
-
-<img src="https://github.com/user-attachments/assets/296cbe68-2863-481e-aa40-a82a9ee968d9" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 22 14 17" width="180">
-
-<img src="https://github.com/user-attachments/assets/497b1eaf-6c34-4177-8d9a-abc646ac3aea" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/ba9e127b-1d9d-41f8-8a11-d79ab8d6254f" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
+<img src="https://github.com/user-attachments/assets/8aebcff0-e65b-406f-a03a-46cbef408fde" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 49 48" width="180">
+<img src="https://github.com/user-attachments/assets/f28f7375-02a4-45ea-8522-02afd548a5be" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 49 56" width="180">
+<img src="https://github.com/user-attachments/assets/185e2276-fcfe-4614-8726-d8c3b0c60695" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 43" width="180">
+<img src="https://github.com/user-attachments/assets/5793fb50-9011-4476-8ade-b76b3dfac0c8" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 50" width="180">
 
 
-<img src="https://github.com/user-attachments/assets/61a50141-f830-484b-bfa7-287d29d221d1" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/5bfe5ed6-31bd-40b1-ba37-1c985ed42444" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/2d261574-89b3-4388-9387-c5b7dab278fa" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/5e634507-a30b-4150-8ad6-b09c64b092cd" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/3bac5af9-4dbb-4ec1-b938-43e0723db543" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
-
-<img src="https://github.com/user-attachments/assets/f706d0b7-0378-4f2e-8a87-60e25e630309" alt="Simulator Screenshot - iPhone 16 - 2024-11-10 at 21 22 04" width="180">
 
 ## Testability
 The app will be designed with testability in mind through the use of abstractions achieved by protocols/interfaces and the dependency injection technique. Although I’m not implementing TDD (Test-Driven Development) as it's currently a solo project, I will write tests for critical components and make the app scalable for future testing.
