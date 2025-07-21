@@ -8,7 +8,7 @@ The purpose of this project is to create an App Store application that will help
 <img src="https://github.com/user-attachments/assets/f28f7375-02a4-45ea-8522-02afd548a5be" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 49 56" width="180">
 <img src="https://github.com/user-attachments/assets/185e2276-fcfe-4614-8726-d8c3b0c60695" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 43" width="180">
 <img src="https://github.com/user-attachments/assets/5793fb50-9011-4476-8ade-b76b3dfac0c8" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 50" width="180">
-
+<img src="https://github.com/user-attachments/assets/4cda3f6c-5702-420a-b245-4b7d31c650d3" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 50" width="180">
 
 
 ## Testability
