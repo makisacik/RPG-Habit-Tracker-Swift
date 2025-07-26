@@ -79,10 +79,13 @@ struct QuestTrackingView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("Error"),
-                    message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
-                    dismissButton: .default(Text("OK")) {
-                        viewModel.errorMessage = nil
+                    title: Text("Error")
+                        .font(.appFont(size: 16, weight: .black)),
+                    message: Text(viewModel.errorMessage ?? "An unknown error occurred")
+                        .font(.appFont(size: 14)),
+                    dismissButton: .default(Text("OK")
+                        .font(.appFont(size: 14, weight: .black))) {
+                            viewModel.errorMessage = nil
                     }
                 )
             }
@@ -144,7 +147,6 @@ struct QuestTrackingView: View {
         }
     }
 
-
     private var statusPicker: some View {
         VStack(alignment: .leading) {
             Text("Status")
@@ -163,7 +165,6 @@ struct QuestTrackingView: View {
             .padding(.horizontal)
         }
     }
-
 
     private var questsToDisplay: [Quest] {
         viewModel.selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests

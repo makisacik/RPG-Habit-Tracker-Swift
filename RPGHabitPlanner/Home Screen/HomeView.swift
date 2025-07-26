@@ -46,6 +46,8 @@ struct HomeView: View {
                     customTabBar
                         .padding(.bottom, 5)
                 }
+                .font(.appFont(size: 16))
+
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -56,7 +58,7 @@ struct HomeView: View {
                                     .resizable()
                                     .frame(width: 40, height: 40)
                                 Text("Level \(viewModel.user?.level ?? 1)")
-                                    .font(.headline)
+                                    .font(.appFont(size: 16, weight: .black))
                                     .foregroundColor(.primary)
                             }
                         }

@@ -28,8 +28,7 @@ struct EditQuestView: View {
                             .frame(height: 60)
                             .overlay(
                                 Text("Edit Quest")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                                    .font(.appFont(size: 18, weight: .black))
                                     .foregroundColor(.black)
                             )
                             .padding(.bottom, 10)
@@ -39,11 +38,12 @@ struct EditQuestView: View {
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Difficulty")
-                                .font(.headline)
+                                .font(.appFont(size: 16, weight: .black))
 
                             Picker("Difficulty", selection: $localQuest.difficulty) {
                                 ForEach(1...5, id: \.self) {
                                     Text("\($0)").tag($0)
+                                        .font(.appFont(size: 14))
                                 }
                             }
                             .pickerStyle(.segmented)
@@ -57,7 +57,7 @@ struct EditQuestView: View {
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Due Date")
-                                .font(.headline)
+                                .font(.appFont(size: 16, weight: .black))
 
                             DatePicker("", selection: $localQuest.dueDate, displayedComponents: [.date])
                                 .labelsHidden()
@@ -75,7 +75,7 @@ struct EditQuestView: View {
                         HStack {
                             Button(action: { onCancel() }) {
                                 Text("Cancel")
-                                    .font(.headline)
+                                    .font(.appFont(size: 16, weight: .black))
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
                                     .frame(height: 44)
@@ -94,7 +94,7 @@ struct EditQuestView: View {
                                 onSave(localQuest)
                             }) {
                                 Text("Save")
-                                    .font(.headline)
+                                    .font(.appFont(size: 16, weight: .black))
                                     .foregroundColor(.white)
                                     .padding(.horizontal)
                                     .frame(height: 44)
@@ -130,9 +130,10 @@ struct InputField: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.headline)
+                .font(.appFont(size: 16, weight: .black))
             TextField(title, text: $text)
                 .autocorrectionDisabled()
+                .font(.appFont(size: 14))
                 .padding()
                 .background(
                     Image("panel_brown_dark")

@@ -20,7 +20,7 @@ struct CustomSegmentedControl<T: Hashable>: View {
         HStack(spacing: 0) {
             ForEach(options, id: \.self) { option in
                 Text(titleForOption(option))
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.appFont(size: 16, weight: .black))
                     .foregroundColor(selected == option ? selectedTextColor : textColor)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)

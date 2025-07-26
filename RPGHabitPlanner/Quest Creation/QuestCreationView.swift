@@ -21,8 +21,7 @@ struct QuestCreationView: View {
                             .frame(height: 60)
                             .overlay(
                                 Text("Create New Quest")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                                    .font(.appFont(size: 18, weight: .black))
                                     .foregroundColor(.black)
                             )
                             .padding(.bottom, 10)
@@ -32,7 +31,7 @@ struct QuestCreationView: View {
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Due Date")
-                                .font(.headline)
+                                .font(.appFont(size: 16, weight: .black))
 
                             DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
                                 .labelsHidden()
@@ -49,7 +48,7 @@ struct QuestCreationView: View {
 
                         VStack {
                             Text("Quest Difficulty")
-                                .font(.headline)
+                                .font(.appFont(size: 16, weight: .black))
                             StarRatingView(rating: $viewModel.difficulty)
                         }
                         .padding()
@@ -67,7 +66,7 @@ struct QuestCreationView: View {
                                 HStack {
                                     Spacer()
                                     Text("Save Quest")
-                                        .font(.headline)
+                                        .font(.appFont(size: 16, weight: .black))
                                         .foregroundColor(.white)
                                     Spacer()
                                 }
@@ -98,9 +97,9 @@ struct QuestCreationView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text(alertTitle),
-                    message: Text(alertMessage),
-                    dismissButton: .default(Text("OK"))
+                    title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
+                    message: Text(alertMessage).font(.appFont(size: 14)),
+                    dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black)))
                 )
             }
             .onChange(of: viewModel.didSaveQuest) { didSave in
@@ -131,6 +130,7 @@ struct QuestInputField: View {
                 .foregroundColor(.white)
 
             TextField("", text: $text, prompt: Text(title).foregroundColor(.white))
+                .font(.appFont(size: 16))
                 .foregroundColor(.white)
                 .accentColor(.yellow)
         }
@@ -143,7 +143,6 @@ struct QuestInputField: View {
     }
 }
 
-
 struct ToggleCard: View {
     var label: String
     @Binding var isOn: Bool
@@ -151,7 +150,7 @@ struct ToggleCard: View {
     var body: some View {
         Toggle(isOn: $isOn) {
             Text(label)
-                .font(.headline)
+                .font(.appFont(size: 16, weight: .black))
         }
         .padding()
         .background(
