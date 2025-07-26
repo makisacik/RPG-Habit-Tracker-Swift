@@ -11,13 +11,11 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background pattern
                 Image("pattern_grid_paper")
                     .resizable(resizingMode: .tile)
                     .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    // Content area with panel style
                     ZStack {
                         switch selectedTab {
                         case .tracking:
@@ -45,7 +43,6 @@ struct HomeView: View {
 
                     Spacer()
 
-                    // Custom TabBar pinned to bottom
                     customTabBar
                         .padding(.bottom, 5)
                 }

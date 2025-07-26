@@ -128,9 +128,11 @@ struct QuestInputField: View {
     var body: some View {
         HStack {
             Image(systemName: icon)
-                .foregroundColor(.gray)
-            TextField(title, text: $text)
-                .autocorrectionDisabled()
+                .foregroundColor(.white)
+
+            TextField("", text: $text, prompt: Text(title).foregroundColor(.white))
+                .foregroundColor(.white)
+                .accentColor(.yellow)
         }
         .padding()
         .background(
@@ -140,6 +142,7 @@ struct QuestInputField: View {
         .cornerRadius(10)
     }
 }
+
 
 struct ToggleCard: View {
     var label: String

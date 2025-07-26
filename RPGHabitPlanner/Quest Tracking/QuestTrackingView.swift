@@ -131,25 +131,19 @@ struct QuestTrackingView: View {
                 .font(.appFont(size: 18, weight: .black))
                 .padding(.leading)
 
-            Picker("Quest Type", selection: $viewModel.selectedTab) {
-                Text("Main")
-                    .font(.appFont(size: 18, weight: .black))
-                    .tag(QuestTab.main)
-                    
-                Text("Side")
-                    .font(.appFont(size: 18, weight: .black))
-                    .tag(QuestTab.side)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .background(
-                Image("panel_brown_dark_corners_b")
-                    .resizable(capInsets: EdgeInsets(top: 15, leading: 40, bottom: 15, trailing: 40), resizingMode: .stretch)
+            CustomSegmentedControl(
+                selected: $viewModel.selectedTab,
+                options: QuestTab.allCases,
+                titleForOption: { $0.rawValue.capitalized },
+                backgroundColor: Color.brown.opacity(0.2),
+                selectedColor: Color.brown,
+                textColor: .black,
+                selectedTextColor: .white
             )
-            .cornerRadius(10)
             .padding(.horizontal)
         }
     }
+
 
     private var statusPicker: some View {
         VStack(alignment: .leading) {
@@ -157,21 +151,19 @@ struct QuestTrackingView: View {
                 .font(.appFont(size: 18, weight: .black))
                 .padding(.leading)
 
-            Picker("Status", selection: $viewModel.selectedStatus) {
-                Text("All").tag(QuestStatusFilter.all)
-                Text("Active").tag(QuestStatusFilter.active)
-                Text("Inactive").tag(QuestStatusFilter.inactive)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .background(
-                Image("panel_brown_dark_corners_b")
-                    .resizable(capInsets: EdgeInsets(top: 15, leading: 40, bottom: 15, trailing: 40), resizingMode: .stretch)
+            CustomSegmentedControl(
+                selected: $viewModel.selectedStatus,
+                options: QuestStatusFilter.allCases,
+                titleForOption: { "\($0)".capitalized },
+                backgroundColor: Color.brown.opacity(0.2),
+                selectedColor: Color.brown,
+                textColor: .black,
+                selectedTextColor: .white
             )
-            .cornerRadius(10)
             .padding(.horizontal)
         }
     }
+
 
     private var questsToDisplay: [Quest] {
         viewModel.selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests
