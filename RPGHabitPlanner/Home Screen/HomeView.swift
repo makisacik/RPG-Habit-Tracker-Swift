@@ -47,6 +47,9 @@ struct HomeView: View {
                         .padding(.bottom, 5)
                 }
                 .font(.appFont(size: 16))
+                .navigationTitle("Quest Journal")
+                .navigationBarTitleDisplayMode(.large)
+
 
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {

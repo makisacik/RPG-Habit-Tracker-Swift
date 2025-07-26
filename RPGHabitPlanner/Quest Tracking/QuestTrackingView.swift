@@ -22,18 +22,18 @@ struct QuestTrackingView: View {
                 .ignoresSafeArea()
 
             VStack(alignment: .center, spacing: 10) {
-                Image("banner_hanging")
-                    .resizable()
-                    .frame(height: 60)
-                    .overlay(
-                        Text("Quest Journal")
-                            .padding(.top, 10)
-                            .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.white)
-                    )
-                    .padding(.bottom, 5)
+//                Image("banner_hanging")
+//                    .resizable()
+//                    .frame(height: 60)
+//                    .overlay(
+//                        Text("Quest Journal")
+//                            .padding(.top, 10)
+//                            .font(.appFont(size: 18, weight: .black))
+//                            .foregroundColor(.white)
+//                    )
+//                    .padding(.bottom, 5)
 
-                questTypePicker
+                questTypePicker.padding(.top, 10)
                 statusPicker
 
                 ScrollViewReader { scrollViewProxy in

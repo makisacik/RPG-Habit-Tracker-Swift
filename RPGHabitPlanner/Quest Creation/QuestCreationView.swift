@@ -17,15 +17,15 @@ struct QuestCreationView: View {
 
                 ScrollView {
                     VStack(spacing: 20) {
-                        Image("banner_hanging")
-                            .resizable()
-                            .frame(height: 60)
-                            .overlay(
-                                Text("Create New Quest")
-                                    .font(.appFont(size: 18, weight: .black))
-                                    .foregroundColor(.black)
-                            )
-                            .padding(.bottom, 10)
+//                        Image("banner_hanging")
+//                            .resizable()
+//                            .frame(height: 60)
+//                            .overlay(
+//                                Text("Create New Quest")
+//                                    .font(.appFont(size: 18, weight: .black))
+//                                    .foregroundColor(.black)
+//                            )
+//                            .padding(.bottom, 10)
 
                         QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
                         QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
