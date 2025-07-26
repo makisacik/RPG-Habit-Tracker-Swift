@@ -17,16 +17,6 @@ struct QuestCreationView: View {
 
                 ScrollView {
                     VStack(spacing: 20) {
-//                        Image("banner_hanging")
-//                            .resizable()
-//                            .frame(height: 60)
-//                            .overlay(
-//                                Text("Create New Quest")
-//                                    .font(.appFont(size: 18, weight: .black))
-//                                    .foregroundColor(.black)
-//                            )
-//                            .padding(.bottom, 10)
-
                         QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
                         QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
 
@@ -50,6 +40,7 @@ struct QuestCreationView: View {
                                 .background(
                                     Image("panelInset_beige")
                                         .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                                        .allowsHitTesting(false)
                                 )
                                 .cornerRadius(10)
                         }
@@ -95,6 +86,7 @@ struct QuestCreationView: View {
                     .background(
                         Image("panel_brown")
                             .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                            .allowsHitTesting(false)
                     )
                     .cornerRadius(16)
                     .padding()
@@ -147,6 +139,7 @@ struct QuestInputField: View {
         .background(
             Image("panelInset_beige")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                .allowsHitTesting(false)
         )
         .cornerRadius(10)
     }
@@ -165,6 +158,7 @@ struct ToggleCard: View {
         .background(
             Image("panelInset_beige")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                .allowsHitTesting(false)
         )
         .cornerRadius(10)
         .tint(Color.yellow)
