@@ -23,15 +23,14 @@ struct CompletedQuestsView: View {
                     .frame(height: 60)
                     .overlay(
                         Text("Completed Quests 🏆")
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.appFont(size: 18, weight: .black))
                             .foregroundColor(.black)
                     )
                     .padding(.bottom, 5)
 
                 if viewModel.completedQuests.isEmpty {
                     Text("No completed quests yet!")
-                        .font(.headline)
+                        .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.gray)
                         .padding()
                 } else {
@@ -62,9 +61,9 @@ struct CompletedQuestsView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("Error"),
-                    message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
-                    dismissButton: .default(Text("OK")) {
+                    title: Text("Error").font(.appFont(size: 16, weight: .black)),
+                    message: Text(viewModel.errorMessage ?? "An unknown error occurred").font(.appFont(size: 14)),
+                    dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) {
                         viewModel.errorMessage = nil
                     }
                 )
@@ -79,12 +78,12 @@ struct CompletedQuestCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(quest.title)
-                .font(.headline)
+                .font(.appFont(size: 16, weight: .black))
                 .foregroundColor(.green)
 
             if !quest.info.isEmpty {
                 Text(quest.info)
-                    .font(.body)
+                    .font(.appFont(size: 14))
                     .lineLimit(2)
                     .truncationMode(.tail)
                     .foregroundColor(.black)
@@ -101,7 +100,7 @@ struct CompletedQuestCardView: View {
                 }
                 Spacer()
                 Text(quest.dueDate, format: .dateTime.day().month(.abbreviated))
-                    .font(.caption)
+                    .font(.appFont(size: 12))
                     .foregroundColor(.gray)
             }
         }

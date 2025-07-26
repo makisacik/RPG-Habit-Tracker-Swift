@@ -11,13 +11,11 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background pattern
                 Image("pattern_grid_paper")
                     .resizable(resizingMode: .tile)
                     .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    // Content area with panel style
                     ZStack {
                         switch selectedTab {
                         case .tracking:
@@ -45,10 +43,18 @@ struct HomeView: View {
 
                     Spacer()
 
-                    // Custom TabBar pinned to bottom
                     customTabBar
                         .padding(.bottom, 5)
+                    
+                    if let user = viewModel.user {
+                        CharacterOverlayView(user: user)
+                    }
                 }
+                .font(.appFont(size: 16))
+                .navigationTitle("Quest Journal")
+                .navigationBarTitleDisplayMode(.large)
+
+
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -59,8 +65,8 @@ struct HomeView: View {
                                     .resizable()
                                     .frame(width: 40, height: 40)
                                 Text("Level \(viewModel.user?.level ?? 1)")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .font(.appFont(size: 16, weight: .black))
+                                    .foregroundColor(.black)
                             }
                         }
                     }

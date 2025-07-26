@@ -22,18 +22,7 @@ struct QuestTrackingView: View {
                 .ignoresSafeArea()
 
             VStack(alignment: .center, spacing: 10) {
-                Image("banner_hanging")
-                    .resizable()
-                    .frame(height: 60)
-                    .overlay(
-                        Text("Quest Journal")
-                            .padding(.top, 10)
-                            .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.white)
-                    )
-                    .padding(.bottom, 5)
-
-                questTypePicker
+                questTypePicker.padding(.top, 10)
                 statusPicker
 
                 ScrollViewReader { scrollViewProxy in
@@ -79,10 +68,13 @@ struct QuestTrackingView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("Error"),
-                    message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
-                    dismissButton: .default(Text("OK")) {
-                        viewModel.errorMessage = nil
+                    title: Text("Error")
+                        .font(.appFont(size: 16, weight: .black)),
+                    message: Text(viewModel.errorMessage ?? "An unknown error occurred")
+                        .font(.appFont(size: 14)),
+                    dismissButton: .default(Text("OK")
+                        .font(.appFont(size: 14, weight: .black))) {
+                            viewModel.errorMessage = nil
                     }
                 )
             }
@@ -127,48 +119,30 @@ struct QuestTrackingView: View {
 
     private var questTypePicker: some View {
         VStack(alignment: .leading) {
-            Text("Quest Type")
-                .font(.appFont(size: 18, weight: .black))
-                .padding(.leading)
-
-            Picker("Quest Type", selection: $viewModel.selectedTab) {
-                Text("Main")
-                    .font(.appFont(size: 18, weight: .black))
-                    .tag(QuestTab.main)
-                    
-                Text("Side")
-                    .font(.appFont(size: 18, weight: .black))
-                    .tag(QuestTab.side)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .background(
-                Image("panel_brown_dark_corners_b")
-                    .resizable(capInsets: EdgeInsets(top: 15, leading: 40, bottom: 15, trailing: 40), resizingMode: .stretch)
+            CustomSegmentedControl(
+                selected: $viewModel.selectedTab,
+                options: QuestTab.allCases,
+                titleForOption: { $0.rawValue.capitalized },
+                backgroundColor: Color.brown.opacity(0.2),
+                selectedColor: Color.brown,
+                textColor: .black,
+                selectedTextColor: .white
             )
-            .cornerRadius(10)
             .padding(.horizontal)
         }
     }
 
     private var statusPicker: some View {
         VStack(alignment: .leading) {
-            Text("Status")
-                .font(.appFont(size: 18, weight: .black))
-                .padding(.leading)
-
-            Picker("Status", selection: $viewModel.selectedStatus) {
-                Text("All").tag(QuestStatusFilter.all)
-                Text("Active").tag(QuestStatusFilter.active)
-                Text("Inactive").tag(QuestStatusFilter.inactive)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            .background(
-                Image("panel_brown_dark_corners_b")
-                    .resizable(capInsets: EdgeInsets(top: 15, leading: 40, bottom: 15, trailing: 40), resizingMode: .stretch)
+            CustomSegmentedControl(
+                selected: $viewModel.selectedStatus,
+                options: QuestStatusFilter.allCases,
+                titleForOption: { "\($0)".capitalized },
+                backgroundColor: Color.brown.opacity(0.2),
+                selectedColor: Color.brown,
+                textColor: .black,
+                selectedTextColor: .white
             )
-            .cornerRadius(10)
             .padding(.horizontal)
         }
     }

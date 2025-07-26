@@ -19,11 +19,11 @@ struct QuestCardView: View {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading, spacing: 8) {
                 Text(quest.title)
-                    .font(.headline)
+                    .font(.appFont(size: 16, weight: .black))
 
                 if !quest.info.isEmpty {
                     Text(quest.info)
-                        .font(.body)
+                        .font(.appFont(size: 14))
                         .lineLimit(2)
                         .truncationMode(.tail)
                 }
@@ -31,7 +31,7 @@ struct QuestCardView: View {
                 HStack {
                     Button(action: { onUpdateProgress(quest.id, -20) }) {
                         Text("-")
-                            .font(.title2)
+                            .font(.appFont(size: 18, weight: .black))
                             .foregroundColor(.appYellow)
                             .contentShape(Rectangle())
                             .padding(.leading, 4)
@@ -44,7 +44,7 @@ struct QuestCardView: View {
 
                     Button(action: { onUpdateProgress(quest.id, 20) }) {
                         Text("+")
-                            .font(.title2)
+                            .font(.appFont(size: 18, weight: .black))
                             .foregroundColor(.appYellow)
                             .contentShape(Rectangle())
                             .padding(.trailing, 4)
@@ -60,14 +60,14 @@ struct QuestCardView: View {
                     Spacer()
 
                     Text(quest.dueDate, format: .dateTime.day().month(.abbreviated))
-                        .font(.caption)
-                        .foregroundColor(.gray)
+                        .font(.appFont(size: 12))
+                        .foregroundColor(.white)
                 }
                 .padding(.top, 4)
             }
             .padding()
             .background(
-                Image("panel_brown_dark")
+                Image("panel_brown")
                     .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16), resizingMode: .stretch)
             )
             .cornerRadius(10)
@@ -84,7 +84,7 @@ struct QuestCardView: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .padding()
-                    .foregroundColor(.gray)
+                    .foregroundColor(.white)
             }
         }
     }

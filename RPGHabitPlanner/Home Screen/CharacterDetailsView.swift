@@ -17,12 +17,10 @@ struct CharacterDetailsView: View {
                 .ignoresSafeArea()
 
             VStack {
-                // Base panel background
                 Image("panel_brown_corners_b")
                     .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                     .overlay(
                         VStack(spacing: 20) {
-                            // Character image + name
                             HStack(spacing: 16) {
                                 if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
                                     Image(characterClass.iconName)
