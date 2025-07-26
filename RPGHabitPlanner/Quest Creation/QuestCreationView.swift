@@ -6,6 +6,7 @@ struct QuestCreationView: View {
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
+    @State private var isButtonPressed: Bool = false
 
     var body: some View {
         NavigationView {
@@ -54,6 +55,11 @@ struct QuestCreationView: View {
                         .padding()
 
                         Button(action: {
+                            isButtonPressed = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                isButtonPressed = false
+                            }
+
                             if viewModel.validateInputs() {
                                 viewModel.saveQuest()
                             } else {
@@ -72,11 +78,14 @@ struct QuestCreationView: View {
                                 }
                                 .padding()
                                 .background(
-                                    Image("button_brown")
-                                        .resizable()
-                                        .frame(height: 44)
+                                    Image("buttonLong_brown")
+                                        .resizable(capInsets: EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10), resizingMode: .stretch)
+                                        .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
+                                        .opacity(isButtonPressed ? 0.7 : 1.0)
                                 )
                                 .cornerRadius(8)
+                                .scaleEffect(isButtonPressed ? 0.97 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
                             }
                         }
                         .disabled(viewModel.isSaving)
