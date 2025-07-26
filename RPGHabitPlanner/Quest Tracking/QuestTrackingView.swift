@@ -22,17 +22,6 @@ struct QuestTrackingView: View {
                 .ignoresSafeArea()
 
             VStack(alignment: .center, spacing: 10) {
-//                Image("banner_hanging")
-//                    .resizable()
-//                    .frame(height: 60)
-//                    .overlay(
-//                        Text("Quest Journal")
-//                            .padding(.top, 10)
-//                            .font(.appFont(size: 18, weight: .black))
-//                            .foregroundColor(.white)
-//                    )
-//                    .padding(.bottom, 5)
-
                 questTypePicker.padding(.top, 10)
                 statusPicker
 
@@ -130,11 +119,6 @@ struct QuestTrackingView: View {
 
     private var questTypePicker: some View {
         VStack(alignment: .leading) {
-            Text("Quest Type")
-                .font(.appFont(size: 18, weight: .black))
-                .foregroundStyle(.black)
-                .padding(.leading)
-
             CustomSegmentedControl(
                 selected: $viewModel.selectedTab,
                 options: QuestTab.allCases,
@@ -150,11 +134,6 @@ struct QuestTrackingView: View {
 
     private var statusPicker: some View {
         VStack(alignment: .leading) {
-            Text("Status")
-                .font(.appFont(size: 18, weight: .black))
-                .foregroundStyle(.black)
-                .padding(.leading)
-
             CustomSegmentedControl(
                 selected: $viewModel.selectedStatus,
                 options: QuestStatusFilter.allCases,

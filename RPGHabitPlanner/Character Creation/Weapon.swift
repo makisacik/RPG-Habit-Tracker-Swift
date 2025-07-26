@@ -15,7 +15,7 @@ enum Weapon: String, CaseIterable {
     case daggerLong = "Long Dagger"
     case daggerDouble = "Double Dagger"
     case bow = "Bow"
-    case crossbow = "Crowssbow"
+    case crossbow = "Crossbow"
     case staff = "Staff"
     case spellbook = "Spellbook"
     
