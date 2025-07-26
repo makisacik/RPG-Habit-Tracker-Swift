@@ -59,7 +59,7 @@ struct HomeView: View {
                                     .frame(width: 40, height: 40)
                                 Text("Level \(viewModel.user?.level ?? 1)")
                                     .font(.appFont(size: 16, weight: .black))
-                                    .foregroundColor(.primary)
+                                    .foregroundColor(.black)
                             }
                         }
                     }

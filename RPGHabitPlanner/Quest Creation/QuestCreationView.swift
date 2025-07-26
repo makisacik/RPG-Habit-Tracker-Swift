@@ -30,20 +30,6 @@ struct QuestCreationView: View {
                         QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
                         QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Due Date")
-                                .font(.appFont(size: 16, weight: .black))
-
-                            DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
-                                .labelsHidden()
-                                .padding()
-                                .background(
-                                    Image("panel_brown_dark")
-                                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                                )
-                                .cornerRadius(10)
-                        }
-
                         ToggleCard(label: "Main quest?", isOn: $viewModel.isMainQuest)
                         ToggleCard(label: "Activate the quest now?", isOn: $viewModel.isActiveQuest)
 
@@ -53,7 +39,21 @@ struct QuestCreationView: View {
                             StarRatingView(rating: $viewModel.difficulty)
                         }
                         .padding()
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Due Date")
+                                .font(.appFont(size: 16, weight: .black))
 
+                            DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
+                                .labelsHidden()
+                                .padding()
+                                .background(
+                                    Image("panelInset_beige")
+                                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                                )
+                                .cornerRadius(10)
+                        }
+                        
                         Button(action: {
                             isButtonPressed = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -145,7 +145,7 @@ struct QuestInputField: View {
         }
         .padding()
         .background(
-            Image("panel_brown_dark")
+            Image("panelInset_beige")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
         )
         .cornerRadius(10)
@@ -163,7 +163,7 @@ struct ToggleCard: View {
         }
         .padding()
         .background(
-            Image("panel_brown_dark")
+            Image("panelInset_beige")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
         )
         .cornerRadius(10)

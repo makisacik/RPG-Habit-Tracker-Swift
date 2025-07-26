@@ -132,6 +132,7 @@ struct QuestTrackingView: View {
         VStack(alignment: .leading) {
             Text("Quest Type")
                 .font(.appFont(size: 18, weight: .black))
+                .foregroundStyle(.black)
                 .padding(.leading)
 
             CustomSegmentedControl(
@@ -151,6 +152,7 @@ struct QuestTrackingView: View {
         VStack(alignment: .leading) {
             Text("Status")
                 .font(.appFont(size: 18, weight: .black))
+                .foregroundStyle(.black)
                 .padding(.leading)
 
             CustomSegmentedControl(
