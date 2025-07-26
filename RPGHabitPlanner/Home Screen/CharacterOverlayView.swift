@@ -1,19 +1,7 @@
-// MOCKED VERSION FOR PREVIEW ONLY — DO NOT USE IN PRODUCTION
-// This lets you preview CharacterOverlayView safely without CoreData runtime issues
-
 import SwiftUI
 
-struct MockUserEntity {
-    let nickname: String
-    let characterClass: String
-    let exp: Int
-    let level: Int
-    let weapon: String
-    let id: UUID
-}
-
-struct CharacterOverlayPreview: View {
-    let user: MockUserEntity
+struct CharacterOverlayView: View {
+    let user: UserEntity
 
     var body: some View {
         HStack(spacing: 12) {
@@ -22,22 +10,33 @@ struct CharacterOverlayPreview: View {
                     .resizable()
                     .frame(width: 60, height: 60)
 
-                Image(user.characterClass)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
+                if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
+                    Image(characterClass.iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                }
             }
-
+            .padding(.leading, 4)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(user.nickname)
-                    .font(.appFont(size: 18, weight: .blackItalic))
-                    .foregroundColor(.white)
-                Text(user.characterClass.capitalized)
+                HStack {
+                    Text(user.nickname ?? "Adventurer")
+                        .font(.appFont(size: 18, weight: .blackItalic))
+                        .foregroundColor(.white)
+
+                    Spacer()
+
+                    Text("Level \(user.level)")
+                        .font(.appFont(size: 14, weight: .black))
+                        .foregroundColor(.appYellow)
+                }
+
+                Text(user.characterClass?.capitalized ?? "Unknown")
                     .font(.appFont(size: 14, weight: .regular))
                     .foregroundColor(.white)
-                
-                // exp bar
+
                 ZStack(alignment: .leading) {
                     Image("progress_transparent")
                         .resizable(capInsets: EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15), resizingMode: .stretch)
@@ -52,38 +51,43 @@ struct CharacterOverlayPreview: View {
                         }
                     }
                     .frame(height: 20)
-                    .clipped()
+
+                    HStack {
+                        Spacer()
+                        Text("\(user.exp) / 100")
+                            .font(.appFont(size: 12, weight: .black))
+                            .foregroundColor(.white)
+                            .shadow(radius: 1)
+                        Spacer()
+                    }
                 }
-                .frame(height: 35)
-            }
-
-            Spacer()
-
-            Button(action: {}) {
-                Image(systemName: "info.circle")
-                    .foregroundColor(.black)
-                    .font(.title2)
+                .frame(height: 20)
+                .padding(.bottom, 6)
             }
         }
-        .padding(5)
+        .padding(6)
         .background(
-            Image("panel_blue")
+            Image("panelInset_brown")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
         )
+        .padding(10)
     }
 }
 
-struct CharacterOverlayPreview_Previews: PreviewProvider {
+struct CharacterOverlayView_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterOverlayPreview(user: MockUserEntity(
-            nickname: "Mehmet",
-            characterClass: "archer",
-            exp: 30,
-            level: 1,
-            weapon: "Crossbow",
-            id: UUID()
-        ))
-        .previewLayout(.sizeThatFits)
-        .background(Color.gray.opacity(0.1))
+        let context = PersistenceController.preview.container.viewContext
+
+        let mockUser = UserEntity(context: context)
+        mockUser.nickname = "Mehmet"
+        mockUser.characterClass = "archer"
+        mockUser.exp = 30
+        mockUser.level = 1
+        mockUser.weapon = "Crossbow"
+        mockUser.id = UUID()
+
+        return CharacterOverlayView(user: mockUser)
+            .previewLayout(.sizeThatFits)
+            .background(Color.gray.opacity(0.1))
     }
 }

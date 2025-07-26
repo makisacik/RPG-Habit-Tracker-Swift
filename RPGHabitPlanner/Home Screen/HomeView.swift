@@ -45,6 +45,10 @@ struct HomeView: View {
 
                     customTabBar
                         .padding(.bottom, 5)
+                    
+                    if let user = viewModel.user {
+                        CharacterOverlayView(user: user)
+                    }
                 }
                 .font(.appFont(size: 16))
                 .navigationTitle("Quest Journal")
