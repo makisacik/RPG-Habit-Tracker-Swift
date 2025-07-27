@@ -15,9 +15,10 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         self.persistentContainer = container
     }
 
-    func saveQuest(_ quest: Quest, completion: @escaping (Error?) -> Void) {
+    func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping (Error?) -> Void) {
         let context = persistentContainer.viewContext
         let questEntity = QuestEntity(context: context)
+
         questEntity.id = quest.id
         questEntity.title = quest.title
         questEntity.isMainQuest = quest.isMainQuest
@@ -28,7 +29,23 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.isActive = quest.isActive
         questEntity.isCompleted = quest.isCompleted
         questEntity.progress = Int16(quest.progress)
-        
+
+        let trimmedTasks = taskTitles.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                                     .filter { !$0.isEmpty }
+
+        if !trimmedTasks.isEmpty {
+            let taskEntities: [TaskEntity] = trimmedTasks.enumerated().map { index, title in
+                let task = TaskEntity(context: context)
+                task.id = UUID()
+                task.title = title
+                task.isCompleted = false
+                task.order = Int16(index)
+                task.quest = questEntity
+                return task
+            }
+            questEntity.tasks = NSOrderedSet(array: taskEntities)
+        }
+
         do {
             try context.save()
             completion(nil)

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol QuestDataServiceProtocol {
-    func saveQuest(_ quest: Quest, completion: @escaping (Error?) -> Void)
+    func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping (Error?) -> Void)
     func fetchAllQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchNonCompletedQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchCompletedQuests(completion: @escaping ([Quest], Error?) -> Void)

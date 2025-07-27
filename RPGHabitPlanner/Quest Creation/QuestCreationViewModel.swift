@@ -41,6 +41,7 @@ final class QuestCreationViewModel: ObservableObject {
         guard validateInputs() else { return }
 
         isSaving = true
+
         let newQuest = Quest(
             title: questTitle,
             isMainQuest: isMainQuest,
@@ -52,7 +53,10 @@ final class QuestCreationViewModel: ObservableObject {
             progress: 0
         )
 
-        questDataService.saveQuest(newQuest) { [weak self] error in
+        let taskTitles = tasks.map { $0.trimmingCharacters(in: .whitespaces) }
+                              .filter { !$0.isEmpty }
+
+        questDataService.saveQuest(newQuest, withTasks: taskTitles) { [weak self] error in
             DispatchQueue.main.async {
                 self?.isSaving = false
                 if let error = error {
@@ -64,6 +68,7 @@ final class QuestCreationViewModel: ObservableObject {
             }
         }
     }
+
 
     func resetInputs() {
         questTitle = ""

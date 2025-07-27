@@ -8,6 +8,9 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping ((any Error)?) -> Void) {
+    }
+    
     func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, completion: @escaping ((any Error)?) -> Void) {
     }
     
@@ -26,8 +29,6 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
     func deleteQuest(withId id: UUID, completion: @escaping ((any Error)?) -> Void) {
     }
     
-    func saveQuest(_ quest: Quest, completion: @escaping ((any Error)?) -> Void) {
-    }
     
     func fetchAllQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
     }

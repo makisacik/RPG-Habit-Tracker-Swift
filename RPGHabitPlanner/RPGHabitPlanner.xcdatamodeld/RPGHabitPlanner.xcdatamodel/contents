@@ -11,14 +11,14 @@
         <attribute name="isMainQuest" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="tasks" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskEntity" inverseName="quest" inverseEntity="TaskEntity"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskEntity" inverseName="quest" inverseEntity="TaskEntity"/>
     </entity>
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="quest" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuestEntity" inverseName="tasks" inverseEntity="QuestEntity"/>
+        <relationship name="quest" optional="YES" maxCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="QuestEntity" inverseName="tasks" inverseEntity="QuestEntity"/>
     </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="characterClass" optional="YES" attributeType="String"/>
