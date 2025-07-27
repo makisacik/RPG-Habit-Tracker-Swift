@@ -24,32 +24,34 @@ struct QuestCreationView: View {
                         ToggleCard(label: "Main quest?", isOn: $viewModel.isMainQuest)
                         ToggleCard(label: "Activate the quest now?", isOn: $viewModel.isActiveQuest)
 
-                        VStack {
-                            Text("Quest Difficulty")
-                                .font(.appFont(size: 16, weight: .black))
-                            StarRatingView(rating: $viewModel.difficulty)
-                        }
-                        .padding()
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Due Date")
-                                .font(.appFont(size: 16, weight: .black))
-
-                            AddTasksView(tasks: $viewModel.tasks) {
-                                isTaskPopupVisible = true
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack {
+                                Text("Due Date")
+                                    .font(.appFont(size: 16, weight: .black))
+                                    .padding()
+                                Spacer()
+                                DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
+                                    .labelsHidden()
+                                    .padding()
                             }
-
-                            DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
-                                .labelsHidden()
-                                .padding()
                                 .background(
                                     Image("panelInset_beige")
                                         .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                                         .allowsHitTesting(false)
                                 )
                                 .cornerRadius(10)
+                            AddTasksView(tasks: $viewModel.tasks) {
+                                isTaskPopupVisible = true
+                            }
                         }
 
+                        VStack {
+                            Text("Quest Difficulty")
+                                .font(.appFont(size: 16, weight: .black))
+                            StarRatingView(rating: $viewModel.difficulty)
+                        }
+                        // .padding()
+                        
                         Button(action: {
                             isButtonPressed = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -85,7 +87,6 @@ struct QuestCreationView: View {
                             }
                         }
                         .disabled(viewModel.isSaving)
-                        .padding(.top, 20)
                     }
                     .padding()
                     .background(
