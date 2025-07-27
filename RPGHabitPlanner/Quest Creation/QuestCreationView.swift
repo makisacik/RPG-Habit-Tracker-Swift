@@ -17,8 +17,8 @@ struct QuestCreationView: View {
 
                 ScrollView {
                     VStack(spacing: 20) {
-                        QuestInputField(title: "Quest Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
-                        QuestInputField(title: "Quest Description", text: $viewModel.questDescription, icon: "doc.text.fill")
+                        QuestInputField(title: "Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
+                        QuestInputField(title: "Description", text: $viewModel.questDescription, icon: "doc.text.fill")
 
                         ToggleCard(label: "Main quest?", isOn: $viewModel.isMainQuest)
                         ToggleCard(label: "Activate the quest now?", isOn: $viewModel.isActiveQuest)

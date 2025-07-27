@@ -24,9 +24,12 @@ extension QuestEntity {
     @NSManaged public var isCompleted: Bool
     @NSManaged public var isMainQuest: Bool
     @NSManaged public var progress: Int16
-    @NSManaged public var tasks: [String]?
+    @NSManaged public var tasks: NSOrderedSet?
     @NSManaged public var title: String?
 }
 
 extension QuestEntity: Identifiable {
+    var taskList: [TaskEntity] {
+        (tasks?.array as? [TaskEntity]) ?? []
+    }
 }

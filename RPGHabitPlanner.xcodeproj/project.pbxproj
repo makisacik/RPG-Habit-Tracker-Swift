@@ -74,6 +74,8 @@
 			membershipExceptions = (
 				"CoreDataModels/QuestEntity+CoreDataClass.swift",
 				"CoreDataModels/QuestEntity+CoreDataProperties.swift",
+				"CoreDataModels/TaskEntity+CoreDataClass.swift",
+				"CoreDataModels/TaskEntity+CoreDataProperties.swift",
 				"Fonts/IMFellEnglishSC-Regular.ttf",
 				Persistence.swift,
 				RPGHabitPlanner.xcdatamodeld,
