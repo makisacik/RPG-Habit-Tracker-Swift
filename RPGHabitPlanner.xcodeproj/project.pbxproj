@@ -72,6 +72,8 @@
 		32B57BC02CECAA73004D2A27 /* Exceptions for "RPGHabitPlanner" folder in "ActiveQuestWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"CoreDataModels/QuestEntity+CoreDataClass.swift",
+				"CoreDataModels/QuestEntity+CoreDataProperties.swift",
 				"Fonts/IMFellEnglishSC-Regular.ttf",
 				Persistence.swift,
 				RPGHabitPlanner.xcdatamodeld,
@@ -155,13 +157,13 @@
 		3290C1DC2CCCD5C3008B92F4 = {
 			isa = PBXGroup;
 			children = (
-				32C272A22CECB321008B504D /* ActiveQuestWidgetExtension.entitlements */,
 				3290C1E72CCCD5C3008B92F4 /* RPGHabitPlanner */,
 				3290C1FD2CCCD5C4008B92F4 /* RPGHabitPlannerTests */,
 				3290C2072CCCD5C4008B92F4 /* RPGHabitPlannerUITests */,
 				32B57BAF2CEC159C004D2A27 /* ActiveQuestWidget */,
 				32B57BAA2CEC159C004D2A27 /* Frameworks */,
 				3290C1E62CCCD5C3008B92F4 /* Products */,
+				32C272A22CECB321008B504D /* ActiveQuestWidgetExtension.entitlements */,
 			);
 			sourceTree = "<group>";
 		};
