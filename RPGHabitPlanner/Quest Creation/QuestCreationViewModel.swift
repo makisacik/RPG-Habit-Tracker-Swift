@@ -22,7 +22,6 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var difficulty: Int = 3
     @Published var isActiveQuest: Bool = true
     @Published var tasks: [String] = []
-    
 
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService

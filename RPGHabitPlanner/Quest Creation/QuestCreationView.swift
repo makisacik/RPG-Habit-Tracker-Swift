@@ -7,6 +7,7 @@ struct QuestCreationView: View {
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
     @State private var isButtonPressed: Bool = false
+    @State private var isTaskPopupVisible = false
 
     var body: some View {
         NavigationView {
@@ -29,11 +30,14 @@ struct QuestCreationView: View {
                             StarRatingView(rating: $viewModel.difficulty)
                         }
                         .padding()
-                        
+
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Due Date")
                                 .font(.appFont(size: 16, weight: .black))
-                            OptionalTasksView(tasks: $viewModel.tasks)
+
+                            AddTasksView(tasks: $viewModel.tasks) {
+                                isTaskPopupVisible = true
+                            }
 
                             DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
                                 .labelsHidden()
@@ -45,7 +49,7 @@ struct QuestCreationView: View {
                                 )
                                 .cornerRadius(10)
                         }
-                        
+
                         Button(action: {
                             isButtonPressed = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -93,7 +97,30 @@ struct QuestCreationView: View {
                     .padding()
                 }
                 .scrollDismissesKeyboard(.interactively)
+
+                if isTaskPopupVisible {
+                    Color.black.opacity(0.6)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation {
+                                isTaskPopupVisible = false
+                            }
+                        }
+                        .transition(.opacity)
+
+                    TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
+                        .frame(width: 350, height: 450)
+                        .background(
+                            Image("panelInset_beige")
+                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                        )
+                        .cornerRadius(12)
+                        .shadow(radius: 10)
+                        .transition(.scale.combined(with: .opacity))
+                        .zIndex(10)
+                }
             }
+            .animation(.easeInOut(duration: 0.25), value: isTaskPopupVisible)
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
@@ -163,52 +190,5 @@ struct ToggleCard: View {
         )
         .cornerRadius(10)
         .tint(Color.yellow)
-    }
-}
-
-struct OptionalTasksView: View {
-    @Binding var tasks: [String]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Optional Tasks")
-                .font(.appFont(size: 16, weight: .black))
-                .foregroundColor(.white)
-
-            ForEach(tasks.indices, id: \.self) { index in
-                HStack {
-                    TextField("Task \(index + 1)", text: $tasks[index])
-                        .font(.appFont(size: 16))
-                        .foregroundColor(.white)
-                        .padding(8)
-                        .background(
-                            Image("panelInset_beige")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                                .allowsHitTesting(false)
-                        )
-                        .cornerRadius(8)
-
-                    Button(action: {
-                        tasks.remove(at: index)
-                    }) {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundColor(.red)
-                            .padding(.leading, 4)
-                    }
-                }
-            }
-
-            Button(action: {
-                tasks.append("")
-            }) {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Add Task")
-                        .font(.appFont(size: 14, weight: .black))
-                }
-                .foregroundColor(.yellow)
-            }
-        }
-        .padding(.top, 10)
     }
 }

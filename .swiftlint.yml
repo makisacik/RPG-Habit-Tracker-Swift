@@ -6,6 +6,9 @@ disabled_rules:
   - unused_capture_list
   - function_parameter_count
   - line_length
+  - multiple_closures_with_trailing_closure
+  - attributes
+  - indentation_width
 opt_in_rules:
   - array_init
   - attributes
