@@ -69,7 +69,7 @@ struct QuestCreationView: View {
                                     Spacer()
                                     Text("Save Quest")
                                         .font(.appFont(size: 16, weight: .black))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
                                     Spacer()
                                 }
                                 .padding()
@@ -111,7 +111,7 @@ struct QuestCreationView: View {
                     TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
                         .frame(width: 350, height: 450)
                         .background(
-                            Image("panelInset_beige")
+                            Image("panel_beigeLight")
                                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                         )
                         .cornerRadius(12)
@@ -156,11 +156,11 @@ struct QuestInputField: View {
     var body: some View {
         HStack {
             Image(systemName: icon)
-                .foregroundColor(.white)
+                .foregroundColor(.black)
 
-            TextField("", text: $text, prompt: Text(title).foregroundColor(.white))
+            TextField("", text: $text, prompt: Text(title).foregroundColor(.black))
                 .font(.appFont(size: 16))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .accentColor(.yellow)
         }
         .padding()

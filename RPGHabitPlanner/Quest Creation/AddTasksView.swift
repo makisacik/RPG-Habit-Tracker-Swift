@@ -19,13 +19,13 @@ struct AddTasksView: View {
                 HStack {
                     Text("Add Tasks")
                         .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
 
                     Spacer()
 
                     Text("\(tasks.count) Tasks")
                         .font(.appFont(size: 14, weight: .regular))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
 
                     Image(systemName: "plus.circle.fill")
                         .resizable()
@@ -98,6 +98,7 @@ struct TaskEditorPopup: View {
                         HStack {
                             Image(systemName: "plus.circle.fill")
                             Text("Add Task")
+                                .foregroundStyle(.black)
                                 .font(.appFont(size: 14, weight: .black))
                         }
                         .foregroundColor(.yellow)
@@ -112,7 +113,7 @@ struct TaskEditorPopup: View {
             }) {
                 Text("Done")
                     .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .padding(.vertical, 8)
                     .frame(maxWidth: .infinity)
                     .background(
