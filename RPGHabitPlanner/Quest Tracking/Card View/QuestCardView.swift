@@ -67,7 +67,7 @@ struct QuestCardView: View {
             }
             .padding()
             .background(
-                Image("panel_brown")
+                Image("panel_brown_plus")
                     .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16), resizingMode: .stretch)
             )
             .cornerRadius(10)

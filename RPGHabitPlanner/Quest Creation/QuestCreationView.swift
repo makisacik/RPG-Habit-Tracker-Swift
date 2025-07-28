@@ -90,7 +90,7 @@ struct QuestCreationView: View {
                     }
                     .padding()
                     .background(
-                        Image("panel_brown")
+                        Image("panel_brown_plus")
                             .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                             .allowsHitTesting(false)
                     )
