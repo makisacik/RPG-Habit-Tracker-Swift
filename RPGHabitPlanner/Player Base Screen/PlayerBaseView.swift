@@ -12,13 +12,11 @@ struct PlayerBaseView: View {
         VStack(spacing: 16) {
             Image("background")
                 .resizable()
-                .scaledToFit()
-                .cornerRadius(8)
-                .frame(maxWidth: .infinity)
+                .scaledToFill()
         }
         .padding()
         .background(
-            Image("panel_border_grey")
+            Image("panel_brown")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                 .cornerRadius(12)
         )

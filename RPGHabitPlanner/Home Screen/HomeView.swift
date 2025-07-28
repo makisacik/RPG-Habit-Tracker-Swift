@@ -10,18 +10,28 @@ struct HomeView: View {
     var body: some View {
         TabView {
             NavigationStack {
-                PlayerBaseView()
-                    .navigationTitle("Your Base")
-                    .navigationBarTitleDisplayMode(.large)
-                
-                if let user = viewModel.user {
-                    CharacterOverlayView(user: user)
+                ZStack {
+                    Image("pattern_grid_paper")
+                        .resizable(resizingMode: .tile)
+                        .ignoresSafeArea()
+
+                    VStack {
+                        PlayerBaseView()
+                            .navigationTitle("Your Base")
+                            .navigationBarTitleDisplayMode(.large)
+                        Spacer()
+                        if let user = viewModel.user {
+                            CharacterOverlayView(user: user)
+                        }
+                    }
+                    .padding(.bottom, 20)
                 }
             }
             .tabItem {
                 Label("Base", systemImage: "house.fill")
             }
             .tag(HomeTab.base)
+
             
             NavigationStack {
                 ZStack {
