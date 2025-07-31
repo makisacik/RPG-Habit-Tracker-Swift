@@ -17,10 +17,10 @@ struct CustomSegmentedControl<T: Hashable>: View {
     let selectedTextColor: Color
 
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 5) {
             ForEach(options, id: \.self) { option in
                 Text(titleForOption(option))
-                    .font(.appFont(size: 16, weight: .black))
+                    .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(selected == option ? selectedTextColor : textColor)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)

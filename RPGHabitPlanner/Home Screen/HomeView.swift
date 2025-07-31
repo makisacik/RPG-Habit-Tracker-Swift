@@ -46,13 +46,7 @@ struct HomeView: View {
                                 userManager: viewModel.userManager
                             )
                         )
-                        .padding()
-                        .background(
-                            Image("panel_brown")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                                .cornerRadius(12)
-                        )
-                        .padding([.horizontal, .top])
+                        .padding(.bottom, 20)
                     }
                     .font(.appFont(size: 16))
                     .navigationTitle("Quest Journal")

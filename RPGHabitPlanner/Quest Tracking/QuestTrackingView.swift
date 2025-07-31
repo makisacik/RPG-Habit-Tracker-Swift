@@ -17,14 +17,9 @@ struct QuestTrackingView: View {
 
     var body: some View {
         ZStack {
-            Image("pattern_grid_paper")
-                .resizable(resizingMode: .tile)
-                .ignoresSafeArea()
-
-            VStack(alignment: .center, spacing: 10) {
-                questTypePicker.padding(.top, 10)
+            VStack(alignment: .center, spacing: 5) {
+                questTypePicker.padding(.top, 5)
                 statusPicker
-
                 ScrollViewReader { scrollViewProxy in
                     ScrollView {
                         VStack {
@@ -48,8 +43,6 @@ struct QuestTrackingView: View {
                                     )
                                     .id(quest.id)
                                     .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal, 16)
                                 }
                             }
                         }
@@ -63,6 +56,13 @@ struct QuestTrackingView: View {
                     .scrollIndicators(.hidden)
                 }
             }
+            .padding()
+            .background(
+                Image("panel_brown")
+                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                    .cornerRadius(12)
+            )
+            .padding(.horizontal)
             .onChange(of: viewModel.errorMessage) { errorMessage in
                 showAlert = errorMessage != nil
             }
