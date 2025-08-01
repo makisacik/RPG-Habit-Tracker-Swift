@@ -8,17 +8,10 @@
 import SwiftUI
 import Combine
 
-enum QuestStatusFilter: String, CaseIterable {
-    case all
-    case active
-    case inactive
-}
-
 final class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
     @Published var errorMessage: String?
-    @Published var selectedTab: QuestTab = .main
-    @Published var selectedStatus: QuestStatusFilter = .all
+    @Published var selectedTab: QuestTab = .all
     
     private let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -86,7 +79,7 @@ final class QuestTrackingViewModel: ObservableObject {
     func updateQuestProgress(id: UUID, by change: Int) {
         guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
         var quest = quests[index]
-        quest.progress = max(0, min(100, quest.progress + change)) // Ensure progress stays between 0 and 100
+        quest.progress = max(0, min(100, quest.progress + change))
         quests[index] = quest
 
         questDataService.updateQuest(
@@ -107,22 +100,15 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
+    var allQuests: [Quest] {
+        quests
+    }
+
     var mainQuests: [Quest] {
-        filteredQuests(for: quests.filter { $0.isMainQuest })
+        quests.filter { $0.isMainQuest }
     }
     
     var sideQuests: [Quest] {
-        filteredQuests(for: quests.filter { !$0.isMainQuest })
-    }
-    
-    private func filteredQuests(for quests: [Quest]) -> [Quest] {
-        switch selectedStatus {
-        case .all:
-            return quests
-        case .active:
-            return quests.filter { $0.isActive }
-        case .inactive:
-            return quests.filter { !$0.isActive }
-        }
+        quests.filter { !$0.isMainQuest }
     }
 }

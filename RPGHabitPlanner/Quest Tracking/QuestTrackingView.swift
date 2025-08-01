@@ -131,28 +131,20 @@ struct QuestTrackingView: View {
         }
     }
 
-    private var statusPicker: some View {
-        VStack(alignment: .leading) {
-            CustomSegmentedControl(
-                selected: $viewModel.selectedStatus,
-                options: QuestStatusFilter.allCases,
-                titleForOption: { "\($0)".capitalized },
-                backgroundColor: Color.brown.opacity(0.2),
-                selectedColor: Color.brown,
-                textColor: .black,
-                selectedTextColor: .white
-            )
-            .padding(.horizontal)
-        }
-    }
-
     private var questsToDisplay: [Quest] {
-        viewModel.selectedTab == .main ? viewModel.mainQuests : viewModel.sideQuests
+        switch viewModel.selectedTab {
+        case .all:
+            return viewModel.allQuests
+        case .main:
+            return viewModel.mainQuests
+        case .side:
+            return viewModel.sideQuests
+        }
     }
 }
 
-
 enum QuestTab: String, CaseIterable {
+    case all
     case main
     case side
 }
