@@ -19,7 +19,6 @@ struct QuestTrackingView: View {
         ZStack {
             VStack(alignment: .center, spacing: 5) {
                 questTypePicker.padding(.top, 5)
-                statusPicker
                 ScrollViewReader { scrollViewProxy in
                     ScrollView {
                         VStack {

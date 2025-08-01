@@ -22,7 +22,6 @@ struct QuestCreationView: View {
                         QuestInputField(title: "Description", text: $viewModel.questDescription, icon: "doc.text.fill")
 
                         ToggleCard(label: "Main quest?", isOn: $viewModel.isMainQuest)
-                        ToggleCard(label: "Activate the quest now?", isOn: $viewModel.isActiveQuest)
 
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
