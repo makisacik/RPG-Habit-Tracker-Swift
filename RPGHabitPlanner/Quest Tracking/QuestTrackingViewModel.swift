@@ -100,6 +100,7 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
+    
     var allQuests: [Quest] {
         quests
     }
@@ -110,5 +111,23 @@ final class QuestTrackingViewModel: ObservableObject {
     
     var sideQuests: [Quest] {
         quests.filter { !$0.isMainQuest }
+    }
+    
+    func toggleTaskCompletion(questId: UUID, taskId: UUID, currentValue: Bool) {
+        questDataService.updateTask(
+            withId: taskId,
+            isCompleted: !currentValue
+        ) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                } else {
+                    if let questIndex = self?.quests.firstIndex(where: { $0.id == questId }),
+                       let taskIndex = self?.quests[questIndex].tasks.firstIndex(where: { $0.id == taskId }) {
+                        self?.quests[questIndex].tasks[taskIndex].isCompleted.toggle()
+                    }
+                }
+            }
+        }
     }
 }

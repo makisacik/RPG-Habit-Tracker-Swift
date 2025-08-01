@@ -8,6 +8,12 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func updateTask(withId id: UUID, title: String?, isCompleted: Bool?, order: Int16?, questId: UUID?, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
+    func updateTaskCompletion(forQuestId questId: UUID, andTaskIndex taskIndex: Int, to isCompleted: Bool, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
     func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping ((any Error)?) -> Void) {
     }
     

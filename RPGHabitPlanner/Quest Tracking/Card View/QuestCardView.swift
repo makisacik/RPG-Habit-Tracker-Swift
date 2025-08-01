@@ -12,7 +12,8 @@ struct QuestCardView: View {
     let onMarkComplete: (UUID) -> Void
     let onEditQuest: (Quest) -> Void
     let onUpdateProgress: (UUID, Int) -> Void
-
+    let onToggleTaskCompletion: (UUID, Bool) -> Void
+    
     @State private var isExpanded: Bool = false
 
     var body: some View {
@@ -71,11 +72,20 @@ struct QuestCardView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(tasks, id: \.id) { task in
                                 HStack {
-                                    Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                                    Image(task.isCompleted ? "checkbox_beige_checked" : "checkbox_beige_empty")
+                                        .resizable()
+                                        .frame(width: 18, height: 18)
                                         .foregroundColor(task.isCompleted ? .green : .gray)
-                                    Text(task.title ?? "")
+
+                                    Text(task.title)
                                         .font(.appFont(size: 13))
                                         .foregroundColor(.black)
+                                    
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    onToggleTaskCompletion(task.id, !task.isCompleted)
                                 }
                             }
                         }
@@ -87,7 +97,7 @@ struct QuestCardView: View {
                 Spacer()
 
                 HStack {
-                    StarRatingView(rating: .constant(quest.difficulty))
+                    StarRatingView(rating: .constant(quest.difficulty), starSize: 14, spacing: 4)
                         .disabled(true)
 
                     Spacer()
@@ -117,7 +127,7 @@ struct QuestCardView: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .padding()
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             }
         }
     }

@@ -17,104 +17,128 @@ struct QuestTrackingView: View {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .center, spacing: 5) {
-                questTypePicker.padding(.top, 5)
-                ScrollViewReader { scrollViewProxy in
-                    ScrollView {
-                        VStack {
-                            ForEach(questsToDisplay) { quest in
-                                if !quest.isCompleted {
-                                    QuestCardView(
-                                        quest: quest,
-                                        onMarkComplete: { id in
-                                            withAnimation {
-                                                viewModel.markQuestAsCompleted(id: id)
-                                                showSuccessAnimation = true
-                                                lastScrollPosition = id
-                                            }
-                                        },
-                                        onEditQuest: { questToEdit in
-                                            selectedQuestForEditing = questToEdit
-                                        },
-                                        onUpdateProgress: { id, change in
-                                            viewModel.updateQuestProgress(id: id, by: change)
-                                        }
-                                    )
-                                    .id(quest.id)
-                                    .frame(maxWidth: .infinity)
-                                }
-                            }
-                        }
-                        .padding()
-                    }
-                    .onChange(of: viewModel.quests) { _ in
-                        if let lastScrollPosition = lastScrollPosition {
-                            scrollViewProxy.scrollTo(lastScrollPosition, anchor: .center)
-                        }
-                    }
-                    .scrollIndicators(.hidden)
-                }
-            }
-            .padding()
-            .background(
-                Image("panel_brown")
-                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                    .cornerRadius(12)
-            )
-            .padding(.horizontal)
-            .onChange(of: viewModel.errorMessage) { errorMessage in
-                showAlert = errorMessage != nil
-            }
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Error")
-                        .font(.appFont(size: 16, weight: .black)),
-                    message: Text(viewModel.errorMessage ?? "An unknown error occurred")
-                        .font(.appFont(size: 14)),
-                    dismissButton: .default(Text("OK")
-                        .font(.appFont(size: 14, weight: .black))) {
-                            viewModel.errorMessage = nil
-                    }
-                )
-            }
-            .sheet(item: $selectedQuestForEditing) { quest in
-                EditQuestView(
-                    quest: Binding(
-                        get: { quest },
-                        set: { updatedQuest in
-                            if let index = viewModel.quests.firstIndex(where: { $0.id == updatedQuest.id }) {
-                                viewModel.quests[index] = updatedQuest
-                            }
-                            selectedQuestForEditing = nil
-                        }
-                    ),
-                    onSave: { updatedQuest in
-                        viewModel.updateQuest(updatedQuest)
-                        selectedQuestForEditing = nil
-                    },
-                    onCancel: {
-                        selectedQuestForEditing = nil
-                    }
-                )
-            }
-            .onAppear {
-                viewModel.fetchQuests()
-            }
-
+            mainContent
             if showSuccessAnimation {
-                LottieView(animation: .named("success"))
-                    .playbackMode(.playing(.toProgress(1, loopMode: .playOnce)))
-                    .frame(width: 200, height: 200)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            withAnimation {
-                                showSuccessAnimation = false
-                            }
-                        }
-                    }
+                successAnimation
             }
         }
     }
+
+    private var mainContent: some View {
+        VStack(alignment: .center, spacing: 5) {
+            questTypePicker.padding(.top, 5)
+            questList
+        }
+        .padding()
+        .background(
+            Image("panel_brown")
+                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                           resizingMode: .stretch)
+                .cornerRadius(12)
+        )
+        .padding(.horizontal)
+        .onChange(of: viewModel.errorMessage) { errorMessage in
+            showAlert = errorMessage != nil
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Error").font(.appFont(size: 16, weight: .black)),
+                message: Text(viewModel.errorMessage ?? "An unknown error occurred")
+                    .font(.appFont(size: 14)),
+                dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) {
+                    viewModel.errorMessage = nil
+                }
+            )
+        }
+        .sheet(item: $selectedQuestForEditing) { quest in
+            editQuestSheet(quest)
+        }
+        .onAppear {
+            viewModel.fetchQuests()
+        }
+    }
+
+    private var questList: some View {
+        ScrollViewReader { scrollViewProxy in
+            ScrollView {
+                VStack {
+                    ForEach(questsToDisplay) { quest in
+                        if !quest.isCompleted {
+                            questCard(for: quest)
+                                .id(quest.id)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                }
+                .padding()
+            }
+            .onChange(of: viewModel.quests) { _ in
+                if let lastScrollPosition = lastScrollPosition {
+                    scrollViewProxy.scrollTo(lastScrollPosition, anchor: .center)
+                }
+            }
+            .scrollIndicators(.hidden)
+        }
+    }
+
+    private func questCard(for quest: Quest) -> some View {
+        QuestCardView(
+            quest: quest,
+            onMarkComplete: { id in
+                withAnimation {
+                    viewModel.markQuestAsCompleted(id: id)
+                    showSuccessAnimation = true
+                    lastScrollPosition = id
+                }
+            },
+            onEditQuest: { selectedQuestForEditing = $0 },
+            onUpdateProgress: { id, change in
+                viewModel.updateQuestProgress(id: id, by: change)
+            },
+            onToggleTaskCompletion: { taskId, isCompleted in
+                viewModel.toggleTaskCompletion(
+                    questId: quest.id,
+                    taskId: taskId,
+                    currentValue: isCompleted
+                )
+            }
+        )
+    }
+
+    private func editQuestSheet(_ quest: Quest) -> some View {
+        EditQuestView(
+            quest: Binding(
+                get: { quest },
+                set: { updatedQuest in
+                    if let index = viewModel.quests.firstIndex(where: { $0.id == updatedQuest.id }) {
+                        viewModel.quests[index] = updatedQuest
+                    }
+                    selectedQuestForEditing = nil
+                }
+            ),
+            onSave: { updatedQuest in
+                viewModel.updateQuest(updatedQuest)
+                selectedQuestForEditing = nil
+            },
+            onCancel: {
+                selectedQuestForEditing = nil
+            }
+        )
+    }
+
+    private var successAnimation: some View {
+        LottieView(animation: .named("success"))
+            .playbackMode(.playing(.toProgress(1, loopMode: .playOnce)))
+            .frame(width: 200, height: 200)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    withAnimation {
+                        showSuccessAnimation = false
+                    }
+                }
+            }
+    }
+
 
     private var questTypePicker: some View {
         VStack(alignment: .leading) {

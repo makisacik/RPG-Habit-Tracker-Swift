@@ -18,9 +18,9 @@ struct Quest: Identifiable, Equatable {
     var isActive: Bool
     var progress: Int
     var isCompleted = false
-    var tasks: [TaskEntity] = []
-    
-    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, tasks: [TaskEntity] = []) {
+    var tasks: [QuestTask] = []
+
+    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, tasks: [QuestTask] = []) {
         self.id = id
         self.title = title
         self.isMainQuest = isMainQuest

@@ -16,4 +16,29 @@ protocol QuestDataServiceProtocol {
     func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void)
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void)
     func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, completion: @escaping (Error?) -> Void)
+    func updateTask(
+        withId id: UUID,
+        title: String?,
+        isCompleted: Bool?,
+        order: Int16?,
+        questId: UUID?,
+        completion: @escaping (Error?) -> Void
+    )
+}
+
+extension QuestDataServiceProtocol {
+    func updateTask(
+        withId id: UUID,
+        isCompleted: Bool,
+        completion: @escaping (Error?) -> Void
+    ) {
+        updateTask(
+            withId: id,
+            title: nil,
+            isCompleted: isCompleted,
+            order: nil,
+            questId: nil,
+            completion: completion
+        )
+    }
 }

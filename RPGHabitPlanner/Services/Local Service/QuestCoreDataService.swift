@@ -74,6 +74,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     progress: Int(entity.progress),
                     isCompleted: entity.isCompleted,
                     tasks: entity.taskList
+                        .sorted { $0.order < $1.order }
+                        .map { QuestTask(entity: $0) }
                 )
             }
             completion(quests, nil)
@@ -102,6 +104,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     progress: Int(entity.progress),
                     isCompleted: entity.isCompleted,
                     tasks: entity.taskList
+                        .sorted { $0.order < $1.order }
+                        .map { QuestTask(entity: $0) }
                 )
             }
             completion(quests, nil)
@@ -131,6 +135,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     progress: Int(entity.progress),
                     isCompleted: entity.isCompleted,
                     tasks: entity.taskList
+                        .sorted { $0.order < $1.order }
+                        .map { QuestTask(entity: $0) }
                 )
             }
             completion(quests, nil)
@@ -248,6 +254,50 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     completion(nil)
                 } else {
                     completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+                }
+            } catch {
+                completion(error)
+            }
+        }
+    
+        func updateTask(
+            withId id: UUID,
+            title: String? = nil,
+            isCompleted: Bool? = nil,
+            order: Int16? = nil,
+            questId: UUID? = nil,
+            completion: @escaping (Error?) -> Void
+        ) {
+            let context = persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+            do {
+                if let taskEntity = try context.fetch(fetchRequest).first {
+                    if let title {
+                        taskEntity.title = title
+                    }
+                    if let isCompleted {
+                        taskEntity.isCompleted = isCompleted
+                    }
+                    if let order {
+                        taskEntity.order = order
+                    }
+                    if let questId {
+                        let questFetch: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+                        questFetch.predicate = NSPredicate(format: "id == %@", questId as CVarArg)
+                        if let questEntity = try context.fetch(questFetch).first {
+                            taskEntity.quest = questEntity
+                        } else {
+                            completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found for reassignment"]))
+                            return
+                        }
+                    }
+
+                    try context.save()
+                    completion(nil)
+                } else {
+                    completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Task not found"]))
                 }
             } catch {
                 completion(error)
