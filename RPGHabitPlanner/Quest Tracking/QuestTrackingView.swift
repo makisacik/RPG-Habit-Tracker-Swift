@@ -18,9 +18,7 @@ struct QuestTrackingView: View {
     var body: some View {
         ZStack {
             mainContent
-            if showSuccessAnimation {
-                successAnimation
-            }
+            SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
         }
     }
 
@@ -125,20 +123,6 @@ struct QuestTrackingView: View {
             }
         )
     }
-
-    private var successAnimation: some View {
-        LottieView(animation: .named("success"))
-            .playbackMode(.playing(.toProgress(1, loopMode: .playOnce)))
-            .frame(width: 200, height: 200)
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    withAnimation {
-                        showSuccessAnimation = false
-                    }
-                }
-            }
-    }
-
 
     private var questTypePicker: some View {
         VStack(alignment: .leading) {

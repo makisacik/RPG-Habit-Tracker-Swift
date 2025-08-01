@@ -12,16 +12,6 @@ final class NotificationManager {
     static let shared = NotificationManager()
     private init() {}
     
-    func requestPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            if let error = error {
-                print("Notification permission error:", error.localizedDescription)
-            } else {
-                print(granted ? "Notifications allowed" : "Notifications not allowed")
-            }
-        }
-    }
-    
     func scheduleQuestNotification(for quest: Quest) {
         let content = UNMutableNotificationContent()
         content.title = "Traveller, don't forget your quest!"
@@ -33,7 +23,7 @@ final class NotificationManager {
         let endDate = quest.dueDate
         let notificationTime = DateComponents(hour: 11, minute: 0)
         
-        guard endDate > Date() else { return }
+        // guard endDate >= Date() else { return }
         
         switch quest.repeatType {
         case .oneTime:
@@ -112,5 +102,46 @@ final class NotificationManager {
             print("🗑 Removed notifications:", idsToRemove)
         }
     }
-
+    
+    func requestPermission(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if let error = error {
+                print("Notification permission error:", error.localizedDescription)
+            }
+            completion(granted)
+        }
+    }
+    
+    func checkAndRequestPermission(shouldRequestIfDenied: Bool = false, completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                self.requestPermission(completion: completion)
+            case .denied:
+                if shouldRequestIfDenied {
+                    self.requestPermission(completion: completion)
+                } else {
+                    completion(false)
+                }
+            case .authorized, .provisional, .ephemeral:
+                completion(true)
+            @unknown default:
+                completion(false)
+            }
+        }
+    }
+    
+    func handleNotificationForQuest(_ quest: Quest, enabled: Bool) {
+        if enabled {
+            checkAndRequestPermission(shouldRequestIfDenied: true) { granted in
+                if granted {
+                    self.scheduleQuestNotification(for: quest)
+                } else {
+                    print(" Notifications not granted for quest:", quest.title)
+                }
+            }
+        } else {
+            cancelQuestNotifications(questId: quest.id)
+        }
+    }
 }

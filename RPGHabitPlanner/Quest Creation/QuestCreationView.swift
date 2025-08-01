@@ -8,10 +8,16 @@ struct QuestCreationView: View {
     @State private var alertMessage: String = ""
     @State private var isButtonPressed: Bool = false
     @State private var isTaskPopupVisible = false
+    @State private var showSuccessAnimation = false
+    @State private var notifyMe = true
 
     var body: some View {
         NavigationView {
             ZStack {
+                if showSuccessAnimation {
+                    SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
+                        .zIndex(20)
+                }
                 Image("pattern_grid_paper")
                     .resizable(resizingMode: .tile)
                     .ignoresSafeArea()
@@ -49,8 +55,9 @@ struct QuestCreationView: View {
                                 .font(.appFont(size: 16, weight: .black))
                             StarRatingView(rating: $viewModel.difficulty)
                         }
-                        // .padding()
                         
+                        ToggleCard(label: "Notify me about this quest", isOn: $notifyMe)
+
                         Picker("Repeat", selection: $viewModel.repeatType) {
                             Text("One Time").tag(QuestRepeatType.oneTime)
                             Text("Daily").tag(QuestRepeatType.daily)
@@ -68,7 +75,6 @@ struct QuestCreationView: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 isButtonPressed = false
                             }
-
                             if viewModel.validateInputs() {
                                 viewModel.saveQuest()
                             } else {
@@ -145,7 +151,7 @@ struct QuestCreationView: View {
             }
             .onChange(of: viewModel.didSaveQuest) { didSave in
                 if didSave {
-                    showAlert(title: "Success", message: "Quest saved successfully!")
+                    showSuccessAnimation = true
                     viewModel.resetInputs()
                     viewModel.didSaveQuest = false
                 }
@@ -157,6 +163,11 @@ struct QuestCreationView: View {
         alertTitle = title
         alertMessage = message
         showAlert = true
+    }
+    
+    private func saveQuestAndShowAnimation() {
+        viewModel.saveQuest()
+        showSuccessAnimation = true
     }
 }
 

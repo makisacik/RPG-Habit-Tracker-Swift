@@ -23,6 +23,7 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var difficulty: Int = 3
     @Published var isActiveQuest: Bool = true
     @Published var tasks: [String] = []
+    @Published var notifyMe = true
 
     // New properties for notification scheduling
     @Published var repeatType: QuestRepeatType = .oneTime
@@ -70,7 +71,9 @@ final class QuestCreationViewModel: ObservableObject {
                     self.errorMessage = error.localizedDescription
                     self.didSaveQuest = false
                 } else {
-                    NotificationManager.shared.scheduleQuestNotification(for: newQuest)
+                    if self.notifyMe {
+                        NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
+                    }
                     self.didSaveQuest = true
                 }
             }
@@ -86,5 +89,6 @@ final class QuestCreationViewModel: ObservableObject {
         isActiveQuest = false
         repeatType = .oneTime
         repeatIntervalWeeks = 1
+        notifyMe = true
     }
 }
