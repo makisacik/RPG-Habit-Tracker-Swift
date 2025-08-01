@@ -17,41 +17,25 @@ struct CompletedQuestsView: View {
                 .resizable(resizingMode: .tile)
                 .ignoresSafeArea()
 
-            VStack {
-                Image("banner_hanging")
-                    .resizable()
-                    .frame(height: 60)
-                    .overlay(
-                        Text("Completed Quests 🏆")
-                            .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.black)
-                    )
-                    .padding(.bottom, 5)
-
-                if viewModel.completedQuests.isEmpty {
-                    Text("No completed quests yet!")
-                        .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(.gray)
-                        .padding()
-                } else {
-                    ScrollView {
-                        VStack(spacing: 10) {
-                            ForEach(viewModel.completedQuests) { quest in
-                                CompletedQuestCardView(quest: quest)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.horizontal, 16)
-                            }
-                        }
-                        .padding()
-                        .background(
-                            Image("panel_brown")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                        )
-                        .cornerRadius(16)
-                        .padding()
+            VStack(spacing: 5) {
+                VStack {
+                    if viewModel.completedQuests.isEmpty {
+                        Text("No completed quests yet!")
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(.gray)
+                            .padding()
+                    } else {
+                        questList
                     }
-                    .scrollIndicators(.hidden)
                 }
+                .padding()
+                .background(
+                    Image("panel_brown")
+                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                   resizingMode: .stretch)
+                        .cornerRadius(12)
+                )
+                .padding(.horizontal)
             }
             .onAppear {
                 viewModel.fetchCompletedQuests()
@@ -62,7 +46,8 @@ struct CompletedQuestsView: View {
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("Error").font(.appFont(size: 16, weight: .black)),
-                    message: Text(viewModel.errorMessage ?? "An unknown error occurred").font(.appFont(size: 14)),
+                    message: Text(viewModel.errorMessage ?? "An unknown error occurred")
+                        .font(.appFont(size: 14)),
                     dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) {
                         viewModel.errorMessage = nil
                     }
@@ -70,46 +55,111 @@ struct CompletedQuestsView: View {
             }
         }
     }
+
+    private var questList: some View {
+        ScrollView {
+            VStack(spacing: 10) {
+                ForEach(viewModel.completedQuests) { quest in
+                    CompletedQuestCardView(quest: quest)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .padding()
+        }
+        .scrollIndicators(.hidden)
+    }
 }
 
 struct CompletedQuestCardView: View {
     let quest: Quest
+    @State private var isExpanded: Bool = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(quest.title)
-                .font(.appFont(size: 16, weight: .black))
-                .foregroundColor(.green)
+        VStack(alignment: .leading, spacing: 8) {
+            // Title + Created date
+            HStack {
+                Text(quest.title)
+                    .font(.appFont(size: 16, weight: .black))
+                    .foregroundColor(.black)
+
+                Spacer()
+
+                Text("Created: \(quest.creationDate.formatted(date: .abbreviated, time: .omitted))")
+                    .font(.appFont(size: 12))
+                    .foregroundColor(.black)
+            }
 
             if !quest.info.isEmpty {
                 Text(quest.info)
                     .font(.appFont(size: 14))
-                    .lineLimit(2)
+                    .lineLimit(isExpanded ? nil : 2)
                     .truncationMode(.tail)
                     .foregroundColor(.black)
             }
 
-            HStack {
-                HStack(spacing: 2) {
-                    ForEach(1...5, id: \.self) { index in
-                        Image(systemName: "star.fill")
-                            .resizable()
-                            .frame(width: 12, height: 12)
-                            .foregroundColor(index <= quest.difficulty ? Color(.appYellow) : .gray)
+            let tasks = quest.tasks
+            if !tasks.isEmpty {
+                Button(action: {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("\(tasks.count) Tasks")
+                            .font(.appFont(size: 14, weight: .regular))
+                            .foregroundColor(.black)
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .foregroundColor(.black)
+                            .imageScale(.small)
                     }
                 }
-                Spacer()
-                Text(quest.dueDate, format: .dateTime.day().month(.abbreviated))
-                    .font(.appFont(size: 12))
-                    .foregroundColor(.gray)
+
+                if isExpanded {
+                    VStack(alignment: .leading, spacing: 4) {
+                        ForEach(tasks, id: \.id) { task in
+                            HStack {
+                                Image(task.isCompleted ? "checkbox_beige_checked" : "checkbox_beige_empty")
+                                    .resizable()
+                                    .frame(width: 18, height: 18)
+                                    .foregroundColor(task.isCompleted ? .green : .gray)
+
+                                Text(task.title)
+                                    .font(.appFont(size: 13))
+                                    .foregroundColor(.black)
+
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding(.top, 4)
+                    .transition(.opacity.combined(with: .slide))
+                }
             }
+
+            Spacer()
+
+            HStack {
+                StarRatingView(rating: .constant(quest.difficulty), starSize: 14, spacing: 4)
+                    .disabled(true)
+
+                Spacer()
+
+                Text("Due: \(quest.dueDate.formatted(date: .abbreviated, time: .omitted))")
+                    .font(.appFont(size: 12))
+                    .foregroundColor(.black)
+            }
+            .padding(.top, 4)
         }
         .padding()
         .background(
-            Image("panel_brown_dark")
-                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+            Image("panel_beigeLight")
+                .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
+                           resizingMode: .stretch)
         )
-        .cornerRadius(12)
+        .cornerRadius(10)
+        .shadow(radius: 3)
+        .frame(maxWidth: .infinity)
     }
 }
 

@@ -34,7 +34,7 @@ struct QuestCreationView: View {
                                     .padding()
                             }
                                 .background(
-                                    Image("panelInset_beige")
+                                    Image("panel_beigeLight")
                                         .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                                         .allowsHitTesting(false)
                                 )
@@ -165,7 +165,7 @@ struct QuestInputField: View {
         }
         .padding()
         .background(
-            Image("panelInset_beige")
+            Image("panel_beigeLight")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                 .allowsHitTesting(false)
         )
@@ -184,7 +184,7 @@ struct ToggleCard: View {
         }
         .padding()
         .background(
-            Image("panelInset_beige")
+            Image("panel_beigeLight")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
                 .allowsHitTesting(false)
         )
