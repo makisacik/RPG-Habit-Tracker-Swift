@@ -66,7 +66,8 @@ final class QuestTrackingViewModel: ObservableObject {
             isActive: quest.isActive,
             progress: quest.progress,
             repeatType: quest.repeatType,
-            repeatIntervalWeeks: quest.repeatIntervalWeeks
+            repeatIntervalWeeks: quest.repeatIntervalWeeks,
+            tasks: quest.tasks.map { $0.title }
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -94,7 +95,8 @@ final class QuestTrackingViewModel: ObservableObject {
             isActive: quest.isActive,
             progress: quest.progress,
             repeatType: quest.repeatType,
-            repeatIntervalWeeks: quest.repeatIntervalWeeks
+            repeatIntervalWeeks: quest.repeatIntervalWeeks,
+            tasks: quest.tasks.map { $0.title }
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {

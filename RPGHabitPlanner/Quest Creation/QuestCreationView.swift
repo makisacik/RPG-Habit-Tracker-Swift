@@ -125,6 +125,7 @@ struct QuestCreationView: View {
                             }
                         }
                         .transition(.opacity)
+                        .zIndex(9)
 
                     TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
                         .frame(width: 350, height: 450)

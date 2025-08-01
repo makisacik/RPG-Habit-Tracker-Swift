@@ -18,7 +18,7 @@ protocol QuestDataServiceProtocol {
     func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?,
     progress: Int?,
     repeatType: QuestRepeatType?,
-    repeatIntervalWeeks: Int?, completion: @escaping (Error?) -> Void)
+    repeatIntervalWeeks: Int?, tasks: [String]?, completion: @escaping (Error?) -> Void)
     
     func updateTask(
         withId id: UUID,

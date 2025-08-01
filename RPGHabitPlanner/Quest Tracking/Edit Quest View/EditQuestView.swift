@@ -10,6 +10,7 @@ struct EditQuestView: View {
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
+    @State private var isTaskPopupVisible = false
 
     var body: some View {
         NavigationView {
@@ -46,6 +47,10 @@ struct EditQuestView: View {
                             Text("Quest Difficulty")
                                 .font(.appFont(size: 16, weight: .black))
                             StarRatingView(rating: $viewModel.difficulty)
+                        }
+
+                        AddTasksView(tasks: $viewModel.tasks) {
+                            isTaskPopupVisible = true
                         }
 
                         Button(action: {
@@ -96,6 +101,29 @@ struct EditQuestView: View {
                     )
                     .cornerRadius(16)
                     .padding()
+                }
+                
+                if isTaskPopupVisible {
+                    Color.black.opacity(0.6)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation {
+                                isTaskPopupVisible = false
+                            }
+                        }
+                        .transition(.opacity)
+                        .zIndex(9)
+
+                    TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
+                        .frame(width: 350, height: 450)
+                        .background(
+                            Image("panel_beigeLight")
+                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                        )
+                        .cornerRadius(12)
+                        .shadow(radius: 10)
+                        .transition(.scale.combined(with: .opacity))
+                        .zIndex(10)
                 }
             }
             .alert(isPresented: $showAlert) {

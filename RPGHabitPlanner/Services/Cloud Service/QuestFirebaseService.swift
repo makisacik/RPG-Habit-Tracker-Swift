@@ -8,12 +8,11 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, repeatIntervalWeeks: Int?, tasks: [String]?, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
     func updateTask(withId id: UUID, title: String?, isCompleted: Bool?, order: Int16?, questId: UUID?, completion: @escaping ((any Error)?) -> Void) {
     }
-    
-    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, repeatIntervalWeeks: Int?, completion: @escaping ((any Error)?) -> Void) {
-    }
-    
     
     func updateTaskCompletion(forQuestId questId: UUID, andTaskIndex taskIndex: Int, to isCompleted: Bool, completion: @escaping ((any Error)?) -> Void) {
     }

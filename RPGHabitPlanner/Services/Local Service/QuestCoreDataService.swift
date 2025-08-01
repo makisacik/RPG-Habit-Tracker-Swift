@@ -232,6 +232,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         progress: Int?,
         repeatType: QuestRepeatType?,
         repeatIntervalWeeks: Int?,
+        tasks: [String]?,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -247,8 +248,32 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 if let dueDate { questEntity.dueDate = dueDate }
                 if let isActive { questEntity.isActive = isActive }
                 if let progress { questEntity.progress = Int16(progress) }
-                if let repeatType { questEntity.repeatType = repeatType.rawValue } // store enum raw value
+                if let repeatType { questEntity.repeatType = repeatType.rawValue }
                 if let repeatIntervalWeeks { questEntity.repeatIntervalWeeks = Int16(repeatIntervalWeeks) }
+
+                if let tasks = tasks {
+                    if let existingTasksArray = questEntity.tasks?.array as? [TaskEntity] {
+                        var existingTasksSet = Set(existingTasksArray)
+
+                        for (index, title) in tasks.enumerated() {
+                            if let existingTask = existingTasksSet.first(where: { $0.title == title }) {
+                                existingTask.order = Int16(index)
+                                existingTasksSet.remove(existingTask)
+                            } else {
+                                let taskEntity = TaskEntity(context: context)
+                                taskEntity.id = UUID()
+                                taskEntity.title = title
+                                taskEntity.isCompleted = false
+                                taskEntity.order = Int16(index)
+                                taskEntity.quest = questEntity
+                            }
+                        }
+
+                        for task in existingTasksSet {
+                            context.delete(task)
+                        }
+                    }
+                }
 
                 try context.save()
                 completion(nil)
@@ -259,6 +284,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completion(error)
         }
     }
+
     
         func updateTask(
             withId id: UUID,
