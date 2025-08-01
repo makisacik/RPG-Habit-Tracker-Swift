@@ -18,8 +18,9 @@ struct Quest: Identifiable, Equatable {
     var isActive: Bool
     var progress: Int
     var isCompleted = false
+    var tasks: [TaskEntity] = []
     
-    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false) {
+    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, tasks: [TaskEntity] = []) {
         self.id = id
         self.title = title
         self.isMainQuest = isMainQuest
@@ -30,5 +31,6 @@ struct Quest: Identifiable, Equatable {
         self.isActive = isActive
         self.isCompleted = isCompleted
         self.progress = progress
+        self.tasks = tasks
     }
 }

@@ -13,7 +13,7 @@ struct QuestCardView: View {
     let onEditQuest: (Quest) -> Void
     let onUpdateProgress: (UUID, Int) -> Void
 
-    @State private var isMenuPresented: Bool = false
+    @State private var isExpanded: Bool = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -24,7 +24,7 @@ struct QuestCardView: View {
                 if !quest.info.isEmpty {
                     Text(quest.info)
                         .font(.appFont(size: 14))
-                        .lineLimit(2)
+                        .lineLimit(isExpanded ? nil : 2)
                         .truncationMode(.tail)
                 }
 
@@ -32,25 +32,58 @@ struct QuestCardView: View {
                     Button(action: { onUpdateProgress(quest.id, -20) }) {
                         Text("-")
                             .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.appYellow)
-                            .contentShape(Rectangle())
+                            .foregroundColor(.black)
                             .padding(.leading, 4)
                     }
 
                     ProgressView(value: Double(quest.progress) / 100.0)
                         .frame(height: 8)
-                        .tint(.appYellow)
+                        .tint(.black)
                         .padding(.horizontal, 4)
 
                     Button(action: { onUpdateProgress(quest.id, 20) }) {
                         Text("+")
                             .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.appYellow)
-                            .contentShape(Rectangle())
+                            .foregroundColor(.black)
                             .padding(.trailing, 4)
                     }
                 }
 
+                let tasks = quest.tasks
+                if !tasks.isEmpty {
+                    Button(action: {
+                        withAnimation {
+                            isExpanded.toggle()
+                        }
+                    }) {
+                        HStack {
+                            Text("\(tasks.count) Tasks")
+                                .font(.appFont(size: 14, weight: .regular))
+                                .foregroundColor(.black)
+                            Spacer()
+                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                                .foregroundColor(.black)
+                                .imageScale(.small)
+                        }
+                    }
+
+                    if isExpanded {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(tasks, id: \.id) { task in
+                                HStack {
+                                    Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(task.isCompleted ? .green : .gray)
+                                    Text(task.title ?? "")
+                                        .font(.appFont(size: 13))
+                                        .foregroundColor(.black)
+                                }
+                            }
+                        }
+                        .padding(.top, 4)
+                        .transition(.opacity.combined(with: .slide))
+                    }
+                }
+                   
                 Spacer()
 
                 HStack {
@@ -61,13 +94,13 @@ struct QuestCardView: View {
 
                     Text(quest.dueDate, format: .dateTime.day().month(.abbreviated))
                         .font(.appFont(size: 12))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                 }
                 .padding(.top, 4)
             }
             .padding()
             .background(
-                Image("panel_brown_plus")
+                Image("panel_beigeLight")
                     .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16), resizingMode: .stretch)
             )
             .cornerRadius(10)

@@ -72,7 +72,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     dueDate: entity.dueDate ?? Date(),
                     isActive: entity.isActive,
                     progress: Int(entity.progress),
-                    isCompleted: entity.isCompleted
+                    isCompleted: entity.isCompleted,
+                    tasks: entity.taskList
                 )
             }
             completion(quests, nil)
@@ -99,7 +100,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     dueDate: entity.dueDate ?? Date(),
                     isActive: entity.isActive,
                     progress: Int(entity.progress),
-                    isCompleted: entity.isCompleted
+                    isCompleted: entity.isCompleted,
+                    tasks: entity.taskList
                 )
             }
             completion(quests, nil)
@@ -127,7 +129,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     dueDate: entity.dueDate ?? Date(),
                     isActive: entity.isActive,
                     progress: Int(entity.progress),
-                    isCompleted: entity.isCompleted
+                    isCompleted: entity.isCompleted,
+                    tasks: entity.taskList
                 )
             }
             completion(quests, nil)
