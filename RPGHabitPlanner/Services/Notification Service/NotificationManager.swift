@@ -99,9 +99,10 @@ final class NotificationManager {
             
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: idsToRemove)
             
-            print("🗑 Removed notifications:", idsToRemove)
+            print("Removed notifications:", idsToRemove)
         }
     }
+
     
     func requestPermission(completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in

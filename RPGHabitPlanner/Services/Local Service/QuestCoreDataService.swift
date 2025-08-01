@@ -29,9 +29,12 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.isActive = quest.isActive
         questEntity.isCompleted = quest.isCompleted
         questEntity.progress = Int16(quest.progress)
+        questEntity.repeatType = quest.repeatType.rawValue
+        questEntity.repeatIntervalWeeks = Int16(quest.repeatIntervalWeeks ?? 1)
 
-        let trimmedTasks = taskTitles.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-                                     .filter { !$0.isEmpty }
+        let trimmedTasks = taskTitles
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
 
         if !trimmedTasks.isEmpty {
             let taskEntities: [TaskEntity] = trimmedTasks.enumerated().map { index, title in
@@ -227,46 +230,35 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         dueDate: Date?,
         isActive: Bool?,
         progress: Int?,
+        repeatType: QuestRepeatType?,
+        repeatIntervalWeeks: Int?,
         completion: @escaping (Error?) -> Void
-        ) {
-            let context = persistentContainer.viewContext
-            let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+    ) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
 
-            do {
-                if let questEntity = try context.fetch(fetchRequest).first {
-                    if let title {
-                        questEntity.title = title
-                    }
-                    if let isMainQuest {
-                        questEntity.isMainQuest = isMainQuest
-                    }
-                    if let info {
-                        questEntity.info = info
-                    }
-                    if let difficulty {
-                        questEntity.difficulty = Int16(difficulty)
-                    }
-                    if let dueDate {
-                        questEntity.dueDate = dueDate
-                    }
-                    if let isActive {
-                        questEntity.isActive = isActive
-                    }
-                    
-                    if let progress {
-                        questEntity.progress = Int16(progress)
-                    }
-                    
-                    try context.save()
-                    completion(nil)
-                } else {
-                    completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
-                }
-            } catch {
-                completion(error)
+        do {
+            if let questEntity = try context.fetch(fetchRequest).first {
+                if let title { questEntity.title = title }
+                if let isMainQuest { questEntity.isMainQuest = isMainQuest }
+                if let info { questEntity.info = info }
+                if let difficulty { questEntity.difficulty = Int16(difficulty) }
+                if let dueDate { questEntity.dueDate = dueDate }
+                if let isActive { questEntity.isActive = isActive }
+                if let progress { questEntity.progress = Int16(progress) }
+                if let repeatType { questEntity.repeatType = repeatType.rawValue } // store enum raw value
+                if let repeatIntervalWeeks { questEntity.repeatIntervalWeeks = Int16(repeatIntervalWeeks) }
+
+                try context.save()
+                completion(nil)
+            } else {
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
             }
+        } catch {
+            completion(error)
         }
+    }
     
         func updateTask(
             withId id: UUID,

@@ -24,8 +24,6 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var isActiveQuest: Bool = true
     @Published var tasks: [String] = []
     @Published var notifyMe = true
-
-    // New properties for notification scheduling
     @Published var repeatType: QuestRepeatType = .oneTime
     @Published var repeatIntervalWeeks: Int = 1 // Used if repeatType == .everyXWeeks
 

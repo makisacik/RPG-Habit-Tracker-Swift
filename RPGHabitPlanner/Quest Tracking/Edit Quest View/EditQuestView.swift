@@ -6,7 +6,6 @@ struct EditQuestView: View {
     var onSaveSuccess: (() -> Void)?
     var onCancel: (() -> Void)?
     
-    
     @State private var isButtonPressed: Bool = false
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""

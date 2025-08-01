@@ -18,11 +18,12 @@ final class EditQuestViewModel: ObservableObject {
     @Published var difficulty: Int
     @Published var isActiveQuest: Bool
     @Published var progress: Int
-
     @Published var isSaving: Bool = false
     @Published var errorMessage: String?
     @Published var didUpdateQuest: Bool = false
-
+    @Published var repeatType: QuestRepeatType
+    @Published var repeatIntervalWeeks: Int?
+    
     private let questDataService: QuestDataServiceProtocol
 
     init(quest: Quest, questDataService: QuestDataServiceProtocol) {
@@ -34,6 +35,8 @@ final class EditQuestViewModel: ObservableObject {
         self.difficulty = quest.difficulty
         self.isActiveQuest = quest.isActive
         self.progress = quest.progress
+        self.repeatType = quest.repeatType
+        self.repeatIntervalWeeks = quest.repeatIntervalWeeks
         self.questDataService = questDataService
     }
 
@@ -51,6 +54,10 @@ final class EditQuestViewModel: ObservableObject {
 
     func updateQuest(completion: @escaping (Bool) -> Void) {
         isSaving = true
+        print(quest.repeatType)
+        print(quest.repeatIntervalWeeks)
+        let dueDateChanged = quest.dueDate != dueDate
+        print("dueDateChanged", dueDateChanged)
         questDataService.updateQuest(
             withId: quest.id,
             title: title,
@@ -59,23 +66,33 @@ final class EditQuestViewModel: ObservableObject {
             difficulty: difficulty,
             dueDate: dueDate,
             isActive: isActiveQuest,
-            progress: progress
+            progress: progress,
+            repeatType: repeatType,
+            repeatIntervalWeeks: repeatIntervalWeeks
         ) { [weak self] error in
             DispatchQueue.main.async {
-                self?.isSaving = false
+                guard let self = self else { return }
+                self.isSaving = false
+
                 if let error = error {
-                    self?.errorMessage = error.localizedDescription
+                    self.errorMessage = error.localizedDescription
                     completion(false)
                 } else {
-                    self?.didUpdateQuest = true
-                    // Update local quest instance so UI refreshes immediately
-                    self?.quest.title = self?.title ?? ""
-                    self?.quest.info = self?.description ?? ""
-                    self?.quest.dueDate = self?.dueDate ?? Date()
-                    self?.quest.isMainQuest = self?.isMainQuest ?? true
-                    self?.quest.difficulty = self?.difficulty ?? 3
-                    self?.quest.isActive = self?.isActiveQuest ?? true
-                    self?.quest.progress = self?.progress ?? 0
+                    self.quest.title = self.title
+                    self.quest.info = self.description
+                    self.quest.dueDate = self.dueDate
+                    self.quest.isMainQuest = self.isMainQuest
+                    self.quest.difficulty = self.difficulty
+                    self.quest.isActive = self.isActiveQuest
+                    self.quest.progress = self.progress
+
+                    if dueDateChanged {
+                        NotificationManager.shared.cancelQuestNotifications(questId: self.quest.id)
+                        NotificationManager.shared.scheduleQuestNotification(for: self.quest)
+                    }
+
+
+                    self.didUpdateQuest = true
                     completion(true)
                 }
             }
