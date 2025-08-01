@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import UserNotifications
 
 final class QuestCreationViewModel: ObservableObject {
     private let questDataService: QuestDataServiceProtocol
@@ -23,6 +24,10 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var isActiveQuest: Bool = true
     @Published var tasks: [String] = []
 
+    // New properties for notification scheduling
+    @Published var repeatType: QuestRepeatType = .oneTime
+    @Published var repeatIntervalWeeks: Int = 1 // Used if repeatType == .everyXWeeks
+
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
     }
@@ -34,7 +39,6 @@ final class QuestCreationViewModel: ObservableObject {
         }
         return true
     }
-
 
     func saveQuest() {
         guard validateInputs() else { return }
@@ -49,7 +53,9 @@ final class QuestCreationViewModel: ObservableObject {
             creationDate: Date(),
             dueDate: questDueDate,
             isActive: isActiveQuest,
-            progress: 0
+            progress: 0,
+            repeatType: repeatType,
+            repeatIntervalWeeks: repeatType == .everyXWeeks ? repeatIntervalWeeks : nil
         )
 
         let taskTitles = tasks.map { $0.trimmingCharacters(in: .whitespaces) }
@@ -57,17 +63,19 @@ final class QuestCreationViewModel: ObservableObject {
 
         questDataService.saveQuest(newQuest, withTasks: taskTitles) { [weak self] error in
             DispatchQueue.main.async {
-                self?.isSaving = false
-                if let error = error {
-                    self?.errorMessage = error.localizedDescription
-                    self?.didSaveQuest = false
+                guard let self = self else { return }
+                self.isSaving = false
+
+                if let error {
+                    self.errorMessage = error.localizedDescription
+                    self.didSaveQuest = false
                 } else {
-                    self?.didSaveQuest = true
+                    NotificationManager.shared.scheduleQuestNotification(for: newQuest)
+                    self.didSaveQuest = true
                 }
             }
         }
     }
-
 
     func resetInputs() {
         questTitle = ""
@@ -76,5 +84,7 @@ final class QuestCreationViewModel: ObservableObject {
         isMainQuest = false
         difficulty = 3
         isActiveQuest = false
+        repeatType = .oneTime
+        repeatIntervalWeeks = 1
     }
 }

@@ -31,6 +31,9 @@ struct HomeView: View {
                 Label("Base", systemImage: "house.fill")
             }
             .tag(HomeTab.base)
+            .onAppear {
+                NotificationManager.shared.requestPermission()
+            }
 
             
             NavigationStack {

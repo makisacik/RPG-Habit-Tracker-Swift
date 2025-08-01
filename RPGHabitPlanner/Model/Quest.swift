@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum QuestRepeatType: String, Codable {
+    case oneTime
+    case daily
+    case weekly
+    case everyXWeeks
+}
+
 struct Quest: Identifiable, Equatable {
     let id: UUID
     var title: String
@@ -19,8 +26,10 @@ struct Quest: Identifiable, Equatable {
     var progress: Int
     var isCompleted = false
     var tasks: [QuestTask] = []
-
-    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, tasks: [QuestTask] = []) {
+    var repeatType: QuestRepeatType
+    var repeatIntervalWeeks: Int?
+    
+    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, tasks: [QuestTask] = [], repeatType: QuestRepeatType = .oneTime, repeatIntervalWeeks: Int? = nil) {
         self.id = id
         self.title = title
         self.isMainQuest = isMainQuest
@@ -32,5 +41,7 @@ struct Quest: Identifiable, Equatable {
         self.isCompleted = isCompleted
         self.progress = progress
         self.tasks = tasks
+        self.repeatType = repeatType
+        self.repeatIntervalWeeks = repeatIntervalWeeks
     }
 }

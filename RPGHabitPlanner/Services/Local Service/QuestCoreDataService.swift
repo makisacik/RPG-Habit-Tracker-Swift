@@ -75,7 +75,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     isCompleted: entity.isCompleted,
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
-                        .map { QuestTask(entity: $0) }
+                        .map { QuestTask(entity: $0) },
+                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
+                    repeatIntervalWeeks: entity.repeatIntervalWeeks > 0 ? Int(entity.repeatIntervalWeeks) : nil
                 )
             }
             completion(quests, nil)
@@ -105,7 +107,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     isCompleted: entity.isCompleted,
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
-                        .map { QuestTask(entity: $0) }
+                        .map { QuestTask(entity: $0) },
+                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
+                    repeatIntervalWeeks: entity.repeatIntervalWeeks > 0 ? Int(entity.repeatIntervalWeeks) : nil
                 )
             }
             completion(quests, nil)
@@ -136,7 +140,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     isCompleted: entity.isCompleted,
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
-                        .map { QuestTask(entity: $0) }
+                        .map { QuestTask(entity: $0) },
+                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
+                    repeatIntervalWeeks: entity.repeatIntervalWeeks > 0 ? Int(entity.repeatIntervalWeeks) : nil
                 )
             }
             completion(quests, nil)

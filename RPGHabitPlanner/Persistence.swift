@@ -35,6 +35,8 @@ struct PersistenceController {
         if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.makisacik.RPGHabitPlanner") {
             let storeURL = appGroupURL.appendingPathComponent("RPGHabitPlanner.sqlite")
             let description = NSPersistentStoreDescription(url: storeURL)
+            description.shouldMigrateStoreAutomatically = true
+            description.shouldInferMappingModelAutomatically = true
             container.persistentStoreDescriptions = [description]
         } else {
             fatalError("Failed to locate App Group container.")

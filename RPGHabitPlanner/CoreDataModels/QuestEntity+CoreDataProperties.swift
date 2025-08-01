@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension QuestEntity {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<QuestEntity> {
         return NSFetchRequest<QuestEntity>(entityName: "QuestEntity")
@@ -24,8 +23,10 @@ extension QuestEntity {
     @NSManaged public var isCompleted: Bool
     @NSManaged public var isMainQuest: Bool
     @NSManaged public var progress: Int16
-    @NSManaged public var tasks: NSOrderedSet?
     @NSManaged public var title: String?
+    @NSManaged public var tasks: NSOrderedSet?
+    @NSManaged public var repeatType: String
+    @NSManaged public var repeatIntervalWeeks: Int16
 }
 
 extension QuestEntity: Identifiable {

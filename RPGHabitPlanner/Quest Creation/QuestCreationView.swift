@@ -51,6 +51,18 @@ struct QuestCreationView: View {
                         }
                         // .padding()
                         
+                        Picker("Repeat", selection: $viewModel.repeatType) {
+                            Text("One Time").tag(QuestRepeatType.oneTime)
+                            Text("Daily").tag(QuestRepeatType.daily)
+                            Text("Weekly").tag(QuestRepeatType.weekly)
+                            Text("Every X Weeks").tag(QuestRepeatType.everyXWeeks)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+
+                        if viewModel.repeatType == .everyXWeeks {
+                            Stepper("Repeat every \(viewModel.repeatIntervalWeeks) weeks", value: $viewModel.repeatIntervalWeeks, in: 1...12)
+                        }
+
                         Button(action: {
                             isButtonPressed = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
