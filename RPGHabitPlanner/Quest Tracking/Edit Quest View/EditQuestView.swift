@@ -1,18 +1,16 @@
 import SwiftUI
 
 struct EditQuestView: View {
-    @Binding var quest: Quest
-    @State private var localQuest: Quest
-
-    var onSave: (Quest) -> Void
-    var onCancel: () -> Void
-
-    init(quest: Binding<Quest>, onSave: @escaping (Quest) -> Void, onCancel: @escaping () -> Void) {
-        self._quest = quest
-        self._localQuest = State(initialValue: quest.wrappedValue)
-        self.onSave = onSave
-        self.onCancel = onCancel
-    }
+    @ObservedObject var viewModel: EditQuestViewModel
+    @Environment(\.dismiss) private var dismiss
+    var onSaveSuccess: (() -> Void)?
+    var onCancel: (() -> Void)?
+    
+    
+    @State private var isButtonPressed: Bool = false
+    @State private var showAlert: Bool = false
+    @State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
 
     var body: some View {
         NavigationView {
@@ -23,123 +21,96 @@ struct EditQuestView: View {
 
                 ScrollView {
                     VStack(spacing: 20) {
-                        Image("banner_hanging")
-                            .resizable()
-                            .frame(height: 60)
-                            .overlay(
-                                Text("Edit Quest")
-                                    .font(.appFont(size: 18, weight: .black))
-                                    .foregroundColor(.black)
-                            )
-                            .padding(.bottom, 10)
+                        QuestInputField(title: "Title", text: $viewModel.title, icon: "pencil.circle.fill")
+                        QuestInputField(title: "Description", text: $viewModel.description, icon: "doc.text.fill")
 
-                        InputField(title: "Title", text: $localQuest.title)
-                        InputField(title: "Description", text: $localQuest.info)
+                        ToggleCard(label: "Main Quest", isOn: $viewModel.isMainQuest)
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Difficulty")
-                                .font(.appFont(size: 16, weight: .black))
-
-                            Picker("Difficulty", selection: $localQuest.difficulty) {
-                                ForEach(1...5, id: \.self) {
-                                    Text("\($0)").tag($0)
-                                        .font(.appFont(size: 14))
-                                }
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack {
+                                Text("Due Date")
+                                    .font(.appFont(size: 16, weight: .black))
+                                    .padding()
+                                Spacer()
+                                DatePicker("", selection: $viewModel.dueDate, displayedComponents: [.date])
+                                    .labelsHidden()
+                                    .padding(.trailing, 10)
                             }
-                            .pickerStyle(.segmented)
+                            .background(
+                                Image("panel_beigeLight")
+                                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                            )
+                            .cornerRadius(10)
                         }
-                        .padding()
-                        .background(
-                            Image("panel_brown_dark")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                        )
-                        .cornerRadius(10)
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Due Date")
+                        VStack {
+                            Text("Quest Difficulty")
                                 .font(.appFont(size: 16, weight: .black))
+                            StarRatingView(rating: $viewModel.difficulty)
+                        }
 
-                            DatePicker("", selection: $localQuest.dueDate, displayedComponents: [.date])
-                                .labelsHidden()
+                        Button(action: {
+                            isButtonPressed = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                isButtonPressed = false
+                            }
+                            if viewModel.validateInputs() {
+                                viewModel.updateQuest { success in
+                                    if success {
+                                        onSaveSuccess?()
+                                        dismiss()
+                                    } else {
+                                        showAlert(title: "Error", message: viewModel.errorMessage ?? "Failed to update quest.")
+                                    }
+                                }
+                            } else {
+                                showAlert(title: "Warning", message: viewModel.errorMessage ?? "Unknown error")
+                            }
+                        }) {
+                            if viewModel.isSaving {
+                                ProgressView()
+                            } else {
+                                HStack {
+                                    Spacer()
+                                    Text("Update Quest")
+                                        .font(.appFont(size: 16, weight: .black))
+                                        .foregroundColor(.black)
+                                    Spacer()
+                                }
                                 .padding()
                                 .background(
-                                    Image("panel_brown_dark")
-                                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                                    Image("buttonLong_brown")
+                                        .resizable(capInsets: EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                                        .opacity(isButtonPressed ? 0.7 : 1.0)
                                 )
-                                .cornerRadius(10)
-                        }
-
-                        ToggleCard(label: "Main Quest", isOn: $localQuest.isMainQuest)
-                        ToggleCard(label: "Active", isOn: $localQuest.isActive)
-
-                        HStack {
-                            Button(action: { onCancel() }) {
-                                Text("Cancel")
-                                    .font(.appFont(size: 16, weight: .black))
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal)
-                                    .frame(height: 44)
-                                    .background(
-                                        Image("button_brown")
-                                            .resizable()
-                                            .frame(height: 44)
-                                    )
-                                    .cornerRadius(8)
-                            }
-
-                            Spacer()
-
-                            Button(action: {
-                                quest = localQuest
-                                onSave(localQuest)
-                            }) {
-                                Text("Save")
-                                    .font(.appFont(size: 16, weight: .black))
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal)
-                                    .frame(height: 44)
-                                    .background(
-                                        Image("button_brown")
-                                            .resizable()
-                                            .frame(height: 44)
-                                    )
-                                    .cornerRadius(8)
+                                .cornerRadius(8)
+                                .scaleEffect(isButtonPressed ? 0.97 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
                             }
                         }
-                        .padding(.top, 10)
+                        .disabled(viewModel.isSaving)
                     }
                     .padding()
                     .background(
-                        Image("panel_brown")
-                            .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                        Image("panel_brown_plus")
+                            .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                     )
                     .cornerRadius(16)
                     .padding()
                 }
             }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            }
+            .onChange(of: viewModel.didUpdateQuest) { updated in
+                if updated { dismiss() }
+            }
         }
     }
-}
 
-// MARK: - Reusable Views
-
-struct InputField: View {
-    var title: String
-    @Binding var text: String
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.appFont(size: 16, weight: .black))
-            TextField(title, text: $text)
-                .autocorrectionDisabled()
-                .font(.appFont(size: 14))
-                .padding()
-                .background(
-                    Image("panel_brown_dark")
-                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                )
-                .cornerRadius(10)
-        }
+    private func showAlert(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        showAlert = true
     }
 }

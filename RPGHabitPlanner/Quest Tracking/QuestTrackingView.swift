@@ -105,24 +105,21 @@ struct QuestTrackingView: View {
 
     private func editQuestSheet(_ quest: Quest) -> some View {
         EditQuestView(
-            quest: Binding(
-                get: { quest },
-                set: { updatedQuest in
-                    if let index = viewModel.quests.firstIndex(where: { $0.id == updatedQuest.id }) {
-                        viewModel.quests[index] = updatedQuest
-                    }
-                    selectedQuestForEditing = nil
-                }
+            viewModel: EditQuestViewModel(
+                quest: quest,
+                questDataService: viewModel.questDataService
             ),
-            onSave: { updatedQuest in
-                viewModel.updateQuest(updatedQuest)
+            onSaveSuccess: {
+                viewModel.fetchQuests()
                 selectedQuestForEditing = nil
+                showSuccessAnimation = true
             },
             onCancel: {
                 selectedQuestForEditing = nil
             }
         )
     }
+
 
     private var questTypePicker: some View {
         VStack(alignment: .leading) {

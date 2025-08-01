@@ -37,7 +37,7 @@ struct QuestCreationView: View {
                                 Spacer()
                                 DatePicker("", selection: $viewModel.questDueDate, displayedComponents: [.date])
                                     .labelsHidden()
-                                    .padding()
+                                    .padding(.trailing, 10)
                             }
                                 .background(
                                     Image("panel_beigeLight")
@@ -205,7 +205,7 @@ struct ToggleCard: View {
             Text(label)
                 .font(.appFont(size: 16, weight: .black))
         }
-        .padding()
+        .padding(10)
         .background(
             Image("panel_beigeLight")
                 .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)

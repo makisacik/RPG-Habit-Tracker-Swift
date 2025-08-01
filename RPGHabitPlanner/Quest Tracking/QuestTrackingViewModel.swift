@@ -13,7 +13,7 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var selectedTab: QuestTab = .all
     
-    private let questDataService: QuestDataServiceProtocol
+    let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
     
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
