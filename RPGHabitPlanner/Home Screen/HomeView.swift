@@ -88,6 +88,16 @@ struct HomeView: View {
                     .onAppear {
                         viewModel.fetchUserData()
                         WidgetCenter.shared.reloadAllTimelines()
+                        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                            print("📋 Pending Notifications:")
+                            for req in requests {
+                                print("🆔 ID:", req.identifier)
+                                print("📌 Title:", req.content.title)
+                                print("📝 Body:", req.content.body)
+                                print("⏰ Trigger:", req.trigger ?? "No trigger")
+                                print("------")
+                            }
+                        }
                     }
                 }
             }

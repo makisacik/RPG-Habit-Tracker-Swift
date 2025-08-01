@@ -15,52 +15,102 @@ final class NotificationManager {
     func requestPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if let error = error {
-                print("❌ Notification permission error:", error.localizedDescription)
+                print("Notification permission error:", error.localizedDescription)
             } else {
-                print(granted ? "✅ Notifications allowed" : "⚠️ Notifications not allowed")
+                print(granted ? "Notifications allowed" : "Notifications not allowed")
             }
         }
     }
     
     func scheduleQuestNotification(for quest: Quest) {
         let content = UNMutableNotificationContent()
-        content.title = quest.title
-        content.body = quest.info.isEmpty ? "Your quest is due!" : quest.info
+        content.title = "Traveller, don't forget your quest!"
+        content.body = quest.title
         content.sound = .default
         
-        let trigger: UNNotificationTrigger?
+        let calendar = Calendar.current
+        let startDate = quest.creationDate
+        let endDate = quest.dueDate
+        let notificationTime = DateComponents(hour: 11, minute: 0)
+        
+        guard endDate > Date() else { return }
         
         switch quest.repeatType {
         case .oneTime:
-            let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: quest.dueDate)
-            trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            if let afterCreation = calendar.date(byAdding: .day, value: 1, to: startDate) {
+                scheduleNotification(id: quest.id.uuidString + "_afterCreation",
+                                     content: content,
+                                     date: afterCreation,
+                                     time: notificationTime)
+            }
+            
+            if let beforeDue = calendar.date(byAdding: .day, value: -1, to: endDate) {
+                scheduleNotification(id: quest.id.uuidString + "_beforeDue",
+                                     content: content,
+                                     date: beforeDue,
+                                     time: notificationTime)
+            }
             
         case .daily:
-            let components = Calendar.current.dateComponents([.hour, .minute], from: quest.dueDate)
-            trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+            var nextDate = startDate
+            while nextDate <= endDate {
+                scheduleNotification(id: "\(quest.id.uuidString)_\(nextDate)",
+                                     content: content,
+                                     date: nextDate,
+                                     time: notificationTime)
+                nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
+            }
             
         case .weekly:
-            let components = Calendar.current.dateComponents([.weekday, .hour, .minute], from: quest.dueDate)
-            trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+            var nextDate = startDate
+            while nextDate <= endDate {
+                scheduleNotification(id: "\(quest.id.uuidString)_\(nextDate)",
+                                     content: content,
+                                     date: nextDate,
+                                     time: notificationTime)
+                nextDate = calendar.date(byAdding: .weekOfYear, value: 1, to: nextDate)!
+            }
             
         case .everyXWeeks:
             guard let weeks = quest.repeatIntervalWeeks else { return }
-            let seconds = weeks * 7 * 24 * 60 * 60
-            trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(seconds), repeats: true)
-        }
-        
-        let request = UNNotificationRequest(identifier: quest.id.uuidString, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("❌ Failed to schedule notification:", error.localizedDescription)
-            } else {
-                print("📅 Notification scheduled for quest:", quest.title)
+            var nextDate = startDate
+            while nextDate <= endDate {
+                scheduleNotification(id: "\(quest.id.uuidString)_\(nextDate)",
+                                     content: content,
+                                     date: nextDate,
+                                     time: notificationTime)
+                nextDate = calendar.date(byAdding: .weekOfYear, value: weeks, to: nextDate)!
             }
         }
     }
-    
-    func cancelQuestNotification(id: UUID) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
+
+    private func scheduleNotification(id: String, content: UNMutableNotificationContent, date: Date, time: DateComponents) {
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        dateComponents.hour = time.hour
+        dateComponents.minute = time.minute
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to schedule:", error.localizedDescription)
+            } else {
+                print("Scheduled notification:", id)
+            }
+        }
     }
+
+    func cancelQuestNotifications(questId: UUID) {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            let idsToRemove = requests
+                .map { $0.identifier }
+                .filter { $0.hasPrefix(questId.uuidString) }
+            
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: idsToRemove)
+            
+            print("🗑 Removed notifications:", idsToRemove)
+        }
+    }
+
 }
