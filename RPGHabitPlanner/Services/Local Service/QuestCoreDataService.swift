@@ -188,6 +188,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         do {
             if let questEntity = try context.fetch(fetchRequest).first {
                 context.delete(questEntity)
+                NotificationManager.shared.cancelQuestNotifications(questId: id)
                 try context.save()
                 completion(nil)
             } else {
@@ -206,6 +207,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         do {
             if let questEntity = try context.fetch(fetchRequest).first {
                 questEntity.isCompleted = isCompleted
+                NotificationManager.shared.cancelQuestNotifications(questId: id)
                 try context.save()
                 completion(nil)
             } else {
