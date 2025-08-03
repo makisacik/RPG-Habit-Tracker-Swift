@@ -124,18 +124,13 @@ struct QuestTrackingView: View {
 
 
     private var questTypePicker: some View {
-        VStack(alignment: .leading) {
-            CustomSegmentedControl(
-                selected: $viewModel.selectedTab,
-                options: QuestTab.allCases,
-                titleForOption: { $0.rawValue.capitalized },
-                backgroundColor: Color.brown.opacity(0.2),
-                selectedColor: Color.brown,
-                textColor: .black,
-                selectedTextColor: .white
-            )
-            .padding(.horizontal)
+        Picker("Quest Type", selection: $viewModel.selectedTab) {
+            ForEach(QuestTab.allCases, id: \.self) { tab in
+                Text(tab.rawValue.capitalized).tag(tab)
+            }
         }
+        .pickerStyle(.segmented)
+        .padding(.horizontal)
     }
 
     private var questsToDisplay: [Quest] {

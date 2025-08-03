@@ -6,10 +6,11 @@ struct CharacterOverlayView: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
+
         HStack(spacing: 12) {
             ZStack {
-                Image("minimap_ring_white")
-                    .resizable()
+                Circle()
+                    .stroke(theme.primaryColor, lineWidth: 3)
                     .frame(width: 60, height: 60)
 
                 if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
@@ -40,16 +41,32 @@ struct CharacterOverlayView: View {
                     .foregroundColor(theme.textColor)
 
                 ZStack(alignment: .leading) {
-                    Image("progress_transparent")
-                        .resizable(capInsets: EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15), resizingMode: .stretch)
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(theme.backgroundColor)
+                        .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
                         .frame(height: 20)
 
                     GeometryReader { geometry in
                         let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
                         if expRatio > 0 {
-                            Image("progress_green")
-                                .resizable(capInsets: EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15), resizingMode: .stretch)
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.green.opacity(0.9),
+                                            Color.green.opacity(0.7),
+                                            Color.green.opacity(0.9)
+                                        ]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                )
                                 .frame(width: geometry.size.width * expRatio, height: 20)
+                                .animation(.easeOut(duration: 0.3), value: expRatio)
                         }
                     }
                     .frame(height: 20)
@@ -70,8 +87,8 @@ struct CharacterOverlayView: View {
         .padding(6)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(themeManager.activeTheme.secondaryColor)
-                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
+                .fill(theme.secondaryColor)
+                .shadow(color: Color.black.opacity(0.4), radius: 6, x: 0, y: 4)
         )
         .padding(10)
     }
@@ -90,6 +107,7 @@ struct CharacterOverlayView_Previews: PreviewProvider {
         mockUser.id = UUID()
 
         return CharacterOverlayView(user: mockUser)
+            .environmentObject(ThemeManager.shared)
             .previewLayout(.sizeThatFits)
             .background(Color.gray.opacity(0.1))
     }
