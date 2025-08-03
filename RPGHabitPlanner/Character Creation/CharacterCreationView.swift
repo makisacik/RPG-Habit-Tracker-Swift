@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct CharacterCreationView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: CharacterCreationViewModel
     @Binding var isCharacterCreated: Bool
 
     var body: some View {
+        let theme = themeManager.activeTheme
         ZStack {
-            Image("pattern_grid_paper")
-                .resizable(resizingMode: .tile)
-                .ignoresSafeArea()
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.backgroundColor)
 
             ScrollView {
                 VStack(spacing: 24) {
@@ -25,7 +26,7 @@ struct CharacterCreationView: View {
                         .overlay(
                             Text("Create Your Character")
                                 .font(.appFont(size: 18, weight: .black))
-                                .foregroundColor(.black)
+                                .foregroundColor(theme.textColor)
                                 .padding(.top, 10)
                         )
 
@@ -37,8 +38,8 @@ struct CharacterCreationView: View {
                             .font(.appFont(size: 18))
                             .padding()
                             .background(
-                                Image("panel_brown_dark")
-                                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(themeManager.activeTheme.primaryColor)
                             )
                             .cornerRadius(8)
                             .padding(.horizontal)
@@ -77,8 +78,8 @@ struct CharacterCreationView: View {
                 }
                 .padding()
                 .background(
-                    Image("panel_brown")
-                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor)
                 )
                 .cornerRadius(20)
                 .padding()

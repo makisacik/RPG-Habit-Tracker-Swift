@@ -14,6 +14,7 @@ struct QuestTrackingView: View {
     @State private var showSuccessAnimation: Bool = false
     @State private var lastScrollPosition: UUID?
     @State private var selectedQuestForEditing: Quest?
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         ZStack {
@@ -23,16 +24,16 @@ struct QuestTrackingView: View {
     }
 
     private var mainContent: some View {
-        VStack(alignment: .center, spacing: 5) {
+        let theme = themeManager.activeTheme
+
+        return VStack(alignment: .center, spacing: 5) {
             questTypePicker.padding(.top, 5)
             questList
         }
         .padding()
         .background(
-            Image("panel_brown")
-                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
-                           resizingMode: .stretch)
-                .cornerRadius(12)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.primaryColor)
         )
         .padding(.horizontal)
         .onChange(of: viewModel.errorMessage) { errorMessage in

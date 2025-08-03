@@ -12,20 +12,17 @@ struct StarRatingView: View {
     
     let maxRating: Int
     let onImageName: String
-    let offImageName: String
     let starSize: CGFloat
     let spacing: CGFloat
     
     init(rating: Binding<Int>,
          maxRating: Int = 5,
-         onImageName: String = "minimap_icon_star_yellow",
-         offImageName: String = "minimap_icon_star_white",
+         onImageName: String = "icon_star_fill",
          starSize: CGFloat = 24,
          spacing: CGFloat = 6) {
         self._rating = rating
         self.maxRating = maxRating
         self.onImageName = onImageName
-        self.offImageName = offImageName
         self.starSize = starSize
         self.spacing = spacing
     }
@@ -33,9 +30,10 @@ struct StarRatingView: View {
     var body: some View {
         HStack(spacing: spacing) {
             ForEach(1...maxRating, id: \.self) { number in
-                Image(number <= rating ? onImageName : offImageName)
+                Image(onImageName)
                     .resizable()
                     .frame(width: starSize, height: starSize)
+                    .opacity(number <= rating ? 1.0 : 0.3) // dim if not selected
                     .onTapGesture {
                         rating = number
                     }
@@ -43,7 +41,6 @@ struct StarRatingView: View {
         }
     }
 }
-
 
 #Preview {
     StarRatingView(rating: .constant(3))

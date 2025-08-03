@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct AddTasksView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @Binding var tasks: [String]
     var onEditTapped: () -> Void
 
     var body: some View {
+        let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
             Button(action: {
                 onEditTapped()
@@ -19,13 +21,13 @@ struct AddTasksView: View {
                 HStack {
                     Text("Add Tasks")
                         .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(.black)
+                        .foregroundColor(theme.textColor)
 
                     Spacer()
 
                     Text("\(tasks.count) Tasks")
                         .font(.appFont(size: 14, weight: .regular))
-                        .foregroundColor(.black)
+                        .foregroundColor(theme.textColor)
 
                     Image(systemName: "plus.circle.fill")
                         .resizable()
@@ -34,8 +36,8 @@ struct AddTasksView: View {
                 }
                 .padding()
                 .background(
-                    Image("panel_beigeLight")
-                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.secondaryColor)
                 )
                 .cornerRadius(10)
             }
@@ -45,15 +47,17 @@ struct AddTasksView: View {
 
 
 struct TaskEditorPopup: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @Binding var tasks: [String]
     @Binding var isPresented: Bool
 
     var body: some View {
+        let theme = themeManager.activeTheme
         VStack(spacing: 12) {
             HStack {
                 Text("Edit Tasks")
                     .font(.appFont(size: 18, weight: .black))
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
 
                 Spacer()
 
@@ -74,11 +78,11 @@ struct TaskEditorPopup: View {
                         HStack {
                             TextField("Task \(index + 1)", text: $tasks[index])
                                 .font(.appFont(size: 16))
-                                .foregroundColor(.white)
+                                .foregroundColor(theme.textColor)
                                 .padding(8)
                                 .background(
-                                    Image("panelInset_beige")
-                                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(themeManager.activeTheme.primaryColor)
                                 )
                                 .cornerRadius(8)
 
@@ -113,7 +117,7 @@ struct TaskEditorPopup: View {
             }) {
                 Text("Done")
                     .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
                     .padding(.vertical, 8)
                     .frame(maxWidth: .infinity)
                     .background(

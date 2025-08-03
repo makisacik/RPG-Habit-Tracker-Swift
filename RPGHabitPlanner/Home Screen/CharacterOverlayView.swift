@@ -1,9 +1,11 @@
 import SwiftUI
 
 struct CharacterOverlayView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let user: UserEntity
 
     var body: some View {
+        let theme = themeManager.activeTheme
         HStack(spacing: 12) {
             ZStack {
                 Image("minimap_ring_white")
@@ -24,7 +26,7 @@ struct CharacterOverlayView: View {
                 HStack {
                     Text(user.nickname ?? "Adventurer")
                         .font(.appFont(size: 18, weight: .blackItalic))
-                        .foregroundColor(.white)
+                        .foregroundColor(theme.textColor)
 
                     Spacer()
 
@@ -35,7 +37,7 @@ struct CharacterOverlayView: View {
 
                 Text(user.characterClass?.capitalized ?? "Unknown")
                     .font(.appFont(size: 14, weight: .regular))
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.textColor)
 
                 ZStack(alignment: .leading) {
                     Image("progress_transparent")
@@ -56,7 +58,7 @@ struct CharacterOverlayView: View {
                         Spacer()
                         Text("\(user.exp) / 100")
                             .font(.appFont(size: 12, weight: .black))
-                            .foregroundColor(.white)
+                            .foregroundColor(theme.textColor)
                             .shadow(radius: 1)
                         Spacer()
                     }
@@ -67,8 +69,9 @@ struct CharacterOverlayView: View {
         }
         .padding(6)
         .background(
-            Image("panelInset_brown")
-                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(themeManager.activeTheme.secondaryColor)
+                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
         .padding(10)
     }

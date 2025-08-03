@@ -4,15 +4,17 @@ import WidgetKit
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     let questDataService: QuestDataServiceProtocol
-
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var isCharacterDetailsPresented: Bool = false
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
+        let theme = themeManager.activeTheme
+        
         TabView {
             NavigationStack {
                 ZStack {
-                    Image("pattern_grid_paper")
-                        .resizable(resizingMode: .tile)
+                    theme.backgroundColor
                         .ignoresSafeArea()
 
                     VStack {
@@ -34,8 +36,7 @@ struct HomeView: View {
             
             NavigationStack {
                 ZStack {
-                    Image("pattern_grid_paper")
-                        .resizable(resizingMode: .tile)
+                    theme.backgroundColor
                         .ignoresSafeArea()
 
                     VStack(spacing: 0) {
@@ -56,12 +57,13 @@ struct HomeView: View {
                                 isCharacterDetailsPresented.toggle()
                             }) {
                                 HStack {
-                                    Image("banner_hanging")
+                                    Image(theme.paperSimple)
                                         .resizable()
                                         .frame(width: 40, height: 40)
+                                        .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
                                     Text("Level \(viewModel.user?.level ?? 1)")
                                         .font(.appFont(size: 16, weight: .black))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(theme.textColor)
                                 }
                             }
                         }
@@ -70,9 +72,10 @@ struct HomeView: View {
                             NavigationLink(destination: QuestCreationView(
                                 viewModel: QuestCreationViewModel(questDataService: questDataService)
                             )) {
-                                Image("cursorSword_bronze")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
+                                Image(theme.paperSimple)
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
                             }
                         }
                     }

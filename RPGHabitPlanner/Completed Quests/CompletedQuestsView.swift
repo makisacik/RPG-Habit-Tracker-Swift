@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct CompletedQuestsView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @StateObject var viewModel: CompletedQuestsViewModel
     @State private var showAlert: Bool = false
 
     var body: some View {
+        let theme = themeManager.activeTheme
         ZStack {
-            Image("pattern_grid_paper")
-                .resizable(resizingMode: .tile)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.backgroundColor)
                 .ignoresSafeArea()
 
             VStack(spacing: 5) {
@@ -30,10 +32,8 @@ struct CompletedQuestsView: View {
                 }
                 .padding()
                 .background(
-                    Image("panel_brown")
-                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
-                                   resizingMode: .stretch)
-                        .cornerRadius(12)
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor)
                 )
                 .padding(.horizontal)
             }
@@ -71,22 +71,23 @@ struct CompletedQuestsView: View {
 }
 
 struct CompletedQuestCardView: View {
-    let quest: Quest
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var isExpanded: Bool = false
+    let quest: Quest
 
     var body: some View {
+        let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
-            // Title + Created date
             HStack {
                 Text(quest.title)
                     .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
 
                 Spacer()
 
                 Text("Created: \(quest.creationDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.appFont(size: 12))
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
             }
 
             if !quest.info.isEmpty {
@@ -94,7 +95,7 @@ struct CompletedQuestCardView: View {
                     .font(.appFont(size: 14))
                     .lineLimit(isExpanded ? nil : 2)
                     .truncationMode(.tail)
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
             }
 
             let tasks = quest.tasks
@@ -107,10 +108,10 @@ struct CompletedQuestCardView: View {
                     HStack {
                         Text("\(tasks.count) Tasks")
                             .font(.appFont(size: 14, weight: .regular))
-                            .foregroundColor(.black)
+                            .foregroundColor(theme.textColor)
                         Spacer()
                         Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                            .foregroundColor(.black)
+                            .foregroundColor(theme.textColor)
                             .imageScale(.small)
                     }
                 }
@@ -126,7 +127,7 @@ struct CompletedQuestCardView: View {
 
                                 Text(task.title)
                                     .font(.appFont(size: 13))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(theme.textColor)
 
                                 Spacer()
                             }
@@ -147,15 +148,15 @@ struct CompletedQuestCardView: View {
 
                 Text("Due: \(quest.dueDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.appFont(size: 12))
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
             }
             .padding(.top, 4)
         }
         .padding()
         .background(
-            Image("panel_beigeLight")
-                .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
-                           resizingMode: .stretch)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(themeManager.activeTheme.secondaryColor)
+                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
         .cornerRadius(10)
         .shadow(radius: 3)

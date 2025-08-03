@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct QuestCreationView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: QuestCreationViewModel
-
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
@@ -12,14 +12,15 @@ struct QuestCreationView: View {
     @State private var notifyMe = true
 
     var body: some View {
+        let theme = themeManager.activeTheme
         NavigationView {
             ZStack {
                 if showSuccessAnimation {
                     SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
                         .zIndex(20)
                 }
-                Image("pattern_grid_paper")
-                    .resizable(resizingMode: .tile)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.backgroundColor)
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -40,9 +41,8 @@ struct QuestCreationView: View {
                                     .padding(.trailing, 10)
                             }
                                 .background(
-                                    Image("panel_beigeLight")
-                                        .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                                        .allowsHitTesting(false)
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(theme.secondaryColor)
                                 )
                                 .cornerRadius(10)
                             AddTasksView(tasks: $viewModel.tasks) {
@@ -88,17 +88,24 @@ struct QuestCreationView: View {
                                     Spacer()
                                     Text("Save Quest")
                                         .font(.appFont(size: 16, weight: .black))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(theme.textColor)
                                     Spacer()
                                 }
                                 .padding()
                                 .background(
-                                    Image("buttonLong_brown")
-                                        .resizable(capInsets: EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10), resizingMode: .stretch)
-                                        .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
+                                    Image(theme.buttonPrimary)
+                                        .resizable(
+                                            capInsets: EdgeInsets(
+                                                top: 20,
+                                                leading: 20,
+                                                bottom: 20,
+                                                trailing: 20
+                                            ),
+                                            resizingMode: .stretch
+                                        )
                                         .opacity(isButtonPressed ? 0.7 : 1.0)
                                 )
-                                .cornerRadius(8)
+                                .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
                                 .scaleEffect(isButtonPressed ? 0.97 : 1.0)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
                             }
@@ -107,8 +114,8 @@ struct QuestCreationView: View {
                     }
                     .padding()
                     .background(
-                        Image("panel_brown_plus")
-                            .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(themeManager.activeTheme.primaryColor)
                             .allowsHitTesting(false)
                     )
                     .cornerRadius(16)
@@ -130,8 +137,8 @@ struct QuestCreationView: View {
                     TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
                         .frame(width: 350, height: 450)
                         .background(
-                            Image("panel_beigeLight")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.primaryColor)
                         )
                         .cornerRadius(12)
                         .shadow(radius: 10)
@@ -173,25 +180,27 @@ struct QuestCreationView: View {
 }
 
 struct QuestInputField: View {
+    @EnvironmentObject var themeManager: ThemeManager
     var title: String
     @Binding var text: String
     var icon: String
 
     var body: some View {
+        let theme = themeManager.activeTheme
         HStack {
             Image(systemName: icon)
-                .foregroundColor(.black)
+                .foregroundColor(theme.textColor)
 
-            TextField("", text: $text, prompt: Text(title).foregroundColor(.black))
+            TextField("", text: $text, prompt: Text(title).foregroundColor(theme.textColor))
                 .font(.appFont(size: 16))
-                .foregroundColor(.black)
+                .foregroundColor(theme.textColor)
                 .accentColor(.yellow)
         }
         .padding()
         .background(
-            Image("panel_beigeLight")
-                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                .allowsHitTesting(false)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(themeManager.activeTheme.secondaryColor)
+                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
         .cornerRadius(10)
     }
@@ -200,17 +209,19 @@ struct QuestInputField: View {
 struct ToggleCard: View {
     var label: String
     @Binding var isOn: Bool
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
+        let theme = themeManager.activeTheme
         Toggle(isOn: $isOn) {
             Text(label)
                 .font(.appFont(size: 16, weight: .black))
         }
         .padding(10)
         .background(
-            Image("panel_beigeLight")
-                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                .allowsHitTesting(false)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(themeManager.activeTheme.secondaryColor)
+                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
         .cornerRadius(10)
         .tint(Color.yellow)

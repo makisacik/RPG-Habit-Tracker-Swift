@@ -1,22 +1,25 @@
 import SwiftUI
 
 struct EditQuestView: View {
-    @ObservedObject var viewModel: EditQuestViewModel
     @Environment(\.dismiss) private var dismiss
-    var onSaveSuccess: (() -> Void)?
-    var onCancel: (() -> Void)?
-    
+    @EnvironmentObject var themeManager: ThemeManager
+    @ObservedObject var viewModel: EditQuestViewModel
     @State private var isButtonPressed: Bool = false
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
     @State private var isTaskPopupVisible = false
 
+    var onSaveSuccess: (() -> Void)?
+    var onCancel: (() -> Void)?
+    
     var body: some View {
+        let theme = themeManager.activeTheme
+
         NavigationView {
             ZStack {
-                Image("pattern_grid_paper")
-                    .resizable(resizingMode: .tile)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.backgroundColor)
                     .ignoresSafeArea()
 
                 ScrollView {
@@ -37,8 +40,8 @@ struct EditQuestView: View {
                                     .padding(.trailing, 10)
                             }
                             .background(
-                                Image("panel_beigeLight")
-                                    .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(theme.primaryColor)
                             )
                             .cornerRadius(10)
                         }
@@ -78,12 +81,12 @@ struct EditQuestView: View {
                                     Spacer()
                                     Text("Update Quest")
                                         .font(.appFont(size: 16, weight: .black))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(theme.textColor)
                                     Spacer()
                                 }
                                 .padding()
                                 .background(
-                                    Image("buttonLong_brown")
+                                    Image(theme.buttonPrimary)
                                         .resizable(capInsets: EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                                         .opacity(isButtonPressed ? 0.7 : 1.0)
                                 )
@@ -96,8 +99,8 @@ struct EditQuestView: View {
                     }
                     .padding()
                     .background(
-                        Image("panel_brown_plus")
-                            .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(themeManager.activeTheme.primaryColor)
                     )
                     .cornerRadius(16)
                     .padding()
@@ -117,8 +120,8 @@ struct EditQuestView: View {
                     TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
                         .frame(width: 350, height: 450)
                         .background(
-                            Image("panel_beigeLight")
-                                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.primaryColor)
                         )
                         .cornerRadius(12)
                         .shadow(radius: 10)

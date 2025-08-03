@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct PlayerBaseView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     var body: some View {
+        let theme = themeManager.activeTheme
         VStack(spacing: 16) {
             Image("background")
                 .resizable()
@@ -16,9 +18,8 @@ struct PlayerBaseView: View {
         }
         .padding()
         .background(
-            Image("panel_brown")
-                .resizable(capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20), resizingMode: .stretch)
-                .cornerRadius(12)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.primaryColor)
         )
         .padding([.horizontal, .top])
         .frame(maxWidth: .infinity)

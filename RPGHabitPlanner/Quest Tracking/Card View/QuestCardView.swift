@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct QuestCardView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @State private var isExpanded: Bool = false
+
     let quest: Quest
     let onMarkComplete: (UUID) -> Void
     let onEditQuest: (Quest) -> Void
     let onUpdateProgress: (UUID, Int) -> Void
     let onToggleTaskCompletion: (UUID, Bool) -> Void
     
-    @State private var isExpanded: Bool = false
 
     var body: some View {
+        let theme = themeManager.activeTheme
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading, spacing: 8) {
                 Text(quest.title)
@@ -33,19 +36,19 @@ struct QuestCardView: View {
                     Button(action: { onUpdateProgress(quest.id, -20) }) {
                         Text("-")
                             .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.black)
+                            .foregroundColor(theme.textColor)
                             .padding(.leading, 4)
                     }
 
                     ProgressView(value: Double(quest.progress) / 100.0)
                         .frame(height: 8)
-                        .tint(.black)
+                        .tint(theme.textColor)
                         .padding(.horizontal, 4)
 
                     Button(action: { onUpdateProgress(quest.id, 20) }) {
                         Text("+")
                             .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(.black)
+                            .foregroundColor(theme.textColor)
                             .padding(.trailing, 4)
                     }
                 }
@@ -60,10 +63,10 @@ struct QuestCardView: View {
                         HStack {
                             Text("\(tasks.count) Tasks")
                                 .font(.appFont(size: 14, weight: .regular))
-                                .foregroundColor(.black)
+                                .foregroundColor(theme.textColor)
                             Spacer()
                             Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                                .foregroundColor(.black)
+                                .foregroundColor(theme.textColor)
                                 .imageScale(.small)
                         }
                     }
@@ -72,14 +75,14 @@ struct QuestCardView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(tasks, id: \.id) { task in
                                 HStack {
-                                    Image(task.isCompleted ? "checkbox_beige_checked" : "checkbox_beige_empty")
+                                    Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle.fill")
                                         .resizable()
                                         .frame(width: 18, height: 18)
                                         .foregroundColor(task.isCompleted ? .green : .gray)
 
                                     Text(task.title)
                                         .font(.appFont(size: 13))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(theme.textColor)
                                     
                                     Spacer()
                                 }
@@ -104,14 +107,15 @@ struct QuestCardView: View {
 
                     Text(quest.dueDate, format: .dateTime.day().month(.abbreviated))
                         .font(.appFont(size: 12))
-                        .foregroundColor(.black)
+                        .foregroundColor(theme.textColor)
                 }
                 .padding(.top, 4)
             }
             .padding()
             .background(
-                Image("panel_beigeLight")
-                    .resizable(capInsets: EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16), resizingMode: .stretch)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(themeManager.activeTheme.secondaryColor)
+                    .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
             )
             .cornerRadius(10)
             .shadow(radius: 3)
@@ -127,7 +131,7 @@ struct QuestCardView: View {
             } label: {
                 Image(systemName: "ellipsis")
                     .padding()
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
             }
         }
     }
