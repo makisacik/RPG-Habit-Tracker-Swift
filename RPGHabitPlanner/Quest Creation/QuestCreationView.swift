@@ -43,8 +43,8 @@ struct QuestCreationView: View {
                                 .background(
                                     RoundedRectangle(cornerRadius: 12)
                                         .fill(theme.secondaryColor)
+                                        .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                                 )
-                                .cornerRadius(10)
                             AddTasksView(tasks: $viewModel.tasks) {
                                 isTaskPopupVisible = true
                             }
@@ -116,9 +116,9 @@ struct QuestCreationView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 12)
                             .fill(themeManager.activeTheme.primaryColor)
+                            .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                             .allowsHitTesting(false)
                     )
-                    .cornerRadius(16)
                     .padding()
                 }
                 .scrollDismissesKeyboard(.interactively)
@@ -139,6 +139,7 @@ struct QuestCreationView: View {
                         .background(
                             RoundedRectangle(cornerRadius: 12)
                                 .fill(theme.primaryColor)
+                                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                         )
                         .cornerRadius(12)
                         .shadow(radius: 10)
@@ -202,7 +203,6 @@ struct QuestInputField: View {
                 .fill(themeManager.activeTheme.secondaryColor)
                 .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
-        .cornerRadius(10)
     }
 }
 
@@ -223,7 +223,6 @@ struct ToggleCard: View {
                 .fill(themeManager.activeTheme.secondaryColor)
                 .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
-        .cornerRadius(10)
         .tint(Color.yellow)
     }
 }

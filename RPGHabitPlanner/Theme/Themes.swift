@@ -33,10 +33,10 @@ struct Theme {
         switch resolvedMode {
         case .light:
             return Theme(
-                backgroundColor: Color(red: 241 / 255, green: 246 / 255, blue: 253 / 255),
+                backgroundColor: Color(.white),
                 textColor: Color.black,
-                primaryColor: Color(red: 225 / 255, green: 235 / 255, blue: 247 / 255),
-                secondaryColor: Color(red: 208 / 255, green: 222 / 255, blue: 240 / 255),
+                primaryColor: Color(hex: "#F2F2F2"),
+                secondaryColor: Color(hex: "#F2F2F2"),
                 buttonPrimary: "btn_gold",
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_bronze"

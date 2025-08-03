@@ -38,8 +38,8 @@ struct AddTasksView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 12)
                         .fill(theme.secondaryColor)
+                        .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                 )
-                .cornerRadius(10)
             }
         }
     }
