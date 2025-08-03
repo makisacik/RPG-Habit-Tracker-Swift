@@ -24,6 +24,9 @@ struct HomeView: View {
                         Spacer()
                         if let user = viewModel.user {
                             CharacterOverlayView(user: user)
+                                .onTapGesture {
+                                    isCharacterDetailsPresented.toggle()
+                                }
                         }
                     }
                     .padding(.bottom, 20)
@@ -46,39 +49,27 @@ struct HomeView: View {
                                 userManager: viewModel.userManager
                             )
                         )
-                        .padding(.bottom, 20)
+                        Spacer()
+                        if let user = viewModel.user {
+                            CharacterOverlayView(user: user)
+                                .onTapGesture {
+                                    isCharacterDetailsPresented.toggle()
+                                }
+                        }
                     }
                     .font(.appFont(size: 16))
                     .navigationTitle("Quest Journal")
                     .navigationBarTitleDisplayMode(.large)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button(action: {
-                                isCharacterDetailsPresented.toggle()
-                            }) {
-                                HStack {
-                                    Image(theme.paperSimple)
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
-                                    Text("Level \(viewModel.user?.level ?? 1)")
-                                        .font(.appFont(size: 16, weight: .black))
-                                        .foregroundColor(theme.textColor)
-                                }
-                            }
+                    .navigationBarItems(trailing:
+                        NavigationLink(destination: QuestCreationView(
+                            viewModel: QuestCreationViewModel(questDataService: questDataService)
+                        )) {
+                            Image(theme.paperSimple)
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
                         }
-
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: QuestCreationView(
-                                viewModel: QuestCreationViewModel(questDataService: questDataService)
-                            )) {
-                                Image(theme.paperSimple)
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
-                            }
-                        }
-                    }
+                    )
                     .sheet(isPresented: $isCharacterDetailsPresented) {
                         if let user = viewModel.user {
                             CharacterDetailsView(user: user)

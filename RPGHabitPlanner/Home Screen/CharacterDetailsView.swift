@@ -62,22 +62,47 @@ struct CharacterDetailsView: View {
                             }
                             
                             ZStack(alignment: .leading) {
-                                Image("progress_transparent")
-                                    .resizable(capInsets: EdgeInsets(top: 10, leading: 18, bottom: 10, trailing: 20), resizingMode: .stretch)
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(theme.backgroundColor)
+                                    .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
                                     .frame(height: 20)
-                                
+
                                 GeometryReader { geometry in
                                     let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
                                     if expRatio > 0 {
-                                        Image("progress_green")
-                                            .resizable(capInsets: EdgeInsets(top: 10, leading: 18, bottom: 10, trailing: 20), resizingMode: .stretch)
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(
+                                                LinearGradient(
+                                                    gradient: Gradient(colors: [
+                                                        Color.green.opacity(0.9),
+                                                        Color.green.opacity(0.7),
+                                                        Color.green.opacity(0.9)
+                                                    ]),
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                )
+                                            )
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                            )
                                             .frame(width: geometry.size.width * expRatio, height: 20)
+                                            .animation(.easeOut(duration: 0.3), value: expRatio)
                                     }
                                 }
                                 .frame(height: 20)
-                                .clipped()
+
+                                HStack {
+                                    Spacer()
+                                    Text("\(user.exp) / 100")
+                                        .font(.appFont(size: 12, weight: .black))
+                                        .foregroundColor(theme.textColor)
+                                        .shadow(radius: 1)
+                                    Spacer()
+                                }
                             }
                             .frame(height: 20)
+                            .padding(.bottom, 6)
                         }
                         
                         Divider()

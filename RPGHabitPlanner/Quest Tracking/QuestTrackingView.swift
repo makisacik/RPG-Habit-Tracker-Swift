@@ -70,7 +70,7 @@ struct QuestTrackingView: View {
                         }
                     }
                 }
-                .padding()
+                .padding(5)
             }
             .onChange(of: viewModel.quests) { _ in
                 if let lastScrollPosition = lastScrollPosition {

@@ -33,7 +33,7 @@ struct CharacterOverlayView: View {
 
                     Text("Level \(user.level)")
                         .font(.appFont(size: 14, weight: .black))
-                        .foregroundColor(.appYellow)
+                        .foregroundColor(theme.textColor)
                 }
 
                 Text(user.characterClass?.capitalized ?? "Unknown")
@@ -86,9 +86,12 @@ struct CharacterOverlayView: View {
         }
         .padding(6)
         .background(
+//            Image("frame_light_yellow")
+//                .resizable(capInsets: EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12), resizingMode: .stretch)
+//                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
             RoundedRectangle(cornerRadius: 12)
-                .fill(theme.secondaryColor)
-                .shadow(color: Color.black.opacity(0.4), radius: 6, x: 0, y: 4)
+                .fill(themeManager.activeTheme.secondaryColor)
+                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
         .padding(10)
     }
