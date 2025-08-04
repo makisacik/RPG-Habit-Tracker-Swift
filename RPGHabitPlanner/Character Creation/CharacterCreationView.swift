@@ -4,6 +4,7 @@
 //
 //  Created by Mehmet Ali Kısacık on 10.11.2024.
 //
+
 import SwiftUI
 
 struct CharacterCreationView: View {
@@ -43,7 +44,7 @@ struct CharacterCreationView: View {
                     }) {
                         Text("Confirm Selection")
                             .font(.appFont(size: 18))
-                            .foregroundColor(.brown)
+                            .foregroundColor(theme.textColor)
                             .padding(.horizontal)
                             .frame(height: 44)
                             .background(
