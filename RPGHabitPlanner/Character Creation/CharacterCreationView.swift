@@ -39,9 +39,9 @@ struct CharacterCreationView: View {
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(themeManager.activeTheme.primaryColor)
+                                    .fill(themeManager.activeTheme.secondaryColor)
+                                    .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                             )
-                            .cornerRadius(8)
                             .padding(.horizontal)
                     }
 
@@ -68,9 +68,16 @@ struct CharacterCreationView: View {
                             .padding(.horizontal)
                             .frame(height: 44)
                             .background(
-                                Image("button_brown")
-                                    .resizable()
-                                    .frame(height: 44)
+                                Image(theme.buttonPrimary)
+                                    .resizable(
+                                        capInsets: EdgeInsets(
+                                            top: 20,
+                                            leading: 20,
+                                            bottom: 20,
+                                            trailing: 20
+                                        ),
+                                        resizingMode: .stretch
+                                    )
                             )
                             .padding(.bottom)
                             .cornerRadius(8)

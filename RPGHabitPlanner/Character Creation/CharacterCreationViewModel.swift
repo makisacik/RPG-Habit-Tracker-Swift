@@ -22,9 +22,10 @@ class CharacterCreationViewModel: ObservableObject {
     
     private let weapons: [CharacterClass: [Weapon]] = [
         .knight: [.swordBroad, .swordLong, .swordDouble],
-        .assassin: [.daggerGolden, .daggerLong, .daggerDouble],
         .archer: [.bow, .crossbow],
-        .wizard: [.staff, .spellbook]
+        .elephant: [.bow, .crossbow],
+        .ninja: [.bow, .crossbow],
+        .octopus: [.bow, .crossbow]
     ]
     
     init() {
