@@ -42,32 +42,37 @@ struct NicknamePopupView: View {
                                     .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                             )
 
-                        HStack(spacing: 12) {
-                            Button("Cancel") {
-                                onCancel()
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.gray.opacity(0.3))
-                            )
-
-                            Button("OK") {
-                                onConfirm()
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.secondaryColor)
-                            )
+                        Button(action: { onConfirm() }) {
+                            Text("OK")
+                                .font(.appFont(size: 18))
+                                .foregroundColor(theme.textColor)
+                                .padding(.horizontal)
+                                .frame(height: 44)
+                                .background(
+                                    Image(theme.buttonPrimary)
+                                        .resizable(
+                                            capInsets: EdgeInsets(
+                                                top: 20,
+                                                leading: 20,
+                                                bottom: 20,
+                                                trailing: 20
+                                            ),
+                                            resizingMode: .stretch
+                                        )
+                                )
                         }
                     }
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .fill(theme.primaryColor)
+                    )
+                    .overlay(
+                        CloseButtonView {
+                            onCancel()
+                        }
+                        .offset(x: 20, y: -20),
+                        alignment: .topTrailing
                     )
                 }
 
