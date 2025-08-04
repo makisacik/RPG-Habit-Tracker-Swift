@@ -16,73 +16,61 @@ struct NicknamePopupView: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
-        ZStack {
-            Color.black.opacity(0.4)
-                .ignoresSafeArea()
-                .onTapGesture { onCancel() }
+        VStack(spacing: 0) {
+            Image(themeManager.currentTheme == .dark ? "icon_popup_top_blue" : "icon_popup_top_white")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 155)
 
-            ZStack {
-                VStack(spacing: 0) {
-                    Circle()
-                        .fill(theme.primaryColor)
-                        .frame(width: 170, height: 170)
-                        .padding(.bottom, -140)
+            VStack(spacing: 16) {
+                Text("Enter Your Nickname")
+                    .font(.appFont(size: 18, weight: .black))
+                    .foregroundColor(theme.textColor)
 
-                    VStack(spacing: 16) {
-                        Text("Enter Your Nickname")
-                            .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(theme.textColor)
-
-                        TextField("Nickname", text: $nickname)
-                            .font(.appFont(size: 18))
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.backgroundColor)
-                                    .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
-                            )
-
-                        Button(action: { onConfirm() }) {
-                            Text("OK")
-                                .font(.appFont(size: 18))
-                                .foregroundColor(theme.textColor)
-                                .padding(.horizontal)
-                                .frame(height: 44)
-                                .background(
-                                    Image(theme.buttonPrimary)
-                                        .resizable(
-                                            capInsets: EdgeInsets(
-                                                top: 20,
-                                                leading: 20,
-                                                bottom: 20,
-                                                trailing: 20
-                                            ),
-                                            resizingMode: .stretch
-                                        )
-                                )
-                        }
-                    }
+                TextField("Nickname", text: $nickname)
+                    .font(.appFont(size: 18))
                     .padding()
                     .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(theme.primaryColor)
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(theme.backgroundColor)
+                            .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                     )
-                    .overlay(
-                        CloseButtonView {
-                            onCancel()
-                        }
-                        .offset(x: 20, y: -20),
-                        alignment: .topTrailing
-                    )
-                }
 
-                Image("icon_feather")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .offset(y: -85)
+                Button(action: { onConfirm() }) {
+                    Text("OK")
+                        .font(.appFont(size: 18))
+                        .foregroundColor(theme.textColor)
+                        .padding(.horizontal)
+                        .frame(height: 44)
+                        .background(
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                        )
+                }
             }
-            .padding(.horizontal, 40)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(theme.primaryColor)
+            )
+            .overlay(
+                CloseButtonView {
+                    onCancel()
+                }
+                .offset(x: 20, y: -20),
+                alignment: .topTrailing
+            )
         }
+        .overlay(
+            Image("icon_feather")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 40, height: 40)
+                .offset(y: -85)
+        )
+        .padding(.horizontal, 40)
     }
 }

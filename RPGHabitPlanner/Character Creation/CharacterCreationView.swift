@@ -40,7 +40,9 @@ struct CharacterCreationView: View {
                     }
 
                     Button(action: {
-                        showNicknamePopup = true
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                            showNicknamePopup = true
+                        }
                     }) {
                         Text("Confirm Selection")
                             .font(.appFont(size: 18))
@@ -74,19 +76,37 @@ struct CharacterCreationView: View {
             .onChange(of: viewModel.isCharacterCreated) { newValue in
                 isCharacterCreated = newValue
             }
+
             if showNicknamePopup {
-                NicknamePopupView(
-                    nickname: $tempNickname,
-                    onConfirm: {
-                        viewModel.nickname = tempNickname
-                        viewModel.confirmSelection()
-                        showNicknamePopup = false
-                    },
-                    onCancel: {
-                        showNicknamePopup = false
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                    .zIndex(0.9)
+                    .onTapGesture {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                            showNicknamePopup = false
+                        }
                     }
-                )
-                .environmentObject(themeManager)
+
+                ZStack {
+                    NicknamePopupView(
+                        nickname: $tempNickname,
+                        onConfirm: {
+                            viewModel.nickname = tempNickname
+                            viewModel.confirmSelection()
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                showNicknamePopup = false
+                            }
+                        },
+                        onCancel: {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                showNicknamePopup = false
+                            }
+                        }
+                    )
+                    .environmentObject(themeManager)
+                }
+                .transition(.scale(scale: 0.8).combined(with: .opacity))
+                .zIndex(1)
             }
         }
     }

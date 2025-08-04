@@ -2,41 +2,16 @@ import SwiftUI
 import WidgetKit
 
 struct HomeView: View {
-    @ObservedObject var viewModel: HomeViewModel
-    let questDataService: QuestDataServiceProtocol
     @EnvironmentObject var themeManager: ThemeManager
-    @State private var isCharacterDetailsPresented: Bool = false
     @Environment(\.colorScheme) private var colorScheme
+    @ObservedObject var viewModel: HomeViewModel
+    @State private var isCharacterDetailsPresented: Bool = false
+    let questDataService: QuestDataServiceProtocol
 
     var body: some View {
         let theme = themeManager.activeTheme
         
         TabView {
-            NavigationStack {
-                ZStack {
-                    theme.backgroundColor
-                        .ignoresSafeArea()
-
-                    VStack {
-                        PlayerBaseView()
-                            .navigationTitle("Your Base")
-                            .navigationBarTitleDisplayMode(.large)
-                        Spacer()
-                        if let user = viewModel.user {
-                            CharacterOverlayView(user: user)
-                                .onTapGesture {
-                                    isCharacterDetailsPresented.toggle()
-                                }
-                        }
-                    }
-                    .padding(.bottom, 20)
-                }
-            }
-            .tabItem {
-                Label("Base", systemImage: "house.fill")
-            }
-            .tag(HomeTab.base)
-            
             NavigationStack {
                 ZStack {
                     theme.backgroundColor
@@ -117,5 +92,4 @@ struct HomeView: View {
 enum HomeTab: Hashable {
     case tracking
     case completed
-    case base
 }
