@@ -34,7 +34,7 @@ struct HomeView: View {
                     }
                     .font(.appFont(size: 16))
                     .navigationTitle("Quest Journal")
-                    .navigationBarTitleDisplayMode(.large)
+                    .navigationBarTitleDisplayMode(.inline)
                     .navigationBarItems(trailing:
                         NavigationLink(destination: QuestCreationView(
                             viewModel: QuestCreationViewModel(questDataService: questDataService)
@@ -71,6 +71,7 @@ struct HomeView: View {
             }
             .tag(HomeTab.tracking)
 
+            // Completed Tab
             NavigationStack {
                 CompletedQuestsView(
                     viewModel: CompletedQuestsViewModel(
@@ -78,12 +79,28 @@ struct HomeView: View {
                     )
                 )
                 .navigationTitle("Completed Quests")
-                .navigationBarTitleDisplayMode(.large)
+                .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Label("Completed", systemImage: "checkmark.seal.fill")
             }
             .tag(HomeTab.completed)
+
+            NavigationStack {
+                if let user = viewModel.user {
+                    CharacterView(user: user)
+                } else {
+                    Text("Loading character...")
+                        .foregroundColor(.gray)
+                        .onAppear {
+                            viewModel.fetchUserData()
+                        }
+                }
+            }
+            .tabItem {
+                Label("Character", systemImage: "person.crop.circle.fill")
+            }
+            .tag(HomeTab.character)
         }
         .accentColor(.red)
     }
@@ -92,4 +109,5 @@ struct HomeView: View {
 enum HomeTab: Hashable {
     case tracking
     case completed
+    case character
 }
