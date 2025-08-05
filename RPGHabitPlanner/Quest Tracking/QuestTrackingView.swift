@@ -14,12 +14,14 @@ struct QuestTrackingView: View {
     @State private var showSuccessAnimation: Bool = false
     @State private var lastScrollPosition: UUID?
     @State private var selectedQuestForEditing: Quest?
+    @State private var showReward = false
     @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         ZStack {
             mainContent
             SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
+            RewardView(isVisible: $showReward)
         }
     }
 
@@ -87,8 +89,8 @@ struct QuestTrackingView: View {
             onMarkComplete: { id in
                 withAnimation {
                     viewModel.markQuestAsCompleted(id: id)
-                    showSuccessAnimation = true
                     lastScrollPosition = id
+                    showReward = true
                 }
             },
             onEditQuest: { selectedQuestForEditing = $0 },
