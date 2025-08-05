@@ -4,11 +4,16 @@ The purpose of this project is to create an App Store application that will help
 
 ## Current Development Screenshoots
 
-<img src="https://github.com/user-attachments/assets/8aebcff0-e65b-406f-a03a-46cbef408fde" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 49 48" width="180">
-<img src="https://github.com/user-attachments/assets/f28f7375-02a4-45ea-8522-02afd548a5be" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 49 56" width="180">
-<img src="https://github.com/user-attachments/assets/185e2276-fcfe-4614-8726-d8c3b0c60695" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 43" width="180">
-<img src="https://github.com/user-attachments/assets/5793fb50-9011-4476-8ade-b76b3dfac0c8" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 50" width="180">
-<img src="https://github.com/user-attachments/assets/4cda3f6c-5702-420a-b245-4b7d31c650d3" alt="Simulator Screenshot - iPhone 16 Plus - 2025-07-21 at 20 50 50" width="180">
+<img src="https://github.com/user-attachments/assets/cbf4c983-f39e-49de-ac35-471383de1f1f" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 33 32" width="180">
+<img src="https://github.com/user-attachments/assets/c9aff7cd-ff97-4097-a2d1-13b75526228e" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 41 14" width="180">
+<img src="https://github.com/user-attachments/assets/3dfe7c5a-ae58-45a7-a9c9-6f496ab33a4d" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 40 36" width="180">
+<img src="https://github.com/user-attachments/assets/91c2c945-8c6c-4f85-bf48-0d4df9de7988" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 40 03" width="180">
+<img src="https://github.com/user-attachments/assets/bbc31526-bc75-4b93-a662-c35e30b84da1" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 40 18" width="180">
+<img src="https://github.com/user-attachments/assets/0ae4045f-62e5-406b-9601-4e19d751c57f" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 45 40" width="180">
+<img src="https://github.com/user-attachments/assets/1bd6187c-f668-43ba-a5ea-91185dedfa40" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 45 49" width="180">
+<img src="https://github.com/user-attachments/assets/4b5ae26f-a476-467b-affb-2e40d24c71d2" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 35 25" width="180">
+<img src="https://github.com/user-attachments/assets/9f5c1f99-14af-415e-b422-b174f14e5731" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 35 52" width="180">
+
 
 
 ## Testability
