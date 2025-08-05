@@ -13,6 +13,7 @@ struct RewardView: View {
     @State private var rewardGiven = false
     @State private var rotation: Double = 0
     @State private var fadeOut = false
+    @State private var rewardItem: Item?
 
     var body: some View {
         if isVisible {
@@ -40,8 +41,8 @@ struct RewardView: View {
                             .scaledToFit()
                             .frame(width: 150, height: 150)
 
-                        if rewardGiven {
-                            Image("icon_armor")
+                        if rewardGiven, let reward = rewardItem {
+                            Image(reward.iconName)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 100, height: 100)
@@ -56,6 +57,9 @@ struct RewardView: View {
                         chestOpened = true
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        let randomItem = InventoryManager.shared.getRandomReward()
+                        InventoryManager.shared.addToInventory(randomItem)
+                        rewardItem = randomItem
                         withAnimation {
                             rewardGiven = true
                         }
