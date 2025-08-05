@@ -24,13 +24,6 @@ struct HomeView: View {
                                 userManager: viewModel.userManager
                             )
                         )
-                        Spacer()
-                        if let user = viewModel.user {
-                            CharacterOverlayView(user: user)
-                                .onTapGesture {
-                                    isCharacterDetailsPresented.toggle()
-                                }
-                        }
                     }
                     .font(.appFont(size: 16))
                     .navigationTitle("Quest Journal")
