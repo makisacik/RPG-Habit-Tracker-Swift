@@ -7,7 +7,7 @@
 import SwiftUI
 
 enum AppFontWeight {
-    case regular, italic, black, blackItalic
+    case regular, medium, italic, black, bold, blackItalic
 }
 
 extension Font {
@@ -15,9 +15,13 @@ extension Font {
         switch weight {
         case .regular:
             return Font.custom("HoeflerText-Regular", size: size)
+        case .medium:
+            return Font.custom("HoeflerText-Regular", size: size)
         case .italic:
             return Font.custom("HoeflerText-Italic", size: size)
         case .black:
+            return Font.custom("HoeflerText-Black", size: size)
+        case .bold:
             return Font.custom("HoeflerText-Black", size: size)
         case .blackItalic:
             return Font.custom("HoeflerText-BlackItalic", size: size)

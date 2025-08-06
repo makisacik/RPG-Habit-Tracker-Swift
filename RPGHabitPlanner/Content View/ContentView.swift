@@ -21,7 +21,7 @@ struct ContentView: View {
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
         self.userManager = UserManager()
-        self.homeViewModel = HomeViewModel(userManager: self.userManager)
+        self.homeViewModel = HomeViewModel(userManager: self.userManager, questDataService: questDataService)
     }
 
     var body: some View {
