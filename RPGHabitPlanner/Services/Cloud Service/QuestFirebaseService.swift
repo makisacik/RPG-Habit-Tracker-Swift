@@ -33,6 +33,10 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
     }
     
     func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping ((any Error)?) -> Void) {
+        // TODO: Implement Firebase quest completion update with completionDate
+        // When implementing, set completionDate to Date() when isCompleted is true
+        // and set it to nil when isCompleted is false
+        completion(nil)
     }
     
     func deleteQuest(withId id: UUID, completion: @escaping ((any Error)?) -> Void) {

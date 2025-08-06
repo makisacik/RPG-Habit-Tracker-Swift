@@ -27,6 +27,7 @@ extension QuestEntity {
     @NSManaged public var tasks: NSOrderedSet?
     @NSManaged public var repeatType: String
     @NSManaged public var repeatIntervalWeeks: Int16
+    @NSManaged public var completionDate: Date?
 }
 
 extension QuestEntity: Identifiable {

@@ -56,6 +56,9 @@ final class QuestTrackingViewModel: ObservableObject {
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
+                            
+                            // Check for achievements after quest completion
+                            self.checkAchievements()
                         }
                     }
                     #else
@@ -66,6 +69,9 @@ final class QuestTrackingViewModel: ObservableObject {
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
+                            
+                            // Check for achievements after quest completion
+                            self.checkAchievements()
                         }
                     }
                     #endif
@@ -153,6 +159,18 @@ final class QuestTrackingViewModel: ObservableObject {
                         self?.quests[questIndex].tasks[taskIndex].isCompleted.toggle()
                     }
                 }
+            }
+        }
+    }
+    
+    private func checkAchievements() {
+        AchievementManager.shared.checkAchievements(
+            questDataService: questDataService,
+            userManager: userManager
+        ) { newlyUnlocked in
+            if !newlyUnlocked.isEmpty {
+                print("🎉 New achievements unlocked: \(newlyUnlocked.map { $0.title })")
+                // You can add notification or celebration logic here
             }
         }
     }

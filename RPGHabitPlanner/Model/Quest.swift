@@ -25,11 +25,12 @@ struct Quest: Identifiable, Equatable {
     var isActive: Bool
     var progress: Int
     var isCompleted = false
+    var completionDate: Date?
     var tasks: [QuestTask] = []
     var repeatType: QuestRepeatType
     var repeatIntervalWeeks: Int?
     
-    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, tasks: [QuestTask] = [], repeatType: QuestRepeatType = .oneTime, repeatIntervalWeeks: Int? = nil) {
+    init(id: UUID = UUID(), title: String, isMainQuest: Bool, info: String, difficulty: Int, creationDate: Date, dueDate: Date, isActive: Bool, progress: Int, isCompleted: Bool = false, completionDate: Date? = nil, tasks: [QuestTask] = [], repeatType: QuestRepeatType = .oneTime, repeatIntervalWeeks: Int? = nil) {
         self.id = id
         self.title = title
         self.isMainQuest = isMainQuest
@@ -39,6 +40,7 @@ struct Quest: Identifiable, Equatable {
         self.dueDate = dueDate
         self.isActive = isActive
         self.isCompleted = isCompleted
+        self.completionDate = completionDate
         self.progress = progress
         self.tasks = tasks
         self.repeatType = repeatType

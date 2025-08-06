@@ -76,6 +76,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     isActive: entity.isActive,
                     progress: Int(entity.progress),
                     isCompleted: entity.isCompleted,
+                    completionDate: entity.completionDate,
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
                         .map { QuestTask(entity: $0) },
@@ -108,6 +109,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     isActive: entity.isActive,
                     progress: Int(entity.progress),
                     isCompleted: entity.isCompleted,
+                    completionDate: entity.completionDate,
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
                         .map { QuestTask(entity: $0) },
@@ -141,6 +143,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     isActive: entity.isActive,
                     progress: Int(entity.progress),
                     isCompleted: entity.isCompleted,
+                    completionDate: entity.completionDate,
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
                         .map { QuestTask(entity: $0) },
@@ -172,7 +175,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     dueDate: questEntity.dueDate ?? Date(),
                     isActive: questEntity.isActive,
                     progress: Int(questEntity.progress),
-                    isCompleted: questEntity.isCompleted
+                    isCompleted: questEntity.isCompleted,
+                    completionDate: questEntity.completionDate
                 )
                 completion(quest, nil)
             } else {
@@ -210,6 +214,15 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         do {
             if let questEntity = try context.fetch(fetchRequest).first {
                 questEntity.isCompleted = isCompleted
+                
+                // Set completion date when quest is completed
+                if isCompleted {
+                    questEntity.completionDate = Date()
+                } else {
+                    // Clear completion date if quest is uncompleted
+                    questEntity.completionDate = nil
+                }
+                
                 NotificationManager.shared.cancelQuestNotifications(questId: id)
                 try context.save()
                 completion(nil)

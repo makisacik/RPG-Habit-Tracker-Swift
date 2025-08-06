@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AchievementView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @StateObject private var achievementManager = AchievementManager.shared
     @State private var selectedCategory: AchievementCategory = .all
     
     var body: some View {
@@ -71,18 +72,20 @@ struct AchievementView: View {
         }
     }
     
-    private var filteredAchievements: [Achievement] {
+    private var filteredAchievements: [AchievementDefinition] {
+        let allAchievements = achievementManager.getAllAchievements()
         if selectedCategory == .all {
-            return Achievement.dummyAchievements
+            return allAchievements
         } else {
-            return Achievement.dummyAchievements.filter { $0.category == selectedCategory }
+            return allAchievements.filter { $0.category == selectedCategory }
         }
     }
 }
 
 struct AchievementCardView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    let achievement: Achievement
+    @StateObject private var achievementManager = AchievementManager.shared
+    let achievement: AchievementDefinition
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -91,12 +94,12 @@ struct AchievementCardView: View {
             // Achievement Icon
             ZStack {
                 Circle()
-                    .fill(achievement.isUnlocked ? Color.yellow.opacity(0.2) : Color.gray.opacity(0.2))
+                    .fill(isUnlocked ? Color.yellow.opacity(0.2) : Color.gray.opacity(0.2))
                     .frame(width: 60, height: 60)
                 
                 Image(systemName: achievement.iconName)
                     .font(.title2)
-                    .foregroundColor(achievement.isUnlocked ? .yellow : .gray)
+                    .foregroundColor(isUnlocked ? .yellow : .gray)
             }
             
             // Achievement Info
@@ -113,7 +116,7 @@ struct AchievementCardView: View {
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
                 
-                if achievement.isUnlocked {
+                if isUnlocked {
                     Text("Unlocked!")
                         .font(.appFont(size: 10, weight: .black))
                         .foregroundColor(.green)
@@ -143,153 +146,14 @@ struct AchievementCardView: View {
                 .fill(theme.secondaryColor)
                 .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
-        .opacity(achievement.isUnlocked ? 1.0 : 0.7)
+        .opacity(isUnlocked ? 1.0 : 0.7)
+    }
+    
+    private var isUnlocked: Bool {
+        achievementManager.isAchievementUnlocked(achievement.id)
     }
 }
 
-// MARK: - Models
-
-struct Achievement: Identifiable {
-    let id = UUID()
-    let title: String
-    let description: String
-    let iconName: String
-    let category: AchievementCategory
-    let isUnlocked: Bool
-    
-    static let dummyAchievements: [Achievement] = [
-        // Quest Achievements
-        Achievement(
-            title: "First Steps",
-            description: "Complete your first quest",
-            iconName: "flag.fill",
-            category: .quests,
-            isUnlocked: true
-        ),
-        Achievement(
-            title: "Quest Master",
-            description: "Complete 50 quests",
-            iconName: "crown.fill",
-            category: .quests,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Speed Runner",
-            description: "Complete 3 quests in one day",
-            iconName: "bolt.fill",
-            category: .quests,
-            isUnlocked: true
-        ),
-        Achievement(
-            title: "Consistency",
-            description: "Complete quests for 7 days in a row",
-            iconName: "calendar.badge.clock",
-            category: .quests,
-            isUnlocked: false
-        ),
-        
-        // Level Achievements
-        Achievement(
-            title: "Level Up!",
-            description: "Reach level 5",
-            iconName: "star.fill",
-            category: .leveling,
-            isUnlocked: true
-        ),
-        Achievement(
-            title: "Veteran",
-            description: "Reach level 20",
-            iconName: "star.circle.fill",
-            category: .leveling,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Legend",
-            description: "Reach level 50",
-            iconName: "star.square.fill",
-            category: .leveling,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Experience Hunter",
-            description: "Gain 1000 experience points",
-            iconName: "sparkles",
-            category: .leveling,
-            isUnlocked: false
-        ),
-        
-        // Character Achievements
-        Achievement(
-            title: "Character Creator",
-            description: "Create your first character",
-            iconName: "person.fill",
-            category: .character,
-            isUnlocked: true
-        ),
-        Achievement(
-            title: "Weapon Master",
-            description: "Try all weapon types",
-            iconName: "sword.fill",
-            category: .character,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Class Explorer",
-            description: "Try all character classes",
-            iconName: "person.3.fill",
-            category: .character,
-            isUnlocked: false
-        ),
-        
-        // Special Achievements
-        Achievement(
-            title: "Early Bird",
-            description: "Complete a quest before 8 AM",
-            iconName: "sunrise.fill",
-            category: .special,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Night Owl",
-            description: "Complete a quest after 10 PM",
-            iconName: "moon.fill",
-            category: .special,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Weekend Warrior",
-            description: "Complete 5 quests on a weekend",
-            iconName: "calendar.badge.plus",
-            category: .special,
-            isUnlocked: false
-        ),
-        Achievement(
-            title: "Perfect Day",
-            description: "Complete all daily quests",
-            iconName: "checkmark.circle.fill",
-            category: .special,
-            isUnlocked: false
-        )
-    ]
-}
-
-enum AchievementCategory: String, CaseIterable {
-    case all
-    case quests
-    case leveling
-    case character
-    case special
-    
-    var displayName: String {
-        switch self {
-        case .all: return "All"
-        case .quests: return "Quests"
-        case .leveling: return "Leveling"
-        case .character: return "Character"
-        case .special: return "Special"
-        }
-    }
-}
 
 #Preview {
     AchievementView()
