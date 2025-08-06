@@ -79,21 +79,6 @@ class AchievementManager: ObservableObject {
         case .totalExperience(let exp):
             return getTotalExperience(userManager) >= exp
             
-        case .characterCreated:
-            var hasUser = false
-            let semaphore = DispatchSemaphore(value: 0)
-            userManager.fetchUser { user, _ in
-                hasUser = (user != nil)
-                semaphore.signal()
-            }
-            semaphore.wait()
-            return hasUser
-            
-        case .allWeapons:
-            return hasTriedAllWeapons(userManager)
-            
-        case .allClasses:
-            return hasTriedAllClasses(userManager)
             
         case .questBeforeTime(let hour):
             return hasCompletedQuestBeforeTime(questDataService, hour: hour)
@@ -204,17 +189,6 @@ class AchievementManager: ObservableObject {
         return totalExp
     }
     
-    private func hasTriedAllWeapons(_ userManager: UserManager) -> Bool {
-        // This would need weapon history tracking which isn't available in current UserEntity
-        // For now, returning false as we can't track weapon changes
-        return false
-    }
-    
-    private func hasTriedAllClasses(_ userManager: UserManager) -> Bool {
-        // This would need class history tracking which isn't available in current UserEntity
-        // For now, returning false as we can't track class changes
-        return false
-    }
     
     private func hasCompletedQuestBeforeTime(_ questDataService: QuestDataServiceProtocol, hour: Int) -> Bool {
         var hasCompleted = false

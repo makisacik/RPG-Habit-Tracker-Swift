@@ -86,31 +86,6 @@ struct AchievementDefinition: Identifiable, Codable {
             requirement: .totalExperience(1000)
         ),
         
-        // Character Achievements
-        AchievementDefinition(
-            id: "character_created",
-            title: "Character Creator",
-            description: "Create your first character",
-            iconName: "person.fill",
-            category: .character,
-            requirement: .characterCreated
-        ),
-        AchievementDefinition(
-            id: "weapon_master",
-            title: "Weapon Master",
-            description: "Try all weapon types",
-            iconName: "sword.fill",
-            category: .character,
-            requirement: .allWeapons
-        ),
-        AchievementDefinition(
-            id: "class_explorer",
-            title: "Class Explorer",
-            description: "Try all character classes",
-            iconName: "person.3.fill",
-            category: .character,
-            requirement: .allClasses
-        ),
         
         // Special Achievements
         AchievementDefinition(
@@ -156,11 +131,8 @@ enum AchievementRequirement: Codable {
     case consecutiveDays(Int)
     case level(Int)
     case totalExperience(Int)
-    case characterCreated
-    case allWeapons
-    case allClasses
-    case questBeforeTime(Int) // Hour in 24-hour format
-    case questAfterTime(Int) // Hour in 24-hour format
+    case questBeforeTime(Int)
+    case questAfterTime(Int)
     case weekendQuests(Int)
     case allDailyQuests
 }
@@ -171,7 +143,6 @@ enum AchievementCategory: String, CaseIterable, Codable {
     case all
     case quests
     case leveling
-    case character
     case special
     
     var displayName: String {
@@ -179,7 +150,6 @@ enum AchievementCategory: String, CaseIterable, Codable {
         case .all: return "All"
         case .quests: return "Quests"
         case .leveling: return "Leveling"
-        case .character: return "Character"
         case .special: return "Special"
         }
     }
