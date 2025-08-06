@@ -193,6 +193,8 @@ struct QuestInputField: View {
                 .foregroundColor(theme.textColor)
 
             TextField("", text: $text, prompt: Text(title).foregroundColor(theme.textColor))
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor)
                 .accentColor(.yellow)

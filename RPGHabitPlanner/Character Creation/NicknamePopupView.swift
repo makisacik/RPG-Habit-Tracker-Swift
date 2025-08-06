@@ -28,6 +28,8 @@ struct NicknamePopupView: View {
                     .foregroundColor(theme.textColor)
 
                 TextField("Nickname", text: $nickname)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                     .font(.appFont(size: 18))
                     .padding()
                     .background(

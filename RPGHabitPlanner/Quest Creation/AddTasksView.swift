@@ -93,6 +93,8 @@ struct TaskRow: View {
                 .background(Circle().fill(Color.yellow.opacity(0.2)))
 
             TextField("Enter task description", text: $task)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor)
                 .padding(.horizontal, 12)

@@ -94,6 +94,16 @@ struct HomeView: View {
                 Label("Character", systemImage: "person.crop.circle.fill")
             }
             .tag(HomeTab.character)
+
+            // Achievements Tab
+            NavigationStack {
+                AchievementView()
+                    .environmentObject(themeManager)
+            }
+            .tabItem {
+                Label("Achievements", systemImage: "trophy.fill")
+            }
+            .tag(HomeTab.achievements)
         }
         .accentColor(.red)
     }
@@ -103,4 +113,5 @@ enum HomeTab: Hashable {
     case tracking
     case completed
     case character
+    case achievements
 }
