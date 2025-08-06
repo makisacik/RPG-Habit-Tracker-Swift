@@ -1,0 +1,106 @@
+//
+//  HomeViewStatsAndQuests.swift
+//  RPGHabitPlanner
+//
+//  Created by Mehmet Ali Kısacık on 6.08.2025.
+//
+
+import SwiftUI
+
+// MARK: - HomeView Stats and Quests Sections Extension
+
+extension HomeView {
+    var quickStatsSection: some View {
+        let theme = themeManager.activeTheme
+        
+        return LazyVGrid(columns: [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ], spacing: 12) {
+            StatCard(
+                icon: "list.bullet.clipboard",
+                title: "Active",
+                value: "\(viewModel.activeQuestsCount)",
+                color: .blue,
+                theme: theme
+            )
+            
+            StatCard(
+                icon: "checkmark.seal.fill",
+                title: "Completed",
+                value: "\(viewModel.completedQuestsCount)",
+                color: .green,
+                theme: theme
+            )
+            
+            StatCard(
+                icon: "trophy.fill",
+                title: "Achievements",
+                value: "\(viewModel.achievementsCount)",
+                color: .orange,
+                theme: theme
+            )
+        }
+    }
+    
+    var activeQuestsSection: some View {
+        let theme = themeManager.activeTheme
+        
+        return VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Active Quests")
+                    .font(.appFont(size: 20, weight: .bold))
+                    .foregroundColor(theme.textColor)
+                
+                Spacer()
+                
+                Button("View All") {
+                    selectedTab = .tracking
+                }
+                .font(.appFont(size: 14, weight: .medium))
+                .foregroundColor(.blue)
+            }
+            
+            if !viewModel.recentActiveQuests.isEmpty {
+                VStack(spacing: 8) {
+                    ForEach(viewModel.recentActiveQuests.prefix(3), id: \.id) { quest in
+                        QuestPreviewCard(quest: quest, theme: theme)
+                    }
+                }
+            } else {
+                VStack(spacing: 8) {
+                    Image(systemName: "list.bullet.clipboard")
+                        .font(.system(size: 32))
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                    
+                    Text("No active quests")
+                        .font(.appFont(size: 16))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                    
+                    NavigationLink(destination: QuestCreationView(
+                        viewModel: QuestCreationViewModel(questDataService: questDataService)
+                    )) {
+                        Text("Create Quest")
+                            .font(.appFont(size: 14, weight: .medium))
+                            .foregroundColor(.blue)
+                    }
+                    .font(.appFont(size: 14, weight: .medium))
+                    .foregroundColor(.blue)
+                }
+                .frame(height: 100)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor.opacity(0.5))
+                )
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(theme.primaryColor)
+                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
+    }
+}
