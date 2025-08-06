@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ClassSelectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
+        let theme = themeManager.activeTheme
         ZStack {
             GeometryReader { _ in
                 TabView(selection: $viewModel.selectedClass) {
@@ -46,7 +48,7 @@ struct ClassSelectionView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 80, height: 80)
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textColor)
                         .padding(.leading, 10)
                         .onTapGesture {
                             viewModel.selectPreviousClass()
@@ -63,7 +65,7 @@ struct ClassSelectionView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 80, height: 80)
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textColor)
                         .padding(.trailing, 10)
                         .onTapGesture {
                             viewModel.selectNextClass()

@@ -12,7 +12,10 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
     @Published var errorMessage: String?
     @Published var selectedTab: QuestTab = .all
-    
+    @Published var didLevelUp: Bool = false
+    @Published var questCompleted: Bool = false
+    @Published var newLevel: Int16?
+
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
     
@@ -45,15 +48,32 @@ final class QuestTrackingViewModel: ObservableObject {
                 if let error = error {
                     self.errorMessage = error.localizedDescription
                 } else {
-                    self.userManager.updateUserExperience(additionalExp: Int16(10 * self.quests[index].difficulty)) { expError in
+                    #if DEBUG
+                    self.userManager.updateUserExperience(additionalExp: Int16(50 * self.quests[index].difficulty)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.errorMessage = expError.localizedDescription
+                        } else {
+                            self.questCompleted = true
+                            self.didLevelUp = leveledUp
+                            self.newLevel = newLevel
                         }
                     }
+                    #else
+                    self.userManager.updateUserExperience(additionalExp: Int16(10 * self.quests[index].difficulty)) { leveledUp, newLevel, expError in
+                        if let expError = expError {
+                            self.errorMessage = expError.localizedDescription
+                        } else {
+                            self.questCompleted = true
+                            self.didLevelUp = leveledUp
+                            self.newLevel = newLevel
+                        }
+                    }
+                    #endif
                 }
             }
         }
     }
+
 
     func updateQuest(_ quest: Quest) {
         questDataService.updateQuest(

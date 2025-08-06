@@ -27,7 +27,7 @@ struct InventoryView: View {
             VStack(spacing: 10) {
                 Text("Inventory")
                     .font(.appFont(size: 22, weight: .black))
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.textColor)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 14)
                     .background(RoundedRectangle(cornerRadius: 6).fill(Color.purple.opacity(0.8)))
@@ -46,7 +46,8 @@ struct InventoryView: View {
                                 }
                             }
                             .overlay(
-                                infoBubble(for: item)
+                                InfoBubbleView(item: item, selectedItem: selectedItem)
+                                    .environmentObject(themeManager)
                             )
                     }
                 }
@@ -62,35 +63,41 @@ struct InventoryView: View {
         }
     }
     
-    @ViewBuilder
-    private func infoBubble(for item: ItemEntity?) -> some View {
-        if let selectedItem = selectedItem,
-           let current = item,
-           current == selectedItem {
-            VStack(alignment: .center, spacing: 4) {
-                Text(current.name ?? "Unknown")
-                    .font(.appFont(size: 14, weight: .black))
-                    .foregroundColor(.brown)
-                    .multilineTextAlignment(.center)
+    struct InfoBubbleView: View {
+        @EnvironmentObject var themeManager: ThemeManager
+        var item: ItemEntity?
+        var selectedItem: ItemEntity?
 
-                Text(current.info ?? "")
-                    .font(.appFont(size: 12))
-                    .foregroundColor(.brown.opacity(0.9))
-                    .multilineTextAlignment(.center)
+        var body: some View {
+            let theme = themeManager.activeTheme
+            if let selectedItem = selectedItem,
+               let current = item,
+               current == selectedItem {
+                VStack(alignment: .center, spacing: 4) {
+                    Text(current.name ?? "Unknown")
+                        .font(.appFont(size: 14, weight: .black))
+                        .foregroundColor(theme.textColor)
+                        .multilineTextAlignment(.center)
+
+                    Text(current.info ?? "")
+                        .font(.appFont(size: 12))
+                        .foregroundColor(theme.textColor.opacity(0.9))
+                        .multilineTextAlignment(.center)
+                }
+                .padding(10)
+                .frame(minWidth: 120, maxWidth: 180)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.yellow.opacity(0.9))
+                        .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                )
+                .fixedSize(horizontal: false, vertical: true)
+                .offset(y: -70)
+                .transition(.scale.combined(with: .opacity))
             }
-            .padding(10)
-            .frame(minWidth: 120, maxWidth: 180)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.yellow.opacity(0.9))
-                    .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
-            )
-            .fixedSize(horizontal: false, vertical: true)
-            .offset(y: -70)
-            .transition(.scale.combined(with: .opacity))
         }
     }
-}
+
 
 struct InventorySlotView: View {
     let iconName: String?
@@ -110,4 +117,5 @@ struct InventorySlotView: View {
             }
         }
     }
+}
 }

@@ -102,7 +102,7 @@ struct TaskEditorPopup: View {
                         HStack {
                             Image(systemName: "plus.circle.fill")
                             Text("Add Task")
-                                .foregroundStyle(.black)
+                                .foregroundStyle(theme.textColor)
                                 .font(.appFont(size: 14, weight: .black))
                         }
                         .foregroundColor(.yellow)

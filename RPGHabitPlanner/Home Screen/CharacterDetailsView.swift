@@ -42,7 +42,7 @@ struct CharacterDetailsView: View {
                                 if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
                                     Text(characterClass.displayName)
                                         .font(.appFont(size: 16, weight: .regular))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(theme.textColor)
                                 }
                             }
                             Spacer()
@@ -58,7 +58,7 @@ struct CharacterDetailsView: View {
                                 Spacer()
                                 Text("EXP: \(user.exp)/100")
                                     .font(.appFont(size: 14))
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(theme.textColor)
                             }
                             
                             ZStack(alignment: .leading) {
@@ -130,11 +130,11 @@ struct CharacterDetailsView: View {
                         HStack {
                             Text("Character ID:")
                                 .font(.appFont(size: 14))
-                                .foregroundColor(.gray)
+                                .foregroundColor(theme.textColor)
                                 .frame(width: 100, alignment: .leading)
                             Text(user.id?.uuidString ?? "N/A")
                                 .font(.appFont(size: 14))
-                                .foregroundColor(.gray)
+                                .foregroundColor(theme.textColor)
                                 .lineLimit(1)
                                 .truncationMode(.middle)
                             Spacer()

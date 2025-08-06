@@ -51,7 +51,7 @@ struct CharacterView: View {
                             if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
                                 Text(characterClass.displayName)
                                     .font(.appFont(size: 18))
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(theme.textColor)
                             }
                         }
                         .padding(.top, 20)
@@ -71,7 +71,7 @@ struct CharacterView: View {
                             Spacer()
                             Text("EXP: \(user.exp)/100")
                                 .font(.appFont(size: 14))
-                                .foregroundColor(.gray)
+                                .foregroundColor(theme.textColor)
                         }
                         
                         ZStack(alignment: .leading) {

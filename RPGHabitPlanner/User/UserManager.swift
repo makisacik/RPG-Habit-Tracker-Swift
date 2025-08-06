@@ -90,27 +90,29 @@ final class UserManager {
         }
     }
     
-    func updateUserExperience(additionalExp: Int16, completion: @escaping (Error?) -> Void) {
+    func updateUserExperience(additionalExp: Int16, completion: @escaping (Bool, Int16?, Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
-                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                completion(false, nil, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
             }
             
             let context = self.persistentContainer.viewContext
             user.exp += additionalExp
             
+            var leveledUp = false
             while user.exp >= 100 {
                 user.exp -= 100
                 user.level += 1
+                leveledUp = true
             }
             
             do {
                 try context.save()
                 NotificationCenter.default.post(name: .userDidUpdate, object: nil)
-                completion(nil)
+                completion(leveledUp, user.level, nil)
             } catch {
-                completion(error)
+                completion(false, nil, error)
             }
         }
     }

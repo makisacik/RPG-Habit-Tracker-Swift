@@ -24,7 +24,7 @@ struct CompletedQuestsView: View {
                     if viewModel.completedQuests.isEmpty {
                         Text("No completed quests yet!")
                             .font(.appFont(size: 16, weight: .black))
-                            .foregroundColor(.gray)
+                            .foregroundColor(theme.textColor)
                             .padding()
                     } else {
                         questList

@@ -15,6 +15,8 @@ struct QuestTrackingView: View {
     @State private var lastScrollPosition: UUID?
     @State private var selectedQuestForEditing: Quest?
     @State private var showReward = false
+    @State private var showLevelUp = false
+    @State private var levelUpLevel: Int = 0
     @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
@@ -22,6 +24,7 @@ struct QuestTrackingView: View {
             mainContent
             SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
             RewardView(isVisible: $showReward)
+            LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
         }
     }
 
@@ -42,6 +45,21 @@ struct QuestTrackingView: View {
         .onChange(of: viewModel.errorMessage) { errorMessage in
             showAlert = errorMessage != nil
         }
+        .onChange(of: viewModel.questCompleted) { completed in
+            if completed {
+                showReward = true
+                viewModel.questCompleted = false
+            }
+        }
+        .onChange(of: showReward) { isVisible in
+            if !isVisible && viewModel.didLevelUp, let level = viewModel.newLevel {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    showLevelUp = true
+                    levelUpLevel = Int(level)
+                }
+            }
+        }
+
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text("Error").font(.appFont(size: 16, weight: .black)),

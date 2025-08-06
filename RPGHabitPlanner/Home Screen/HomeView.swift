@@ -84,7 +84,7 @@ struct HomeView: View {
                     CharacterView(user: user)
                 } else {
                     Text("Loading character...")
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textColor)
                         .onAppear {
                             viewModel.fetchUserData()
                         }
