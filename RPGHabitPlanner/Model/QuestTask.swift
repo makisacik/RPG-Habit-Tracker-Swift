@@ -20,5 +20,8 @@ extension QuestTask {
         self.title = entity.title ?? ""
         self.isCompleted = entity.isCompleted
         self.order = Int(entity.order)
+
+        // Debug logging for task loading
+        print("📋 Loading task: '\(self.title)' with ID: \(self.id.uuidString), isCompleted: \(self.isCompleted)")
     }
 }

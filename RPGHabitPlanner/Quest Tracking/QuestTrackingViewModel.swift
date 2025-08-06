@@ -108,22 +108,12 @@ final class QuestTrackingViewModel: ObservableObject {
     func updateQuestProgress(id: UUID, by change: Int) {
         guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
         var quest = quests[index]
-        quest.progress = max(0, min(100, quest.progress + change))
+        let newProgress = max(0, min(100, quest.progress + change))
+        quest.progress = newProgress
         quests[index] = quest
 
-        questDataService.updateQuest(
-            withId: quest.id,
-            title: quest.title,
-            isMainQuest: quest.isMainQuest,
-            info: quest.info,
-            difficulty: quest.difficulty,
-            dueDate: quest.dueDate,
-            isActive: quest.isActive,
-            progress: quest.progress,
-            repeatType: quest.repeatType,
-            repeatIntervalWeeks: quest.repeatIntervalWeeks,
-            tasks: quest.tasks.map { $0.title }
-        ) { [weak self] error in
+        // Use the new progress-only update method to avoid recreating tasks
+        questDataService.updateQuestProgress(withId: quest.id, progress: newProgress) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
@@ -145,18 +135,25 @@ final class QuestTrackingViewModel: ObservableObject {
         quests.filter { !$0.isMainQuest }
     }
     
-    func toggleTaskCompletion(questId: UUID, taskId: UUID, currentValue: Bool) {
+    func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
+        print("🔄 Updating task completion - Quest ID: \(questId), Task ID: \(taskId), New Value: \(newValue)")
+
         questDataService.updateTask(
             withId: taskId,
-            isCompleted: !currentValue
+            isCompleted: newValue
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
+                    print("❌ Error updating task: \(error)")
                     self?.errorMessage = error.localizedDescription
                 } else {
+                    print("✅ Task update successful, updating local array")
                     if let questIndex = self?.quests.firstIndex(where: { $0.id == questId }),
                        let taskIndex = self?.quests[questIndex].tasks.firstIndex(where: { $0.id == taskId }) {
-                        self?.quests[questIndex].tasks[taskIndex].isCompleted.toggle()
+                        self?.quests[questIndex].tasks[taskIndex].isCompleted = newValue
+                        print("✅ Local array updated - Task is now: \(self?.quests[questIndex].tasks[taskIndex].isCompleted ?? false)")
+                    } else {
+                        print("❌ Could not find quest or task in local array")
                     }
                 }
             }

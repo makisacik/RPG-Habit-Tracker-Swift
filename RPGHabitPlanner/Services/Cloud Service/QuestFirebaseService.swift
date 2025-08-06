@@ -8,6 +8,11 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void) {
+        // TODO: Implement Firebase quest progress update
+        completion(nil)
+    }
+    
     func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, repeatIntervalWeeks: Int?, tasks: [String]?, completion: @escaping ((any Error)?) -> Void) {
     }
     

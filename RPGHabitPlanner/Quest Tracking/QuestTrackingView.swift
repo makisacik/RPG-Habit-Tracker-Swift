@@ -119,7 +119,7 @@ struct QuestTrackingView: View {
                 viewModel.toggleTaskCompletion(
                     questId: quest.id,
                     taskId: taskId,
-                    currentValue: isCompleted
+                    newValue: isCompleted
                 )
             }
         )
