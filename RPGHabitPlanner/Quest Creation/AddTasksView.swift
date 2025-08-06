@@ -11,6 +11,11 @@ struct AddTasksView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Binding var tasks: [String]
     var onEditTapped: () -> Void
+    @State private var isButtonPressed = false
+    
+    private var validTaskCount: Int {
+        return tasks.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
+    }
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -18,115 +23,208 @@ struct AddTasksView: View {
             Button(action: {
                 onEditTapped()
             }) {
-                HStack {
-                    Text("Add Tasks")
-                        .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(theme.textColor)
+                HStack(spacing: 12) {
+                    Image(systemName: "list.bullet.clipboard")
+                        .font(.title2)
+                        .foregroundColor(.yellow)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Tasks")
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(theme.textColor)
+                        
+                        Text("\(validTaskCount) task\(validTaskCount == 1 ? "" : "s")")
+                            .font(.appFont(size: 12, weight: .regular))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                    }
 
                     Spacer()
 
-                    Text("\(tasks.count) Tasks")
-                        .font(.appFont(size: 14, weight: .regular))
-                        .foregroundColor(theme.textColor)
-
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 22, height: 22)
-                        .foregroundColor(.yellow)
+                    HStack(spacing: 8) {
+                        Text("\(validTaskCount)")
+                            .font(.appFont(size: 14, weight: .black))
+                            .foregroundColor(theme.textColor)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.yellow.opacity(0.2))
+                            )
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(theme.textColor.opacity(0.6))
+                    }
                 }
                 .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.secondaryColor)
-                        .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
+                    Image(theme.buttonPrimary)
+                        .resizable(
+                            capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                            resizingMode: .stretch
+                        )
+                        .opacity(isButtonPressed ? 0.7 : 1.0)
                 )
             }
+            .buttonStyle(PlainButtonStyle())
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in isButtonPressed = true }
+                    .onEnded { _ in isButtonPressed = false }
+            )
         }
     }
 }
 
+// Extracted row to remove init ambiguity
+struct TaskRow: View {
+    @Binding var task: String
+    var index: Int
+    var onDelete: () -> Void
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+        HStack(spacing: 12) {
+            Text("\(index + 1)")
+                .font(.appFont(size: 12, weight: .black))
+                .foregroundColor(theme.textColor)
+                .frame(width: 24, height: 24)
+                .background(Circle().fill(Color.yellow.opacity(0.2)))
+
+            TextField("Enter task description", text: $task)
+                .font(.appFont(size: 16))
+                .foregroundColor(theme.textColor)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(theme.primaryColor.opacity(0.3))
+                )
+
+            Button(action: onDelete) {
+                Image(systemName: "trash.circle.fill")
+                    .font(.title3)
+                    .foregroundColor(.red.opacity(0.8))
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
 
 struct TaskEditorPopup: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Binding var tasks: [String]
     @Binding var isPresented: Bool
+    @State private var isDonePressed = false
+    @State private var isAddPressed = false
 
     var body: some View {
         let theme = themeManager.activeTheme
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
+            // Header
             HStack {
-                Text("Edit Tasks")
-                    .font(.appFont(size: 18, weight: .black))
-                    .foregroundColor(theme.textColor)
+                HStack(spacing: 8) {
+                    Image(systemName: "list.bullet.clipboard")
+                        .font(.title2)
+                        .foregroundColor(.yellow)
+                    
+                    Text("Edit Tasks")
+                        .font(.appFont(size: 18, weight: .black))
+                        .foregroundColor(theme.textColor)
+                }
 
                 Spacer()
 
                 Button(action: {
                     isPresented = false
                 }) {
-                    Image("checkbox_brown_cross")
-                        .resizable()
-                        .frame(width: 30, height: 30)
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(theme.textColor.opacity(0.6))
                 }
+                .buttonStyle(PlainButtonStyle())
             }
 
             Divider()
+                .background(theme.textColor.opacity(0.3))
 
-            ScrollView {
-                VStack(spacing: 10) {
+            // Task List
+            ScrollView(.vertical) {
+                VStack(spacing: 12) {
                     ForEach(tasks.indices, id: \.self) { index in
-                        HStack {
-                            TextField("Task \(index + 1)", text: $tasks[index])
-                                .font(.appFont(size: 16))
-                                .foregroundColor(theme.textColor)
-                                .padding(8)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(themeManager.activeTheme.primaryColor)
-                                )
-                                .cornerRadius(8)
-
-                            Button(action: {
-                                tasks.remove(at: index)
-                            }) {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
-                                    .padding(.leading, 4)
-                            }
-                        }
+                        TaskRow(
+                            task: $tasks[index],
+                            index: index
+                        ) { tasks.remove(at: index) }
                     }
 
+                    // Add task button
                     Button(action: {
-                        tasks.append("")
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            tasks.append("")
+                        }
                     }) {
-                        HStack {
+                        HStack(spacing: 8) {
                             Image(systemName: "plus.circle.fill")
-                            Text("Add Task")
-                                .foregroundStyle(theme.textColor)
+                                .font(.title3)
+                            Text("Add New Task")
                                 .font(.appFont(size: 14, weight: .black))
                         }
                         .foregroundColor(.yellow)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                                .opacity(isAddPressed ? 0.7 : 1.0)
+                        )
                     }
+                    .buttonStyle(PlainButtonStyle())
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { _ in isAddPressed = true }
+                            .onEnded { _ in isAddPressed = false }
+                    )
                 }
+                .padding(.horizontal, 4)
             }
 
             Spacer()
 
+            // Done button
             Button(action: {
+                cleanupBlankTasks()
                 isPresented = false
             }) {
                 Text("Done")
                     .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(theme.textColor)
-                    .padding(.vertical, 8)
+                    .foregroundColor(.white)
+                    .padding(.vertical, 12)
                     .frame(maxWidth: .infinity)
                     .background(
-                        Image("buttonLong_beige")
-                            .resizable()
-                            .frame(height: 40)
+                        Image(theme.buttonPrimary)
+                            .resizable(
+                                capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                resizingMode: .stretch
+                            )
+                            .opacity(isDonePressed ? 0.7 : 1.0)
                     )
             }
+            .buttonStyle(PlainButtonStyle())
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in isDonePressed = true }
+                    .onEnded { _ in isDonePressed = false }
+            )
         }
         .padding()
+    }
+    
+    private func cleanupBlankTasks() {
+        tasks = tasks.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
     }
 }
