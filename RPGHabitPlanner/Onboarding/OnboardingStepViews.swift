@@ -40,7 +40,7 @@ struct WelcomeStepView: View {
             
             // Features list
             VStack(spacing: 16) {
-                FeatureRow(icon: "sword.fill", title: "Create Epic Quests", description: "Turn daily tasks into heroic missions", theme: theme)
+                FeatureRow(icon: "scroll.fill", title: "Create Epic Quests", description: "Turn daily tasks into heroic missions", theme: theme)
                 FeatureRow(icon: "trophy.fill", title: "Earn Rewards", description: "Level up and unlock achievements", theme: theme)
                 FeatureRow(icon: "chart.line.uptrend.xyaxis", title: "Track Progress", description: "Watch your character grow stronger", theme: theme)
             }
@@ -216,12 +216,14 @@ struct NicknameStepView: View {
             VStack(spacing: 16) {
                 TextField("Enter your hero's name", text: $viewModel.nickname)
                     .font(.appFont(size: 18))
-                    .foregroundColor(.black)
+                    .foregroundColor(theme.textColor)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.words)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 16)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white.opacity(0.9))
+                            .fill(theme.cardBackgroundColor)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(theme.primaryColor.opacity(0.3), lineWidth: 1)
@@ -440,18 +442,24 @@ struct FeatureRow: View {
                 .font(.system(size: 24))
                 .foregroundColor(theme.textColor)
                 .frame(width: 40)
+                .frame(minWidth: 40)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.appFont(size: 16, weight: .bold))
                     .foregroundColor(theme.textColor)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 Text(description)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
+                    .lineLimit(3)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            
-            Spacer()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
