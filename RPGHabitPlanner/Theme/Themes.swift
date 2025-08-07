@@ -40,12 +40,12 @@ struct Theme {
             return Theme(
                 backgroundColor: Color(hex: "#F8F7FF"), // Very light purple tint
                 textColor: Color(hex: "#4B5563"), // Medium gray for text
-                primaryColor: Color(hex: "#A78BFA"), // Light purple
+                primaryColor: Color(hex: "#F8F7FF"), // Very light purple tint
                 secondaryColor: Color(hex: "#C4B5FD"), // Very light purple
                 buttonTextColor: Color.white,
-                cardBackgroundColor: Color(hex: "#F9FAFB"), // Very light gray
-                accentColor: Color(hex: "#A78BFA"), // Light purple accent
-                gradientStart: Color(hex: "#A78BFA"), // Light purple gradient start
+                cardBackgroundColor: Color.white, // Clean white cards
+                accentColor: Color(hex: "#8B5CF6"), // Dark purple for sparkles
+                gradientStart: Color(hex: "#C4B5FD"), // Very light purple gradient start
                 gradientEnd: Color(hex: "#C4B5FD"), // Very light purple gradient end
                 buttonPrimary: "btn_gold",
                 paperSimple: "icon_paper_simple",

@@ -143,7 +143,7 @@ struct AchievementCardView: View {
         .frame(width: 160, height: 200)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(theme.secondaryColor)
+                .fill(theme.backgroundColor)
                 .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
         )
         .opacity(isUnlocked ? 1.0 : 0.7)
