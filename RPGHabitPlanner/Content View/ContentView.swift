@@ -31,11 +31,17 @@ struct ContentView: View {
                     .transition(.opacity)
             } else if isCharacterCreated {
                 HomeView(viewModel: homeViewModel, questDataService: questDataService)
-                    .transition(.opacity)
+                    .transition(.asymmetric(
+                        insertion: .scale(scale: 1.2).combined(with: .opacity),
+                        removal: .scale(scale: 0.8).combined(with: .opacity)
+                    ))
                     .environmentObject(themeManager)
             } else {
                 OnboardingView(isOnboardingCompleted: $isCharacterCreated)
-                    .transition(.opacity)
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
                     .environmentObject(themeManager)
             }
         }

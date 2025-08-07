@@ -250,39 +250,91 @@ struct NicknameStepView: View {
 struct FinalStepView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     let theme: Theme
+    @State private var showCompletionAnimation = false
+    @State private var showSparkles = false
+    @State private var heroScale: CGFloat = 0.8
+    @State private var heroRotation: Double = 0
+    @State private var backgroundGlow = false
     
     var body: some View {
-        VStack(spacing: 40) {
-            // Header
-            VStack(spacing: 16) {
-                Text("Ready for Adventure!")
-                    .font(.appFont(size: 32, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                
-                Text("Your hero is ready to begin their journey")
-                    .font(.appFont(size: 16))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-            }
-            .padding(.top, 40)
-            
-            // Final character preview
-            VStack(spacing: 20) {
-                CharacterPreviewCard(
-                    characterClass: viewModel.selectedCharacterClass,
-                    weapon: viewModel.selectedWeapon,
-                    theme: theme
+        ZStack {
+            // Animated background
+            if backgroundGlow {
+                RadialGradient(
+                    gradient: Gradient(colors: [
+                        theme.primaryColor.opacity(0.3),
+                        theme.backgroundColor,
+                        theme.backgroundColor
+                    ]),
+                    center: .center,
+                    startRadius: 50,
+                    endRadius: 300
                 )
+                .ignoresSafeArea()
+                .animation(.easeInOut(duration: 2.0), value: backgroundGlow)
+            }
+            
+            VStack(spacing: 40) {
+                // Header
+                VStack(spacing: 16) {
+                    Text("Ready for Adventure!")
+                        .font(.appFont(size: 32, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                        .scaleEffect(showCompletionAnimation ? 1.1 : 1.0)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showCompletionAnimation)
+                    
+                    Text("Your hero is ready to begin their journey")
+                        .font(.appFont(size: 16))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .opacity(showCompletionAnimation ? 1.0 : 0.8)
+                        .animation(.easeInOut(duration: 1.0), value: showCompletionAnimation)
+                }
+                .padding(.top, 40)
+                
+                // Final character preview
+            VStack(spacing: 20) {
+                ZStack {
+                    // Sparkle effects
+                    if showSparkles {
+                        ForEach(0..<8, id: \.self) { index in
+                            SparkleView(theme: theme)
+                                .offset(
+                                    x: CGFloat.random(in: -100...100),
+                                    y: CGFloat.random(in: -100...100)
+                                )
+                                .animation(
+                                    .easeInOut(duration: 1.5)
+                                    .delay(Double(index) * 0.1),
+                                    value: showSparkles
+                                )
+                        }
+                    }
+                    
+                    CharacterPreviewCard(
+                        characterClass: viewModel.selectedCharacterClass,
+                        weapon: viewModel.selectedWeapon,
+                        theme: theme
+                    )
+                    .scaleEffect(heroScale)
+                    .rotationEffect(.degrees(heroRotation))
+                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: heroScale)
+                    .animation(.easeInOut(duration: 1.0), value: heroRotation)
+                }
                 
                 VStack(spacing: 8) {
                     Text(viewModel.nickname)
                         .font(.appFont(size: 28, weight: .bold))
                         .foregroundColor(theme.buttonTextColor)
+                        .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
                     
                     Text(viewModel.selectedCharacterClass.displayName)
                         .font(.appFont(size: 18, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
+                        .opacity(showCompletionAnimation ? 1.0 : 0.7)
+                        .animation(.easeInOut(duration: 0.8), value: showCompletionAnimation)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
@@ -290,6 +342,8 @@ struct FinalStepView: View {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(theme.cardBackgroundColor)
                 )
+                .scaleEffect(showCompletionAnimation ? 1.02 : 1.0)
+                .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showCompletionAnimation)
             }
             .padding(.horizontal, 20)
             
@@ -298,17 +352,78 @@ struct FinalStepView: View {
                 Text("Your Adventure Awaits")
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
+                    .opacity(showCompletionAnimation ? 1.0 : 0.8)
+                    .animation(.easeInOut(duration: 1.2), value: showCompletionAnimation)
                 
                 VStack(spacing: 12) {
                     AdventureFeatureRow(icon: "sword.fill", text: "Create quests and complete tasks", theme: theme)
+                        .opacity(showCompletionAnimation ? 1.0 : 0.6)
+                        .animation(.easeInOut(duration: 0.8).delay(0.2), value: showCompletionAnimation)
                     AdventureFeatureRow(icon: "trophy.fill", text: "Earn experience and level up", theme: theme)
+                        .opacity(showCompletionAnimation ? 1.0 : 0.6)
+                        .animation(.easeInOut(duration: 0.8).delay(0.4), value: showCompletionAnimation)
                     AdventureFeatureRow(icon: "star.fill", text: "Unlock achievements and rewards", theme: theme)
+                        .opacity(showCompletionAnimation ? 1.0 : 0.6)
+                        .animation(.easeInOut(duration: 0.8).delay(0.6), value: showCompletionAnimation)
                 }
             }
             .padding(.horizontal, 20)
             
             Spacer()
+            }
         }
+        .onAppear {
+            startCompletionAnimation()
+        }
+    }
+    
+    private func startCompletionAnimation() {
+        // Start background glow
+        withAnimation(.easeInOut(duration: 1.0)) {
+            backgroundGlow = true
+        }
+        
+        // Start main completion animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                showCompletionAnimation = true
+                heroScale = 1.0
+            }
+        }
+        
+        // Start sparkles
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                showSparkles = true
+            }
+        }
+        
+        // Hero rotation effect
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            withAnimation(.easeInOut(duration: 1.0)) {
+                heroRotation = 360
+            }
+        }
+    }
+}
+
+// MARK: - Sparkle View
+struct SparkleView: View {
+    let theme: Theme
+    @State private var isAnimating = false
+    
+    var body: some View {
+        Image(systemName: "sparkle")
+            .font(.system(size: 16, weight: .bold))
+            .foregroundColor(theme.primaryColor)
+            .scaleEffect(isAnimating ? 1.5 : 0.5)
+            .opacity(isAnimating ? 0.0 : 1.0)
+            .rotationEffect(.degrees(isAnimating ? 180 : 0))
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: false)) {
+                    isAnimating = true
+                }
+            }
     }
 }
 

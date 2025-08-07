@@ -62,7 +62,9 @@ struct OnboardingView: View {
         }
         .onChange(of: viewModel.isOnboardingCompleted) { completed in
             if completed {
-                isOnboardingCompleted = true
+                withAnimation(.easeInOut(duration: 0.8)) {
+                    isOnboardingCompleted = true
+                }
             }
         }
     }
