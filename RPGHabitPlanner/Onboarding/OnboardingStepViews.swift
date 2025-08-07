@@ -201,7 +201,7 @@ struct NicknameStepView: View {
                 if !viewModel.nickname.isEmpty {
                     Text(viewModel.nickname)
                         .font(.appFont(size: 24, weight: .bold))
-                        .foregroundColor(theme.buttonTextColor)
+                        .foregroundColor(theme.textColor)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 8)
                         .background(
@@ -298,7 +298,17 @@ struct FinalStepView: View {
                 // Final character preview
             VStack(spacing: 20) {
                 ZStack {
-                    // Sparkle effects
+                    CharacterPreviewCard(
+                        characterClass: viewModel.selectedCharacterClass,
+                        weapon: viewModel.selectedWeapon,
+                        theme: theme
+                    )
+                    .scaleEffect(heroScale)
+                    .rotationEffect(.degrees(heroRotation))
+                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: heroScale)
+                    .animation(.easeInOut(duration: 1.0), value: heroRotation)
+                    
+                    // Sparkle effects on top
                     if showSparkles {
                         ForEach(0..<8, id: \.self) { index in
                             SparkleView(theme: theme)
@@ -313,22 +323,12 @@ struct FinalStepView: View {
                                 )
                         }
                     }
-                    
-                    CharacterPreviewCard(
-                        characterClass: viewModel.selectedCharacterClass,
-                        weapon: viewModel.selectedWeapon,
-                        theme: theme
-                    )
-                    .scaleEffect(heroScale)
-                    .rotationEffect(.degrees(heroRotation))
-                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: heroScale)
-                    .animation(.easeInOut(duration: 1.0), value: heroRotation)
                 }
                 
                 VStack(spacing: 8) {
                     Text(viewModel.nickname)
                         .font(.appFont(size: 28, weight: .bold))
-                        .foregroundColor(theme.buttonTextColor)
+                        .foregroundColor(theme.textColor)
                         .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
                         .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
                     
@@ -494,7 +494,7 @@ struct CharacterClassCard: View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(isSelected ? theme.cardBackgroundColor.opacity(0.8) : theme.cardBackgroundColor)
+                    .fill(isSelected ? theme.primaryColor.opacity(0.1) : theme.cardBackgroundColor)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(isSelected ? theme.primaryColor : Color.clear, lineWidth: 2)
@@ -545,7 +545,7 @@ struct CharacterPreviewCard: View {
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(theme.cardBackgroundColor)
-                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                .shadow(color: theme.textColor.opacity(0.1), radius: 10, x: 0, y: 5)
         )
     }
 }
@@ -574,7 +574,7 @@ struct WeaponCard: View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? theme.cardBackgroundColor.opacity(0.8) : theme.cardBackgroundColor)
+                    .fill(isSelected ? theme.primaryColor.opacity(0.1) : theme.cardBackgroundColor)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(isSelected ? theme.primaryColor : Color.clear, lineWidth: 2)

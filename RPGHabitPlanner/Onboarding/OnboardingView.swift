@@ -19,9 +19,9 @@ struct OnboardingView: View {
             // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
+                    theme.gradientStart.opacity(0.1),
                     theme.backgroundColor,
-                    theme.primaryColor.opacity(0.3),
-                    theme.backgroundColor
+                    theme.gradientEnd.opacity(0.1)
                 ]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -80,8 +80,8 @@ struct ProgressIndicator: View {
         HStack(spacing: 8) {
             ForEach(0..<totalSteps, id: \.self) { index in
                 Circle()
-                    .fill(index <= OnboardingStep.allCases.firstIndex(of: currentStep) ?? 0 ?
-                          theme.primaryColor : theme.textColor.opacity(0.3))
+                                        .fill(index <= OnboardingStep.allCases.firstIndex(of: currentStep) ?? 0 ?
+                          theme.accentColor : theme.textColor.opacity(0.3))
                     .frame(width: 8, height: 8)
                     .scaleEffect(index == OnboardingStep.allCases.firstIndex(of: currentStep) ? 1.2 : 1.0)
                     .animation(.spring(response: 0.3, dampingFraction: 0.7), value: currentStep)
@@ -143,7 +143,13 @@ struct NavigationButtonsView: View {
                 .padding(.vertical, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 25)
-                        .fill(theme.cardBackgroundColor)
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [theme.gradientStart, theme.gradientEnd]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .shadow(color: theme.primaryColor.opacity(0.3), radius: 8, x: 0, y: 4)
                 )
             }

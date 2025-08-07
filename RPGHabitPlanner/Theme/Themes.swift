@@ -20,6 +20,9 @@ struct Theme {
     let secondaryColor: Color
     let buttonTextColor: Color
     let cardBackgroundColor: Color
+    let accentColor: Color
+    let gradientStart: Color
+    let gradientEnd: Color
     let buttonPrimary: String
     let paperSimple: String
     let sword: String
@@ -35,12 +38,15 @@ struct Theme {
         switch resolvedMode {
         case .light:
             return Theme(
-                backgroundColor: Color(.white),
-                textColor: Color.black,
-                primaryColor: Color(hex: "#F2F2F2"),
-                secondaryColor: Color(hex: "#F2F2F2"),
-                buttonTextColor: Color.black,
-                cardBackgroundColor: Color(hex: "#E8E8E8"),
+                backgroundColor: Color(hex: "#F8F7FF"), // Very light purple tint
+                textColor: Color(hex: "#4B5563"), // Medium gray for text
+                primaryColor: Color(hex: "#A78BFA"), // Light purple
+                secondaryColor: Color(hex: "#C4B5FD"), // Very light purple
+                buttonTextColor: Color.white,
+                cardBackgroundColor: Color(hex: "#F9FAFB"), // Very light gray
+                accentColor: Color(hex: "#A78BFA"), // Light purple accent
+                gradientStart: Color(hex: "#A78BFA"), // Light purple gradient start
+                gradientEnd: Color(hex: "#C4B5FD"), // Very light purple gradient end
                 buttonPrimary: "btn_gold",
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_bronze"
@@ -53,6 +59,9 @@ struct Theme {
                 secondaryColor: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
                 buttonTextColor: Color.white,
                 cardBackgroundColor: Color(red: 40 / 255, green: 55 / 255, blue: 77 / 255),
+                accentColor: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
+                gradientStart: Color(red: 29 / 255, green: 44 / 255, blue: 66 / 255),
+                gradientEnd: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
                 buttonPrimary: "btn_blue",
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_gold"
