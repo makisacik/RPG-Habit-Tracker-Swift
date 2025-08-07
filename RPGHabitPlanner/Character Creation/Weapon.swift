@@ -33,4 +33,8 @@ enum Weapon: String, CaseIterable {
         case .spellbook: return "spellbook"
         }
     }
+    
+    var displayName: String {
+        return self.rawValue
+    }
 }

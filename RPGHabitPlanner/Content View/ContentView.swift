@@ -34,8 +34,7 @@ struct ContentView: View {
                     .transition(.opacity)
                     .environmentObject(themeManager)
             } else {
-                let characterViewModel = CharacterCreationViewModel()
-                CharacterCreationView(viewModel: characterViewModel, isCharacterCreated: $isCharacterCreated)
+                OnboardingView(isOnboardingCompleted: $isCharacterCreated)
                     .transition(.opacity)
                     .environmentObject(themeManager)
             }

@@ -18,6 +18,8 @@ struct Theme {
     let textColor: Color
     let primaryColor: Color
     let secondaryColor: Color
+    let buttonTextColor: Color
+    let cardBackgroundColor: Color
     let buttonPrimary: String
     let paperSimple: String
     let sword: String
@@ -37,6 +39,8 @@ struct Theme {
                 textColor: Color.black,
                 primaryColor: Color(hex: "#F2F2F2"),
                 secondaryColor: Color(hex: "#F2F2F2"),
+                buttonTextColor: Color.black,
+                cardBackgroundColor: Color(hex: "#E8E8E8"),
                 buttonPrimary: "btn_gold",
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_bronze"
@@ -47,6 +51,8 @@ struct Theme {
                 textColor: Color.white,
                 primaryColor: Color(red: 29 / 255, green: 44 / 255, blue: 66 / 255),
                 secondaryColor: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
+                buttonTextColor: Color.white,
+                cardBackgroundColor: Color(red: 40 / 255, green: 55 / 255, blue: 77 / 255),
                 buttonPrimary: "btn_blue",
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_gold"
