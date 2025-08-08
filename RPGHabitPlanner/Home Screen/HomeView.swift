@@ -6,6 +6,7 @@ struct HomeView: View {
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel: HomeViewModel
     @State private var isCharacterDetailsPresented: Bool = false
+    @State private var isCompletedQuestsPresented: Bool = false
     @State var selectedTab: HomeTab = .home
     let questDataService: QuestDataServiceProtocol
 
@@ -22,13 +23,13 @@ struct HomeView: View {
                         VStack(spacing: 20) {
                             heroSection
                             
-                            quickStatsSection
+                            quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             
                             activeQuestsSection
                             
                             recentAchievementsSection
                             
-                            quickActionsSection
+                            quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 10)
@@ -48,6 +49,17 @@ struct HomeView: View {
                 .sheet(isPresented: $isCharacterDetailsPresented) {
                     if let user = viewModel.user {
                         CharacterDetailsView(user: user)
+                    }
+                }
+                .sheet(isPresented: $isCompletedQuestsPresented) {
+                    NavigationStack {
+                        CompletedQuestsView(
+                            viewModel: CompletedQuestsViewModel(
+                                questDataService: questDataService
+                            )
+                        )
+                        .navigationTitle("Completed Quests")
+                        .navigationBarTitleDisplayMode(.inline)
                     }
                 }
                 .onAppear {
@@ -94,19 +106,6 @@ struct HomeView: View {
             }
             .tag(HomeTab.tracking)
 
-            NavigationStack {
-                CompletedQuestsView(
-                    viewModel: CompletedQuestsViewModel(
-                        questDataService: questDataService
-                    )
-                )
-                .navigationTitle("Completed Quests")
-                .navigationBarTitleDisplayMode(.inline)
-            }
-            .tabItem {
-                Label("Completed", systemImage: "checkmark.seal.fill")
-            }
-            .tag(HomeTab.completed)
 
             NavigationStack {
                 if let user = viewModel.user {

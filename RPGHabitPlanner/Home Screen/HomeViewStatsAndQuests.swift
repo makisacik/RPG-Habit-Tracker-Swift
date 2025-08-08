@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - HomeView Stats and Quests Sections Extension
 
 extension HomeView {
-    var quickStatsSection: some View {
+    func quickStatsSection(isCompletedQuestsPresented: Binding<Bool>) -> some View {
         let theme = themeManager.activeTheme
         
         return LazyVGrid(columns: [
@@ -24,7 +24,9 @@ extension HomeView {
                 value: "\(viewModel.activeQuestsCount)",
                 color: .blue,
                 theme: theme
-            )
+            ) {
+                    selectedTab = .tracking
+            }
             
             StatCard(
                 icon: "checkmark.seal.fill",
@@ -32,7 +34,9 @@ extension HomeView {
                 value: "\(viewModel.completedQuestsCount)",
                 color: .green,
                 theme: theme
-            )
+            ) {
+                    isCompletedQuestsPresented.wrappedValue = true
+            }
             
             StatCard(
                 icon: "trophy.fill",
@@ -40,7 +44,9 @@ extension HomeView {
                 value: "\(viewModel.achievementsCount)",
                 color: .orange,
                 theme: theme
-            )
+            ) {
+                    selectedTab = .achievements
+            }
         }
     }
     

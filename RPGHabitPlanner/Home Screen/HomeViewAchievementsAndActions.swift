@@ -65,7 +65,7 @@ extension HomeView {
         )
     }
     
-    var quickActionsSection: some View {
+    func quickActionsSection(isCompletedQuestsPresented: Binding<Bool>) -> some View {
         let theme = themeManager.activeTheme
         
         return VStack(alignment: .leading, spacing: 12) {
@@ -118,7 +118,7 @@ extension HomeView {
                     color: .orange,
                     theme: theme
                 ) {
-                    selectedTab = .completed
+                    isCompletedQuestsPresented.wrappedValue = true
                 }
                 
                 QuickActionCard(
