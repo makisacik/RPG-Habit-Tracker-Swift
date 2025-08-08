@@ -9,6 +9,46 @@ import WidgetKit
 import SwiftUI
 import CoreData
 
+// MARK: - Widget Theme
+struct WidgetTheme {
+    let backgroundGradient: LinearGradient
+    let primaryTextColor: Color
+    let secondaryTextColor: Color
+    let accentColor: Color
+    let progressColor: Color
+    
+    static func current() -> WidgetTheme {
+        // Check if we're in dark mode
+        let isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
+
+        if isDarkMode {
+            return WidgetTheme(
+                backgroundGradient: LinearGradient(
+                    colors: [Color(hex: "#1F2937"), Color(hex: "#374151")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                primaryTextColor: Color(hex: "#F9FAFB"),
+                secondaryTextColor: Color(hex: "#D1D5DB"),
+                accentColor: Color(hex: "#F59E0B"),
+                progressColor: Color(hex: "#F59E0B")
+            )
+        } else {
+            return WidgetTheme(
+                backgroundGradient: LinearGradient(
+                    colors: [Color(hex: "#F8F7FF"), Color(hex: "#C4B5FD")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                primaryTextColor: Color(hex: "#1F2937"),
+                secondaryTextColor: Color(hex: "#6B7280"),
+                accentColor: Color(hex: "#FFB700"),
+                progressColor: Color(hex: "#FFB700")
+            )
+        }
+    }
+}
+
 // MARK: - Color Extension for Hex Support
 extension Color {
     init(hex: String) {
@@ -136,15 +176,12 @@ struct ActiveQuestWidgetEntryView: View {
     var entry: QuestWidgetEntry
     @Environment(\.widgetFamily) var family
     
+    private var theme: WidgetTheme {
+        WidgetTheme.current()
+    }
+    
     var body: some View {
         ZStack {
-            // Background gradient
-            LinearGradient(
-                colors: [Color(hex: "#F8F7FF"), Color(hex: "#C4B5FD")],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            
             if entry.quest != nil {
                 questContent
             } else if entry.hasActiveQuests {
@@ -160,27 +197,24 @@ struct ActiveQuestWidgetEntryView: View {
         VStack(alignment: .leading, spacing: 8) {
             // Header with quest icon and title
             HStack {
-                Image(systemName: "sword.fill")
-                    .font(.title2)
-                    .foregroundColor(.orange)
+                Image("icon_sword_double")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(theme.accentColor)
                 
                 Text("Active Quest")
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundColor(Color(hex: "#4B5563"))
+                    .foregroundColor(theme.secondaryTextColor)
                 
                 Spacer()
-                
-                // Difficulty indicator
-                if let quest = entry.quest {
-                    difficultyBadge(difficulty: Int(quest.difficulty))
-                }
             }
             
             // Quest title
             if let quest = entry.quest {
                 Text(quest.title ?? "Untitled Quest")
                     .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#1F2937"))
+                    .foregroundColor(theme.primaryTextColor)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
             }
@@ -190,18 +224,18 @@ struct ActiveQuestWidgetEntryView: View {
                 HStack {
                     Text("Progress")
                         .font(.system(size: 12, weight: .medium, design: .rounded))
-                        .foregroundColor(Color(hex: "#6B7280"))
+                        .foregroundColor(theme.secondaryTextColor)
                     
                     Spacer()
                     
                     Text("\(entry.completedTasksCount)/\(entry.totalTasksCount)")
                         .font(.system(size: 12, weight: .semibold, design: .rounded))
-                        .foregroundColor(Color(hex: "#4B5563"))
+                        .foregroundColor(theme.secondaryTextColor)
                 }
                 
                 // Progress bar
                 ProgressView(value: entry.progress)
-                    .progressViewStyle(LinearProgressViewStyle(tint: Color(hex: "#FFB700")))
+                    .progressViewStyle(LinearProgressViewStyle(tint: theme.progressColor))
                     .scaleEffect(y: 1.5)
                     .frame(height: 6)
             }
@@ -222,30 +256,25 @@ struct ActiveQuestWidgetEntryView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "calendar")
                             .font(.caption)
-                            .foregroundColor(Color(hex: "#6B7280"))
+                            .foregroundColor(theme.secondaryTextColor)
                         
                         if entry.daysUntilDue == 0 {
                             Text("Due today")
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
-                                .foregroundColor(Color(hex: "#6B7280"))
+                                .foregroundColor(theme.secondaryTextColor)
                         } else if entry.daysUntilDue == 1 {
                             Text("Due tomorrow")
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
-                                .foregroundColor(Color(hex: "#6B7280"))
+                                .foregroundColor(theme.secondaryTextColor)
                         } else {
                             Text("\(entry.daysUntilDue) days left")
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
-                                .foregroundColor(Color(hex: "#6B7280"))
+                                .foregroundColor(theme.secondaryTextColor)
                         }
                     }
                 }
                 
                 Spacer()
-                
-                // Completion percentage
-                Text("\(Int(entry.progress * 100))%")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundColor(Color(hex: "#FFB700"))
             }
         }
         .padding(12)
@@ -260,11 +289,11 @@ struct ActiveQuestWidgetEntryView: View {
             
             Text("No Active Quests")
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
-                .foregroundColor(Color(hex: "#4B5563"))
+                .foregroundColor(theme.primaryTextColor)
             
             Text("All quests completed!")
                 .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundColor(Color(hex: "#6B7280"))
+                .foregroundColor(theme.secondaryTextColor)
                 .multilineTextAlignment(.center)
         }
         .padding(12)
@@ -275,50 +304,18 @@ struct ActiveQuestWidgetEntryView: View {
         VStack(spacing: 8) {
             Image(systemName: "plus.circle.fill")
                 .font(.title)
-                .foregroundColor(Color(hex: "#8B5CF6"))
+                .foregroundColor(theme.accentColor)
             
             Text("Start Your Adventure")
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
-                .foregroundColor(Color(hex: "#4B5563"))
+                .foregroundColor(theme.primaryTextColor)
             
             Text("Create your first quest")
                 .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundColor(Color(hex: "#6B7280"))
+                .foregroundColor(theme.secondaryTextColor)
                 .multilineTextAlignment(.center)
         }
         .padding(12)
-    }
-    
-    @ViewBuilder
-    private func difficultyBadge(difficulty: Int) -> some View {
-        let (color, text) = difficultyInfo(for: difficulty)
-        
-        Text(text)
-            .font(.system(size: 10, weight: .bold, design: .rounded))
-            .foregroundColor(.white)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(color)
-            )
-    }
-    
-    private func difficultyInfo(for difficulty: Int) -> (Color, String) {
-        switch difficulty {
-        case 1:
-            return (Color.green, "EASY")
-        case 2:
-            return (Color.orange, "EASY")
-        case 3:
-            return (Color.red, "MED")
-        case 4:
-            return (Color.red, "MED")
-        case 5:
-            return (Color.red, "HARD")
-        default:
-            return (Color.gray, "N/A")
-        }
     }
 }
 
@@ -332,12 +329,14 @@ struct ActiveQuestWidget: Widget {
             if #available(iOS 17.0, *) {
                 ActiveQuestWidgetEntryView(entry: entry)
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .containerBackground(.clear, for: .widget)
+                    .containerBackground(for: .widget) {
+                        WidgetTheme.current().backgroundGradient
+                    }
             } else {
                 ActiveQuestWidgetEntryView(entry: entry)
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .padding()
-                    .background()
+                    .background(WidgetTheme.current().backgroundGradient)
             }
         }
         .configurationDisplayName("Active Quest")

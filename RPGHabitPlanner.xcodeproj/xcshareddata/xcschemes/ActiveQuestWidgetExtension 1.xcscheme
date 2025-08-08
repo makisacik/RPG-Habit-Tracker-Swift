@@ -95,17 +95,7 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "_XCWidgetKind"
-            value = "QuestProgressWidget"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "_XCWidgetKind"
-            value = "QuestProgressWidget"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "_XCWidgetKind"
-            value = "QuestProgressWidget"
+            value = "ActiveQuestWidget"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
