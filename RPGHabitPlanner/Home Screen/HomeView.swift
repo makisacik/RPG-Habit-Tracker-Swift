@@ -8,6 +8,7 @@ struct HomeView: View {
     @State private var isCharacterDetailsPresented: Bool = false
     @State private var isCompletedQuestsPresented: Bool = false
     @State var selectedTab: HomeTab = .home
+    @StateObject private var damageHandler = DamageHandler()
     let questDataService: QuestDataServiceProtocol
 
     var body: some View {
@@ -131,6 +132,18 @@ struct HomeView: View {
                 Label("Achievements", systemImage: "trophy.fill")
             }
             .tag(HomeTab.achievements)
+
+            NavigationStack {
+                TimerView(
+                    userManager: viewModel.userManager,
+                    damageHandler: damageHandler
+                )
+                .environmentObject(themeManager)
+            }
+            .tabItem {
+                Label("Focus Timer", systemImage: "timer")
+            }
+            .tag(HomeTab.focusTimer)
         }
         .accentColor(.red)
     }

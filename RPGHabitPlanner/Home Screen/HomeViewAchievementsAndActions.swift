@@ -130,6 +130,16 @@ extension HomeView {
                 ) {
                     selectedTab = .achievements
                 }
+                
+                QuickActionCard(
+                    icon: "timer",
+                    title: "Focus Timer",
+                    subtitle: "Battle distractions",
+                    color: .red,
+                    theme: theme
+                ) {
+                    selectedTab = .focusTimer
+                }
             }
         }
         .padding(16)

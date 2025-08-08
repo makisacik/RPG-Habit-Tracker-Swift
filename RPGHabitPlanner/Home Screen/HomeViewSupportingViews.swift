@@ -202,4 +202,5 @@ enum HomeTab: Hashable {
     case tracking
     case character
     case achievements
+    case focusTimer
 }

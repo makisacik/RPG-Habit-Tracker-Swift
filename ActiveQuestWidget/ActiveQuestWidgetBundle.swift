@@ -12,5 +12,6 @@ import SwiftUI
 struct ActiveQuestWidgetBundle: WidgetBundle {
     var body: some Widget {
         ActiveQuestWidget()
+        FocusTimerLiveActivity()
     }
 }
