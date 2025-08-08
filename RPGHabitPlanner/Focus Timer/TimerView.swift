@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import Lottie
 
 class FocusTimerViewModel: ObservableObject {
     @Published var session: FocusTimerSession
@@ -360,7 +361,6 @@ struct TimerView: View {
                     monsterSelectionButton(theme: theme)
                 }
                 
-
                 
                 Spacer()
             }
@@ -427,10 +427,10 @@ struct TimerView: View {
                     .shadow(color: .black.opacity(0.2), radius: 8)
                 
                 if let battleSession = viewModel.session.battleSession {
-                    // Selected monster image
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 60))
-                        .foregroundColor(theme.textColor)
+                    // Selected monster Lottie animation
+                    LottieView(animation: .named(battleSession.enemyType.animationName))
+                        .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                        .frame(width: 100, height: 100)
                 } else {
                     // Placeholder for unselected monster
                     VStack(spacing: 8) {
@@ -645,15 +645,10 @@ struct EnemyCard: View {
         
         Button(action: onSelect) {
             VStack(spacing: 12) {
-                // Placeholder for enemy image
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(theme.primaryColor)
+                // Enemy Lottie animation
+                LottieView(animation: .named(enemyType.animationName))
+                    .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
                     .frame(width: 80, height: 80)
-                    .overlay(
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 40))
-                            .foregroundColor(theme.textColor)
-                    )
                 
                 VStack(spacing: 4) {
                     Text(entity.name)

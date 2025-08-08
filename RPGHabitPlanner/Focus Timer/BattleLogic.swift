@@ -199,11 +199,11 @@ class BattleLogic {
             )
         }
         
-        if session.enemyType == .perfectionism && session.isVictory {
+        if session.enemyType == .flyingDragon && session.isVictory {
             return AchievementDefinition(
                 id: "dragon_slayer",
                 title: "Dragon Slayer",
-                description: "Defeat the Perfectionism Dragon",
+                description: "Defeat the Flying Dragon",
                 iconName: "flame.fill",
                 category: .special,
                 requirement: .questCount(1),

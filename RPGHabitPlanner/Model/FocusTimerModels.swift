@@ -86,74 +86,89 @@ struct BattleReward {
 // MARK: - Enemy Types
 
 enum EnemyType: CaseIterable {
-    case procrastination
-    case socialMedia
-    case noise
-    case fatigue
-    case perfectionism
+    case sleepyCat
+    case funnyZombie
+    case funkyMonster
+    case booMonster
+    case flyingDragon
     
     var entity: BattleEntity {
         switch self {
-        case .procrastination:
+        case .sleepyCat:
             return BattleEntity(
-                name: "Procrastination Demon",
-                maxHealth: 100,
-                attackPower: 15,
+                name: "Sleepy Cat",
+                maxHealth: 80,
+                attackPower: 12,
                 defense: 8,
                 level: 1,
-                imageName: "enemy_procrastination"
+                imageName: "sleepy-cat"
             )
-        case .socialMedia:
+        case .funnyZombie:
             return BattleEntity(
-                name: "Social Media Siren",
-                maxHealth: 80,
-                attackPower: 20,
-                defense: 5,
-                level: 1,
-                imageName: "enemy_social_media"
-            )
-        case .noise:
-            return BattleEntity(
-                name: "Noise Gremlin",
-                maxHealth: 60,
-                attackPower: 12,
-                defense: 12,
-                level: 1,
-                imageName: "enemy_noise"
-            )
-        case .fatigue:
-            return BattleEntity(
-                name: "Fatigue Phantom",
-                maxHealth: 120,
-                attackPower: 18,
+                name: "Funny Zombie",
+                maxHealth: 100,
+                attackPower: 15,
                 defense: 10,
                 level: 2,
-                imageName: "enemy_fatigue"
+                imageName: "funny-zombie"
             )
-        case .perfectionism:
+        case .funkyMonster:
             return BattleEntity(
-                name: "Perfectionism Dragon",
+                name: "Funky Monster",
+                maxHealth: 120,
+                attackPower: 18,
+                defense: 12,
+                level: 2,
+                imageName: "funky-monster"
+            )
+        case .booMonster:
+            return BattleEntity(
+                name: "Boo Monster",
+                maxHealth: 90,
+                attackPower: 14,
+                defense: 9,
+                level: 1,
+                imageName: "boo-monster"
+            )
+        case .flyingDragon:
+            return BattleEntity(
+                name: "Flying Dragon",
                 maxHealth: 150,
                 attackPower: 25,
                 defense: 15,
                 level: 3,
-                imageName: "enemy_perfectionism"
+                imageName: "flying-dragon"
             )
         }
     }
     
     var description: String {
         switch self {
-        case .procrastination:
-            return "A demon that makes you put off important tasks"
-        case .socialMedia:
-            return "A siren that lures you away with endless scrolling"
-        case .noise:
-            return "A gremlin that creates distractions in your environment"
-        case .fatigue:
-            return "A phantom that drains your energy and focus"
-        case .perfectionism:
-            return "A dragon that paralyzes you with unrealistic standards"
+        case .sleepyCat:
+            return "A sleepy cat that makes you want to nap instead of work"
+        case .funnyZombie:
+            return "A funny zombie that distracts you with humor"
+        case .funkyMonster:
+            return "A funky monster that gets you grooving instead of focusing"
+        case .booMonster:
+            return "A spooky boo monster that scares away your concentration"
+        case .flyingDragon:
+            return "A majestic flying dragon that's hard to defeat"
+        }
+    }
+    
+    var animationName: String {
+        switch self {
+        case .sleepyCat:
+            return "sleepy-cat"
+        case .funnyZombie:
+            return "funny-zombie"
+        case .funkyMonster:
+            return "funky-monster"
+        case .booMonster:
+            return "boo-monster"
+        case .flyingDragon:
+            return "flying-dragon"
         }
     }
 }
