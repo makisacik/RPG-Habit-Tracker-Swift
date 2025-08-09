@@ -76,15 +76,17 @@ final class CalendarViewModel: ObservableObject {
                 questDataService.markQuestCompleted(forId: item.id, on: anchor) { [weak self] _ in self?.fetchQuests() }
             }
         case .oneTime:
-            guard calendar.isDate(item.quest.dueDate, inSameDayAs: item.date) else {
-                alertMessage = "This quest can only be completed on its due date."
+            guard item.date >= calendar.startOfDay(for: item.quest.creationDate) &&
+                  item.date <= calendar.startOfDay(for: item.quest.dueDate) else {
+                alertMessage = "This quest can only be completed between creation and due date."
                 return
             }
-            let dayAnchor = calendar.startOfDay(for: item.date)
+            // For one-time quests, always store completion at the due date
+            let dueDateAnchor = calendar.startOfDay(for: item.quest.dueDate)
             if item.state == .done {
-                questDataService.unmarkQuestCompleted(forId: item.id, on: dayAnchor) { [weak self] _ in self?.fetchQuests() }
+                questDataService.unmarkQuestCompleted(forId: item.id, on: dueDateAnchor) { [weak self] _ in self?.fetchQuests() }
             } else {
-                questDataService.markQuestCompleted(forId: item.id, on: dayAnchor) { [weak self] _ in self?.fetchQuests() }
+                questDataService.markQuestCompleted(forId: item.id, on: dueDateAnchor) { [weak self] _ in self?.fetchQuests() }
             }
         }
     }
@@ -93,9 +95,11 @@ final class CalendarViewModel: ObservableObject {
         if quest.dueDate < day { return .inactive }
         switch quest.repeatType {
         case .oneTime:
-            guard Calendar.current.isDate(quest.dueDate, inSameDayAs: day) else { return .inactive }
-            let dayAnchor = calendar.startOfDay(for: day)
-            return quest.completions.contains(dayAnchor) ? .done : .todo
+            guard day >= calendar.startOfDay(for: quest.creationDate) &&
+                  day <= calendar.startOfDay(for: quest.dueDate) else { return .inactive }
+            // For one-time quests, check if completed at the due date anchor
+            let dueDateAnchor = calendar.startOfDay(for: quest.dueDate)
+            return quest.completions.contains(dueDateAnchor) ? .done : .todo
         case .daily:
             let start = Calendar.current.startOfDay(for: quest.creationDate)
             guard day >= start && day <= Calendar.current.startOfDay(for: quest.dueDate) else { return .inactive }

@@ -64,7 +64,14 @@ struct Quest: Identifiable, Equatable {
 
 extension Quest {
     func isCompleted(on date: Date, calendar: Calendar = .current) -> Bool {
-        completions.contains(calendar.startOfDay(for: date))
+        switch repeatType {
+        case .oneTime:
+            // For one-time quests, check if completed at the due date anchor
+            let dueDateAnchor = calendar.startOfDay(for: dueDate)
+            return completions.contains(dueDateAnchor)
+        case .daily, .weekly:
+            return completions.contains(calendar.startOfDay(for: date))
+        }
     }
 
     func isCompletedThisWeek(asOf date: Date, calendar: Calendar = .current) -> Bool {
@@ -83,7 +90,9 @@ extension Quest {
         if dueDate < today { return false }
         switch repeatType {
         case .oneTime:
-            return !isCompleted
+            // For one-time quests, check if completed at the due date anchor
+            let dueDateAnchor = calendar.startOfDay(for: dueDate)
+            return !completions.contains(dueDateAnchor)
         case .daily:
             return !isCompleted(on: today, calendar: calendar)
         case .weekly:

@@ -16,4 +16,3 @@ func weekAnchor(_ date: Date, calendar: Calendar = .current) -> Date {
     let start = calendar.date(from: comps) ?? date
     return calendar.startOfDay(for: start)
 }
-

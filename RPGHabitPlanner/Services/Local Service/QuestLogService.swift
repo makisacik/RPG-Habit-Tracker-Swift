@@ -28,7 +28,8 @@ final class QuestLogService {
         case .weekly:
             anchor = weekAnchor(date, calendar: calendar)
         case .oneTime:
-            anchor = dayAnchor(date, calendar: calendar)
+            // For one-time quests, always store completion at the due date
+            anchor = dayAnchor(quest.dueDate ?? date, calendar: calendar)
         }
 
         if try fetchCompletion(quest: quest, on: anchor) != nil { return }
@@ -50,7 +51,8 @@ final class QuestLogService {
         case .weekly:
             anchor = weekAnchor(date, calendar: calendar)
         case .oneTime:
-            anchor = dayAnchor(date, calendar: calendar)
+            // For one-time quests, always store completion at the due date
+            anchor = dayAnchor(quest.dueDate ?? date, calendar: calendar)
         }
 
         if let existingCompletion = try fetchCompletion(quest: quest, on: anchor) {
@@ -69,7 +71,8 @@ final class QuestLogService {
         case .weekly:
             anchor = weekAnchor(date, calendar: calendar)
         case .oneTime:
-            anchor = dayAnchor(date, calendar: calendar)
+            // For one-time quests, always store completion at the due date
+            anchor = dayAnchor(quest.dueDate ?? date, calendar: calendar)
         }
         return try fetchCompletion(quest: quest, on: anchor) != nil
     }
