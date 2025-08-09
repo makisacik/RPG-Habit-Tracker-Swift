@@ -40,9 +40,9 @@ struct HomeView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .navigationBarItems(trailing:
                     Button(action: {
-                        isCharacterDetailsPresented = true
+                        selectedTab = .calendar
                     }) {
-                        Image(systemName: "person.circle.fill")
+                        Image(systemName: "calendar")
                             .font(.title2)
                             .foregroundColor(theme.textColor)
                     }
@@ -107,7 +107,6 @@ struct HomeView: View {
             }
             .tag(HomeTab.tracking)
 
-
             NavigationStack {
                 if let user = viewModel.user {
                     CharacterView(user: user)
@@ -144,6 +143,17 @@ struct HomeView: View {
                 Label("Focus Timer", systemImage: "timer")
             }
             .tag(HomeTab.focusTimer)
+
+            NavigationStack {
+                CalendarView(
+                    viewModel: CalendarViewModel(questDataService: questDataService)
+                )
+                .environmentObject(themeManager)
+            }
+            .tabItem {
+                Label("Calendar", systemImage: "calendar")
+            }
+            .tag(HomeTab.calendar)
         }
         .accentColor(.red)
     }
