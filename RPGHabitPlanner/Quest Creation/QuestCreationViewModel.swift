@@ -25,7 +25,6 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var tasks: [String] = []
     @Published var notifyMe = true
     @Published var repeatType: QuestRepeatType = .oneTime
-    @Published var repeatIntervalWeeks: Int = 1 // Used if repeatType == .everyXWeeks
 
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
@@ -53,8 +52,7 @@ final class QuestCreationViewModel: ObservableObject {
             dueDate: questDueDate,
             isActive: isActiveQuest,
             progress: 0,
-            repeatType: repeatType,
-            repeatIntervalWeeks: repeatType == .everyXWeeks ? repeatIntervalWeeks : nil
+            repeatType: repeatType
         )
 
         let taskTitles = tasks.map { $0.trimmingCharacters(in: .whitespaces) }
@@ -86,7 +84,6 @@ final class QuestCreationViewModel: ObservableObject {
         difficulty = 3
         isActiveQuest = false
         repeatType = .oneTime
-        repeatIntervalWeeks = 1
         notifyMe = true
     }
 }

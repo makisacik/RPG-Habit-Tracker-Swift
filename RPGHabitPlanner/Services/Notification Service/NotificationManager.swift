@@ -60,17 +60,6 @@ final class NotificationManager {
                                      time: notificationTime)
                 nextDate = calendar.date(byAdding: .weekOfYear, value: 1, to: nextDate)!
             }
-            
-        case .everyXWeeks:
-            guard let weeks = quest.repeatIntervalWeeks else { return }
-            var nextDate = startDate
-            while nextDate <= endDate {
-                scheduleNotification(id: "\(quest.id.uuidString)_\(nextDate)",
-                                     content: content,
-                                     date: nextDate,
-                                     time: notificationTime)
-                nextDate = calendar.date(byAdding: .weekOfYear, value: weeks, to: nextDate)!
-            }
         }
     }
 

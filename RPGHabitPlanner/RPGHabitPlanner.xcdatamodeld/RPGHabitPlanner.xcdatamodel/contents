@@ -16,7 +16,6 @@
         <attribute name="isCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isMainQuest" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="repeatIntervalWeeks" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="repeatType" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskEntity" inverseName="quest" inverseEntity="TaskEntity"/>

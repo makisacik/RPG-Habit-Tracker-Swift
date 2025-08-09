@@ -30,7 +30,6 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.isCompleted = quest.isCompleted
         questEntity.progress = Int16(quest.progress)
         questEntity.repeatType = quest.repeatType.rawValue
-        questEntity.repeatIntervalWeeks = Int16(quest.repeatIntervalWeeks ?? 1)
 
         let trimmedTasks = taskTitles
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -80,8 +79,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
                         .map { QuestTask(entity: $0) },
-                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
-                    repeatIntervalWeeks: entity.repeatIntervalWeeks > 0 ? Int(entity.repeatIntervalWeeks) : nil
+                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime
                 )
             }
             completion(quests, nil)
@@ -113,8 +111,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
                         .map { QuestTask(entity: $0) },
-                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
-                    repeatIntervalWeeks: entity.repeatIntervalWeeks > 0 ? Int(entity.repeatIntervalWeeks) : nil
+                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime
                 )
             }
             completion(quests, nil)
@@ -147,8 +144,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     tasks: entity.taskList
                         .sorted { $0.order < $1.order }
                         .map { QuestTask(entity: $0) },
-                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
-                    repeatIntervalWeeks: entity.repeatIntervalWeeks > 0 ? Int(entity.repeatIntervalWeeks) : nil
+                    repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime
                 )
             }
             completion(quests, nil)
@@ -263,7 +259,6 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         isActive: Bool?,
         progress: Int?,
         repeatType: QuestRepeatType?,
-        repeatIntervalWeeks: Int?,
         tasks: [String]?,
         completion: @escaping (Error?) -> Void
     ) {
@@ -281,7 +276,6 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 if let isActive { questEntity.isActive = isActive }
                 if let progress { questEntity.progress = Int16(progress) }
                 if let repeatType { questEntity.repeatType = repeatType.rawValue }
-                if let repeatIntervalWeeks { questEntity.repeatIntervalWeeks = Int16(repeatIntervalWeeks) }
 
                 if let tasks = tasks {
                     if let existingTasksArray = questEntity.tasks?.array as? [TaskEntity] {

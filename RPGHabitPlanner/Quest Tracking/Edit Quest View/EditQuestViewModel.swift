@@ -23,7 +23,6 @@ final class EditQuestViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var didUpdateQuest: Bool = false
     @Published var repeatType: QuestRepeatType
-    @Published var repeatIntervalWeeks: Int?
     
     private let questDataService: QuestDataServiceProtocol
 
@@ -38,7 +37,6 @@ final class EditQuestViewModel: ObservableObject {
         self.progress = quest.progress
         self.tasks = quest.tasks.map { $0.title } // ✅ Map existing tasks into titles
         self.repeatType = quest.repeatType
-        self.repeatIntervalWeeks = quest.repeatIntervalWeeks
         self.questDataService = questDataService
     }
 
@@ -68,7 +66,6 @@ final class EditQuestViewModel: ObservableObject {
             isActive: isActiveQuest,
             progress: progress,
             repeatType: repeatType,
-            repeatIntervalWeeks: repeatIntervalWeeks,
             tasks: tasks
         ) { [weak self] error in
             DispatchQueue.main.async {

@@ -85,6 +85,8 @@ class MockQuestDataService: QuestDataServiceProtocol {
         dueDate: Date?,
         isActive: Bool?,
         progress: Int?,
+        repeatType: QuestRepeatType?,
+        tasks: [String]?,
         completion: @escaping (Error?) -> Void
     ) {
         if let error = mockError {
