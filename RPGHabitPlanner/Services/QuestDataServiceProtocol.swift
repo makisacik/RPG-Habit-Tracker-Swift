@@ -12,9 +12,10 @@ protocol QuestDataServiceProtocol {
     func fetchAllQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchNonCompletedQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchCompletedQuests(completion: @escaping ([Quest], Error?) -> Void)
-    func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void)
-    func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void)
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void)
+    func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void)
+
+    func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void)
     func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void)
     func updateQuest(
         withId id: UUID,
@@ -39,13 +40,13 @@ protocol QuestDataServiceProtocol {
         completion: @escaping (Error?) -> Void
     )
 
-    // MARK: - Quest Completion Logging
     func markQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void)
     func unmarkQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void)
     func isQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Bool, Error?) -> Void)
     func questCompletionCount(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping (Int, Error?) -> Void)
     func questCompletionDates(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping ([Date], Error?) -> Void)
     func questCurrentStreak(forId id: UUID, asOf date: Date, completion: @escaping (Int, Error?) -> Void)
+
     func refreshQuestState(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void)
     func refreshAllQuests(on date: Date, completion: @escaping (Error?) -> Void)
 }

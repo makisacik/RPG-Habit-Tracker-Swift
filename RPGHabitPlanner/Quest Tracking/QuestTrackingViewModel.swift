@@ -11,14 +11,15 @@ import Combine
 final class QuestTrackingViewModel: ObservableObject {
     @Published var quests: [Quest] = []
     @Published var errorMessage: String?
-    @Published var selectedTab: QuestTab = .all
     @Published var didLevelUp: Bool = false
     @Published var questCompleted: Bool = false
     @Published var newLevel: Int16?
     @Published var lastRefreshDay: Date = Calendar.current.startOfDay(for: Date())
+    @Published var selectedDayFilter: DayFilter = .active
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
+    private let calendar = Calendar.current
     
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
@@ -26,12 +27,24 @@ final class QuestTrackingViewModel: ObservableObject {
     }
     
     func fetchQuests() {
-        questDataService.fetchNonCompletedQuests { [weak self] quests, error in
+        questDataService.fetchAllQuests { [weak self] quests, error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    self?.quests = quests.reversed()
+                    self?.quests = quests
+                }
+            }
+        }
+    }
+    
+    func refreshRecurringQuests() {
+        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                } else {
+                    self?.fetchQuests()
                 }
             }
         }
@@ -41,6 +54,7 @@ final class QuestTrackingViewModel: ObservableObject {
         guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
         withAnimation {
             quests[index].isCompleted = true
+            quests[index].isActive = false
         }
         
         questDataService.markQuestCompleted(forId: id, on: Date()) { [weak self] error in
@@ -55,7 +69,6 @@ final class QuestTrackingViewModel: ObservableObject {
                     #else
                     expAmount = Int16(10 * self.quests[index].difficulty)
                     #endif
-                    
                     self.userManager.updateUserExperience(additionalExp: expAmount) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.errorMessage = expError.localizedDescription
@@ -70,7 +83,6 @@ final class QuestTrackingViewModel: ObservableObject {
             }
         }
     }
-
 
     func updateQuest(_ quest: Quest) {
         questDataService.updateQuest(
@@ -111,49 +123,28 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
     
-    func refreshRecurringQuests() {
-        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self?.errorMessage = error.localizedDescription
-                } else {
-                    self?.fetchQuests()
-                }
-            }
-        }
-    }
-    
-    var allQuests: [Quest] {
-        quests
+    var activeTodayQuests: [Quest] {
+        let now = Date()
+        return quests.filter { $0.isActive(on: now) }
     }
 
-    var mainQuests: [Quest] {
-        quests.filter { $0.isMainQuest }
-    }
-    
-    var sideQuests: [Quest] {
-        quests.filter { !$0.isMainQuest }
+    var inactiveTodayQuests: [Quest] {
+        let now = Date()
+        return quests.filter { !$0.isActive(on: now) }
     }
     
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
-        print("🔄 Updating task completion - Quest ID: \(questId), Task ID: \(taskId), New Value: \(newValue)")
-
         questDataService.updateTask(
             withId: taskId,
             isCompleted: newValue
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("❌ Error updating task: \(error)")
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    print("✅ Task update successful, updating local array")
                     if let questIndex = self?.quests.firstIndex(where: { $0.id == questId }),
                        let taskIndex = self?.quests[questIndex].tasks.firstIndex(where: { $0.id == taskId }) {
                         self?.quests[questIndex].tasks[taskIndex].isCompleted = newValue
-                        print("✅ Local array updated - Task is now: \(self?.quests[questIndex].tasks[taskIndex].isCompleted ?? false)")
-                    } else {
-                        print("❌ Could not find quest or task in local array")
                     }
                 }
             }
@@ -164,11 +155,6 @@ final class QuestTrackingViewModel: ObservableObject {
         AchievementManager.shared.checkAchievements(
             questDataService: questDataService,
             userManager: userManager
-        ) { newlyUnlocked in
-            if !newlyUnlocked.isEmpty {
-                print("🎉 New achievements unlocked: \(newlyUnlocked.map { $0.title })")
-                // You can add notification or celebration logic here
-            }
-        }
+        ) { _ in }
     }
 }

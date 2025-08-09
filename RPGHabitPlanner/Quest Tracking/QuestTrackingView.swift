@@ -32,7 +32,7 @@ struct QuestTrackingView: View {
         let theme = themeManager.activeTheme
 
         return VStack(alignment: .center, spacing: 5) {
-            questTypePicker.padding(.top, 5)
+            dayPicker.padding(.top, 5)
             questList
         }
         .padding()
@@ -59,15 +59,11 @@ struct QuestTrackingView: View {
                 }
             }
         }
-
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text("Error").font(.appFont(size: 16, weight: .black)),
-                message: Text(viewModel.errorMessage ?? "An unknown error occurred")
-                    .font(.appFont(size: 14)),
-                dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) {
-                    viewModel.errorMessage = nil
-                }
+                message: Text(viewModel.errorMessage ?? "An unknown error occurred").font(.appFont(size: 14)),
+                dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) { viewModel.errorMessage = nil }
             )
         }
         .sheet(item: $selectedQuestForEditing) { quest in
@@ -77,11 +73,9 @@ struct QuestTrackingView: View {
             viewModel.fetchQuests()
             viewModel.refreshRecurringQuests()
         }
-
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             viewModel.refreshRecurringQuests()
         }
-
         .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { _ in
             let currentDay = Calendar.current.startOfDay(for: Date())
             if viewModel.lastRefreshDay != currentDay {
@@ -95,12 +89,10 @@ struct QuestTrackingView: View {
         ScrollViewReader { scrollViewProxy in
             ScrollView {
                 VStack {
-                    ForEach(questsToDisplay) { quest in
-                        if !quest.isCompleted {
-                            questCard(for: quest)
-                                .id(quest.id)
-                                .frame(maxWidth: .infinity)
-                        }
+                    ForEach(questsForSelectedFilter) { quest in
+                        questCard(for: quest)
+                            .id(quest.id)
+                            .frame(maxWidth: .infinity)
                     }
                 }
                 .padding(5)
@@ -155,34 +147,30 @@ struct QuestTrackingView: View {
         )
     }
 
-
-    private var questTypePicker: some View {
-        Picker("Quest Type", selection: $viewModel.selectedTab) {
-            ForEach(QuestTab.allCases, id: \.self) { tab in
-                Text(tab.rawValue.capitalized).tag(tab)
-            }
+    private var dayPicker: some View {
+        Picker("Today", selection: $viewModel.selectedDayFilter) {
+            Text("Active Today").tag(DayFilter.active)
+            Text("Inactive Today").tag(DayFilter.inactive)
         }
         .pickerStyle(.segmented)
         .padding(.horizontal)
     }
 
-    private var questsToDisplay: [Quest] {
-        switch viewModel.selectedTab {
-        case .all:
-            return viewModel.allQuests
-        case .main:
-            return viewModel.mainQuests
-        case .side:
-            return viewModel.sideQuests
+    private var questsForSelectedFilter: [Quest] {
+        switch viewModel.selectedDayFilter {
+        case .active:
+            return viewModel.activeTodayQuests
+        case .inactive:
+            return viewModel.inactiveTodayQuests
         }
     }
 }
 
-enum QuestTab: String, CaseIterable {
-    case all
-    case main
-    case side
+enum DayFilter: Hashable {
+    case active
+    case inactive
 }
+
 
 #Preview {
     let questDataService = QuestCoreDataService()
