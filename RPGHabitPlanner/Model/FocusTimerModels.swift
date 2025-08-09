@@ -29,7 +29,7 @@ struct TimerSettings {
 
 // MARK: - Battle Models
 
-struct BattleEntity {
+struct BattleEntity: Codable {
     let id: UUID
     var name: String
     var maxHealth: Int
@@ -61,14 +61,14 @@ struct BattleEntity {
     }
 }
 
-struct BattleAction {
+struct BattleAction: Codable {
     let attacker: BattleEntity
     let target: BattleEntity
     let damage: Int
     let actionType: ActionType
     let timestamp: Date
     
-    enum ActionType {
+    enum ActionType: String, Codable {
         case attack
         case distraction
         case focus
@@ -85,7 +85,7 @@ struct BattleReward {
 
 // MARK: - Enemy Types
 
-enum EnemyType: CaseIterable {
+enum EnemyType: String, CaseIterable, Codable {
     case sleepyCat
     case funnyZombie
     case funkyMonster
@@ -175,7 +175,7 @@ enum EnemyType: CaseIterable {
 
 // MARK: - Battle Session
 
-struct BattleSession {
+struct BattleSession: Codable {
     let id: UUID
     let startTime: Date
     let enemyType: EnemyType

@@ -16,6 +16,7 @@ class BackgroundTimerManager: ObservableObject {
     
     private let backgroundTaskIdentifier = "com.rpghabitplanner.timer"
     private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+    private var backgroundTaskTimer: Timer?
     private var timer: Timer?
     private var startTime: Date?
     private var totalDuration: TimeInterval = 0
@@ -75,6 +76,9 @@ class BackgroundTimerManager: ObservableObject {
     func pauseTimer() {
         stopTimer()
         isTimerRunning = false
+        
+        // Ensure background task is ended when paused
+        endBackgroundTask()
     }
     
     func stopTimer() {
@@ -82,7 +86,7 @@ class BackgroundTimerManager: ObservableObject {
         timer = nil
         isTimerRunning = false
         
-        // End background task
+        // End background task immediately
         endBackgroundTask()
         
         // End Live Activity
@@ -109,6 +113,9 @@ class BackgroundTimerManager: ObservableObject {
     private func timerCompleted() {
         stopTimer()
         
+        // Ensure background task is ended when timer completes
+        endBackgroundTask()
+        
         // Send completion notification
         sendCompletionNotification()
         
@@ -119,13 +126,31 @@ class BackgroundTimerManager: ObservableObject {
     // MARK: - Background Tasks
     
     private func startBackgroundTask() {
+        // End any existing background task first
+        endBackgroundTask()
+        
         backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "TimerBackgroundTask") { [weak self] in
+            // This is called when the background task is about to expire
+            print("⚠️ Background task expiring, ending task")
             self?.endBackgroundTask()
         }
+        
+        // Set a timer to end the background task after 25 seconds to avoid the 30-second warning
+        backgroundTaskTimer = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [weak self] _ in
+            print("⏰ Background task timeout reached, ending task")
+            self?.endBackgroundTask()
+        }
+        
+        print("✅ Background task started with ID: \(backgroundTask.rawValue)")
     }
     
     private func endBackgroundTask() {
+        // Invalidate the background task timer
+        backgroundTaskTimer?.invalidate()
+        backgroundTaskTimer = nil
+        
         if backgroundTask != .invalid {
+            print("🛑 Ending background task with ID: \(backgroundTask.rawValue)")
             UIApplication.shared.endBackgroundTask(backgroundTask)
             backgroundTask = .invalid
         }
@@ -248,6 +273,9 @@ class BackgroundTimerManager: ObservableObject {
     func handleAppDidEnterBackground() {
         if isTimerRunning {
             scheduleBackgroundTask()
+        } else {
+            // Ensure background task is ended if timer is not running
+            endBackgroundTask()
         }
     }
     
@@ -256,12 +284,21 @@ class BackgroundTimerManager: ObservableObject {
         if isTimerRunning {
             updateTimer()
         }
+        
+        // End background task when app comes to foreground
+        endBackgroundTask()
     }
     
     // MARK: - Debug Methods
     
     func testLiveActivity() {
         // Live Activities not available on this device
+    }
+    
+    // MARK: - Cleanup
+    
+    deinit {
+        endBackgroundTask()
     }
 }
 

@@ -39,4 +39,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Handle background fetch
         completionHandler(.newData)
     }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        // Ensure background tasks are properly managed when app enters background
+        BackgroundTimerManager.shared.handleAppDidEnterBackground()
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Ensure background tasks are properly managed when app enters foreground
+        BackgroundTimerManager.shared.handleAppWillEnterForeground()
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Clean up background tasks when app terminates
+        BackgroundTimerManager.shared.stopTimer()
+    }
 }

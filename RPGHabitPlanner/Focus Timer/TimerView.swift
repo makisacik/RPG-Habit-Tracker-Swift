@@ -15,13 +15,17 @@ class FocusTimerViewModel: ObservableObject {
     @Published var timeString: String = "25:00"
     @Published var progress: Double = 0.0
     @Published var currentPhase: String = "Work"
+    @Published var showMonsterDefeated: Bool = false
+    @Published var isMonsterShaking: Bool = false
     
     private var timer: Timer?
+    private var lastDamageTime = Date()
     private var cancellables = Set<AnyCancellable>()
     
     let userManager: UserManager
     let damageHandler: DamageHandler
     let backgroundTimerManager = BackgroundTimerManager.shared
+    private let persistenceService = MonsterHPPersistenceService.shared
     
     init(userManager: UserManager, damageHandler: DamageHandler) {
         self.session = FocusTimerSession()
@@ -29,6 +33,7 @@ class FocusTimerViewModel: ObservableObject {
         self.damageHandler = damageHandler
         setupTimer()
         setupNotifications()
+        loadPersistedData()
     }
     
     deinit {
@@ -50,6 +55,29 @@ class FocusTimerViewModel: ObservableObject {
         isRunning = true
         session.currentState = .working
         updatePhaseDisplay()
+        
+        // Apply initial damage when starting the timer
+        if var battleSession = session.battleSession {
+            let initialDamage = 5
+            battleSession.enemy.currentHealth = max(0, battleSession.enemy.currentHealth - initialDamage)
+            session.battleSession = battleSession
+            
+            // Save the updated HP
+            saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
+            savePersistedData()
+            
+            // Show damage effect with dramatic animation
+            let position = CGPoint(x: 200, y: 300)
+            damageHandler.showDamageNumber(damage: initialDamage, position: position, isCritical: false)
+            damageHandler.triggerScreenShake(intensity: .medium)
+            triggerMonsterShake()
+            
+            // Check if monster is defeated
+            if battleSession.enemy.currentHealth <= 0 {
+                showMonsterDefeated = true
+                pauseTimer()
+            }
+        }
         
         // Start background timer
         backgroundTimerManager.startTimer(duration: session.timeRemaining, phase: currentPhase)
@@ -86,6 +114,10 @@ class FocusTimerViewModel: ObservableObject {
             battleSession.enemy.currentHealth = min(battleSession.enemy.maxHealth, battleSession.enemy.currentHealth + healAmount)
             session.battleSession = battleSession
             
+            // Save the updated HP
+            saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
+            savePersistedData()
+            
             // Show healing effect
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: healAmount, position: position, isHealing: true)
@@ -121,14 +153,23 @@ class FocusTimerViewModel: ObservableObject {
     func startBattleMode(enemyType: EnemyType) {
         guard let user = createPlayerFromUser() else { return }
         
-        let battleSession = BattleLogic.startBattle(
+        var battleSession = BattleLogic.startBattle(
             player: user,
             enemyType: enemyType,
             targetPomodoros: session.settings.pomodorosUntilLongBreak
         )
         
+        // Load persisted HP if available
+        if let savedHP = loadMonsterHP(enemyType: enemyType) {
+            battleSession.enemy.currentHealth = savedHP
+        }
+        
         session.battleSession = battleSession
         session.currentState = .idle
+        lastDamageTime = Date() // Reset the damage timer for new monster
+        
+        // Save the battle session
+        savePersistedData()
     }
     
     func completePomodoro() {
@@ -141,13 +182,19 @@ class FocusTimerViewModel: ObservableObject {
             let damageAmount = 25
             battleSession.enemy.currentHealth = max(0, battleSession.enemy.currentHealth - damageAmount)
             
-            // Show damage effect
+            // Show damage effect with dramatic animation
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: damageAmount, position: position, isCritical: false)
+            damageHandler.triggerScreenShake(intensity: .medium)
+            triggerMonsterShake()
             
             // Process additional battle logic
             let actions = BattleLogic.processPomodoroCompletion(session: &battleSession)
             session.battleSession = battleSession
+            
+            // Save the updated HP
+            saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
+            savePersistedData()
             
             // Process visual effects
             for action in actions {
@@ -241,6 +288,44 @@ class FocusTimerViewModel: ObservableObject {
         
         session.timeRemaining -= 1
         updateDisplay()
+        
+        // Apply automatic damage every minute
+        applyAutomaticDamage()
+    }
+    
+    private func applyAutomaticDamage() {
+        guard let battleSession = session.battleSession,
+              isRunning,
+              session.currentState == .working else { return }
+        
+        let currentTime = Date()
+        let timeSinceLastDamage = currentTime.timeIntervalSince(lastDamageTime)
+        
+        // Apply damage every 60 seconds (1 minute)
+        if timeSinceLastDamage >= 60 {
+            let damageAmount = 2
+            var updatedBattleSession = battleSession
+            updatedBattleSession.enemy.currentHealth = max(0, updatedBattleSession.enemy.currentHealth - damageAmount)
+            
+            // Show damage effect with dramatic animation
+            let position = CGPoint(x: 200, y: 300)
+            damageHandler.showDamageNumber(damage: damageAmount, position: position, isCritical: false)
+            damageHandler.triggerScreenShake(intensity: .light)
+            triggerMonsterShake()
+            
+            session.battleSession = updatedBattleSession
+            lastDamageTime = currentTime
+            
+            // Save the updated HP
+            saveMonsterHP(enemyType: updatedBattleSession.enemyType, currentHealth: updatedBattleSession.enemy.currentHealth)
+            savePersistedData()
+            
+            // Check if monster is defeated
+            if updatedBattleSession.enemy.currentHealth <= 0 {
+                showMonsterDefeated = true
+                pauseTimer()
+            }
+        }
     }
     
     private func updateDisplay() {
@@ -326,6 +411,61 @@ class FocusTimerViewModel: ObservableObject {
             isPlayer: true
         )
     }
+    
+    // MARK: - Persistence Methods
+    
+    private func loadPersistedData() {
+        // Load last damage time
+        if let savedLastDamageTime = persistenceService.loadLastDamageTime() {
+            lastDamageTime = savedLastDamageTime
+        }
+        
+        // Load battle session if exists
+        if let battleSession = session.battleSession {
+            if let savedBattleSession = persistenceService.loadBattleSession(id: battleSession.id) {
+                session.battleSession = savedBattleSession
+            }
+        }
+    }
+    
+    private func savePersistedData() {
+        // Save last damage time
+        persistenceService.saveLastDamageTime(lastDamageTime)
+        
+        // Save battle session if exists
+        if let battleSession = session.battleSession {
+            persistenceService.saveBattleSession(battleSession)
+            
+            // Save monster HP
+            persistenceService.saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
+        }
+    }
+    
+    private func loadMonsterHP(enemyType: EnemyType) -> Int? {
+        return persistenceService.loadMonsterHP(enemyType: enemyType)
+    }
+    
+    private func saveMonsterHP(enemyType: EnemyType, currentHealth: Int) {
+        persistenceService.saveMonsterHP(enemyType: enemyType, currentHealth: currentHealth)
+    }
+    
+    func clearDefeatedMonsterData(battleSession: BattleSession) {
+        persistenceService.clearMonsterHP(enemyType: battleSession.enemyType)
+        persistenceService.clearBattleSession(id: battleSession.id)
+        // Increment defeat count for this monster
+        persistenceService.incrementMonsterDefeats(enemyType: battleSession.enemyType)
+    }
+    
+    // MARK: - Animation Methods
+    
+    func triggerMonsterShake() {
+        isMonsterShaking = true
+        
+        // Stop shaking after animation duration
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.isMonsterShaking = false
+        }
+    }
 }
 
 // MARK: - TimerView
@@ -380,6 +520,19 @@ struct TimerView: View {
                     BattleEffectView(effect: effect)
                 }
             }
+            
+            // Monster Defeated Overlay
+            if viewModel.showMonsterDefeated {
+                MonsterDefeatedOverlay(theme: theme) {
+                    viewModel.showMonsterDefeated = false
+                    // Clear persisted data for defeated monster
+                    if let battleSession = viewModel.session.battleSession {
+                        viewModel.clearDefeatedMonsterData(battleSession: battleSession)
+                    }
+                    // Reset the monster or allow selection of a new one
+                    viewModel.session.battleSession = nil
+                }
+            }
         }
         .screenShake(isShaking: viewModel.damageHandler.screenShake)
         .overlay(
@@ -427,10 +580,13 @@ struct TimerView: View {
                     .shadow(color: .black.opacity(0.2), radius: 8)
                 
                 if let battleSession = viewModel.session.battleSession {
-                    // Selected monster Lottie animation
+                    // Selected monster Lottie animation with shaking effect (reduced frequency for main page)
                     LottieView(animation: .named(battleSession.enemyType.animationName))
                         .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                        .frame(width: 100, height: 100)
+                        .frame(width: battleSession.enemyType == .flyingDragon ? 120 : 100, height: battleSession.enemyType == .flyingDragon ? 120 : 100)
+                        .modifier(MonsterShakeModifier(isShaking: viewModel.isMonsterShaking))
+                        .scaleEffect(battleSession.enemyType == .flyingDragon ? 1.2 : 1.0)
+                        .opacity(0.8) // Slightly reduce opacity to make it less prominent
                 } else {
                     // Placeholder for unselected monster
                     VStack(spacing: 8) {
@@ -499,6 +655,33 @@ struct TimerView: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(theme.primaryColor.opacity(0.5))
                 .shadow(color: .black.opacity(0.1), radius: 4)
+        )
+        .overlay(
+            // Change Monster Button
+            VStack {
+                HStack {
+                    Spacer()
+                    if viewModel.session.battleSession != nil {
+                        Button(action: {
+                            NotificationCenter.default.post(name: .showMonsterSelection, object: nil)
+                        }) {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(theme.textColor)
+                                .padding(8)
+                                .background(
+                                    Circle()
+                                        .fill(theme.primaryColor.opacity(0.8))
+                                        .shadow(color: .black.opacity(0.2), radius: 2)
+                                )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                Spacer()
+            }
+            .padding(.top, 8)
+            .padding(.trailing, 8)
         )
     }
     
@@ -639,42 +822,183 @@ struct EnemyCard: View {
     let enemyType: EnemyType
     let onSelect: () -> Void
     
+    private var defeatCount: Int {
+        MonsterHPPersistenceService.shared.getMonsterDefeats(enemyType: enemyType)
+    }
+    
     var body: some View {
         let theme = themeManager.activeTheme
         let entity = enemyType.entity
         
         Button(action: onSelect) {
-            VStack(spacing: 12) {
-                // Enemy Lottie animation
-                LottieView(animation: .named(enemyType.animationName))
-                    .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-                    .frame(width: 80, height: 80)
+            ZStack {
+                VStack(spacing: 12) {
+                    // Enemy Lottie animation
+                    LottieView(animation: .named(enemyType.animationName))
+                        .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                        .frame(width: enemyType == .flyingDragon ? 100 : 80, height: enemyType == .flyingDragon ? 100 : 80)
+                    
+                    VStack(spacing: 4) {
+                        Text(entity.name)
+                            .font(.appFont(size: 14, weight: .bold))
+                            .foregroundColor(theme.textColor)
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Level \(entity.level)")
+                            .font(.appFont(size: 12))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                        
+                        Text(enemyType.description)
+                            .font(.appFont(size: 10))
+                            .foregroundColor(theme.textColor.opacity(0.6))
+                            .multilineTextAlignment(.center)
+                            .lineLimit(3)
+                    }
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor.opacity(0.5))
+                        .shadow(color: .black.opacity(0.1), radius: 4)
+                )
                 
-                VStack(spacing: 4) {
-                    Text(entity.name)
-                        .font(.appFont(size: 14, weight: .bold))
-                        .foregroundColor(theme.textColor)
-                        .multilineTextAlignment(.center)
-                    
-                    Text("Level \(entity.level)")
-                        .font(.appFont(size: 12))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                    
-                    Text(enemyType.description)
-                        .font(.appFont(size: 10))
-                        .foregroundColor(theme.textColor.opacity(0.6))
-                        .multilineTextAlignment(.center)
-                        .lineLimit(3)
+                // Skull icon with defeat count (top right)
+                if defeatCount > 0 {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            ZStack {
+                                Image("icon_skull")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 24, height: 24)
+                                    .opacity(0.6)
+                                
+                                Text("\(defeatCount)")
+                                    .font(.appFont(size: 10, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 4)
+                                    .padding(.vertical, 2)
+                                    .background(
+                                        Circle()
+                                            .fill(Color.red.opacity(0.8))
+                                            .shadow(color: .black.opacity(0.2), radius: 1)
+                                    )
+                                    .offset(x: 8, y: -8)
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding(.top, 8)
+                    .padding(.trailing, 8)
                 }
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.primaryColor.opacity(0.5))
-                    .shadow(color: .black.opacity(0.1), radius: 4)
-            )
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Monster Shake Modifier
+
+struct MonsterShakeModifier: ViewModifier {
+    let isShaking: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .offset(x: isShaking ? CGFloat.random(in: -12...12) : 0,
+                   y: isShaking ? CGFloat.random(in: -12...12) : 0)
+            .rotationEffect(.degrees(isShaking ? Double.random(in: -8...8) : 0))
+            .animation(isShaking ? .easeInOut(duration: 0.08).repeatCount(8) : .default, value: isShaking)
+    }
+}
+
+// MARK: - Monster Defeated Overlay
+
+struct MonsterDefeatedOverlay: View {
+    let theme: Theme
+    let onDismiss: () -> Void
+    @State private var showContent = false
+    @State private var isDismissing = false
+    
+    var body: some View {
+        ZStack {
+            // Background overlay
+            Color.black.opacity(0.7)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    dismissWithAnimation()
+                }
+            
+            // Content
+            VStack(spacing: 20) {
+                // Victory icon
+                Image(systemName: "trophy.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.yellow)
+                    .scaleEffect(showContent ? 1.0 : 0.5)
+                    .opacity(showContent ? 1.0 : 0.0)
+                    .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.2), value: showContent)
+                
+                // Title
+                Text("Monster Defeated!")
+                    .font(.appFont(size: 28, weight: .black))
+                    .foregroundColor(.white)
+                    .opacity(showContent ? 1.0 : 0.0)
+                    .offset(y: showContent ? 0 : 20)
+                    .animation(.easeOut(duration: 0.5).delay(0.4), value: showContent)
+                
+                // Description
+                Text("You have successfully defeated the monster!")
+                    .font(.appFont(size: 16, weight: .medium))
+                    .foregroundColor(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                    .opacity(showContent ? 1.0 : 0.0)
+                    .offset(y: showContent ? 0 : 20)
+                    .animation(.easeOut(duration: 0.5).delay(0.6), value: showContent)
+                
+                // Continue button
+                Button(action: {
+                    dismissWithAnimation()
+                }) {
+                    Text("Continue")
+                        .font(.appFont(size: 18, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                        .padding(.horizontal, 40)
+                        .padding(.vertical, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 25)
+                                .fill(Color.yellow)
+                                .shadow(color: .black.opacity(0.3), radius: 4)
+                        )
+                }
+                .opacity(showContent ? 1.0 : 0.0)
+                .scaleEffect(showContent ? 1.0 : 0.8)
+                .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.8), value: showContent)
+            }
+            .padding(40)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(theme.primaryColor.opacity(0.9))
+                    .shadow(color: .black.opacity(0.3), radius: 10)
+            )
+            .scaleEffect(showContent && !isDismissing ? 1.0 : 0.8)
+            .opacity(showContent && !isDismissing ? 1.0 : 0.0)
+            .animation(.spring(response: 0.6, dampingFraction: 0.6), value: showContent)
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.3)) {
+                showContent = true
+            }
+        }
+    }
+    
+    private func dismissWithAnimation() {
+        isDismissing = true
+        showContent = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            onDismiss()
+        }
     }
 }
 
