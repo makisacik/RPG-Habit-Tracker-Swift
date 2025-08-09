@@ -20,6 +20,10 @@ class CalendarViewModel: ObservableObject {
         self.questDataService = questDataService
     }
     
+    var questDataServiceProtocol: QuestDataServiceProtocol {
+        return questDataService
+    }
+    
     var questsForSelectedDate: [Quest] {
         return questsForDate(selectedDate)
     }

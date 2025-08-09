@@ -13,6 +13,7 @@ struct CalendarView: View {
     @State private var selectedDate = Date()
     @State private var showingQuestDetail = false
     @State private var selectedQuest: Quest?
+    @State private var showingQuestCreation = false
     
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
@@ -39,10 +40,15 @@ struct CalendarView: View {
                     // Calendar grid
                     calendarGrid(theme: theme)
                     
-                    // Selected date details
-                    if !viewModel.questsForSelectedDate.isEmpty {
-                        selectedDateDetails(theme: theme)
+                    // Selected date details or Add Quest button - fixed height container
+                    VStack(spacing: 0) {
+                        if !viewModel.questsForSelectedDate.isEmpty {
+                            selectedDateDetails(theme: theme)
+                        } else {
+                            addQuestSection(theme: theme)
+                        }
                     }
+                    .frame(height: 200)
                 }
             }
             .navigationTitle("Quest Calendar")
@@ -56,11 +62,24 @@ struct CalendarView: View {
                 QuestDetailSheet(quest: quest, theme: theme)
             }
         }
+        .sheet(isPresented: $showingQuestCreation) {
+            NavigationStack {
+                QuestCreationView(
+                    viewModel: createQuestCreationViewModel()
+                )
+            }
+        }
         .onChange(of: selectedDate) { newDate in
             viewModel.selectedDate = newDate
         }
     }
     
+    private func createQuestCreationViewModel() -> QuestCreationViewModel {
+        let questCreationVM = QuestCreationViewModel(questDataService: viewModel.questDataServiceProtocol)
+        questCreationVM.questDueDate = selectedDate
+        return questCreationVM
+    }
+
     private func monthHeader(theme: Theme) -> some View {
         HStack {
             Button(action: previousMonth) {
@@ -154,6 +173,45 @@ struct CalendarView: View {
         .padding(.top, 16)
     }
     
+    private func addQuestSection(theme: Theme) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text(selectedDate, style: .date)
+                    .font(.appFont(size: 18, weight: .bold))
+                    .foregroundColor(theme.textColor)
+
+                Spacer()
+
+                Text("No quests")
+                    .font(.appFont(size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+            }
+
+            Button(action: {
+                showingQuestCreation = true
+            }) {
+                HStack {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                    Text("Add Quest")
+                        .font(.appFont(size: 16, weight: .medium))
+                        .foregroundColor(.white)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor)
+                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                )
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 16)
+    }
+
     private func daysInMonth() -> [Date?] {
         let startOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
         let firstWeekday = calendar.component(.weekday, from: startOfMonth)
