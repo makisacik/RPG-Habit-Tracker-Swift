@@ -20,6 +20,7 @@ class FocusTimerViewModel: ObservableObject {
     
     private var timer: Timer?
     private var lastDamageTime = Date()
+    private var initialDamageApplied: Bool = false
     private var cancellables = Set<AnyCancellable>()
     
     let userManager: UserManager
@@ -56,8 +57,8 @@ class FocusTimerViewModel: ObservableObject {
         session.currentState = .working
         updatePhaseDisplay()
         
-        // Apply initial damage when starting the timer
-        if var battleSession = session.battleSession {
+        // Apply initial damage only once per session
+        if var battleSession = session.battleSession, !initialDamageApplied {
             let initialDamage = 5
             battleSession.enemy.currentHealth = max(0, battleSession.enemy.currentHealth - initialDamage)
             session.battleSession = battleSession
@@ -71,6 +72,9 @@ class FocusTimerViewModel: ObservableObject {
             damageHandler.showDamageNumber(damage: initialDamage, position: position, isCritical: false)
             damageHandler.triggerScreenShake(intensity: .medium)
             triggerMonsterShake()
+            
+            // Mark initial damage as applied
+            initialDamageApplied = true
             
             // Check if monster is defeated
             if battleSession.enemy.currentHealth <= 0 {
@@ -128,6 +132,7 @@ class FocusTimerViewModel: ObservableObject {
         session.timeRemaining = session.settings.workDuration
         session.completedPomodoros = 0
         session.totalWorkTime = 0
+        initialDamageApplied = false // Reset initial damage flag when timer is reset
         updateDisplay()
     }
     
@@ -167,6 +172,7 @@ class FocusTimerViewModel: ObservableObject {
         session.battleSession = battleSession
         session.currentState = .idle
         lastDamageTime = Date() // Reset the damage timer for new monster
+        initialDamageApplied = false // Reset initial damage flag for new monster
         
         // Save the battle session
         savePersistedData()
@@ -466,6 +472,12 @@ class FocusTimerViewModel: ObservableObject {
             self.isMonsterShaking = false
         }
     }
+    
+    // MARK: - Session Management
+    
+    func resetInitialDamageFlag() {
+        initialDamageApplied = false
+    }
 }
 
 // MARK: - TimerView
@@ -531,6 +543,7 @@ struct TimerView: View {
                     }
                     // Reset the monster or allow selection of a new one
                     viewModel.session.battleSession = nil
+                    viewModel.resetInitialDamageFlag() // Reset initial damage flag when monster is defeated
                 }
             }
         }
