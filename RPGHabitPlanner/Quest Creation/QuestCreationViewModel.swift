@@ -52,11 +52,14 @@ final class QuestCreationViewModel: ObservableObject {
             dueDate: questDueDate,
             isActive: isActiveQuest,
             progress: 0,
+            isCompleted: false,
+            completionDate: nil,
             repeatType: repeatType
         )
 
-        let taskTitles = tasks.map { $0.trimmingCharacters(in: .whitespaces) }
-                              .filter { !$0.isEmpty }
+        let taskTitles = tasks
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
 
         questDataService.saveQuest(newQuest, withTasks: taskTitles) { [weak self] error in
             DispatchQueue.main.async {
