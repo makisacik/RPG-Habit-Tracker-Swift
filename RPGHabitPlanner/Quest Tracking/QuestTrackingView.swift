@@ -9,6 +9,7 @@ import SwiftUI
 import Lottie
 
 struct QuestTrackingView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @StateObject var viewModel: QuestTrackingViewModel
     @State private var showAlert: Bool = false
     @State private var showSuccessAnimation: Bool = false
@@ -17,7 +18,6 @@ struct QuestTrackingView: View {
     @State private var showReward = false
     @State private var showLevelUp = false
     @State private var levelUpLevel: Int = 0
-    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         ZStack {
@@ -75,6 +75,19 @@ struct QuestTrackingView: View {
         }
         .onAppear {
             viewModel.fetchQuests()
+            viewModel.refreshRecurringQuests()
+        }
+
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            viewModel.refreshRecurringQuests()
+        }
+
+        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { _ in
+            let currentDay = Calendar.current.startOfDay(for: Date())
+            if viewModel.lastRefreshDay != currentDay {
+                viewModel.lastRefreshDay = currentDay
+                viewModel.refreshRecurringQuests()
+            }
         }
     }
 

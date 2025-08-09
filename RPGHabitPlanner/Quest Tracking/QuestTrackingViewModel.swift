@@ -15,6 +15,7 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var didLevelUp: Bool = false
     @Published var questCompleted: Bool = false
     @Published var newLevel: Int16?
+    @Published var lastRefreshDay: Date = Calendar.current.startOfDay(for: Date())
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -42,39 +43,29 @@ final class QuestTrackingViewModel: ObservableObject {
             quests[index].isCompleted = true
         }
         
-        questDataService.updateQuestCompletion(forId: id, to: true) { [weak self] error in
+        questDataService.markQuestCompleted(forId: id, on: Date()) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self else { return }
                 if let error = error {
                     self.errorMessage = error.localizedDescription
                 } else {
+                    let expAmount: Int16
                     #if DEBUG
-                    self.userManager.updateUserExperience(additionalExp: Int16(50 * self.quests[index].difficulty)) { leveledUp, newLevel, expError in
-                        if let expError = expError {
-                            self.errorMessage = expError.localizedDescription
-                        } else {
-                            self.questCompleted = true
-                            self.didLevelUp = leveledUp
-                            self.newLevel = newLevel
-                            
-                            // Check for achievements after quest completion
-                            self.checkAchievements()
-                        }
-                    }
+                    expAmount = Int16(50 * self.quests[index].difficulty)
                     #else
-                    self.userManager.updateUserExperience(additionalExp: Int16(10 * self.quests[index].difficulty)) { leveledUp, newLevel, expError in
+                    expAmount = Int16(10 * self.quests[index].difficulty)
+                    #endif
+                    
+                    self.userManager.updateUserExperience(additionalExp: expAmount) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.errorMessage = expError.localizedDescription
                         } else {
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
-                            
-                            // Check for achievements after quest completion
                             self.checkAchievements()
                         }
                     }
-                    #endif
                 }
             }
         }
@@ -111,7 +102,6 @@ final class QuestTrackingViewModel: ObservableObject {
         quest.progress = newProgress
         quests[index] = quest
 
-        // Use the new progress-only update method to avoid recreating tasks
         questDataService.updateQuestProgress(withId: quest.id, progress: newProgress) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -120,7 +110,18 @@ final class QuestTrackingViewModel: ObservableObject {
             }
         }
     }
-
+    
+    func refreshRecurringQuests() {
+        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = error.localizedDescription
+                } else {
+                    self?.fetchQuests()
+                }
+            }
+        }
+    }
     
     var allQuests: [Quest] {
         quests
