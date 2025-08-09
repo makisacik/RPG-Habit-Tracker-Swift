@@ -89,12 +89,12 @@ extension HomeView {
                     )
                 }
                 
-                NavigationLink(destination: DailyQuestsView(
-                    viewModel: DailyQuestsViewModel(questDataService: questDataService)
+                NavigationLink(destination: QuickQuestsView(
+                    viewModel: QuickQuestsViewModel(questDataService: questDataService)
                 )) {
                     NavigationQuickActionCard(
-                        icon: "sun.max.fill",
-                        title: "Daily Quests",
+                        icon: "bolt.fill",
+                        title: "Quick Quests",
                         subtitle: "Add premade quests",
                         color: .orange,
                         theme: theme
