@@ -11,7 +11,7 @@ import CoreData
 
 extension QuestEntity {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<QuestEntity> {
-        return NSFetchRequest<QuestEntity>(entityName: "QuestEntity")
+        NSFetchRequest<QuestEntity>(entityName: "QuestEntity")
     }
 
     @NSManaged public var creationDate: Date?
@@ -27,10 +27,28 @@ extension QuestEntity {
     @NSManaged public var tasks: NSOrderedSet?
     @NSManaged public var repeatType: String
     @NSManaged public var completionDate: Date?
+    @NSManaged public var completions: NSSet?
+}
+
+extension QuestEntity {
+    @objc(addCompletionsObject:)
+    @NSManaged public func addToCompletions(_ value: QuestCompletionEntity)
+
+    @objc(removeCompletionsObject:)
+    @NSManaged public func removeFromCompletions(_ value: QuestCompletionEntity)
+
+    @objc(addCompletions:)
+    @NSManaged public func addToCompletions(_ values: NSSet)
+
+    @objc(removeCompletions:)
+    @NSManaged public func removeFromCompletions(_ values: NSSet)
 }
 
 extension QuestEntity: Identifiable {
     var taskList: [TaskEntity] {
         (tasks?.array as? [TaskEntity]) ?? []
+    }
+    var completionList: [QuestCompletionEntity] {
+        (completions?.allObjects as? [QuestCompletionEntity]) ?? []
     }
 }
