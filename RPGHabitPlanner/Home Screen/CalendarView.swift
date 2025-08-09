@@ -12,7 +12,8 @@ struct CalendarView: View {
     @ObservedObject var viewModel: CalendarViewModel
     @State private var selectedDate = Date()
     @State private var showingQuestCreation = false
-    
+    @State private var showingAlert = false
+
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -58,9 +59,13 @@ struct CalendarView: View {
                 QuestCreationView(viewModel: creationVM)
             }
         }
-
-        .onChange(of: selectedDate) { newDate in
-            viewModel.selectedDate = calendar.startOfDay(for: newDate)
+        .onChange(of: viewModel.alertMessage) { msg in
+            if msg != nil { showingAlert = true }
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("Heads up"),
+                  message: Text(viewModel.alertMessage ?? ""),
+                  dismissButton: .default(Text("OK")) { viewModel.alertMessage = nil })
         }
     }
     

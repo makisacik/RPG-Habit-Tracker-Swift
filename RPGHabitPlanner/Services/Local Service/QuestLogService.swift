@@ -21,11 +21,21 @@ final class QuestLogService {
     }
 
     func markCompleted(_ quest: QuestEntity, on date: Date = .now) throws {
-        let startOfDay = calendar.startOfDay(for: date)
-        if try fetchCompletion(quest: quest, on: startOfDay) != nil { return }
+        let anchor: Date
+        switch quest.repeatKind {
+        case .daily:
+            anchor = dayAnchor(date, calendar: calendar)
+        case .weekly:
+            anchor = weekAnchor(date, calendar: calendar)
+        case .oneTime:
+            anchor = dayAnchor(date, calendar: calendar)
+        }
+
+        if try fetchCompletion(quest: quest, on: anchor) != nil { return }
+        
         let completion = QuestCompletionEntity(context: context)
         completion.id = UUID()
-        completion.date = startOfDay
+        completion.date = anchor
         completion.quest = quest
         quest.isCompleted = true
         quest.completionDate = date
@@ -33,17 +43,35 @@ final class QuestLogService {
     }
 
     func unmarkCompleted(_ quest: QuestEntity, on date: Date = .now) throws {
-        let startOfDay = calendar.startOfDay(for: date)
-        if let existingCompletion = try fetchCompletion(quest: quest, on: startOfDay) {
+        let anchor: Date
+        switch quest.repeatKind {
+        case .daily:
+            anchor = dayAnchor(date, calendar: calendar)
+        case .weekly:
+            anchor = weekAnchor(date, calendar: calendar)
+        case .oneTime:
+            anchor = dayAnchor(date, calendar: calendar)
+        }
+
+        if let existingCompletion = try fetchCompletion(quest: quest, on: anchor) {
             context.delete(existingCompletion)
             quest.isCompleted = false
             try context.save()
         }
     }
 
+
     func isCompleted(_ quest: QuestEntity, on date: Date = .now) throws -> Bool {
-        let startOfDay = calendar.startOfDay(for: date)
-        return try fetchCompletion(quest: quest, on: startOfDay) != nil
+        let anchor: Date
+        switch quest.repeatKind {
+        case .daily:
+            anchor = dayAnchor(date, calendar: calendar)
+        case .weekly:
+            anchor = weekAnchor(date, calendar: calendar)
+        case .oneTime:
+            anchor = dayAnchor(date, calendar: calendar)
+        }
+        return try fetchCompletion(quest: quest, on: anchor) != nil
     }
 
     func completedCount(_ quest: QuestEntity, from startDate: Date, to endDate: Date) throws -> Int {
@@ -81,14 +109,8 @@ final class QuestLogService {
     }
 
     func isCompletedThisWeek(_ quest: QuestEntity, asOf date: Date = .now) throws -> Bool {
-        guard let startOfWeek = calendar.date(
-            from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
-        ),
-        let weekRange = calendar.range(of: .day, in: .weekOfYear, for: date),
-        let endOfWeek = calendar.date(byAdding: .day, value: weekRange.count - 1, to: startOfWeek)
-        else { return false }
-
-        return try completedCount(quest, from: startOfWeek, to: endOfWeek) > 0
+        let weekAnchor = weekAnchor(date, calendar: calendar)
+        return try fetchCompletion(quest: quest, on: weekAnchor) != nil
     }
 
     func refreshState(for quest: QuestEntity, on date: Date = .now) throws {

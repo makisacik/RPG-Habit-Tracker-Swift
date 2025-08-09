@@ -68,16 +68,14 @@ extension Quest {
     }
 
     func isCompletedThisWeek(asOf date: Date, calendar: Calendar = .current) -> Bool {
-        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)),
-              let range = calendar.range(of: .day, in: .weekOfYear, for: date),
-              let endOfWeek = calendar.date(byAdding: .day, value: range.count - 1, to: startOfWeek)
-        else { return false }
-        let days = stride(from: 0, through: (range.count - 1), by: 1).compactMap {
-            calendar.date(byAdding: .day, value: $0, to: startOfWeek).map { calendar.startOfDay(for: $0) }
-        }
-        return (days.contains { completions.contains($0) }) &&
-               date >= startOfWeek &&
-               date <= endOfWeek
+        let weekAnchor = weekAnchor(for: date, calendar: calendar)
+        return completions.contains(weekAnchor)
+    }
+
+    private func weekAnchor(for date: Date, calendar: Calendar = .current) -> Date {
+        let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        let start = calendar.date(from: comps) ?? date
+        return calendar.startOfDay(for: start)
     }
 
     func isActive(on date: Date, calendar: Calendar = .current) -> Bool {

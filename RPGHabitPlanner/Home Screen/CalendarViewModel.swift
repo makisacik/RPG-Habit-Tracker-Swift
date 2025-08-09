@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 enum DayQuestState { case done, todo, inactive }
 
@@ -20,7 +21,8 @@ final class CalendarViewModel: ObservableObject {
     @Published var allQuests: [Quest] = []
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
-    
+    @Published var alertMessage: String?
+
     let questDataService: QuestDataServiceProtocol
     private let calendar = Calendar.current
     
@@ -49,17 +51,41 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func toggle(item: DayQuestItem) {
-        switch item.state {
-        case .done:
-            questDataService.unmarkQuestCompleted(forId: item.id, on: item.date) { [weak self] _ in
-                self?.fetchQuests()
+        let today = calendar.startOfDay(for: Date())
+        switch item.quest.repeatType {
+        case .daily:
+            guard calendar.isDate(item.date, inSameDayAs: today) else {
+                alertMessage = "Daily quests can only be toggled for today."
+                return
             }
-        case .todo:
-            questDataService.markQuestCompleted(forId: item.id, on: item.date) { [weak self] _ in
-                self?.fetchQuests()
+            let dayAnchor = calendar.startOfDay(for: item.date)
+            if item.state == .done {
+                questDataService.unmarkQuestCompleted(forId: item.id, on: dayAnchor) { [weak self] _ in self?.fetchQuests() }
+            } else {
+                questDataService.markQuestCompleted(forId: item.id, on: dayAnchor) { [weak self] _ in self?.fetchQuests() }
             }
-        case .inactive:
-            break
+        case .weekly:
+            guard isSameWeek(item.date, today) else {
+                alertMessage = "Weekly quests can only be toggled in the current week."
+                return
+            }
+            let anchor = weekAnchor(for: item.date)
+            if item.state == .done {
+                questDataService.unmarkQuestCompleted(forId: item.id, on: anchor) { [weak self] _ in self?.fetchQuests() }
+            } else {
+                questDataService.markQuestCompleted(forId: item.id, on: anchor) { [weak self] _ in self?.fetchQuests() }
+            }
+        case .oneTime:
+            guard calendar.isDate(item.quest.dueDate, inSameDayAs: item.date) else {
+                alertMessage = "This quest can only be completed on its due date."
+                return
+            }
+            let dayAnchor = calendar.startOfDay(for: item.date)
+            if item.state == .done {
+                questDataService.unmarkQuestCompleted(forId: item.id, on: dayAnchor) { [weak self] _ in self?.fetchQuests() }
+            } else {
+                questDataService.markQuestCompleted(forId: item.id, on: dayAnchor) { [weak self] _ in self?.fetchQuests() }
+            }
         }
     }
     
@@ -68,15 +94,16 @@ final class CalendarViewModel: ObservableObject {
         switch quest.repeatType {
         case .oneTime:
             guard Calendar.current.isDate(quest.dueDate, inSameDayAs: day) else { return .inactive }
-            return quest.completions.contains(day) ? .done : .todo
+            let dayAnchor = calendar.startOfDay(for: day)
+            return quest.completions.contains(dayAnchor) ? .done : .todo
         case .daily:
             let start = Calendar.current.startOfDay(for: quest.creationDate)
             guard day >= start && day <= Calendar.current.startOfDay(for: quest.dueDate) else { return .inactive }
-            return quest.completions.contains(day) ? .done : .todo
+            let dayAnchor = calendar.startOfDay(for: day)
+            return quest.completions.contains(dayAnchor) ? .done : .todo
         case .weekly:
             guard isInRange(quest: quest, day: day) else { return .inactive }
-            let done = completedInWeek(quest: quest, containing: day)
-            return done ? .done : .todo
+            return completedInWeek(quest: quest, containing: day) ? .done : .todo
         }
     }
     
@@ -87,9 +114,17 @@ final class CalendarViewModel: ObservableObject {
     }
     
     private func completedInWeek(quest: Quest, containing day: Date) -> Bool {
-        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: day)),
-              let range = calendar.range(of: .day, in: .weekOfYear, for: day) else { return false }
-        let days = (0..<(range.count)).compactMap { calendar.date(byAdding: .day, value: $0, to: startOfWeek) }.map { calendar.startOfDay(for: $0) }
-        return days.contains { quest.completions.contains($0) }
+        let weekAnchor = self.weekAnchor(for: day)
+        return quest.completions.contains(weekAnchor)
+    }
+
+    private func isSameWeek(_ a: Date, _ b: Date) -> Bool {
+        calendar.isDate(a, equalTo: b, toGranularity: .weekOfYear)
+    }
+
+    private func weekAnchor(for day: Date) -> Date {
+        let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: day)
+        let start = calendar.date(from: comps) ?? day
+        return calendar.startOfDay(for: start)
     }
 }
