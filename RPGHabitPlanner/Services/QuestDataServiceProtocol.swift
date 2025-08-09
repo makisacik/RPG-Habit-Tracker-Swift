@@ -16,11 +16,20 @@ protocol QuestDataServiceProtocol {
     func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void)
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void)
     func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void)
-    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?,
-    progress: Int?,
-    repeatType: QuestRepeatType?,
-    tasks: [String]?, completion: @escaping (Error?) -> Void)
-    
+    func updateQuest(
+        withId id: UUID,
+        title: String?,
+        isMainQuest: Bool?,
+        info: String?,
+        difficulty: Int?,
+        dueDate: Date?,
+        isActive: Bool?,
+        progress: Int?,
+        repeatType: QuestRepeatType?,
+        tasks: [String]?,
+        completion: @escaping (Error?) -> Void
+    )
+
     func updateTask(
         withId id: UUID,
         title: String?,
@@ -29,6 +38,16 @@ protocol QuestDataServiceProtocol {
         questId: UUID?,
         completion: @escaping (Error?) -> Void
     )
+
+    // MARK: - Quest Completion Logging
+    func markQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void)
+    func unmarkQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void)
+    func isQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Bool, Error?) -> Void)
+    func questCompletionCount(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping (Int, Error?) -> Void)
+    func questCompletionDates(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping ([Date], Error?) -> Void)
+    func questCurrentStreak(forId id: UUID, asOf date: Date, completion: @escaping (Int, Error?) -> Void)
+    func refreshQuestState(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void)
+    func refreshAllQuests(on date: Date, completion: @escaping (Error?) -> Void)
 }
 
 extension QuestDataServiceProtocol {

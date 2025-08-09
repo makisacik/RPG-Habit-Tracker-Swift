@@ -372,3 +372,128 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             }
         }
 }
+
+extension QuestCoreDataService {
+    // MARK: - Quest Completion Logging
+    func markQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                try logService.markCompleted(quest, on: date)
+                completion(nil)
+            } else {
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(error)
+        }
+    }
+
+    func unmarkQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                try logService.unmarkCompleted(quest, on: date)
+                completion(nil)
+            } else {
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(error)
+        }
+    }
+
+    func isQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Bool, Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                let result = try logService.isCompleted(quest, on: date)
+                completion(result, nil)
+            } else {
+                completion(false, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(false, error)
+        }
+    }
+
+    func questCompletionCount(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping (Int, Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                let count = try logService.completedCount(quest, from: startDate, to: endDate)
+                completion(count, nil)
+            } else {
+                completion(0, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(0, error)
+        }
+    }
+
+    func questCompletionDates(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping ([Date], Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                let dates = try logService.completionDates(quest, from: startDate, to: endDate)
+                completion(dates, nil)
+            } else {
+                completion([], NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion([], error)
+        }
+    }
+
+    func questCurrentStreak(forId id: UUID, asOf date: Date, completion: @escaping (Int, Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                let streak = try logService.currentStreak(quest, asOf: date)
+                completion(streak, nil)
+            } else {
+                completion(0, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(0, error)
+        }
+    }
+
+    func refreshQuestState(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            if let quest = try fetchQuestEntity(by: id, in: context) {
+                try logService.refreshState(for: quest, on: date)
+                completion(nil)
+            } else {
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(error)
+        }
+    }
+
+    func refreshAllQuests(on date: Date, completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        let logService = QuestLogService(context: context)
+        do {
+            try logService.refreshAll(on: date)
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
+
+    private func fetchQuestEntity(by id: UUID, in context: NSManagedObjectContext) throws -> QuestEntity? {
+        let request: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        return try context.fetch(request).first
+    }
+}

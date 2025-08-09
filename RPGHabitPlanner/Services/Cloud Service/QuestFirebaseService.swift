@@ -8,6 +8,30 @@
 import Foundation
 
 final class QuestFirebaseService: QuestDataServiceProtocol {
+    func markQuestCompleted(forId id: UUID, on date: Date, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
+    func unmarkQuestCompleted(forId id: UUID, on date: Date, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
+    func isQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Bool, (any Error)?) -> Void) {
+    }
+    
+    func questCompletionCount(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping (Int, (any Error)?) -> Void) {
+    }
+    
+    func questCompletionDates(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping ([Date], (any Error)?) -> Void) {
+    }
+    
+    func questCurrentStreak(forId id: UUID, asOf date: Date, completion: @escaping (Int, (any Error)?) -> Void) {
+    }
+    
+    func refreshQuestState(forId id: UUID, on date: Date, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
+    func refreshAllQuests(on date: Date, completion: @escaping ((any Error)?) -> Void) {
+    }
+    
     func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void) {
         // TODO: Implement Firebase quest progress update
         completion(nil)
