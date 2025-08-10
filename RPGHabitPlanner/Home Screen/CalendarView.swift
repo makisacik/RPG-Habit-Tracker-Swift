@@ -30,7 +30,6 @@ struct CalendarView: View {
             return creationVM
         }
         
-        NavigationStack {
             ZStack {
                 theme.backgroundColor.ignoresSafeArea()
                 VStack(spacing: 0) {
@@ -53,7 +52,10 @@ struct CalendarView: View {
                 viewModel.selectedDate = calendar.startOfDay(for: selectedDate)
                 viewModel.fetchQuests()
             }
-        }
+            .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
+            .onDisappear { print("Calendar disappear") }
+
+        
         .sheet(isPresented: $showingQuestCreation) {
             NavigationStack {
                 QuestCreationView(viewModel: creationVM)
