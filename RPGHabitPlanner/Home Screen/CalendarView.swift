@@ -43,11 +43,13 @@ struct CalendarView: View {
                             addQuestSection(theme: theme)
                         }
                     }
-                    .frame(height: 220)
+                    .frame(minHeight: 280, maxHeight: 320)
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
                 }
             }
             .navigationTitle("Quest Calendar")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
                 viewModel.selectedDate = calendar.startOfDay(for: selectedDate)
                 viewModel.fetchQuests()
@@ -80,13 +82,20 @@ struct CalendarView: View {
             Text(dateFormatter.string(from: selectedDate))
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+                .id(dateFormatter.string(from: selectedDate))
             Spacer()
             Button(action: nextMonth) {
                 Image(systemName: "chevron.right").font(.title2).foregroundColor(theme.textColor)
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 16)
+        .padding(.top, 8)
+        .padding(.bottom, 16)
+        .animation(.easeInOut(duration: 0.3), value: selectedDate)
     }
     
     private func dayOfWeekHeaders(theme: Theme) -> some View {
@@ -122,7 +131,9 @@ struct CalendarView: View {
                 }
             }
         }
+        .frame(minHeight: 280) // Ensure consistent height for 6 weeks max
         .padding(.horizontal, 20)
+        .animation(.easeInOut(duration: 0.3), value: selectedDate)
     }
     
     private func selectedDateDetails(theme: Theme) -> some View {
@@ -132,12 +143,14 @@ struct CalendarView: View {
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Text("\(viewModel.itemsForSelectedDate.count) item\(viewModel.itemsForSelectedDate.count == 1 ? "" : "s")")
+                Text("\(viewModel.itemsForSelectedDate.count) active quest\(viewModel.itemsForSelectedDate.count == 1 ? "" : "s")")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
+            .frame(height: 24)
+            
             ScrollView {
-                LazyVStack(spacing: 8) {
+                LazyVStack(spacing: 6) {
                     ForEach(viewModel.itemsForSelectedDate) { item in
                         QuestCalendarRow(
                             item: item,
@@ -147,11 +160,12 @@ struct CalendarView: View {
                         )
                     }
                 }
+                .padding(.bottom, 8)
             }
-            .frame(maxHeight: 220)
+            .frame(maxHeight: 240)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 16)
+        .padding(.top, 8)
     }
     
     private func addQuestSection(theme: Theme) -> some View {
@@ -165,6 +179,10 @@ struct CalendarView: View {
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
+            .frame(height: 24)
+            
+            Spacer()
+            
             Button(action: { showingQuestCreation = true }) {
                 HStack {
                     Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(.white)
@@ -179,9 +197,11 @@ struct CalendarView: View {
                 )
             }
             .buttonStyle(PlainButtonStyle())
+            
+            Spacer()
         }
         .padding(.horizontal, 20)
-        .padding(.top, 16)
+        .padding(.top, 8)
     }
     
     private func daysInMonth() -> [Date?] {
@@ -271,29 +291,29 @@ struct QuestCalendarRow: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 Circle()
                     .fill(indicatorColor)
-                    .frame(width: 10, height: 10)
-                VStack(alignment: .leading, spacing: 2) {
+                    .frame(width: 8, height: 8)
+                VStack(alignment: .leading, spacing: 1) {
                     Text(item.quest.title)
-                        .font(.appFont(size: 16, weight: .medium))
+                        .font(.appFont(size: 15, weight: .medium))
                         .foregroundColor(theme.textColor)
                         .lineLimit(1)
                     Text(subtitle)
-                        .font(.appFont(size: 12, weight: .black))
+                        .font(.appFont(size: 11, weight: .black))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
                 Spacer()
                 
                 Button(action: onToggle) {
                     Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
                 }
-                .padding(.trailing, 32)
+                .padding(.trailing, 28)
             }
-            .padding(12)
+            .padding(10)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(theme.primaryColor.opacity(0.3))
@@ -305,7 +325,7 @@ struct QuestCalendarRow: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .padding(8)
+                    .padding(6)
                     .foregroundColor(theme.textColor)
             }
         }
