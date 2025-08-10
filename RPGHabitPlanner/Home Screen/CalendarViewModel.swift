@@ -33,11 +33,11 @@ final class CalendarViewModel: ObservableObject {
     var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }
     
     func fetchQuests() {
-        print("🗓️ CalendarViewModel: Starting fetchQuests()")
+        print("��️ CalendarViewModel: Starting fetchQuests()")
         isLoading = true
         questDataService.fetchAllQuests { [weak self] quests, _ in
             DispatchQueue.main.async {
-                print("🗓️ CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
+                print("��️ CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
                 self?.isLoading = false
                 self?.allQuests = quests
             }
@@ -51,7 +51,7 @@ final class CalendarViewModel: ObservableObject {
             let state = stateFor(quest, on: day)
             return state == .inactive ? nil : DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }
-        print("🗓️ CalendarViewModel: Computing items for \(day) - found \(result.count) items")
+        print("��️ CalendarViewModel: Computing items for \(day) - found \(result.count) items")
         return result
     }
     
@@ -92,6 +92,57 @@ final class CalendarViewModel: ObservableObject {
                 questDataService.unmarkQuestCompleted(forId: item.id, on: dueDateAnchor) { [weak self] _ in self?.fetchQuests() }
             } else {
                 questDataService.markQuestCompleted(forId: item.id, on: dueDateAnchor) { [weak self] _ in self?.fetchQuests() }
+            }
+        }
+    }
+    
+    // MARK: - Quest Management
+    
+    func markQuestAsFinished(questId: UUID) {
+        print("��️ CalendarViewModel: Marking quest \(questId) as finished")
+        
+        // Optimistically update the local quest array
+        if let index = allQuests.firstIndex(where: { $0.id == questId }) {
+            allQuests[index].isFinished = true
+            allQuests[index].isFinishedDate = Date()
+            print("��️ CalendarViewModel: Updated local quest array - quest is now finished")
+        }
+        
+        // Update the server
+        questDataService.markQuestAsFinished(forId: questId) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("��️ CalendarViewModel: Error marking quest as finished: \(error)")
+                    // Revert the optimistic update on error
+                    self?.fetchQuests()
+                } else {
+                    print("��️ CalendarViewModel: Successfully marked quest as finished on server")
+                    // Optionally refresh to ensure consistency
+                    self?.fetchQuests()
+                }
+            }
+        }
+    }
+    
+    func updateQuestProgress(questId: UUID, progress: Int) {
+        print("��️ CalendarViewModel: Updating quest \(questId) progress to \(progress)")
+        
+        // Optimistically update the local quest array
+        if let index = allQuests.firstIndex(where: { $0.id == questId }) {
+            allQuests[index].progress = progress
+            print("��️ CalendarViewModel: Updated local quest array - progress is now \(progress)")
+        }
+        
+        // Update the server
+        questDataService.updateQuestProgress(withId: questId, progress: progress) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("��️ CalendarViewModel: Error updating quest progress: \(error)")
+                    // Revert the optimistic update on error
+                    self?.fetchQuests()
+                } else {
+                    print("��️ CalendarViewModel: Successfully updated quest progress on server")
+                }
             }
         }
     }

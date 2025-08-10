@@ -139,8 +139,10 @@ struct CalendarView: View {
                     ForEach(viewModel.itemsForSelectedDate) { item in
                         QuestCalendarRow(
                             item: item,
-                            theme: theme
-                        ) { viewModel.toggle(item: item) }
+                            theme: theme,
+                            onToggle: { viewModel.toggle(item: item) },
+                            onMarkFinished: { viewModel.markQuestAsFinished(questId: item.quest.id) }
+                        )
                     }
                 }
             }
@@ -263,7 +265,8 @@ struct QuestCalendarRow: View {
     let item: DayQuestItem
     let theme: Theme
     let onToggle: () -> Void
-    
+    let onMarkFinished: () -> Void  // Add this
+
     var body: some View {
         HStack(spacing: 12) {
             Circle()
@@ -279,6 +282,12 @@ struct QuestCalendarRow: View {
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
             Spacer()
+            Button(action: onMarkFinished) {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.green)
+            }
+            
             Button(action: onToggle) {
                 Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
                     .font(.title2)
