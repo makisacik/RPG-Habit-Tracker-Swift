@@ -18,20 +18,21 @@ extension HomeView {
                 Text("Recent Achievements")
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 Button("View All") {
-                    selectedTab = .achievements
+                    showAchievements = true
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(.blue)
             }
-            
+
             if !viewModel.recentAchievements.isEmpty {
                 VStack(spacing: 8) {
                     ForEach(viewModel.recentAchievements.prefix(2), id: \.id) { achievement in
                         AchievementPreviewCard(achievement: achievement, theme: theme)
+                            .onTapGesture { showAchievements = true }
                     }
                 }
             } else {
@@ -39,11 +40,11 @@ extension HomeView {
                     Image(systemName: "trophy")
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
-                    
+
                     Text("No achievements yet")
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
-                    
+
                     Text("Complete quests to earn achievements!")
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.5))
@@ -128,7 +129,7 @@ extension HomeView {
                     color: .purple,
                     theme: theme
                 ) {
-                    selectedTab = .achievements
+                    showAchievements = true   // ← was: selectedTab = .achievements
                 }
                 
                 QuickActionCard(

@@ -5,31 +5,27 @@ struct HomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel: HomeViewModel
-    @State private var isCharacterDetailsPresented: Bool = false
-    @State private var isCompletedQuestsPresented: Bool = false
-    @State var selectedTab: HomeTab = .home
+    @State private var isCharacterDetailsPresented = false
+    @State private var isCompletedQuestsPresented = false
+    @State var showAchievements = false
     @StateObject private var damageHandler = DamageHandler()
+    @State var selectedTab: HomeTab = .home
     let questDataService: QuestDataServiceProtocol
 
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         TabView(selection: $selectedTab) {
+            // MARK: Home
             NavigationStack {
                 ZStack {
-                    theme.backgroundColor
-                        .ignoresSafeArea()
-                    
+                    theme.backgroundColor.ignoresSafeArea()
                     ScrollView {
                         VStack(spacing: 20) {
                             heroSection
-                            
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
-                            
                             activeQuestsSection
-                            
                             recentAchievementsSection
-                            
                             quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                         }
                         .padding(.horizontal, 16)
@@ -38,15 +34,15 @@ struct HomeView: View {
                 }
                 .navigationTitle("Adventure Hub")
                 .navigationBarTitleDisplayMode(.large)
-                .navigationBarItems(trailing:
-                    Button(action: {
-                        selectedTab = .calendar
-                    }) {
-                        Image(systemName: "calendar")
-                            .font(.title2)
-                            .foregroundColor(theme.textColor)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button { selectedTab = .calendar } label: {
+                            Image(systemName: "calendar")
+                                .font(.title2)
+                                .foregroundColor(theme.textColor)
+                        }
                     }
-                )
+                }
                 .sheet(isPresented: $isCharacterDetailsPresented) {
                     if let user = viewModel.user {
                         CharacterDetailsView(user: user)
@@ -55,9 +51,7 @@ struct HomeView: View {
                 .sheet(isPresented: $isCompletedQuestsPresented) {
                     NavigationStack {
                         CompletedQuestsView(
-                            viewModel: CompletedQuestsViewModel(
-                                questDataService: questDataService
-                            )
+                            viewModel: CompletedQuestsViewModel(questDataService: questDataService)
                         )
                         .navigationTitle("Completed Quests")
                         .navigationBarTitleDisplayMode(.inline)
@@ -69,16 +63,13 @@ struct HomeView: View {
                     WidgetCenter.shared.reloadAllTimelines()
                 }
             }
-            .tabItem {
-                Label("Home", systemImage: "house.fill")
-            }
+            .tabItem { Label("Home", systemImage: "house.fill") }
             .tag(HomeTab.home)
 
+            // MARK: Quests
             NavigationStack {
                 ZStack {
-                    theme.backgroundColor
-                        .ignoresSafeArea()
-
+                    theme.backgroundColor.ignoresSafeArea()
                     VStack(spacing: 0) {
                         QuestTrackingView(
                             viewModel: QuestTrackingViewModel(
@@ -90,71 +81,63 @@ struct HomeView: View {
                     .font(.appFont(size: 16))
                     .navigationTitle("Quest Journal")
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(trailing:
-                        NavigationLink(destination: QuestCreationView(
-                            viewModel: QuestCreationViewModel(questDataService: questDataService)
-                        )) {
-                            Image(theme.paperSimple)
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                                .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            NavigationLink(
+                                destination: QuestCreationView(
+                                    viewModel: QuestCreationViewModel(questDataService: questDataService)
+                                )
+                            ) {
+                                Image(theme.paperSimple)
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
+                            }
                         }
-                    )
+                    }
                 }
             }
-            .tabItem {
-                Label("Quests", systemImage: "list.bullet.clipboard.fill")
-            }
+            .tabItem { Label("Quests", systemImage: "list.bullet.clipboard.fill") }
             .tag(HomeTab.tracking)
 
+            // MARK: Character
             NavigationStack {
                 if let user = viewModel.user {
                     CharacterView(user: user)
                 } else {
                     Text("Loading character...")
                         .foregroundColor(theme.textColor)
-                        .onAppear {
-                            viewModel.fetchUserData()
-                        }
+                        .onAppear { viewModel.fetchUserData() }
                 }
             }
-            .tabItem {
-                Label("Character", systemImage: "person.crop.circle.fill")
-            }
+            .tabItem { Label("Character", systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
+            // MARK: Focus Timer
             NavigationStack {
-                AchievementView()
+                TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
                     .environmentObject(themeManager)
             }
-            .tabItem {
-                Label("Achievements", systemImage: "trophy.fill")
-            }
-            .tag(HomeTab.achievements)
-
-            NavigationStack {
-                TimerView(
-                    userManager: viewModel.userManager,
-                    damageHandler: damageHandler
-                )
-                .environmentObject(themeManager)
-            }
-            .tabItem {
-                Label("Focus Timer", systemImage: "timer")
-            }
+            .tabItem { Label("Focus Timer", systemImage: "timer") }
             .tag(HomeTab.focusTimer)
 
+            // MARK: Calendar
             NavigationStack {
-                CalendarView(
-                    viewModel: CalendarViewModel(questDataService: questDataService)
-                )
-                .environmentObject(themeManager)
+                CalendarView(viewModel: CalendarViewModel(questDataService: questDataService))
+                    .environmentObject(themeManager)
             }
-            .tabItem {
-                Label("Calendar", systemImage: "calendar")
-            }
+            .tabItem { Label("Calendar", systemImage: "calendar") }
             .tag(HomeTab.calendar)
         }
         .accentColor(.red)
+        // Achievements presentation (used by cards/stat tiles)
+        .sheet(isPresented: $showAchievements) {
+            NavigationStack {
+                AchievementView()
+                    .environmentObject(themeManager)
+                    .navigationTitle("Achievements")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+        }
     }
 }

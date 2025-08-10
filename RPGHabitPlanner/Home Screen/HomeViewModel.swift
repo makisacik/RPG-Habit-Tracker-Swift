@@ -28,7 +28,6 @@ class HomeViewModel: ObservableObject {
         self.questDataService = questDataService
         observeUserUpdates()
         fetchUserData()
-        // Removed fetchDashboardData() from init to prevent duplicate calls
     }
 
     func fetchUserData() {
@@ -63,14 +62,13 @@ class HomeViewModel: ObservableObject {
             }
         }
 
-        // Fetch achievements separately (doesn't need quest data)
         fetchRecentAchievements()
     }
 
     private func fetchRecentAchievements() {
         let unlockedAchievements = achievementManager.getUnlockedAchievements()
         self.achievementsCount = unlockedAchievements.count
-        self.recentAchievements = Array(unlockedAchievements.suffix(3)) // Get the 3 most recent
+        self.recentAchievements = Array(unlockedAchievements.suffix(3))
     }
 
     private func observeUserUpdates() {

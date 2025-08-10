@@ -45,7 +45,7 @@ extension HomeView {
                 color: .orange,
                 theme: theme
             ) {
-                    selectedTab = .achievements
+                showAchievements = true
             }
         }
     }
