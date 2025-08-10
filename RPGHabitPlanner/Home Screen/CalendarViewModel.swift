@@ -187,4 +187,28 @@ final class CalendarViewModel: ObservableObject {
         let start = calendar.date(from: comps) ?? day
         return calendar.startOfDay(for: start)
     }
+    
+    func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
+        print("️ CalendarViewModel: Toggling task \(taskId) completion to \(newValue)")
+        
+        // Optimistically update the local quest array
+        if let questIndex = allQuests.firstIndex(where: { $0.id == questId }),
+           let taskIndex = allQuests[questIndex].tasks.firstIndex(where: { $0.id == taskId }) {
+            allQuests[questIndex].tasks[taskIndex].isCompleted = newValue
+            print("️ CalendarViewModel: Updated local quest array - task completion is now \(newValue)")
+        }
+        
+        // Update the server
+        questDataService.updateTask(withId: taskId, isCompleted: newValue) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("️ CalendarViewModel: Error updating task completion: \(error)")
+                    // Revert the optimistic update on error
+                    self?.fetchQuests()
+                } else {
+                    print("️ CalendarViewModel: Successfully updated task completion on server")
+                }
+            }
+        }
+    }
 }

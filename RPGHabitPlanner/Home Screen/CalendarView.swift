@@ -156,7 +156,10 @@ struct CalendarView: View {
                             item: item,
                             theme: theme,
                             onToggle: { viewModel.toggle(item: item) },
-                            onMarkFinished: { viewModel.markQuestAsFinished(questId: item.quest.id) }
+                            onMarkFinished: { viewModel.markQuestAsFinished(questId: item.quest.id) },
+                            onToggleTaskCompletion: { taskId, isCompleted in
+                                viewModel.toggleTaskCompletion(questId: item.quest.id, taskId: taskId, newValue: isCompleted)
+                            }
                         )
                     }
                 }
@@ -284,36 +287,100 @@ struct CalendarDayView: View {
 }
 
 struct QuestCalendarRow: View {
+    @State private var isExpanded: Bool = false
+    
     let item: DayQuestItem
     let theme: Theme
     let onToggle: () -> Void
     let onMarkFinished: () -> Void
+    let onToggleTaskCompletion: (UUID, Bool) -> Void
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            HStack(spacing: 10) {
-                Circle()
-                    .fill(indicatorColor)
-                    .frame(width: 8, height: 8)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(item.quest.title)
-                        .font(.appFont(size: 15, weight: .medium))
-                        .foregroundColor(theme.textColor)
-                        .lineLimit(1)
-                    Text(subtitle)
-                        .font(.appFont(size: 11, weight: .black))
-                        .foregroundColor(theme.textColor.opacity(0.7))
+            VStack(alignment: .leading, spacing: 0) {
+                // Main quest row
+                HStack(spacing: 10) {
+                    Circle()
+                        .fill(indicatorColor)
+                        .frame(width: 8, height: 8)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(item.quest.title)
+                            .font(.appFont(size: 15, weight: .medium))
+                            .foregroundColor(theme.textColor)
+                            .lineLimit(1)
+                        Text(subtitle)
+                            .font(.appFont(size: 11, weight: .black))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                    }
+                    Spacer()
+                    
+                    Button(action: onToggle) {
+                        Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
+                            .font(.title3)
+                            .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
+                    }
+                    .padding(.trailing, 28)
                 }
-                Spacer()
+                .padding(10)
                 
-                Button(action: onToggle) {
-                    Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
-                        .font(.title3)
-                        .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
+                // Tasks section
+                let tasks = item.quest.tasks
+                if !tasks.isEmpty {
+                    Divider()
+                        .background(theme.textColor.opacity(0.2))
+                        .padding(.horizontal, 10)
+                    
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isExpanded.toggle()
+                        }
+                    }) {
+                        HStack {
+                            Text("\(tasks.count) Tasks")
+                                .font(.appFont(size: 12, weight: .medium))
+                                .foregroundColor(theme.textColor.opacity(0.8))
+                            Spacer()
+                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                                .foregroundColor(theme.textColor.opacity(0.6))
+                                .imageScale(.small)
+                                .font(.caption)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+
+                    if isExpanded {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(tasks, id: \.id) { task in
+                                HStack(spacing: 8) {
+                                    Button(action: {
+                                        onToggleTaskCompletion(task.id, !task.isCompleted)
+                                    }) {
+                                        Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle.fill")
+                                            .resizable()
+                                            .frame(width: 14, height: 14)
+                                            .foregroundColor(task.isCompleted ? .green : .gray)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+
+                                    Text(task.title)
+                                        .font(.appFont(size: 12))
+                                        .foregroundColor(theme.textColor.opacity(0.9))
+                                        .strikethrough(task.isCompleted)
+                                    
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 2)
+                            }
+                        }
+                        .padding(.bottom, 8)
+                        .transition(.opacity.combined(with: .slide))
+                    }
                 }
-                .padding(.trailing, 28)
             }
-            .padding(10)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(theme.primaryColor.opacity(0.3))
