@@ -267,40 +267,48 @@ struct QuestCalendarRow: View {
     let item: DayQuestItem
     let theme: Theme
     let onToggle: () -> Void
-    let onMarkFinished: () -> Void  // Add this
+    let onMarkFinished: () -> Void
 
     var body: some View {
-        HStack(spacing: 12) {
-            Circle()
-                .fill(indicatorColor)
-                .frame(width: 10, height: 10)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(item.quest.title)
-                    .font(.appFont(size: 16, weight: .medium))
+        ZStack(alignment: .topTrailing) {
+            HStack(spacing: 12) {
+                Circle()
+                    .fill(indicatorColor)
+                    .frame(width: 10, height: 10)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.quest.title)
+                        .font(.appFont(size: 16, weight: .medium))
+                        .foregroundColor(theme.textColor)
+                        .lineLimit(1)
+                    Text(subtitle)
+                        .font(.appFont(size: 12, weight: .black))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                Spacer()
+                
+                Button(action: onToggle) {
+                    Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                        .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
+                }
+                .padding(.trailing, 32)
+            }
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(theme.primaryColor.opacity(0.3))
+            )
+
+            Menu {
+                Button("Mark as Finished") {
+                    onMarkFinished()
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .padding(8)
                     .foregroundColor(theme.textColor)
-                    .lineLimit(1)
-                Text(subtitle)
-                    .font(.appFont(size: 12, weight: .black))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-            Spacer()
-            Button(action: onMarkFinished) {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(.green)
-            }
-            
-            Button(action: onToggle) {
-                Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
-                    .font(.title2)
-                    .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
             }
         }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(theme.primaryColor.opacity(0.3))
-        )
     }
     
     private var indicatorColor: Color {
