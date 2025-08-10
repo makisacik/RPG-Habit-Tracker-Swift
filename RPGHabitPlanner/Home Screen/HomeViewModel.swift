@@ -28,7 +28,7 @@ class HomeViewModel: ObservableObject {
         self.questDataService = questDataService
         observeUserUpdates()
         fetchUserData()
-        fetchDashboardData()
+        // Removed fetchDashboardData() from init to prevent duplicate calls
     }
 
     func fetchUserData() {
@@ -44,26 +44,27 @@ class HomeViewModel: ObservableObject {
     }
 
     func fetchDashboardData() {
-        fetchQuestCounts()
-        fetchRecentActiveQuests()
+        print("🏠 HomeViewModel: Starting fetchDashboardData()")
+        // Call fetchAllQuests only once and use the result for both operations
+        questDataService.fetchAllQuests { [weak self] quests, _ in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+
+                print("🏠 HomeViewModel: Received \(quests.count) quests from fetchAllQuests")
+
+                // Update quest counts
+                self.activeQuestsCount = quests.filter { !$0.isCompleted }.count
+                self.completedQuestsCount = quests.filter { $0.isCompleted }.count
+
+                // Update recent active quests
+                self.recentActiveQuests = Array(quests.filter { !$0.isCompleted }.prefix(5))
+
+                print("🏠 HomeViewModel: Updated counts - Active: \(self.activeQuestsCount), Completed: \(self.completedQuestsCount), Recent: \(self.recentActiveQuests.count)")
+            }
+        }
+
+        // Fetch achievements separately (doesn't need quest data)
         fetchRecentAchievements()
-    }
-
-    private func fetchQuestCounts() {
-        questDataService.fetchAllQuests { [weak self] quests, _ in
-            DispatchQueue.main.async {
-                    self?.activeQuestsCount = quests.filter { !$0.isCompleted }.count
-                    self?.completedQuestsCount = quests.filter { $0.isCompleted }.count
-            }
-        }
-    }
-
-    private func fetchRecentActiveQuests() {
-        questDataService.fetchAllQuests { [weak self] quests, _ in
-            DispatchQueue.main.async {
-                    self?.recentActiveQuests = Array(quests.filter { !$0.isCompleted }.prefix(5))
-            }
-        }
     }
 
     private func fetchRecentAchievements() {

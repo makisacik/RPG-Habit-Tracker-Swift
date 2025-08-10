@@ -33,9 +33,11 @@ final class CalendarViewModel: ObservableObject {
     var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }
     
     func fetchQuests() {
+        print("🗓️ CalendarViewModel: Starting fetchQuests()")
         isLoading = true
         questDataService.fetchAllQuests { [weak self] quests, _ in
             DispatchQueue.main.async {
+                print("🗓️ CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
                 self?.isLoading = false
                 self?.allQuests = quests
             }
@@ -44,12 +46,13 @@ final class CalendarViewModel: ObservableObject {
     
     func items(for date: Date) -> [DayQuestItem] {
         let day = calendar.startOfDay(for: date)
-        return allQuests.compactMap { quest in
-            // Skip finished quests
+        let result = allQuests.compactMap { (quest: Quest) -> DayQuestItem? in
             if quest.isFinished { return nil }
             let state = stateFor(quest, on: day)
             return state == .inactive ? nil : DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }
+        print("🗓️ CalendarViewModel: Computing items for \(day) - found \(result.count) items")
+        return result
     }
     
     func toggle(item: DayQuestItem) {

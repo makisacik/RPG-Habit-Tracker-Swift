@@ -213,7 +213,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
 
         do {
             let questEntities = try context.fetch(fetchRequest)
+            print("🗄️ QuestCoreDataService: Fetched \(questEntities.count) quest entities from Core Data")
             let quests = questEntities.map { self.mapQuestEntityToQuest($0) }
+            print("🗄️ QuestCoreDataService: Mapped \(quests.count) quest entities to Quest objects")
             completion(quests, nil)
         } catch {
             completion([], error)
@@ -225,6 +227,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             .compactMap { $0.date }
             .map { calendar.startOfDay(for: $0) }
             .reduce(into: Set<Date>()) { $0.insert($1) } ?? []
+
+        print("🗄️ QuestCoreDataService: Mapping quest '\(entity.title ?? "Unknown")' with \(entity.taskList.count) tasks")
 
         return Quest(
             id: entity.id ?? UUID(),
