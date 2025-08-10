@@ -54,21 +54,21 @@ struct CalendarView: View {
             }
             .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
             .onDisappear { print("Calendar disappear") }
-
-        
-        .sheet(isPresented: $showingQuestCreation) {
-            NavigationStack {
-                QuestCreationView(viewModel: creationVM)
+            .sheet(isPresented: $showingQuestCreation, onDismiss: {
+                viewModel.fetchQuests()
+            }) {
+                NavigationStack {
+                    QuestCreationView(viewModel: creationVM)
+                }
             }
-        }
-        .onChange(of: viewModel.alertMessage) { msg in
-            if msg != nil { showingAlert = true }
-        }
-        .alert(isPresented: $showingAlert) {
-            Alert(title: Text("Heads up"),
-                  message: Text(viewModel.alertMessage ?? ""),
-                  dismissButton: .default(Text("OK")) { viewModel.alertMessage = nil })
-        }
+            .onChange(of: viewModel.alertMessage) { msg in
+                if msg != nil { showingAlert = true }
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Heads up"),
+                      message: Text(viewModel.alertMessage ?? ""),
+                      dismissButton: .default(Text("OK")) { viewModel.alertMessage = nil })
+            }
     }
     
     private func monthHeader(theme: Theme) -> some View {
