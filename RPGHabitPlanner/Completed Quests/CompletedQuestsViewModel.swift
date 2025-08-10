@@ -20,12 +20,15 @@ final class CompletedQuestsViewModel: ObservableObject {
     }
 
     func fetchCompletedQuests() {
-        questDataService.fetchCompletedQuests { [weak self] quests, error in
+        questDataService.fetchFinishedQuests { [weak self] quests, error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                 } else {
-                    self?.completedQuests = quests.reversed()
+                    // Sort by finished date, most recent first
+                    self?.completedQuests = quests.sorted {
+                        ($0.isFinishedDate ?? $0.creationDate) > ($1.isFinishedDate ?? $1.creationDate)
+                    }
                 }
             }
         }

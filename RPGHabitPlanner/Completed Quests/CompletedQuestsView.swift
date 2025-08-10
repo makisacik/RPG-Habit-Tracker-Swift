@@ -22,7 +22,7 @@ struct CompletedQuestsView: View {
             VStack(spacing: 5) {
                 VStack {
                     if viewModel.completedQuests.isEmpty {
-                        Text("No completed quests yet!")
+                        Text("No finished quests yet!")
                             .font(.appFont(size: 16, weight: .black))
                             .foregroundColor(theme.textColor)
                             .padding()
@@ -86,7 +86,7 @@ struct CompletedQuestCardView: View {
 
                 Spacer()
 
-                Text("Created: \(quest.creationDate.formatted(date: .abbreviated, time: .omitted))")
+                Text("Finished: \(quest.isFinishedDate?.formatted(date: .abbreviated, time: .omitted) ?? quest.creationDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor)
             }

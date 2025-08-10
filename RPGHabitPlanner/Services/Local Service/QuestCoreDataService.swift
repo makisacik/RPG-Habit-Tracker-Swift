@@ -137,6 +137,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.progress = Int16(quest.progress)
         questEntity.repeatType = quest.repeatType.rawValue
         questEntity.completionDate = quest.completionDate
+        questEntity.isFinished = quest.isFinished
+        questEntity.isFinishedDate = quest.isFinishedDate
 
         // Save completion history if provided
         for date in quest.completions {
@@ -194,6 +196,10 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         fetchQuests(predicate: NSPredicate(format: "isCompleted == NO"), completion: completion)
     }
 
+    func fetchFinishedQuests(completion: @escaping ([Quest], Error?) -> Void) {
+        fetchQuests(predicate: NSPredicate(format: "isFinished == YES"), completion: completion)
+    }
+
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void) {
         fetchQuests(predicate: NSPredicate(format: "id == %@", id as CVarArg)) { quests, error in
             completion(quests.first, error)
@@ -232,6 +238,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             progress: Int(entity.progress),
             isCompleted: entity.isCompleted,
             completionDate: entity.completionDate,
+            isFinished: entity.isFinished,
+            isFinishedDate: entity.isFinishedDate,
             tasks: entity.taskList
                 .sorted { $0.order < $1.order }
                 .map { QuestTask(entity: $0) },
@@ -290,6 +298,24 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         do {
             if let questEntity = try fetchQuestEntity(by: id, in: context) {
                 questEntity.progress = Int16(progress)
+                try context.save()
+                completion(nil)
+            } else {
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        } catch {
+            completion(error)
+        }
+    }
+
+    // MARK: - Mark as Finished
+    func markQuestAsFinished(forId id: UUID, completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        do {
+            if let questEntity = try fetchQuestEntity(by: id, in: context) {
+                questEntity.isFinished = true
+                questEntity.isFinishedDate = Date()
+                questEntity.isActive = false
                 try context.save()
                 completion(nil)
             } else {

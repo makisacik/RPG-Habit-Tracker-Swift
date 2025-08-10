@@ -21,6 +21,8 @@ extension QuestEntity {
     @NSManaged public var info: String?
     @NSManaged public var isActive: Bool
     @NSManaged public var isCompleted: Bool
+    @NSManaged public var isFinished: Bool
+    @NSManaged public var isFinishedDate: Date?
     @NSManaged public var isMainQuest: Bool
     @NSManaged public var progress: Int16
     @NSManaged public var title: String?

@@ -122,7 +122,7 @@ struct QuestCardView: View {
             .frame(maxWidth: .infinity)
 
             Menu {
-                Button("Mark as Completed") {
+                Button("Mark as Finished") {
                     onMarkComplete(quest.id)
                 }
                 Button("Edit Quest") {

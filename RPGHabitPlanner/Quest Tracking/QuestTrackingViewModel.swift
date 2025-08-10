@@ -53,11 +53,12 @@ final class QuestTrackingViewModel: ObservableObject {
     func markQuestAsCompleted(id: UUID) {
         guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
         withAnimation {
-            quests[index].isCompleted = true
+            quests[index].isFinished = true
+            quests[index].isFinishedDate = Date()
             quests[index].isActive = false
         }
         
-        questDataService.markQuestCompleted(forId: id, on: Date()) { [weak self] error in
+        questDataService.markQuestAsFinished(forId: id) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self else { return }
                 if let error = error {

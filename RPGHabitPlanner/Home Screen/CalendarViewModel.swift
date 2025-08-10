@@ -45,6 +45,8 @@ final class CalendarViewModel: ObservableObject {
     func items(for date: Date) -> [DayQuestItem] {
         let day = calendar.startOfDay(for: date)
         return allQuests.compactMap { quest in
+            // Skip finished quests
+            if quest.isFinished { return nil }
             let state = stateFor(quest, on: day)
             return state == .inactive ? nil : DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }

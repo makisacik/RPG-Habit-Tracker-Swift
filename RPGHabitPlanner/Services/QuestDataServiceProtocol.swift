@@ -12,11 +12,13 @@ protocol QuestDataServiceProtocol {
     func fetchAllQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchNonCompletedQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchCompletedQuests(completion: @escaping ([Quest], Error?) -> Void)
+    func fetchFinishedQuests(completion: @escaping ([Quest], Error?) -> Void)
     func fetchQuestById(_ id: UUID, completion: @escaping (Quest?, Error?) -> Void)
     func deleteQuest(withId id: UUID, completion: @escaping (Error?) -> Void)
 
     func updateQuestCompletion(forId id: UUID, to isCompleted: Bool, completion: @escaping (Error?) -> Void)
     func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void)
+    func markQuestAsFinished(forId id: UUID, completion: @escaping (Error?) -> Void)
     func updateQuest(
         withId id: UUID,
         title: String?,

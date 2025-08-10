@@ -37,6 +37,11 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
         completion(nil)
     }
     
+    func markQuestAsFinished(forId id: UUID, completion: @escaping (Error?) -> Void) {
+        // TODO: Implement Firebase mark quest as finished
+        completion(nil)
+    }
+
     func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, tasks: [String]?, completion: @escaping ((any Error)?) -> Void) {
     }
     
@@ -54,7 +59,10 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
     
     func fetchCompletedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
     }
-    
+
+    func fetchFinishedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
+    }
+
     func fetchNonCompletedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
     }
     

@@ -25,6 +25,8 @@ struct Quest: Identifiable, Equatable {
     var progress: Int
     var isCompleted: Bool
     var completionDate: Date?
+    var isFinished: Bool
+    var isFinishedDate: Date?
     var tasks: [QuestTask]
     var repeatType: QuestRepeatType
     var completions: Set<Date>
@@ -41,6 +43,8 @@ struct Quest: Identifiable, Equatable {
         progress: Int,
         isCompleted: Bool = false,
         completionDate: Date? = nil,
+        isFinished: Bool = false,
+        isFinishedDate: Date? = nil,
         tasks: [QuestTask] = [],
         repeatType: QuestRepeatType = .oneTime,
         completions: Set<Date> = []
@@ -56,6 +60,8 @@ struct Quest: Identifiable, Equatable {
         self.progress = progress
         self.isCompleted = isCompleted
         self.completionDate = completionDate
+        self.isFinished = isFinished
+        self.isFinishedDate = isFinishedDate
         self.tasks = tasks
         self.repeatType = repeatType
         self.completions = completions
