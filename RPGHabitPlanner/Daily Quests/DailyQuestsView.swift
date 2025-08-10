@@ -24,10 +24,8 @@ struct DailyQuestsView: View {
                 
                 ScrollView {
                     VStack(spacing: 20) {
-                        // Header Section
                         headerSection(theme: theme)
                         
-                        // Daily Quest Categories
                         LazyVStack(spacing: 16) {
                             ForEach(DailyQuestCategory.allCases, id: \.self) { category in
                                 categorySection(category: category, theme: theme)
