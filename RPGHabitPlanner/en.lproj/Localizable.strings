@@ -1,0 +1,225 @@
+/* 
+  Localizable.strings
+  RPGHabitPlanner
+  
+  Created by Mehmet Ali Kısacık on 10.11.2024.
+*/
+
+// MARK: - General
+"ok" = "OK";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"close" = "Close";
+"back" = "Back";
+"next" = "Next";
+"previous" = "Previous";
+"done" = "Done";
+"error" = "Error";
+"warning" = "Warning";
+"success" = "Success";
+"loading" = "Loading...";
+
+// MARK: - Navigation & Titles
+"adventure_hub" = "Adventure Hub";
+"quest_tracking" = "Quest Tracking";
+"quest_creation" = "Quest Creation";
+"character_details" = "Character Details";
+"completed_quests" = "Completed Quests";
+"settings" = "Settings";
+"about" = "About";
+"calendar" = "Calendar";
+"inventory" = "Inventory";
+"achievements" = "Achievements";
+
+// MARK: - Quest Related
+"quest" = "Quest";
+"quests" = "Quests";
+"main_quest" = "Main Quest";
+"side_quest" = "Side Quest";
+"quest_title" = "Title";
+"quest_description" = "Description";
+"quest_difficulty" = "Quest Difficulty";
+"quest_due_date" = "Due Date";
+"save_quest" = "Save Quest";
+"edit_quest" = "Edit Quest";
+"delete_quest" = "Delete Quest";
+"complete_quest" = "Complete Quest";
+"quest_completed" = "Quest Completed!";
+"quest_failed" = "Quest Failed";
+"quest_expired" = "Quest Expired";
+
+// MARK: - Quest Filters
+"active_today" = "Active Today";
+"inactive_today" = "Inactive Today";
+"all_quests" = "All Quests";
+"today" = "Today";
+
+// MARK: - Tasks
+"task" = "Task";
+"tasks" = "Tasks";
+"add_task" = "Add Task";
+"remove_task" = "Remove Task";
+"task_completed" = "Task Completed";
+"task_incomplete" = "Task Incomplete";
+
+// MARK: - Quest Repeat Types
+"one_time" = "One Time";
+"daily" = "Daily";
+"weekly" = "Weekly";
+"monthly" = "Monthly";
+
+// MARK: - Character & Stats
+"character" = "Character";
+"character_class" = "Character Class";
+"level" = "Level";
+"experience" = "Experience";
+"health" = "Health";
+"mana" = "Mana";
+"strength" = "Strength";
+"intelligence" = "Intelligence";
+"agility" = "Agility";
+"level_up" = "Level Up!";
+"experience_gained" = "Experience Gained";
+"new_level_reached" = "New Level Reached!";
+
+// MARK: - Rewards & Achievements
+"reward" = "Reward";
+"rewards" = "Rewards";
+"achievement" = "Achievement";
+"achievement_unlocked" = "Achievement Unlocked!";
+"experience_points" = "Experience Points";
+"gold" = "Gold";
+"items" = "Items";
+
+// MARK: - Notifications
+"notify_me" = "Notify me";
+"notify_me_about_quest" = "Notify me about this quest";
+"notification" = "Notification";
+"notifications" = "Notifications";
+"reminder" = "Reminder";
+"reminders" = "Reminders";
+
+// MARK: - Home Screen
+"quick_stats" = "Quick Stats";
+"active_quests" = "Active Quests";
+"recent_achievements" = "Recent Achievements";
+"quick_actions" = "Quick Actions";
+"create_new_quest" = "Create New Quest";
+"view_completed_quests" = "View Completed Quests";
+"view_character_details" = "View Character Details";
+
+// MARK: - Calendar
+"calendar_view" = "Calendar View";
+"this_week" = "This Week";
+"this_month" = "This Month";
+"no_quests_scheduled" = "No quests scheduled";
+"quests_scheduled" = "Quests scheduled";
+
+// MARK: - Settings
+"theme" = "Theme";
+"language" = "Language";
+"sound_effects" = "Sound Effects";
+"music" = "Music";
+"notifications_enabled" = "Notifications Enabled";
+"data_backup" = "Data Backup";
+"export_data" = "Export Data";
+"import_data" = "Import Data";
+"reset_progress" = "Reset Progress";
+"about_app" = "About App";
+"version" = "Version";
+"privacy_policy" = "Privacy Policy";
+"terms_of_service" = "Terms of Service";
+
+// MARK: - Themes
+"theme_classic" = "Classic";
+"theme_dark" = "Dark";
+"theme_light" = "Light";
+"theme_auto" = "Auto";
+
+// MARK: - Onboarding
+"welcome" = "Welcome";
+"welcome_to_rpg_habit_planner" = "Welcome to RPG Habit Planner";
+"create_your_character" = "Create Your Character";
+"choose_your_class" = "Choose Your Class";
+"start_your_adventure" = "Start Your Adventure";
+"lets_begin" = "Let's Begin";
+
+// MARK: - Character Classes
+"warrior" = "Warrior";
+"mage" = "Mage";
+"rogue" = "Rogue";
+"paladin" = "Paladin";
+"archer" = "Archer";
+
+// MARK: - Error Messages
+"unknown_error" = "An unknown error occurred";
+"network_error" = "Network error occurred";
+"data_error" = "Data error occurred";
+"validation_error" = "Validation error";
+"save_error" = "Failed to save";
+"load_error" = "Failed to load data";
+"delete_error" = "Failed to delete";
+"invalid_input" = "Invalid input";
+
+// MARK: - Success Messages
+"quest_saved_successfully" = "Quest saved successfully";
+"quest_deleted_successfully" = "Quest deleted successfully";
+"quest_completed_successfully" = "Quest completed successfully";
+"data_saved_successfully" = "Data saved successfully";
+"settings_updated" = "Settings updated";
+
+// MARK: - Validation Messages
+"title_required" = "Title is required";
+"description_required" = "Description is required";
+"due_date_required" = "Due date is required";
+"invalid_date" = "Invalid date";
+"date_in_past" = "Date cannot be in the past";
+
+// MARK: - Time & Date
+"today" = "Today";
+"yesterday" = "Yesterday";
+"tomorrow" = "Tomorrow";
+"this_week" = "This Week";
+"next_week" = "Next Week";
+"this_month" = "This Month";
+"next_month" = "Next Month";
+
+// MARK: - Progress
+"progress" = "Progress";
+"completed" = "Completed";
+"in_progress" = "In Progress";
+"not_started" = "Not Started";
+"overdue" = "Overdue";
+
+// MARK: - Difficulty
+"easy" = "Easy";
+"medium" = "Medium";
+"hard" = "Hard";
+"very_hard" = "Very Hard";
+"legendary" = "Legendary";
+
+// MARK: - Empty States
+"no_quests" = "No quests yet";
+"no_active_quests" = "No active quests";
+"no_completed_quests" = "No completed quests";
+"no_achievements" = "No achievements yet";
+"create_your_first_quest" = "Create your first quest to begin your adventure!";
+"complete_quests_to_earn_rewards" = "Complete quests to earn rewards and level up!";
+
+// MARK: - Tooltips & Help
+"tap_to_complete" = "Tap to complete";
+"tap_to_edit" = "Tap to edit";
+"swipe_to_delete" = "Swipe to delete";
+"long_press_for_options" = "Long press for options";
+"drag_to_reorder" = "Drag to reorder";
+
+// MARK: - Accessibility
+"accessibility_quest_card" = "Quest card";
+"accessibility_complete_button" = "Complete quest button";
+"accessibility_edit_button" = "Edit quest button";
+"accessibility_delete_button" = "Delete quest button";
+"accessibility_progress_bar" = "Progress bar";
+"accessibility_star_rating" = "Star rating";
+"accessibility_date_picker" = "Date picker";

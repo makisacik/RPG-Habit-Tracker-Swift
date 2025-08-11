@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var showSplash = true
     @State private var isCharacterCreated = false
     @StateObject private var themeManager = ThemeManager.shared
+    @EnvironmentObject var localizationManager: LocalizationManager
     
     private let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -36,6 +37,7 @@ struct ContentView: View {
                         removal: .scale(scale: 0.8).combined(with: .opacity)
                     ))
                     .environmentObject(themeManager)
+                    .environmentObject(localizationManager)
             } else {
                 OnboardingView(isOnboardingCompleted: $isCharacterCreated)
                     .transition(.asymmetric(
@@ -43,6 +45,7 @@ struct ContentView: View {
                         removal: .move(edge: .leading).combined(with: .opacity)
                     ))
                     .environmentObject(themeManager)
+                    .environmentObject(localizationManager)
             }
         }
         .preferredColorScheme(themeManager.forcedColorScheme)

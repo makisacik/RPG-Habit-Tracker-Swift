@@ -1,0 +1,225 @@
+/* 
+  Localizable.strings
+  RPGHabitPlanner
+  
+  Created by Mehmet Ali Kısacık on 10.11.2024.
+*/
+
+// MARK: - General
+"ok" = "Tamam";
+"cancel" = "İptal";
+"save" = "Kaydet";
+"delete" = "Sil";
+"edit" = "Düzenle";
+"close" = "Kapat";
+"back" = "Geri";
+"next" = "İleri";
+"previous" = "Önceki";
+"done" = "Tamamlandı";
+"error" = "Hata";
+"warning" = "Uyarı";
+"success" = "Başarılı";
+"loading" = "Yükleniyor...";
+
+// MARK: - Navigation & Titles
+"adventure_hub" = "Macera Merkezi";
+"quest_tracking" = "Görev Takibi";
+"quest_creation" = "Görev Oluşturma";
+"character_details" = "Karakter Detayları";
+"completed_quests" = "Tamamlanan Görevler";
+"settings" = "Ayarlar";
+"about" = "Hakkında";
+"calendar" = "Takvim";
+"inventory" = "Envanter";
+"achievements" = "Başarılar";
+
+// MARK: - Quest Related
+"quest" = "Görev";
+"quests" = "Görevler";
+"main_quest" = "Ana Görev";
+"side_quest" = "Yan Görev";
+"quest_title" = "Başlık";
+"quest_description" = "Açıklama";
+"quest_difficulty" = "Görev Zorluğu";
+"quest_due_date" = "Bitiş Tarihi";
+"save_quest" = "Görevi Kaydet";
+"edit_quest" = "Görevi Düzenle";
+"delete_quest" = "Görevi Sil";
+"complete_quest" = "Görevi Tamamla";
+"quest_completed" = "Görev Tamamlandı!";
+"quest_failed" = "Görev Başarısız";
+"quest_expired" = "Görev Süresi Doldu";
+
+// MARK: - Quest Filters
+"active_today" = "Bugün Aktif";
+"inactive_today" = "Bugün Pasif";
+"all_quests" = "Tüm Görevler";
+"today" = "Bugün";
+
+// MARK: - Tasks
+"task" = "Görev";
+"tasks" = "Görevler";
+"add_task" = "Görev Ekle";
+"remove_task" = "Görevi Kaldır";
+"task_completed" = "Görev Tamamlandı";
+"task_incomplete" = "Görev Tamamlanmadı";
+
+// MARK: - Quest Repeat Types
+"one_time" = "Tek Seferlik";
+"daily" = "Günlük";
+"weekly" = "Haftalık";
+"monthly" = "Aylık";
+
+// MARK: - Character & Stats
+"character" = "Karakter";
+"character_class" = "Karakter Sınıfı";
+"level" = "Seviye";
+"experience" = "Deneyim";
+"health" = "Can";
+"mana" = "Mana";
+"strength" = "Güç";
+"intelligence" = "Zeka";
+"agility" = "Çeviklik";
+"level_up" = "Seviye Atladın!";
+"experience_gained" = "Deneyim Kazanıldı";
+"new_level_reached" = "Yeni Seviyeye Ulaştın!";
+
+// MARK: - Rewards & Achievements
+"reward" = "Ödül";
+"rewards" = "Ödüller";
+"achievement" = "Başarı";
+"achievement_unlocked" = "Başarı Açıldı!";
+"experience_points" = "Deneyim Puanı";
+"gold" = "Altın";
+"items" = "Eşyalar";
+
+// MARK: - Notifications
+"notify_me" = "Bana bildir";
+"notify_me_about_quest" = "Bu görev hakkında bana bildir";
+"notification" = "Bildirim";
+"notifications" = "Bildirimler";
+"reminder" = "Hatırlatıcı";
+"reminders" = "Hatırlatıcılar";
+
+// MARK: - Home Screen
+"quick_stats" = "Hızlı İstatistikler";
+"active_quests" = "Aktif Görevler";
+"recent_achievements" = "Son Başarılar";
+"quick_actions" = "Hızlı İşlemler";
+"create_new_quest" = "Yeni Görev Oluştur";
+"view_completed_quests" = "Tamamlanan Görevleri Görüntüle";
+"view_character_details" = "Karakter Detaylarını Görüntüle";
+
+// MARK: - Calendar
+"calendar_view" = "Takvim Görünümü";
+"this_week" = "Bu Hafta";
+"this_month" = "Bu Ay";
+"no_quests_scheduled" = "Planlanmış görev yok";
+"quests_scheduled" = "Görev planlandı";
+
+// MARK: - Settings
+"theme" = "Tema";
+"language" = "Dil";
+"sound_effects" = "Ses Efektleri";
+"music" = "Müzik";
+"notifications_enabled" = "Bildirimler Etkin";
+"data_backup" = "Veri Yedekleme";
+"export_data" = "Veri Dışa Aktar";
+"import_data" = "Veri İçe Aktar";
+"reset_progress" = "İlerlemeyi Sıfırla";
+"about_app" = "Uygulama Hakkında";
+"version" = "Sürüm";
+"privacy_policy" = "Gizlilik Politikası";
+"terms_of_service" = "Kullanım Şartları";
+
+// MARK: - Themes
+"theme_classic" = "Klasik";
+"theme_dark" = "Koyu";
+"theme_light" = "Açık";
+"theme_auto" = "Otomatik";
+
+// MARK: - Onboarding
+"welcome" = "Hoş Geldiniz";
+"welcome_to_rpg_habit_planner" = "RPG Alışkanlık Planlayıcısına Hoş Geldiniz";
+"create_your_character" = "Karakterinizi Oluşturun";
+"choose_your_class" = "Sınıfınızı Seçin";
+"start_your_adventure" = "Macaranızı Başlatın";
+"lets_begin" = "Başlayalım";
+
+// MARK: - Character Classes
+"warrior" = "Savaşçı";
+"mage" = "Büyücü";
+"rogue" = "Haydut";
+"paladin" = "Paladin";
+"archer" = "Okçu";
+
+// MARK: - Error Messages
+"unknown_error" = "Bilinmeyen bir hata oluştu";
+"network_error" = "Ağ hatası oluştu";
+"data_error" = "Veri hatası oluştu";
+"validation_error" = "Doğrulama hatası";
+"save_error" = "Kaydetme başarısız";
+"load_error" = "Veri yükleme başarısız";
+"delete_error" = "Silme başarısız";
+"invalid_input" = "Geçersiz giriş";
+
+// MARK: - Success Messages
+"quest_saved_successfully" = "Görev başarıyla kaydedildi";
+"quest_deleted_successfully" = "Görev başarıyla silindi";
+"quest_completed_successfully" = "Görev başarıyla tamamlandı";
+"data_saved_successfully" = "Veri başarıyla kaydedildi";
+"settings_updated" = "Ayarlar güncellendi";
+
+// MARK: - Validation Messages
+"title_required" = "Başlık gereklidir";
+"description_required" = "Açıklama gereklidir";
+"due_date_required" = "Bitiş tarihi gereklidir";
+"invalid_date" = "Geçersiz tarih";
+"date_in_past" = "Tarih geçmişte olamaz";
+
+// MARK: - Time & Date
+"today" = "Bugün";
+"yesterday" = "Dün";
+"tomorrow" = "Yarın";
+"this_week" = "Bu Hafta";
+"next_week" = "Gelecek Hafta";
+"this_month" = "Bu Ay";
+"next_month" = "Gelecek Ay";
+
+// MARK: - Progress
+"progress" = "İlerleme";
+"completed" = "Tamamlandı";
+"in_progress" = "Devam Ediyor";
+"not_started" = "Başlanmadı";
+"overdue" = "Gecikmiş";
+
+// MARK: - Difficulty
+"easy" = "Kolay";
+"medium" = "Orta";
+"hard" = "Zor";
+"very_hard" = "Çok Zor";
+"legendary" = "Efsanevi";
+
+// MARK: - Empty States
+"no_quests" = "Henüz görev yok";
+"no_active_quests" = "Aktif görev yok";
+"no_completed_quests" = "Tamamlanan görev yok";
+"no_achievements" = "Henüz başarı yok";
+"create_your_first_quest" = "Macaranıza başlamak için ilk görevinizi oluşturun!";
+"complete_quests_to_earn_rewards" = "Ödül kazanmak ve seviye atlamak için görevleri tamamlayın!";
+
+// MARK: - Tooltips & Help
+"tap_to_complete" = "Tamamlamak için dokunun";
+"tap_to_edit" = "Düzenlemek için dokunun";
+"swipe_to_delete" = "Silmek için kaydırın";
+"long_press_for_options" = "Seçenekler için uzun basın";
+"drag_to_reorder" = "Sıralamak için sürükleyin";
+
+// MARK: - Accessibility
+"accessibility_quest_card" = "Görev kartı";
+"accessibility_complete_button" = "Görevi tamamla düğmesi";
+"accessibility_edit_button" = "Görevi düzenle düğmesi";
+"accessibility_delete_button" = "Görevi sil düğmesi";
+"accessibility_progress_bar" = "İlerleme çubuğu";
+"accessibility_star_rating" = "Yıldız derecelendirmesi";
+"accessibility_date_picker" = "Tarih seçici";

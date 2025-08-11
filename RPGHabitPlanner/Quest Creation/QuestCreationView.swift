@@ -25,14 +25,14 @@ struct QuestCreationView: View {
 
                 ScrollView {
                     VStack(spacing: 20) {
-                        QuestInputField(title: "Title", text: $viewModel.questTitle, icon: "pencil.circle.fill")
-                        QuestInputField(title: "Description", text: $viewModel.questDescription, icon: "doc.text.fill")
+                        QuestInputField(title: String.questTitle.localized, text: $viewModel.questTitle, icon: "pencil.circle.fill")
+                        QuestInputField(title: String.questDescription.localized, text: $viewModel.questDescription, icon: "doc.text.fill")
 
-                        ToggleCard(label: "Main quest?", isOn: $viewModel.isMainQuest)
+                        ToggleCard(label: String.mainQuest.localized + "?", isOn: $viewModel.isMainQuest)
 
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Text("Due Date")
+                                Text(String.questDueDate.localized)
                                     .font(.appFont(size: 16, weight: .black))
                                     .padding()
                                 Spacer()
@@ -51,17 +51,17 @@ struct QuestCreationView: View {
                         }
 
                         VStack {
-                            Text("Quest Difficulty")
+                            Text(String.questDifficulty.localized)
                                 .font(.appFont(size: 16, weight: .black))
                             StarRatingView(rating: $viewModel.difficulty)
                         }
                         
-                        ToggleCard(label: "Notify me about this quest", isOn: $notifyMe)
+                        ToggleCard(label: String.notifyMeAboutQuest.localized, isOn: $notifyMe)
 
                         Picker("Repeat", selection: $viewModel.repeatType) {
-                            Text("One Time").tag(QuestRepeatType.oneTime)
-                            Text("Daily").tag(QuestRepeatType.daily)
-                            Text("Weekly").tag(QuestRepeatType.weekly)
+                            Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
+                            Text(String.daily.localized).tag(QuestRepeatType.daily)
+                            Text(String.weekly.localized).tag(QuestRepeatType.weekly)
                         }
                         .pickerStyle(SegmentedPickerStyle())
 
@@ -73,7 +73,7 @@ struct QuestCreationView: View {
                             if viewModel.validateInputs() {
                                 viewModel.saveQuest()
                             } else {
-                                showAlert(title: "Warning", message: viewModel.errorMessage ?? "Unknown error")
+                                showAlert(title: String.warningTitle.localized, message: viewModel.errorMessage ?? String.unknownError.localized)
                             }
                         }) {
                             if viewModel.isSaving {
@@ -82,7 +82,7 @@ struct QuestCreationView: View {
                                 HStack {
                                     Spacer()
                                     Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(theme.textColor)
-                                    Text("Save Quest")
+                                    Text(String.saveQuest.localized)
                                         .font(.appFont(size: 16, weight: .black))
                                         .foregroundColor(theme.textColor)
                                     Spacer()

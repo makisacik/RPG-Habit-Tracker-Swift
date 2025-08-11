@@ -3,6 +3,7 @@ import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel: HomeViewModel
     @State private var isCharacterDetailsPresented = false
@@ -34,17 +35,17 @@ struct HomeView: View {
                         .padding(.top, 10)
                     }
                 }
-                .navigationTitle("Adventure Hub")
+                .navigationTitle(String.adventureHub.localized)
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
                     // LEFT: Dropdown menu (native Menu)
                     ToolbarItem(placement: .topBarLeading) {
                         Menu {
                             Button { goToSettings = true } label: {
-                                Label("Settings", systemImage: "gearshape.fill")
+                                Label(String.settings.localized, systemImage: "gearshape.fill")
                             }
                             Button { /* TODO: About */ } label: {
-                                Label("About", systemImage: "info.circle.fill")
+                                Label(String.about.localized, systemImage: "info.circle.fill")
                             }
                         } label: {
                             Image(systemName: "line.3.horizontal")
@@ -68,6 +69,7 @@ struct HomeView: View {
                 .navigationDestination(isPresented: $goToSettings) {
                     SettingsView()
                         .environmentObject(themeManager)
+                        .environmentObject(LocalizationManager.shared)
                 }
                 .sheet(isPresented: $isCharacterDetailsPresented) {
                     if let user = viewModel.user {
@@ -79,7 +81,7 @@ struct HomeView: View {
                         CompletedQuestsView(
                             viewModel: CompletedQuestsViewModel(questDataService: questDataService)
                         )
-                        .navigationTitle("Completed Quests")
+                        .navigationTitle(String.completedQuests.localized)
                         .navigationBarTitleDisplayMode(.inline)
                     }
                 }

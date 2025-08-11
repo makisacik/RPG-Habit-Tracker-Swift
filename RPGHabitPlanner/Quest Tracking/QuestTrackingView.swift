@@ -61,9 +61,9 @@ struct QuestTrackingView: View {
         }
         .alert(isPresented: $showAlert) {
             Alert(
-                title: Text("Error").font(.appFont(size: 16, weight: .black)),
-                message: Text(viewModel.errorMessage ?? "An unknown error occurred").font(.appFont(size: 14)),
-                dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) { viewModel.errorMessage = nil }
+                title: Text(String.errorTitle.localized).font(.appFont(size: 16, weight: .black)),
+                message: Text(viewModel.errorMessage ?? String.unknownError.localized).font(.appFont(size: 14)),
+                dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black))) { viewModel.errorMessage = nil }
             )
         }
         .sheet(item: $selectedQuestForDetail) { quest in
@@ -141,9 +141,9 @@ struct QuestTrackingView: View {
     }
 
     private var dayPicker: some View {
-        Picker("Today", selection: $viewModel.selectedDayFilter) {
-            Text("Active Today").tag(DayFilter.active)
-            Text("Inactive Today").tag(DayFilter.inactive)
+        Picker(String.today.localized, selection: $viewModel.selectedDayFilter) {
+            Text(String.activeToday.localized).tag(DayFilter.active)
+            Text(String.inactiveToday.localized).tag(DayFilter.inactive)
         }
         .pickerStyle(.segmented)
         .padding(.horizontal)

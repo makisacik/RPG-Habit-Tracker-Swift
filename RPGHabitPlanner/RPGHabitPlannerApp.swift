@@ -12,11 +12,14 @@ import ActivityKit
 @main
 struct RPGHabitPlannerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var localizationManager = LocalizationManager.shared
     
     var body: some Scene {
         WindowGroup {
             let questDataService = QuestCoreDataService()
             ContentView(questDataService: questDataService)
+                .environmentObject(localizationManager)
+                // .environmentObject(ThemeManager())
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                     BackgroundTimerManager.shared.handleAppDidEnterBackground()
                 }

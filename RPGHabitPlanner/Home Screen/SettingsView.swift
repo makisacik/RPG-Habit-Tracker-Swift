@@ -9,9 +9,11 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.colorScheme) private var systemScheme
 
     @State private var isDark = false
+    @State private var showLanguageSettings = false
 
     var body: some View {
         List {
@@ -47,6 +49,25 @@ struct SettingsView: View {
             }
 
             Section("General") {
+                // Language Setting
+                Button {
+                    showLanguageSettings = true
+                } label: {
+                    HStack {
+                        Label(String.language.localized, systemImage: "globe")
+                        Spacer()
+                        HStack(spacing: 4) {
+                            Text(localizationManager.currentLanguage.flag)
+                            Text(localizationManager.currentLanguage.displayName)
+                                .foregroundStyle(.secondary)
+                        }
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+
                 NavigationLink("Notifications") { Text("Notifications settings") }
                 NavigationLink("Data & Storage") { Text("Data & Storage settings") }
             }
@@ -55,7 +76,7 @@ struct SettingsView: View {
                 NavigationLink("About App") { Text("Version 1.0 • © You") }
             }
         }
-        .navigationTitle("Settings")
+        .navigationTitle(String.settings.localized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             switch themeManager.currentTheme {
@@ -69,6 +90,11 @@ struct SettingsView: View {
                 themeManager.applyTheme(using: systemScheme)
                 isDark = (systemScheme == .dark)
             }
+        }
+        .sheet(isPresented: $showLanguageSettings) {
+            LanguageSettingsView()
+                .environmentObject(themeManager)
+                .environmentObject(localizationManager)
         }
     }
 }
