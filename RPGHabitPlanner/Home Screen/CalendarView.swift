@@ -52,7 +52,6 @@ struct CalendarView: View {
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
                 viewModel.selectedDate = calendar.startOfDay(for: selectedDate)
-                viewModel.fetchQuests()
             }
             .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
             .onDisappear { print("Calendar disappear") }

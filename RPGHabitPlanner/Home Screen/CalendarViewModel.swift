@@ -28,6 +28,7 @@ final class CalendarViewModel: ObservableObject {
     
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
+        fetchQuests()
     }
     
     var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }
