@@ -112,16 +112,13 @@ struct QuestCardView: View {
                 }
                 .padding(.top, 4)
             }
+            .frame(maxWidth: .infinity)
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(themeManager.activeTheme.secondaryColor)
-                    .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
+                    .fill(theme.primaryColor)
+                    .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             )
-            .cornerRadius(10)
-            .shadow(radius: 3)
-            .frame(maxWidth: .infinity)
-            .contentShape(Rectangle())
             .onTapGesture {
                 onQuestTap(quest)
             }

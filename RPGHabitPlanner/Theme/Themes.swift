@@ -40,7 +40,7 @@ struct Theme {
             return Theme(
                 backgroundColor: Color(hex: "#F8F7FF"), // Very light purple tint
                 textColor: Color(hex: "#4B5563"), // Medium gray for text
-                primaryColor: Color(hex: "#F8F7FF"), // Very light purple tint
+                primaryColor: Color(hex: "#F8F7FF"),
                 secondaryColor: Color(hex: "#C4B5FD"), // Very light purple
                 buttonTextColor: Color.white,
                 cardBackgroundColor: Color.white, // Clean white cards

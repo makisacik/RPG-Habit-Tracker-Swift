@@ -39,7 +39,7 @@ struct QuestTrackingView: View {
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(theme.primaryColor)
-                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
+                .shadow(color: Color.black.opacity(0.5), radius: 6, x: 0, y: 4)
         )
         .padding(.horizontal)
         .onChange(of: viewModel.errorMessage) { errorMessage in
