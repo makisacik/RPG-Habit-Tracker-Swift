@@ -101,11 +101,17 @@ class HomeViewModel: ObservableObject {
                 print("🏠 HomeViewModel: Received \(quests.count) quests from fetchAllQuests")
 
                 // Update quest counts
-                self.activeQuestsCount = quests.filter { !$0.isCompleted }.count
-                self.completedQuestsCount = quests.filter { $0.isCompleted }.count
+                self.activeQuestsCount = quests.filter { quest in
+                    !quest.isCompleted && !quest.isFinished
+                }.count
+                self.completedQuestsCount = quests.filter { quest in
+                    quest.isFinished
+                }.count
 
                 // Update recent active quests
-                self.recentActiveQuests = Array(quests.filter { !$0.isCompleted }.prefix(5))
+                self.recentActiveQuests = Array(quests.filter { quest in
+                    !quest.isCompleted && !quest.isFinished
+                }.prefix(5))
 
                 print("🏠 HomeViewModel: Updated counts - Active: \(self.activeQuestsCount), Completed: \(self.completedQuestsCount), Recent: \(self.recentActiveQuests.count)")
             }

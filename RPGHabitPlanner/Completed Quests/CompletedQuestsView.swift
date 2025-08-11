@@ -120,15 +120,17 @@ struct CompletedQuestCardView: View {
                 if isExpanded {
                     VStack(alignment: .leading, spacing: 4) {
                         ForEach(tasks, id: \.id) { task in
-                            HStack {
-                                Image(task.isCompleted ? "checkbox_beige_checked" : "checkbox_beige_empty")
-                                    .resizable()
-                                    .frame(width: 18, height: 18)
-                                    .foregroundColor(task.isCompleted ? .green : .gray)
+                            HStack(alignment: .top, spacing: 8) {
+                                // Simple bullet point
+                                Circle()
+                                    .fill(task.isCompleted ? Color.green : Color.gray.opacity(0.6))
+                                    .frame(width: 6, height: 6)
+                                    .padding(.top, 6)
 
                                 Text(task.title)
                                     .font(.appFont(size: 13))
                                     .foregroundColor(theme.textColor)
+                                    .strikethrough(task.isCompleted, color: task.isCompleted ? Color.green : Color.clear)
 
                                 Spacer()
                             }

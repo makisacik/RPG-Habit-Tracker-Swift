@@ -176,7 +176,9 @@ final class QuestTrackingViewModel: ObservableObject {
     
     var activeTodayQuests: [Quest] {
         let now = Date()
-        return quests.filter { $0.isActive(on: now) }
+        return quests.filter { quest in
+            quest.isActive(on: now) && !quest.isFinished
+        }
     }
 
     var inactiveTodayQuests: [Quest] {
