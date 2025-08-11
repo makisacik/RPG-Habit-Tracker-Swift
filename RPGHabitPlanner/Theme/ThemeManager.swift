@@ -13,6 +13,7 @@ final class ThemeManager: ObservableObject {
     
     @Published var currentTheme: AppTheme = .system
     @Published var activeTheme = Theme.create(for: .light)
+    @Published var forcedColorScheme: ColorScheme?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -23,6 +24,19 @@ final class ThemeManager: ObservableObject {
     func setTheme(_ theme: AppTheme) {
         currentTheme = theme
         saveTheme()
+
+        // Apply theme immediately
+        switch theme {
+        case .light:
+            forcedColorScheme = .light
+            activeTheme = Theme.create(for: .light)
+        case .dark:
+            forcedColorScheme = .dark
+            activeTheme = Theme.create(for: .dark)
+        case .system:
+            forcedColorScheme = nil
+            // Will be handled by system color scheme
+        }
     }
     
     func applyTheme(using colorScheme: ColorScheme) {
@@ -52,6 +66,8 @@ final class ThemeManager: ObservableObject {
         if let raw = UserDefaults.standard.string(forKey: "selectedTheme"),
            let saved = AppTheme(rawValue: raw) {
             currentTheme = saved
+            // Apply the saved theme immediately
+            setTheme(saved)
         }
     }
 }

@@ -45,6 +45,7 @@ struct ContentView: View {
                     .environmentObject(themeManager)
             }
         }
+        .preferredColorScheme(themeManager.forcedColorScheme)
         .onAppear {
             themeManager.applyTheme(using: colorScheme)
             userManager.fetchUser { user, _ in

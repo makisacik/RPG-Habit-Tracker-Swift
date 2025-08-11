@@ -10,6 +10,8 @@ struct HomeView: View {
     @State var showAchievements = false
     @StateObject private var damageHandler = DamageHandler()
     @State var selectedTab: HomeTab = .home
+    @State private var goToSettings = false
+
     let questDataService: QuestDataServiceProtocol
 
     var body: some View {
@@ -35,6 +37,25 @@ struct HomeView: View {
                 .navigationTitle("Adventure Hub")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
+                    // LEFT: Dropdown menu (native Menu)
+                    ToolbarItem(placement: .topBarLeading) {
+                        Menu {
+                            Button { goToSettings = true } label: {
+                                Label("Settings", systemImage: "gearshape.fill")
+                            }
+                            Button { /* TODO: About */ } label: {
+                                Label("About", systemImage: "info.circle.fill")
+                            }
+                        } label: {
+                            Image(systemName: "line.3.horizontal")
+                                .font(.title2)
+                                .foregroundColor(theme.textColor)
+                        }
+                        .menuActionDismissBehavior(.automatic)
+                        .menuOrder(.fixed)
+                    }
+
+                    // RIGHT: Calendar shortcut (kept from your code)
                     ToolbarItem(placement: .topBarTrailing) {
                         Button { selectedTab = .calendar } label: {
                             Image(systemName: "calendar")
@@ -42,6 +63,11 @@ struct HomeView: View {
                                 .foregroundColor(theme.textColor)
                         }
                     }
+                }
+                // Push to Settings (not modal)
+                .navigationDestination(isPresented: $goToSettings) {
+                    SettingsView()
+                        .environmentObject(themeManager)
                 }
                 .sheet(isPresented: $isCharacterDetailsPresented) {
                     if let user = viewModel.user {
@@ -58,9 +84,19 @@ struct HomeView: View {
                     }
                 }
                 .onAppear {
+                    // apply theme once on load
+                    themeManager.applyTheme(using: colorScheme)
                     viewModel.fetchUserData()
                     viewModel.fetchDashboardData()
                     WidgetCenter.shared.reloadAllTimelines()
+                }
+                // keep theme in sync with system changes
+                .onChange(of: colorScheme) { newScheme in
+                    themeManager.applyTheme(using: newScheme)
+                }
+                // re-apply when user switches between .light/.dark/.system
+                .onChange(of: themeManager.currentTheme) { _ in
+                    themeManager.applyTheme(using: colorScheme)
                 }
             }
             .tabItem { Label("Home", systemImage: "house.fill") }
