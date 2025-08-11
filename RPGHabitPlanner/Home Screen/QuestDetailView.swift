@@ -10,27 +10,22 @@ import SwiftUI
 struct QuestDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var viewModel: CalendarViewModel
-
-    // Inputs
-    let date: Date
-
-    // Local, editable copy of the quest
-    @State private var currentQuest: Quest
+    @StateObject var viewModel: QuestDetailViewModel
 
     // UI state
     @State private var uiIsCompleted: Bool        // <- optimistic UI flag
     @State private var editingQuest: Quest?
     @State private var showingDeleteAlert = false
 
-    private let calendar = Calendar.current
     private var theme: Theme { themeManager.activeTheme }
 
     // Custom init to seed the local copies
-    init(viewModel: CalendarViewModel, quest: Quest, date: Date) {
-        self.viewModel = viewModel
-        self.date = date
-        _currentQuest = State(initialValue: quest)
+    init(quest: Quest, date: Date, questDataService: QuestDataServiceProtocol) {
+        _viewModel = StateObject(wrappedValue: QuestDetailViewModel(
+            quest: quest,
+            date: date,
+            questDataService: questDataService
+        ))
         _uiIsCompleted = State(initialValue: quest.isCompleted(on: date))
     }
 
@@ -41,29 +36,29 @@ struct QuestDetailView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // Header Section
-                    QuestDetailHeaderSection(quest: currentQuest, theme: theme)
+                    QuestDetailHeaderSection(quest: viewModel.quest, theme: theme)
 
                     // Progress Section
-                    QuestDetailProgressSection(quest: currentQuest, theme: theme)
+                    QuestDetailProgressSection(quest: viewModel.quest, theme: theme)
 
                     // Details Section
-                    QuestDetailDetailsSection(quest: currentQuest, theme: theme)
+                    QuestDetailDetailsSection(quest: viewModel.quest, theme: theme)
 
                     // Tasks Section
-                    if !currentQuest.tasks.isEmpty {
+                    if !viewModel.quest.tasks.isEmpty {
                         QuestDetailTasksSection(
-                            quest: currentQuest,
+                            quest: viewModel.quest,
                             theme: theme,
                             onToggleTask: toggleTaskCompletion
                         )
                     }
 
                     // Completion History
-                    QuestDetailCompletionHistorySection(quest: currentQuest, theme: theme)
+                    QuestDetailCompletionHistorySection(quest: viewModel.quest, theme: theme)
 
                     // Action Buttons
                     QuestDetailActionButtonsSection(
-                        quest: currentQuest,
+                        quest: viewModel.quest,
                         isCompleted: uiIsCompleted,                  // use optimistic state
                         onToggleCompletion: toggleQuestCompletion,
                         onMarkAsFinished: markAsFinished
@@ -85,7 +80,7 @@ struct QuestDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button("Edit Quest") {
-                        editingQuest = currentQuest // pass a snapshot into the editor
+                        editingQuest = viewModel.quest // pass a snapshot into the editor
                     }
                     Button("Delete Quest", role: .destructive) {
                         showingDeleteAlert = true
@@ -104,12 +99,16 @@ struct QuestDetailView: View {
                     questDataService: viewModel.questDataService
                 ),
                 onSaveSuccess: {
-                    viewModel.fetchQuests()
+                    viewModel.refreshQuest()
                     refreshCurrentQuestFromStore()
+                    // Notify other views that quest was updated
+                    NotificationCenter.default.post(name: .questUpdated, object: viewModel.quest)
                 },
                 onDeleteSuccess: {
-                    viewModel.fetchQuests()
+                    viewModel.refreshQuest()
                     editingQuest = nil
+                    // Notify other views that quest was deleted
+                    NotificationCenter.default.post(name: .questDeleted, object: viewModel.quest)
                     DispatchQueue.main.async {
                         dismiss()
                     }
@@ -125,65 +124,53 @@ struct QuestDetailView: View {
         } message: {
             Text("Are you sure you want to delete this quest? This action cannot be undone.")
         }
-        .onReceive(viewModel.$allQuests) { _ in
-            refreshCurrentQuestFromStore()
+        .alert("Error", isPresented: .constant(viewModel.alertMessage != nil)) {
+            Button("OK") { viewModel.alertMessage = nil }
+        } message: {
+            if let alertMessage = viewModel.alertMessage {
+                Text(alertMessage)
+            }
         }
     }
 
     // MARK: - Helper Methods
 
     private func refreshCurrentQuestFromStore() {
-        if let updated = viewModel.allQuests.first(where: { $0.id == currentQuest.id }) {
-            currentQuest = updated
-            uiIsCompleted = updated.isCompleted(on: date) // keep UI honest
-        }
+        // The view model now handles this automatically through its refreshQuest method
+        // We just need to update the UI state
+        uiIsCompleted = viewModel.isCompleted
     }
 
     private func toggleQuestCompletion() {
         uiIsCompleted.toggle()
-        if let item = viewModel.items(for: date).first(where: { $0.quest.id == currentQuest.id }) {
-            viewModel.toggle(item: item)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                refreshCurrentQuestFromStore()
-            }
+        viewModel.toggleQuestCompletion()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            refreshCurrentQuestFromStore()
         }
     }
 
     private func toggleTaskCompletion(_ task: QuestTask) {
-        viewModel.toggleTaskCompletion(
-            questId: currentQuest.id,
-            taskId: task.id,
-            newValue: !task.isCompleted
-        )
+        viewModel.toggleTaskCompletion(taskId: task.id, newValue: !task.isCompleted)
         refreshCurrentQuestFromStore()
     }
 
     private func markAsFinished() {
         // Optimistic → completed
         uiIsCompleted = true
-        viewModel.markQuestAsFinished(questId: currentQuest.id)
+        viewModel.markQuestAsFinished()
         refreshCurrentQuestFromStore()
     }
 
     private func deleteQuest() {
-        viewModel.questDataService.deleteQuest(withId: currentQuest.id) { [weak viewModel] _ in
-            DispatchQueue.main.async {
-                viewModel?.fetchQuests()
-                dismiss()
-            }
+        viewModel.deleteQuest()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            dismiss()
         }
-    }
-
-    // MARK: - Computed
-
-    private var isCompletedReal: Bool {
-        currentQuest.isCompleted(on: date)
     }
 }
 
 #Preview {
     QuestDetailView(
-        viewModel: CalendarViewModel(questDataService: QuestCoreDataService()),
         quest: Quest(
             title: "Sample Quest",
             isMainQuest: true,
@@ -201,7 +188,8 @@ struct QuestDetailView: View {
             repeatType: .weekly,
             completions: [Date(), Date().addingTimeInterval(-86400 * 7)]
         ),
-        date: Date()
+        date: Date(),
+        questDataService: QuestCoreDataService()
     )
     .environmentObject(ThemeManager.shared)
 }

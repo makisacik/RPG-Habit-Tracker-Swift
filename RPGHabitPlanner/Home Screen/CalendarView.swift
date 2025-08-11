@@ -66,9 +66,9 @@ struct CalendarView: View {
             .sheet(item: $selectedQuestItem) { questItem in
                 NavigationStack {
                     QuestDetailView(
-                        viewModel: viewModel,
                         quest: questItem.quest,
-                        date: questItem.date
+                        date: questItem.date,
+                        questDataService: viewModel.questDataService
                     )
                     .environmentObject(themeManager)
                 }

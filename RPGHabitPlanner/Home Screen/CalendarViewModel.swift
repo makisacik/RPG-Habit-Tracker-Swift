@@ -29,6 +29,55 @@ final class CalendarViewModel: ObservableObject {
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
         fetchQuests()
+        setupNotificationObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestUpdated),
+            name: .questUpdated,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestDeleted),
+            name: .questDeleted,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestCreated),
+            name: .questCreated,
+            object: nil
+        )
+    }
+
+    @objc private func handleQuestUpdated(_ notification: Notification) {
+        print("🔄 CalendarViewModel: Received quest updated notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+        }
+    }
+
+    @objc private func handleQuestDeleted(_ notification: Notification) {
+        print("🗑️ CalendarViewModel: Received quest deleted notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+        }
+    }
+
+    @objc private func handleQuestCreated(_ notification: Notification) {
+        print("➕ CalendarViewModel: Received quest created notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+        }
     }
     
     var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }

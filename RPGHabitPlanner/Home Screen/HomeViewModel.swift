@@ -27,7 +27,56 @@ class HomeViewModel: ObservableObject {
         self.userManager = userManager
         self.questDataService = questDataService
         observeUserUpdates()
+        setupQuestNotificationObservers()
         fetchUserData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupQuestNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestUpdated),
+            name: .questUpdated,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestDeleted),
+            name: .questDeleted,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestCreated),
+            name: .questCreated,
+            object: nil
+        )
+    }
+
+    @objc private func handleQuestUpdated(_ notification: Notification) {
+        print("🔄 HomeViewModel: Received quest updated notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchDashboardData()
+        }
+    }
+
+    @objc private func handleQuestDeleted(_ notification: Notification) {
+        print("🗑️ HomeViewModel: Received quest deleted notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchDashboardData()
+        }
+    }
+
+    @objc private func handleQuestCreated(_ notification: Notification) {
+        print("➕ HomeViewModel: Received quest created notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchDashboardData()
+        }
     }
 
     func fetchUserData() {

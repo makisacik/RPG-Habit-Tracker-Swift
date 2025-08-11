@@ -24,6 +24,56 @@ final class QuestTrackingViewModel: ObservableObject {
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
         self.userManager = userManager
+        fetchQuests()
+        setupNotificationObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestUpdated),
+            name: .questUpdated,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestDeleted),
+            name: .questDeleted,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestCreated),
+            name: .questCreated,
+            object: nil
+        )
+    }
+
+    @objc private func handleQuestUpdated(_ notification: Notification) {
+        print("🔄 QuestTrackingViewModel: Received quest updated notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+        }
+    }
+
+    @objc private func handleQuestDeleted(_ notification: Notification) {
+        print("🗑️ QuestTrackingViewModel: Received quest deleted notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+        }
+    }
+
+    @objc private func handleQuestCreated(_ notification: Notification) {
+        print("➕ QuestTrackingViewModel: Received quest created notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+        }
     }
     
     func fetchQuests() {

@@ -69,9 +69,9 @@ struct QuestTrackingView: View {
         .sheet(item: $selectedQuestForDetail) { quest in
             NavigationStack {
                 QuestDetailView(
-                    viewModel: CalendarViewModel(questDataService: viewModel.questDataService),
                     quest: quest,
-                    date: Date()
+                    date: Date(),
+                    questDataService: viewModel.questDataService
                 )
                 .environmentObject(themeManager)
             }

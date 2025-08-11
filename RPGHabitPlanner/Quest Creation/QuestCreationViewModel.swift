@@ -74,6 +74,8 @@ final class QuestCreationViewModel: ObservableObject {
                         NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
                     }
                     self.didSaveQuest = true
+                    // Notify other views that a new quest was created
+                    NotificationCenter.default.post(name: .questCreated, object: newQuest)
                 }
             }
         }
