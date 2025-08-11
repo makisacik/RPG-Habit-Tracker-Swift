@@ -11,127 +11,170 @@ struct QuestDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: CalendarViewModel
-    
-    let quest: Quest
+
+    // Inputs
     let date: Date
-    
-    @State private var showingEditQuest = false
+
+    // Local, editable copy of the quest
+    @State private var currentQuest: Quest
+
+    // UI state
+    @State private var uiIsCompleted: Bool        // <- optimistic UI flag
+    @State private var editingQuest: Quest?
     @State private var showingDeleteAlert = false
-    
+
     private let calendar = Calendar.current
-    
+    private var theme: Theme { themeManager.activeTheme }
+
+    // Custom init to seed the local copies
+    init(viewModel: CalendarViewModel, quest: Quest, date: Date) {
+        self.viewModel = viewModel
+        self.date = date
+        _currentQuest = State(initialValue: quest)
+        _uiIsCompleted = State(initialValue: quest.isCompleted(on: date))
+    }
+
     var body: some View {
-        let theme = themeManager.activeTheme
-        
-        NavigationStack {
-            ZStack {
-                theme.backgroundColor.ignoresSafeArea()
-                
-                ScrollView {
-                    VStack(spacing: 24) {
-                        // Header Section
-                        QuestDetailHeaderSection(quest: quest, theme: theme)
-                        
-                        // Progress Section
-                        QuestDetailProgressSection(quest: quest, theme: theme)
-                        
-                        // Details Section
-                        QuestDetailDetailsSection(quest: quest, theme: theme)
-                        
-                        // Tasks Section
-                        if !quest.tasks.isEmpty {
-                            QuestDetailTasksSection(
-                                quest: quest,
-                                theme: theme,
-                                onToggleTask: toggleTaskCompletion
-                            )
-                        }
-                        
-                        // Completion History
-                        QuestDetailCompletionHistorySection(quest: quest, theme: theme)
-                        
-                        // Action Buttons
-                        QuestDetailActionButtonsSection(
-                            quest: quest,
-                            isCompleted: isCompleted,
-                            onToggleCompletion: toggleQuestCompletion,
-                            onMarkAsFinished: markAsFinished
+        ZStack {
+            theme.backgroundColor.ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header Section
+                    QuestDetailHeaderSection(quest: currentQuest, theme: theme)
+
+                    // Progress Section
+                    QuestDetailProgressSection(quest: currentQuest, theme: theme)
+
+                    // Details Section
+                    QuestDetailDetailsSection(quest: currentQuest, theme: theme)
+
+                    // Tasks Section
+                    if !currentQuest.tasks.isEmpty {
+                        QuestDetailTasksSection(
+                            quest: currentQuest,
+                            theme: theme,
+                            onToggleTask: toggleTaskCompletion
                         )
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 16)
-                    .padding(.bottom, 40)
+
+                    // Completion History
+                    QuestDetailCompletionHistorySection(quest: currentQuest, theme: theme)
+
+                    // Action Buttons
+                    QuestDetailActionButtonsSection(
+                        quest: currentQuest,
+                        isCompleted: uiIsCompleted,                  // use optimistic state
+                        onToggleCompletion: toggleQuestCompletion,
+                        onMarkAsFinished: markAsFinished
+                    )
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 40)
             }
-            .navigationTitle("Quest Details")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.hidden, for: .navigationBar)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Close") {
-                        dismiss()
-                    }
+        }
+        .navigationTitle("Quest Details")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Close") { dismiss() }
                     .foregroundColor(theme.textColor)
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button("Edit Quest") {
-                            showingEditQuest = true
-                        }
-                        
-                        Button("Delete Quest", role: .destructive) {
-                            showingDeleteAlert = true
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                            .foregroundColor(theme.textColor)
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Button("Edit Quest") {
+                        editingQuest = currentQuest // pass a snapshot into the editor
                     }
+                    Button("Delete Quest", role: .destructive) {
+                        showingDeleteAlert = true
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .foregroundColor(theme.textColor)
                 }
-            }
-            .sheet(isPresented: $showingEditQuest) {
-                // TODO: Add EditQuestView here
-                Text("Edit Quest View")
-            }
-            .alert("Delete Quest", isPresented: $showingDeleteAlert) {
-                Button("Cancel", role: .cancel) { }
-                Button("Delete", role: .destructive) {
-                    deleteQuest()
-                }
-            } message: {
-                Text("Are you sure you want to delete this quest? This action cannot be undone.")
             }
         }
+        // Present editor; on save, refresh global + local
+        .sheet(item: $editingQuest, onDismiss: refreshCurrentQuestFromStore) { questToEdit in
+            EditQuestView(
+                viewModel: EditQuestViewModel(
+                    quest: questToEdit,
+                    questDataService: viewModel.questDataService
+                )
+            )                {
+                    viewModel.fetchQuests()
+                    refreshCurrentQuestFromStore()
+                }
+            .environmentObject(themeManager)
+        }
+        .alert("Delete Quest", isPresented: $showingDeleteAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                deleteQuest()
+            }
+        } message: {
+            Text("Are you sure you want to delete this quest? This action cannot be undone.")
+        }
+        // If the backing store changes (e.g., from calendar list), keep detail in sync
+        .onReceive(viewModel.$allQuests) { _ in
+            refreshCurrentQuestFromStore()
+        }
     }
-    
+
     // MARK: - Helper Methods
-    private func toggleQuestCompletion() {
-        // Find the DayQuestItem for this quest and date
-        if let item = viewModel.items(for: date).first(where: { $0.quest.id == quest.id }) {
-            viewModel.toggle(item: item)
+
+    private func refreshCurrentQuestFromStore() {
+        if let updated = viewModel.allQuests.first(where: { $0.id == currentQuest.id }) {
+            currentQuest = updated
+            uiIsCompleted = updated.isCompleted(on: date) // keep UI honest
         }
     }
-    
+
+    private func toggleQuestCompletion() {
+        // Optimistic flip for instant UI response
+        uiIsCompleted.toggle()
+
+        if let item = viewModel.items(for: date).first(where: { $0.quest.id == currentQuest.id }) {
+            viewModel.toggle(item: item)
+            // pull latest version
+            refreshCurrentQuestFromStore()
+        } else {
+            // If we couldn't find the item for some reason, revert UI
+            uiIsCompleted.toggle()
+        }
+    }
+
     private func toggleTaskCompletion(_ task: QuestTask) {
-        viewModel.toggleTaskCompletion(questId: quest.id, taskId: task.id, newValue: !task.isCompleted)
+        viewModel.toggleTaskCompletion(
+            questId: currentQuest.id,
+            taskId: task.id,
+            newValue: !task.isCompleted
+        )
+        refreshCurrentQuestFromStore()
     }
-    
+
     private func markAsFinished() {
-        viewModel.markQuestAsFinished(questId: quest.id)
+        // Optimistic → completed
+        uiIsCompleted = true
+        viewModel.markQuestAsFinished(questId: currentQuest.id)
+        refreshCurrentQuestFromStore()
     }
-    
+
     private func deleteQuest() {
-        viewModel.questDataService.deleteQuest(withId: quest.id) { [weak viewModel] _ in
+        viewModel.questDataService.deleteQuest(withId: currentQuest.id) { [weak viewModel] _ in
             DispatchQueue.main.async {
                 viewModel?.fetchQuests()
                 dismiss()
             }
         }
     }
-    
-    // MARK: - Computed Properties
-    private var isCompleted: Bool {
-        quest.isCompleted(on: date)
+
+    // MARK: - Computed
+
+    private var isCompletedReal: Bool {
+        currentQuest.isCompleted(on: date)
     }
 }
 

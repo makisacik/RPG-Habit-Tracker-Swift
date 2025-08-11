@@ -11,19 +11,23 @@ import Combine
 
 final class EditQuestViewModel: ObservableObject {
     @Published var quest: Quest
+
+    // Editable fields
     @Published var title: String
     @Published var description: String
     @Published var dueDate: Date
     @Published var isMainQuest: Bool
-    @Published var difficulty: Int
+    @Published var difficulty: Int        // 1...5
     @Published var isActiveQuest: Bool
-    @Published var progress: Int
-    @Published var tasks: [String] // ✅ Added tasks
+    @Published var progress: Int          // 0...100
+    @Published var tasks: [String]        // Task titles only (UI edits)
+    @Published var repeatType: QuestRepeatType
+
+    // UI state
     @Published var isSaving: Bool = false
     @Published var errorMessage: String?
     @Published var didUpdateQuest: Bool = false
-    @Published var repeatType: QuestRepeatType
-    
+
     private let questDataService: QuestDataServiceProtocol
 
     init(quest: Quest, questDataService: QuestDataServiceProtocol) {
@@ -35,25 +39,41 @@ final class EditQuestViewModel: ObservableObject {
         self.difficulty = quest.difficulty
         self.isActiveQuest = quest.isActive
         self.progress = quest.progress
-        self.tasks = quest.tasks.map { $0.title } // ✅ Map existing tasks into titles
+        self.tasks = quest.tasks.map { $0.title }
         self.repeatType = quest.repeatType
         self.questDataService = questDataService
     }
 
+    // MARK: - Validation
+
     func validateInputs() -> Bool {
-        guard !title.trimmingCharacters(in: .whitespaces).isEmpty else {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else {
             errorMessage = "Quest title cannot be empty."
             return false
         }
-        guard difficulty >= 1 && difficulty <= 5 else {
+        guard (1...5).contains(difficulty) else {
             errorMessage = "Difficulty must be between 1 and 5."
+            return false
+        }
+        guard (0...100).contains(progress) else {
+            errorMessage = "Progress must be between 0 and 100."
+            return false
+        }
+        // Don’t let due date be before creation date
+        if dueDate < quest.creationDate {
+            errorMessage = "Due date cannot be earlier than the creation date."
             return false
         }
         return true
     }
 
+    // MARK: - Update
+
     func updateQuest(completion: @escaping (Bool) -> Void) {
         isSaving = true
+        errorMessage = nil
+
         let dueDateChanged = quest.dueDate != dueDate
 
         questDataService.updateQuest(
@@ -74,40 +94,83 @@ final class EditQuestViewModel: ObservableObject {
 
                 if let error = error {
                     self.errorMessage = error.localizedDescription
+                    self.didUpdateQuest = false
+                    completion(false)
+                    return
+                }
+
+                // Apply edits to local copy for immediate UI reflect
+                self.applyEditsToLocalQuest()
+
+                // Reschedule notifications if needed
+                if dueDateChanged {
+                    NotificationManager.shared.cancelQuestNotifications(questId: self.quest.id)
+                    NotificationManager.shared.scheduleQuestNotification(for: self.quest)
+                }
+
+                self.didUpdateQuest = true
+                completion(true)
+            }
+        }
+    }
+
+    // Preserve task IDs by index when possible; new tasks get new IDs.
+    private func applyEditsToLocalQuest() {
+        quest.title = title
+        quest.info = description
+        quest.dueDate = dueDate
+        quest.isMainQuest = isMainQuest
+        quest.difficulty = difficulty
+        quest.isActive = isActiveQuest
+        quest.progress = progress
+        quest.repeatType = repeatType
+
+        let existing = quest.tasks
+
+        var newTasks: [QuestTask] = []
+        newTasks.reserveCapacity(tasks.count)
+        for (idx, title) in tasks.enumerated() {
+            if idx < existing.count {
+                // Keep the same ID and completion state if the slot still exists
+                let old = existing[idx]
+                newTasks.append(
+                    QuestTask(
+                        id: old.id,
+                        title: title,
+                        isCompleted: old.isCompleted,
+                        order: idx
+                    )
+                )
+            } else {
+                // New task
+                newTasks.append(
+                    QuestTask(
+                        id: UUID(),
+                        title: title,
+                        isCompleted: false,
+                        order: idx
+                    )
+                )
+            }
+        }
+        quest.tasks = newTasks
+    }
+
+    // MARK: - Delete
+
+    func deleteQuest(completion: @escaping (Bool) -> Void) {
+        isSaving = true
+        errorMessage = nil
+        questDataService.deleteQuest(withId: quest.id) { [weak self] error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.isSaving = false
+                if let error = error {
+                    self.errorMessage = error.localizedDescription
                     completion(false)
                 } else {
-                    self.quest.title = self.title
-                    self.quest.info = self.description
-                    self.quest.dueDate = self.dueDate
-                    self.quest.isMainQuest = self.isMainQuest
-                    self.quest.difficulty = self.difficulty
-                    self.quest.isActive = self.isActiveQuest
-                    self.quest.progress = self.progress
-
-                    self.quest.tasks = self.tasks.enumerated().map { index, title in
-                        if let existing = self.quest.tasks.first(where: { $0.title == title }) {
-                            return QuestTask(
-                                id: existing.id,
-                                title: title,
-                                isCompleted: existing.isCompleted,
-                                order: index
-                            )
-                        } else {
-                            return QuestTask(
-                                id: UUID(),
-                                title: title,
-                                isCompleted: false,
-                                order: index
-                            )
-                        }
-                    }
-
-                    if dueDateChanged {
-                        NotificationManager.shared.cancelQuestNotifications(questId: self.quest.id)
-                        NotificationManager.shared.scheduleQuestNotification(for: self.quest)
-                    }
-
-                    self.didUpdateQuest = true
+                    // Cancel any pending notifications
+                    NotificationManager.shared.cancelQuestNotifications(questId: self.quest.id)
                     completion(true)
                 }
             }

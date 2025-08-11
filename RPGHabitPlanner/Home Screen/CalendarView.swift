@@ -13,7 +13,6 @@ struct CalendarView: View {
     @State private var selectedDate = Date()
     @State private var showingQuestCreation = false
     @State private var showingAlert = false
-    @State private var showingQuestDetail = false
     @State private var selectedQuestItem: DayQuestItem?
 
     private let calendar = Calendar.current
@@ -64,13 +63,14 @@ struct CalendarView: View {
                     QuestCreationView(viewModel: creationVM)
                 }
             }
-            .sheet(isPresented: $showingQuestDetail) {
-                if let selectedQuestItem = selectedQuestItem {
+            .sheet(item: $selectedQuestItem) { questItem in
+                NavigationStack {
                     QuestDetailView(
                         viewModel: viewModel,
-                        quest: selectedQuestItem.quest,
-                        date: selectedQuestItem.date
+                        quest: questItem.quest,
+                        date: questItem.date
                     )
+                    .environmentObject(themeManager)
                 }
             }
             .onChange(of: viewModel.alertMessage) { msg in
@@ -172,7 +172,6 @@ struct CalendarView: View {
                             },
                             onQuestTap: { questItem in
                                 selectedQuestItem = questItem
-                                showingQuestDetail = true
                             }
                         )
                     }
