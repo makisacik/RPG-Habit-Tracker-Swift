@@ -103,10 +103,10 @@ struct QuestDetailView: View {
                     quest: questToEdit,
                     questDataService: viewModel.questDataService
                 )
-            )                {
+            ) {
                     viewModel.fetchQuests()
                     refreshCurrentQuestFromStore()
-                }
+            }
             .environmentObject(themeManager)
         }
         .alert("Delete Quest", isPresented: $showingDeleteAlert) {
@@ -133,16 +133,12 @@ struct QuestDetailView: View {
     }
 
     private func toggleQuestCompletion() {
-        // Optimistic flip for instant UI response
         uiIsCompleted.toggle()
-
         if let item = viewModel.items(for: date).first(where: { $0.quest.id == currentQuest.id }) {
             viewModel.toggle(item: item)
-            // pull latest version
-            refreshCurrentQuestFromStore()
-        } else {
-            // If we couldn't find the item for some reason, revert UI
-            uiIsCompleted.toggle()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                refreshCurrentQuestFromStore()
+            }
         }
     }
 
