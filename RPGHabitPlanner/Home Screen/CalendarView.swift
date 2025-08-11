@@ -13,6 +13,8 @@ struct CalendarView: View {
     @State private var selectedDate = Date()
     @State private var showingQuestCreation = false
     @State private var showingAlert = false
+    @State private var showingQuestDetail = false
+    @State private var selectedQuestItem: DayQuestItem?
 
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
@@ -60,6 +62,15 @@ struct CalendarView: View {
             }) {
                 NavigationStack {
                     QuestCreationView(viewModel: creationVM)
+                }
+            }
+            .sheet(isPresented: $showingQuestDetail) {
+                if let selectedQuestItem = selectedQuestItem {
+                    QuestDetailView(
+                        viewModel: viewModel,
+                        quest: selectedQuestItem.quest,
+                        date: selectedQuestItem.date
+                    )
                 }
             }
             .onChange(of: viewModel.alertMessage) { msg in
@@ -158,6 +169,10 @@ struct CalendarView: View {
                             onMarkFinished: { viewModel.markQuestAsFinished(questId: item.quest.id) },
                             onToggleTaskCompletion: { taskId, isCompleted in
                                 viewModel.toggleTaskCompletion(questId: item.quest.id, taskId: taskId, newValue: isCompleted)
+                            },
+                            onQuestTap: { questItem in
+                                selectedQuestItem = questItem
+                                showingQuestDetail = true
                             }
                         )
                     }
@@ -326,12 +341,14 @@ struct CalendarDayView: View {
 
 struct QuestCalendarRow: View {
     @State private var isExpanded: Bool = false
+    @State private var showingQuestDetail = false
     
     let item: DayQuestItem
     let theme: Theme
     let onToggle: () -> Void
     let onMarkFinished: () -> Void
     let onToggleTaskCompletion: (UUID, Bool) -> Void
+    let onQuestTap: (DayQuestItem) -> Void
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -360,6 +377,10 @@ struct QuestCalendarRow: View {
                     .padding(.trailing, 28)
                 }
                 .padding(12)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    onQuestTap(item)
+                }
                 
                 // Tasks section
                 let tasks = item.quest.tasks

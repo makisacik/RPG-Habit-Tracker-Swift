@@ -12,13 +12,17 @@ class MockQuestDataService: QuestDataServiceProtocol {
     var mockQuests: [Quest] = []
     var mockError: Error?
 
-    func saveQuest(_ quest: Quest, completion: @escaping (Error?) -> Void) {
+    func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
         } else {
             mockQuests.append(quest)
             completion(nil)
         }
+    }
+
+    func saveQuest(_ quest: Quest, completion: @escaping (Error?) -> Void) {
+        saveQuest(quest, withTasks: [], completion: completion)
     }
 
     func fetchNonCompletedQuests(completion: @escaping ([Quest], Error?) -> Void) {
@@ -108,5 +112,140 @@ class MockQuestDataService: QuestDataServiceProtocol {
         if let progress = progress { mockQuests[index].progress = max(0, min(100, progress)) } // Ensure progress stays between 0 and 100
 
         completion(nil)
+    }
+    
+    func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void) {
+        if let error = mockError {
+            completion(error)
+        } else {
+            if let index = mockQuests.firstIndex(where: { $0.id == id }) {
+                mockQuests[index].progress = max(0, min(100, progress))
+                completion(nil)
+            } else {
+                completion(NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func markQuestAsFinished(forId id: UUID, completion: @escaping (Error?) -> Void) {
+        if let error = mockError {
+            completion(error)
+        } else {
+            if let index = mockQuests.firstIndex(where: { $0.id == id }) {
+                mockQuests[index].isFinished = true
+                mockQuests[index].isFinishedDate = Date()
+                completion(nil)
+            } else {
+                completion(NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func updateTask(withId id: UUID, title: String?, isCompleted: Bool?, order: Int16?, questId: UUID?, completion: @escaping (Error?) -> Void) {
+        if let error = mockError {
+            completion(error)
+        } else {
+            // For simplicity, just update the first quest's tasks
+            if let questIndex = mockQuests.firstIndex(where: { $0.id == questId }),
+               let taskIndex = mockQuests[questIndex].tasks.firstIndex(where: { $0.id == id }) {
+                if let title = title { mockQuests[questIndex].tasks[taskIndex].title = title }
+                if let isCompleted = isCompleted { mockQuests[questIndex].tasks[taskIndex].isCompleted = isCompleted }
+                if let order = order { mockQuests[questIndex].tasks[taskIndex].order = Int(order) }
+                completion(nil)
+            } else {
+                completion(NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Task not found"]))
+            }
+        }
+    }
+    
+    func markQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
+        if let error = mockError {
+            completion(error)
+        } else {
+            if let index = mockQuests.firstIndex(where: { $0.id == id }) {
+                mockQuests[index].completions.insert(date)
+                completion(nil)
+            } else {
+                completion(NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func unmarkQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
+        if let error = mockError {
+            completion(error)
+        } else {
+            if let index = mockQuests.firstIndex(where: { $0.id == id }) {
+                mockQuests[index].completions.remove(date)
+                completion(nil)
+            } else {
+                completion(NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func isQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Bool, Error?) -> Void) {
+        if let error = mockError {
+            completion(false, error)
+        } else {
+            if let quest = mockQuests.first(where: { $0.id == id }) {
+                let isCompleted = quest.completions.contains(date)
+                completion(isCompleted, nil)
+            } else {
+                completion(false, NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func questCompletionCount(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping (Int, Error?) -> Void) {
+        if let error = mockError {
+            completion(0, error)
+        } else {
+            if let quest = mockQuests.first(where: { $0.id == id }) {
+                let count = quest.completions.filter { $0 >= startDate && $0 <= endDate }.count
+                completion(count, nil)
+            } else {
+                completion(0, NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func questCompletionDates(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping ([Date], Error?) -> Void) {
+        if let error = mockError {
+            completion([], error)
+        } else {
+            if let quest = mockQuests.first(where: { $0.id == id }) {
+                let dates = quest.completions.filter { $0 >= startDate && $0 <= endDate }.sorted()
+                completion(dates, nil)
+            } else {
+                completion([], NSError(domain: "MockQuestDataService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+            }
+        }
+    }
+    
+    func questCurrentStreak(forId id: UUID, asOf date: Date, completion: @escaping (Int, Error?) -> Void) {
+        if let error = mockError {
+            completion(0, error)
+        } else {
+            // Simple implementation - just return a mock streak
+            completion(3, nil)
+        }
+    }
+    
+    func refreshQuestState(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
+        completion(nil)
+    }
+    
+    func refreshAllQuests(on date: Date, completion: @escaping (Error?) -> Void) {
+        completion(nil)
+    }
+    
+    func fetchFinishedQuests(completion: @escaping ([Quest], Error?) -> Void) {
+        if let error = mockError {
+            completion([], error)
+        } else {
+            let finishedQuests = mockQuests.filter { $0.isFinished }
+            completion(finishedQuests, nil)
+        }
     }
 }
