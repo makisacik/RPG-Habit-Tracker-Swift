@@ -67,7 +67,7 @@ struct QuestPreviewCard: View {
                     .lineLimit(1)
 
                 let completedTasks = quest.tasks.filter { $0.isCompleted }.count
-                Text("\(completedTasks)/\(quest.tasks.count) tasks")
+                Text("\(completedTasks)/\(quest.tasks.count) \(String.tasks.localized)")
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }

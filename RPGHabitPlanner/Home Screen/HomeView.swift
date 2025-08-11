@@ -101,7 +101,7 @@ struct HomeView: View {
                     themeManager.applyTheme(using: colorScheme)
                 }
             }
-            .tabItem { Label("Home", systemImage: "house.fill") }
+            .tabItem { Label(String.home.localized, systemImage: "house.fill") }
             .tag(HomeTab.home)
 
             // MARK: Quests
@@ -117,7 +117,7 @@ struct HomeView: View {
                         )
                     }
                     .font(.appFont(size: 16))
-                    .navigationTitle("Quest Journal")
+                    .navigationTitle(String.questJournal.localized)
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
@@ -135,7 +135,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .tabItem { Label("Quests", systemImage: "list.bullet.clipboard.fill") }
+            .tabItem { Label(String.quests.localized, systemImage: "list.bullet.clipboard.fill") }
             .tag(HomeTab.tracking)
 
             // MARK: Character
@@ -143,12 +143,12 @@ struct HomeView: View {
                 if let user = viewModel.user {
                     CharacterView(user: user)
                 } else {
-                    Text("Loading character...")
+                    Text(String.loadingCharacter.localized)
                         .foregroundColor(theme.textColor)
                         .onAppear { viewModel.fetchUserData() }
                 }
             }
-            .tabItem { Label("Character", systemImage: "person.crop.circle.fill") }
+            .tabItem { Label(String.character.localized, systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
             // MARK: Focus Timer
@@ -156,7 +156,7 @@ struct HomeView: View {
                 TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
                     .environmentObject(themeManager)
             }
-            .tabItem { Label("Focus Timer", systemImage: "timer") }
+            .tabItem { Label(String.focusTimer.localized, systemImage: "timer") }
             .tag(HomeTab.focusTimer)
 
             // MARK: Calendar
@@ -164,7 +164,7 @@ struct HomeView: View {
                 CalendarView(viewModel: CalendarViewModel(questDataService: questDataService))
                     .environmentObject(themeManager)
             }
-            .tabItem { Label("Calendar", systemImage: "calendar") }
+            .tabItem { Label(String.calendar.localized, systemImage: "calendar") }
             .tag(HomeTab.calendar)
         }
         .accentColor(.red)
@@ -173,7 +173,7 @@ struct HomeView: View {
             NavigationStack {
                 AchievementView()
                     .environmentObject(themeManager)
-                    .navigationTitle("Achievements")
+                    .navigationTitle(String.achievements.localized)
                     .navigationBarTitleDisplayMode(.inline)
             }
         }

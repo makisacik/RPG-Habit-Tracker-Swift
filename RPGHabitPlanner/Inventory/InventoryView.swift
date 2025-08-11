@@ -25,7 +25,7 @@ struct InventoryView: View {
                 }
             
             VStack(spacing: 10) {
-                Text("Inventory")
+                Text(String.inventory.localized)
                     .font(.appFont(size: 22, weight: .black))
                     .foregroundColor(theme.textColor)
                     .padding(.vertical, 6)
@@ -56,7 +56,7 @@ struct InventoryView: View {
             }
             .padding()
         }
-        .navigationTitle("Inventory")
+                        .navigationTitle(String.inventory.localized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             items = InventoryManager.shared.fetchInventory()
@@ -74,7 +74,7 @@ struct InventoryView: View {
                let current = item,
                current == selectedItem {
                 VStack(alignment: .center, spacing: 4) {
-                    Text(current.name ?? "Unknown")
+                    Text(current.name ?? String.unknown.localized)
                         .font(.appFont(size: 14, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)

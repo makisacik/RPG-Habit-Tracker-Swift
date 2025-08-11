@@ -103,12 +103,21 @@ extension String {
     // MARK: - Quest Related
     static let quest = "quest"
     static let quests = "quests"
+    static let questType = "quest_type"
+    static let quickQuests = "quick_quests"
+    static let chooseFromCuratedQuestTemplates = "choose_from_curated_quest_templates"
     static let mainQuest = "main_quest"
     static let sideQuest = "side_quest"
     static let questTitle = "quest_title"
     static let questDescription = "quest_description"
     static let questDifficulty = "quest_difficulty"
     static let questDueDate = "quest_due_date"
+    static let basicInformation = "basic_information"
+    static let questSettings = "quest_settings"
+    static let enterQuestTitle = "enter_quest_title"
+    static let enterQuestDescription = "enter_quest_description"
+    static let repeatType = "repeat_type"
+    static let manageTasks = "manage_tasks"
     static let saveQuest = "save_quest"
     static let editQuest = "edit_quest"
     static let deleteQuest = "delete_quest"
@@ -116,6 +125,8 @@ extension String {
     static let questCompleted = "quest_completed"
     static let questFailed = "quest_failed"
     static let questExpired = "quest_expired"
+    static let markAsFinished = "mark_as_finished"
+    static let finished = "finished"
     
     // MARK: - Quest Filters
     static let activeToday = "active_today"
@@ -127,6 +138,9 @@ extension String {
     static let task = "task"
     static let tasks = "tasks"
     static let addTask = "add_task"
+    static let addNewTask = "add_new_task"
+    static let editTasks = "edit_tasks"
+    static let enterTaskDescription = "enter_task_description"
     static let removeTask = "remove_task"
     static let taskCompleted = "task_completed"
     static let taskIncomplete = "task_incomplete"
@@ -143,6 +157,7 @@ extension String {
     static let level = "level"
     static let experience = "experience"
     static let health = "health"
+    static let healthPoints = "health_points"
     static let mana = "mana"
     static let strength = "strength"
     static let intelligence = "intelligence"
@@ -156,6 +171,8 @@ extension String {
     static let rewards = "rewards"
     static let achievement = "achievement"
     static let achievementUnlocked = "achievement_unlocked"
+    static let unlocked = "unlocked"
+    static let locked = "locked"
     static let experiencePoints = "experience_points"
     static let gold = "gold"
     static let items = "items"
@@ -174,6 +191,7 @@ extension String {
     static let recentAchievements = "recent_achievements"
     static let quickActions = "quick_actions"
     static let createNewQuest = "create_new_quest"
+    static let addQuest = "add_quest"
     static let viewCompletedQuests = "view_completed_quests"
     static let viewCharacterDetails = "view_character_details"
     
@@ -187,6 +205,9 @@ extension String {
     // MARK: - Settings
     static let theme = "theme"
     static let language = "language"
+    static let chooseYourPreferredLanguage = "choose_your_preferred_language"
+    static let languageChangesWillTakeEffectImmediately = "language_changes_will_take_effect_immediately"
+    static let someSystemElementsMayRemainInPreviousLanguage = "some_system_elements_may_remain_in_previous_language"
     static let soundEffects = "sound_effects"
     static let music = "music"
     static let notificationsEnabled = "notifications_enabled"
@@ -211,7 +232,39 @@ extension String {
     static let createYourCharacter = "create_your_character"
     static let chooseYourClass = "choose_your_class"
     static let startYourAdventure = "start_your_adventure"
+    static let startAdventure = "start_adventure"
     static let letsBegin = "lets_begin"
+    static let confirmSelection = "confirm_selection"
+    static let enterYourNickname = "enter_your_nickname"
+    static let nickname = "nickname"
+    static let transformHabitsIntoEpicAdventures = "transform_habits_into_epic_adventures"
+    static let createEpicQuests = "create_epic_quests"
+    static let turnDailyTasksIntoHeroicMissions = "turn_daily_tasks_into_heroic_missions"
+    static let earnRewards = "earn_rewards"
+    static let levelUpAndUnlockAchievements = "level_up_and_unlock_achievements"
+    static let trackProgress = "track_progress"
+    static let watchYourCharacterGrowStronger = "watch_your_character_grow_stronger"
+    static let readyToBeginAdventure = "ready_to_begin_adventure"
+    static let chooseYourHero = "choose_your_hero"
+    static let selectCharacterClassForPlaystyle = "select_character_class_for_playstyle"
+    static let customizeYourHero = "customize_your_hero"
+    static let chooseWeaponAndSeeCharacterComeToLife = "choose_weapon_and_see_character_come_to_life"
+    static let selectYourWeapon = "select_your_weapon"
+    static let nameYourHero = "name_your_hero"
+    static let chooseLegendaryNameForCharacter = "choose_legendary_name_for_character"
+    static let enterYourHerosName = "enter_your_heros_name"
+    static let maximum20Characters = "maximum_20_characters"
+    static let readyForAdventure = "ready_for_adventure"
+    static let yourHeroIsReadyToBeginJourney = "your_hero_is_ready_to_begin_journey"
+
+    // MARK: - Focus Timer
+    static let selectMonster = "select_monster"
+    static let noMonsterSelected = "no_monster_selected"
+    static let chooseYourEnemy = "choose_your_enemy"
+    static let pomodoros = "pomodoros"
+    static let monsterDefeated = "monster_defeated"
+    static let youHaveSuccessfullyDefeatedMonster = "you_have_successfully_defeated_monster"
+    static let continueButton = "continue"
     
     // MARK: - Character Classes
     static let warrior = "warrior"
@@ -221,7 +274,10 @@ extension String {
     static let archer = "archer"
     
     // MARK: - Error Messages
+    static let unknown = "unknown"
+    static let adventurer = "adventurer"
     static let unknownError = "unknown_error"
+    static let headsUp = "heads_up"
     static let networkError = "network_error"
     static let dataError = "data_error"
     static let validationError = "validation_error"
@@ -267,7 +323,9 @@ extension String {
     // MARK: - Empty States
     static let noQuests = "no_quests"
     static let noActiveQuests = "no_active_quests"
+    static let activeQuest = "active_quest"
     static let noCompletedQuests = "no_completed_quests"
+    static let noFinishedQuestsYet = "no_finished_quests_yet"
     static let noAchievements = "no_achievements"
     static let createYourFirstQuest = "create_your_first_quest"
     static let completeQuestsToEarnRewards = "complete_quests_to_earn_rewards"
@@ -287,4 +345,99 @@ extension String {
     static let accessibilityProgressBar = "accessibility_progress_bar"
     static let accessibilityStarRating = "accessibility_star_rating"
     static let accessibilityDatePicker = "accessibility_date_picker"
+    
+    // MARK: - Tab Navigation
+    static let home = "home"
+    static let focusTimer = "focus_timer"
+    static let questJournal = "quest_journal"
+    
+    // MARK: - Home Screen
+    static let active = "active"
+    static let viewAll = "view_all"
+    static let createQuest = "create_quest"
+    static let loadingCharacter = "loading_character"
+    static let noAchievementsYet = "no_achievements_yet"
+    static let completeQuestsToEarnAchievements = "complete_quests_to_earn_achievements"
+    
+    // MARK: - Quest Details
+    static let questDetails = "quest_details"
+    static let close = "close"
+    static let deleteQuestConfirmation = "delete_quest_confirmation"
+    static let deleteQuestWarning = "delete_quest_warning"
+    static let difficulty = "difficulty"
+    static let completionHistory = "completion_history"
+    static let noCompletionsYet = "no_completions_yet"
+    
+    // MARK: - Character Details
+    static let exp = "exp"
+    static let weapon = "weapon"
+    static let equippedWeapon = "equipped_weapon"
+    static let characterId = "character_id"
+    
+    // MARK: - Calendar
+    static let questCalendar = "quest_calendar"
+    static let setDueDate = "set_due_date"
+    static let dueDate = "due_date"
+    static let defaultDuration = "default_duration"
+    
+    // MARK: - Focus Timer
+    static let remaining = "remaining"
+    static let complete = "complete"
+    static let percentComplete = "percent_complete"
+    
+    // MARK: - Widget
+    static let allQuestsCompleted = "all_quests_completed"
+    static let dueToday = "due_today"
+    static let dueTomorrow = "due_tomorrow"
+    static let daysLeft = "days_left"
+    static let untitledQuest = "untitled_quest"
+    
+    // MARK: - Settings
+    static let darkMode = "dark_mode"
+    static let switchBetweenLightAndDarkThemes = "switch_between_light_and_dark_themes"
+    static let notificationsSettings = "notifications_settings"
+    static let dataAndStorage = "data_and_storage"
+    static let dataAndStorageSettings = "data_and_storage_settings"
+    static let versionInfo = "version_info"
+    
+    // MARK: - Onboarding
+    static let yourAdventureAwaits = "your_adventure_awaits"
+    static let classLabel = "class_label"
+    static let weaponLabel = "weapon_label"
+    
+    // MARK: - Quest Categories
+    static let healthAndWellness = "health_and_wellness"
+    static let productivity = "productivity"
+    static let learningAndGrowth = "learning_and_growth"
+    static let mindfulness = "mindfulness"
+    static let fitness = "fitness"
+    static let social = "social"
+    
+    // MARK: - Time Formats
+    static let daysFromToday = "days_from_today"
+    static let weeksFromToday = "weeks_from_today"
+    static let monthsFromToday = "months_from_today"
+    
+    // MARK: - Battle/Achievement Items
+    static let focusCrystal = "focus_crystal"
+    static let focusCrystalDescription = "focus_crystal_description"
+    static let focusMaster = "focus_master"
+    static let focusMasterDescription = "focus_master_description"
+    static let dragonSlayer = "dragon_slayer"
+    static let dragonSlayerDescription = "dragon_slayer_description"
+    
+    // MARK: - Labels
+    static let dueLabel = "due_label"
+    static let useSystemAppearance = "use_system_appearance"
+    static let repeatLabel = "repeat_label"
+    static let markIncomplete = "mark_incomplete"
+    static let markComplete = "mark_complete"
+    static let yes = "yes"
+    static let created = "created"
+    static let type = "type"
+    static let mainQuestLabel = "main_quest_label"
+    static let completedLabel = "completed_label"
+    static let onLabel = "on_label"
+    static let offLabel = "off_label"
+    static let widgetDescription = "widget_description"
 }

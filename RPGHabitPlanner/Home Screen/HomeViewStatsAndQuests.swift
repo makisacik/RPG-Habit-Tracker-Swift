@@ -20,7 +20,7 @@ extension HomeView {
         ], spacing: 12) {
             StatCard(
                 icon: "list.bullet.clipboard",
-                title: "Active",
+                title: String.active.localized,
                 value: "\(viewModel.activeQuestsCount)",
                 color: .blue,
                 theme: theme
@@ -30,7 +30,7 @@ extension HomeView {
             
             StatCard(
                 icon: "checkmark.seal.fill",
-                title: "Completed",
+                title: String.completed.localized,
                 value: "\(viewModel.completedQuestsCount)",
                 color: .green,
                 theme: theme
@@ -40,7 +40,7 @@ extension HomeView {
             
             StatCard(
                 icon: "trophy.fill",
-                title: "Achievements",
+                title: String.achievements.localized,
                 value: "\(viewModel.achievementsCount)",
                 color: .orange,
                 theme: theme
@@ -55,13 +55,13 @@ extension HomeView {
         
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Active Quests")
+                Text(String.activeQuests.localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
-                Button("View All") {
+                Button(String.viewAll.localized) {
                     selectedTab = .tracking
                 }
                 .font(.appFont(size: 14, weight: .medium))
@@ -80,14 +80,14 @@ extension HomeView {
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
                     
-                    Text("No active quests")
+                    Text(String.noActiveQuests.localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     
                     NavigationLink(destination: QuestCreationView(
                         viewModel: QuestCreationViewModel(questDataService: questDataService)
                     )) {
-                        Text("Create Quest")
+                        Text(String.createQuest.localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(.blue)
                     }

@@ -24,7 +24,7 @@ struct FocusTimerLiveActivity: Widget {
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
-                        Text("remaining")
+                        Text(LocalizationHelper.localized(LocalizationHelper.remaining))
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -36,7 +36,7 @@ struct FocusTimerLiveActivity: Widget {
                             .font(.headline)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
-                        Text("Focus Timer")
+                        Text(LocalizationHelper.localized(LocalizationHelper.focusTimer))
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -48,7 +48,7 @@ struct FocusTimerLiveActivity: Widget {
                             .progressViewStyle(LinearProgressViewStyle(tint: .white))
                             .scaleEffect(y: 2)
                         
-                        Text("\(Int(context.state.progress * 100))% complete")
+                        Text("\(Int(context.state.progress * 100))\(LocalizationHelper.localized(LocalizationHelper.percentComplete))")
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -92,7 +92,7 @@ struct LockScreenLiveActivityView: View {
                         .font(.headline)
                         .fontWeight(.bold)
                     
-                    Text("Focus Timer")
+                    Text(LocalizationHelper.localized(LocalizationHelper.focusTimer))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -105,7 +105,7 @@ struct LockScreenLiveActivityView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.blue)
                     
-                    Text("remaining")
+                    Text(LocalizationHelper.localized(LocalizationHelper.remaining))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

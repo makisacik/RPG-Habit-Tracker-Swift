@@ -15,13 +15,13 @@ extension HomeView {
         
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Recent Achievements")
+                Text(String.recentAchievements.localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                Button("View All") {
+                Button(String.viewAll.localized) {
                     showAchievements = true
                 }
                 .font(.appFont(size: 14, weight: .medium))
@@ -41,11 +41,11 @@ extension HomeView {
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
 
-                    Text("No achievements yet")
+                    Text(String.noAchievementsYet.localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
 
-                    Text("Complete quests to earn achievements!")
+                    Text(String.completeQuestsToEarnAchievements.localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.5))
                         .multilineTextAlignment(.center)
@@ -70,7 +70,7 @@ extension HomeView {
         let theme = themeManager.activeTheme
         
         return VStack(alignment: .leading, spacing: 12) {
-            Text("Quick Actions")
+                            Text(String.quickActions.localized)
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
             

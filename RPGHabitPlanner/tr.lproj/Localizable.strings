@@ -49,6 +49,8 @@
 "quest_completed" = "Görev Tamamlandı!";
 "quest_failed" = "Görev Başarısız";
 "quest_expired" = "Görev Süresi Doldu";
+"mark_as_finished" = "Bitirildi Olarak İşaretle";
+"finished" = "Bitirildi";
 
 // MARK: - Quest Filters
 "active_today" = "Bugün Aktif";

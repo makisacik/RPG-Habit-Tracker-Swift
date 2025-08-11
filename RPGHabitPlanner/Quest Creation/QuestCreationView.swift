@@ -58,7 +58,7 @@ struct QuestCreationView: View {
                         
                         ToggleCard(label: String.notifyMeAboutQuest.localized, isOn: $notifyMe)
 
-                        Picker("Repeat", selection: $viewModel.repeatType) {
+                        Picker(String.repeatLabel.localized, selection: $viewModel.repeatType) {
                             Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
                             Text(String.daily.localized).tag(QuestRepeatType.daily)
                             Text(String.weekly.localized).tag(QuestRepeatType.weekly)
@@ -151,7 +151,7 @@ struct QuestCreationView: View {
                 Alert(
                     title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
                     message: Text(alertMessage).font(.appFont(size: 14)),
-                    dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black)))
+                    dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black)))
                 )
             }
             .onChange(of: viewModel.didSaveQuest) { didSave in

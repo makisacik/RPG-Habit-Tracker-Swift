@@ -48,7 +48,7 @@ struct CalendarView: View {
                     .animation(.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
                 }
             }
-            .navigationTitle("Quest Calendar")
+                            .navigationTitle(String.questCalendar.localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
@@ -77,9 +77,9 @@ struct CalendarView: View {
                 if msg != nil { showingAlert = true }
             }
             .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Heads up"),
+                Alert(title: Text(String.headsUp.localized),
                       message: Text(viewModel.alertMessage ?? ""),
-                      dismissButton: .default(Text("OK")) { viewModel.alertMessage = nil })
+                      dismissButton: .default(Text(String.okButton.localized)) { viewModel.alertMessage = nil })
             }
     }
     
@@ -153,7 +153,7 @@ struct CalendarView: View {
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Text("\(viewModel.itemsForSelectedDate.count) active quest\(viewModel.itemsForSelectedDate.count == 1 ? "" : "s")")
+                Text("\(viewModel.itemsForSelectedDate.count) \(viewModel.itemsForSelectedDate.count == 1 ? String.activeQuest.localized : String.activeQuests.localized)")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -191,7 +191,7 @@ struct CalendarView: View {
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Text("No quests")
+                Text(String.noQuests.localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -203,7 +203,7 @@ struct CalendarView: View {
                 HStack {
                     Spacer()
                     Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(theme.textColor)
-                    Text("Add Quest")
+                    Text(String.addQuest.localized)
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(theme.textColor)
                     Spacer()
@@ -394,7 +394,7 @@ struct QuestCalendarRow: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) Tasks")
+                            Text("\(tasks.count) \(String.tasks.localized)")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
                             Spacer()
@@ -449,7 +449,7 @@ struct QuestCalendarRow: View {
             .padding(.vertical, 2)
 
             Menu {
-                Button("Mark as Finished") {
+                Button(String.markAsFinished.localized) {
                     onMarkFinished()
                 }
             } label: {
@@ -475,9 +475,9 @@ struct QuestCalendarRow: View {
     
     private var subtitle: String {
         switch item.quest.repeatType {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .oneTime: return "One-time"
+        case .daily: return String.daily.localized
+        case .weekly: return String.weekly.localized
+        case .oneTime: return String.oneTime.localized
         }
     }
 }

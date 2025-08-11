@@ -97,9 +97,9 @@ struct QuestDetailHeaderSection: View {
     
     private var statusInfo: (String, Color) {
         if quest.isFinished {
-            return ("Finished", .gray)
+            return (String.finished.localized, .gray)
         } else {
-            return ("Active", .blue)
+            return (String.active.localized, .blue)
         }
     }
 }
@@ -112,7 +112,7 @@ struct QuestDetailProgressSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Progress")
+                Text(String.progress.localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -138,7 +138,7 @@ struct QuestDetailProgressSection: View {
             
             // Difficulty Stars
             HStack(spacing: 4) {
-                Text("Difficulty:")
+                Text(String.difficulty.localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
                 
@@ -176,7 +176,7 @@ struct QuestDetailDetailsSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Quest Details")
+                Text(String.questDetails.localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -185,21 +185,21 @@ struct QuestDetailDetailsSection: View {
             VStack(spacing: 12) {
                 detailRow(
                     icon: "calendar",
-                    title: "Due Date",
+                    title: String.questDueDate.localized,
                     value: dateFormatter.string(from: quest.dueDate),
                     theme: theme
                 )
                 
                 detailRow(
                     icon: "clock",
-                    title: "Created",
+                    title: String.created.localized,
                     value: dateFormatter.string(from: quest.creationDate),
                     theme: theme
                 )
                 
                 detailRow(
                     icon: "repeat",
-                    title: "Type",
+                    title: String.type.localized,
                     value: repeatTypeText,
                     theme: theme
                 )
@@ -207,8 +207,8 @@ struct QuestDetailDetailsSection: View {
                 if quest.isMainQuest {
                     detailRow(
                         icon: "crown.fill",
-                        title: "Main Quest",
-                        value: "Yes",
+                                        title: String.mainQuestLabel.localized,
+                value: String.yes.localized,
                         theme: theme
                     )
                 }
@@ -216,7 +216,7 @@ struct QuestDetailDetailsSection: View {
                 if let completionDate = quest.completionDate {
                     detailRow(
                         icon: "checkmark.circle.fill",
-                        title: "Completed",
+                        title: String.completedLabel.localized,
                         value: dateFormatter.string(from: completionDate),
                         theme: theme
                     )
@@ -252,9 +252,9 @@ struct QuestDetailDetailsSection: View {
     
     private var repeatTypeText: String {
         switch quest.repeatType {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .oneTime: return "One-time"
+        case .daily: return String.daily.localized
+        case .weekly: return String.weekly.localized
+        case .oneTime: return String.oneTime.localized
         }
     }
     
@@ -274,7 +274,7 @@ struct QuestDetailTasksSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Tasks (\(completedTasksCount)/\(quest.tasks.count))")
+                Text("\(String.tasks.localized) (\(completedTasksCount)/\(quest.tasks.count))")
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -329,14 +329,14 @@ struct QuestDetailCompletionHistorySection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Completion History")
+                Text(String.completionHistory.localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
             }
             
             if quest.completions.isEmpty {
-                Text("No completions yet")
+                                    Text(String.noCompletionsYet.localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.6))
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -389,7 +389,7 @@ struct QuestDetailActionButtonsSection: View {
                 HStack {
                     Image(systemName: isCompleted ? "xmark.circle.fill" : "checkmark.circle.fill")
                         .font(.system(size: 18))
-                    Text(isCompleted ? "Mark Incomplete" : "Mark Complete")
+                                            Text(isCompleted ? String.markIncomplete.localized : String.markComplete.localized)
                         .font(.appFont(size: 16, weight: .bold))
                 }
                 .foregroundColor(.white)
@@ -408,7 +408,7 @@ struct QuestDetailActionButtonsSection: View {
                     HStack {
                         Image(systemName: "flag.fill")
                             .font(.system(size: 18))
-                        Text("Mark as Finished")
+                        Text(String.markAsFinished.localized)
                             .font(.appFont(size: 16, weight: .bold))
                     }
                     .foregroundColor(.white)

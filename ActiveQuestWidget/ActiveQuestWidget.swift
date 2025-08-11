@@ -203,7 +203,7 @@ struct ActiveQuestWidgetEntryView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(theme.accentColor)
                 
-                Text("Active Quest")
+                Text(LocalizationHelper.localized(LocalizationHelper.activeQuest))
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .foregroundColor(theme.secondaryTextColor)
                 
@@ -212,7 +212,7 @@ struct ActiveQuestWidgetEntryView: View {
             
             // Quest title
             if let quest = entry.quest {
-                Text(quest.title ?? "Untitled Quest")
+                Text(quest.title ?? LocalizationHelper.localized(LocalizationHelper.untitledQuest))
                     .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(theme.primaryTextColor)
                     .lineLimit(2)
@@ -222,7 +222,7 @@ struct ActiveQuestWidgetEntryView: View {
             // Progress section
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text("Progress")
+                    Text(LocalizationHelper.localized("progress"))
                         .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundColor(theme.secondaryTextColor)
                     
@@ -248,7 +248,7 @@ struct ActiveQuestWidgetEntryView: View {
                             .font(.caption)
                             .foregroundColor(.red)
                         
-                        Text("Overdue!")
+                        Text(LocalizationHelper.localized(LocalizationHelper.overdue))
                             .font(.system(size: 11, weight: .semibold, design: .rounded))
                             .foregroundColor(.red)
                     }
@@ -259,15 +259,15 @@ struct ActiveQuestWidgetEntryView: View {
                             .foregroundColor(theme.secondaryTextColor)
                         
                         if entry.daysUntilDue == 0 {
-                            Text("Due today")
+                            Text(LocalizationHelper.localized(LocalizationHelper.dueToday))
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
                                 .foregroundColor(theme.secondaryTextColor)
                         } else if entry.daysUntilDue == 1 {
-                            Text("Due tomorrow")
+                            Text(LocalizationHelper.localized(LocalizationHelper.dueTomorrow))
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
                                 .foregroundColor(theme.secondaryTextColor)
                         } else {
-                            Text("\(entry.daysUntilDue) days left")
+                            Text("\(entry.daysUntilDue) \(LocalizationHelper.localized(LocalizationHelper.daysLeft))")
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
                                 .foregroundColor(theme.secondaryTextColor)
                         }
@@ -287,11 +287,11 @@ struct ActiveQuestWidgetEntryView: View {
                 .font(.title)
                 .foregroundColor(.green)
             
-            Text("No Active Quests")
+            Text(LocalizationHelper.localized(LocalizationHelper.noActiveQuests))
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(theme.primaryTextColor)
             
-            Text("All quests completed!")
+            Text(LocalizationHelper.localized(LocalizationHelper.allQuestsCompleted))
                 .font(.system(size: 12, weight: .medium, design: .rounded))
                 .foregroundColor(theme.secondaryTextColor)
                 .multilineTextAlignment(.center)
@@ -306,11 +306,11 @@ struct ActiveQuestWidgetEntryView: View {
                 .font(.title)
                 .foregroundColor(theme.accentColor)
             
-            Text("Start Your Adventure")
+            Text(LocalizationHelper.localized(LocalizationHelper.startYourAdventure))
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(theme.primaryTextColor)
             
-            Text("Create your first quest")
+            Text(LocalizationHelper.localized(LocalizationHelper.createYourFirstQuest))
                 .font(.system(size: 12, weight: .medium, design: .rounded))
                 .foregroundColor(theme.secondaryTextColor)
                 .multilineTextAlignment(.center)
@@ -339,8 +339,8 @@ struct ActiveQuestWidget: Widget {
                     .background(WidgetTheme.current().backgroundGradient)
             }
         }
-        .configurationDisplayName("Active Quest")
-        .description("Track your current quest progress and due dates.")
+        .configurationDisplayName(LocalizationHelper.localized(LocalizationHelper.activeQuest))
+        .description(LocalizationHelper.localized("widget_description"))
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

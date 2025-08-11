@@ -103,7 +103,7 @@ struct EditQuestBasicInfoSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Basic Information")
+                Text(String.basicInformation.localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -112,11 +112,11 @@ struct EditQuestBasicInfoSection: View {
             VStack(spacing: 12) {
                 // Title Field
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Quest Title")
+                    Text(String.questTitle.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                     
-                    TextField("Enter quest title", text: $viewModel.title)
+                    TextField(String.enterQuestTitle.localized, text: $viewModel.title)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
                         .padding(12)
@@ -128,11 +128,11 @@ struct EditQuestBasicInfoSection: View {
                 
                 // Description Field
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Description")
+                    Text(String.questDescription.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                     
-                    TextField("Enter quest description", text: $viewModel.description, axis: .vertical)
+                    TextField(String.enterQuestDescription.localized, text: $viewModel.description, axis: .vertical)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
                         .lineLimit(3...6)
@@ -161,7 +161,7 @@ struct EditQuestSettingsSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Quest Settings")
+                Text(String.questSettings.localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -174,7 +174,7 @@ struct EditQuestSettingsSection: View {
                         .foregroundColor(.yellow)
                         .font(.system(size: 16))
                     
-                    Text("Main Quest")
+                    Text(String.mainQuest.localized)
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
                     
@@ -191,7 +191,7 @@ struct EditQuestSettingsSection: View {
                 
                 // Due Date
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Due Date")
+                    Text(String.questDueDate.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                     
@@ -207,14 +207,14 @@ struct EditQuestSettingsSection: View {
                 
                 // Repeat Type
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Repeat Type")
+                    Text(String.repeatType.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                     
-                    Picker("Repeat Type", selection: $viewModel.repeatType) {
-                        Text("One Time").tag(QuestRepeatType.oneTime)
-                        Text("Daily").tag(QuestRepeatType.daily)
-                        Text("Weekly").tag(QuestRepeatType.weekly)
+                    Picker(String.repeatType.localized, selection: $viewModel.repeatType) {
+                        Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
+                        Text(String.daily.localized).tag(QuestRepeatType.daily)
+                        Text(String.weekly.localized).tag(QuestRepeatType.weekly)
                     }
                     .pickerStyle(.segmented)
                     .padding(12)
@@ -226,7 +226,7 @@ struct EditQuestSettingsSection: View {
                 
                 // Difficulty
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Difficulty")
+                    Text(String.questDifficulty.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                     
@@ -257,7 +257,7 @@ struct EditQuestTasksSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Tasks")
+                Text(String.tasks.localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -274,11 +274,11 @@ struct EditQuestTasksSection: View {
                         .foregroundColor(.yellow)
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Manage Tasks")
+                        Text(String.manageTasks.localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                         
-                        Text("\(validTaskCount) task\(validTaskCount == 1 ? "" : "s")")
+                        Text("\(validTaskCount) \(validTaskCount == 1 ? String.task.localized : String.tasks.localized)")
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
@@ -329,7 +329,7 @@ struct EditQuestActionButtonsSection: View {
                     } else {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 18))
-                        Text("Save Changes")
+                        Text(String.saveButton.localized)
                             .font(.appFont(size: 16, weight: .bold))
                     }
                 }
@@ -374,7 +374,7 @@ struct EditQuestTaskEditorSheet: View {
                                 HStack(spacing: 8) {
                                     Image(systemName: "plus.circle.fill")
                                         .font(.title3)
-                                    Text("Add New Task")
+                                    Text(String.addNewTask.localized)
                                         .font(.appFont(size: 16, weight: .medium))
                                 }
                                 .foregroundColor(.yellow)
@@ -392,19 +392,19 @@ struct EditQuestTaskEditorSheet: View {
                     }
                 }
             }
-            .navigationTitle("Edit Tasks")
+                            .navigationTitle(String.editTasks.localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(String.cancelButton.localized) {
                         isPresented.wrappedValue = false
                     }
                     .foregroundColor(theme.textColor)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(String.doneButton.localized) {
                         cleanupBlankTasks()
                         isPresented.wrappedValue = false
                     }

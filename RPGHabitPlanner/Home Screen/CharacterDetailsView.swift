@@ -53,10 +53,10 @@ struct CharacterDetailsView: View {
                                 Image("minimap_icon_star_yellow")
                                     .resizable()
                                     .frame(width: 16, height: 16)
-                                Text("Level \(user.level)")
+                                Text("\(String.level.localized) \(user.level)")
                                     .font(.appFont(size: 16))
                                 Spacer()
-                                Text("EXP: \(user.exp)/100")
+                                Text("\(String.exp.localized): \(user.exp)/100")
                                     .font(.appFont(size: 14))
                                     .foregroundColor(theme.textColor)
                             }
@@ -109,7 +109,7 @@ struct CharacterDetailsView: View {
 
                         if let weapon = Weapon(rawValue: user.weapon ?? "") {
                             HStack {
-                                Text("Weapon:")
+                                Text(String.weapon.localized)
                                     .font(.appFont(size: 16, weight: .regular))
                                     .frame(width: 80, alignment: .leading)
                                 HStack(spacing: 10) {
@@ -128,7 +128,7 @@ struct CharacterDetailsView: View {
                         Divider()
 
                         HStack {
-                            Text("Character ID:")
+                            Text(String.characterId.localized)
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor)
                                 .frame(width: 100, alignment: .leading)
@@ -146,6 +146,6 @@ struct CharacterDetailsView: View {
             }
         }
         .presentationDetents([.fraction(0.45)])
-        .navigationTitle("Character Details")
+                        .navigationTitle(String.characterDetails.localized)
     }
 }

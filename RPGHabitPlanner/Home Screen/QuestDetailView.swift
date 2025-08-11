@@ -69,20 +69,20 @@ struct QuestDetailView: View {
                 .padding(.bottom, 40)
             }
         }
-        .navigationTitle("Quest Details")
+                        .navigationTitle(String.questDetails.localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button("Close") { dismiss() }
+                Button(String.close.localized) { dismiss() }
                     .foregroundColor(theme.textColor)
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
-                    Button("Edit Quest") {
+                    Button(String.editQuest.localized) {
                         editingQuest = viewModel.quest // pass a snapshot into the editor
                     }
-                    Button("Delete Quest", role: .destructive) {
+                    Button(String.deleteQuest.localized, role: .destructive) {
                         showingDeleteAlert = true
                     }
                 } label: {
@@ -116,16 +116,16 @@ struct QuestDetailView: View {
             )
             .environmentObject(themeManager)
         }
-        .alert("Delete Quest", isPresented: $showingDeleteAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
+                        .alert(String.deleteQuestConfirmation.localized, isPresented: $showingDeleteAlert) {
+                    Button(String.cancelButton.localized, role: .cancel) { }
+                    Button(String.deleteButton.localized, role: .destructive) {
                 deleteQuest()
-            }
-        } message: {
-            Text("Are you sure you want to delete this quest? This action cannot be undone.")
-        }
+                    }
+                        } message: {
+                    Text(String.deleteQuestWarning.localized)
+                        }
         .alert("Error", isPresented: .constant(viewModel.alertMessage != nil)) {
-            Button("OK") { viewModel.alertMessage = nil }
+            Button(String.okButton.localized) { viewModel.alertMessage = nil }
         } message: {
             if let alertMessage = viewModel.alertMessage {
                 Text(alertMessage)

@@ -178,8 +178,8 @@ class BattleLogic {
         // For now, returning a placeholder
         return BattleItem(
             id: UUID(),
-            name: "Focus Crystal",
-            description: "A crystal that enhances your focus abilities",
+            name: String.focusCrystal.localized,
+            description: String.focusCrystalDescription.localized,
             iconName: "focus_crystal",
             rarity: .common
         )
@@ -190,8 +190,8 @@ class BattleLogic {
         if session.completedPomodoros >= 8 {
             return AchievementDefinition(
                 id: "focus_master",
-                title: "Focus Master",
-                description: "Complete 8 pomodoros in a single battle",
+                title: String.focusMaster.localized,
+                description: String.focusMasterDescription.localized,
                 iconName: "trophy.fill",
                 category: .special,
                 requirement: .questCount(8),
@@ -202,8 +202,8 @@ class BattleLogic {
         if session.enemyType == .flyingDragon && session.isVictory {
             return AchievementDefinition(
                 id: "dragon_slayer",
-                title: "Dragon Slayer",
-                description: "Defeat the Flying Dragon",
+                title: String.dragonSlayer.localized,
+                description: String.dragonSlayerDescription.localized,
                 iconName: "flame.fill",
                 category: .special,
                 requirement: .questCount(1),

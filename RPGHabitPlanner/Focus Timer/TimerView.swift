@@ -607,7 +607,7 @@ struct TimerView: View {
                             .font(.system(size: 40))
                             .foregroundColor(theme.textColor.opacity(0.5))
                         
-                        Text("Select Monster")
+                        Text(String.selectMonster.localized)
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
@@ -621,19 +621,19 @@ struct TimerView: View {
                         .font(.appFont(size: 16, weight: .bold))
                         .foregroundColor(theme.textColor)
                     
-                    Text("Level \(battleSession.enemy.level)")
+                    Text("\(String.level.localized) \(battleSession.enemy.level)")
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     
-                    Text("\(battleSession.enemy.currentHealth)/\(battleSession.enemy.maxHealth) HP")
+                    Text("\(battleSession.enemy.currentHealth)/\(battleSession.enemy.maxHealth) \(String.healthPoints.localized)")
                         .font(.appFont(size: 12, weight: .bold))
                         .foregroundColor(.red)
                 } else {
-                    Text("No Monster Selected")
+                    Text(String.noMonsterSelected.localized)
                         .font(.appFont(size: 16, weight: .bold))
                         .foregroundColor(theme.textColor.opacity(0.5))
                     
-                    Text("Choose your enemy")
+                    Text(String.chooseYourEnemy.localized)
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.5))
                 }
@@ -715,7 +715,7 @@ struct TimerView: View {
             .frame(height: 20)
             
             if viewModel.session.isInBattle, let battleSession = viewModel.session.battleSession {
-                Text("Pomodoros: \(battleSession.completedPomodoros)/\(battleSession.targetPomodoros)")
+                Text("\(String.pomodoros.localized): \(battleSession.completedPomodoros)/\(battleSession.targetPomodoros)")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -778,7 +778,7 @@ struct TimerView: View {
         }) {
             HStack {
                 Image(systemName: "person.fill")
-                Text("Select Monster")
+                Text(String.selectMonster.localized)
             }
             .font(.appFont(size: 16, weight: .medium))
             .foregroundColor(theme.textColor)
@@ -821,11 +821,11 @@ struct EnemySelectionView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Choose Your Enemy")
+                            .navigationTitle(String.chooseYourEnemy.localized)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Cancel") {
+                            .navigationBarItems(trailing: Button(String.cancelButton.localized) {
                 dismiss()
-            })
+                            })
         }
     }
 }
@@ -857,7 +857,7 @@ struct EnemyCard: View {
                             .foregroundColor(theme.textColor)
                             .multilineTextAlignment(.center)
                         
-                        Text("Level \(entity.level)")
+                        Text("\(String.level.localized) \(entity.level)")
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
                         
@@ -953,7 +953,7 @@ struct MonsterDefeatedOverlay: View {
                     .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.2), value: showContent)
                 
                 // Title
-                Text("Monster Defeated!")
+                Text(String.monsterDefeated.localized)
                     .font(.appFont(size: 28, weight: .black))
                     .foregroundColor(.white)
                     .opacity(showContent ? 1.0 : 0.0)
@@ -961,7 +961,7 @@ struct MonsterDefeatedOverlay: View {
                     .animation(.easeOut(duration: 0.5).delay(0.4), value: showContent)
                 
                 // Description
-                Text("You have successfully defeated the monster!")
+                Text(String.youHaveSuccessfullyDefeatedMonster.localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(.white.opacity(0.8))
                     .multilineTextAlignment(.center)
@@ -973,7 +973,7 @@ struct MonsterDefeatedOverlay: View {
                 Button(action: {
                     dismissWithAnimation()
                 }) {
-                    Text("Continue")
+                    Text(String.continueButton.localized)
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                         .padding(.horizontal, 40)

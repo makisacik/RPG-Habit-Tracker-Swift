@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  ActiveQuestWidget
+  
+  Created by Mehmet Ali Kısacık on 6.08.2025.
+*/
+
+// MARK: - Focus Timer
+"focus_timer" = "Odak Zamanlayıcısı";
+"remaining" = "kaldı";
+"complete" = "tamamlandı";
+"percent_complete" = "% tamamlandı";
+
+// MARK: - Widget
+"active_quest" = "Aktif Görev";
+"no_active_quests" = "Aktif Görev Yok";
+"all_quests_completed" = "Tüm görevler tamamlandı!";
+"start_your_adventure" = "Maceranı Başlat";
+"create_your_first_quest" = "İlk görevini oluştur";
+"overdue" = "Gecikmiş!";
+"due_today" = "Bugün son tarih";
+"due_tomorrow" = "Yarın son tarih";
+"days_left" = "gün kaldı";
+"untitled_quest" = "Başlıksız Görev";
+"progress" = "İlerleme";
+"widget_description" = "Mevcut görev ilerlemenizi ve son tarihleri takip edin.";

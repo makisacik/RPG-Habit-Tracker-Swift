@@ -24,14 +24,14 @@ struct WelcomeStepView: View {
                         .resizable()
                         .frame(height: 80)
                         .overlay(
-                            Text("RPG Habit Planner")
+                            Text(String.welcomeToRPGHabitPlanner.localized)
                                 .font(.appFont(size: 24, weight: .black))
                                 .foregroundColor(theme.textColor)
                                 .padding(.top, 15)
                         )
                 }
                 
-                Text("Transform Your Habits Into Epic Adventures")
+                Text(String.transformHabitsIntoEpicAdventures.localized)
                     .font(.appFont(size: 28, weight: .bold))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)
@@ -40,16 +40,16 @@ struct WelcomeStepView: View {
             
             // Features list
             VStack(spacing: 16) {
-                FeatureRow(icon: "scroll.fill", title: "Create Epic Quests", description: "Turn daily tasks into heroic missions", theme: theme)
-                FeatureRow(icon: "trophy.fill", title: "Earn Rewards", description: "Level up and unlock achievements", theme: theme)
-                FeatureRow(icon: "chart.line.uptrend.xyaxis", title: "Track Progress", description: "Watch your character grow stronger", theme: theme)
+                FeatureRow(icon: "scroll.fill", title: String.createEpicQuests.localized, description: String.turnDailyTasksIntoHeroicMissions.localized, theme: theme)
+                FeatureRow(icon: "trophy.fill", title: String.earnRewards.localized, description: String.levelUpAndUnlockAchievements.localized, theme: theme)
+                FeatureRow(icon: "chart.line.uptrend.xyaxis", title: String.trackProgress.localized, description: String.watchYourCharacterGrowStronger.localized, theme: theme)
             }
             .padding(.horizontal, 20)
             
             Spacer()
             
             // Welcome message
-            Text("Ready to begin your adventure?")
+            Text(String.readyToBeginAdventure.localized)
                 .font(.appFont(size: 18, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .padding(.bottom, 20)
@@ -67,11 +67,11 @@ struct CharacterClassStepView: View {
         VStack(spacing: 30) {
             // Header
             VStack(spacing: 12) {
-                Text("Choose Your Hero")
+                Text(String.chooseYourHero.localized)
                     .font(.appFont(size: 32, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
-                Text("Select a character class that matches your playstyle")
+                Text(String.selectCharacterClassForPlaystyle.localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
@@ -110,11 +110,11 @@ struct CharacterCustomizationStepView: View {
         VStack(spacing: 30) {
             // Header
             VStack(spacing: 12) {
-                Text("Customize Your Hero")
+                Text(String.customizeYourHero.localized)
                     .font(.appFont(size: 32, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
-                Text("Choose your weapon and see your character come to life")
+                Text(String.chooseWeaponAndSeeCharacterComeToLife.localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
@@ -132,7 +132,7 @@ struct CharacterCustomizationStepView: View {
             
             // Weapon selection
             VStack(spacing: 16) {
-                Text("Select Your Weapon")
+                Text(String.selectYourWeapon.localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
@@ -178,11 +178,11 @@ struct NicknameStepView: View {
         VStack(spacing: 40) {
             // Header
             VStack(spacing: 16) {
-                Text("Name Your Hero")
+                Text(String.nameYourHero.localized)
                     .font(.appFont(size: 32, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
-                Text("Choose a legendary name for your character")
+                Text(String.chooseLegendaryNameForCharacter.localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
@@ -214,7 +214,7 @@ struct NicknameStepView: View {
             
             // Nickname input
             VStack(spacing: 16) {
-                TextField("Enter your hero's name", text: $viewModel.nickname)
+                TextField(String.enterYourHerosName.localized, text: $viewModel.nickname)
                     .font(.appFont(size: 18))
                     .foregroundColor(theme.textColor)
                     .autocorrectionDisabled()
@@ -237,7 +237,7 @@ struct NicknameStepView: View {
                         }
                     }
                 
-                Text("Maximum 20 characters")
+                Text(String.maximum20Characters.localized)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.5))
             }
@@ -279,13 +279,13 @@ struct FinalStepView: View {
             VStack(spacing: 40) {
                 // Header
                 VStack(spacing: 16) {
-                    Text("Ready for Adventure!")
+                    Text(String.readyForAdventure.localized)
                         .font(.appFont(size: 32, weight: .bold))
                         .foregroundColor(theme.textColor)
                         .scaleEffect(showCompletionAnimation ? 1.1 : 1.0)
                         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showCompletionAnimation)
                     
-                    Text("Your hero is ready to begin their journey")
+                    Text(String.yourHeroIsReadyToBeginJourney.localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
                         .multilineTextAlignment(.center)
@@ -351,7 +351,7 @@ struct FinalStepView: View {
             
             // Adventure summary
             VStack(spacing: 16) {
-                Text("Your Adventure Awaits")
+                Text(String.yourAdventureAwaits.localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                     .opacity(showCompletionAnimation ? 1.0 : 0.8)
@@ -521,7 +521,7 @@ struct CharacterPreviewCard: View {
             
             HStack(spacing: 20) {
                 VStack(spacing: 4) {
-                    Text("Class")
+                    Text(String.classLabel.localized)
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     
@@ -531,7 +531,7 @@ struct CharacterPreviewCard: View {
                 }
                 
                 VStack(spacing: 4) {
-                    Text("Weapon")
+                    Text(String.weaponLabel.localized)
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     

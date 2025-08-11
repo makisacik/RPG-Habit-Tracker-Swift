@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  ActiveQuestWidget
+  
+  Created by Mehmet Ali Kısacık on 6.08.2025.
+*/
+
+// MARK: - Focus Timer
+"focus_timer" = "Focus Timer";
+"remaining" = "remaining";
+"complete" = "complete";
+"percent_complete" = "% complete";
+
+// MARK: - Widget
+"active_quest" = "Active Quest";
+"no_active_quests" = "No Active Quests";
+"all_quests_completed" = "All quests completed!";
+"start_your_adventure" = "Start Your Adventure";
+"create_your_first_quest" = "Create your first quest";
+"overdue" = "Overdue!";
+"due_today" = "Due today";
+"due_tomorrow" = "Due tomorrow";
+"days_left" = "days left";
+"untitled_quest" = "Untitled Quest";
+"progress" = "Progress";
+"widget_description" = "Track your current quest progress and due dates.";

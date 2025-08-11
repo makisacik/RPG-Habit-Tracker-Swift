@@ -21,9 +21,9 @@ struct SettingsView: View {
                 // Light/Dark toggle
                 Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Dark Mode")
+                        Text(String.darkMode.localized)
                             .font(.headline)
-                        Text("Switch between light and dark themes")
+                                                  Text(String.switchBetweenLightAndDarkThemes.localized)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -40,9 +40,9 @@ struct SettingsView: View {
                     isDark = (systemScheme == .dark)
                 } label: {
                     HStack {
-                        Label("Use System Appearance", systemImage: "circle.lefthalf.filled")
+                        Label(String.useSystemAppearance.localized, systemImage: "circle.lefthalf.filled")
                         Spacer()
-                        Text(themeManager.currentTheme == .system ? "On" : "Off")
+                                                  Text(themeManager.currentTheme == .system ? String.onLabel.localized : String.offLabel.localized)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -68,12 +68,12 @@ struct SettingsView: View {
                 }
 
 
-                NavigationLink("Notifications") { Text("Notifications settings") }
-                NavigationLink("Data & Storage") { Text("Data & Storage settings") }
+                NavigationLink(String.notifications.localized) { Text(String.notificationsSettings.localized) }
+                NavigationLink(String.dataAndStorage.localized) { Text(String.dataAndStorageSettings.localized) }
             }
 
             Section("About") {
-                NavigationLink("About App") { Text("Version 1.0 • © You") }
+                NavigationLink(String.aboutApp.localized) { Text(String.versionInfo.localized) }
             }
         }
         .navigationTitle(String.settings.localized)

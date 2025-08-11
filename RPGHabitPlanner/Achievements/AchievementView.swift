@@ -39,7 +39,7 @@ struct AchievementView: View {
             }
             .padding(.top)
         }
-        .navigationTitle("Achievements")
+                        .navigationTitle(String.achievements.localized)
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -117,7 +117,7 @@ struct AchievementCardView: View {
                     .lineLimit(3)
                 
                 if isUnlocked {
-                    Text("Unlocked!")
+                    Text(String.unlocked.localized)
                         .font(.appFont(size: 10, weight: .black))
                         .foregroundColor(.green)
                         .padding(.horizontal, 8)
@@ -127,7 +127,7 @@ struct AchievementCardView: View {
                                 .fill(Color.green.opacity(0.2))
                         )
                 } else {
-                    Text("Locked")
+                    Text(String.locked.localized)
                         .font(.appFont(size: 10, weight: .black))
                         .foregroundColor(.gray)
                         .padding(.horizontal, 8)

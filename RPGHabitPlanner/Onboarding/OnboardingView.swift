@@ -106,7 +106,7 @@ struct NavigationButtonsView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .medium))
-                        Text("Back")
+                        Text(String.backButton.localized)
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.textColor)
@@ -130,7 +130,7 @@ struct NavigationButtonsView: View {
                 }
             }) {
                 HStack(spacing: 8) {
-                    Text(viewModel.currentStep == .final ? "Start Adventure!" : "Next")
+                    Text(viewModel.currentStep == .final ? String.startAdventure.localized : String.nextButton.localized)
                         .font(.appFont(size: 16, weight: .bold))
                     
                     if viewModel.currentStep != .final {

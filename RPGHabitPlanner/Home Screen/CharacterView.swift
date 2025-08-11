@@ -65,11 +65,11 @@ struct CharacterView: View {
                             Image("minimap_icon_star_yellow")
                                 .resizable()
                                 .frame(width: 18, height: 18)
-                            Text("Level \(user.level)")
+                            Text("\(String.level.localized) \(user.level)")
                                 .font(.appFont(size: 18))
                                 .foregroundColor(theme.textColor)
                             Spacer()
-                            Text("EXP: \(user.exp)/100")
+                            Text("\(String.exp.localized): \(user.exp)/100")
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor)
                         }
@@ -120,7 +120,7 @@ struct CharacterView: View {
                     
                     if let weapon = Weapon(rawValue: user.weapon ?? "") {
                         VStack(spacing: 6) {
-                            Text("Equipped Weapon")
+                            Text(String.equippedWeapon.localized)
                                 .font(.appFont(size: 16, weight: .black))
                                 .foregroundColor(theme.textColor)
                             
@@ -147,7 +147,7 @@ struct CharacterView: View {
                 }
             }
         }
-        .navigationTitle("Character")
+                        .navigationTitle(String.character.localized)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

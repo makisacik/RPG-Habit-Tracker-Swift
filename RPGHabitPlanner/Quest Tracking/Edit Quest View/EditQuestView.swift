@@ -46,12 +46,12 @@ struct EditQuestView: View {
                     .padding(.bottom, 40)
                 }
             }
-            .navigationTitle("Edit Quest")
+                            .navigationTitle(String.editQuest.localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(String.cancelButton.localized) {
                         onCancel?()
                         dismiss()
                     }
@@ -59,7 +59,7 @@ struct EditQuestView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button("Delete Quest", role: .destructive) {
+                        Button(String.deleteQuest.localized, role: .destructive) {
                             showDeleteConfirmation = true
                         }
                     } label: {
@@ -75,19 +75,19 @@ struct EditQuestView: View {
                     isPresented: $isTaskPopupVisible
                 )
             }
-            .alert("Delete Quest", isPresented: $showDeleteConfirmation) {
-                Button("Cancel", role: .cancel) { }
-                Button("Delete", role: .destructive) {
+                            .alert(String.deleteQuestConfirmation.localized, isPresented: $showDeleteConfirmation) {
+                    Button(String.cancelButton.localized, role: .cancel) { }
+                    Button(String.deleteButton.localized, role: .destructive) {
                     deleteQuest() // 🔧 implement
-                }
-            } message: {
-                Text("Are you sure you want to delete this quest? This action cannot be undone.")
-            }
+                    }
+                            } message: {
+                    Text(String.deleteQuestWarning.localized)
+                            }
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle),
                     message: Text(alertMessage),
-                    dismissButton: .default(Text("OK"))
+                    dismissButton: .default(Text(String.okButton.localized))
                 )
             }
             .onChange(of: viewModel.didUpdateQuest) { updated in

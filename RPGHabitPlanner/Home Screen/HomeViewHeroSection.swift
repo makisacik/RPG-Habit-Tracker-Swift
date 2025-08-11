@@ -43,7 +43,7 @@ extension HomeView {
                         }
                         
                         HStack {
-                            Text("Level \(user.level)")
+                            Text("\(String.level.localized) \(user.level)")
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
                             
@@ -87,7 +87,7 @@ extension HomeView {
                 HStack {
                     ProgressView()
                         .scaleEffect(1.2)
-                    Text("Loading character...")
+                    Text(String.loadingCharacter.localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
                 }

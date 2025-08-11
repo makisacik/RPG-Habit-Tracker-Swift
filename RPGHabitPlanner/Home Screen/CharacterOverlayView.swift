@@ -25,18 +25,18 @@ struct CharacterOverlayView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
-                    Text(user.nickname ?? "Adventurer")
+                    Text(user.nickname ?? String.adventurer.localized)
                         .font(.appFont(size: 18, weight: .blackItalic))
                         .foregroundColor(theme.textColor)
 
                     Spacer()
 
-                    Text("Level \(user.level)")
+                    Text("\(String.level.localized) \(user.level)")
                         .font(.appFont(size: 14, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
 
-                Text(user.characterClass?.capitalized ?? "Unknown")
+                Text(user.characterClass?.capitalized ?? String.unknown.localized)
                     .font(.appFont(size: 14, weight: .regular))
                     .foregroundColor(theme.textColor)
 

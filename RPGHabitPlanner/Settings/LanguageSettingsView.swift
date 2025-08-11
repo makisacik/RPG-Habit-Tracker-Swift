@@ -26,7 +26,7 @@ struct LanguageSettingsView: View {
                             .font(.appFont(size: 24, weight: .black))
                             .foregroundColor(theme.textColor)
                         
-                        Text("Choose your preferred language")
+                        Text(String.chooseYourPreferredLanguage.localized)
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
@@ -51,12 +51,12 @@ struct LanguageSettingsView: View {
                     
                     // Info Text
                     VStack(spacing: 8) {
-                        Text("Language changes will take effect immediately")
+                        Text(String.languageChangesWillTakeEffectImmediately.localized)
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.6))
                             .multilineTextAlignment(.center)
                         
-                        Text("Some system elements may remain in the previous language until the app is restarted")
+                        Text(String.someSystemElementsMayRemainInPreviousLanguage.localized)
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.5))
                             .multilineTextAlignment(.center)

@@ -26,14 +26,14 @@ struct CharacterCreationView: View {
                         .resizable()
                         .frame(height: 60)
                         .overlay(
-                            Text("Create Your Character")
+                            Text(String.createYourCharacter.localized)
                                 .font(.appFont(size: 18, weight: .black))
                                 .foregroundColor(theme.textColor)
                                 .padding(.top, 10)
                         )
 
                     VStack(spacing: 8) {
-                        Text("Choose Your Class!")
+                        Text(String.chooseYourClass.localized)
                             .font(.appFont(size: 18))
 
                         ClassSelectionView(viewModel: viewModel)
@@ -44,7 +44,7 @@ struct CharacterCreationView: View {
                             showNicknamePopup = true
                         }
                     }) {
-                        Text("Confirm Selection")
+                        Text(String.confirmSelection.localized)
                             .font(.appFont(size: 18))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal)

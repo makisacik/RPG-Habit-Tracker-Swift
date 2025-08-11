@@ -62,7 +62,7 @@ struct QuestCardView: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) Tasks")
+                            Text("\(tasks.count) \(String.tasks.localized)")
                                 .font(.appFont(size: 14, weight: .regular))
                                 .foregroundColor(theme.textColor)
                             Spacer()
@@ -124,7 +124,7 @@ struct QuestCardView: View {
             }
 
             Menu {
-                Button("Mark as Finished") {
+                Button(String.markAsFinished.localized) {
                     onMarkComplete(quest.id)
                 }
             } label: {

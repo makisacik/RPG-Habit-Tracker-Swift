@@ -23,11 +23,11 @@ struct NicknamePopupView: View {
                 .frame(width: 155)
 
             VStack(spacing: 16) {
-                Text("Enter Your Nickname")
+                Text(String.enterYourNickname.localized)
                     .font(.appFont(size: 18, weight: .black))
                     .foregroundColor(theme.textColor)
 
-                TextField("Nickname", text: $nickname)
+                TextField(String.nickname.localized, text: $nickname)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
                     .font(.appFont(size: 18))
@@ -39,7 +39,7 @@ struct NicknamePopupView: View {
                     )
 
                 Button(action: { onConfirm() }) {
-                    Text("OK")
+                    Text(String.okButton.localized)
                         .font(.appFont(size: 18))
                         .foregroundColor(theme.textColor)
                         .padding(.horizontal)
