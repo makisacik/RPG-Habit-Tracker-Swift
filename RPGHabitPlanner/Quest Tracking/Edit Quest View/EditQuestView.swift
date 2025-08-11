@@ -12,10 +12,10 @@ struct EditQuestView: View {
     @State private var isTaskPopupVisible = false
     @State private var showDeleteConfirmation = false
 
-    /// Called when a save/delete succeeds (used by parent to refresh)
     var onSaveSuccess: (() -> Void)?
     var onCancel: (() -> Void)?
-
+    var onDeleteSuccess: (() -> Void)?
+    
     private var theme: Theme { themeManager.activeTheme }
 
     var body: some View {
@@ -90,7 +90,6 @@ struct EditQuestView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
-            // Optional: if your VM toggles this flag internally after update
             .onChange(of: viewModel.didUpdateQuest) { updated in
                 if updated {
                     onSaveSuccess?()
@@ -125,7 +124,7 @@ struct EditQuestView: View {
         // 🔧 Implement delete through your VM/data service
         viewModel.deleteQuest { success in
             if success {
-                onSaveSuccess?()   // tell parent to refresh
+                onDeleteSuccess?()  // tell parent to refresh
                 dismiss()
             } else {
                 showAlert(title: "Error", message: viewModel.errorMessage ?? "Failed to delete quest.")

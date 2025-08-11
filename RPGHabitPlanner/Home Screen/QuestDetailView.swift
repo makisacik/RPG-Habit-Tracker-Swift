@@ -96,17 +96,25 @@ struct QuestDetailView: View {
                 }
             }
         }
-        // Present editor; on save, refresh global + local
-        .sheet(item: $editingQuest, onDismiss: refreshCurrentQuestFromStore) { questToEdit in
+        
+        .sheet(item: $editingQuest) { questToEdit in
             EditQuestView(
                 viewModel: EditQuestViewModel(
                     quest: questToEdit,
                     questDataService: viewModel.questDataService
-                )
-            ) {
+                ),
+                onSaveSuccess: {
                     viewModel.fetchQuests()
                     refreshCurrentQuestFromStore()
-            }
+                },
+                onDeleteSuccess: {
+                    viewModel.fetchQuests()
+                    editingQuest = nil
+                    DispatchQueue.main.async {
+                        dismiss()
+                    }
+                }
+            )
             .environmentObject(themeManager)
         }
         .alert("Delete Quest", isPresented: $showingDeleteAlert) {
@@ -117,7 +125,6 @@ struct QuestDetailView: View {
         } message: {
             Text("Are you sure you want to delete this quest? This action cannot be undone.")
         }
-        // If the backing store changes (e.g., from calendar list), keep detail in sync
         .onReceive(viewModel.$allQuests) { _ in
             refreshCurrentQuestFromStore()
         }
