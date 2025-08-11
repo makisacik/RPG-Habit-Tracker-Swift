@@ -81,6 +81,7 @@ struct QuestCreationView: View {
                             } else {
                                 HStack {
                                     Spacer()
+                                    Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(theme.textColor)
                                     Text("Save Quest")
                                         .font(.appFont(size: 16, weight: .black))
                                         .foregroundColor(theme.textColor)

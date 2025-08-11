@@ -188,16 +188,27 @@ struct CalendarView: View {
             
             Button(action: { showingQuestCreation = true }) {
                 HStack {
-                    Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(.white)
-                    Text("Add Quest").font(.appFont(size: 16, weight: .medium)).foregroundColor(.white)
+                    Spacer()
+                    Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(theme.textColor)
+                    Text("Add Quest")
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(theme.textColor)
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.primaryColor)
-                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                    Image(theme.buttonPrimary)
+                        .resizable(
+                            capInsets: EdgeInsets(
+                                top: 20,
+                                leading: 20,
+                                bottom: 20,
+                                trailing: 20
+                            ),
+                            resizingMode: .stretch
+                        )
                 )
+                .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
             }
             .buttonStyle(PlainButtonStyle())
             
@@ -243,7 +254,7 @@ struct CalendarDayView: View {
             VStack(spacing: 2) {
                 Text("\(calendar.component(.day, from: date))")
                     .font(.appFont(size: 16, weight: isSelected ? .bold : .medium))
-                    .foregroundColor(isSelected ? .white : theme.textColor)
+                    .foregroundColor(selectionTextColor)
                 if !items.isEmpty {
                     HStack(spacing: 3) {
                         ForEach(items.prefix(3)) { item in
@@ -258,10 +269,38 @@ struct CalendarDayView: View {
             .frame(width: 40, height: 40)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(isSelected ? theme.primaryColor : Color.clear)
+                    .fill(selectionBackgroundColor)
             )
         }
         .buttonStyle(PlainButtonStyle())
+    }
+
+    private var selectionTextColor: Color {
+        if isSelected {
+            // For light theme, keep text black when selected
+            if theme.backgroundColor == Color(hex: "#F8F7FF") {
+                return theme.textColor
+            } else {
+                // Dark theme - keep white text
+                return .white
+            }
+        } else {
+            return theme.textColor
+        }
+    }
+
+    private var selectionBackgroundColor: Color {
+        if isSelected {
+            // For light theme, use a subtle border/background
+            if theme.backgroundColor == Color(hex: "#F8F7FF") {
+                return Color(hex: "#E5E7EB").opacity(0.8) // Light gray background
+            } else {
+                // Dark theme - keep original primary color
+                return theme.primaryColor
+            }
+        } else {
+            return Color.clear
+        }
     }
     
     private func dotColor(for item: DayQuestItem) -> Color {
