@@ -359,14 +359,14 @@ struct QuestCalendarRow: View {
                     }
                     .padding(.trailing, 28)
                 }
-                .padding(10)
+                .padding(12)
                 
                 // Tasks section
                 let tasks = item.quest.tasks
                 if !tasks.isEmpty {
                     Divider()
                         .background(theme.textColor.opacity(0.2))
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 12)
                     
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -383,8 +383,9 @@ struct QuestCalendarRow: View {
                                 .imageScale(.small)
                                 .font(.caption)
                         }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
 
@@ -410,19 +411,22 @@ struct QuestCalendarRow: View {
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 2)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 4)
                             }
                         }
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 12)
                         .transition(.opacity.combined(with: .slide))
                     }
                 }
             }
             .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(theme.primaryColor.opacity(0.3))
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.primaryColor)
+                    .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             )
+            .padding(.horizontal, 4)
+            .padding(.vertical, 2)
 
             Menu {
                 Button("Mark as Finished") {
@@ -430,7 +434,7 @@ struct QuestCalendarRow: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
-                    .padding(6)
+                    .padding(8)
                     .foregroundColor(theme.textColor)
             }
         }
