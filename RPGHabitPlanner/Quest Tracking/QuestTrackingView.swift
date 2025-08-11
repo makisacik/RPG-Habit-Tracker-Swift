@@ -14,7 +14,7 @@ struct QuestTrackingView: View {
     @State private var showAlert: Bool = false
     @State private var showSuccessAnimation: Bool = false
     @State private var lastScrollPosition: UUID?
-    @State private var selectedQuestForEditing: Quest?
+    @State private var selectedQuestForDetail: Quest?
     @State private var showReward = false
     @State private var showLevelUp = false
     @State private var levelUpLevel: Int = 0
@@ -66,8 +66,15 @@ struct QuestTrackingView: View {
                 dismissButton: .default(Text("OK").font(.appFont(size: 14, weight: .black))) { viewModel.errorMessage = nil }
             )
         }
-        .sheet(item: $selectedQuestForEditing) { quest in
-            editQuestSheet(quest)
+        .sheet(item: $selectedQuestForDetail) { quest in
+            NavigationStack {
+                QuestDetailView(
+                    viewModel: CalendarViewModel(questDataService: viewModel.questDataService),
+                    quest: quest,
+                    date: Date()
+                )
+                .environmentObject(themeManager)
+            }
         }
         .onAppear {
             viewModel.fetchQuests()
@@ -116,7 +123,7 @@ struct QuestTrackingView: View {
                     showReward = true
                 }
             },
-            onEditQuest: { selectedQuestForEditing = $0 },
+            onEditQuest: { _ in }, // No longer used but keeping for compatibility
             onUpdateProgress: { id, change in
                 viewModel.updateQuestProgress(id: id, by: change)
             },
@@ -126,23 +133,9 @@ struct QuestTrackingView: View {
                     taskId: taskId,
                     newValue: isCompleted
                 )
-            }
-        )
-    }
-
-    private func editQuestSheet(_ quest: Quest) -> some View {
-        EditQuestView(
-            viewModel: EditQuestViewModel(
-                quest: quest,
-                questDataService: viewModel.questDataService
-            ),
-            onSaveSuccess: {
-                viewModel.fetchQuests()
-                selectedQuestForEditing = nil
-                showSuccessAnimation = true
             },
-            onCancel: {
-                selectedQuestForEditing = nil
+            onQuestTap: { quest in
+                selectedQuestForDetail = quest
             }
         )
     }

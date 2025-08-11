@@ -16,6 +16,7 @@ struct QuestCardView: View {
     let onEditQuest: (Quest) -> Void
     let onUpdateProgress: (UUID, Int) -> Void
     let onToggleTaskCompletion: (UUID, Bool) -> Void
+    let onQuestTap: (Quest) -> Void
     
 
     var body: some View {
@@ -120,13 +121,14 @@ struct QuestCardView: View {
             .cornerRadius(10)
             .shadow(radius: 3)
             .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                onQuestTap(quest)
+            }
 
             Menu {
                 Button("Mark as Finished") {
                     onMarkComplete(quest.id)
-                }
-                Button("Edit Quest") {
-                    onEditQuest(quest)
                 }
             } label: {
                 Image(systemName: "ellipsis")
