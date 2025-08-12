@@ -42,8 +42,13 @@ class BackgroundTimerManager: ObservableObject {
     }
     
     func setupBackgroundTasks() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskIdentifier, using: nil) { task in
-            self.handleBackgroundTask(task as! BGAppRefreshTask)
+        do {
+            BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskIdentifier, using: nil) { task in
+                self.handleBackgroundTask(task as! BGAppRefreshTask)
+            }
+            print("✅ Background task scheduler configured successfully")
+        } catch {
+            print("❌ Failed to configure background task scheduler: \(error)")
         }
     }
     
@@ -163,23 +168,28 @@ class BackgroundTimerManager: ObservableObject {
     }
     
     private func handleBackgroundTask(_ task: BGAppRefreshTask) {
-        // Schedule next background task
-        scheduleBackgroundTask()
-        
+        print("🔄 Background task started")
         // Check if timer is still running
         if isTimerRunning {
             updateTimer()
+            print("✅ Background task completed successfully")
+        } else {
+            print("⚠️ Timer not running, ending background task")
         }
         
         task.setTaskCompleted(success: true)
     }
     
     private func scheduleBackgroundTask() {
+        // Only schedule if the app is in background and timer is running
+        guard UIApplication.shared.applicationState == .background && isTimerRunning else {
+            return
+        }
         let request = BGAppRefreshTaskRequest(identifier: backgroundTaskIdentifier)
         request.earliestBeginDate = Date(timeIntervalSinceNow: 30) // 30 seconds from now
-        
         do {
             try BGTaskScheduler.shared.submit(request)
+            print("✅ Background task scheduled successfully")
         } catch {
             print("❌ Could not schedule background task: \(error)")
         }
@@ -277,8 +287,10 @@ class BackgroundTimerManager: ObservableObject {
     // MARK: - App State Handling
     
     func handleAppDidEnterBackground() {
+        print("📱 App entered background")
         if isTimerRunning {
-            scheduleBackgroundTask()
+            // Don't schedule background task immediately - let the system handle it
+            print("⏱️ Timer is running, keeping background task active")
         } else {
             // Ensure background task is ended if timer is not running
             endBackgroundTask()
@@ -286,6 +298,7 @@ class BackgroundTimerManager: ObservableObject {
     }
     
     func handleAppWillEnterForeground() {
+        print("📱 App entering foreground")
         // Refresh timer state if needed
         if isTimerRunning {
             updateTimer()
