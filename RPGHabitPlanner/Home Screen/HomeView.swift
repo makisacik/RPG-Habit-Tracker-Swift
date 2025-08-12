@@ -126,10 +126,9 @@ struct HomeView: View {
                                     viewModel: QuestCreationViewModel(questDataService: questDataService)
                                 )
                             ) {
-                                Image(theme.paperSimple)
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                                    .colorMultiply(Color(red: 0.92, green: 0.80, blue: 0.55))
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.title2)
+                                    .foregroundColor(theme.textColor)
                             }
                         }
                     }
