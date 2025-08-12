@@ -384,7 +384,6 @@ struct QuestDetailActionButtonsSection: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            // Toggle Completion Button
             Button(action: onToggleCompletion) {
                 HStack {
                     Image(systemName: isCompleted ? "xmark.circle.fill" : "checkmark.circle.fill")
@@ -402,7 +401,6 @@ struct QuestDetailActionButtonsSection: View {
             }
             .buttonStyle(PlainButtonStyle())
             
-            // Mark as Finished Button
             if !quest.isFinished {
                 Button(action: onMarkAsFinished) {
                     HStack {

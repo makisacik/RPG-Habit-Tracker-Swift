@@ -58,10 +58,12 @@ class BackgroundTimerManager: ObservableObject {
         startTime = Date()
         isTimerRunning = true
         
-        // Start local timer
+        // Start local timer with high precision
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.updateTimer()
         }
+        // Ensure timer runs on the main run loop for better accuracy
+        RunLoop.main.add(timer!, forMode: .common)
         
         // Start background task
         startBackgroundTask()
@@ -100,7 +102,10 @@ class BackgroundTimerManager: ObservableObject {
         guard let startTime = startTime else { return }
         
         let elapsed = Date().timeIntervalSince(startTime)
-        timeRemaining = max(0, totalDuration - elapsed)
+        let newTimeRemaining = max(0, totalDuration - elapsed)
+        
+        // Always update the time remaining to ensure consistent 1-second decrements
+        timeRemaining = newTimeRemaining
         
         // Update Live Activity
         updateLiveActivity()
@@ -135,8 +140,9 @@ class BackgroundTimerManager: ObservableObject {
             self?.endBackgroundTask()
         }
         
-        // Set a timer to end the background task after 25 seconds to avoid the 30-second warning
-        backgroundTaskTimer = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [weak self] _ in
+        // Set a timer to end the background task after 28 seconds to avoid the 30-second warning
+        // but give more time for the timer to continue running
+        backgroundTaskTimer = Timer.scheduledTimer(withTimeInterval: 28.0, repeats: false) { [weak self] _ in
             print("⏰ Background task timeout reached, ending task")
             self?.endBackgroundTask()
         }

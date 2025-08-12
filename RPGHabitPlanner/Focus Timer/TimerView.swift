@@ -86,16 +86,14 @@ class FocusTimerViewModel: ObservableObject {
         // Start background timer
         backgroundTimerManager.startTimer(duration: session.timeRemaining, phase: currentPhase)
         
-        // Start local timer for UI updates
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.updateTimer()
-        }
-        
-        // Listen for background timer updates
+        // Listen for background timer updates - this is the single source of truth
         backgroundTimerManager.$timeRemaining
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] timeRemaining in
                 self?.session.timeRemaining = timeRemaining
                 self?.updateDisplay()
+                // Apply automatic damage every minute based on background timer
+                self?.applyAutomaticDamage()
             }
             .store(in: &cancellables)
     }
@@ -281,23 +279,14 @@ class FocusTimerViewModel: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
+            // Ensure timer is stopped
+            self.isRunning = false
+            
             // Complete the current phase
             self.completePhase()
         }
     }
     
-    private func updateTimer() {
-        guard session.timeRemaining > 0 else {
-            completePhase()
-            return
-        }
-        
-        session.timeRemaining -= 1
-        updateDisplay()
-        
-        // Apply automatic damage every minute
-        applyAutomaticDamage()
-    }
     
     private func applyAutomaticDamage() {
         guard let battleSession = session.battleSession,
