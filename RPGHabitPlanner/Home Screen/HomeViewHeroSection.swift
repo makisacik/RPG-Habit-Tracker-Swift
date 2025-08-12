@@ -32,10 +32,14 @@ extension HomeView {
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(user.nickname ?? "Adventurer")
-                            .font(.appFont(size: 24, weight: .black))
-                            .foregroundColor(theme.textColor)
-                        
+                        HStack {
+                            Text(user.nickname ?? "Adventurer")
+                                .font(.appFont(size: 24, weight: .black))
+                                .foregroundColor(theme.textColor)
+                            Spacer()
+                            PremiumBadgeView()
+                        }
+
                         if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
                             Text(characterClass.displayName)
                                 .font(.appFont(size: 16))

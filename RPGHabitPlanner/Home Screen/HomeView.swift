@@ -4,6 +4,7 @@ import WidgetKit
 struct HomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var localizationManager: LocalizationManager
+    @EnvironmentObject var premiumManager: PremiumManager
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel: HomeViewModel
     @State private var isCharacterDetailsPresented = false
@@ -12,6 +13,9 @@ struct HomeView: View {
     @StateObject private var damageHandler = DamageHandler()
     @State var selectedTab: HomeTab = .home
     @State private var goToSettings = false
+    @State private var showPaywall = false
+    @State private var shouldNavigateToQuestCreation = false
+    @State private var currentQuestCount = 0
 
     let questDataService: QuestDataServiceProtocol
 
@@ -90,7 +94,11 @@ struct HomeView: View {
                     themeManager.applyTheme(using: colorScheme)
                     viewModel.fetchUserData()
                     viewModel.fetchDashboardData()
+                    fetchCurrentQuestCount()
                     WidgetCenter.shared.reloadAllTimelines()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .questCreated)) { _ in
+                    fetchCurrentQuestCount()
                 }
                 // keep theme in sync with system changes
                 .onChange(of: colorScheme) { newScheme in
@@ -99,6 +107,15 @@ struct HomeView: View {
                 // re-apply when user switches between .light/.dark/.system
                 .onChange(of: themeManager.currentTheme) { _ in
                     themeManager.applyTheme(using: colorScheme)
+                }
+                .onChange(of: premiumManager.isPremium) { isPremium in
+                    if isPremium {
+                        showPaywall = false
+                    }
+                }
+                .sheet(isPresented: $showPaywall) {
+                    PaywallView()
+                        .environmentObject(premiumManager)
                 }
             }
             .tabItem { Label(String.home.localized, systemImage: "house.fill") }
@@ -120,12 +137,15 @@ struct HomeView: View {
                     .navigationTitle(String.questJournal.localized)
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            if !premiumManager.isPremium {
+                                QuestLimitIndicatorView(currentQuestCount: currentQuestCount)
+                            }
+                        }
                         ToolbarItem(placement: .topBarTrailing) {
-                            NavigationLink(
-                                destination: QuestCreationView(
-                                    viewModel: QuestCreationViewModel(questDataService: questDataService)
-                                )
-                            ) {
+                            Button(action: {
+                                handleCreateQuestTap()
+                            }) {
                                 Image(systemName: "plus.circle.fill")
                                     .font(.title2)
                                     .foregroundColor(theme.textColor)
@@ -175,6 +195,22 @@ struct HomeView: View {
                     .navigationTitle(String.achievements.localized)
                     .navigationBarTitleDisplayMode(.inline)
             }
+        }
+    }
+    
+    private func fetchCurrentQuestCount() {
+        questDataService.fetchAllQuests { quests, _ in
+            DispatchQueue.main.async {
+                self.currentQuestCount = quests.count
+            }
+        }
+    }
+    
+    private func handleCreateQuestTap() {
+        if premiumManager.canCreateQuest(currentQuestCount: currentQuestCount) {
+            shouldNavigateToQuestCreation = true
+        } else {
+            showPaywall = true
         }
     }
 }

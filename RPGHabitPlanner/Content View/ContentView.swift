@@ -38,6 +38,7 @@ struct ContentView: View {
                     ))
                     .environmentObject(themeManager)
                     .environmentObject(localizationManager)
+                    .environmentObject(PremiumManager.shared)
             } else {
                 OnboardingView(isOnboardingCompleted: $isCharacterCreated)
                     .transition(.asymmetric(

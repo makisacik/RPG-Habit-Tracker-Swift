@@ -54,6 +54,7 @@ final class QuestCreationViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.errorMessage)
     }
 
+    @MainActor
     func testSaveQuest_whenSaveSucceeds_didSaveQuestIsTrue() {
         mockQuestDataService.mockError = nil
 
@@ -77,6 +78,7 @@ final class QuestCreationViewModelTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
 
+    @MainActor
     func testSaveQuest_whenSaveFails_didSaveQuestIsFalse_andErrorMessageIsSet() {
         let error = NSError(domain: "MockQuestDataService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to save quest."])
         mockQuestDataService.mockError = error

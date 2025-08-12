@@ -2,6 +2,7 @@ import SwiftUI
 
 struct QuestCreationView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var premiumManager: PremiumManager
     @ObservedObject var viewModel: QuestCreationViewModel
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
@@ -10,6 +11,7 @@ struct QuestCreationView: View {
     @State private var isTaskPopupVisible = false
     @State private var showSuccessAnimation = false
     @State private var notifyMe = true
+    @State private var showPaywall = false
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -25,6 +27,11 @@ struct QuestCreationView: View {
 
                 ScrollView {
                     VStack(spacing: 20) {
+                        // Premium indicator and quest limit
+                        if !premiumManager.isPremium {
+                            QuestLimitIndicatorView(currentQuestCount: viewModel.currentQuestCount)
+                        }
+                        
                         QuestInputField(title: String.questTitle.localized, text: $viewModel.questTitle, icon: "pencil.circle.fill")
                         QuestInputField(title: String.questDescription.localized, text: $viewModel.questDescription, icon: "doc.text.fill")
 
@@ -160,6 +167,26 @@ struct QuestCreationView: View {
                     viewModel.resetInputs()
                     viewModel.didSaveQuest = false
                 }
+            }
+            .onChange(of: viewModel.shouldShowPaywall) { shouldShow in
+                if shouldShow {
+                    showPaywall = true
+                }
+            }
+            .onChange(of: premiumManager.isPremium) { isPremium in
+                if isPremium {
+                    showPaywall = false
+                }
+            }
+            .onAppear {
+                // Check if user should see paywall when view appears
+                if !premiumManager.isPremium && viewModel.currentQuestCount >= PremiumManager.freeQuestLimit {
+                    showPaywall = true
+                }
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
+                    .environmentObject(premiumManager)
             }
         }
     }

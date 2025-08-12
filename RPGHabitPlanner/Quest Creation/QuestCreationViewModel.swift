@@ -12,6 +12,7 @@ import UserNotifications
 
 final class QuestCreationViewModel: ObservableObject {
     private let questDataService: QuestDataServiceProtocol
+    private let premiumManager = PremiumManager.shared
 
     @Published var didSaveQuest = false
     @Published var errorMessage: String?
@@ -25,9 +26,12 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var tasks: [String] = []
     @Published var notifyMe = true
     @Published var repeatType: QuestRepeatType = .oneTime
+    @Published var currentQuestCount: Int = 0
+    @Published var shouldShowPaywall = false
 
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
+        fetchCurrentQuestCount()
     }
 
     func validateInputs() -> Bool {
@@ -38,8 +42,15 @@ final class QuestCreationViewModel: ObservableObject {
         return true
     }
 
+    @MainActor
     func saveQuest() {
         guard validateInputs() else { return }
+
+        // Check premium status before saving
+        if !premiumManager.canCreateQuest(currentQuestCount: currentQuestCount) {
+            shouldShowPaywall = true
+            return
+        }
 
         isSaving = true
 
@@ -74,6 +85,8 @@ final class QuestCreationViewModel: ObservableObject {
                         NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
                     }
                     self.didSaveQuest = true
+                    // Update quest count
+                    self.fetchCurrentQuestCount()
                     // Notify other views that a new quest was created
                     NotificationCenter.default.post(name: .questCreated, object: newQuest)
                 }
@@ -90,5 +103,21 @@ final class QuestCreationViewModel: ObservableObject {
         isActiveQuest = false
         repeatType = .oneTime
         notifyMe = true
+    }
+
+    // MARK: - Premium Methods
+
+    private func fetchCurrentQuestCount() {
+        questDataService.fetchAllQuests { [weak self] quests, _ in
+            DispatchQueue.main.async {
+                self?.currentQuestCount = quests.count
+                self?.shouldShowPaywall = self?.premiumManager.shouldShowPaywall(currentQuestCount: quests.count) ?? false
+            }
+        }
+    }
+
+    @MainActor
+    func checkPremiumStatus() {
+        shouldShowPaywall = premiumManager.shouldShowPaywall(currentQuestCount: currentQuestCount)
     }
 }

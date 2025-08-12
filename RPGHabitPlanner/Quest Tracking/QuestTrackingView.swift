@@ -10,6 +10,7 @@ import Lottie
 
 struct QuestTrackingView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var premiumManager: PremiumManager
     @StateObject var viewModel: QuestTrackingViewModel
     @State private var showAlert: Bool = false
     @State private var showSuccessAnimation: Bool = false
@@ -18,6 +19,7 @@ struct QuestTrackingView: View {
     @State private var showReward = false
     @State private var showLevelUp = false
     @State private var levelUpLevel: Int = 0
+    @State private var showPaywall = false
 
     var body: some View {
         ZStack {
@@ -90,6 +92,10 @@ struct QuestTrackingView: View {
                 viewModel.refreshRecurringQuests()
             }
         }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView()
+                .environmentObject(premiumManager)
+        }
     }
 
     private var questList: some View {
@@ -139,12 +145,21 @@ struct QuestTrackingView: View {
     }
 
     private var dayPicker: some View {
-        Picker(String.today.localized, selection: $viewModel.selectedDayFilter) {
-            Text(String.activeToday.localized).tag(DayFilter.active)
-            Text(String.inactiveToday.localized).tag(DayFilter.inactive)
+        VStack(spacing: 8) {
+            HStack {
+                Picker(String.today.localized, selection: $viewModel.selectedDayFilter) {
+                    Text(String.activeToday.localized).tag(DayFilter.active)
+                    Text(String.inactiveToday.localized).tag(DayFilter.inactive)
+                }
+                .pickerStyle(.segmented)
+
+                Spacer()
+
+                // Premium indicator
+                PremiumIndicatorView()
+            }
+            .padding(.horizontal)
         }
-        .pickerStyle(.segmented)
-        .padding(.horizontal)
     }
 
     private var questsForSelectedFilter: [Quest] {
