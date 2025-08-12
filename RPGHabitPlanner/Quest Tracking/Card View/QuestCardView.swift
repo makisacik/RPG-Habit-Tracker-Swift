@@ -14,7 +14,7 @@ struct QuestCardView: View {
     let quest: Quest
     let onMarkComplete: (UUID) -> Void
     let onEditQuest: (Quest) -> Void
-    let onUpdateProgress: (UUID, Int) -> Void
+
     let onToggleTaskCompletion: (UUID, Bool) -> Void
     let onQuestTap: (Quest) -> Void
     
@@ -33,26 +33,6 @@ struct QuestCardView: View {
                         .truncationMode(.tail)
                 }
 
-                HStack {
-                    Button(action: { onUpdateProgress(quest.id, -20) }) {
-                        Text("-")
-                            .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(theme.textColor)
-                            .padding(.leading, 4)
-                    }
-
-                    ProgressView(value: Double(quest.progress) / 100.0)
-                        .frame(height: 8)
-                        .tint(theme.textColor)
-                        .padding(.horizontal, 4)
-
-                    Button(action: { onUpdateProgress(quest.id, 20) }) {
-                        Text("+")
-                            .font(.appFont(size: 18, weight: .black))
-                            .foregroundColor(theme.textColor)
-                            .padding(.trailing, 4)
-                    }
-                }
 
                 let tasks = quest.tasks
                 if !tasks.isEmpty {

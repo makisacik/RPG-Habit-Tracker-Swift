@@ -118,25 +118,6 @@ struct CharacterView: View {
                     }
                     .padding(.horizontal)
                     
-                    if let weapon = Weapon(rawValue: user.weapon ?? "") {
-                        VStack(spacing: 6) {
-                            Text(String.equippedWeapon.localized)
-                                .font(.appFont(size: 16, weight: .black))
-                                .foregroundColor(theme.textColor)
-                            
-                            HStack(spacing: 10) {
-                                Image(weapon.iconName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                
-                                Text(weapon.rawValue)
-                                    .font(.appFont(size: 16))
-                                    .foregroundColor(theme.textColor)
-                            }
-                        }
-                        .padding(.top, 10)
-                    }
                     
                     Divider()
                         .padding(.horizontal)

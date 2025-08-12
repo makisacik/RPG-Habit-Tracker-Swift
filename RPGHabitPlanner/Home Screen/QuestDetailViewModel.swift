@@ -124,27 +124,6 @@ final class QuestDetailViewModel: ObservableObject {
         }
     }
     
-    func updateQuestProgress(progress: Int) {
-        print("🔄 QuestDetailViewModel: Updating quest \(quest.id) progress to \(progress)")
-        
-        // Optimistically update the local quest
-        quest.progress = progress
-        
-        // Update the server
-        questDataService.updateQuestProgress(withId: quest.id, progress: progress) { [weak self] error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print("❌ QuestDetailViewModel: Error updating quest progress: \(error)")
-                    // Revert the optimistic update on error
-                    self?.refreshQuest()
-                } else {
-                    print("✅ QuestDetailViewModel: Successfully updated quest progress on server")
-                    // Notify other views that quest was updated
-                    NotificationCenter.default.post(name: .questUpdated, object: self?.quest)
-                }
-            }
-        }
-    }
     
     func toggleTaskCompletion(taskId: UUID, newValue: Bool) {
         print("🔄 QuestDetailViewModel: Toggling task \(taskId) completion to \(newValue)")

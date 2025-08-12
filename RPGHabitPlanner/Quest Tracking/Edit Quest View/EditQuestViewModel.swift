@@ -19,7 +19,7 @@ final class EditQuestViewModel: ObservableObject {
     @Published var isMainQuest: Bool
     @Published var difficulty: Int        // 1...5
     @Published var isActiveQuest: Bool
-    @Published var progress: Int          // 0...100
+
     @Published var tasks: [String]        // Task titles only (UI edits)
     @Published var repeatType: QuestRepeatType
 
@@ -38,7 +38,7 @@ final class EditQuestViewModel: ObservableObject {
         self.isMainQuest = quest.isMainQuest
         self.difficulty = quest.difficulty
         self.isActiveQuest = quest.isActive
-        self.progress = quest.progress
+
         self.tasks = quest.tasks.map { $0.title }
         self.repeatType = quest.repeatType
         self.questDataService = questDataService
@@ -56,10 +56,7 @@ final class EditQuestViewModel: ObservableObject {
             errorMessage = "Difficulty must be between 1 and 5."
             return false
         }
-        guard (0...100).contains(progress) else {
-            errorMessage = "Progress must be between 0 and 100."
-            return false
-        }
+
         // Don’t let due date be before creation date
         if dueDate < quest.creationDate {
             errorMessage = "Due date cannot be earlier than the creation date."
@@ -84,7 +81,7 @@ final class EditQuestViewModel: ObservableObject {
             difficulty: difficulty,
             dueDate: dueDate,
             isActive: isActiveQuest,
-            progress: progress,
+            progress: quest.progress,
             repeatType: repeatType,
             tasks: tasks
         ) { [weak self] error in
@@ -122,7 +119,7 @@ final class EditQuestViewModel: ObservableObject {
         quest.isMainQuest = isMainQuest
         quest.difficulty = difficulty
         quest.isActive = isActiveQuest
-        quest.progress = progress
+
         quest.repeatType = repeatType
 
         let existing = quest.tasks

@@ -124,9 +124,7 @@ struct QuestTrackingView: View {
                 }
             },
             onEditQuest: { _ in }, // No longer used but keeping for compatibility
-            onUpdateProgress: { id, change in
-                viewModel.updateQuestProgress(id: id, by: change)
-            },
+
             onToggleTaskCompletion: { taskId, isCompleted in
                 viewModel.toggleTaskCompletion(
                     questId: quest.id,

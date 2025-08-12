@@ -114,7 +114,7 @@ struct CharacterCustomizationStepView: View {
                     .font(.appFont(size: 32, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
-                Text(String.chooseWeaponAndSeeCharacterComeToLife.localized)
+                Text(String.chooseYourCharacterClass.localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
@@ -125,47 +125,12 @@ struct CharacterCustomizationStepView: View {
             // Character preview
             CharacterPreviewCard(
                 characterClass: viewModel.selectedCharacterClass,
-                weapon: viewModel.selectedWeapon,
                 theme: theme
             )
             .padding(.horizontal, 20)
             
-            // Weapon selection
-            VStack(spacing: 16) {
-                Text(String.selectYourWeapon.localized)
-                    .font(.appFont(size: 20, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                
-                let availableWeapons = getAvailableWeapons(for: viewModel.selectedCharacterClass)
-                HStack(spacing: 20) {
-                    ForEach(availableWeapons, id: \.self) { weapon in
-                        WeaponCard(
-                            weapon: weapon,
-                            isSelected: viewModel.selectedWeapon == weapon,
-                            theme: theme
-                        ) {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                                viewModel.selectedWeapon = weapon
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal, 20)
-            
             Spacer()
         }
-    }
-    
-    private func getAvailableWeapons(for characterClass: CharacterClass) -> [Weapon] {
-        let weapons: [CharacterClass: [Weapon]] = [
-            .knight: [.swordBroad, .swordLong, .swordDouble],
-            .archer: [.bow, .crossbow],
-            .elephant: [.bow, .crossbow],
-            .ninja: [.bow, .crossbow],
-            .octopus: [.bow, .crossbow]
-        ]
-        return weapons[characterClass] ?? []
     }
 }
 
@@ -194,7 +159,6 @@ struct NicknameStepView: View {
             VStack(spacing: 20) {
                 CharacterPreviewCard(
                     characterClass: viewModel.selectedCharacterClass,
-                    weapon: viewModel.selectedWeapon,
                     theme: theme
                 )
                 
@@ -300,7 +264,6 @@ struct FinalStepView: View {
                 ZStack {
                     CharacterPreviewCard(
                         characterClass: viewModel.selectedCharacterClass,
-                        weapon: viewModel.selectedWeapon,
                         theme: theme
                     )
                     .scaleEffect(heroScale)
@@ -507,7 +470,6 @@ struct CharacterClassCard: View {
 
 struct CharacterPreviewCard: View {
     let characterClass: CharacterClass
-    let weapon: Weapon
     let theme: Theme
     
     var body: some View {
@@ -519,26 +481,14 @@ struct CharacterPreviewCard: View {
                     .frame(height: 120)
             }
             
-            HStack(spacing: 20) {
-                VStack(spacing: 4) {
-                    Text(String.classLabel.localized)
-                        .font(.appFont(size: 12))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                    
-                    Text(characterClass.displayName)
-                        .font(.appFont(size: 16, weight: .bold))
-                        .foregroundColor(theme.textColor)
-                }
+            VStack(spacing: 4) {
+                Text(String.classLabel.localized)
+                    .font(.appFont(size: 12))
+                    .foregroundColor(theme.textColor.opacity(0.7))
                 
-                VStack(spacing: 4) {
-                    Text(String.weaponLabel.localized)
-                        .font(.appFont(size: 12))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                    
-                    Text(weapon.displayName)
-                        .font(.appFont(size: 16, weight: .bold))
-                        .foregroundColor(theme.textColor)
-                }
+                Text(characterClass.displayName)
+                    .font(.appFont(size: 16, weight: .bold))
+                    .foregroundColor(theme.textColor)
             }
         }
         .padding(24)
@@ -550,40 +500,6 @@ struct CharacterPreviewCard: View {
     }
 }
 
-struct WeaponCard: View {
-    let weapon: Weapon
-    let isSelected: Bool
-    let theme: Theme
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 8) {
-                if let image = UIImage(named: weapon.iconName) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 40)
-                }
-                
-                Text(weapon.displayName)
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(theme.textColor)
-            }
-            .frame(height: 80)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? theme.primaryColor.opacity(0.1) : theme.cardBackgroundColor)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(isSelected ? theme.primaryColor : Color.clear, lineWidth: 2)
-                    )
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
 
 struct AdventureFeatureRow: View {
     let icon: String

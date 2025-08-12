@@ -158,21 +158,6 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
-    func updateQuestProgress(id: UUID, by change: Int) {
-        guard let index = quests.firstIndex(where: { $0.id == id }) else { return }
-        var quest = quests[index]
-        let newProgress = max(0, min(100, quest.progress + change))
-        quest.progress = newProgress
-        quests[index] = quest
-
-        questDataService.updateQuestProgress(withId: quest.id, progress: newProgress) { [weak self] error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }
-        }
-    }
     
     var activeTodayQuests: [Quest] {
         let now = Date()

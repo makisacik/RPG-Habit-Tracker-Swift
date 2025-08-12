@@ -38,8 +38,6 @@ struct QuestDetailView: View {
                     // Header Section
                     QuestDetailHeaderSection(quest: viewModel.quest, theme: theme)
 
-                    // Progress Section
-                    QuestDetailProgressSection(quest: viewModel.quest, theme: theme)
 
                     // Details Section
                     QuestDetailDetailsSection(quest: viewModel.quest, theme: theme)

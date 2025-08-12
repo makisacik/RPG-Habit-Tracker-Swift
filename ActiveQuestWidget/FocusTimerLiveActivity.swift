@@ -44,11 +44,7 @@ struct FocusTimerLiveActivity: Widget {
                 
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(spacing: 8) {
-                        ProgressView(value: context.state.progress)
-                            .progressViewStyle(LinearProgressViewStyle(tint: .white))
-                            .scaleEffect(y: 2)
-                        
-                        Text("\(Int(context.state.progress * 100))\(LocalizationHelper.localized(LocalizationHelper.percentComplete))")
+                        Text(LocalizationHelper.localized(LocalizationHelper.focusTimer))
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -110,9 +106,6 @@ struct LockScreenLiveActivityView: View {
                         .foregroundColor(.secondary)
                 }
             }
-            
-            ProgressView(value: context.state.progress)
-                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
         }
         .padding()
         .background(Color(.systemBackground))

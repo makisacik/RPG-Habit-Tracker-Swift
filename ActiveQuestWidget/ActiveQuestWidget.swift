@@ -15,7 +15,6 @@ struct WidgetTheme {
     let primaryTextColor: Color
     let secondaryTextColor: Color
     let accentColor: Color
-    let progressColor: Color
     
     static func current() -> WidgetTheme {
         // Check if we're in dark mode
@@ -31,7 +30,7 @@ struct WidgetTheme {
                 primaryTextColor: Color(hex: "#F9FAFB"),
                 secondaryTextColor: Color(hex: "#D1D5DB"),
                 accentColor: Color(hex: "#F59E0B"),
-                progressColor: Color(hex: "#F59E0B")
+
             )
         } else {
             return WidgetTheme(
@@ -43,7 +42,7 @@ struct WidgetTheme {
                 primaryTextColor: Color(hex: "#1F2937"),
                 secondaryTextColor: Color(hex: "#6B7280"),
                 accentColor: Color(hex: "#FFB700"),
-                progressColor: Color(hex: "#FFB700")
+
             )
         }
     }
@@ -153,10 +152,7 @@ struct QuestWidgetEntry: TimelineEntry {
     let completedTasksCount: Int
     let totalTasksCount: Int
     
-    var progress: Double {
-        guard totalTasksCount > 0 else { return 0.0 }
-        return Double(completedTasksCount) / Double(totalTasksCount)
-    }
+
 
     var daysUntilDue: Int {
         guard let quest = quest, let dueDate = quest.dueDate else { return 0 }
@@ -219,26 +215,7 @@ struct ActiveQuestWidgetEntryView: View {
                     .multilineTextAlignment(.leading)
             }
             
-            // Progress section
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(LocalizationHelper.localized("progress"))
-                        .font(.system(size: 12, weight: .medium, design: .rounded))
-                        .foregroundColor(theme.secondaryTextColor)
-                    
-                    Spacer()
-                    
-                    Text("\(entry.completedTasksCount)/\(entry.totalTasksCount)")
-                        .font(.system(size: 12, weight: .semibold, design: .rounded))
-                        .foregroundColor(theme.secondaryTextColor)
-                }
-                
-                // Progress bar
-                ProgressView(value: entry.progress)
-                    .progressViewStyle(LinearProgressViewStyle(tint: theme.progressColor))
-                    .scaleEffect(y: 1.5)
-                    .frame(height: 6)
-            }
+
             
             // Due date and status
             HStack {

@@ -174,29 +174,6 @@ final class CalendarViewModel: ObservableObject {
         }
     }
     
-    func updateQuestProgress(questId: UUID, progress: Int) {
-        print("��️ CalendarViewModel: Updating quest \(questId) progress to \(progress)")
-        
-        // Optimistically update the local quest array
-        if let index = allQuests.firstIndex(where: { $0.id == questId }) {
-            allQuests[index].progress = progress
-            print("��️ CalendarViewModel: Updated local quest array - progress is now \(progress)")
-        }
-        
-        // Update the server
-        questDataService.updateQuestProgress(withId: questId, progress: progress) { [weak self] error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print("��️ CalendarViewModel: Error updating quest progress: \(error)")
-                    // Revert the optimistic update on error
-                    self?.fetchQuests()
-                } else {
-                    print("��️ CalendarViewModel: Successfully updated quest progress on server")
-                }
-            }
-        }
-    }
-    
     private func stateFor(_ quest: Quest, on day: Date) -> DayQuestState {
         if quest.dueDate < day { return .inactive }
         switch quest.repeatType {

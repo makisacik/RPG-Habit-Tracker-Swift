@@ -68,7 +68,11 @@ function_body_length:
   warning: 90
 # rules that have both warning and error levels, can set just the warning level
 # implicitly
-line_length: 200
+line_length:
+  warning: 200
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
 # they can set both implicitly with an array
 type_body_length:
   - 300 # warning
@@ -77,10 +81,6 @@ type_body_length:
 file_length:
   warning: 500
   error: 1200
-line_length:
-  ignores_urls: true
-  ignores_function_declarations: true
-  ignores_comments: true
 legacy_hashing: error
 
 attributes:
@@ -91,7 +91,7 @@ attributes:
     - "@objc"
 
 # Number of warnings to fail the build
-warning_threshold: 60
+# warning_threshold: 60
 
 # naming rules can set warnings/errors for min_length and max_length
 # additionally they can set excluded names
@@ -101,7 +101,6 @@ type_name:
     warning: 40
     error: 50
   excluded: iPhone # excluded via string
-type_name:
   allowed_symbols: "_"
 identifier_name:
   allowed_symbols: "_"

@@ -104,69 +104,6 @@ struct QuestDetailHeaderSection: View {
     }
 }
 
-// MARK: - Progress Section Component
-struct QuestDetailProgressSection: View {
-    let quest: Quest
-    let theme: Theme
-    
-    var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text(String.progress.localized)
-                    .font(.appFont(size: 18, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                Spacer()
-                Text("\(quest.progress)%")
-                    .font(.appFont(size: 16, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-            
-            // Progress Bar
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(theme.textColor.opacity(0.2))
-                        .frame(height: 12)
-                    
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(progressColor)
-                        .frame(width: geometry.size.width * CGFloat(quest.progress) / 100, height: 12)
-                        .animation(.easeInOut(duration: 0.5), value: quest.progress)
-                }
-            }
-            .frame(height: 12)
-            
-            // Difficulty Stars
-            HStack(spacing: 4) {
-                Text(String.difficulty.localized)
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                
-                ForEach(1...5, id: \.self) { star in
-                    Image(systemName: star <= quest.difficulty ? "star.fill" : "star")
-                        .font(.system(size: 12))
-                        .foregroundColor(star <= quest.difficulty ? .orange : theme.textColor.opacity(0.3))
-                }
-            }
-        }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(theme.primaryColor)
-                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
-        )
-    }
-    
-    private var progressColor: Color {
-        if quest.progress >= 80 {
-            return .green
-        } else if quest.progress >= 50 {
-            return .orange
-        } else {
-            return .red
-        }
-    }
-}
 
 // MARK: - Details Section Component
 struct QuestDetailDetailsSection: View {
