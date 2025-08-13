@@ -78,9 +78,9 @@ extension HomeView {
                 GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: 12) {
-                NavigationLink(destination: QuestCreationView(
-                    viewModel: QuestCreationViewModel(questDataService: questDataService)
-                )) {
+                Button(action: {
+                    handleCreateQuestTap()
+                }) {
                     NavigationQuickActionCard(
                         icon: "plus.circle.fill",
                         title: "New Quest",

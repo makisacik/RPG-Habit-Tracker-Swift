@@ -314,9 +314,14 @@ struct PricingCard: View {
                         .padding(.vertical, 4)
                         .background(Color.orange)
                         .cornerRadius(8)
+                } else {
+                    // Add invisible spacer to maintain same height when no badge
+                    Color.clear
+                        .frame(height: 28) // Height of the "MOST POPULAR" badge
                 }
             }
             .frame(maxWidth: .infinity)
+            .frame(minHeight: 140) // Ensure minimum consistent height
             .padding(16)
             .background(
                 RoundedRectangle(cornerRadius: 16)
