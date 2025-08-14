@@ -95,7 +95,7 @@ struct TagPickerView: View {
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
                                 
-                                Spacer()
+                                // Spacer()
                                 
                                 Text("\(viewModel.selectedTags.count)")
                                     .font(.appFont(size: 14, weight: .medium))
@@ -121,7 +121,7 @@ struct TagPickerView: View {
                             .padding(.top, 12)
                             
                             ScrollView(.horizontal, showsIndicators: false) {
-                                LazyHStack(spacing: 12) {
+                                HStack(spacing: 12) {
                                     ForEach(viewModel.selectedTags) { tag in
                                         TagChip(
                                             tag: tag,
@@ -223,6 +223,18 @@ struct TagPickerView: View {
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(.horizontal, 40)
+                        } else if viewModel.filteredTags.isEmpty && viewModel.isLoading {
+                            // Loading state for available tags
+                            VStack(spacing: 20) {
+                                ProgressView()
+                                    .scaleEffect(1.5)
+                                    .padding(.bottom, 10)
+                                Text("Loading tags...")
+                                    .font(.appFont(size: 18, weight: .bold))
+                                    .foregroundColor(theme.textColor)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(.horizontal, 40)
                         } else if viewModel.filteredTags.isEmpty {
                             // No tags available with modern empty state
                             VStack(spacing: 20) {
@@ -270,7 +282,7 @@ struct TagPickerView: View {
                         } else {
                             // Modern tags list with smooth animations
                             ScrollView {
-                                LazyVStack(spacing: 8) {
+                                VStack(spacing: 8) {
                                     ForEach(viewModel.filteredTags) { tag in
                                         ModernTagRowView(
                                             tag: tag,
@@ -410,6 +422,7 @@ class TagPickerViewModel: ObservableObject {
     @Published var allTags: [Tag] = []
     @Published var searchQuery: String = ""
     @Published var showCreateTag: Bool = false
+    @Published var isLoading: Bool = true
     
     private let tagService: TagServiceProtocol = TagService()
     
@@ -429,8 +442,10 @@ class TagPickerViewModel: ObservableObject {
     }
     
     func loadTags() {
+        isLoading = true
         tagService.fetchAllTags { [weak self] tags, error in
             DispatchQueue.main.async {
+                self?.isLoading = false
                 if let error = error {
                     print("❌ Error loading tags: \(error)")
                 } else {
