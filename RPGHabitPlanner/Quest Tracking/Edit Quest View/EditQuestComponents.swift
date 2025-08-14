@@ -99,6 +99,7 @@ struct EditQuestHeaderSection: View {
 struct EditQuestBasicInfoSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
     let theme: Theme
+    @State private var showTagPicker = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -142,6 +143,80 @@ struct EditQuestBasicInfoSection: View {
                                 .fill(theme.primaryColor.opacity(0.3))
                         )
                 }
+                
+                // Tags Field
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text("Tags")
+                            .font(.appFont(size: 14, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.8))
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                showTagPicker = true
+                            }
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: viewModel.selectedTags.isEmpty ? "plus.circle.fill" : "pencil.circle.fill")
+                                    .font(.system(size: 12, weight: .medium))
+                                Text(viewModel.selectedTags.isEmpty ? "Add Tags" : "Edit")
+                                    .font(.appFont(size: 12, weight: .medium))
+                            }
+                            .foregroundColor(theme.accentColor)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(theme.accentColor.opacity(0.1))
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    
+                    if viewModel.selectedTags.isEmpty {
+                        // Empty state
+                        HStack {
+                            Image(systemName: "tag")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor.opacity(0.4))
+                            
+                            Text("No tags assigned")
+                                .font(.appFont(size: 14))
+                                .foregroundColor(theme.textColor.opacity(0.6))
+                            
+                            Spacer()
+                        }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(theme.primaryColor.opacity(0.2))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(theme.textColor.opacity(0.1), lineWidth: 1)
+                                )
+                        )
+                    } else {
+                        // Tags display
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 6) {
+                                ForEach(viewModel.selectedTags, id: \.id) { tag in
+                                    TagChip(
+                                        tag: tag
+                                    ) {}
+                                    .scaleEffect(0.9)
+                                }
+                            }
+                            .padding(.horizontal, 4)
+                        }
+                        .padding(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(theme.primaryColor.opacity(0.2))
+                        )
+                    }
+                }
             }
         }
         .padding(20)
@@ -150,6 +225,13 @@ struct EditQuestBasicInfoSection: View {
                 .fill(theme.primaryColor)
                 .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         )
+        .sheet(isPresented: $showTagPicker) {
+            TagPickerView(selectedTags: viewModel.selectedTags) { selectedTags in
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    viewModel.selectedTags = selectedTags
+                }
+            }
+        }
     }
 }
 

@@ -16,6 +16,7 @@ struct QuestDetailView: View {
     @State private var uiIsCompleted: Bool        // <- optimistic UI flag
     @State private var editingQuest: Quest?
     @State private var showingDeleteAlert = false
+    @State private var showTagPicker = false
 
     private var theme: Theme { themeManager.activeTheme }
 
@@ -38,6 +39,16 @@ struct QuestDetailView: View {
                     // Header Section
                     QuestDetailHeaderSection(quest: viewModel.quest, theme: theme)
 
+                    // Tags Section
+                    if !viewModel.quest.tags.isEmpty || showTagPicker {
+                        QuestDetailTagsSection(
+                            quest: viewModel.quest,
+                            theme: theme,
+                            showTagPicker: $showTagPicker
+                        ) { updatedTags in
+                                viewModel.updateQuestTags(updatedTags)
+                        }
+                    }
 
                     // Details Section
                     QuestDetailDetailsSection(quest: viewModel.quest, theme: theme)
@@ -67,7 +78,7 @@ struct QuestDetailView: View {
                 .padding(.bottom, 40)
             }
         }
-                        .navigationTitle(String.questDetails.localized)
+        .navigationTitle(String.questDetails.localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -114,14 +125,14 @@ struct QuestDetailView: View {
             )
             .environmentObject(themeManager)
         }
-                        .alert(String.deleteQuestConfirmation.localized, isPresented: $showingDeleteAlert) {
-                    Button(String.cancelButton.localized, role: .cancel) { }
-                    Button(String.deleteButton.localized, role: .destructive) {
+        .alert(String.deleteQuestConfirmation.localized, isPresented: $showingDeleteAlert) {
+            Button(String.cancelButton.localized, role: .cancel) { }
+            Button(String.deleteButton.localized, role: .destructive) {
                 deleteQuest()
-                    }
-                        } message: {
-                    Text(String.deleteQuestWarning.localized)
-                        }
+            }
+        } message: {
+            Text(String.deleteQuestWarning.localized)
+        }
         .alert("Error", isPresented: .constant(viewModel.alertMessage != nil)) {
             Button(String.okButton.localized) { viewModel.alertMessage = nil }
         } message: {
@@ -167,6 +178,105 @@ struct QuestDetailView: View {
     }
 }
 
+// MARK: - Quest Detail Tags Section
+
+struct QuestDetailTagsSection: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let quest: Quest
+    let theme: Theme
+    @Binding var showTagPicker: Bool
+    let onTagsUpdated: ([Tag]) -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack(spacing: 6) {
+                    Image(systemName: "tag.fill")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(theme.accentColor)
+                    
+                    Text("Tags")
+                        .font(.appFont(size: 18, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                        showTagPicker = true
+                    }
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: quest.tags.isEmpty ? "plus.circle.fill" : "pencil.circle.fill")
+                            .font(.system(size: 14, weight: .medium))
+                        Text(quest.tags.isEmpty ? "Add Tags" : "Edit")
+                            .font(.appFont(size: 14, weight: .medium))
+                    }
+                    .foregroundColor(theme.accentColor)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(theme.accentColor.opacity(0.1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
+                            )
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            
+            if quest.tags.isEmpty {
+                // Empty state
+                VStack(spacing: 8) {
+                    Image(systemName: "tag")
+                        .font(.system(size: 24, weight: .light))
+                        .foregroundColor(theme.textColor.opacity(0.3))
+                    
+                    Text("No tags assigned")
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.cardBackgroundColor)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(theme.textColor.opacity(0.1), lineWidth: 1)
+                        )
+                )
+            } else {
+                // Tags display
+                LazyVGrid(columns: [
+                    GridItem(.adaptive(minimum: 80, maximum: 120), spacing: 8)
+                ], spacing: 8) {
+                    ForEach(Array(quest.tags), id: \.id) { tag in
+                        TagChip(
+                            tag: tag
+                        ) {}
+                    }
+                }
+                .padding(.vertical, 8)
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(theme.cardBackgroundColor)
+                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
+        )
+        .sheet(isPresented: $showTagPicker) {
+            TagPickerView(selectedTags: Array(quest.tags)) { selectedTags in
+                onTagsUpdated(selectedTags)
+            }
+        }
+    }
+}
+
 #Preview {
     QuestDetailView(
         quest: Quest(
@@ -184,7 +294,12 @@ struct QuestDetailView: View {
                 QuestTask(id: UUID(), title: "Task 3", isCompleted: true, order: 2)
             ],
             repeatType: .weekly,
-            completions: [Date(), Date().addingTimeInterval(-86400 * 7)]
+            completions: [Date(), Date().addingTimeInterval(-86400 * 7)],
+            tags: [
+                Tag(name: "Work", icon: "briefcase", color: "#FF6B6B"),
+                Tag(name: "Personal", icon: "heart", color: "#4ECDC4"),
+                Tag(name: "Urgent", icon: "exclamationmark.triangle", color: "#FFB347")
+            ]
         ),
         date: Date(),
         questDataService: QuestCoreDataService()

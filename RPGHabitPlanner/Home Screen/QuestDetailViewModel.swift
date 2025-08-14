@@ -19,19 +19,19 @@ final class QuestDetailViewModel: ObservableObject {
     @Published var quest: Quest
     @Published var isLoading = false
     @Published var alertMessage: String?
-    
+
     let questDataService: QuestDataServiceProtocol
     let date: Date
     private let calendar = Calendar.current
-    
+
     init(quest: Quest, date: Date, questDataService: QuestDataServiceProtocol) {
         self.quest = quest
         self.date = date
         self.questDataService = questDataService
     }
-    
+
     // MARK: - Quest Management
-    
+
     func refreshQuest() {
         isLoading = true
         questDataService.fetchAllQuests { [weak self] quests, _ in
@@ -45,11 +45,46 @@ final class QuestDetailViewModel: ObservableObject {
             }
         }
     }
-    
+
+    func updateQuestTags(_ newTags: [Tag]) {
+        print("🏷️ QuestDetailViewModel: Updating quest tags to \(newTags.count) tags")
+
+        // Optimistically update the local quest
+        quest.tags = Set(newTags)
+
+        // Update the server
+        questDataService.updateQuest(
+            withId: quest.id,
+            title: quest.title,
+            isMainQuest: quest.isMainQuest,
+            info: quest.info,
+            difficulty: quest.difficulty,
+            dueDate: quest.dueDate,
+            isActive: quest.isActive,
+            progress: quest.progress,
+            repeatType: quest.repeatType,
+            tasks: quest.tasks.map { $0.title },
+            tags: newTags
+        ) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("❌ QuestDetailViewModel: Error updating quest tags: \(error)")
+                    self?.alertMessage = "Failed to update quest tags: \(error.localizedDescription)"
+                    // Revert the optimistic update on error
+                    self?.refreshQuest()
+                } else {
+                    print("✅ QuestDetailViewModel: Successfully updated quest tags on server")
+                    // Notify other views that quest was updated
+                    NotificationCenter.default.post(name: .questUpdated, object: self?.quest)
+                }
+            }
+        }
+    }
+
     func toggleQuestCompletion() {
         let today = calendar.startOfDay(for: Date())
         let isCompleted = quest.isCompleted(on: date)
-        
+
         switch quest.repeatType {
         case .daily:
             guard calendar.isDate(date, inSameDayAs: today) else {
@@ -100,14 +135,14 @@ final class QuestDetailViewModel: ObservableObject {
             }
         }
     }
-    
+
     func markQuestAsFinished() {
         print("🔄 QuestDetailViewModel: Marking quest \(quest.id) as finished")
-        
+
         // Optimistically update the local quest
         quest.isFinished = true
         quest.isFinishedDate = Date()
-        
+
         // Update the server
         questDataService.markQuestAsFinished(forId: quest.id) { [weak self] error in
             DispatchQueue.main.async {
@@ -123,16 +158,15 @@ final class QuestDetailViewModel: ObservableObject {
             }
         }
     }
-    
-    
+
     func toggleTaskCompletion(taskId: UUID, newValue: Bool) {
         print("🔄 QuestDetailViewModel: Toggling task \(taskId) completion to \(newValue)")
-        
+
         // Optimistically update the local quest
         if let taskIndex = quest.tasks.firstIndex(where: { $0.id == taskId }) {
             quest.tasks[taskIndex].isCompleted = newValue
         }
-        
+
         // Update the server
         questDataService.updateTask(withId: taskId, isCompleted: newValue) { [weak self] error in
             DispatchQueue.main.async {
@@ -148,7 +182,7 @@ final class QuestDetailViewModel: ObservableObject {
             }
         }
     }
-    
+
     func deleteQuest() {
         questDataService.deleteQuest(withId: quest.id) { [weak self] error in
             DispatchQueue.main.async {
@@ -163,21 +197,21 @@ final class QuestDetailViewModel: ObservableObject {
             }
         }
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func isSameWeek(_ a: Date, _ b: Date) -> Bool {
         calendar.isDate(a, equalTo: b, toGranularity: .weekOfYear)
     }
-    
+
     private func weekAnchor(for day: Date) -> Date {
         let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: day)
         let start = calendar.date(from: comps) ?? day
         return calendar.startOfDay(for: start)
     }
-    
+
     // MARK: - Computed Properties
-    
+
     var isCompleted: Bool {
         quest.isCompleted(on: date)
     }

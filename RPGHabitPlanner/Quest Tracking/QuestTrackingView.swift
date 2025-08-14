@@ -20,6 +20,7 @@ struct QuestTrackingView: View {
     @State private var showLevelUp = false
     @State private var levelUpLevel: Int = 0
     @State private var showPaywall = false
+    @State private var showTagFilter = false
 
     var body: some View {
         ZStack {
@@ -34,7 +35,86 @@ struct QuestTrackingView: View {
         let theme = themeManager.activeTheme
 
         return VStack(alignment: .center, spacing: 5) {
-            dayPicker.padding(.top, 5)
+            // Modern header with tag filter button
+            HStack {
+                dayPicker
+
+                Spacer()
+
+                // Tag filter button - hide when filter is active
+                if !showTagFilter {
+                    Button(action: {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                            showTagFilter.toggle()
+                        }
+                    }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "tag.fill")
+                                .font(.system(size: 14, weight: .medium))
+                            Text("Filter")
+                                .font(.appFont(size: 14, weight: .medium))
+                        }
+                        .foregroundColor(theme.accentColor)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.accentColor.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .transition(.asymmetric(
+                        insertion: .scale.combined(with: .opacity),
+                        removal: .scale.combined(with: .opacity)
+                    ))
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, 5)
+
+            // Tag filter section
+            if showTagFilter {
+                VStack(spacing: 0) {
+                    // Apply Filters button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                showTagFilter.toggle()
+                            }
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 16, weight: .medium))
+                                Text("Apply Filters")
+                                .font(.appFont(size: 14, weight: .medium))
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(theme.accentColor)
+                                    .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.trailing, 20)
+                        .padding(.top, 8)
+                    }
+
+                    TagFilterView(viewModel: viewModel.tagFilterViewModel)
+                }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .top).combined(with: .opacity),
+                    removal: .move(edge: .top).combined(with: .opacity)
+                ))
+            }
+
             questList
         }
         .padding()
@@ -163,12 +243,15 @@ struct QuestTrackingView: View {
     }
 
     private var questsForSelectedFilter: [Quest] {
-        switch viewModel.selectedDayFilter {
+        let filteredQuests = switch viewModel.selectedDayFilter {
         case .active:
-            return viewModel.activeTodayQuests
+            viewModel.activeTodayQuests
         case .inactive:
-            return viewModel.inactiveTodayQuests
+            viewModel.inactiveTodayQuests
         }
+
+        // Apply tag filtering if any tags are selected
+        return viewModel.applyTagFiltering(to: filteredQuests)
     }
 }
 

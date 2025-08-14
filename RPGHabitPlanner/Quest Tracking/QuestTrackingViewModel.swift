@@ -20,18 +20,25 @@ final class QuestTrackingViewModel: ObservableObject {
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
     private let calendar = Calendar.current
-    
+
+    // Tag filtering support
+    lazy var tagFilterViewModel: TagFilterViewModel = {
+        TagFilterViewModel { [weak self] tagIds, matchMode in
+            self?.handleTagFilterChange(tagIds: tagIds, matchMode: matchMode)
+        }
+    }()
+
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
         self.userManager = userManager
         fetchQuests()
         setupNotificationObservers()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(
             self,
@@ -75,7 +82,7 @@ final class QuestTrackingViewModel: ObservableObject {
             self?.fetchQuests()
         }
     }
-    
+
     func fetchQuests() {
         questDataService.fetchAllQuests { [weak self] quests, error in
             DispatchQueue.main.async {
@@ -87,7 +94,7 @@ final class QuestTrackingViewModel: ObservableObject {
             }
         }
     }
-    
+
     func refreshRecurringQuests() {
         questDataService.refreshAllQuests(on: Date()) { [weak self] error in
             DispatchQueue.main.async {
@@ -107,7 +114,7 @@ final class QuestTrackingViewModel: ObservableObject {
             quests[index].isFinishedDate = Date()
             quests[index].isActive = false
         }
-        
+
         questDataService.markQuestAsFinished(forId: id) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self else { return }
@@ -159,7 +166,36 @@ final class QuestTrackingViewModel: ObservableObject {
         }
     }
 
-    
+    // MARK: - Tag Filtering
+
+    private func handleTagFilterChange(tagIds: [UUID], matchMode: TagMatchMode) {
+        // This method is called when tag filter changes
+        // The filtering is applied in the computed property questsForSelectedFilter
+        print("🏷️ Tag filter changed: \(tagIds.count) tags, mode: \(matchMode)")
+    }
+
+    func applyTagFiltering(to quests: [Quest]) -> [Quest] {
+        let selectedTagIds = tagFilterViewModel.selectedTags.map { $0.id }
+
+        // If no tags are selected, return all quests
+        guard !selectedTagIds.isEmpty else {
+            return quests
+        }
+
+        return quests.filter { quest in
+            let questTagIds = quest.tags.map { $0.id }
+
+            switch tagFilterViewModel.matchMode {
+            case .any:
+                // Quest has ANY of the selected tags
+                return !Set(questTagIds).isDisjoint(with: Set(selectedTagIds))
+            case .all:
+                // Quest has ALL of the selected tags
+                return Set(selectedTagIds).isSubset(of: Set(questTagIds))
+            }
+        }
+    }
+
     var activeTodayQuests: [Quest] {
         let now = Date()
         return quests.filter { quest in
@@ -171,7 +207,7 @@ final class QuestTrackingViewModel: ObservableObject {
         let now = Date()
         return quests.filter { !$0.isActive(on: now) }
     }
-    
+
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
         questDataService.updateTask(
             withId: taskId,
@@ -189,7 +225,7 @@ final class QuestTrackingViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func checkAchievements() {
         AchievementManager.shared.checkAchievements(
             questDataService: questDataService,
