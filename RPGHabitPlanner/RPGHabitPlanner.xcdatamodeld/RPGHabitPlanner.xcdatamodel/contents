@@ -34,6 +34,7 @@
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameNormalized" optional="YES" attributeType="String"/>
         <relationship name="quests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuestEntity" inverseName="tags" inverseEntity="QuestEntity"/>
     </entity>
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES">

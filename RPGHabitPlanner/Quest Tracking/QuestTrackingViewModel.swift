@@ -146,7 +146,8 @@ final class QuestTrackingViewModel: ObservableObject {
             isActive: quest.isActive,
             progress: quest.progress,
             repeatType: quest.repeatType,
-            tasks: quest.tasks.map { $0.title }
+            tasks: quest.tasks.map { $0.title },
+            tags: Array(quest.tags)
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {

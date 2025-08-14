@@ -30,6 +30,7 @@ struct Quest: Identifiable, Equatable {
     var tasks: [QuestTask]
     var repeatType: QuestRepeatType
     var completions: Set<Date>
+    var tags: Set<Tag>
 
     init(
         id: UUID = UUID(),
@@ -47,7 +48,8 @@ struct Quest: Identifiable, Equatable {
         isFinishedDate: Date? = nil,
         tasks: [QuestTask] = [],
         repeatType: QuestRepeatType = .oneTime,
-        completions: Set<Date> = []
+        completions: Set<Date> = [],
+        tags: Set<Tag> = []
     ) {
         self.id = id
         self.title = title
@@ -65,6 +67,7 @@ struct Quest: Identifiable, Equatable {
         self.tasks = tasks
         self.repeatType = repeatType
         self.completions = completions
+        self.tags = tags
     }
 }
 

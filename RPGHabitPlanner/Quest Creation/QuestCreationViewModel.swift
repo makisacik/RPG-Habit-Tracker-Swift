@@ -24,6 +24,7 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var difficulty: Int = 3
     @Published var isActiveQuest: Bool = true
     @Published var tasks: [String] = []
+    @Published var selectedTags: [Tag] = []
     @Published var notifyMe = true
     @Published var repeatType: QuestRepeatType = .oneTime
     @Published var currentQuestCount: Int = 0
@@ -65,7 +66,8 @@ final class QuestCreationViewModel: ObservableObject {
             progress: 0,
             isCompleted: false,
             completionDate: nil,
-            repeatType: repeatType
+            repeatType: repeatType,
+            tags: Set(selectedTags)
         )
 
         let taskTitles = tasks
@@ -103,6 +105,7 @@ final class QuestCreationViewModel: ObservableObject {
         isActiveQuest = false
         repeatType = .oneTime
         notifyMe = true
+        selectedTags = []
     }
 
     // MARK: - Premium Methods

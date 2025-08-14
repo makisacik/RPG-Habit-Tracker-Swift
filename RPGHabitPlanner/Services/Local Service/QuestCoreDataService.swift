@@ -28,6 +28,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         progress: Int?,
         repeatType: QuestRepeatType?,
         tasks: [String]?,
+        tags: [Tag]?,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -67,6 +68,32 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                     // Remove tasks not in new list
                     for task in existingTasksSet {
                         context.delete(task)
+                    }
+                }
+
+                // Update tags
+                if let tags = tags {
+                    // Remove existing tags
+                    if let existingTags = questEntity.tags as? Set<TagEntity> {
+                        for tagEntity in existingTags {
+                            questEntity.removeFromTags(tagEntity)
+                        }
+                    }
+                    
+                    // Add new tags
+                    if !tags.isEmpty {
+                        let tagFetchRequest: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
+                        let tagIds = tags.map { $0.id.uuidString }
+                        tagFetchRequest.predicate = NSPredicate(format: "id IN %@", tagIds)
+                        
+                        do {
+                            let tagEntities = try context.fetch(tagFetchRequest)
+                            for tagEntity in tagEntities {
+                                questEntity.addToTags(tagEntity)
+                            }
+                        } catch {
+                            print("❌ Error fetching tags for quest update: \(error)")
+                        }
                     }
                 }
 
@@ -166,6 +193,22 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             questEntity.tasks = NSOrderedSet(array: taskEntities)
         }
 
+        // Save tags
+        if !quest.tags.isEmpty {
+            let tagFetchRequest: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
+            let tagIds = quest.tags.map { $0.id.uuidString }
+            tagFetchRequest.predicate = NSPredicate(format: "id IN %@", tagIds)
+            
+            do {
+                let tagEntities = try context.fetch(tagFetchRequest)
+                for tagEntity in tagEntities {
+                    questEntity.addToTags(tagEntity)
+                }
+            } catch {
+                print("❌ Error fetching tags for quest: \(error)")
+            }
+        }
+
         do {
             try context.save()
             completion(nil)
@@ -228,7 +271,11 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             .map { calendar.startOfDay(for: $0) }
             .reduce(into: Set<Date>()) { $0.insert($1) } ?? []
 
-        print("🗄️ QuestCoreDataService: Mapping quest '\(entity.title ?? "Unknown")' with \(entity.taskList.count) tasks")
+        let tags: Set<Tag> = (entity.tags as? Set<TagEntity>)?
+            .map { Tag(entity: $0) }
+            .reduce(into: Set<Tag>()) { $0.insert($1) } ?? []
+
+        print("🗄️ QuestCoreDataService: Mapping quest '\(entity.title ?? "Unknown")' with \(entity.taskList.count) tasks and \(tags.count) tags")
 
         return Quest(
             id: entity.id ?? UUID(),
@@ -248,7 +295,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 .sorted { $0.order < $1.order }
                 .map { QuestTask(entity: $0) },
             repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
-            completions: completions
+            completions: completions,
+            tags: tags
         )
     }
 

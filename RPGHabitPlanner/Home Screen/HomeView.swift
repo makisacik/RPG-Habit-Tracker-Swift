@@ -75,12 +75,6 @@ struct HomeView: View {
                         .environmentObject(themeManager)
                         .environmentObject(LocalizationManager.shared)
                 }
-                // Push to Quest Creation (not modal)
-                .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
-                    QuestCreationView(
-                        viewModel: QuestCreationViewModel(questDataService: questDataService)
-                    )
-                }
                 .sheet(isPresented: $isCharacterDetailsPresented) {
                     if let user = viewModel.user {
                         CharacterDetailsView(user: user)
@@ -157,6 +151,12 @@ struct HomeView: View {
                                     .foregroundColor(theme.textColor)
                             }
                         }
+                    }
+                    // Push to Quest Creation (not modal)
+                    .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
+                        QuestCreationView(
+                            viewModel: QuestCreationViewModel(questDataService: questDataService)
+                        )
                     }
                 }
             }

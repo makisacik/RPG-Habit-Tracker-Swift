@@ -30,6 +30,7 @@ protocol QuestDataServiceProtocol {
         progress: Int?,
         repeatType: QuestRepeatType?,
         tasks: [String]?,
+        tags: [Tag]?,
         completion: @escaping (Error?) -> Void
     )
 

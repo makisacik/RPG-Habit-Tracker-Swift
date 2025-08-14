@@ -12,6 +12,7 @@ struct QuestCreationView: View {
     @State private var showSuccessAnimation = false
     @State private var notifyMe = true
     @State private var showPaywall = false
+    @State private var showTagPicker = false
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -71,6 +72,48 @@ struct QuestCreationView: View {
                             Text(String.weekly.localized).tag(QuestRepeatType.weekly)
                         }
                         .pickerStyle(SegmentedPickerStyle())
+
+                        // Tags section
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Text("Tags")
+                                    .font(.appFont(size: 16, weight: .black))
+                                    .foregroundColor(theme.textColor)
+
+                                Spacer()
+
+                                Button("Add Tags") {
+                                    showTagPicker = true
+                                }
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.accentColor)
+                            }
+
+                            if viewModel.selectedTags.isEmpty {
+                                Text("No tags selected")
+                                    .font(.appFont(size: 14, weight: .regular))
+                                    .foregroundColor(theme.textColor.opacity(0.6))
+                                    .padding(.vertical, 8)
+                            } else {
+                                TagChipRow(
+                                    tags: viewModel.selectedTags,
+                                    isSelectable: false,
+                                    selectedTags: [],
+                                    onTagTap: { _ in },
+                                    onTagRemove: { tag in
+                                        if let index = viewModel.selectedTags.firstIndex(of: tag) {
+                                            viewModel.selectedTags.remove(at: index)
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.secondaryColor)
+                                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
+                        )
 
                         Button(action: {
                             isButtonPressed = true
@@ -187,6 +230,12 @@ struct QuestCreationView: View {
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
                     .environmentObject(premiumManager)
+            }
+            .sheet(isPresented: $showTagPicker) {
+                TagPickerView(selectedTags: viewModel.selectedTags) { selectedTags in
+                    viewModel.selectedTags = selectedTags
+                }
+                .environmentObject(themeManager)
             }
         }
     }
