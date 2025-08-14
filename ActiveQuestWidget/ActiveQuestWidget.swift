@@ -30,7 +30,6 @@ struct WidgetTheme {
                 primaryTextColor: Color(hex: "#F9FAFB"),
                 secondaryTextColor: Color(hex: "#D1D5DB"),
                 accentColor: Color(hex: "#F59E0B"),
-
             )
         } else {
             return WidgetTheme(
@@ -42,7 +41,6 @@ struct WidgetTheme {
                 primaryTextColor: Color(hex: "#1F2937"),
                 secondaryTextColor: Color(hex: "#6B7280"),
                 accentColor: Color(hex: "#FFB700"),
-
             )
         }
     }
@@ -153,7 +151,6 @@ struct QuestWidgetEntry: TimelineEntry {
     let totalTasksCount: Int
     
 
-
     var daysUntilDue: Int {
         guard let quest = quest, let dueDate = quest.dueDate else { return 0 }
         let calendar = Calendar.current
@@ -215,7 +212,6 @@ struct ActiveQuestWidgetEntryView: View {
                     .multilineTextAlignment(.leading)
             }
             
-
             
             // Due date and status
             HStack {

@@ -30,6 +30,7 @@ extension QuestEntity {
     @NSManaged public var repeatType: String
     @NSManaged public var completionDate: Date?
     @NSManaged public var completions: NSSet?
+    @NSManaged public var tags: NSSet?
 }
 
 extension QuestEntity {
@@ -46,11 +47,28 @@ extension QuestEntity {
     @NSManaged public func removeFromCompletions(_ values: NSSet)
 }
 
+extension QuestEntity {
+    @objc(addTagsObject:)
+    @NSManaged public func addToTags(_ value: TagEntity)
+
+    @objc(removeTagsObject:)
+    @NSManaged public func removeFromTags(_ value: TagEntity)
+
+    @objc(addTags:)
+    @NSManaged public func addToTags(_ values: NSSet)
+
+    @objc(removeTags:)
+    @NSManaged public func removeFromTags(_ values: NSSet)
+}
+
 extension QuestEntity: Identifiable {
     var taskList: [TaskEntity] {
         (tasks?.array as? [TaskEntity]) ?? []
     }
     var completionList: [QuestCompletionEntity] {
         (completions?.allObjects as? [QuestCompletionEntity]) ?? []
+    }
+    var tagList: [TagEntity] {
+        (tags?.allObjects as? [TagEntity]) ?? []
     }
 }

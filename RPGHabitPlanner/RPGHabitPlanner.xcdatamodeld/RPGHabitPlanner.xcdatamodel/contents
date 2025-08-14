@@ -26,7 +26,15 @@
         <attribute name="repeatType" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="completions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuestCompletionEntity" inverseName="quest" inverseEntity="QuestCompletionEntity"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TagEntity" inverseName="quests" inverseEntity="TagEntity"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskEntity" inverseName="quest" inverseEntity="TaskEntity"/>
+    </entity>
+    <entity name="TagEntity" representedClassName="TagEntity" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="quests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuestEntity" inverseName="tags" inverseEntity="QuestEntity"/>
     </entity>
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
