@@ -34,12 +34,11 @@ struct CalendarView: View {
 
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
+            
             VStack(spacing: 0) {
-                // Modern header with tag filter button
+                // Fixed header that won't move
                 HStack {
                     monthHeader(theme: theme)
-
-                    Spacer()
 
                     // Tag filter button - hide when filter is active
                     if !showTagFilter {
@@ -72,59 +71,61 @@ struct CalendarView: View {
                             removal: .scale.combined(with: .opacity)
                         ))
                         .padding(.trailing, 20)
+                    } else {
+                        Button(action: {
+                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                showTagFilter.toggle()
+                            }
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 16, weight: .medium))
+                                Text("Apply Filters")
+                                    .font(.appFont(size: 14, weight: .medium))
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(theme.accentColor)
+                                    .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .transition(.asymmetric(
+                            insertion: .scale.combined(with: .opacity),
+                            removal: .scale.combined(with: .opacity)
+                        ))
+                        .padding(.trailing, 20)
                     }
                 }
-
-                // Tag filter section with close button
-                if showTagFilter {
+                
+                // Scrollable content area
+                ScrollView {
                     VStack(spacing: 0) {
-                        // Apply Filters button
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                    showTagFilter.toggle()
-                                }
-                            }) {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .font(.system(size: 16, weight: .medium))
-                                    Text("Apply Filters")
-                                        .font(.appFont(size: 14, weight: .medium))
-                                }
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(theme.accentColor)
-                                        .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
-                                )
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .padding(.trailing, 20)
-                            .padding(.top, 8)
+                        // Tag filter section
+                        if showTagFilter {
+                            TagFilterView(viewModel: viewModel.tagFilterViewModel)
+                                .transition(.asymmetric(
+                                    insertion: .move(edge: .top).combined(with: .opacity),
+                                    removal: .move(edge: .top).combined(with: .opacity)
+                                ))
                         }
 
-                        TagFilterView(viewModel: viewModel.tagFilterViewModel)
-                    }
-                    .transition(.asymmetric(
-                        insertion: .move(edge: .top).combined(with: .opacity),
-                        removal: .move(edge: .top).combined(with: .opacity)
-                    ))
-                }
-
-                dayOfWeekHeaders(theme: theme)
-                calendarGrid(theme: theme)
-                VStack(spacing: 0) {
-                    if !viewModel.itemsForSelectedDate.isEmpty {
-                        selectedDateDetails(theme: theme)
-                    } else {
-                        addQuestSection(theme: theme)
+                        dayOfWeekHeaders(theme: theme)
+                        calendarGrid(theme: theme)
+                        VStack(spacing: 0) {
+                            if !viewModel.itemsForSelectedDate.isEmpty {
+                                selectedDateDetails(theme: theme)
+                            } else {
+                                addQuestSection(theme: theme)
+                            }
+                        }
+                        .frame(minHeight: 280, maxHeight: 320)
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
                     }
                 }
-                .frame(minHeight: 280, maxHeight: 320)
-                .animation(.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
             }
         }
         .navigationTitle(String.questCalendar.localized)

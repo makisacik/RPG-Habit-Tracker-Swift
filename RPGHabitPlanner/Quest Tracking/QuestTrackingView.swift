@@ -35,7 +35,7 @@ struct QuestTrackingView: View {
         let theme = themeManager.activeTheme
 
         return VStack(alignment: .center, spacing: 5) {
-            // Modern header with tag filter button
+            // Fixed header that won't move
             HStack {
                 dayPicker
 
@@ -76,46 +76,51 @@ struct QuestTrackingView: View {
             .padding(.horizontal)
             .padding(.top, 5)
 
-            // Tag filter section
-            if showTagFilter {
+            // Scrollable content area
+            ScrollView {
                 VStack(spacing: 0) {
-                    // Apply Filters button
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                showTagFilter.toggle()
+                    // Tag filter section
+                    if showTagFilter {
+                        VStack(spacing: 0) {
+                            // Apply Filters button
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                        showTagFilter.toggle()
+                                    }
+                                }) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .font(.system(size: 16, weight: .medium))
+                                        Text("Apply Filters")
+                                        .font(.appFont(size: 14, weight: .medium))
+                                    }
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(theme.accentColor)
+                                            .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
+                                    )
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .padding(.trailing, 20)
+                                .padding(.top, 8)
                             }
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(size: 16, weight: .medium))
-                                Text("Apply Filters")
-                                .font(.appFont(size: 14, weight: .medium))
-                            }
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.accentColor)
-                                    .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
-                            )
+
+                            TagFilterView(viewModel: viewModel.tagFilterViewModel)
                         }
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing, 20)
-                        .padding(.top, 8)
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .top).combined(with: .opacity),
+                            removal: .move(edge: .top).combined(with: .opacity)
+                        ))
                     }
 
-                    TagFilterView(viewModel: viewModel.tagFilterViewModel)
+                    questList
                 }
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .move(edge: .top).combined(with: .opacity)
-                ))
             }
-
-            questList
         }
         .padding()
         .background(
