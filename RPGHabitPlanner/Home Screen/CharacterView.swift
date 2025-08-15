@@ -10,6 +10,7 @@ import SwiftUI
 struct CharacterView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var healthManager = HealthManager.shared
+    @StateObject private var inventoryManager = InventoryManager.shared
     let user: UserEntity
     
     var body: some View {
@@ -129,16 +130,26 @@ struct CharacterView: View {
                     Divider()
                         .padding(.horizontal)
                     
+                    // Collectible Items Display
+                    CollectibleDisplayView()
+                        .environmentObject(inventoryManager)
+                        .environmentObject(themeManager)
+                    
+                    Divider()
+                        .padding(.horizontal)
+                    
                     InventoryView()
                     
                     Spacer()
                 }
             }
         }
-                        .navigationTitle(String.character.localized)
+        .navigationTitle(String.character.localized)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+// MARK: - Particle Background
 
 struct ParticleBackground: View {
     var color: Color

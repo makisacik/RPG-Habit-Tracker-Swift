@@ -207,7 +207,7 @@ final class InventoryManager: ObservableObject {
 
     // MARK: - Legacy Support
 
-    private let allItems: [Item] = [
+    let allItems: [Item] = [
         Item(name: "Armor", info: "Protective armor to increase defense", iconName: "icon_armor"),
         Item(name: "Arrows", info: "A bundle of arrows for ranged attacks", iconName: "icon_arrows"),
         Item(name: "Axe Spear", info: "Dual weapon for melee combat", iconName: "icon_axe_spear"),

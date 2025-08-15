@@ -12,8 +12,7 @@ struct InventoryView: View {
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var inventoryManager = InventoryManager.shared
     @State private var selectedItem: ItemEntity?
-    @State private var showUseItemAlert = false
-    @State private var itemToUse: ItemEntity?
+    @State private var showItemDetail = false
     @State private var showActiveEffects = false
 
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 6), count: 6)
@@ -77,23 +76,15 @@ struct InventoryView: View {
                         let item = index < inventoryManager.inventoryItems.count ? inventoryManager.inventoryItems[index] : nil
                         InventorySlotView(
                             item: item,
-                            isSelected: selectedItem == item,
-                            onTap: {
+                            isSelected: selectedItem == item
+                        ) {
                                 if let item = item {
-                                    withAnimation(.easeInOut) {
-                                        selectedItem = item
-                                    }
+                                    selectedItem = item
+                                    showItemDetail = true
                                 } else {
                                     selectedItem = nil
                                 }
-                            },
-                            onLongPress: {
-                                if let item = item, inventoryManager.isFunctionalItem(item) {
-                                    itemToUse = item
-                                    showUseItemAlert = true
-                                }
-                            }
-                        )
+                        }
                         .environmentObject(themeManager)
                         .environmentObject(inventoryManager)
                     }
@@ -114,23 +105,210 @@ struct InventoryView: View {
                 inventoryManager.addStarterXPBoosts()
             }
         }
-        .alert("Use Item", isPresented: $showUseItemAlert) {
-            Button("Use") {
-                if let item = itemToUse {
-                    inventoryManager.useFunctionalItem(item) { success, _ in
-                        if success {
-                            selectedItem = nil
-                        }
-                    }
-                }
-            }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            if let item = itemToUse {
-                Text("Use \(item.name ?? "Item")?")
+        .sheet(isPresented: $showItemDetail) {
+            if let item = selectedItem {
+                InventoryItemDetailView(item: item)
+                    .environmentObject(inventoryManager)
+                    .environmentObject(themeManager)
             }
         }
         .animation(.easeInOut(duration: 0.3), value: showActiveEffects)
+    }
+}
+
+// MARK: - Inventory Item Detail View
+
+struct InventoryItemDetailView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var inventoryManager: InventoryManager
+    @Environment(\.dismiss) private var dismiss
+    let item: ItemEntity
+    @State private var isUsingItem = false
+    
+    var body: some View {
+        let theme = themeManager.activeTheme
+        
+        NavigationView {
+            ZStack {
+                theme.backgroundColor
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 24) {
+                    // Item icon
+                    if let iconName = item.iconName {
+                        if iconName.contains("potion_health") {
+                            let rarity = getPotionRarity(from: iconName)
+                            HealthPotionIconView(rarity: rarity, size: 80)
+                        } else {
+                            Image(iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .foregroundColor(theme.textColor)
+                                .shadow(radius: 8)
+                        }
+                    }
+                    
+                    // Item details
+                    VStack(spacing: 16) {
+                        if let name = item.name {
+                            Text(name)
+                                .font(.appFont(size: 24, weight: .black))
+                                .foregroundColor(theme.textColor)
+                                .multilineTextAlignment(.center)
+                        }
+                        
+                        if let info = item.info {
+                            Text(info)
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.textColor.opacity(0.8))
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                        }
+                        
+                        // Item type and effects info
+                        VStack(spacing: 12) {
+                            // Item type badge
+                            HStack {
+                                Image(systemName: inventoryManager.isFunctionalItem(item) ? "bolt.fill" : "star.fill")
+                                    .foregroundColor(.yellow)
+                                Text(inventoryManager.isFunctionalItem(item) ? "Functional" : "Collectible")
+                                    .font(.appFont(size: 14, weight: .black))
+                                    .foregroundColor(.yellow)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.yellow.opacity(0.2))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.yellow, lineWidth: 1)
+                                    )
+                            )
+                            
+                            // Health potion info
+                            if inventoryManager.isHealthPotion(item),
+                               let healthPotion = inventoryManager.getHealthPotionFromItem(item) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "heart.fill")
+                                        .foregroundColor(.red)
+                                    Text("Restores \(healthPotion.displayHealAmount)")
+                                        .font(.appFont(size: 14, weight: .black))
+                                        .foregroundColor(.red)
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.red.opacity(0.2))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.red, lineWidth: 1)
+                                        )
+                                )
+                            }
+                            
+                            // XP Boost info
+                            if inventoryManager.isXPBoost(item),
+                               let xpBoost = inventoryManager.getXPBoostFromItem(item) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "arrow.up.circle.fill")
+                                        .foregroundColor(.green)
+                                    Text("\(Int(xpBoost.boostMultiplier * 100))% XP for \(formatDuration(xpBoost.boostDuration))")
+                                        .font(.appFont(size: 14, weight: .black))
+                                        .foregroundColor(.green)
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.green.opacity(0.2))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.green, lineWidth: 1)
+                                        )
+                                )
+                            }
+                        }
+                        
+                        // Use button for functional items
+                        if inventoryManager.isFunctionalItem(item) {
+                            Button(action: {
+                                isUsingItem = true
+                                inventoryManager.useFunctionalItem(item) { success, _ in
+                                    isUsingItem = false
+                                    if success {
+                                        dismiss()
+                                    }
+                                }
+                            }) {
+                                HStack(spacing: 8) {
+                                    if isUsingItem {
+                                        ProgressView()
+                                            .scaleEffect(0.8)
+                                            .tint(.white)
+                                    } else {
+                                        Image(systemName: "bolt.fill")
+                                            .font(.title3)
+                                    }
+                                    Text(isUsingItem ? "Using..." : "Use Item")
+                                        .font(.appFont(size: 16, weight: .black))
+                                }
+                                .foregroundColor(.white)
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 24)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.yellow)
+                                        .opacity(isUsingItem ? 0.7 : 1.0)
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .disabled(isUsingItem)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding()
+            }
+            .navigationTitle("Item Details")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                    .foregroundColor(.yellow)
+                }
+            }
+        }
+    }
+    
+    private func getPotionRarity(from iconName: String) -> ItemRarity {
+        if iconName.contains("legendary") {
+            return .legendary
+        } else if iconName.contains("superior") {
+            return .epic
+        } else if iconName.contains("greater") {
+            return .rare
+        } else if iconName.contains("health") && !iconName.contains("minor") {
+            return .uncommon
+        } else {
+            return .common
+        }
+    }
+    
+    private func formatDuration(_ duration: TimeInterval) -> String {
+        let hours = Int(duration) / 3600
+        let minutes = Int(duration) % 3600 / 60
+        
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
     }
 }
 
@@ -231,7 +409,6 @@ struct InventorySlotView: View {
     let item: ItemEntity?
     let isSelected: Bool
     let onTap: () -> Void
-    let onLongPress: () -> Void
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -292,9 +469,6 @@ struct InventorySlotView: View {
         }
         .onTapGesture {
             onTap()
-        }
-        .onLongPressGesture {
-            onLongPress()
         }
     }
 
