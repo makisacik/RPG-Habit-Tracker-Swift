@@ -422,64 +422,76 @@ struct InventorySlotView: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        ZStack {
-            // Slot background
-            RoundedRectangle(cornerRadius: 4)
-                .strokeBorder(
-                    isSelected ? Color.yellow : Color.white.opacity(0.4),
-                    lineWidth: isSelected ? 2 : 1.5
-                )
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.purple.opacity(0.3))
-                )
-                .aspectRatio(1, contentMode: .fit)
+        
+        Button(action: onTap) {
+            ZStack {
+                // Slot background
+                RoundedRectangle(cornerRadius: 4)
+                    .strokeBorder(
+                        isSelected ? Color.yellow : Color.white.opacity(0.4),
+                        lineWidth: isSelected ? 2 : 1.5
+                    )
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color.purple.opacity(0.3))
+                    )
 
-            if let item = item {
-                // Item icon
-                VStack(spacing: 2) {
-                    if item.iconName?.contains("potion_health") == true {
-                        // Use custom health potion icon
-                        let rarity = getPotionRarity(from: item.iconName ?? "")
-                        HealthPotionIconView(rarity: rarity, size: 20)
-                    } else {
-                        Image(item.iconName ?? "")
-                            .resizable()
-                            .scaledToFit()
-                            .padding(6)
-                    }
-
-                    // Item type indicator
-                    if inventoryManager.isFunctionalItem(item) {
-                        Image(systemName: "bolt.fill")
-                            .font(.system(size: 8))
-                            .foregroundColor(.yellow)
-                    } else {
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 8))
-                            .foregroundColor(.white.opacity(0.6))
-                    }
-                }
-
-                // XP Boost indicator
-                if inventoryManager.isXPBoost(item) {
-                    VStack {
+                if let item = item {
+                    // Main content container
+                    VStack(spacing: 0) {
+                        // Item icon container
+                        ZStack {
+                            if item.iconName?.contains("potion_health") == true {
+                                // Use custom health potion icon
+                                let rarity = getPotionRarity(from: item.iconName ?? "")
+                                HealthPotionIconView(rarity: rarity, size: 36)
+                            } else {
+                                Image(item.iconName ?? "")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxWidth: 40, maxHeight: 40)
+                                    .padding(2)
+                            }
+                            
+                            // XP Boost indicator (top-right corner)
+                            if inventoryManager.isXPBoost(item) {
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        Image(systemName: "arrow.up.circle.fill")
+                                            .font(.system(size: 10))
+                                            .foregroundColor(.green)
+                                            .background(Circle().fill(Color.white))
+                                            .offset(x: 2, y: -2)
+                                    }
+                                    Spacer()
+                                }
+                            }
+                        }
+                        .frame(height: 44)
+                        
+                        // Item type indicator (bottom)
                         HStack {
                             Spacer()
-                            Image(systemName: "arrow.up.circle.fill")
-                                .font(.system(size: 10))
-                                .foregroundColor(.green)
-                                .background(Circle().fill(Color.white))
+                            if inventoryManager.isFunctionalItem(item) {
+                                Image(systemName: "bolt.fill")
+                                    .font(.system(size: 8))
+                                    .foregroundColor(.yellow)
+                            } else {
+                                Image(systemName: "star.fill")
+                                    .font(.system(size: 8))
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                            Spacer()
                         }
-                        Spacer()
+                        .frame(height: 10)
                     }
                     .padding(2)
                 }
             }
         }
-        .onTapGesture {
-            onTap()
-        }
+        .buttonStyle(PlainButtonStyle())
+        .aspectRatio(1, contentMode: .fit)
     }
 
     private func getPotionRarity(from iconName: String) -> ItemRarity {
