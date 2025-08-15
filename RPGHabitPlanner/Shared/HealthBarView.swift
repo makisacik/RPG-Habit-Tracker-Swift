@@ -287,35 +287,35 @@ struct CompactHealthBarView: View {
     
     private func healthGradient(for percentage: Double) -> LinearGradient {
         let colors: [Color]
-        
+
         switch percentage {
         case 0.0..<0.25:
-            colors = [.red, .red.opacity(0.8)]
+            colors = [Color.red, Color.red.opacity(0.8)]
         case 0.25..<0.5:
-            colors = [.orange, .red.opacity(0.7)]
+            colors = [Color.red.opacity(0.9), Color.red.opacity(0.7)]
         case 0.5..<0.75:
-            colors = [.yellow, .orange.opacity(0.7)]
+            colors = [Color.red.opacity(0.8), Color.red.opacity(0.6)]
         default:
-            colors = [.green, .green.opacity(0.8)]
+            colors = [Color.red.opacity(0.7), Color.red.opacity(0.5)]
         }
-        
+
         return LinearGradient(
             gradient: Gradient(colors: colors),
             startPoint: .leading,
             endPoint: .trailing
         )
     }
-    
+
     private func healthColor(for percentage: Double) -> Color {
         switch percentage {
         case 0.0..<0.25:
             return .red
         case 0.25..<0.5:
-            return .orange
+            return .red
         case 0.5..<0.75:
-            return .yellow
+            return .red
         default:
-            return .green
+            return .red
         }
     }
 }

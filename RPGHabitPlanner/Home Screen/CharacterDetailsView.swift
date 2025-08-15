@@ -63,7 +63,64 @@ struct CharacterDetailsView: View {
                             }
                             
                             // Health Status
-                            HealthStatusView(healthManager: healthManager, showDetails: true)
+                            VStack(spacing: 8) {
+                                HStack {
+                                    Image(systemName: "heart.fill")
+                                        .font(.system(size: 16))
+                                        .foregroundColor(.red)
+                                    Text("Health")
+                                        .font(.appFont(size: 14, weight: .black))
+                                        .foregroundColor(theme.textColor)
+                                    Spacer()
+                                    Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
+                                        .font(.appFont(size: 12, weight: .black))
+                                        .foregroundColor(theme.textColor)
+                                }
+                                
+                                // Reddish health bar
+                                GeometryReader { geometry in
+                                    ZStack(alignment: .leading) {
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(Color.red.opacity(0.2))
+                                            .frame(height: 12)
+
+                                        let healthPercentage = healthManager.getHealthPercentage()
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(
+                                                LinearGradient(
+                                                    colors: [Color.red, Color.red.opacity(0.8)],
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                )
+                                            )
+                                            .frame(width: geometry.size.width * healthPercentage, height: 12)
+                                            .animation(.easeOut(duration: 0.5), value: healthPercentage)
+                                    }
+                                }
+                                .frame(height: 12)
+                                
+                                // Health Status Text
+                                HStack {
+                                    Text(healthStatusText(for: healthManager.getHealthPercentage()))
+                                        .font(.appFont(size: 12, weight: .medium))
+                                        .foregroundColor(.red)
+
+                                    Spacer()
+
+                                    Text("\(Int(healthManager.getHealthPercentage() * 100))%")
+                                        .font(.appFont(size: 12, weight: .black))
+                                        .foregroundColor(theme.textColor.opacity(0.8))
+                                }
+                            }
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(theme.secondaryColor)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
                             
                             // Coins display
                             HStack {
@@ -162,5 +219,24 @@ struct CharacterDetailsView: View {
         }
         .presentationDetents([.fraction(0.45)])
                         .navigationTitle(String.characterDetails.localized)
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func healthStatusText(for percentage: Double) -> String {
+        switch percentage {
+        case 0.0:
+            return "Dead"
+        case 0.0..<0.25:
+            return "Critical"
+        case 0.25..<0.5:
+            return "Injured"
+        case 0.5..<0.75:
+            return "Wounded"
+        case 0.75..<1.0:
+            return "Healthy"
+        default:
+            return "Full Health"
+        }
     }
 }
