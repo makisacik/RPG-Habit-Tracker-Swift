@@ -14,6 +14,7 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var didLevelUp: Bool = false
     @Published var questCompleted: Bool = false
     @Published var newLevel: Int16?
+    @Published var lastCompletedQuestId: UUID?
     @Published var lastRefreshDay: Date = Calendar.current.startOfDay(for: Date())
     @Published var selectedDayFilter: DayFilter = .active
 
@@ -131,6 +132,7 @@ final class QuestTrackingViewModel: ObservableObject {
                         if let expError = expError {
                             self.errorMessage = expError.localizedDescription
                         } else {
+                            self.lastCompletedQuestId = id
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel

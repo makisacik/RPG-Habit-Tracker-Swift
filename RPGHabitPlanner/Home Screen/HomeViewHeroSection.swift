@@ -58,6 +58,20 @@ extension HomeView {
                                 .foregroundColor(theme.textColor.opacity(0.7))
                         }
                         
+                        // Coin display
+                        HStack {
+                            HStack(spacing: 4) {
+                                Image("icon_gold")
+                                    .resizable()
+                                    .frame(width: 16, height: 16)
+                                Text("\(user.coins)")
+                                    .font(.appFont(size: 16, weight: .black))
+                                    .foregroundColor(.yellow)
+                            }
+
+                            Spacer()
+                        }
+                        
                         // Experience Bar
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 6)

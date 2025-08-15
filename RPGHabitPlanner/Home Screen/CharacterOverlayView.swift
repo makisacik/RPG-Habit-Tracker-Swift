@@ -40,6 +40,17 @@ struct CharacterOverlayView: View {
                     .font(.appFont(size: 14, weight: .regular))
                     .foregroundColor(theme.textColor)
 
+                // Coins display
+                HStack {
+                    Image("icon_gold")
+                        .resizable()
+                        .frame(width: 12, height: 12)
+                    Text("\(user.coins)")
+                        .font(.appFont(size: 12, weight: .black))
+                        .foregroundColor(.yellow)
+                    Spacer()
+                }
+
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 6)
                         .fill(theme.backgroundColor)

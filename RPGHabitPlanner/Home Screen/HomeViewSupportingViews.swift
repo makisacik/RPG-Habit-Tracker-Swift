@@ -199,6 +199,7 @@ struct NavigationQuickActionCard: View {
 
 enum HomeTab: Hashable {
     case home
+    case shop
     case tracking
     case character
     case achievements

@@ -141,6 +141,16 @@ extension HomeView {
                 ) {
                     selectedTab = .focusTimer
                 }
+                
+                QuickActionCard(
+                    icon: "cart.fill",
+                    title: "Shop",
+                    subtitle: "Buy items with coins",
+                    color: .yellow,
+                    theme: theme
+                ) {
+                    selectedTab = .shop
+                }
             }
         }
         .padding(16)

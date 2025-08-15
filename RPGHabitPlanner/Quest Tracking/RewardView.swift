@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RewardView: View {
     @Binding var isVisible: Bool
+    let quest: Quest
     @State private var chestOpened = false
     @State private var rewardGiven = false
     @State private var rotation: Double = 0
@@ -57,9 +58,23 @@ struct RewardView: View {
                         chestOpened = true
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        let randomItem = InventoryManager.shared.getRandomReward()
-                        InventoryManager.shared.addToInventory(randomItem)
-                        rewardItem = randomItem
+                        // Calculate coin reward based on quest difficulty and type
+                        let coinReward = CurrencyManager.shared.calculateQuestReward(
+                            difficulty: quest.difficulty,
+                            isMainQuest: quest.isMainQuest,
+                            taskCount: quest.tasks.count
+                        )
+                        
+                        // Add coins to user
+                        CurrencyManager.shared.addCoins(coinReward) { error in
+                            if let error = error {
+                                print("❌ Error adding coins: \(error)")
+                            }
+                        }
+                        
+                        // Create a coin reward item for display
+                        rewardItem = Item(name: "Coins", info: "You earned \(coinReward) coins!", iconName: "icon_gold")
+                        
                         withAnimation {
                             rewardGiven = true
                         }

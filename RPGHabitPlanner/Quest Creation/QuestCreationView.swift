@@ -480,6 +480,13 @@ struct QuestDetailsView: View {
                 // Difficulty
                 GamifiedDifficultySection(difficulty: $viewModel.difficulty)
                 
+                // Coin Reward Preview
+                CoinRewardPreviewSection(
+                    difficulty: viewModel.difficulty,
+                    isMainQuest: viewModel.isMainQuest,
+                    taskCount: viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count
+                )
+                
                 // Repeat Type
                 GamifiedRepeatTypeSection(repeatType: $viewModel.repeatType)
                 
@@ -588,6 +595,12 @@ struct QuestAcceptanceView: View {
                         title: "Tasks",
                         value: "\(viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count) tasks",
                         icon: "list.bullet.circle.fill"
+                    )
+                    
+                    QuestSummaryCard(
+                        title: "Reward",
+                        value: "\(CurrencyManager.shared.calculateQuestReward(difficulty: viewModel.difficulty, isMainQuest: viewModel.isMainQuest, taskCount: viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count)) coins",
+                        icon: "icon_gold"
                     )
                 }
                 .padding()
@@ -971,6 +984,89 @@ struct GamifiedRepeatTypeSection: View {
                 Text("Weekly").tag(QuestRepeatType.weekly)
             }
             .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.primaryColor.opacity(0.3))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                    )
+            )
+        }
+    }
+}
+
+struct CoinRewardPreviewSection: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let difficulty: Int
+    let isMainQuest: Bool
+    let taskCount: Int
+    
+    private var coinReward: Int {
+        CurrencyManager.shared.calculateQuestReward(
+            difficulty: difficulty,
+            isMainQuest: isMainQuest,
+            taskCount: taskCount
+        )
+    }
+    
+    var body: some View {
+        let theme = themeManager.activeTheme
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image("icon_gold")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                Text("Quest Reward")
+                    .font(.appFont(size: 14, weight: .black))
+                    .foregroundColor(theme.textColor)
+                
+                Spacer()
+                
+                HStack(spacing: 4) {
+                    Image("icon_gold")
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                    Text("\(coinReward)")
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(.yellow)
+                }
+            }
+            
+            VStack(spacing: 8) {
+                HStack {
+                    Text("Base Reward:")
+                        .font(.appFont(size: 12, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                    Spacer()
+                    Text("\(difficulty * 10)")
+                        .font(.appFont(size: 12, weight: .black))
+                        .foregroundColor(theme.textColor)
+                }
+                
+                if isMainQuest {
+                    HStack {
+                        Text("Main Quest Bonus:")
+                            .font(.appFont(size: 12, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                        Spacer()
+                        Text("+50")
+                            .font(.appFont(size: 12, weight: .black))
+                            .foregroundColor(.green)
+                    }
+                }
+                
+                HStack {
+                    Text("Task Bonus:")
+                        .font(.appFont(size: 12, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                    Spacer()
+                    Text("+\(taskCount * 5)")
+                        .font(.appFont(size: 12, weight: .black))
+                        .foregroundColor(.blue)
+                }
+            }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)

@@ -21,6 +21,7 @@ final class UserManager {
         weapon: Weapon,
         level: Int16 = 1,
         exp: Int16 = 0,
+        coins: Int32 = 100,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -32,6 +33,7 @@ final class UserManager {
         userEntity.weapon = weapon.rawValue
         userEntity.level = level
         userEntity.exp = exp
+        userEntity.coins = coins
         
         do {
             try context.save()

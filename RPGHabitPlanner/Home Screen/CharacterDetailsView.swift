@@ -61,6 +61,17 @@ struct CharacterDetailsView: View {
                                     .foregroundColor(theme.textColor)
                             }
                             
+                            // Coins display
+                            HStack {
+                                Image("icon_gold")
+                                    .resizable()
+                                    .frame(width: 16, height: 16)
+                                Text("Coins: \(user.coins)")
+                                    .font(.appFont(size: 16))
+                                    .foregroundColor(.yellow)
+                                Spacer()
+                            }
+                            
                             ZStack(alignment: .leading) {
                                 RoundedRectangle(cornerRadius: 6)
                                     .fill(theme.backgroundColor)
