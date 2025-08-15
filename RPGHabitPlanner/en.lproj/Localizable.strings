@@ -399,3 +399,31 @@
 "on_label" = "On";
 "off_label" = "Off";
 "widget_description" = "Track your current quest progress and due dates.";
+
+// MARK: - Gamified Quest Creation
+"quest_board" = "Quest Board";
+"adventure_awaits" = "Adventure awaits, brave one!";
+"accept_new_quest" = "Accept New Quest";
+"quest_master" = "Quest Master";
+"quest_details_title" = "Quest Details";
+"quest_summary" = "Quest Summary";
+"review_quest" = "Review Quest";
+"accept_quest" = "Accept Quest";
+"quest_name" = "Quest Name";
+"quest_type" = "Quest Type";
+"quest_deadline" = "Quest Deadline";
+"quest_tasks" = "Quest Tasks";
+"quest_difficulty" = "Quest Difficulty";
+"quest_tags" = "Quest Tags";
+"manage_tasks" = "Manage Tasks";
+"add_tags" = "Add Tags";
+"no_tags_selected" = "No tags selected";
+"untitled_quest" = "Untitled Quest";
+"no_description" = "No description";
+"main_quest" = "Main Quest";
+"side_quest" = "Side Quest";
+"stars" = "Stars";
+"tasks_count" = "tasks";
+"preparing_quest" = "Preparing your quest...";
+"greetings_adventurer" = "Greetings, brave adventurer! I have a quest that requires your attention. Are you ready to embark on this journey?";
+"continue" = "Continue";

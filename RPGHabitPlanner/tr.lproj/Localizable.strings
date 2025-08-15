@@ -226,3 +226,31 @@
 "accessibility_progress_bar" = "İlerleme çubuğu";
 "accessibility_star_rating" = "Yıldız derecelendirmesi";
 "accessibility_date_picker" = "Tarih seçici";
+
+// MARK: - Gamified Quest Creation
+"quest_board" = "Görev Panosu";
+"adventure_awaits" = "Macera seni bekliyor, cesur olan!";
+"accept_new_quest" = "Yeni Görev Kabul Et";
+"quest_master" = "Görev Ustası";
+"quest_details_title" = "Görev Detayları";
+"quest_summary" = "Görev Özeti";
+"review_quest" = "Görevi İncele";
+"accept_quest" = "Görevi Kabul Et";
+"quest_name" = "Görev Adı";
+"quest_type" = "Görev Türü";
+"quest_deadline" = "Görev Son Tarihi";
+"quest_tasks" = "Görev Görevleri";
+"quest_difficulty" = "Görev Zorluğu";
+"quest_tags" = "Görev Etiketleri";
+"manage_tasks" = "Görevleri Yönet";
+"add_tags" = "Etiket Ekle";
+"no_tags_selected" = "Etiket seçilmedi";
+"untitled_quest" = "Başlıksız Görev";
+"no_description" = "Açıklama yok";
+"main_quest" = "Ana Görev";
+"side_quest" = "Yan Görev";
+"stars" = "Yıldız";
+"tasks_count" = "görev";
+"preparing_quest" = "Göreviniz hazırlanıyor...";
+"greetings_adventurer" = "Selamlar, cesur maceracı! Dikkatinizi gerektiren bir görevim var. Bu yolculuğa çıkmaya hazır mısınız?";
+"continue" = "Devam Et";
