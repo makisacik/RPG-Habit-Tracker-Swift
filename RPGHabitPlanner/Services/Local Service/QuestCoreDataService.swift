@@ -369,6 +369,12 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 questEntity.isFinishedDate = Date()
                 questEntity.isActive = false
                 try context.save()
+
+                // Post notification to update UI
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .questUpdated, object: nil)
+                }
+
                 completion(nil)
             } else {
                 completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
