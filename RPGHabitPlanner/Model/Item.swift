@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum ItemRarity: String, CaseIterable {
     case common = "Common"
@@ -21,6 +22,16 @@ enum ItemRarity: String, CaseIterable {
         case .rare: return "blue"
         case .epic: return "purple"
         case .legendary: return "orange"
+        }
+    }
+    
+    var uiColor: Color {
+        switch self {
+        case .common: return .gray
+        case .uncommon: return .green
+        case .rare: return .blue
+        case .epic: return .purple
+        case .legendary: return .orange
         }
     }
 }

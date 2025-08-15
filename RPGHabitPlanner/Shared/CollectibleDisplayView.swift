@@ -10,18 +10,18 @@ import SwiftUI
 struct CollectibleDisplayView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var inventoryManager: InventoryManager
-    @State private var selectedItem: ItemEntity?
+    @State private var selectedItem: CollectibleItem?
     @State private var showAddItemSheet = false
     
     private let maxDisplaySlots = 3
     
-    var collectibleItems: [ItemEntity] {
-        inventoryManager.inventoryItems.filter { item in
-            inventoryManager.isCollectibleItem(item)
+    var collectibleItems: [CollectibleItem] {
+        inventoryManager.inventoryItems.compactMap { itemEntity in
+            inventoryManager.getCollectibleItemFromEntity(itemEntity)
         }
     }
     
-    var displayedItems: [ItemEntity] {
+    var displayedItems: [CollectibleItem] {
         Array(collectibleItems.prefix(maxDisplaySlots))
     }
     
@@ -105,7 +105,7 @@ struct CollectibleDisplayView: View {
 
 struct CollectibleItemCard: View {
     @EnvironmentObject var themeManager: ThemeManager
-    let item: ItemEntity
+    let item: CollectibleItem
     let onTap: () -> Void
     @State private var isPressed = false
     
@@ -126,33 +126,36 @@ struct CollectibleItemCard: View {
             VStack(spacing: 8) {
                 // Item icon with glow effect
                 ZStack {
-                    if let iconName = item.iconName {
-                        // Glow
-                        Image(iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .blur(radius: 8)
-                            .opacity(0.6)
-                            .foregroundColor(.yellow)
-                        
-                        // Main icon
-                        Image(iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(theme.textColor)
-                    }
+                    // Glow
+                    Image(item.iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .blur(radius: 8)
+                        .opacity(0.6)
+                        .foregroundColor(item.rarity.uiColor)
+                    
+                    // Main icon
+                    Image(item.iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(theme.textColor)
                 }
                 .frame(width: 60, height: 60)
                 
                 // Item name
-                if let name = item.name {
-                    Text(name)
-                        .font(.appFont(size: 12, weight: .black))
-                        .foregroundColor(theme.textColor)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.center)
+                Text(item.name)
+                    .font(.appFont(size: 12, weight: .black))
+                    .foregroundColor(theme.textColor)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                
+                // Rarity indicator
+                if item.isRare {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 8))
+                        .foregroundColor(item.rarity.uiColor)
                 }
             }
             .frame(width: 80, height: 100)
@@ -162,7 +165,7 @@ struct CollectibleItemCard: View {
                     .fill(theme.secondaryColor)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                            .stroke(item.rarity.uiColor.opacity(0.3), lineWidth: 1)
                     )
                     .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
             )
@@ -208,7 +211,7 @@ struct EmptyCollectibleSlot: View {
 struct CollectibleItemDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
-    let item: ItemEntity
+    let item: CollectibleItem
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -238,31 +241,25 @@ struct CollectibleItemDetailView: View {
                 .padding(.top, 16)
                 
                 // Item icon
-                if let iconName = item.iconName {
-                    Image(iconName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(theme.textColor)
-                        .shadow(radius: 4)
-                }
+                Image(item.iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(theme.textColor)
+                    .shadow(radius: 4)
                 
                 // Item details
                 VStack(spacing: 12) {
-                    if let name = item.name {
-                        Text(name)
-                            .font(.appFont(size: 20, weight: .black))
-                            .foregroundColor(theme.textColor)
-                            .multilineTextAlignment(.center)
-                    }
+                    Text(item.name)
+                        .font(.appFont(size: 20, weight: .black))
+                        .foregroundColor(theme.textColor)
+                        .multilineTextAlignment(.center)
                     
-                    if let info = item.info {
-                        Text(info)
-                            .font(.appFont(size: 14, weight: .medium))
-                            .foregroundColor(theme.textColor.opacity(0.8))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                    }
+                    Text(item.description)
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
                     
                     // Item type badge
                     HStack {
@@ -301,10 +298,10 @@ struct AddCollectibleItemView: View {
     @State private var selectedItemInfo = ""
     @State private var selectedItemIcon = ""
     
-    private var userCollectibleItems: [ItemEntity] {
+    private var userCollectibleItems: [CollectibleItem] {
         // Get collectible items from user's existing inventory
-        return inventoryManager.inventoryItems.filter { item in
-            inventoryManager.isCollectibleItem(item)
+        return inventoryManager.inventoryItems.compactMap { itemEntity in
+            inventoryManager.getCollectibleItemFromEntity(itemEntity)
         }
     }
     
@@ -341,28 +338,24 @@ struct AddCollectibleItemView: View {
                     } else {
                         // User's existing collectible items grid
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-                            ForEach(userCollectibleItems, id: \.self) { item in
+                            ForEach(userCollectibleItems, id: \.id) { item in
                                 Button(action: {
-                                    selectedItemName = item.name ?? ""
-                                    selectedItemInfo = item.info ?? ""
-                                    selectedItemIcon = item.iconName ?? ""
+                                    selectedItemName = item.name
+                                    selectedItemInfo = item.description
+                                    selectedItemIcon = item.iconName
                                 }) {
                                     VStack(spacing: 8) {
-                                        if let iconName = item.iconName {
-                                            Image(iconName)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 40, height: 40)
-                                                .foregroundColor(theme.textColor)
-                                        }
+                                        Image(item.iconName)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(theme.textColor)
                                         
-                                        if let name = item.name {
-                                            Text(name)
-                                                .font(.appFont(size: 12, weight: .black))
-                                                .foregroundColor(theme.textColor)
-                                                .lineLimit(2)
-                                                .multilineTextAlignment(.center)
-                                        }
+                                        Text(item.name)
+                                            .font(.appFont(size: 12, weight: .black))
+                                            .foregroundColor(theme.textColor)
+                                            .lineLimit(2)
+                                            .multilineTextAlignment(.center)
                                     }
                                     .frame(width: 80, height: 80)
                                     .padding(8)

@@ -367,4 +367,60 @@ final class InventoryManager: ObservableObject {
     func isCollectibleItem(_ item: ItemEntity) -> Bool {
         return getItemType(item) == .collectible
     }
+    
+    // MARK: - Item Conversion Methods
+    
+    func getCollectibleItemFromEntity(_ item: ItemEntity) -> CollectibleItem? {
+        guard let name = item.name,
+              let info = item.info,
+              let iconName = item.iconName else {
+            return nil
+        }
+        
+        // Determine rarity based on name or other criteria
+        let rarity: ItemRarity = {
+            if name.contains("Legendary") || name.contains("Crown") || name.contains("Medal") {
+                return .legendary
+            } else if name.contains("Epic") || name.contains("Gold") {
+                return .epic
+            } else if name.contains("Rare") || name.contains("Silver") {
+                return .rare
+            } else if name.contains("Uncommon") || name.contains("Blue") {
+                return .uncommon
+            } else {
+                return .common
+            }
+        }()
+        
+        // Determine if it's rare based on rarity
+        let isRare = rarity == .rare || rarity == .epic || rarity == .legendary
+        
+        // Determine collection category
+        let collectionCategory: String = {
+            if name.contains("Crown") || name.contains("Medal") {
+                return "Royalty"
+            } else if name.contains("Gold") || name.contains("Silver") {
+                return "Treasure"
+            } else if name.contains("Potion") || name.contains("Flask") {
+                return "Alchemy"
+            } else if name.contains("Weapon") || name.contains("Sword") || name.contains("Axe") || name.contains("Bow") {
+                return "Weapons"
+            } else if name.contains("Armor") || name.contains("Helmet") {
+                return "Armor"
+            } else {
+                return "General"
+            }
+        }()
+        
+        return CollectibleItem(
+            id: UUID(), // Generate new ID since ItemEntity doesn't have one
+            name: name,
+            description: info,
+            iconName: iconName,
+            rarity: rarity,
+            value: 0, // Default value
+            collectionCategory: collectionCategory,
+            isRare: isRare
+        )
+    }
 }
