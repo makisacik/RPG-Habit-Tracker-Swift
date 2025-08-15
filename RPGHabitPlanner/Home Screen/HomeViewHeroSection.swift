@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - HomeView Hero Section Extension
 
 extension HomeView {
-    var heroSection: some View {
+    func heroSection(healthManager: HealthManager) -> some View {
         let theme = themeManager.activeTheme
         
         return VStack(spacing: 16) {
@@ -57,6 +57,9 @@ extension HomeView {
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                         }
+                        
+                        // Health Bar
+                        CompactHealthBarView(healthManager: healthManager)
                         
                         // Coin display
                         HStack {

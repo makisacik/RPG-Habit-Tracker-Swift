@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CharacterView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @StateObject private var healthManager = HealthManager.shared
     let user: UserEntity
     
     var body: some View {
@@ -60,64 +61,70 @@ struct CharacterView: View {
                     .frame(height: 250)
                     .clipped()
                     
-                    VStack(spacing: 8) {
-                        HStack {
-                            Image("minimap_icon_star_yellow")
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                            Text("\(String.level.localized) \(user.level)")
-                                .font(.appFont(size: 18))
-                                .foregroundColor(theme.textColor)
-                            Spacer()
-                            Text("\(String.exp.localized): \(user.exp)/100")
-                                .font(.appFont(size: 14))
-                                .foregroundColor(theme.textColor)
-                        }
+                    VStack(spacing: 12) {
+                        // Health Bar
+                        HealthBarView(healthManager: healthManager, size: .large, showShineAnimation: false)
+                            .padding(.horizontal)
                         
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(theme.backgroundColor.opacity(0.7))
-                                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
+                        // Level and Experience
+                        VStack(spacing: 8) {
+                            HStack {
+                                Image("minimap_icon_star_yellow")
+                                    .resizable()
+                                    .frame(width: 18, height: 18)
+                                Text("\(String.level.localized) \(user.level)")
+                                    .font(.appFont(size: 18))
+                                    .foregroundColor(theme.textColor)
+                                Spacer()
+                                Text("\(String.exp.localized): \(user.exp)/100")
+                                    .font(.appFont(size: 14))
+                                    .foregroundColor(theme.textColor)
+                            }
+                            
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(theme.backgroundColor.opacity(0.7))
+                                    .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
+                                    .frame(height: 22)
+
+                                GeometryReader { geometry in
+                                    let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
+                                    if expRatio > 0 {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(
+                                                LinearGradient(
+                                                    gradient: Gradient(colors: [
+                                                        Color.green.opacity(0.9),
+                                                        Color.green.opacity(0.7),
+                                                        Color.green.opacity(0.9)
+                                                    ]),
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                )
+                                            )
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                            )
+                                            .frame(width: geometry.size.width * expRatio, height: 22)
+                                            .animation(.easeOut(duration: 0.3), value: expRatio)
+                                    }
+                                }
                                 .frame(height: 22)
 
-                            GeometryReader { geometry in
-                                let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
-                                if expRatio > 0 {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [
-                                                    Color.green.opacity(0.9),
-                                                    Color.green.opacity(0.7),
-                                                    Color.green.opacity(0.9)
-                                                ]),
-                                                startPoint: .leading,
-                                                endPoint: .trailing
-                                            )
-                                        )
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                                        )
-                                        .frame(width: geometry.size.width * expRatio, height: 22)
-                                        .animation(.easeOut(duration: 0.3), value: expRatio)
+                                HStack {
+                                    Spacer()
+                                    Text("\(user.exp) / 100")
+                                        .font(.appFont(size: 12, weight: .black))
+                                        .foregroundColor(theme.textColor)
+                                        .shadow(radius: 1)
+                                    Spacer()
                                 }
                             }
                             .frame(height: 22)
-
-                            HStack {
-                                Spacer()
-                                Text("\(user.exp) / 100")
-                                    .font(.appFont(size: 12, weight: .black))
-                                    .foregroundColor(theme.textColor)
-                                    .shadow(radius: 1)
-                                Spacer()
-                            }
                         }
-                        .frame(height: 22)
                     }
                     .padding(.horizontal)
-                    
                     
                     Divider()
                         .padding(.horizontal)

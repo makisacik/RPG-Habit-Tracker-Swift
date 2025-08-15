@@ -50,7 +50,13 @@ final class InventoryManager {
         Item(name: "Meat", info: "Cooked meat to restore health", iconName: "icon_meat"),
         Item(name: "Medal", info: "Award for great achievements", iconName: "icon_medal"),
         Item(name: "Pouch", info: "Small pouch for coins or trinkets", iconName: "icon_pouch"),
-        Item(name: "Pumpkin", info: "Festive pumpkin", iconName: "icon_pumpkin")
+        Item(name: "Pumpkin", info: "Festive pumpkin", iconName: "icon_pumpkin"),
+        // Health Potions
+        Item(name: "Minor Health Potion", info: "Restores 15 HP. A basic healing potion.", iconName: "potion_health_minor"),
+        Item(name: "Health Potion", info: "Restores 30 HP. A reliable healing potion.", iconName: "potion_health"),
+        Item(name: "Greater Health Potion", info: "Restores 50 HP. A powerful healing potion.", iconName: "potion_health_greater"),
+        Item(name: "Superior Health Potion", info: "Restores 75 HP. An exceptional healing potion.", iconName: "potion_health_superior"),
+        Item(name: "Legendary Health Potion", info: "Fully restores health. A legendary potion.", iconName: "potion_health_legendary")
     ]
 
     func getRandomReward() -> Item {
@@ -71,5 +77,64 @@ final class InventoryManager {
 
     func clearInventory() {
         service.clearInventory()
+    }
+    
+    // MARK: - Health Potion Methods
+    
+    func isHealthPotion(_ item: ItemEntity) -> Bool {
+        guard let name = item.name else { return false }
+        return name.contains("Health Potion")
+    }
+    
+    func getHealthPotionFromItem(_ item: ItemEntity) -> HealthPotion? {
+        guard let name = item.name else { return nil }
+        
+        switch name {
+        case "Minor Health Potion":
+            return HealthPotion.minorHealthPotion
+        case "Health Potion":
+            return HealthPotion.healthPotion
+        case "Greater Health Potion":
+            return HealthPotion.greaterHealthPotion
+        case "Superior Health Potion":
+            return HealthPotion.superiorHealthPotion
+        case "Legendary Health Potion":
+            return HealthPotion.legendaryHealthPotion
+        default:
+            return nil
+        }
+    }
+    
+    func useHealthPotion(_ item: ItemEntity, completion: @escaping (Bool, Error?) -> Void) {
+        guard let healthPotion = getHealthPotionFromItem(item) else {
+            completion(false, NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "Not a health potion"]))
+            return
+        }
+        
+        // Use the potion
+        healthPotion.use(on: HealthManager.shared) { error in
+            if error == nil {
+                // Remove the potion from inventory after use
+                self.removeFromInventory(item)
+                completion(true, nil)
+            } else {
+                completion(false, error)
+            }
+        }
+    }
+    
+    func addHealthPotionToInventory(_ potion: HealthPotion) {
+        service.addItem(name: potion.name, info: potion.description, iconName: potion.iconName)
+    }
+    
+    func getRandomHealthPotion() -> HealthPotion {
+        return HealthPotion.allHealthPotions.randomElement() ?? HealthPotion.healthPotion
+    }
+    
+    func addStarterHealthPotions() {
+        // Add some starter health potions for testing
+        addHealthPotionToInventory(HealthPotion.minorHealthPotion)
+        addHealthPotionToInventory(HealthPotion.healthPotion)
+        addHealthPotionToInventory(HealthPotion.greaterHealthPotion)
     }
 }

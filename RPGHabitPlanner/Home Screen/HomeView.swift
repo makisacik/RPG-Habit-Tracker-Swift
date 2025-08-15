@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var showPaywall = false
     @State private var shouldNavigateToQuestCreation = false
     @State private var currentQuestCount = 0
+    @StateObject private var healthManager = HealthManager.shared
+    @StateObject private var questFailureHandler = QuestFailureHandler.shared
 
     let questDataService: QuestDataServiceProtocol
 
@@ -29,7 +31,7 @@ struct HomeView: View {
                     theme.backgroundColor.ignoresSafeArea()
                     ScrollView {
                         VStack(spacing: 20) {
-                            heroSection
+                            heroSection(healthManager: healthManager)
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             activeQuestsSection
                             recentAchievementsSection
@@ -37,6 +39,19 @@ struct HomeView: View {
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 10)
+                    }
+                    
+                    // Quest Failure Notification
+                    if questFailureHandler.showFailureNotification {
+                        VStack {
+                            QuestFailureNotificationView(
+                                message: questFailureHandler.failureMessage,
+                                isVisible: $questFailureHandler.showFailureNotification
+                            )
+                            .padding(.horizontal)
+                            Spacer()
+                        }
+                        .zIndex(30)
                     }
                 }
                 .navigationTitle(String.adventureHub.localized)
@@ -96,6 +111,9 @@ struct HomeView: View {
                     viewModel.fetchDashboardData()
                     fetchCurrentQuestCount()
                     WidgetCenter.shared.reloadAllTimelines()
+                    
+                    // Check for failed quests
+                    questFailureHandler.performDailyQuestCheck()
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .questCreated)) { _ in
                     fetchCurrentQuestCount()

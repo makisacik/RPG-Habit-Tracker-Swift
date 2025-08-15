@@ -22,6 +22,8 @@ final class UserManager {
         level: Int16 = 1,
         exp: Int16 = 0,
         coins: Int32 = 100,
+        health: Int16 = 50,
+        maxHealth: Int16 = 50,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -34,6 +36,8 @@ final class UserManager {
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins
+        userEntity.health = health
+        userEntity.maxHealth = maxHealth
         
         do {
             try context.save()

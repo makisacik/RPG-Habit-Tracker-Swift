@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CharacterDetailsView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @StateObject private var healthManager = HealthManager.shared
     let user: UserEntity
     
     var body: some View {
@@ -60,6 +61,9 @@ struct CharacterDetailsView: View {
                                     .font(.appFont(size: 14))
                                     .foregroundColor(theme.textColor)
                             }
+                            
+                            // Health Status
+                            HealthStatusView(healthManager: healthManager, showDetails: true)
                             
                             // Coins display
                             HStack {

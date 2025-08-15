@@ -48,6 +48,8 @@
         <attribute name="characterClass" optional="YES" attributeType="String"/>
         <attribute name="coins" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="exp" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="health" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
+        <attribute name="maxHealth" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String"/>

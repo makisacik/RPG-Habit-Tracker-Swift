@@ -9,8 +9,11 @@ import SwiftUI
 
 struct InventoryView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @StateObject private var healthManager = HealthManager.shared
     @State private var items: [ItemEntity] = []
     @State private var selectedItem: ItemEntity?
+    @State private var showUsePotionAlert = false
+    @State private var potionToUse: ItemEntity?
     
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 6), count: 6)
     
@@ -45,6 +48,12 @@ struct InventoryView: View {
                                     selectedItem = nil
                                 }
                             }
+                            .onLongPressGesture {
+                                if let item = item, InventoryManager.shared.isHealthPotion(item) {
+                                    potionToUse = item
+                                    showUsePotionAlert = true
+                                }
+                            }
                             .overlay(
                                 InfoBubbleView(item: item, selectedItem: selectedItem)
                                     .environmentObject(themeManager)
@@ -60,6 +69,31 @@ struct InventoryView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             items = InventoryManager.shared.fetchInventory()
+            
+            // Add starter health potions if inventory is empty (for testing)
+            if items.isEmpty {
+                InventoryManager.shared.addStarterHealthPotions()
+                items = InventoryManager.shared.fetchInventory()
+            }
+        }
+        .alert("Use Health Potion", isPresented: $showUsePotionAlert) {
+            Button("Use") {
+                if let potion = potionToUse {
+                    InventoryManager.shared.useHealthPotion(potion) { success, _ in
+                        if success {
+                            // Refresh inventory
+                            items = InventoryManager.shared.fetchInventory()
+                            selectedItem = nil
+                        }
+                    }
+                }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            if let potion = potionToUse {
+                let healthPotion = InventoryManager.shared.getHealthPotionFromItem(potion)
+                Text("Use \(potion.name ?? "Health Potion") to restore \(healthPotion?.displayHealAmount ?? "health")?")
+            }
         }
     }
     
@@ -83,6 +117,25 @@ struct InventoryView: View {
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.9))
                         .multilineTextAlignment(.center)
+                    
+                    // Show health potion info if applicable
+                    if InventoryManager.shared.isHealthPotion(current),
+                       let healthPotion = InventoryManager.shared.getHealthPotionFromItem(current) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "heart.fill")
+                                .font(.system(size: 10))
+                                .foregroundColor(.red)
+                            Text(healthPotion.displayHealAmount)
+                                .font(.appFont(size: 10, weight: .black))
+                                .foregroundColor(.red)
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Color.red.opacity(0.2))
+                        )
+                    }
                 }
                 .padding(10)
                 .frame(minWidth: 120, maxWidth: 180)
@@ -110,11 +163,31 @@ struct InventorySlotView: View {
                 .aspectRatio(1, contentMode: .fit)
             
             if let iconName = iconName {
-                Image(iconName)
-                    .resizable()
-                    .scaledToFit()
-                    .padding(6)
+                if iconName.contains("potion_health") {
+                    // Use custom health potion icon
+                    let rarity = getPotionRarity(from: iconName)
+                    HealthPotionIconView(rarity: rarity, size: 20)
+                } else {
+                    Image(iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(6)
+                }
             }
+        }
+    }
+    
+    private func getPotionRarity(from iconName: String) -> ItemRarity {
+        if iconName.contains("legendary") {
+            return .legendary
+        } else if iconName.contains("superior") {
+            return .epic
+        } else if iconName.contains("greater") {
+            return .rare
+        } else if iconName.contains("health") && !iconName.contains("minor") {
+            return .uncommon
+        } else {
+            return .common
         }
     }
 }
