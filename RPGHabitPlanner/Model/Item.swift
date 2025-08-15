@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum ItemRarity: String, CaseIterable {
+enum ItemRarity: String, CaseIterable, Codable {
     case common = "Common"
     case uncommon = "Uncommon"
     case rare = "Rare"
@@ -38,7 +38,7 @@ enum ItemRarity: String, CaseIterable {
 
 // MARK: - Item Types
 
-enum ItemType: String, CaseIterable {
+enum ItemType: String, CaseIterable, Codable {
     case collectible = "Collectible"
     case functional = "Functional"
 
@@ -52,7 +52,7 @@ enum ItemType: String, CaseIterable {
     }
 }
 
-enum FunctionalItemType: String, CaseIterable {
+enum FunctionalItemType: String, CaseIterable, Codable {
     case consumable = "Consumable"
     case equipable = "Equipable"
 
@@ -78,39 +78,6 @@ protocol GameItem: Identifiable, Equatable {
     var value: Int { get }
 }
 
-// MARK: - Collectible Items
-
-struct CollectibleItem: GameItem {
-    let id: UUID
-    let name: String
-    let description: String
-    let iconName: String
-    let rarity: ItemRarity
-    let itemType: ItemType = .collectible
-    let value: Int
-    let collectionCategory: String
-    let isRare: Bool
-
-    init(
-        id: UUID = UUID(),
-        name: String,
-        description: String,
-        iconName: String,
-        rarity: ItemRarity = .common,
-        value: Int = 0,
-        collectionCategory: String = "General",
-        isRare: Bool = false
-    ) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.iconName = iconName
-        self.rarity = rarity
-        self.value = value
-        self.collectionCategory = collectionCategory
-        self.isRare = isRare
-    }
-}
 
 // MARK: - Functional Items
 

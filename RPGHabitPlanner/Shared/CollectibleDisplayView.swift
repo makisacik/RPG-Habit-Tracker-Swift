@@ -10,18 +10,18 @@ import SwiftUI
 struct CollectibleDisplayView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var inventoryManager: InventoryManager
-    @State private var selectedItem: CollectibleItem?
+    @State private var selectedItem: Item?
     @State private var showAddItemSheet = false
     
     private let maxDisplaySlots = 3
     
-    var collectibleItems: [CollectibleItem] {
+    var collectibleItems: [Item] {
         inventoryManager.inventoryItems.compactMap { itemEntity in
-            inventoryManager.getCollectibleItemFromEntity(itemEntity)
-        }
+            inventoryManager.getItemFromEntity(itemEntity)
+        }.filter { $0.itemType == .collectible }
     }
     
-    var displayedItems: [CollectibleItem] {
+    var displayedItems: [Item] {
         Array(collectibleItems.prefix(maxDisplaySlots))
     }
     
@@ -105,7 +105,7 @@ struct CollectibleDisplayView: View {
 
 struct CollectibleItemCard: View {
     @EnvironmentObject var themeManager: ThemeManager
-    let item: CollectibleItem
+    let item: Item
     let onTap: () -> Void
     @State private var isPressed = false
     
@@ -211,7 +211,7 @@ struct EmptyCollectibleSlot: View {
 struct CollectibleItemDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
-    let item: CollectibleItem
+    let item: Item
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -298,11 +298,11 @@ struct AddCollectibleItemView: View {
     @State private var selectedItemInfo = ""
     @State private var selectedItemIcon = ""
     
-    private var userCollectibleItems: [CollectibleItem] {
+    private var userCollectibleItems: [Item] {
         // Get collectible items from user's existing inventory
         return inventoryManager.inventoryItems.compactMap { itemEntity in
-            inventoryManager.getCollectibleItemFromEntity(itemEntity)
-        }
+            inventoryManager.getItemFromEntity(itemEntity)
+        }.filter { $0.itemType == .collectible }
     }
     
     var body: some View {

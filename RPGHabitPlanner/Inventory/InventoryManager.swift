@@ -8,19 +8,52 @@
 import Foundation
 import Combine
 
-// MARK: - Legacy Item (keeping for compatibility)
+// MARK: - Enhanced Item Model
 
-struct Item: Identifiable, Codable, Equatable {
+struct Item: GameItem, Codable, Equatable {
     let id: UUID
     let name: String
-    let info: String
+    let description: String
     let iconName: String
+    let rarity: ItemRarity
+    let itemType: ItemType
+    let value: Int
+    let collectionCategory: String?
+    let isRare: Bool
 
+    init(
+        id: UUID = UUID(),
+        name: String,
+        description: String,
+        iconName: String,
+        rarity: ItemRarity = .common,
+        itemType: ItemType = .collectible,
+        value: Int = 0,
+        collectionCategory: String? = nil,
+        isRare: Bool = false
+    ) {
+        self.id = id
+        self.name = name
+        self.description = description
+        self.iconName = iconName
+        self.rarity = rarity
+        self.itemType = itemType
+        self.value = value
+        self.collectionCategory = collectionCategory
+        self.isRare = isRare
+    }
+    
+    // Legacy initializer for backward compatibility
     init(name: String, info: String, iconName: String) {
         self.id = UUID()
         self.name = name
-        self.info = info
+        self.description = info
         self.iconName = iconName
+        self.rarity = .common
+        self.itemType = .collectible
+        self.value = 0
+        self.collectionCategory = nil
+        self.isRare = false
     }
 }
 
@@ -205,41 +238,46 @@ final class InventoryManager: ObservableObject {
         return nil
     }
 
-    // MARK: - Legacy Support
+    // MARK: - Item Database
 
     let allItems: [Item] = [
-        Item(name: "Armor", info: "Protective armor to increase defense", iconName: "icon_armor"),
-        Item(name: "Arrows", info: "A bundle of arrows for ranged attacks", iconName: "icon_arrows"),
-        Item(name: "Axe Spear", info: "Dual weapon for melee combat", iconName: "icon_axe_spear"),
-        Item(name: "Axe", info: "Heavy axe for chopping or battle", iconName: "icon_axe"),
-        Item(name: "Bow", info: "Ranged weapon for precision attacks", iconName: "icon_bow"),
-        Item(name: "Crown", info: "Symbol of royalty", iconName: "icon_crown"),
-        Item(name: "Egg", info: "Mysterious egg, what's inside?", iconName: "icon_egg"),
-        Item(name: "Flask Blue", info: "Magical blue potion", iconName: "icon_flask_blue"),
-        Item(name: "Flask Purple", info: "Magical purple potion", iconName: "icon_flask_purple"),
-        Item(name: "Flash Green", info: "Instant energy boost", iconName: "icon_flash_green"),
-        Item(name: "Flash Red", info: "Health regeneration potion", iconName: "icon_flash_red"),
-        Item(name: "Gold", info: "Precious gold coin", iconName: "icon_gold"),
-        Item(name: "Hammer", info: "Tool or weapon for strong strikes", iconName: "icon_hammer"),
-        Item(name: "Helmet", info: "Protective headgear", iconName: "icon_helmet"),
-        Item(name: "Helmet Witch", info: "Magical witch's hat", iconName: "icon_helmet_witch"),
-        Item(name: "Key Gold", info: "Opens golden locks", iconName: "icon_key_gold"),
-        Item(name: "Key Silver", info: "Opens silver locks", iconName: "icon_key_silver"),
-        Item(name: "Meat", info: "Cooked meat to restore health", iconName: "icon_meat"),
-        Item(name: "Medal", info: "Award for great achievements", iconName: "icon_medal"),
-        Item(name: "Pouch", info: "Small pouch for coins or trinkets", iconName: "icon_pouch"),
-        Item(name: "Pumpkin", info: "Festive pumpkin", iconName: "icon_pumpkin"),
-        // Health Potions
-        Item(name: "Minor Health Potion", info: "Restores 15 HP. A basic healing potion.", iconName: "potion_health_minor"),
-        Item(name: "Health Potion", info: "Restores 30 HP. A reliable healing potion.", iconName: "potion_health"),
-        Item(name: "Greater Health Potion", info: "Restores 50 HP. A powerful healing potion.", iconName: "potion_health_greater"),
-        Item(name: "Superior Health Potion", info: "Restores 75 HP. An exceptional healing potion.", iconName: "potion_health_superior"),
-        Item(name: "Legendary Health Potion", info: "Fully restores health. A legendary potion.", iconName: "potion_health_legendary"),
-        // XP Boosts
-        Item(name: "Minor XP Boost", info: "Increases XP gain by 25% for 30 minutes", iconName: "icon_xp_boost_minor"),
-        Item(name: "XP Boost", info: "Increases XP gain by 50% for 1 hour", iconName: "icon_xp_boost"),
-        Item(name: "Greater XP Boost", info: "Increases XP gain by 100% for 2 hours", iconName: "icon_xp_boost_greater"),
-        Item(name: "Legendary XP Boost", info: "Increases XP gain by 200% for 4 hours", iconName: "icon_xp_boost_legendary")
+        // Collectible Items
+        Item(name: "Armor", description: "Protective armor to increase defense", iconName: "icon_armor", itemType: .collectible, collectionCategory: "Armor"),
+        Item(name: "Arrows", description: "A bundle of arrows for ranged attacks", iconName: "icon_arrows", itemType: .collectible, collectionCategory: "Weapons"),
+        Item(name: "Axe Spear", description: "Dual weapon for melee combat", iconName: "icon_axe_spear", itemType: .collectible, collectionCategory: "Weapons"),
+        Item(name: "Axe", description: "Heavy axe for chopping or battle", iconName: "icon_axe", itemType: .collectible, collectionCategory: "Weapons"),
+        Item(name: "Bow", description: "Ranged weapon for precision attacks", iconName: "icon_bow", itemType: .collectible, collectionCategory: "Weapons"),
+        Item(name: "Crown", description: "Symbol of royalty", iconName: "icon_crown", rarity: .legendary, itemType: .collectible, collectionCategory: "Royalty", isRare: true),
+        Item(name: "Egg", description: "Mysterious egg, what's inside?", iconName: "icon_egg", itemType: .collectible, collectionCategory: "General"),
+        Item(name: "Gold", description: "Precious gold coin", iconName: "icon_gold", rarity: .epic, itemType: .collectible, collectionCategory: "Treasure", isRare: true),
+        Item(name: "Hammer", description: "Tool or weapon for strong strikes", iconName: "icon_hammer", itemType: .collectible, collectionCategory: "Weapons"),
+        Item(name: "Helmet", description: "Protective headgear", iconName: "icon_helmet", itemType: .collectible, collectionCategory: "Armor"),
+        Item(name: "Helmet Witch", description: "Magical witch's hat", iconName: "icon_helmet_witch", itemType: .collectible, collectionCategory: "Armor"),
+        Item(name: "Key Gold", description: "Opens golden locks", iconName: "icon_key_gold", rarity: .epic, itemType: .collectible, collectionCategory: "Treasure", isRare: true),
+        Item(name: "Key Silver", description: "Opens silver locks", iconName: "icon_key_silver", rarity: .rare, itemType: .collectible, collectionCategory: "Treasure", isRare: true),
+        Item(name: "Meat", description: "Cooked meat to restore health", iconName: "icon_meat", itemType: .collectible, collectionCategory: "General"),
+        Item(name: "Medal", description: "Award for great achievements", iconName: "icon_medal", rarity: .legendary, itemType: .collectible, collectionCategory: "Royalty", isRare: true),
+        Item(name: "Pouch", description: "Small pouch for coins or trinkets", iconName: "icon_pouch", itemType: .collectible, collectionCategory: "General"),
+        Item(name: "Pumpkin", description: "Festive pumpkin", iconName: "icon_pumpkin", itemType: .collectible, collectionCategory: "General"),
+        
+        // Functional Items (Potions & Flasks)
+        Item(name: "Flask Blue", description: "Magical blue potion", iconName: "icon_flask_blue", itemType: .functional),
+        Item(name: "Flask Purple", description: "Magical purple potion", iconName: "icon_flask_purple", itemType: .functional),
+        Item(name: "Flash Green", description: "Instant energy boost", iconName: "icon_flash_green", itemType: .functional),
+        Item(name: "Flash Red", description: "Health regeneration potion", iconName: "icon_flash_red", itemType: .functional),
+        
+        // Health Potions (Functional)
+        Item(name: "Minor Health Potion", description: "Restores 15 HP. A basic healing potion.", iconName: "potion_health_minor", itemType: .functional),
+        Item(name: "Health Potion", description: "Restores 30 HP. A reliable healing potion.", iconName: "potion_health", itemType: .functional),
+        Item(name: "Greater Health Potion", description: "Restores 50 HP. A powerful healing potion.", iconName: "potion_health_greater", itemType: .functional),
+        Item(name: "Superior Health Potion", description: "Restores 75 HP. An exceptional healing potion.", iconName: "potion_health_superior", itemType: .functional),
+        Item(name: "Legendary Health Potion", description: "Fully restores health. A legendary potion.", iconName: "potion_health_legendary", rarity: .legendary, itemType: .functional, isRare: true),
+        
+        // XP Boosts (Functional)
+        Item(name: "Minor XP Boost", description: "Increases XP gain by 25% for 30 minutes", iconName: "icon_xp_boost_minor", itemType: .functional),
+        Item(name: "XP Boost", description: "Increases XP gain by 50% for 1 hour", iconName: "icon_xp_boost", itemType: .functional),
+        Item(name: "Greater XP Boost", description: "Increases XP gain by 100% for 2 hours", iconName: "icon_xp_boost_greater", itemType: .functional),
+        Item(name: "Legendary XP Boost", description: "Increases XP gain by 200% for 4 hours", iconName: "icon_xp_boost_legendary", rarity: .legendary, itemType: .functional, isRare: true)
     ]
 
     func getRandomReward() -> Item {
@@ -247,7 +285,7 @@ final class InventoryManager: ObservableObject {
     }
 
     func addToInventory(_ item: Item) {
-        service.addItem(name: item.name, info: item.info, iconName: item.iconName)
+        service.addItem(name: item.name, info: item.description, iconName: item.iconName)
         refreshInventory()
     }
 
@@ -370,12 +408,21 @@ final class InventoryManager: ObservableObject {
     
     // MARK: - Item Conversion Methods
     
-    func getCollectibleItemFromEntity(_ item: ItemEntity) -> CollectibleItem? {
+    func getItemFromEntity(_ item: ItemEntity) -> Item? {
         guard let name = item.name,
               let info = item.info,
               let iconName = item.iconName else {
             return nil
         }
+        
+        // Determine item type based on name
+        let itemType: ItemType = {
+            if name.contains("Health Potion") || name.contains("XP Boost") || name.contains("Flask") {
+                return .functional
+            } else {
+                return .collectible
+            }
+        }()
         
         // Determine rarity based on name or other criteria
         let rarity: ItemRarity = {
@@ -395,14 +442,14 @@ final class InventoryManager: ObservableObject {
         // Determine if it's rare based on rarity
         let isRare = rarity == .rare || rarity == .epic || rarity == .legendary
         
-        // Determine collection category
-        let collectionCategory: String = {
+        // Determine collection category (only for collectibles)
+        let collectionCategory: String? = {
+            guard itemType == .collectible else { return nil }
+            
             if name.contains("Crown") || name.contains("Medal") {
                 return "Royalty"
             } else if name.contains("Gold") || name.contains("Silver") {
                 return "Treasure"
-            } else if name.contains("Potion") || name.contains("Flask") {
-                return "Alchemy"
             } else if name.contains("Weapon") || name.contains("Sword") || name.contains("Axe") || name.contains("Bow") {
                 return "Weapons"
             } else if name.contains("Armor") || name.contains("Helmet") {
@@ -412,12 +459,13 @@ final class InventoryManager: ObservableObject {
             }
         }()
         
-        return CollectibleItem(
+        return Item(
             id: UUID(), // Generate new ID since ItemEntity doesn't have one
             name: name,
             description: info,
             iconName: iconName,
             rarity: rarity,
+            itemType: itemType,
             value: 0, // Default value
             collectionCategory: collectionCategory,
             isRare: isRare
