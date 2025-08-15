@@ -110,6 +110,8 @@ struct InventoryView: View {
                 InventoryItemDetailView(item: item)
                     .environmentObject(inventoryManager)
                     .environmentObject(themeManager)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
             }
         }
         .animation(.easeInOut(duration: 0.3), value: showActiveEffects)
@@ -128,26 +130,44 @@ struct InventoryItemDetailView: View {
     var body: some View {
         let theme = themeManager.activeTheme
         
-        NavigationView {
-            ZStack {
-                theme.backgroundColor
-                    .ignoresSafeArea()
-                
-                VStack(spacing: 24) {
-                    // Item icon
-                    if let iconName = item.iconName {
-                        if iconName.contains("potion_health") {
-                            let rarity = getPotionRarity(from: iconName)
-                            HealthPotionIconView(rarity: rarity, size: 80)
-                        } else {
-                            Image(iconName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 120, height: 120)
-                                .foregroundColor(theme.textColor)
-                                .shadow(radius: 8)
-                        }
+        ZStack {
+            theme.backgroundColor
+                .ignoresSafeArea()
+            
+            VStack(spacing: 24) {
+                // Header with close button
+                HStack {
+                    Text("Item Details")
+                        .font(.appFont(size: 18, weight: .black))
+                        .foregroundColor(theme.textColor)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(theme.textColor.opacity(0.6))
                     }
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                
+                // Item icon
+                if let iconName = item.iconName {
+                    if iconName.contains("potion_health") {
+                        let rarity = getPotionRarity(from: iconName)
+                        HealthPotionIconView(rarity: rarity, size: 80)
+                    } else {
+                        Image(iconName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .foregroundColor(theme.textColor)
+                            .shadow(radius: 8)
+                    }
+                }
                     
                     // Item details
                     VStack(spacing: 16) {
@@ -270,19 +290,9 @@ struct InventoryItemDetailView: View {
                     }
                     
                     Spacer()
-                }
+            }
                 .padding()
-            }
-            .navigationTitle("Item Details")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        dismiss()
-                    }
-                    .foregroundColor(.yellow)
-                }
-            }
+        }
         }
     }
     
@@ -310,7 +320,7 @@ struct InventoryItemDetailView: View {
             return "\(minutes)m"
         }
     }
-}
+
 
 // MARK: - Active Effects View
 

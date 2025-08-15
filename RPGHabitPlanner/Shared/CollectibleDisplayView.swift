@@ -11,7 +11,6 @@ struct CollectibleDisplayView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var inventoryManager: InventoryManager
     @State private var selectedItem: ItemEntity?
-    @State private var showItemDetail = false
     @State private var showAddItemSheet = false
     
     private let maxDisplaySlots = 3
@@ -61,8 +60,8 @@ struct CollectibleDisplayView: View {
                         CollectibleItemCard(
                             item: item
                         ) {
+                            // Present sheet tied to item so first frame has content
                             selectedItem = item
-                            showItemDetail = true
                         }
                     } else {
                         EmptyCollectibleSlot()
@@ -87,11 +86,12 @@ struct CollectibleDisplayView: View {
                 .padding(.horizontal)
             }
         }
-        .sheet(isPresented: $showItemDetail) {
-            if let item = selectedItem {
-                CollectibleItemDetailView(item: item)
-                    .environmentObject(themeManager)
-            }
+        // Present only when selectedItem is non-nil (prevents blank first frame)
+        .sheet(item: $selectedItem) { item in
+            CollectibleItemDetailView(item: item)
+                .environmentObject(themeManager)
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showAddItemSheet) {
             AddCollectibleItemView()
@@ -116,16 +116,18 @@ struct CollectibleItemCard: View {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 isPressed = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // Set selection immediately (no delay) to avoid empty sheet frame
+            onTap()
+            // Let the press effect relax after
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                 isPressed = false
-                onTap()
             }
         }) {
             VStack(spacing: 8) {
                 // Item icon with glow effect
                 ZStack {
-                    // Glow effect
                     if let iconName = item.iconName {
+                        // Glow
                         Image(iconName)
                             .resizable()
                             .scaledToFit()
@@ -133,10 +135,8 @@ struct CollectibleItemCard: View {
                             .blur(radius: 8)
                             .opacity(0.6)
                             .foregroundColor(.yellow)
-                    }
-                    
-                    // Main icon
-                    if let iconName = item.iconName {
+                        
+                        // Main icon
                         Image(iconName)
                             .resizable()
                             .scaledToFit()
@@ -213,72 +213,78 @@ struct CollectibleItemDetailView: View {
     var body: some View {
         let theme = themeManager.activeTheme
         
-        NavigationView {
-            ZStack {
-                theme.backgroundColor
-                    .ignoresSafeArea()
-                
-                VStack(spacing: 24) {
-                    // Item icon
-                    if let iconName = item.iconName {
-                        Image(iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .foregroundColor(theme.textColor)
-                            .shadow(radius: 8)
-                    }
-                    
-                    // Item details
-                    VStack(spacing: 16) {
-                        if let name = item.name {
-                            Text(name)
-                                .font(.appFont(size: 24, weight: .black))
-                                .foregroundColor(theme.textColor)
-                                .multilineTextAlignment(.center)
-                        }
-                        
-                        if let info = item.info {
-                            Text(info)
-                                .font(.appFont(size: 16, weight: .medium))
-                                .foregroundColor(theme.textColor.opacity(0.8))
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal)
-                        }
-                        
-                        // Item type badge
-                        HStack {
-                            Image(systemName: "trophy.fill")
-                                .foregroundColor(.yellow)
-                            Text("Collectible")
-                                .font(.appFont(size: 14, weight: .black))
-                                .foregroundColor(.yellow)
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.yellow.opacity(0.2))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.yellow, lineWidth: 1)
-                                )
-                        )
-                    }
+        ZStack {
+            theme.backgroundColor
+                .ignoresSafeArea()
+            
+            VStack(spacing: 20) {
+                // Header with close button
+                HStack {
+                    Text("Item Details")
+                        .font(.appFont(size: 18, weight: .black))
+                        .foregroundColor(theme.textColor)
                     
                     Spacer()
-                }
-                .padding()
-            }
-            .navigationTitle("Item Details")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    
+                    Button(action: {
                         dismiss()
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(theme.textColor.opacity(0.6))
                     }
-                    .foregroundColor(.yellow)
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                
+                // Item icon
+                if let iconName = item.iconName {
+                    Image(iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(theme.textColor)
+                        .shadow(radius: 4)
+                }
+                
+                // Item details
+                VStack(spacing: 12) {
+                    if let name = item.name {
+                        Text(name)
+                            .font(.appFont(size: 20, weight: .black))
+                            .foregroundColor(theme.textColor)
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                    if let info = item.info {
+                        Text(info)
+                            .font(.appFont(size: 14, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.8))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 20)
+                    }
+                    
+                    // Item type badge
+                    HStack {
+                        Image(systemName: "trophy.fill")
+                            .foregroundColor(.yellow)
+                        Text("Collectible")
+                            .font(.appFont(size: 12, weight: .black))
+                            .foregroundColor(.yellow)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.yellow.opacity(0.2))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.yellow, lineWidth: 1)
+                            )
+                    )
+                }
+                
+                Spacer(minLength: 0)
             }
         }
     }
