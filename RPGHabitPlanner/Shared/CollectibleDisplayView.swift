@@ -151,8 +151,8 @@ struct CollectibleItemCard: View {
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
                 
-                // Rarity indicator
-                if item.isRare {
+                // Rarity indicator - show star for all collectible items
+                if item.itemType == .collectible {
                     Image(systemName: "star.fill")
                         .font(.system(size: 8))
                         .foregroundColor(item.rarity.uiColor)
