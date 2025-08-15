@@ -33,6 +33,7 @@ enum ShopCategory: String, CaseIterable {
     case weapons = "Weapons"
     case armor = "Armor"
     case potions = "Potions"
+    case boosts = "Boosts"
     case accessories = "Accessories"
     case special = "Special"
     
@@ -41,6 +42,7 @@ enum ShopCategory: String, CaseIterable {
         case .weapons: return "sword.fill"
         case .armor: return "shield.fill"
         case .potions: return "drop.fill"
+        case .boosts: return "bolt.fill"
         case .accessories: return "crown.fill"
         case .special: return "star.fill"
         }

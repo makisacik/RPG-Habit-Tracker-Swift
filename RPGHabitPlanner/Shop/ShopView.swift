@@ -157,6 +157,7 @@ struct ShopView: View {
                         }
                     )
                     .environmentObject(themeManager)
+                    .environmentObject(shopManager)
                 }
             }
             .padding()
@@ -190,6 +191,7 @@ struct ShopView: View {
 
 struct ShopItemCard: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var shopManager: ShopManager
     let item: ShopItem
     let canAfford: Bool
     let onTap: () -> Void
@@ -214,16 +216,48 @@ struct ShopItemCard: View {
             
             // Item info
             VStack(spacing: 4) {
-                Text(item.name)
-                    .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(theme.textColor)
-                    .multilineTextAlignment(.center)
+                HStack {
+                    Text(item.name)
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(theme.textColor)
+                        .multilineTextAlignment(.center)
+                    
+                    // Item type indicator
+                    if shopManager.isFunctionalItem(item) {
+                        Image(systemName: "bolt.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(.yellow)
+                    } else {
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+                }
                 
                 Text(item.description)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
+                
+                // Item type label
+                HStack(spacing: 4) {
+                    if shopManager.isFunctionalItem(item) {
+                        Text("Functional")
+                            .font(.appFont(size: 10, weight: .black))
+                            .foregroundColor(.yellow)
+                    } else {
+                        Text("Collectible")
+                            .font(.appFont(size: 10, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                    }
+                }
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(shopManager.isFunctionalItem(item) ? Color.yellow.opacity(0.2) : Color.white.opacity(0.1))
+                )
                 
                 // Price
                 HStack(spacing: 4) {
