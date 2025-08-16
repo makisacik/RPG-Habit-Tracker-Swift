@@ -42,7 +42,7 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
         completion(nil)
     }
 
-    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, tasks: [String]?, tags: [Tag]?, completion: @escaping ((any Error)?) -> Void) {
+    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, tasks: [String]?, tags: [Tag]?, showProgress: Bool?, completion: @escaping ((any Error)?) -> Void) {
     }
     
     func updateTask(withId id: UUID, title: String?, isCompleted: Bool?, order: Int16?, questId: UUID?, completion: @escaping ((any Error)?) -> Void) {
@@ -54,8 +54,6 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
     func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping ((any Error)?) -> Void) {
     }
     
-    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, completion: @escaping ((any Error)?) -> Void) {
-    }
     
     func fetchCompletedQuests(completion: @escaping ([Quest], (any Error)?) -> Void) {
     }

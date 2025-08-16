@@ -92,6 +92,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
         repeatType: QuestRepeatType?,
         tasks: [String]?,
         tags: [Tag]?,
+        showProgress: Bool?,
         completion: @escaping (Error?) -> Void
     ) {
         if let error = mockError {
@@ -111,6 +112,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
         if let dueDate = dueDate { mockQuests[index].dueDate = dueDate }
         if let isActive = isActive { mockQuests[index].isActive = isActive }
         if let progress = progress { mockQuests[index].progress = max(0, min(100, progress)) } // Ensure progress stays between 0 and 100
+        if let showProgress = showProgress { mockQuests[index].showProgress = showProgress }
         if let tags = tags { mockQuests[index].tags = Set(tags) }
 
         completion(nil)

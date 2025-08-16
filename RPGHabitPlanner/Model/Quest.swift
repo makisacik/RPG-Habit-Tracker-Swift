@@ -31,6 +31,7 @@ struct Quest: Identifiable, Equatable {
     var repeatType: QuestRepeatType
     var completions: Set<Date>
     var tags: Set<Tag>
+    var showProgress: Bool
 
     init(
         id: UUID = UUID(),
@@ -49,7 +50,8 @@ struct Quest: Identifiable, Equatable {
         tasks: [QuestTask] = [],
         repeatType: QuestRepeatType = .oneTime,
         completions: Set<Date> = [],
-        tags: Set<Tag> = []
+        tags: Set<Tag> = [],
+        showProgress: Bool = false
     ) {
         self.id = id
         self.title = title
@@ -68,6 +70,7 @@ struct Quest: Identifiable, Equatable {
         self.repeatType = repeatType
         self.completions = completions
         self.tags = tags
+        self.showProgress = showProgress
     }
 }
 

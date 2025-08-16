@@ -65,7 +65,8 @@ final class QuestDetailViewModel: ObservableObject {
             progress: quest.progress,
             repeatType: quest.repeatType,
             tasks: quest.tasks.map { $0.title },
-            tags: newTags
+            tags: newTags,
+            showProgress: quest.showProgress
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {

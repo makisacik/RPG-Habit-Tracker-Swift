@@ -154,7 +154,8 @@ final class QuestCoreDataServiceTests: XCTestCase {
             progress: updatedProgress,
             repeatType: nil,
             tasks: nil,
-            tags: nil
+            tags: nil,
+            showProgress: nil
         ) { error in
             XCTAssertNil(error, "Error updating quest: \(String(describing: error?.localizedDescription))")
             updateExpectation.fulfill()

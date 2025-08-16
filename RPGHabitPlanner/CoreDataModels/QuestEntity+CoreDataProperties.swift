@@ -31,6 +31,7 @@ extension QuestEntity {
     @NSManaged public var completionDate: Date?
     @NSManaged public var completions: NSSet?
     @NSManaged public var tags: NSSet?
+    @NSManaged public var showProgress: Bool
 }
 
 extension QuestEntity {

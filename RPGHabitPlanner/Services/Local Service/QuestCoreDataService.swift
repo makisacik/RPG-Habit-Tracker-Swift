@@ -29,6 +29,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         repeatType: QuestRepeatType?,
         tasks: [String]?,
         tags: [Tag]?,
+        showProgress: Bool?,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -36,74 +37,110 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
 
         do {
-            if let questEntity = try context.fetch(fetchRequest).first {
-                if let title { questEntity.title = title }
-                if let isMainQuest { questEntity.isMainQuest = isMainQuest }
-                if let info { questEntity.info = info }
-                if let difficulty { questEntity.difficulty = Int16(difficulty) }
-                if let dueDate { questEntity.dueDate = dueDate }
-                if let isActive { questEntity.isActive = isActive }
-                if let progress { questEntity.progress = Int16(progress) }
-                if let repeatType { questEntity.repeatType = repeatType.rawValue }
-
-                if let tasks = tasks {
-                    // Existing tasks
-                    let existingTasks = questEntity.tasks?.array as? [TaskEntity] ?? []
-                    var existingTasksSet = Set(existingTasks)
-
-                    for (index, title) in tasks.enumerated() {
-                        if let existingTask = existingTasksSet.first(where: { $0.title == title }) {
-                            existingTask.order = Int16(index)
-                            existingTasksSet.remove(existingTask)
-                        } else {
-                            let taskEntity = TaskEntity(context: context)
-                            taskEntity.id = UUID()
-                            taskEntity.title = title
-                            taskEntity.isCompleted = false
-                            taskEntity.order = Int16(index)
-                            taskEntity.quest = questEntity
-                        }
-                    }
-
-                    // Remove tasks not in new list
-                    for task in existingTasksSet {
-                        context.delete(task)
-                    }
-                }
-
-                // Update tags
-                if let tags = tags {
-                    // Remove existing tags
-                    if let existingTags = questEntity.tags as? Set<TagEntity> {
-                        for tagEntity in existingTags {
-                            questEntity.removeFromTags(tagEntity)
-                        }
-                    }
-                    
-                    // Add new tags
-                    if !tags.isEmpty {
-                        let tagFetchRequest: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
-                        let tagIds = tags.map { $0.id.uuidString }
-                        tagFetchRequest.predicate = NSPredicate(format: "id IN %@", tagIds)
-                        
-                        do {
-                            let tagEntities = try context.fetch(tagFetchRequest)
-                            for tagEntity in tagEntities {
-                                questEntity.addToTags(tagEntity)
-                            }
-                        } catch {
-                            print("❌ Error fetching tags for quest update: \(error)")
-                        }
-                    }
-                }
-
-                try context.save()
-                completion(nil)
-            } else {
+            guard let questEntity = try context.fetch(fetchRequest).first else {
                 completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
+                return
             }
+            
+            updateQuestBasicProperties(
+                questEntity: questEntity,
+                title: title,
+                isMainQuest: isMainQuest,
+                info: info,
+                difficulty: difficulty,
+                dueDate: dueDate,
+                isActive: isActive,
+                progress: progress,
+                repeatType: repeatType,
+                showProgress: showProgress
+            )
+            
+            if let tasks = tasks {
+                updateQuestTasks(questEntity: questEntity, tasks: tasks, context: context)
+            }
+            
+            if let tags = tags {
+                updateQuestTags(questEntity: questEntity, tags: tags, context: context)
+            }
+
+            try context.save()
+            completion(nil)
         } catch {
             completion(error)
+        }
+    }
+    
+    // MARK: - Private Helper Methods
+    
+    private func updateQuestBasicProperties(
+        questEntity: QuestEntity,
+        title: String?,
+        isMainQuest: Bool?,
+        info: String?,
+        difficulty: Int?,
+        dueDate: Date?,
+        isActive: Bool?,
+        progress: Int?,
+        repeatType: QuestRepeatType?,
+        showProgress: Bool?
+    ) {
+        if let title { questEntity.title = title }
+        if let isMainQuest { questEntity.isMainQuest = isMainQuest }
+        if let info { questEntity.info = info }
+        if let difficulty { questEntity.difficulty = Int16(difficulty) }
+        if let dueDate { questEntity.dueDate = dueDate }
+        if let isActive { questEntity.isActive = isActive }
+        if let progress { questEntity.progress = Int16(progress) }
+        if let repeatType { questEntity.repeatType = repeatType.rawValue }
+        if let showProgress { questEntity.showProgress = showProgress }
+    }
+    
+    private func updateQuestTasks(questEntity: QuestEntity, tasks: [String], context: NSManagedObjectContext) {
+        let existingTasks = questEntity.tasks?.array as? [TaskEntity] ?? []
+        var existingTasksSet = Set(existingTasks)
+
+        for (index, title) in tasks.enumerated() {
+            if let existingTask = existingTasksSet.first(where: { $0.title == title }) {
+                existingTask.order = Int16(index)
+                existingTasksSet.remove(existingTask)
+            } else {
+                let taskEntity = TaskEntity(context: context)
+                taskEntity.id = UUID()
+                taskEntity.title = title
+                taskEntity.isCompleted = false
+                taskEntity.order = Int16(index)
+                taskEntity.quest = questEntity
+            }
+        }
+
+        // Remove tasks not in new list
+        for task in existingTasksSet {
+            context.delete(task)
+        }
+    }
+    
+    private func updateQuestTags(questEntity: QuestEntity, tags: [Tag], context: NSManagedObjectContext) {
+        // Remove existing tags
+        if let existingTags = questEntity.tags as? Set<TagEntity> {
+            for tagEntity in existingTags {
+                questEntity.removeFromTags(tagEntity)
+            }
+        }
+        
+        // Add new tags
+        guard !tags.isEmpty else { return }
+        
+        let tagFetchRequest: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
+        let tagIds = tags.map { $0.id.uuidString }
+        tagFetchRequest.predicate = NSPredicate(format: "id IN %@", tagIds)
+        
+        do {
+            let tagEntities = try context.fetch(tagFetchRequest)
+            for tagEntity in tagEntities {
+                questEntity.addToTags(tagEntity)
+            }
+        } catch {
+            print("❌ Error fetching tags for quest update: \(error)")
         }
     }
 
@@ -166,6 +203,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.completionDate = quest.completionDate
         questEntity.isFinished = quest.isFinished
         questEntity.isFinishedDate = quest.isFinishedDate
+        questEntity.showProgress = quest.showProgress
 
         // Save completion history if provided
         for date in quest.completions {
@@ -296,7 +334,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 .map { QuestTask(entity: $0) },
             repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
             completions: completions,
-            tags: tags
+            tags: tags,
+            showProgress: entity.showProgress
         )
     }
 

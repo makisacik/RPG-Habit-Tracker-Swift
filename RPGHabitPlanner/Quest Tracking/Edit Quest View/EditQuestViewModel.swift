@@ -86,7 +86,8 @@ final class EditQuestViewModel: ObservableObject {
             progress: quest.progress,
             repeatType: repeatType,
             tasks: tasks,
-            tags: selectedTags
+            tags: selectedTags,
+            showProgress: quest.showProgress
         ) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self = self else { return }

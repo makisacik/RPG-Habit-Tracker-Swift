@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24F74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ActivityDateEntity" representedClassName="ActivityDateEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
     <entity name="ItemEntity" representedClassName="ItemEntity" syncable="YES" codeGenerationType="class">
         <attribute name="iconName" optional="YES" attributeType="String"/>
         <attribute name="info" optional="YES" attributeType="String"/>
@@ -24,10 +28,17 @@
         <attribute name="isMainQuest" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="repeatType" optional="YES" attributeType="String"/>
+        <attribute name="showProgress" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="completions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuestCompletionEntity" inverseName="quest" inverseEntity="QuestCompletionEntity"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TagEntity" inverseName="quests" inverseEntity="TagEntity"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskEntity" inverseName="quest" inverseEntity="TaskEntity"/>
+    </entity>
+    <entity name="StreakEntity" representedClassName="StreakEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="currentStreak" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastActivityDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="longestStreak" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="TagEntity" representedClassName="TagEntity" syncable="YES">
         <attribute name="color" optional="YES" attributeType="String"/>
@@ -44,24 +55,14 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="quest" optional="YES" maxCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="QuestEntity" inverseName="tasks" inverseEntity="QuestEntity"/>
     </entity>
-    <entity name="StreakEntity" representedClassName="StreakEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="currentStreak" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="lastActivityDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="longestStreak" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-    </entity>
-    <entity name="ActivityDateEntity" representedClassName="ActivityDateEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-    </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="characterClass" optional="YES" attributeType="String"/>
         <attribute name="coins" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="exp" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="health" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
-        <attribute name="maxHealth" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="maxHealth" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String"/>
         <attribute name="weapon" optional="YES" attributeType="String"/>
     </entity>
