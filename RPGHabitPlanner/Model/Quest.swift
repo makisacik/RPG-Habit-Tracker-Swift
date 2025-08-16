@@ -75,7 +75,7 @@ extension Quest {
     func isCompleted(on date: Date, calendar: Calendar = .current) -> Bool {
         switch repeatType {
         case .oneTime:
-            // For one-time quests, check if completed at the due date anchor
+            // For one-time quests, if they are completed at the due date, they show as completed for all dates
             let dueDateAnchor = calendar.startOfDay(for: dueDate)
             return completions.contains(dueDateAnchor)
         case .daily, .weekly:
@@ -99,15 +99,19 @@ extension Quest {
         if isFinished { return false }
 
         let today = calendar.startOfDay(for: date)
-        if dueDate < today { return false }
+
         switch repeatType {
         case .oneTime:
-            // For one-time quests, check if completed at the due date anchor
+            // For one-time quests, check if due date is in the past
+            if dueDate < today { return false }
+            // Check if completed at the due date anchor
             let dueDateAnchor = calendar.startOfDay(for: dueDate)
             return !completions.contains(dueDateAnchor)
         case .daily:
+            // For daily quests, they're active on any day they haven't been completed
             return !isCompleted(on: today, calendar: calendar)
         case .weekly:
+            // For weekly quests, they're active on any week they haven't been completed
             return !isCompletedThisWeek(asOf: today, calendar: calendar)
         }
     }

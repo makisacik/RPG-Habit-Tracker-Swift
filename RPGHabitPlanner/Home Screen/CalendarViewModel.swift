@@ -118,15 +118,21 @@ final class CalendarViewModel: ObservableObject {
         let filteredQuests = applyTagFiltering(to: allQuests)
 
         return filteredQuests.compactMap { quest in
-            guard quest.isActive(on: day) else { return nil }
+            // First check if the date is within the quest's valid date range
+            let creationDate = calendar.startOfDay(for: quest.creationDate)
+            let dueDate = calendar.startOfDay(for: quest.dueDate)
+
+            // Date must be between creation date and due date (inclusive)
+            guard day >= creationDate && day <= dueDate else { return nil }
+
+            // All quests should show on their valid dates regardless of completion status
+            // Completion status only affects the visual state (done/todo), not visibility
 
             let state: DayQuestState
             if quest.isCompleted(on: day) {
                 state = .done
-            } else if quest.isActive(on: day) {
-                state = .todo
             } else {
-                state = .inactive
+                state = .todo
             }
 
             return DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
@@ -166,9 +172,17 @@ final class CalendarViewModel: ObservableObject {
     func toggle(item: DayQuestItem) {
         let newState: DayQuestState = item.state == .done ? .todo : .done
 
+        // For one-time quests, always use the due date for completion tracking
+        let completionDate: Date
+        if item.quest.repeatType == .oneTime {
+            completionDate = item.quest.dueDate
+        } else {
+            completionDate = item.date
+        }
+
         if newState == .done {
             // Mark as completed
-            questDataService.markQuestCompleted(forId: item.quest.id, on: item.date) { [weak self] error in
+            questDataService.markQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
@@ -181,7 +195,7 @@ final class CalendarViewModel: ObservableObject {
             }
         } else {
             // Mark as incomplete
-            questDataService.unmarkQuestCompleted(forId: item.quest.id, on: item.date) { [weak self] error in
+            questDataService.unmarkQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription

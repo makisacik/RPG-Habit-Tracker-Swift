@@ -10,7 +10,6 @@ import SwiftUI
 struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: CalendarViewModel
-    @State private var selectedDate = Date()
     @State private var showingQuestCreation = false
     @State private var showingAlert = false
     @State private var selectedQuestItem: DayQuestItem?
@@ -28,7 +27,7 @@ struct CalendarView: View {
 
         var creationVM: QuestCreationViewModel {
             let creationVM = QuestCreationViewModel(questDataService: viewModel.questDataService)
-            creationVM.questDueDate = selectedDate
+            creationVM.questDueDate = viewModel.selectedDate
             return creationVM
         }
 
@@ -133,7 +132,6 @@ struct CalendarView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
         .onAppear {
-            viewModel.selectedDate = calendar.startOfDay(for: selectedDate)
         }
         .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
         .onDisappear { print("Calendar disappear") }
@@ -173,14 +171,14 @@ struct CalendarView: View {
                 Image(systemName: "chevron.left").font(.title2).foregroundColor(theme.textColor)
             }
             Spacer()
-            Text(dateFormatter.string(from: selectedDate))
+            Text(dateFormatter.string(from: viewModel.selectedDate))
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
                 .transition(.asymmetric(
                     insertion: .move(edge: .trailing).combined(with: .opacity),
                     removal: .move(edge: .leading).combined(with: .opacity)
                 ))
-                .id(dateFormatter.string(from: selectedDate))
+                .id(dateFormatter.string(from: viewModel.selectedDate))
             Spacer()
             Button(action: nextMonth) {
                 Image(systemName: "chevron.right").font(.title2).foregroundColor(theme.textColor)
@@ -189,7 +187,7 @@ struct CalendarView: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 16)
-        .animation(.easeInOut(duration: 0.3), value: selectedDate)
+        .animation(.easeInOut(duration: 0.3), value: viewModel.selectedDate)
     }
 
     private func dayOfWeekHeaders(theme: Theme) -> some View {
@@ -213,11 +211,10 @@ struct CalendarView: View {
                     let items = viewModel.items(for: date)
                     CalendarDayView(
                         date: date,
-                        isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
+                        isSelected: calendar.isDate(date, inSameDayAs: viewModel.selectedDate),
                         items: items,
                         theme: theme
                     ) {
-                        selectedDate = date
                         viewModel.selectedDate = calendar.startOfDay(for: date)
                     }
                 } else {
@@ -227,14 +224,14 @@ struct CalendarView: View {
         }
         .frame(minHeight: 280) // Ensure consistent height for 6 weeks max
         .padding(.horizontal, 20)
-        .animation(.easeInOut(duration: 0.3), value: selectedDate)
+        .animation(.easeInOut(duration: 0.3), value: viewModel.selectedDate)
         .id(viewModel.refreshTrigger) // Force refresh when quest data changes
     }
 
     private func selectedDateDetails(theme: Theme) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(selectedDate, style: .date)
+                Text(viewModel.selectedDate, style: .date)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -272,7 +269,7 @@ struct CalendarView: View {
     private func addQuestSection(theme: Theme) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(selectedDate, style: .date)
+                Text(viewModel.selectedDate, style: .date)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -317,9 +314,9 @@ struct CalendarView: View {
     }
 
     private func daysInMonth() -> [Date?] {
-        let startOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
+        let startOfMonth = calendar.dateInterval(of: .month, for: viewModel.selectedDate)?.start ?? viewModel.selectedDate
         let firstWeekday = calendar.component(.weekday, from: startOfMonth)
-        let daysInMonth = calendar.range(of: .day, in: .month, for: selectedDate)?.count ?? 0
+        let daysInMonth = calendar.range(of: .day, in: .month, for: viewModel.selectedDate)?.count ?? 0
         var days: [Date?] = []
         for _ in 1..<firstWeekday { days.append(nil) }
         for day in 1...daysInMonth {
@@ -331,11 +328,11 @@ struct CalendarView: View {
     }
 
     private func previousMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: -1, to: selectedDate) { selectedDate = newDate }
+        if let newDate = calendar.date(byAdding: .month, value: -1, to: viewModel.selectedDate) { viewModel.selectedDate = newDate }
     }
 
     private func nextMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: 1, to: selectedDate) { selectedDate = newDate }
+        if let newDate = calendar.date(byAdding: .month, value: 1, to: viewModel.selectedDate) { viewModel.selectedDate = newDate }
     }
 }
 
