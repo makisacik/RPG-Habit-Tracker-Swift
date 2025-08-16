@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import CoreData
 
 protocol BaseBuildingServiceProtocol {
     func loadBase() -> Base
@@ -13,12 +14,12 @@ protocol BaseBuildingServiceProtocol {
 
 class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
     @Published var base = Base()
-    private let userDefaults = UserDefaults.standard
-    private let baseKey = "user_base"
+    private let context: NSManagedObjectContext
     private var timer: Timer?
     
-    init() {
-        loadBaseFromStorage()
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        loadBaseFromCoreData()
         startConstructionTimer()
     }
     
@@ -34,7 +35,7 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
     
     func saveBase(_ base: Base) {
         self.base = base
-        saveBaseToStorage()
+        saveBaseToCoreData()
     }
     
     func addBuilding(_ building: Building) {
@@ -43,17 +44,17 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
             newBuilding.constructionStartTime = Date()
         }
         base.addBuilding(newBuilding)
-        saveBaseToStorage()
+        saveBaseToCoreData()
     }
     
     func removeBuilding(_ building: Building) {
         base.removeBuilding(building)
-        saveBaseToStorage()
+        saveBaseToCoreData()
     }
     
     func updateBuilding(_ building: Building) {
         base.updateBuilding(building)
-        saveBaseToStorage()
+        saveBaseToCoreData()
     }
     
     func collectGold(from building: Building) -> Int {
@@ -79,25 +80,78 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
         }
         
         if hasChanges {
-            saveBaseToStorage()
+            saveBaseToCoreData()
         }
     }
     
     // MARK: - Private Methods
     
-    private func loadBaseFromStorage() {
-        if let data = userDefaults.data(forKey: baseKey),
-           let loadedBase = try? JSONDecoder().decode(Base.self, from: data) {
-            base = loadedBase
+    private func loadBaseFromCoreData() {
+        let fetchRequest: NSFetchRequest<TownEntity> = TownEntity.fetchRequest()
+
+        do {
+            let towns = try context.fetch(fetchRequest)
+            if let town = towns.first {
+                base = town.toBase()
+            } else {
+                // Create default town if none exists
+                createDefaultTown()
+            }
+        } catch {
+            print("Error loading town from Core Data: \(error)")
+            createDefaultTown()
         }
     }
-    
-    private func saveBaseToStorage() {
-        if let data = try? JSONEncoder().encode(base) {
-            userDefaults.set(data, forKey: baseKey)
+
+    private func saveBaseToCoreData() {
+        let fetchRequest: NSFetchRequest<TownEntity> = TownEntity.fetchRequest()
+
+        do {
+            let towns = try context.fetch(fetchRequest)
+            let town: TownEntity
+
+            if let existingTown = towns.first {
+                town = existingTown
+            } else {
+                town = TownEntity(context: context)
+                town.id = UUID()
+                town.createdAt = Date()
+            }
+
+            // Update town from base
+            town.updateFromBase(base)
+
+            // Update buildings
+            updateBuildingsInCoreData(for: town)
+
+            try context.save()
+        } catch {
+            print("Error saving town to Core Data: \(error)")
         }
     }
-    
+
+    private func updateBuildingsInCoreData(for town: TownEntity) {
+        // Remove existing buildings
+        if let existingBuildings = town.buildings?.allObjects as? [BuildingEntity] {
+            for building in existingBuildings {
+                context.delete(building)
+            }
+        }
+
+        // Add current buildings
+        for building in base.buildings {
+            let buildingEntity = BuildingEntity(context: context)
+            buildingEntity.updateFromBuilding(building)
+            buildingEntity.town = town
+        }
+    }
+
+    private func createDefaultTown() {
+        base = Base()
+        base.initializeVillage()
+        saveBaseToCoreData()
+    }
+
     private func startConstructionTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.checkConstructionProgress()

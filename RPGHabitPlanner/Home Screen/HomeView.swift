@@ -224,7 +224,7 @@ struct HomeView: View {
                     theme.backgroundColor.ignoresSafeArea()
                     BaseBuildingView(
                         viewModel: BaseBuildingViewModel(
-                            baseService: BaseBuildingService(),
+                            baseService: BaseBuildingService(context: PersistenceController.shared.container.viewContext),
                             userManager: viewModel.userManager
                         )
                     )

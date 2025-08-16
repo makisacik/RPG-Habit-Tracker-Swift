@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import CoreData
 
 // MARK: - Building Types
 enum BuildingType: String, CaseIterable, Codable {
@@ -380,5 +381,63 @@ struct Base: Codable {
             )
             buildings.append(building)
         }
+    }
+}
+
+// MARK: - Core Data Extensions
+
+extension TownEntity {
+    func toBase() -> Base {
+        let buildings = (self.buildings?.allObjects as? [BuildingEntity])?.compactMap { $0.toBuilding() } ?? []
+
+        return Base(
+            buildings: buildings,
+            level: Int(self.level),
+            experience: Int(self.experience),
+            maxBuildings: Int(self.maxBuildings),
+            villageName: self.name ?? "Adventure Village"
+        )
+    }
+
+    func updateFromBase(_ base: Base) {
+        self.name = base.villageName
+        self.level = Int16(base.level)
+        self.experience = Int16(base.experience)
+        self.maxBuildings = Int16(base.maxBuildings)
+        self.updatedAt = Date()
+    }
+}
+
+extension BuildingEntity {
+    func toBuilding() -> Building? {
+        guard let id = self.id,
+              let typeString = self.type,
+              let type = BuildingType(rawValue: typeString),
+              let stateString = self.state,
+              let state = BuildingState(rawValue: stateString) else {
+            return nil
+        }
+
+        return Building(
+            id: id,
+            type: type,
+            state: state,
+            position: CGPoint(x: self.positionX, y: self.positionY),
+            constructionStartTime: self.constructionStartTime,
+            lastGoldGeneration: self.lastGoldGeneration,
+            level: Int(self.level)
+        )
+    }
+
+    func updateFromBuilding(_ building: Building) {
+        self.id = building.id
+        self.type = building.type.rawValue
+        self.state = building.state.rawValue
+        self.positionX = building.position.x
+        self.positionY = building.position.y
+        self.level = Int16(building.level)
+        self.constructionStartTime = building.constructionStartTime
+        self.lastGoldGeneration = building.lastGoldGeneration
+        self.updatedAt = Date()
     }
 }
