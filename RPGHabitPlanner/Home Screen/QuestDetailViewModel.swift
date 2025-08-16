@@ -23,6 +23,7 @@ final class QuestDetailViewModel: ObservableObject {
     let questDataService: QuestDataServiceProtocol
     let date: Date
     private let calendar = Calendar.current
+    private let streakManager = StreakManager.shared
 
     init(quest: Quest, date: Date, questDataService: QuestDataServiceProtocol) {
         self.quest = quest
@@ -98,6 +99,8 @@ final class QuestDetailViewModel: ObservableObject {
                 }
             } else {
                 questDataService.markQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
+                    // Record streak activity when completing a quest
+                    self?.streakManager.recordActivity()
                     self?.refreshQuest()
                 }
             }
@@ -113,6 +116,8 @@ final class QuestDetailViewModel: ObservableObject {
                 }
             } else {
                 questDataService.markQuestCompleted(forId: quest.id, on: anchor) { [weak self] _ in
+                    // Record streak activity when completing a quest
+                    self?.streakManager.recordActivity()
                     self?.refreshQuest()
                 }
             }
@@ -130,6 +135,8 @@ final class QuestDetailViewModel: ObservableObject {
                 }
             } else {
                 questDataService.markQuestCompleted(forId: quest.id, on: dueDateAnchor) { [weak self] _ in
+                    // Record streak activity when completing a quest
+                    self?.streakManager.recordActivity()
                     self?.refreshQuest()
                 }
             }
@@ -152,6 +159,8 @@ final class QuestDetailViewModel: ObservableObject {
                     self?.refreshQuest()
                 } else {
                     print("✅ QuestDetailViewModel: Successfully marked quest as finished on server")
+                    // Record streak activity when finishing a quest
+                    self?.streakManager.recordActivity()
                     // Notify other views that quest was updated
                     NotificationCenter.default.post(name: .questUpdated, object: self?.quest)
                 }
