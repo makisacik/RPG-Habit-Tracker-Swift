@@ -47,10 +47,19 @@ struct BaseBuildingView: View {
             // Construction completion animation overlay
             Group {
                 if showingConstructionAnimation, let building = animatingBuilding {
-                    ConstructionCompletionAnimation(building: building) {
-                        // Animation completed
+                    let screenSize = UIScreen.main.bounds.size
+                    let fixedPositions = VillageLayout.getFixedPositions(for: screenSize)
+                    let buildingPosition = fixedPositions[building.type] ?? CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
+                    
+                    ConstructionCompletionAnimation(
+                        building: building,
+                        buildingPosition: buildingPosition
+                    ) {
+                        // Animation completed - complete the construction
+                        viewModel.completeConstruction(for: building)
+                        showingConstructionAnimation = false
+                        animatingBuilding = nil
                     }
-                    .allowsHitTesting(false)
                 }
             }
         )
@@ -252,13 +261,7 @@ struct BaseBuildingView: View {
         // Show construction completion animation
         animatingBuilding = building
         showingConstructionAnimation = true
-
-        // Trigger the completion after animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            viewModel.completeConstruction(for: building)
-            showingConstructionAnimation = false
-            animatingBuilding = nil
-        }
+        // Animation will be completed when user taps on it
     }
 
     private func ensureBothTowersExist() {
