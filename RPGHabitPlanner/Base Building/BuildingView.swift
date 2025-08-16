@@ -5,25 +5,35 @@ struct VillageBuildingView: View {
     let building: Building
     let theme: Theme
     let onTap: () -> Void
+    let customSize: CGSize?
     
     @State private var isAnimating = false
     @State private var showTooltip = false
+    
+    init(building: Building, theme: Theme, customSize: CGSize? = nil, onTap: @escaping () -> Void) {
+        self.building = building
+        self.theme = theme
+        self.customSize = customSize
+        self.onTap = onTap
+    }
     
     var body: some View {
         VStack(spacing: 0) {
             // Building Image
             ZStack {
+                let buildingSize = customSize ?? building.type.size
+                
                 // Building shadow
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.black.opacity(0.2))
-                    .frame(width: building.type.size.width, height: building.type.size.height)
+                    .frame(width: buildingSize.width, height: buildingSize.height)
                     .offset(y: 4)
                 
                 // Building image
                 Image(building.currentImageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: building.type.size.width, height: building.type.size.height)
+                    .frame(width: buildingSize.width, height: buildingSize.height)
                     .scaleEffect(isAnimating ? 1.05 : 1.0)
                     .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: isAnimating)
             }

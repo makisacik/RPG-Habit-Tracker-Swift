@@ -6,6 +6,7 @@ enum BuildingType: String, CaseIterable, Codable {
     case house = "house"
     case castle = "castle"
     case tower = "tower"
+    case tower2 = "tower2"
     case goldmine = "goldmine"
     
     var displayName: String {
@@ -13,6 +14,7 @@ enum BuildingType: String, CaseIterable, Codable {
         case .house: return "House"
         case .castle: return "Castle"
         case .tower: return "Tower"
+        case .tower2: return "Tower"
         case .goldmine: return "Gold Mine"
         }
     }
@@ -22,6 +24,7 @@ enum BuildingType: String, CaseIterable, Codable {
         case .house: return "Provides shelter and basic resources"
         case .castle: return "Fortified structure for defense"
         case .tower: return "Watchtower for surveillance"
+        case .tower2: return "Watchtower for surveillance"
         case .goldmine: return "Generates gold over time"
         }
     }
@@ -31,6 +34,7 @@ enum BuildingType: String, CaseIterable, Codable {
         case .house: return 1
         case .castle: return 1
         case .tower: return 1
+        case .tower2: return 1
         case .goldmine: return 1
         }
     }
@@ -40,6 +44,7 @@ enum BuildingType: String, CaseIterable, Codable {
         case .house: return 60 // 1 minute
         case .castle: return 300 // 5 minutes
         case .tower: return 180 // 3 minutes
+        case .tower2: return 180 // 3 minutes
         case .goldmine: return 120 // 2 minutes
         }
     }
@@ -49,6 +54,7 @@ enum BuildingType: String, CaseIterable, Codable {
         case .house: return "house.fill"
         case .castle: return "building.2.fill"
         case .tower: return "building.columns.fill"
+        case .tower2: return "building.columns.fill"
         case .goldmine: return "mountain.2.fill"
         }
     }
@@ -57,10 +63,11 @@ enum BuildingType: String, CaseIterable, Codable {
     
     var size: CGSize {
         switch self {
-        case .house: return CGSize(width: 60, height: 60)
-        case .castle: return CGSize(width: 80, height: 80)
-        case .tower: return CGSize(width: 50, height: 80)
-        case .goldmine: return CGSize(width: 60, height: 60)
+        case .house: return CGSize(width: 120, height: 120) // Much larger house
+        case .castle: return CGSize(width: 400, height: 400) // Very large castle
+        case .tower: return CGSize(width: 100, height: 140) // Larger tower
+        case .tower2: return CGSize(width: 100, height: 140) // Larger tower
+        case .goldmine: return CGSize(width: 120, height: 120) // Much larger goldmine
         }
     }
 }
@@ -147,23 +154,37 @@ struct Building: Identifiable, Codable {
         switch type {
         case .goldmine:
             return "goldmine_active"
+        case .tower2:
+            return "tower_\(color.rawValue)" // Use same asset as tower
         default:
             return "\(type.rawValue)_\(color.rawValue)"
         }
     }
     
     var constructionImageName: String {
-        "\(type.rawValue)_construction"
+        switch type {
+        case .tower2:
+            return "tower_construction" // Use same asset as tower
+        default:
+            return "\(type.rawValue)_construction"
+        }
     }
     
     var destroyedImageName: String {
-        "\(type.rawValue)_destroyed"
+        switch type {
+        case .tower2:
+            return "tower_destroyed" // Use same asset as tower
+        default:
+            return "\(type.rawValue)_destroyed"
+        }
     }
     
     var inactiveImageName: String {
         switch type {
         case .goldmine:
             return "goldmine_inactive"
+        case .tower2:
+            return "tower_inactive" // Use same asset as tower
         default:
             return "\(type.rawValue)_inactive"
         }
@@ -218,25 +239,52 @@ struct VillageLayout {
         let villageSize = getVillageSize(for: screenSize)
         let padding: CGFloat = 40 // Reduced padding for smaller screens
         
-        // Calculate responsive positions
-        let houseX = padding + (villageSize.width - 2 * padding) * 0.15 // 15% from left
-        let houseY = padding + (villageSize.height - 2 * padding) * 0.25 // 25% from top
-
-        let castleX = padding + (villageSize.width - 2 * padding) * 0.5 // 50% from left (center)
-        let castleY = padding + (villageSize.height - 2 * padding) * 0.4 // 40% from top
-
-        let towerX = padding + (villageSize.width - 2 * padding) * 0.85 // 85% from left
-        let towerY = padding + (villageSize.height - 2 * padding) * 0.25 // 25% from top
-
-        let goldmineX = padding + (villageSize.width - 2 * padding) * 0.85 // 85% from left
-        let goldmineY = padding + (villageSize.height - 2 * padding) * 0.75 // 75% from top (bottom right)
+        // Calculate castle size to be 30% of village height
+        let castleHeight = villageSize.height * 0.3
+        let castleWidth = castleHeight // Keep it square
+        
+        // Castle positioned at the top center
+        let castleX = screenSize.width / 2 // Center horizontally
+        let castleY = padding + (castleHeight / 2) // Center of castle at top
+        
+        // House and Gold Mine positioned below the castle with proper spacing
+        let houseX = screenSize.width * 0.25 // 25% from left
+        let houseY = castleY + (castleHeight / 2) + 140 // Below castle with more spacing
+        
+        let goldmineX = screenSize.width * 0.75 // 75% from left (old tower position)
+        let goldmineY = castleY + (castleHeight / 2) + 140 // Below castle, same level as house
+        
+        // Two towers at the bottom of the screen
+        let tower1X = screenSize.width * 0.25 // 25% from left
+        let tower1Y = screenSize.height - padding - 80 // At the bottom
+        
+        let tower2X = screenSize.width * 0.75 // 75% from left
+        let tower2Y = screenSize.height - padding - 80 // At the bottom
         
         return [
             .house: CGPoint(x: houseX, y: houseY),
             .castle: CGPoint(x: castleX, y: castleY),
-            .tower: CGPoint(x: towerX, y: towerY),
+            .tower: CGPoint(x: tower1X, y: tower1Y), // First tower at bottom left
+            .tower2: CGPoint(x: tower2X, y: tower2Y), // Second tower at bottom right
             .goldmine: CGPoint(x: goldmineX, y: goldmineY)
         ]
+    }
+    
+    static func getBuildingSize(for buildingType: BuildingType, in screenSize: CGSize) -> CGSize {
+        let villageSize = getVillageSize(for: screenSize)
+        
+        switch buildingType {
+        case .castle:
+            // Castle takes up 40% of village height for maximum prominence
+            let castleHeight = villageSize.height * 0.4
+            return CGSize(width: castleHeight, height: castleHeight)
+        case .house:
+            return CGSize(width: 140, height: 140) // Even larger house
+        case .tower, .tower2:
+            return CGSize(width: 120, height: 160) // Even larger tower
+        case .goldmine:
+            return CGSize(width: 140, height: 140) // Even larger goldmine
+        }
     }
     
     static func getBuildingAtPosition(_ position: CGPoint, in screenSize: CGSize) -> BuildingType? {
@@ -256,7 +304,7 @@ struct Base: Codable {
     var buildings: [Building] = []
     var level: Int = 1
     var experience: Int = 0
-    var maxBuildings: Int = 4
+    var maxBuildings: Int = 5
     var villageName: String = "Adventure Village"
     
     var experienceToNextLevel: Int {
@@ -321,9 +369,16 @@ struct Base: Codable {
     }
     
     func getBuilding(at position: CGPoint) -> Building? {
+        // Use fixed positions instead of stored positions
+        let screenSize = UIScreen.main.bounds.size
+        let fixedPositions = VillageLayout.getFixedPositions(for: screenSize)
+        
         return buildings.first { building in
-            let distance = sqrt(pow(building.position.x - position.x, 2) + pow(building.position.y - position.y, 2))
-            return distance < VillageLayout.gridSize / 2
+            if let fixedPosition = fixedPositions[building.type] {
+                let distance = sqrt(pow(fixedPosition.x - position.x, 2) + pow(fixedPosition.y - position.y, 2))
+                return distance < VillageLayout.gridSize / 2
+            }
+            return false
         }
     }
     
