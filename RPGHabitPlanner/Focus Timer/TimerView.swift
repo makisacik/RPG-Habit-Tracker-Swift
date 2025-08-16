@@ -27,6 +27,7 @@ class FocusTimerViewModel: ObservableObject {
     let damageHandler: DamageHandler
     let backgroundTimerManager = BackgroundTimerManager.shared
     private let persistenceService = MonsterHPPersistenceService.shared
+    private let streakManager = StreakManager.shared
     
     init(userManager: UserManager, damageHandler: DamageHandler) {
         self.session = FocusTimerSession()
@@ -180,6 +181,9 @@ class FocusTimerViewModel: ObservableObject {
         session.completedPomodoros += 1
         session.totalWorkTime += session.settings.workDuration
         
+        // Record streak activity when completing a pomodoro
+        streakManager.recordActivity()
+        
         // Process battle logic if in battle mode
         if var battleSession = session.battleSession {
             // Deal damage to enemy for completing a pomodoro
@@ -236,6 +240,9 @@ class FocusTimerViewModel: ObservableObject {
             session.currentState = .victory
             let rewards = BattleLogic.calculateRewards(session: battleSession)
             awardRewards(rewards)
+            
+            // Record streak activity when defeating a monster
+            streakManager.recordActivity()
         } else {
             session.currentState = .defeat
         }

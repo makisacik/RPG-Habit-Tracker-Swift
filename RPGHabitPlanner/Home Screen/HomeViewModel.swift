@@ -20,6 +20,7 @@ class HomeViewModel: ObservableObject {
     let userManager: UserManager
     let questDataService: QuestDataServiceProtocol
     private let achievementManager = AchievementManager.shared
+    let streakManager = StreakManager.shared
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -130,6 +131,14 @@ class HomeViewModel: ObservableObject {
         NotificationCenter.default.publisher(for: .userDidUpdate)
             .sink { [weak self] _ in
                 self?.fetchUserData()
+            }
+            .store(in: &cancellables)
+        
+        // Observe streak updates
+        NotificationCenter.default.publisher(for: .streakUpdated)
+            .sink { [weak self] _ in
+                // Streak data is automatically updated via @Published properties
+                // No additional action needed here
             }
             .store(in: &cancellables)
     }

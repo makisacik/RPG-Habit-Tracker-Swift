@@ -21,6 +21,7 @@ final class QuestTrackingViewModel: ObservableObject {
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
     private let calendar = Calendar.current
+    private let streakManager = StreakManager.shared
 
     // Tag filtering support
     lazy var tagFilterViewModel: TagFilterViewModel = {
@@ -136,6 +137,10 @@ final class QuestTrackingViewModel: ObservableObject {
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
+
+                            // Record streak activity when completing a quest
+                            self.streakManager.recordActivity()
+
                             self.checkAchievements()
                         }
                     }
@@ -222,6 +227,11 @@ final class QuestTrackingViewModel: ObservableObject {
                     if let questIndex = self?.quests.firstIndex(where: { $0.id == questId }),
                        let taskIndex = self?.quests[questIndex].tasks.firstIndex(where: { $0.id == taskId }) {
                         self?.quests[questIndex].tasks[taskIndex].isCompleted = newValue
+
+                        // Record streak activity when completing a task
+                        if newValue {
+                            self?.streakManager.recordActivity()
+                        }
                     }
                 }
             }

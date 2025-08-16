@@ -32,6 +32,8 @@ struct HomeView: View {
                     ScrollView {
                         VStack(spacing: 20) {
                             heroSection(healthManager: healthManager)
+                            StreakDisplayView(streakManager: viewModel.streakManager)
+                                .environmentObject(themeManager)
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             activeQuestsSection
                             recentAchievementsSection
@@ -111,7 +113,10 @@ struct HomeView: View {
                     viewModel.fetchDashboardData()
                     fetchCurrentQuestCount()
                     WidgetCenter.shared.reloadAllTimelines()
-                    
+
+                    // Record streak activity when app is opened
+                    viewModel.streakManager.recordActivity()
+
                     // Check for failed quests
                     questFailureHandler.performDailyQuestCheck()
                 }

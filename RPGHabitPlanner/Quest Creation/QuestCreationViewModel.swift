@@ -13,6 +13,7 @@ import UserNotifications
 final class QuestCreationViewModel: ObservableObject {
     private let questDataService: QuestDataServiceProtocol
     private let premiumManager = PremiumManager.shared
+    private let streakManager = StreakManager.shared
 
     @Published var didSaveQuest = false
     @Published var errorMessage: String?
@@ -89,6 +90,8 @@ final class QuestCreationViewModel: ObservableObject {
                     self.didSaveQuest = true
                     // Update quest count
                     self.fetchCurrentQuestCount()
+                    // Record streak activity when creating a quest
+                    self.streakManager.recordActivity()
                     // Notify other views that a new quest was created
                     NotificationCenter.default.post(name: .questCreated, object: newQuest)
                 }

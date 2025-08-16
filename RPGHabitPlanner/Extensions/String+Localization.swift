@@ -165,6 +165,15 @@ extension String {
     static let levelUp = "level_up"
     static let experienceGained = "experience_gained"
     static let newLevelReached = "new_level_reached"
+
+    // MARK: - Streak System
+    static let streak = "streak"
+    static let currentStreak = "current_streak"
+    static let longestStreak = "longest_streak"
+    static let streakDays = "streak_days"
+    static let streakDay = "streak_day"
+    static let bestStreak = "best_streak"
+    static let todayStatus = "today_status"
     
     // MARK: - Rewards & Achievements
     static let reward = "reward"

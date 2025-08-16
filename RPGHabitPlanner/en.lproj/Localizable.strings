@@ -98,6 +98,15 @@
 "experience_gained" = "Experience Gained";
 "new_level_reached" = "New Level Reached!";
 
+// MARK: - Streak System
+"streak" = "Streak";
+"current_streak" = "Current Streak";
+"longest_streak" = "Longest Streak";
+"streak_days" = "days";
+"streak_day" = "day";
+"best_streak" = "Best";
+"today_status" = "Today";
+
 // MARK: - Rewards & Achievements
 "reward" = "Reward";
 "rewards" = "Rewards";

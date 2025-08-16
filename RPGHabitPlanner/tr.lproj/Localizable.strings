@@ -86,6 +86,15 @@
 "experience_gained" = "Deneyim Kazanıldı";
 "new_level_reached" = "Yeni Seviyeye Ulaştın!";
 
+// MARK: - Streak System
+"streak" = "Seri";
+"current_streak" = "Mevcut Seri";
+"longest_streak" = "En Uzun Seri";
+"streak_days" = "gün";
+"streak_day" = "gün";
+"best_streak" = "En İyi";
+"today_status" = "Bugün";
+
 // MARK: - Rewards & Achievements
 "reward" = "Ödül";
 "rewards" = "Ödüller";

@@ -44,6 +44,12 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="quest" optional="YES" maxCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="QuestEntity" inverseName="tasks" inverseEntity="QuestEntity"/>
     </entity>
+    <entity name="StreakEntity" representedClassName="StreakEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="currentStreak" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastActivityDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="longestStreak" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="characterClass" optional="YES" attributeType="String"/>
         <attribute name="coins" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
