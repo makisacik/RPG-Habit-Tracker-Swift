@@ -133,22 +133,31 @@ struct BaseBuildingView: View {
     // MARK: - Village View
     
     private func villageView(theme: Theme) -> some View {
-        GeometryReader { _ in
+        GeometryReader { geometry in
+            let screenSize = geometry.size
+            let villageSize = VillageLayout.getVillageSize(for: screenSize)
+            let fixedPositions = VillageLayout.getFixedPositions(for: screenSize)
+
             ZStack {
                 // Village Background
                 villageBackgroundView(theme: theme)
+                    .frame(width: villageSize.width, height: villageSize.height)
+                    .position(x: screenSize.width / 2, y: villageSize.height / 2)
                 
                 // Buildings
                 ForEach(viewModel.base.buildings.sorted { $0.state.priority < $1.state.priority }) { building in
-                    VillageBuildingView(
-                        building: building,
-                        theme: theme
-                    ) {
-                        handleBuildingTap(building)
+                    if let position = fixedPositions[building.type] {
+                        VillageBuildingView(
+                            building: building,
+                            theme: theme
+                        ) {
+                            handleBuildingTap(building)
+                        }
+                        .position(position)
                     }
-                    .position(building.position)
                 }
             }
+            .frame(width: screenSize.width, height: screenSize.height)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -161,6 +170,7 @@ struct BaseBuildingView: View {
     private func handleBuildingTap(_ building: Building) {
         if building.state == .destroyed {
             // Show building menu for destroyed buildings
+            // Use the building type to find the correct position
             viewModel.selectedGridPosition = building.position
             viewModel.showingBuildingMenu = true
         } else {

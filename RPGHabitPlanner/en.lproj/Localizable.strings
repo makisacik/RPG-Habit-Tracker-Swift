@@ -106,6 +106,10 @@
 "streak_day" = "day";
 "best_streak" = "Best";
 "today_status" = "Today";
+"streak_calendar" = "Streak Calendar";
+"monthly_activity" = "Monthly Activity";
+"active_days" = "Active Days";
+"activity_rate" = "Activity Rate";
 
 // MARK: - Rewards & Achievements
 "reward" = "Reward";

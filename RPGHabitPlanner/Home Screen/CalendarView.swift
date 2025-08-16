@@ -122,6 +122,7 @@ struct CalendarView: View {
                                 addQuestSection(theme: theme)
                             }
                         }
+                        .id(viewModel.refreshTrigger) // Force refresh when quest data changes
                         .frame(minHeight: 280, maxHeight: 320)
                         .animation(.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
                     }
@@ -155,6 +156,9 @@ struct CalendarView: View {
         }
         .onChange(of: viewModel.alertMessage) { msg in
             if msg != nil { showingAlert = true }
+        }
+        .onChange(of: viewModel.refreshTrigger) { _ in
+            // Force view refresh when quest data changes
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text(String.headsUp.localized),
@@ -224,6 +228,7 @@ struct CalendarView: View {
         .frame(minHeight: 280) // Ensure consistent height for 6 weeks max
         .padding(.horizontal, 20)
         .animation(.easeInOut(duration: 0.3), value: selectedDate)
+        .id(viewModel.refreshTrigger) // Force refresh when quest data changes
     }
 
     private func selectedDateDetails(theme: Theme) -> some View {

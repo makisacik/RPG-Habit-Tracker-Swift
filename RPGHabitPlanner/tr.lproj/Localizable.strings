@@ -94,6 +94,10 @@
 "streak_day" = "gün";
 "best_streak" = "En İyi";
 "today_status" = "Bugün";
+"streak_calendar" = "Seri Takvimi";
+"monthly_activity" = "Aylık Aktivite";
+"active_days" = "Aktif Günler";
+"activity_rate" = "Aktivite Oranı";
 
 // MARK: - Rewards & Achievements
 "reward" = "Ödül";

@@ -174,6 +174,10 @@ extension String {
     static let streakDay = "streak_day"
     static let bestStreak = "best_streak"
     static let todayStatus = "today_status"
+    static let streakCalendar = "streak_calendar"
+    static let monthlyActivity = "monthly_activity"
+    static let activeDays = "active_days"
+    static let activityRate = "activity_rate"
     
     // MARK: - Rewards & Achievements
     static let reward = "reward"

@@ -95,6 +95,9 @@ extension Quest {
     }
 
     func isActive(on date: Date, calendar: Calendar = .current) -> Bool {
+        // If quest is marked as finished, it's not active
+        if isFinished { return false }
+
         let today = calendar.startOfDay(for: date)
         if dueDate < today { return false }
         switch repeatType {

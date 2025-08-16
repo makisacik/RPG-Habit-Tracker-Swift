@@ -10,21 +10,26 @@ class StreakManager: ObservableObject {
     @Published var currentStreak: Int = 0
     @Published var longestStreak: Int = 0
     @Published var lastActivityDate: Date?
+    @Published var activityDates: Set<Date> = []
     
     private init() {
+        print("🔥 StreakManager: Initializing StreakManager")
         self.userManager = UserManager()
         self.persistentContainer = PersistenceController.shared.container
         loadStreakData()
+        print("🔥 StreakManager: StreakManager initialization complete")
     }
     
     // MARK: - Public Methods
     
-    /// Records an activity and updates the streak
+        /// Records an activity and updates the streak
     func recordActivity() {
         let today = Date().startOfDay
-        
+        print("🔥 StreakManager: recordActivity() called for date: \(today)")
+
         // Check if we already recorded activity today
         if let lastDate = lastActivityDate, Calendar.current.isDate(lastDate, inSameDayAs: today) {
+            print("🔥 StreakManager: Activity already recorded today, skipping")
             return // Already recorded today
         }
         
@@ -53,9 +58,14 @@ class StreakManager: ObservableObject {
         }
         
         lastActivityDate = today
-        
+
+        // Add to activity dates
+        activityDates.insert(today)
+        print("🔥 StreakManager: Added today to activity dates. Total activity dates: \(activityDates.count)")
+
         // Save to Core Data
         saveStreakData()
+        saveActivityDates()
         
         // Post notification for UI updates
         NotificationCenter.default.post(name: .streakUpdated, object: nil)
@@ -81,13 +91,22 @@ class StreakManager: ObservableObject {
     func getLastActivityDate() -> Date? {
         return lastActivityDate
     }
+
+    /// Gets all activity dates
+    func getActivityDates() -> Set<Date> {
+        print("🔥 StreakManager: Returning \(activityDates.count) activity dates")
+        print("🔥 StreakManager: Activity dates: \(activityDates)")
+        return activityDates
+    }
     
     /// Resets the streak (for testing or manual reset)
     func resetStreak() {
         currentStreak = 0
         longestStreak = 0
         lastActivityDate = nil
+        activityDates.removeAll()
         saveStreakData()
+        saveActivityDates()
         NotificationCenter.default.post(name: .streakUpdated, object: nil)
     }
     
@@ -99,14 +118,20 @@ class StreakManager: ObservableObject {
         
         do {
             let streaks = try context.fetch(fetchRequest)
+            print("🔥 StreakManager: Found \(streaks.count) StreakEntity objects")
             if let streak = streaks.first {
                 self.currentStreak = Int(streak.currentStreak)
                 self.longestStreak = Int(streak.longestStreak)
                 self.lastActivityDate = streak.lastActivityDate
+                print("🔥 StreakManager: Loaded streak data - current: \(self.currentStreak), longest: \(self.longestStreak), lastActivity: \(self.lastActivityDate?.description ?? "nil")")
+            } else {
+                print("🔥 StreakManager: No StreakEntity found, using default values")
             }
         } catch {
             print("Failed to load streak data: \(error)")
         }
+
+        loadActivityDates()
     }
     
     private func saveStreakData() {
@@ -131,6 +156,53 @@ class StreakManager: ObservableObject {
             try context.save()
         } catch {
             print("Failed to save streak data: \(error)")
+        }
+    }
+
+    private func loadActivityDates() {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<ActivityDateEntity> = ActivityDateEntity.fetchRequest()
+
+        do {
+            let activityDates = try context.fetch(fetchRequest)
+            print("🔥 StreakManager: Loaded \(activityDates.count) ActivityDateEntity objects from Core Data")
+            self.activityDates = Set(activityDates.compactMap { $0.date })
+            print("🔥 StreakManager: Mapped to \(self.activityDates.count) activity dates")
+            print("🔥 StreakManager: Activity dates after loading: \(self.activityDates)")
+        } catch {
+            print("Failed to load activity dates: \(error)")
+        }
+    }
+
+    private func saveActivityDates() {
+        let context = persistentContainer.viewContext
+        print("🔥 StreakManager: Saving \(activityDates.count) activity dates to Core Data")
+
+        // Clear existing activity dates
+        let fetchRequest: NSFetchRequest<ActivityDateEntity> = ActivityDateEntity.fetchRequest()
+        do {
+            let existingDates = try context.fetch(fetchRequest)
+            print("🔥 StreakManager: Clearing \(existingDates.count) existing ActivityDateEntity objects")
+            for date in existingDates {
+                context.delete(date)
+            }
+        } catch {
+            print("Failed to clear existing activity dates: \(error)")
+        }
+
+        // Save new activity dates
+        for date in activityDates {
+            let activityDate = ActivityDateEntity(context: context)
+            activityDate.id = UUID()
+            activityDate.date = date
+            print("🔥 StreakManager: Created ActivityDateEntity for date: \(date)")
+        }
+
+        do {
+            try context.save()
+            print("🔥 StreakManager: Successfully saved activity dates to Core Data")
+        } catch {
+            print("Failed to save activity dates: \(error)")
         }
     }
 }

@@ -3,6 +3,7 @@ import SwiftUI
 struct StreakDisplayView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var streakManager: StreakManager
+    @State private var showingStreakCalendar = false
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -101,5 +102,14 @@ struct StreakDisplayView: View {
                 )
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
+        .onTapGesture {
+            showingStreakCalendar = true
+        }
+        .sheet(isPresented: $showingStreakCalendar) {
+            NavigationStack {
+                StreakCalendarView(streakManager: streakManager)
+                    .environmentObject(themeManager)
+            }
+        }
     }
 }

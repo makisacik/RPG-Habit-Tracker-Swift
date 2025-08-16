@@ -53,21 +53,14 @@ enum BuildingType: String, CaseIterable, Codable {
         }
     }
     
-    var villagePosition: CGPoint {
-        switch self {
-        case .house: return CGPoint(x: 200, y: 200)
-        case .castle: return CGPoint(x: 320, y: 250)
-        case .tower: return CGPoint(x: 440, y: 200)
-        case .goldmine: return CGPoint(x: 320, y: 400)
-        }
-    }
+    // Note: villagePosition is now handled by VillageLayout.getFixedPositions(for:)
     
     var size: CGSize {
         switch self {
-        case .house: return CGSize(width: 100, height: 100)
-        case .castle: return CGSize(width: 140, height: 140)
-        case .tower: return CGSize(width: 80, height: 120)
-        case .goldmine: return CGSize(width: 100, height: 100)
+        case .house: return CGSize(width: 60, height: 60)
+        case .castle: return CGSize(width: 80, height: 80)
+        case .tower: return CGSize(width: 50, height: 80)
+        case .goldmine: return CGSize(width: 60, height: 60)
         }
     }
 }
@@ -213,18 +206,41 @@ struct Building: Identifiable, Codable {
 // MARK: - Village Layout
 struct VillageLayout {
     static let gridSize: CGFloat = 80
-    static let villageSize = CGSize(width: 640, height: 520)
     
-    static func getFixedPositions() -> [BuildingType: CGPoint] {
-        var positions: [BuildingType: CGPoint] = [:]
-        for buildingType in BuildingType.allCases {
-            positions[buildingType] = buildingType.villagePosition
-        }
-        return positions
+    static func getVillageSize(for screenSize: CGSize) -> CGSize {
+        // Use 90% of available screen width and height, with some padding
+        let maxWidth = screenSize.width * 0.9
+        let maxHeight = screenSize.height * 0.7 // Leave space for header
+        return CGSize(width: maxWidth, height: maxHeight)
     }
     
-    static func getBuildingAtPosition(_ position: CGPoint) -> BuildingType? {
-        let fixedPositions = getFixedPositions()
+    static func getFixedPositions(for screenSize: CGSize) -> [BuildingType: CGPoint] {
+        let villageSize = getVillageSize(for: screenSize)
+        let padding: CGFloat = 40 // Reduced padding for smaller screens
+        
+        // Calculate responsive positions
+        let houseX = padding + (villageSize.width - 2 * padding) * 0.15 // 15% from left
+        let houseY = padding + (villageSize.height - 2 * padding) * 0.25 // 25% from top
+
+        let castleX = padding + (villageSize.width - 2 * padding) * 0.5 // 50% from left (center)
+        let castleY = padding + (villageSize.height - 2 * padding) * 0.4 // 40% from top
+
+        let towerX = padding + (villageSize.width - 2 * padding) * 0.85 // 85% from left
+        let towerY = padding + (villageSize.height - 2 * padding) * 0.25 // 25% from top
+
+        let goldmineX = padding + (villageSize.width - 2 * padding) * 0.85 // 85% from left
+        let goldmineY = padding + (villageSize.height - 2 * padding) * 0.75 // 75% from top (bottom right)
+        
+        return [
+            .house: CGPoint(x: houseX, y: houseY),
+            .castle: CGPoint(x: castleX, y: castleY),
+            .tower: CGPoint(x: towerX, y: towerY),
+            .goldmine: CGPoint(x: goldmineX, y: goldmineY)
+        ]
+    }
+    
+    static func getBuildingAtPosition(_ position: CGPoint, in screenSize: CGSize) -> BuildingType? {
+        let fixedPositions = getFixedPositions(for: screenSize)
         for (type, fixedPosition) in fixedPositions {
             let distance = sqrt(pow(position.x - fixedPosition.x, 2) + pow(position.y - fixedPosition.y, 2))
             if distance < gridSize / 2 {
@@ -312,7 +328,9 @@ struct Base: Codable {
     }
     
     mutating func initializeVillage() {
-        let fixedPositions = VillageLayout.getFixedPositions()
+        // Initialize with default screen size, will be updated when view loads
+        let defaultScreenSize = CGSize(width: 400, height: 600)
+        let fixedPositions = VillageLayout.getFixedPositions(for: defaultScreenSize)
         buildings = []
         
         for (type, position) in fixedPositions {

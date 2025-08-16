@@ -22,9 +22,11 @@ final class CalendarViewModel: ObservableObject {
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
     @Published var alertMessage: String?
+    @Published var refreshTrigger: Bool = false
 
     let questDataService: QuestDataServiceProtocol
     private let calendar = Calendar.current
+    private let streakManager = StreakManager.shared
 
     // Tag filtering support
     lazy var tagFilterViewModel: TagFilterViewModel = {
@@ -70,6 +72,8 @@ final class CalendarViewModel: ObservableObject {
         print("🔄 CalendarViewModel: Received quest updated notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
+            // Force UI refresh
+            self?.refreshTrigger.toggle()
         }
     }
 
@@ -77,6 +81,8 @@ final class CalendarViewModel: ObservableObject {
         print("🗑️ CalendarViewModel: Received quest deleted notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
+            // Force UI refresh
+            self?.refreshTrigger.toggle()
         }
     }
 
@@ -84,10 +90,16 @@ final class CalendarViewModel: ObservableObject {
         print("➕ CalendarViewModel: Received quest created notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
+            // Force UI refresh
+            self?.refreshTrigger.toggle()
         }
     }
 
-    var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }
+    var itemsForSelectedDate: [DayQuestItem] {
+        // Force recomputation when refreshTrigger changes
+        _ = refreshTrigger
+        return items(for: selectedDate)
+    }
 
     func fetchQuests() {
         print("📅 CalendarViewModel: Starting fetchQuests()")
@@ -161,6 +173,8 @@ final class CalendarViewModel: ObservableObject {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
                     } else {
+                        // Record streak activity when completing a quest
+                        self?.streakManager.recordActivity()
                         self?.fetchQuests()
                     }
                 }
@@ -185,6 +199,8 @@ final class CalendarViewModel: ObservableObject {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
                 } else {
+                    // Record streak activity when finishing a quest
+                    self?.streakManager.recordActivity()
                     self?.fetchQuests()
                 }
             }

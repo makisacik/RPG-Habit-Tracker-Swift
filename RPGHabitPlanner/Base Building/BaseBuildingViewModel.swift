@@ -155,8 +155,8 @@ class BaseBuildingViewModel: ObservableObject {
         return base.getBuilding(at: position)
     }
     
-    func getFixedPositions() -> [BuildingType: CGPoint] {
-        return VillageLayout.getFixedPositions()
+    func getFixedPositions(for screenSize: CGSize) -> [BuildingType: CGPoint] {
+        return VillageLayout.getFixedPositions(for: screenSize)
     }
     
     // MARK: - Private Methods

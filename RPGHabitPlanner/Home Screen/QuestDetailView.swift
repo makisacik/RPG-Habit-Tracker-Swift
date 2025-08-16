@@ -168,6 +168,11 @@ struct QuestDetailView: View {
         uiIsCompleted = true
         viewModel.markQuestAsFinished()
         refreshCurrentQuestFromStore()
+        
+        // Automatically dismiss the detail view since quest is now finished
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            dismiss()
+        }
     }
 
     private func deleteQuest() {
