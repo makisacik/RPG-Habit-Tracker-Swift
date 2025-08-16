@@ -16,5 +16,10 @@
     <true/>
     <key>NSSupportsLiveActivitiesFrequentUpdates</key>
     <true/>
+    <key>UIAppFonts</key>
+    <array>
+        <string>Quicksand-VariableFont_wght.ttf</string>
+        <string>IMFellEnglishSC-Regular.ttf</string>
+    </array>
 </dict>
 </plist>

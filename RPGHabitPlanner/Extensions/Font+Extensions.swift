@@ -14,17 +14,17 @@ extension Font {
     static func appFont(size: CGFloat, weight: AppFontWeight = .regular) -> Font {
         switch weight {
         case .regular:
-            return Font.custom("HoeflerText-Regular", size: size)
+            return Font.custom("Quicksand-Regular", size: size)
         case .medium:
-            return Font.custom("HoeflerText-Regular", size: size)
+            return Font.custom("Quicksand-Medium", size: size)
         case .italic:
-            return Font.custom("HoeflerText-Italic", size: size)
+            return Font.custom("Quicksand-Regular", size: size).italic()
         case .black:
-            return Font.custom("HoeflerText-Black", size: size)
+            return Font.custom("Quicksand-Bold", size: size)
         case .bold:
-            return Font.custom("HoeflerText-Black", size: size)
+            return Font.custom("Quicksand-Bold", size: size)
         case .blackItalic:
-            return Font.custom("HoeflerText-BlackItalic", size: size)
+            return Font.custom("Quicksand-Bold", size: size).italic()
         }
     }
 }
