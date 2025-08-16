@@ -5,7 +5,6 @@ import Combine
 class BaseBuildingViewModel: ObservableObject {
     @Published var base = Base()
     @Published var selectedBuildingType: BuildingType?
-    @Published var selectedBuildingColor: BuildingColor = .blue
     @Published var showingBuildingMenu = false
     @Published var showingBuildingDetails = false
     @Published var selectedBuilding: Building?
@@ -65,7 +64,6 @@ class BaseBuildingViewModel: ObservableObject {
             var updatedBuilding = existingBuilding
             updatedBuilding.state = .construction
             updatedBuilding.constructionStartTime = Date()
-            updatedBuilding.color = selectedBuildingColor
             
             // Deduct coins from user
             currencyManager.spendCoins(type.baseCost) { success, _ in

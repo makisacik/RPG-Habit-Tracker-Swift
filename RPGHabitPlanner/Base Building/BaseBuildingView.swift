@@ -241,7 +241,6 @@ struct BaseBuildingView: View {
             if let tower2Position = fixedPositions[.tower2] {
                 let tower2 = Building(
                     type: .tower2,
-                    color: .blue,
                     state: .destroyed,
                     position: tower2Position
                 )
@@ -279,30 +278,6 @@ struct BaseBuildingView: View {
                     ) {
                         viewModel.buildStructure(type, at: viewModel.selectedGridPosition)
                         viewModel.showingBuildingMenu = false
-                    }
-                    
-                    // Color Selection
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Building Color")
-                            .font(.appFont(size: 16, weight: .medium))
-                            .foregroundColor(theme.textColor)
-                        
-                        HStack(spacing: 16) {
-                            ForEach(BuildingColor.allCases, id: \.self) { color in
-                                Circle()
-                                    .fill(color.color)
-                                    .frame(width: 40, height: 40)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(viewModel.selectedBuildingColor == color ? theme.accentColor : Color.clear, lineWidth: 3)
-                                    )
-                                    .scaleEffect(viewModel.selectedBuildingColor == color ? 1.1 : 1.0)
-                                    .animation(.easeInOut(duration: 0.2), value: viewModel.selectedBuildingColor)
-                                    .onTapGesture {
-                                        viewModel.selectedBuildingColor = color
-                                    }
-                            }
-                        }
                     }
                 }
             }

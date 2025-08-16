@@ -107,28 +107,12 @@ enum BuildingState: String, CaseIterable, Codable {
     }
 }
 
-// MARK: - Building Colors
-enum BuildingColor: String, CaseIterable, Codable {
-    case blue = "blue"
-    case red = "red"
-    case yellow = "yellow"
-    case purple = "purple"
-    
-    var color: Color {
-        switch self {
-        case .blue: return .blue
-        case .red: return .red
-        case .yellow: return .yellow
-        case .purple: return .purple
-        }
-    }
-}
+// Building colors are now fixed to blue
 
 // MARK: - Building Model
 struct Building: Identifiable, Codable {
     var id = UUID()
     let type: BuildingType
-    var color: BuildingColor
     var state: BuildingState
     var position: CGPoint
     var constructionStartTime: Date?
@@ -155,9 +139,9 @@ struct Building: Identifiable, Codable {
         case .goldmine:
             return "goldmine_active"
         case .tower2:
-            return "tower_\(color.rawValue)" // Use same asset as tower
+            return "tower_blue" // Use same asset as tower
         default:
-            return "\(type.rawValue)_\(color.rawValue)"
+            return "\(type.rawValue)_blue"
         }
     }
     
@@ -391,7 +375,6 @@ struct Base: Codable {
         for (type, position) in fixedPositions {
             let building = Building(
                 type: type,
-                color: .blue, // Default color
                 state: .destroyed, // Start with destroyed buildings
                 position: position
             )

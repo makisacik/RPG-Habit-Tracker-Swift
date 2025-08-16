@@ -21,7 +21,7 @@ struct VillageBuildingView: View {
         VStack(spacing: 0) {
             // Building Image
             let buildingSize = customSize ?? building.type.size
-            
+
             // Building image
             Image(building.currentImageName)
                 .resizable()
@@ -254,10 +254,6 @@ struct BuildingDetailView: View {
                             .font(.appFont(size: 16, weight: .medium))
                         
                         Spacer()
-                        
-                        Text("Color: \(building.color.rawValue.capitalized)")
-                            .font(.appFont(size: 14))
-                            .foregroundColor(theme.textColor.opacity(0.7))
                     }
                     .padding(.horizontal)
                     
