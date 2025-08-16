@@ -4,15 +4,17 @@ struct BaseBuildingView: View {
     @ObservedObject var viewModel: BaseBuildingViewModel
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var localizationManager: LocalizationManager
+    @State private var showingConstructionAnimation = false
+    @State private var animatingBuilding: Building?
     @State private var showVillageInfo = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             // Background
             theme.backgroundColor.ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Minimal Header with just title and info button
                 minimalHeaderView(theme: theme)
@@ -20,7 +22,7 @@ struct BaseBuildingView: View {
                 // Village View - now takes full remaining space
                 villageView(theme: theme)
             }
-            
+
             // Village Info Overlay
             if showVillageInfo {
                 villageInfoOverlay(theme: theme)
@@ -41,29 +43,40 @@ struct BaseBuildingView: View {
                 )
             }
         }
+        .overlay(
+            // Construction completion animation overlay
+            Group {
+                if showingConstructionAnimation, let building = animatingBuilding {
+                    ConstructionCompletionAnimation(building: building) {
+                        // Animation completed
+                    }
+                    .allowsHitTesting(false)
+                }
+            }
+        )
         .onAppear {
             viewModel.loadBase()
             // Ensure both towers exist
             ensureBothTowersExist()
         }
     }
-    
+
     // MARK: - Minimal Header View
-    
+
     private func minimalHeaderView(theme: Theme) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(viewModel.base.villageName)
                     .font(.appFont(size: 24, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("Level \(viewModel.base.level) Village")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
-            
+
             Spacer()
-            
+
             // Gold Display
             HStack(spacing: 8) {
                 Image(systemName: "dollarsign.circle.fill")
@@ -90,9 +103,9 @@ struct BaseBuildingView: View {
         .padding(.top, 8)
         .padding(.bottom, 12)
     }
-    
+
     // MARK: - Village Info Overlay
-    
+
     private func villageInfoOverlay(theme: Theme) -> some View {
         VStack(spacing: 16) {
             // Village Progress
@@ -124,7 +137,7 @@ struct BaseBuildingView: View {
                     color: .green,
                     theme: theme
                 )
-                
+
                 StatItem(
                     icon: "hammer.fill",
                     value: "\(stats.construction)",
@@ -132,7 +145,7 @@ struct BaseBuildingView: View {
                     color: .orange,
                     theme: theme
                 )
-                
+
                 StatItem(
                     icon: "xmark.circle.fill",
                     value: "\(stats.destroyed)",
@@ -140,7 +153,7 @@ struct BaseBuildingView: View {
                     color: .red,
                     theme: theme
                 )
-                
+
                 StatItem(
                     icon: "dollarsign.circle.fill",
                     value: "\(stats.totalGold)",
@@ -148,7 +161,7 @@ struct BaseBuildingView: View {
                     color: .yellow,
                     theme: theme
                 )
-                
+
                 Spacer()
             }
         }
@@ -162,9 +175,9 @@ struct BaseBuildingView: View {
         .padding(.horizontal, 16)
         .padding(.top, 8)
     }
-    
+
     // MARK: - Village View
-    
+
     private func villageView(theme: Theme) -> some View {
         GeometryReader { geometry in
             let screenSize = geometry.size
@@ -175,7 +188,7 @@ struct BaseBuildingView: View {
                 // Village Background - now fills the entire available space
                 villageBackgroundView(theme: theme)
                     .frame(width: screenSize.width, height: screenSize.height)
-                
+
                 // Buildings - render castle last so it appears on top
                 ForEach(viewModel.base.buildings.sorted { building1, building2 in
                     // First sort by state priority
@@ -201,12 +214,15 @@ struct BaseBuildingView: View {
                         }
                         .position(position)
                         .animation(.none, value: position) // Disable animation for position changes
+                        .animation(.none, value: building.state) // Disable animation for state changes
+                        .animation(.none, value: building.constructionProgress) // Disable animation for progress changes
+                        .animation(.none, value: building.currentImageName) // Disable animation for image changes
                     }
                 }
             }
         }
     }
-    
+
     private func villageBackgroundView(theme: Theme) -> some View {
         // Village background asset
         Image("village_background")
@@ -214,7 +230,7 @@ struct BaseBuildingView: View {
             .aspectRatio(contentMode: .fill)
             .clipped()
     }
-    
+
     private func handleBuildingTap(_ building: Building) {
         if building.state == .destroyed {
             // Show building menu for destroyed buildings
@@ -223,19 +239,35 @@ struct BaseBuildingView: View {
                 viewModel.selectedGridPosition = fixedPosition
             }
             viewModel.showingBuildingMenu = true
+        } else if building.state == .readyToComplete {
+            // Complete construction with animation
+            completeConstructionWithAnimation(for: building)
         } else {
             // Show building details for other states
             viewModel.selectBuilding(building)
         }
     }
-    
+
+    private func completeConstructionWithAnimation(for building: Building) {
+        // Show construction completion animation
+        animatingBuilding = building
+        showingConstructionAnimation = true
+
+        // Trigger the completion after animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            viewModel.completeConstruction(for: building)
+            showingConstructionAnimation = false
+            animatingBuilding = nil
+        }
+    }
+
     private func ensureBothTowersExist() {
         let screenSize = UIScreen.main.bounds.size
         let fixedPositions = VillageLayout.getFixedPositions(for: screenSize)
-        
+
         // Check if tower2 exists
         let hasTower2 = viewModel.base.buildings.contains { $0.type == .tower2 }
-        
+
         if !hasTower2 {
             // Add tower2 if it doesn't exist
             if let tower2Position = fixedPositions[.tower2] {
@@ -248,9 +280,9 @@ struct BaseBuildingView: View {
             }
         }
     }
-    
+
     // MARK: - Building Menu View
-    
+
     private func buildingMenuView(theme: Theme) -> some View {
         VStack(spacing: 20) {
             // Header
@@ -258,16 +290,16 @@ struct BaseBuildingView: View {
                 Text("Construct Building")
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("Choose a building type to construct")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
-            
+
             // Get the building type at the selected position
             let buildingAtPosition = viewModel.getBuildingAtPosition(viewModel.selectedGridPosition)
             let buildingType = buildingAtPosition?.type
-            
+
             if let type = buildingType {
                 // Show only the specific building type
                 VStack(spacing: 16) {
@@ -281,7 +313,7 @@ struct BaseBuildingView: View {
                     }
                 }
             }
-            
+
             // Cancel Button
             Button("Cancel") {
                 viewModel.showingBuildingMenu = false
@@ -308,17 +340,17 @@ struct StatItem: View {
     let label: String
     let color: Color
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 6) {
             Image(systemName: icon)
                 .foregroundColor(color)
                 .font(.title3)
-            
+
             Text(value)
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             Text(label)
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
@@ -331,18 +363,18 @@ struct BuildingTypeCard: View {
     let canAfford: Bool
     let theme: Theme
     let action: () -> Void
-    
+
     var body: some View {
         VStack(spacing: 12) {
             Image(systemName: type.iconName)
                 .font(.system(size: 36))
                 .foregroundColor(canAfford ? theme.accentColor : .gray)
-            
+
             VStack(spacing: 4) {
                 Text(type.displayName)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("\(type.baseCost) Gold")
                     .font(.appFont(size: 14))
                     .foregroundColor(canAfford ? theme.textColor.opacity(0.7) : .red)

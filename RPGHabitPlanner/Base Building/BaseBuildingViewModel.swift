@@ -121,6 +121,11 @@ class BaseBuildingViewModel: ObservableObject {
         loadBase()
     }
     
+    func completeConstruction(for building: Building) {
+        baseService.completeConstruction(for: building)
+        loadBase()
+    }
+    
     func destroyBuilding(_ building: Building) {
         var updatedBuilding = building
         updatedBuilding.state = .destroyed
@@ -192,12 +197,9 @@ class BaseBuildingViewModel: ObservableObject {
         for building in base.buildings where building.state == .construction {
             if building.isConstructionComplete {
                 var updatedBuilding = building
-                updatedBuilding.state = .active
+                updatedBuilding.state = .readyToComplete
                 base.updateBuilding(updatedBuilding)
                 hasChanges = true
-                
-                // Add experience for completing construction
-                base.addExperience(10)
             }
         }
         

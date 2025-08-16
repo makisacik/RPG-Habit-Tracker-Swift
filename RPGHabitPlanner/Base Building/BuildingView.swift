@@ -9,6 +9,8 @@ struct VillageBuildingView: View {
     
     @State private var isAnimating = false
     @State private var showTooltip = false
+    @State private var isReadyToCompleteAnimating = false
+    @State private var hasAppeared = false
     
     init(building: Building, theme: Theme, customSize: CGSize? = nil, onTap: @escaping () -> Void) {
         self.building = building
@@ -28,10 +30,29 @@ struct VillageBuildingView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: buildingSize.width, height: buildingSize.height)
                 .scaleEffect(isAnimating ? 1.05 : 1.0)
-                .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: isAnimating)
+                .animation(
+                    hasAppeared ? .easeInOut(duration: 0.8).repeatForever(autoreverses: true) : .none,
+                    value: isAnimating
+                )
+                .animation(.none, value: building.currentImageName) // Prevent animation when image changes
+                .overlay(
+                    // Ready to complete indicator
+                    Group {
+                        if building.state == .readyToComplete {
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.yellow, lineWidth: 3)
+                                .scaleEffect(isReadyToCompleteAnimating ? 1.1 : 1.0)
+                                .opacity(isReadyToCompleteAnimating ? 0.8 : 0.6)
+                                .animation(
+                                    hasAppeared ? .easeInOut(duration: 1.0).repeatForever(autoreverses: true) : .none,
+                                    value: isReadyToCompleteAnimating
+                                )
+                        }
+                    }
+                )
             
-            // Building Info (only show for active buildings or when tapped)
-            if building.state == .active || showTooltip {
+            // Building Info (only show for active buildings, ready to complete, or when tapped)
+            if building.state == .active || building.state == .readyToComplete || showTooltip {
                 buildingInfoView
             }
         }
@@ -46,10 +67,31 @@ struct VillageBuildingView: View {
             }
         }
         .onAppear {
-            if building.state == .construction {
-                isAnimating = true
+            // Delay animations to prevent jumping when view first appears
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                hasAppeared = true
+                
+                if building.state == .construction {
+                    isAnimating = true
+                } else if building.state == .readyToComplete {
+                    isReadyToCompleteAnimating = true
+                }
             }
         }
+        .onChange(of: building.state) { newState in
+            // Handle state changes smoothly
+            if newState == .construction {
+                isAnimating = true
+                isReadyToCompleteAnimating = false
+            } else if newState == .readyToComplete {
+                isAnimating = false
+                isReadyToCompleteAnimating = true
+            } else {
+                isAnimating = false
+                isReadyToCompleteAnimating = false
+            }
+        }
+        .animation(.none, value: building.state) // Disable animation for state changes to prevent position jumping
     }
     
     private var buildingInfoView: some View {
@@ -94,6 +136,25 @@ struct VillageBuildingView: View {
                     .scaleEffect(x: 0.8, y: 0.8)
             }
             
+            // Ready to complete indicator
+            if building.state == .readyToComplete {
+                HStack(spacing: 4) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.yellow)
+                        .font(.system(size: 10))
+                    
+                    Text("Tap to Complete!")
+                        .font(.appFont(size: 8, weight: .bold))
+                        .foregroundColor(.yellow)
+                }
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.black.opacity(0.6))
+                )
+            }
+            
             // Gold indicator for goldmines
             if building.type == .goldmine && building.state == .active {
                 HStack(spacing: 2) {
@@ -126,6 +187,7 @@ struct BuildingView: View {
     let onTap: () -> Void
     
     @State private var isAnimating = false
+    @State private var hasAppeared = false
     
     var body: some View {
         VStack(spacing: 4) {
@@ -135,7 +197,10 @@ struct BuildingView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 60, height: 60)
                 .scaleEffect(isAnimating ? 1.1 : 1.0)
-                .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: isAnimating)
+                .animation(
+                    hasAppeared ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : .none,
+                    value: isAnimating
+                )
             
             // Building Info
             VStack(spacing: 2) {
@@ -191,8 +256,21 @@ struct BuildingView: View {
             onTap()
         }
         .onAppear {
-            if building.state == .construction {
+            // Delay animations to prevent jumping when view first appears
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                hasAppeared = true
+                
+                if building.state == .construction {
+                    isAnimating = true
+                }
+            }
+        }
+        .onChange(of: building.state) { newState in
+            // Handle state changes smoothly
+            if newState == .construction {
                 isAnimating = true
+            } else {
+                isAnimating = false
             }
         }
     }

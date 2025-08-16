@@ -77,6 +77,7 @@ enum BuildingType: String, CaseIterable, Codable {
 enum BuildingState: String, CaseIterable, Codable {
     case destroyed = "destroyed"
     case construction = "construction"
+    case readyToComplete = "readyToComplete"
     case active = "active"
     case inactive = "inactive"
     
@@ -84,6 +85,7 @@ enum BuildingState: String, CaseIterable, Codable {
         switch self {
         case .destroyed: return "Destroyed"
         case .construction: return "Under Construction"
+        case .readyToComplete: return "Ready to Complete"
         case .active: return "Active"
         case .inactive: return "Inactive"
         }
@@ -93,6 +95,7 @@ enum BuildingState: String, CaseIterable, Codable {
         switch self {
         case .destroyed: return .red
         case .construction: return .orange
+        case .readyToComplete: return .yellow
         case .active: return .green
         case .inactive: return .gray
         }
@@ -102,8 +105,9 @@ enum BuildingState: String, CaseIterable, Codable {
         switch self {
         case .destroyed: return 0
         case .construction: return 1
-        case .inactive: return 2
-        case .active: return 3
+        case .readyToComplete: return 2
+        case .inactive: return 3
+        case .active: return 4
         }
     }
 }
@@ -181,6 +185,8 @@ struct Building: Identifiable, Codable {
             return destroyedImageName
         case .construction:
             return constructionImageName
+        case .readyToComplete:
+            return constructionImageName // Still show construction image until tapped
         case .active:
             return imageName
         case .inactive:
