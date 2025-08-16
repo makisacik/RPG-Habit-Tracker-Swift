@@ -202,6 +202,7 @@ enum HomeTab: Hashable {
     case shop
     case tracking
     case character
+    case base
     case achievements
     case focusTimer
     case calendar

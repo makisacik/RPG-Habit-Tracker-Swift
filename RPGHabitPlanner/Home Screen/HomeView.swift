@@ -213,6 +213,23 @@ struct HomeView: View {
             .tabItem { Label(String.focusTimer.localized, systemImage: "timer") }
             .tag(HomeTab.focusTimer)
 
+            // MARK: Base
+            NavigationStack {
+                ZStack {
+                    theme.backgroundColor.ignoresSafeArea()
+                    BaseBuildingView(
+                        viewModel: BaseBuildingViewModel(
+                            baseService: BaseBuildingService(),
+                            userManager: viewModel.userManager
+                        )
+                    )
+                    .environmentObject(themeManager)
+                    .environmentObject(localizationManager)
+                }
+            }
+            .tabItem { Label("Base", systemImage: "building.2.fill") }
+            .tag(HomeTab.base)
+
             // MARK: Calendar
             NavigationStack {
                 CalendarView(viewModel: CalendarViewModel(questDataService: questDataService))
