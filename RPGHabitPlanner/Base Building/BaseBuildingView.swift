@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct BaseBuildingView: View {
     @ObservedObject var viewModel: BaseBuildingViewModel
@@ -197,6 +198,13 @@ struct BaseBuildingView: View {
                 // Village Background - now fills the entire available space
                 villageBackgroundView(theme: theme)
                     .frame(width: screenSize.width, height: screenSize.height)
+
+                // 🔹 TEST: Animated bush (sprite strip)
+                // Place it above the background but before buildings
+                
+                SpriteStripView(imageName: "sheep_strip", columns: 4, fps: 12, isPlaying: true)
+                    .frame(width: 64, height: 64)
+                    .position(x: screenSize.width * 0.5, y: screenSize.height * 0.5)
 
                 // Buildings - render castle last so it appears on top
                 ForEach(viewModel.base.buildings.sorted { building1, building2 in
