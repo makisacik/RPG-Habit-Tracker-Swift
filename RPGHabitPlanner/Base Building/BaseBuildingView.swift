@@ -91,9 +91,9 @@ struct BaseBuildingView: View {
 
             // Gold Display
             HStack(spacing: 8) {
-                Image(systemName: "dollarsign.circle.fill")
-                    .foregroundColor(.yellow)
-                    .font(.title2)
+                Image("icon_gold")
+                    .resizable()
+                    .frame(width: 24, height: 24)
 
                 Text("\(viewModel.getAvailableGold())")
                     .font(.appFont(size: 20, weight: .bold))
@@ -167,7 +167,7 @@ struct BaseBuildingView: View {
                 )
 
                 StatItem(
-                    icon: "dollarsign.circle.fill",
+                    icon: "icon_gold",
                     value: "\(stats.totalGold)",
                     label: "Gold/hr",
                     color: .yellow,

@@ -172,7 +172,7 @@ struct ItemEffect: Equatable, Codable {
             case .criticalChance: return "target"
             case .criticalDamage: return "burst.fill"
             case .xpBoost: return "arrow.up.circle.fill"
-            case .coinBoost: return "dollarsign.circle.fill"
+            case .coinBoost: return "icon_gold"
             case .healthRegeneration: return "heart.circle.fill"
             case .focusRegeneration: return "brain.head.profile.circle.fill"
             }

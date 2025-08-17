@@ -16,9 +16,15 @@ struct BoosterInfoView: View {
         if let booster = getBuildingBooster() {
             VStack(spacing: 8) {
                 HStack {
-                    Image(systemName: boosterIconName(for: booster.type))
-                        .foregroundColor(boosterColor(for: booster.type))
-                        .font(.system(size: 14, weight: .bold))
+                    if booster.type == .coins {
+                        Image("icon_gold")
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                    } else {
+                        Image(systemName: boosterIconName(for: booster.type))
+                            .foregroundColor(boosterColor(for: booster.type))
+                            .font(.system(size: 14, weight: .bold))
+                    }
                     
                     Text("Quest Booster")
                         .font(.appFont(size: 14, weight: .bold))
@@ -60,7 +66,7 @@ struct BoosterInfoView: View {
         case .experience:
             return "star.fill"
         case .coins:
-            return "dollarsign.circle.fill"
+            return "icon_gold"
         case .both:
             return "bolt.fill"
         }

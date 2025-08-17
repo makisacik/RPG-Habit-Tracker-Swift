@@ -139,9 +139,9 @@ struct VillageBuildingView: View {
             // Gold indicator for goldmines
             if building.type == .goldmine && building.state == .active {
                 HStack(spacing: 2) {
-                    Image(systemName: "dollarsign.circle.fill")
-                        .font(.system(size: 8))
-                        .foregroundColor(.yellow)
+                    Image("icon_gold")
+                        .resizable()
+                        .frame(width: 12, height: 12)
                     
                     Text("\(building.goldGenerationRate)")
                         .font(.appFont(size: 8))
@@ -212,9 +212,9 @@ struct BuildingView: View {
                 // Gold indicator for goldmines
                 if building.type == .goldmine && building.state == .active {
                     HStack(spacing: 2) {
-                        Image(systemName: "dollarsign.circle.fill")
-                            .font(.system(size: 8))
-                            .foregroundColor(.yellow)
+                        Image("icon_gold")
+                            .resizable()
+                            .frame(width: 12, height: 12)
                         
                         Text("\(building.goldGenerationRate)")
                             .font(.appFont(size: 8))
@@ -380,9 +380,9 @@ struct BuildingDetailBottomSheet: View {
             if building.type == .goldmine && building.state == .active {
                 VStack(spacing: 12) {
                     HStack {
-                        Image(systemName: "dollarsign.circle.fill")
-                            .foregroundColor(.yellow)
-                            .font(.system(size: 20))
+                        Image("icon_gold")
+                            .resizable()
+                            .frame(width: 20, height: 20)
                         
                         Text("Gold Generation")
                             .font(.appFont(size: 16, weight: .medium))
@@ -666,11 +666,6 @@ struct BuildingDetailView: View {
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
-                        
-                        // Show booster info for active buildings
-                        if building.state == .active {
-                            BoosterInfoView(building: building)
-                        }
                     }
                     
                     // State Info
@@ -709,8 +704,9 @@ struct BuildingDetailView: View {
                                 .foregroundColor(theme.textColor)
                             
                             HStack {
-                                Image(systemName: "dollarsign.circle.fill")
-                                    .foregroundColor(.yellow)
+                                Image("icon_gold")
+                                    .resizable()
+                                    .frame(width: 16, height: 16)
                                 
                                 Text("\(building.goldGenerationRate) gold per hour")
                                     .font(.appFont(size: 14))

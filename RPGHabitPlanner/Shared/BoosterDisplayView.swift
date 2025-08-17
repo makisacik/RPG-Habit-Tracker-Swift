@@ -53,10 +53,16 @@ struct BoosterItemView: View {
     var body: some View {
         HStack(spacing: 8) {
             // Booster type icon
-            Image(systemName: boosterIconName)
-                .foregroundColor(boosterColor)
-                .font(.system(size: 12, weight: .medium))
-                .frame(width: 16, height: 16)
+            if booster.type == .coins {
+                Image("icon_gold")
+                    .resizable()
+                    .frame(width: 12, height: 12)
+            } else {
+                Image(systemName: boosterIconName)
+                    .foregroundColor(boosterColor)
+                    .font(.system(size: 12, weight: .medium))
+                    .frame(width: 16, height: 16)
+            }
             
             // Booster description
             VStack(alignment: .leading, spacing: 2) {
@@ -90,7 +96,7 @@ struct BoosterItemView: View {
         case .experience:
             return "star.fill"
         case .coins:
-            return "dollarsign.circle.fill"
+            return "icon_gold"
         case .both:
             return "bolt.fill"
         }

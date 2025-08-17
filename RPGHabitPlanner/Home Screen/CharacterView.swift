@@ -11,6 +11,8 @@ struct CharacterView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var inventoryManager = InventoryManager.shared
+    @StateObject private var boosterManager = BoosterManager.shared
+    @State private var showBoosterInfo = false
     let user: UserEntity
     
     var body: some View {
@@ -146,6 +148,37 @@ struct CharacterView: View {
         }
         .navigationTitle(String.character.localized)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showBoosterInfo = true
+                }) {
+                    HStack(spacing: 6) {
+                        Image("icon_lightning")
+                            .resizable()
+                            .frame(width: 18, height: 18)
+                            .foregroundColor(.yellow)
+                        
+                        if !boosterManager.activeBoosters.isEmpty {
+                            Text("\(boosterManager.activeBoosters.count)")
+                                .font(.appFont(size: 12, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(
+                                    Circle()
+                                        .fill(Color.yellow)
+                                )
+                        }
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .sheet(isPresented: $showBoosterInfo) {
+            BoosterInfoModalView()
+                .environmentObject(themeManager)
+        }
     }
 }
 
