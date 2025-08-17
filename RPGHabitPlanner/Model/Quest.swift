@@ -80,9 +80,14 @@ extension Quest {
         case .oneTime:
             // For one-time quests, if they are completed at the due date, they show as completed for all dates
             let dueDateAnchor = calendar.startOfDay(for: dueDate)
-            return completions.contains(dueDateAnchor)
+            let isCompleted = completions.contains(dueDateAnchor)
+            print("🔍 Quest '\(title)' isCompleted(on: \(date)) one-time: dueDateAnchor = \(dueDateAnchor), isCompleted = \(isCompleted)")
+            return isCompleted
         case .daily, .weekly:
-            return completions.contains(calendar.startOfDay(for: date))
+            let dateAnchor = calendar.startOfDay(for: date)
+            let isCompleted = completions.contains(dateAnchor)
+            print("🔍 Quest '\(title)' isCompleted(on: \(date)) \(repeatType): dateAnchor = \(dateAnchor), isCompleted = \(isCompleted)")
+            return isCompleted
         }
     }
 
@@ -99,23 +104,36 @@ extension Quest {
 
     func isActive(on date: Date, calendar: Calendar = .current) -> Bool {
         // If quest is marked as finished, it's not active
-        if isFinished { return false }
+        if isFinished {
+            print("❌ Quest '\(title)' is finished, not active")
+            return false
+        }
 
         let today = calendar.startOfDay(for: date)
+        print("🔍 Checking if quest '\(title)' is active on \(today)")
 
         switch repeatType {
         case .oneTime:
             // For one-time quests, check if due date is in the past
-            if dueDate < today { return false }
+            if dueDate < today {
+                print("❌ Quest '\(title)' due date \(dueDate) is in the past")
+                return false
+            }
             // Check if completed at the due date anchor
             let dueDateAnchor = calendar.startOfDay(for: dueDate)
-            return !completions.contains(dueDateAnchor)
+            let isCompletedAtDueDate = completions.contains(dueDateAnchor)
+            print("🔍 Quest '\(title)' one-time: dueDateAnchor = \(dueDateAnchor), isCompletedAtDueDate = \(isCompletedAtDueDate)")
+            return !isCompletedAtDueDate
         case .daily:
             // For daily quests, they're active on any day they haven't been completed
-            return !isCompleted(on: today, calendar: calendar)
+            let isCompletedToday = isCompleted(on: today, calendar: calendar)
+            print("🔍 Quest '\(title)' daily: isCompletedToday = \(isCompletedToday)")
+            return !isCompletedToday
         case .weekly:
             // For weekly quests, they're active on any week they haven't been completed
-            return !isCompletedThisWeek(asOf: today, calendar: calendar)
+            let isCompletedThisWeek = isCompletedThisWeek(asOf: today, calendar: calendar)
+            print("🔍 Quest '\(title)' weekly: isCompletedThisWeek = \(isCompletedThisWeek)")
+            return !isCompletedThisWeek
         }
     }
 }

@@ -123,6 +123,9 @@ struct HomeView: View {
                 .onReceive(NotificationCenter.default.publisher(for: .questCreated)) { _ in
                     fetchCurrentQuestCount()
                 }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    viewModel.fetchDashboardData()
+                }
                 // keep theme in sync with system changes
                 .onChange(of: colorScheme) { newScheme in
                     themeManager.applyTheme(using: newScheme)

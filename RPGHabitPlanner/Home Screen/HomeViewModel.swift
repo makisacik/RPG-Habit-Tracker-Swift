@@ -94,27 +94,44 @@ class HomeViewModel: ObservableObject {
 
     func fetchDashboardData() {
         print("🏠 HomeViewModel: Starting fetchDashboardData()")
-        // Call fetchAllQuests only once and use the result for both operations
-        questDataService.fetchAllQuests { [weak self] quests, _ in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
 
-                print("🏠 HomeViewModel: Received \(quests.count) quests from fetchAllQuests")
+        // First refresh all quest states to ensure they're up to date
+        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
+            if let error = error {
+                print("❌ HomeViewModel: Error refreshing quests: \(error)")
+            } else {
+                print("✅ HomeViewModel: Successfully refreshed all quest states")
+            }
 
-                // Update quest counts
-                self.activeQuestsCount = quests.filter { quest in
-                    !quest.isCompleted && !quest.isFinished
-                }.count
-                self.completedQuestsCount = quests.filter { quest in
-                    quest.isFinished
-                }.count
+            // Then fetch the updated quest data
+            self?.questDataService.fetchAllQuests { [weak self] quests, fetchError in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
 
-                // Update recent active quests
-                self.recentActiveQuests = Array(quests.filter { quest in
-                    !quest.isCompleted && !quest.isFinished
-                }.prefix(5))
+                    if let fetchError = fetchError {
+                        print("❌ HomeViewModel: Error fetching quests: \(fetchError)")
+                    } else {
+                        print("✅ HomeViewModel: Successfully fetched \(quests.count) quests")
+                    }
 
-                print("🏠 HomeViewModel: Updated counts - Active: \(self.activeQuestsCount), Completed: \(self.completedQuestsCount), Recent: \(self.recentActiveQuests.count)")
+                    print("🏠 HomeViewModel: Received \(quests.count) quests from fetchAllQuests")
+
+                    // Update quest counts
+                    let activeQuests = quests.filter { quest in
+                        let isActive = quest.isActive(on: Date())
+                        print("🔍 Quest '\(quest.title)': isActive(on: Date()) = \(isActive), isCompleted = \(quest.isCompleted), isFinished = \(quest.isFinished), repeatType = \(quest.repeatType)")
+                        return isActive
+                    }
+                    self.activeQuestsCount = activeQuests.count
+                    self.completedQuestsCount = quests.filter { quest in
+                        quest.isFinished
+                    }.count
+
+                    // Update recent active quests
+                    self.recentActiveQuests = Array(activeQuests.prefix(5))
+
+                    print("🏠 HomeViewModel: Updated counts - Active: \(self.activeQuestsCount), Completed: \(self.completedQuestsCount), Recent: \(self.recentActiveQuests.count)")
+                }
             }
         }
 

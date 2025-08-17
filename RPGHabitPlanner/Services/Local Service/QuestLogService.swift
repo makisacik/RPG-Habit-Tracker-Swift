@@ -117,23 +117,32 @@ final class QuestLogService {
     }
 
     func refreshState(for quest: QuestEntity, on date: Date = .now) throws {
+        print("🔄 QuestLogService: Refreshing state for quest '\(quest.title ?? "Unknown")' on \(date)")
+
         if let due = quest.dueDate, date > due {
+            print("❌ Quest '\(quest.title ?? "Unknown")' is overdue (due: \(due), current: \(date))")
             quest.isActive = false
             quest.isCompleted = true
             try context.save()
             return
         }
+
         switch quest.repeatKind {
         case .oneTime:
-            quest.isActive = !(quest.isCompleted)
+            let isCompletedAtDueDate = try isCompleted(quest, on: quest.dueDate ?? date)
+            quest.isActive = !isCompletedAtDueDate
+            quest.isCompleted = isCompletedAtDueDate
+            print("🔄 Quest '\(quest.title ?? "Unknown")' one-time: isCompletedAtDueDate = \(isCompletedAtDueDate), isActive = \(quest.isActive)")
         case .daily:
             let doneToday = try isCompleted(quest, on: date)
             quest.isCompleted = doneToday
             quest.isActive = !doneToday
+            print("🔄 Quest '\(quest.title ?? "Unknown")' daily: doneToday = \(doneToday), isActive = \(quest.isActive)")
         case .weekly:
             let doneThisWeek = try isCompletedThisWeek(quest, asOf: date)
             quest.isCompleted = doneThisWeek
             quest.isActive = !doneThisWeek
+            print("🔄 Quest '\(quest.title ?? "Unknown")' weekly: doneThisWeek = \(doneThisWeek), isActive = \(quest.isActive)")
         }
         try context.save()
     }

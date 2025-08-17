@@ -104,11 +104,20 @@ final class CalendarViewModel: ObservableObject {
     func fetchQuests() {
         print("📅 CalendarViewModel: Starting fetchQuests()")
         isLoading = true
-        questDataService.fetchAllQuests { [weak self] quests, _ in
-            DispatchQueue.main.async {
-                print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
-                self?.isLoading = false
-                self?.allQuests = quests
+
+        // First refresh all quest states to ensure they're up to date
+        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
+            if let error = error {
+                print("❌ CalendarViewModel: Error refreshing quests: \(error)")
+            }
+
+            // Then fetch the updated quest data
+            self?.questDataService.fetchAllQuests { [weak self] quests, _ in
+                DispatchQueue.main.async {
+                    print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
+                    self?.isLoading = false
+                    self?.allQuests = quests
+                }
             }
         }
     }
