@@ -372,8 +372,8 @@ struct CalendarDayView: View {
 
     private var selectionTextColor: Color {
         if isSelected {
-            // For light theme, keep text black when selected
-            if theme.backgroundColor == Color(hex: "#F8F7FF") {
+            // For light theme, keep text dark when selected
+            if theme.backgroundColor == Color(hex: "#FDF6E3") {
                 return theme.textColor
             } else {
                 // Dark theme - keep white text
@@ -387,8 +387,8 @@ struct CalendarDayView: View {
     private var selectionBackgroundColor: Color {
         if isSelected {
             // For light theme, use a subtle border/background
-            if theme.backgroundColor == Color(hex: "#F8F7FF") {
-                return Color(hex: "#E5E7EB").opacity(0.8) // Light gray background
+            if theme.backgroundColor == Color(hex: "#FDF6E3") {
+                return Color(hex: "#E2E8F0").opacity(0.8) // Light gray-blue background
             } else {
                 // Dark theme - keep original primary color
                 return theme.primaryColor

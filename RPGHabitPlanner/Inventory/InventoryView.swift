@@ -90,7 +90,7 @@ struct InventoryView: View {
                     }
                 }
                 .padding(10)
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.purple.opacity(0.6)))
+                .background(RoundedRectangle(cornerRadius: 10).fill(theme.surfaceColor.opacity(0.6)))
             }
             .padding()
         }
