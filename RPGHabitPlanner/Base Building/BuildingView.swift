@@ -7,10 +7,17 @@ struct VillageBuildingView: View {
     let onTap: () -> Void
     let customSize: CGSize?
     
-    @State private var isAnimating = false
     @State private var showTooltip = false
-    @State private var isReadyToCompleteAnimating = false
     @State private var hasAppeared = false
+    
+    // Computed properties for animations
+    private var shouldAnimateConstruction: Bool {
+        return hasAppeared && building.state == .construction
+    }
+    
+    private var shouldAnimateReadyToComplete: Bool {
+        return hasAppeared && building.state == .readyToComplete
+    }
     
     init(building: Building, theme: Theme, customSize: CGSize? = nil, onTap: @escaping () -> Void) {
         self.building = building
@@ -29,23 +36,17 @@ struct VillageBuildingView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: buildingSize.width, height: buildingSize.height)
-                .scaleEffect(building.state == .construction && isAnimating ? 1.05 : 1.0)
-                .animation(
-                    hasAppeared && building.state == .construction ? .easeInOut(duration: 0.8).repeatForever(autoreverses: true) : .none,
-                    value: isAnimating
-                )
-                .animation(.none, value: building.currentImageName) // Prevent animation when image changes
                 .overlay(
                     // Ready to complete indicator
                     Group {
                         if building.state == .readyToComplete {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.yellow, lineWidth: 3)
-                                .scaleEffect(isReadyToCompleteAnimating ? 1.1 : 1.0)
-                                .opacity(isReadyToCompleteAnimating ? 0.8 : 0.6)
+                                .scaleEffect(shouldAnimateReadyToComplete ? 1.1 : 1.0)
+                                .opacity(shouldAnimateReadyToComplete ? 0.8 : 0.6)
                                 .animation(
-                                    hasAppeared ? .easeInOut(duration: 1.0).repeatForever(autoreverses: true) : .none,
-                                    value: isReadyToCompleteAnimating
+                                    shouldAnimateReadyToComplete ? .easeInOut(duration: 1.0).repeatForever(autoreverses: true) : .none,
+                                    value: shouldAnimateReadyToComplete
                                 )
                         }
                     }
@@ -70,32 +71,8 @@ struct VillageBuildingView: View {
             // Delay animations to prevent jumping when view first appears
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 hasAppeared = true
-                
-                if building.state == .construction {
-                    isAnimating = true
-                } else if building.state == .readyToComplete {
-                    isReadyToCompleteAnimating = true
-                }
             }
         }
-        .onChange(of: building.state) { newState in
-            // Handle state changes smoothly
-            if newState == .construction {
-                isAnimating = true
-                isReadyToCompleteAnimating = false
-            } else if newState == .readyToComplete {
-                isAnimating = false
-                isReadyToCompleteAnimating = true
-            } else if newState == .active {
-                // Stop all animations when building becomes active
-                isAnimating = false
-                isReadyToCompleteAnimating = false
-            } else {
-                isAnimating = false
-                isReadyToCompleteAnimating = false
-            }
-        }
-        .animation(.none, value: building.state) // Disable animation for state changes to prevent position jumping
     }
     
     private var buildingInfoView: some View {
@@ -190,8 +167,12 @@ struct BuildingView: View {
     let building: Building
     let onTap: () -> Void
     
-    @State private var isAnimating = false
     @State private var hasAppeared = false
+    
+    // Computed property for animation
+    private var shouldAnimateConstruction: Bool {
+        return hasAppeared && building.state == .construction
+    }
     
     var body: some View {
         VStack(spacing: 4) {
@@ -200,11 +181,6 @@ struct BuildingView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 60, height: 60)
-                .scaleEffect(isAnimating ? 1.1 : 1.0)
-                .animation(
-                    hasAppeared ? .easeInOut(duration: 0.5).repeatForever(autoreverses: true) : .none,
-                    value: isAnimating
-                )
             
             // Building Info
             VStack(spacing: 2) {
@@ -263,30 +239,393 @@ struct BuildingView: View {
             // Delay animations to prevent jumping when view first appears
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 hasAppeared = true
-                
-                if building.state == .construction {
-                    isAnimating = true
-                }
-            }
-        }
-        .onChange(of: building.state) { newState in
-            // Handle state changes smoothly
-            if newState == .construction {
-                isAnimating = true
-            } else {
-                isAnimating = false
             }
         }
     }
 }
 
-// MARK: - Building Detail View
+// MARK: - Modern Bottom Sheet Building Detail View
+
+struct BuildingDetailBottomSheet: View {
+    let building: Building
+    @ObservedObject var viewModel: BaseBuildingViewModel
+    let theme: Theme
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var isConstructButtonPressed = false
+    @State private var isCompleteButtonPressed = false
+    @State private var isUpgradeButtonPressed = false
+    @State private var isDestroyButtonPressed = false
+    @State private var isCollectButtonPressed = false
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Handle bar
+            RoundedRectangle(cornerRadius: 2.5)
+                .fill(Color.gray.opacity(0.3))
+                .frame(width: 36, height: 5)
+                .padding(.top, 8)
+                .padding(.bottom, 16)
+            
+            // Content
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Building Header
+                    buildingHeaderView
+                    
+                    // Building Info
+                    buildingInfoSection
+                    
+                    // Action Buttons
+                    actionButtonsSection
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(theme.primaryColor)
+                .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: -10)
+        )
+        .frame(maxHeight: UIScreen.main.bounds.height * 0.7)
+    }
+    
+    private var buildingHeaderView: some View {
+        HStack(spacing: 16) {
+            // Building Image
+            Image(building.currentImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(theme.secondaryColor.opacity(0.3))
+                )
+            
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(building.type.displayName)
+                        .font(.appFont(size: 24, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                    
+                    if building.level > 1 {
+                        Text("Lv.\(building.level)")
+                            .font(.appFont(size: 14, weight: .bold))
+                            .foregroundColor(.yellow)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.black.opacity(0.3))
+                            )
+                    }
+                }
+                
+                Text(building.type.description)
+                    .font(.appFont(size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+                    .lineLimit(2)
+                
+                // State indicator
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(building.state.color)
+                        .frame(width: 8, height: 8)
+                    
+                    Text(building.state.displayName)
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(building.state.color)
+                }
+            }
+            
+            Spacer()
+        }
+    }
+    
+    private var buildingInfoSection: some View {
+        VStack(spacing: 16) {
+            // Construction Progress
+            if building.state == .construction {
+                VStack(spacing: 12) {
+                    HStack {
+                        Text("Construction Progress")
+                            .font(.appFont(size: 16, weight: .medium))
+                            .foregroundColor(theme.textColor)
+                        
+                        Spacer()
+                        
+                        Text("\(Int(building.constructionProgress * 100))%")
+                            .font(.appFont(size: 16, weight: .bold))
+                            .foregroundColor(theme.accentColor)
+                    }
+                    
+                    ProgressView(value: building.constructionProgress)
+                        .progressViewStyle(LinearProgressViewStyle(tint: theme.accentColor))
+                        .frame(height: 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.gray.opacity(0.2))
+                        )
+                }
+                .padding(16)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.secondaryColor.opacity(0.2))
+                )
+            }
+            
+            // Gold Generation Info
+            if building.type == .goldmine && building.state == .active {
+                VStack(spacing: 12) {
+                    HStack {
+                        Image(systemName: "dollarsign.circle.fill")
+                            .foregroundColor(.yellow)
+                            .font(.system(size: 20))
+                        
+                        Text("Gold Generation")
+                            .font(.appFont(size: 16, weight: .medium))
+                            .foregroundColor(theme.textColor)
+                        
+                        Spacer()
+                        
+                        Text("\(building.goldGenerationRate) gold/hr")
+                            .font(.appFont(size: 16, weight: .bold))
+                            .foregroundColor(.yellow)
+                    }
+                    
+                    if building.canGenerateGold {
+                        Button("Collect Gold") {
+                            viewModel.collectGold(from: building)
+                        }
+                        .font(.appFont(size: 16, weight: .medium))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                                .opacity(isCollectButtonPressed ? 0.7 : 1.0)
+                        )
+                        .buttonStyle(PlainButtonStyle())
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in isCollectButtonPressed = true }
+                                .onEnded { _ in isCollectButtonPressed = false }
+                        )
+                    }
+                }
+                .padding(16)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.secondaryColor.opacity(0.2))
+                )
+            }
+        }
+    }
+    
+    private var actionButtonsSection: some View {
+        VStack(spacing: 12) {
+            if building.state == .destroyed {
+                // Show construction info for destroyed buildings
+                VStack(spacing: 16) {
+                    // Construction Info
+                    VStack(spacing: 12) {
+                        HStack {
+                            Image(systemName: "hammer.fill")
+                                .foregroundColor(theme.accentColor)
+                                .font(.system(size: 18))
+                            
+                            Text("Construction Cost")
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.textColor)
+                            
+                            Spacer()
+                            
+                            Text("\(building.type.baseCost) Gold")
+                                .font(.appFont(size: 16, weight: .bold))
+                                .foregroundColor(.yellow)
+                        }
+                        
+                        HStack {
+                            Image(systemName: "clock.fill")
+                                .foregroundColor(theme.accentColor)
+                                .font(.system(size: 18))
+                            
+                            Text("Construction Time")
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.textColor)
+                            
+                            Spacer()
+                            
+                            Text(formatTime(building.type.constructionTime))
+                                .font(.appFont(size: 16, weight: .bold))
+                                .foregroundColor(theme.textColor)
+                        }
+                    }
+                    .padding(16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(theme.secondaryColor.opacity(0.2))
+                    )
+                    
+                    // Construct Button
+                    Button("Construct Building") {
+                        let screenSize = UIScreen.main.bounds.size
+                        let fixedPositions = VillageLayout.getFixedPositions(for: screenSize)
+                        if let fixedPosition = fixedPositions[building.type] {
+                            viewModel.buildStructure(building.type, at: fixedPosition)
+                        }
+                        dismiss()
+                    }
+                    .font(.appFont(size: 16, weight: .medium))
+                    .foregroundColor(viewModel.canAffordBuilding(building.type) ? .white : .gray)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(
+                        Image(theme.buttonPrimary)
+                            .resizable(
+                                capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                resizingMode: .stretch
+                            )
+                            .opacity(
+                                viewModel.canAffordBuilding(building.type)
+                                ? (isConstructButtonPressed ? 0.7 : 1.0)
+                                : 0.5
+                            )
+                    )
+                    .buttonStyle(PlainButtonStyle())
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { _ in
+                                if viewModel.canAffordBuilding(building.type) {
+                                    isConstructButtonPressed = true
+                                }
+                            }
+                            .onEnded { _ in isConstructButtonPressed = false }
+                    )
+                    .disabled(!viewModel.canAffordBuilding(building.type))
+                }
+            }
+            
+            if building.state == .readyToComplete {
+                Button("Complete Construction") {
+                    viewModel.completeConstruction(for: building)
+                    dismiss()
+                }
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(
+                    Image(theme.buttonPrimary)
+                        .resizable(
+                            capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                            resizingMode: .stretch
+                        )
+                        .opacity(isCompleteButtonPressed ? 0.7 : 1.0)
+                )
+                .buttonStyle(PlainButtonStyle())
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in isCompleteButtonPressed = true }
+                        .onEnded { _ in isCompleteButtonPressed = false }
+                )
+            }
+            
+            if building.canUpgrade && building.state == .active {
+                Button("Upgrade (Lv.\(building.level + 1)) - \(building.upgradeCost) Gold") {
+                    viewModel.upgradeBuilding(building)
+                    dismiss()
+                }
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(viewModel.canAffordUpgrade(building) ? .white : .gray)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(
+                    Image(theme.buttonPrimary)
+                        .resizable(
+                            capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                            resizingMode: .stretch
+                        )
+                        .opacity(
+                            viewModel.canAffordUpgrade(building)
+                            ? (isUpgradeButtonPressed ? 0.7 : 1.0)
+                            : 0.5
+                        )
+                )
+                .buttonStyle(PlainButtonStyle())
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in
+                            if viewModel.canAffordUpgrade(building) {
+                                isUpgradeButtonPressed = true
+                            }
+                        }
+                        .onEnded { _ in isUpgradeButtonPressed = false }
+                )
+                .disabled(!viewModel.canAffordUpgrade(building))
+            }
+            
+            if building.state != .destroyed && building.state != .construction {
+                Button("Destroy Building") {
+                    viewModel.destroyBuilding(building)
+                    dismiss()
+                }
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(.red)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(
+                    Image(theme.buttonPrimary)
+                        .resizable(
+                            capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                            resizingMode: .stretch
+                        )
+                        .opacity(isDestroyButtonPressed ? 0.7 : 1.0)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.red, lineWidth: 2)
+                )
+                .buttonStyle(PlainButtonStyle())
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in isDestroyButtonPressed = true }
+                        .onEnded { _ in isDestroyButtonPressed = false }
+                )
+            }
+        }
+    }
+    
+    private func formatTime(_ timeInterval: TimeInterval) -> String {
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        
+        if minutes > 0 {
+            return "\(minutes)m \(seconds)s"
+        } else {
+            return "\(seconds)s"
+        }
+    }
+}
+
+// MARK: - Building Detail View (Legacy - keeping for compatibility)
 
 struct BuildingDetailView: View {
     let building: Building
     @ObservedObject var viewModel: BaseBuildingViewModel
     let theme: Theme
     @Environment(\.dismiss) private var dismiss
+    
+    @State private var isCollectButtonPressed = false
+    @State private var isRepairButtonPressed = false
+    @State private var isUpgradeButtonPressed = false
+    @State private var isDestroyButtonPressed = false
     
     var body: some View {
         NavigationView {
@@ -381,11 +720,21 @@ struct BuildingDetailView: View {
                                 }
                                 .font(.appFont(size: 16, weight: .medium))
                                 .foregroundColor(.white)
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 10)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
                                 .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(.yellow)
+                                    Image(theme.buttonPrimary)
+                                        .resizable(
+                                            capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                            resizingMode: .stretch
+                                        )
+                                        .opacity(isCollectButtonPressed ? 0.7 : 1.0)
+                                )
+                                .buttonStyle(PlainButtonStyle())
+                                .simultaneousGesture(
+                                    DragGesture(minimumDistance: 0)
+                                        .onChanged { _ in isCollectButtonPressed = true }
+                                        .onEnded { _ in isCollectButtonPressed = false }
                                 )
                             }
                         }
@@ -407,8 +756,18 @@ struct BuildingDetailView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(theme.accentColor)
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                                .opacity(isRepairButtonPressed ? 0.7 : 1.0)
+                        )
+                        .buttonStyle(PlainButtonStyle())
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in isRepairButtonPressed = true }
+                                .onEnded { _ in isRepairButtonPressed = false }
                         )
                     }
                     
@@ -418,12 +777,30 @@ struct BuildingDetailView: View {
                             dismiss()
                         }
                         .font(.appFont(size: 16, weight: .medium))
-                        .foregroundColor(.white)
+                        .foregroundColor(viewModel.canAffordUpgrade(building) ? .white : .gray)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(viewModel.canAffordUpgrade(building) ? .green : .gray)
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                                .opacity(
+                                    viewModel.canAffordUpgrade(building)
+                                    ? (isUpgradeButtonPressed ? 0.7 : 1.0)
+                                    : 0.5
+                                )
+                        )
+                        .buttonStyle(PlainButtonStyle())
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in
+                                    if viewModel.canAffordUpgrade(building) {
+                                        isUpgradeButtonPressed = true
+                                    }
+                                }
+                                .onEnded { _ in isUpgradeButtonPressed = false }
                         )
                         .disabled(!viewModel.canAffordUpgrade(building))
                     }
@@ -438,8 +815,22 @@ struct BuildingDetailView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(
-                            RoundedRectangle(cornerRadius: 8)
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                                .opacity(isDestroyButtonPressed ? 0.7 : 1.0)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
                                 .stroke(.red, lineWidth: 2)
+                        )
+                        .buttonStyle(PlainButtonStyle())
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in isDestroyButtonPressed = true }
+                                .onEnded { _ in isDestroyButtonPressed = false }
                         )
                     }
                 }

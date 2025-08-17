@@ -37,11 +37,13 @@ struct BaseBuildingView: View {
         }
         .sheet(isPresented: $viewModel.showingBuildingDetails) {
             if let building = viewModel.selectedBuilding {
-                BuildingDetailView(
+                BuildingDetailBottomSheet(
                     building: building,
                     viewModel: viewModel,
                     theme: theme
                 )
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
             }
         }
         .overlay(
@@ -402,12 +404,8 @@ struct BaseBuildingView: View {
 
     private func handleBuildingTap(_ building: Building) {
         if building.state == .destroyed {
-            // Show building menu for destroyed buildings
-            // Use the fixed position instead of stored position
-            if let fixedPosition = VillageLayout.getFixedPositions(for: UIScreen.main.bounds.size)[building.type] {
-                viewModel.selectedGridPosition = fixedPosition
-            }
-            viewModel.showingBuildingMenu = true
+            // Show bottom sheet for destroyed buildings with construction info
+            viewModel.selectBuilding(building)
         } else if building.state == .readyToComplete {
             // Complete construction with animation
             completeConstructionWithAnimation(for: building)
@@ -520,7 +518,6 @@ struct StatItem: View {
         }
     }
 }
-
 struct BuildingTypeCard: View {
     let type: BuildingType
     let canAfford: Bool

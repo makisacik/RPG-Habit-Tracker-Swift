@@ -41,6 +41,9 @@ enum BuildingType: String, CaseIterable, Codable {
     }
     
     var constructionTime: TimeInterval {
+        #if DEBUG
+        return 10 // 10 seconds for debug mode
+        #else
         switch self {
         case .house: return 60 // 1 minute
         case .castle: return 300 // 5 minutes
@@ -48,6 +51,7 @@ enum BuildingType: String, CaseIterable, Codable {
         case .tower2: return 180 // 3 minutes
         case .goldmine: return 120 // 2 minutes
         }
+        #endif
     }
     
     var iconName: String {
