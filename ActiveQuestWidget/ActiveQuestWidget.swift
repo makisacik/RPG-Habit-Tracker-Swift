@@ -34,13 +34,13 @@ struct WidgetTheme {
         } else {
             return WidgetTheme(
                 backgroundGradient: LinearGradient(
-                    colors: [Color(hex: "#FDF6E3"), Color(hex: "#F7FAFC")],
+                    colors: [Color(hex: "#F8F7FF"), Color(hex: "#C4B5FD")],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                primaryTextColor: Color(hex: "#2D3748"),
-                secondaryTextColor: Color(hex: "#4A5568"),
-                accentColor: Color(hex: "#D69E2E"),
+                primaryTextColor: Color(hex: "#1F2937"),
+                secondaryTextColor: Color(hex: "#6B7280"),
+                accentColor: Color(hex: "#FFB700"),
             )
         }
     }

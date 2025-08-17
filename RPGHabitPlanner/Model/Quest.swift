@@ -83,10 +83,16 @@ extension Quest {
             let isCompleted = completions.contains(dueDateAnchor)
             print("🔍 Quest '\(title)' isCompleted(on: \(date)) one-time: dueDateAnchor = \(dueDateAnchor), isCompleted = \(isCompleted)")
             return isCompleted
-        case .daily, .weekly:
+        case .daily:
             let dateAnchor = calendar.startOfDay(for: date)
             let isCompleted = completions.contains(dateAnchor)
-            print("🔍 Quest '\(title)' isCompleted(on: \(date)) \(repeatType): dateAnchor = \(dateAnchor), isCompleted = \(isCompleted)")
+            print("🔍 Quest '\(title)' isCompleted(on: \(date)) daily: dateAnchor = \(dateAnchor), isCompleted = \(isCompleted)")
+            return isCompleted
+        case .weekly:
+            // For weekly quests, check if the week anchor is in completions
+            let weekAnchor = weekAnchor(for: date, calendar: calendar)
+            let isCompleted = completions.contains(weekAnchor)
+            print("🔍 Quest '\(title)' isCompleted(on: \(date)) weekly: weekAnchor = \(weekAnchor), isCompleted = \(isCompleted)")
             return isCompleted
         }
     }

@@ -127,15 +127,15 @@ final class CalendarViewModel: ObservableObject {
         let filteredQuests = applyTagFiltering(to: allQuests)
 
         return filteredQuests.compactMap { quest in
+            // Don't show finished quests in the calendar
+            guard !quest.isFinished else { return nil }
+
             // First check if the date is within the quest's valid date range
             let creationDate = calendar.startOfDay(for: quest.creationDate)
             let dueDate = calendar.startOfDay(for: quest.dueDate)
 
             // Date must be between creation date and due date (inclusive)
             guard day >= creationDate && day <= dueDate else { return nil }
-
-            // All quests should show on their valid dates regardless of completion status
-            // Completion status only affects the visual state (done/todo), not visibility
 
             let state: DayQuestState
             if quest.isCompleted(on: day) {
@@ -181,11 +181,19 @@ final class CalendarViewModel: ObservableObject {
     func toggle(item: DayQuestItem) {
         let newState: DayQuestState = item.state == .done ? .todo : .done
 
-        // For one-time quests, always use the due date for completion tracking
+        // Determine the correct completion date based on quest type
         let completionDate: Date
-        if item.quest.repeatType == .oneTime {
+        switch item.quest.repeatType {
+        case .oneTime:
+            // For one-time quests, always use the due date for completion tracking
             completionDate = item.quest.dueDate
-        } else {
+        case .weekly:
+            // For weekly quests, use the week anchor (start of the week)
+            let calendar = Calendar.current
+            let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: item.date)
+            completionDate = calendar.date(from: comps) ?? item.date
+        case .daily:
+            // For daily quests, use the specific date
             completionDate = item.date
         }
 
