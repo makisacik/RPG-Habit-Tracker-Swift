@@ -34,7 +34,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
         )
         
         let expectation = XCTestExpectation(description: "Save quest")
-        sut.saveQuest(quest) { error in
+        sut.saveQuest(quest, withTasks: []) { error in
             XCTAssertNil(error, "Error \(String(describing: error?.localizedDescription))")
             expectation.fulfill()
         }
@@ -64,7 +64,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
         )
         
         let saveExpectation = XCTestExpectation(description: "Save quest")
-        sut.saveQuest(quest) { error in
+        sut.saveQuest(quest, withTasks: []) { error in
             XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
             saveExpectation.fulfill()
         }
@@ -94,7 +94,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
         )
         
         let saveExpectation = XCTestExpectation(description: "Save quest to delete")
-        sut.saveQuest(quest) { error in
+        sut.saveQuest(quest, withTasks: []) { error in
             XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
             saveExpectation.fulfill()
         }
@@ -129,7 +129,7 @@ final class QuestCoreDataServiceTests: XCTestCase {
         )
         
         let saveExpectation = XCTestExpectation(description: "Save quest to update")
-        sut.saveQuest(quest) { error in
+        sut.saveQuest(quest, withTasks: []) { error in
             XCTAssertNil(error, "Error saving quest: \(String(describing: error?.localizedDescription))")
             saveExpectation.fulfill()
         }

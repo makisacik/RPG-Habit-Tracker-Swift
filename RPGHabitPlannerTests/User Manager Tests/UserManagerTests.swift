@@ -117,8 +117,10 @@ final class UserManagerTests: XCTestCase {
         testSaveUser()
         
         let updateExpectation = expectation(description: "User experience updated successfully with level up")
-        userManager.updateUserExperience(additionalExp: 150) { error in
+        userManager.updateUserExperience(additionalExp: 150) { leveledUp, newLevel, error in
             XCTAssertNil(error)
+            XCTAssertTrue(leveledUp)
+            XCTAssertEqual(newLevel, 2)
             updateExpectation.fulfill()
         }
         
@@ -135,8 +137,10 @@ final class UserManagerTests: XCTestCase {
         testSaveUser()
         
         let updateExpectation = expectation(description: "User experience updated successfully with multiple level ups")
-        userManager.updateUserExperience(additionalExp: 250) { error in
+        userManager.updateUserExperience(additionalExp: 250) { leveledUp, newLevel, error in
             XCTAssertNil(error)
+            XCTAssertTrue(leveledUp)
+            XCTAssertEqual(newLevel, 3)
             updateExpectation.fulfill()
         }
         
@@ -153,8 +157,10 @@ final class UserManagerTests: XCTestCase {
         testSaveUser()
         
         let updateExpectation = expectation(description: "User experience updated successfully without level up")
-        userManager.updateUserExperience(additionalExp: 80) { error in
+        userManager.updateUserExperience(additionalExp: 80) { leveledUp, newLevel, error in
             XCTAssertNil(error)
+            XCTAssertFalse(leveledUp)
+            XCTAssertEqual(newLevel, 1)
             updateExpectation.fulfill()
         }
         

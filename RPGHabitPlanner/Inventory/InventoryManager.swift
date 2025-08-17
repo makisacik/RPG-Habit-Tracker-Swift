@@ -85,7 +85,7 @@ final class InventoryManager: ObservableObject {
             .store(in: &cancellables)
     }
 
-    private func updateActiveEffects() {
+    func updateActiveEffects() {
         let now = Date()
         activeEffects = activeEffects.filter { effect in
             guard let endTime = effect.endTime else { return true }
