@@ -666,6 +666,11 @@ struct BuildingDetailView: View {
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
+                        
+                        // Show booster info for active buildings
+                        if building.state == .active {
+                            BoosterInfoView(building: building)
+                        }
                     }
                     
                     // State Info

@@ -22,6 +22,7 @@ final class QuestTrackingViewModel: ObservableObject {
     private let userManager: UserManager
     private let calendar = Calendar.current
     private let streakManager = StreakManager.shared
+    private let boosterManager = BoosterManager.shared
 
     // Tag filtering support
     lazy var tagFilterViewModel: TagFilterViewModel = {
@@ -123,16 +124,41 @@ final class QuestTrackingViewModel: ObservableObject {
                 if let error = error {
                     self.errorMessage = error.localizedDescription
                 } else {
-                    let expAmount: Int16
+                    // Calculate base rewards
+                    let baseExp: Int
+                    let baseCoins: Int
+
                     #if DEBUG
-                    expAmount = Int16(50 * self.quests[index].difficulty)
+                    baseExp = 50 * self.quests[index].difficulty
                     #else
-                    expAmount = Int16(10 * self.quests[index].difficulty)
+                    baseExp = 10 * self.quests[index].difficulty
                     #endif
-                    self.userManager.updateUserExperience(additionalExp: expAmount) { leveledUp, newLevel, expError in
+
+                    // Calculate coin reward using CurrencyManager
+                    baseCoins = CurrencyManager.shared.calculateQuestReward(
+                        difficulty: self.quests[index].difficulty,
+                        isMainQuest: self.quests[index].isMainQuest,
+                        taskCount: self.quests[index].tasks.count
+                    )
+
+                    // Apply boosters
+                    let boostedRewards = self.boosterManager.calculateBoostedRewards(
+                        baseExperience: baseExp,
+                        baseCoins: baseCoins
+                    )
+
+                    // Award boosted experience
+                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.errorMessage = expError.localizedDescription
                         } else {
+                            // Award boosted coins
+                            CurrencyManager.shared.addCoins(boostedRewards.coins) { coinError in
+                                if let coinError = coinError {
+                                    print("❌ Error adding coins: \(coinError)")
+                                }
+                            }
+
                             self.lastCompletedQuestId = id
                             self.questCompleted = true
                             self.didLevelUp = leveledUp

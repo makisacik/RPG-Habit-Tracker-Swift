@@ -251,8 +251,15 @@ class FocusTimerViewModel: ObservableObject {
     }
     
     private func awardRewards(_ rewards: BattleReward) {
-        // Award experience to user
-        userManager.updateUserExperience(additionalExp: Int16(rewards.experience)) { [weak self] leveledUp, newLevel, error in
+        // Apply boosters to battle rewards
+        let boosterManager = BoosterManager.shared
+        let boostedRewards = boosterManager.calculateBoostedRewards(
+            baseExperience: rewards.experience,
+            baseCoins: rewards.gold
+        )
+
+        // Award boosted experience to user
+        userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { [weak self] leveledUp, newLevel, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("Failed to award experience: \(error)")
@@ -263,8 +270,14 @@ class FocusTimerViewModel: ObservableObject {
             }
         }
         
-        // TODO: Award gold and items
-        print("Awarded \(rewards.experience) XP and \(rewards.gold) gold")
+        // Award boosted gold
+        CurrencyManager.shared.addCoins(boostedRewards.coins) { error in
+            if let error = error {
+                print("Failed to award gold: \(error)")
+            }
+        }
+
+        print("Awarded \(boostedRewards.experience) XP and \(boostedRewards.coins) gold (with boosters)")
     }
     
     // MARK: - Private Methods

@@ -58,23 +58,44 @@ struct RewardView: View {
                         chestOpened = true
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        // Calculate coin reward based on quest difficulty and type
-                        let coinReward = CurrencyManager.shared.calculateQuestReward(
+                        // Calculate base rewards
+                        let baseExp: Int
+                        let baseCoins: Int
+
+                        #if DEBUG
+                        baseExp = 50 * quest.difficulty
+                        #else
+                        baseExp = 10 * quest.difficulty
+                        #endif
+
+                        baseCoins = CurrencyManager.shared.calculateQuestReward(
                             difficulty: quest.difficulty,
                             isMainQuest: quest.isMainQuest,
                             taskCount: quest.tasks.count
                         )
-                        
-                        // Add coins to user
-                        CurrencyManager.shared.addCoins(coinReward) { error in
+
+                        // Apply boosters
+                        let boosterManager = BoosterManager.shared
+                        let boostedRewards = boosterManager.calculateBoostedRewards(
+                            baseExperience: baseExp,
+                            baseCoins: baseCoins
+                        )
+
+                        // Add boosted coins to user
+                        CurrencyManager.shared.addCoins(boostedRewards.coins) { error in
                             if let error = error {
                                 print("❌ Error adding coins: \(error)")
                             }
                         }
-                        
-                        // Create a coin reward item for display
-                        rewardItem = Item(name: "Coins", info: "You earned \(coinReward) coins!", iconName: "icon_gold")
-                        
+
+                        // Create a reward item for display with booster info
+                        let boosterInfo = boosterManager.activeBoosters.isEmpty ? "" : " (with boosters!)"
+                        rewardItem = Item(
+                            name: "Rewards",
+                            info: "You earned \(boostedRewards.experience) XP and \(boostedRewards.coins) coins!\(boosterInfo)",
+                            iconName: "icon_gold"
+                        )
+
                         withAnimation {
                             rewardGiven = true
                         }

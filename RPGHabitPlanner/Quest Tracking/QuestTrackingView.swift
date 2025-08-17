@@ -76,6 +76,11 @@ struct QuestTrackingView: View {
                     ))
                 }
             }
+
+            // Booster display
+            BoosterDisplayView()
+                .padding(.horizontal)
+                .padding(.top, 8)
             .padding(.horizontal)
             .padding(.top, 5)
 

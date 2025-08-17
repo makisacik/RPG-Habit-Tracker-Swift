@@ -22,11 +22,11 @@ enum BuildingType: String, CaseIterable, Codable {
     
     var description: String {
         switch self {
-        case .house: return "Provides shelter and basic resources"
-        case .castle: return "Fortified structure for defense"
-        case .tower: return "Watchtower for surveillance"
-        case .tower2: return "Watchtower for surveillance"
-        case .goldmine: return "Generates gold over time"
+        case .house: return "Provides shelter and boosts experience from quests"
+        case .castle: return "Fortified structure that boosts coins from quests"
+        case .tower: return "Watchtower that provides small experience boosts"
+        case .tower2: return "Watchtower that provides small experience boosts"
+        case .goldmine: return "Generates gold over time and boosts quest coin rewards"
         }
     }
     

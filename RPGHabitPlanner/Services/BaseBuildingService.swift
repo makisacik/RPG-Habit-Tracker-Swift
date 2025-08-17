@@ -59,6 +59,7 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
     func updateBuilding(_ building: Building) {
         base.updateBuilding(building)
         saveBaseToCoreData()
+        NotificationCenter.default.post(name: .buildingUpdated, object: nil)
     }
     
     func collectGold(from building: Building) -> Int {
@@ -81,6 +82,7 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
         // Add experience for completing construction
         base.addExperience(10)
         saveBaseToCoreData()
+        NotificationCenter.default.post(name: .buildingUpdated, object: nil)
     }
     
     func checkConstructionProgress() {
