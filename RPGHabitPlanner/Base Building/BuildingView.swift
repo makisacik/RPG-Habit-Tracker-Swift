@@ -29,9 +29,9 @@ struct VillageBuildingView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: buildingSize.width, height: buildingSize.height)
-                .scaleEffect(isAnimating ? 1.05 : 1.0)
+                .scaleEffect(building.state == .construction && isAnimating ? 1.05 : 1.0)
                 .animation(
-                    hasAppeared ? .easeInOut(duration: 0.8).repeatForever(autoreverses: true) : .none,
+                    hasAppeared && building.state == .construction ? .easeInOut(duration: 0.8).repeatForever(autoreverses: true) : .none,
                     value: isAnimating
                 )
                 .animation(.none, value: building.currentImageName) // Prevent animation when image changes
@@ -86,6 +86,10 @@ struct VillageBuildingView: View {
             } else if newState == .readyToComplete {
                 isAnimating = false
                 isReadyToCompleteAnimating = true
+            } else if newState == .active {
+                // Stop all animations when building becomes active
+                isAnimating = false
+                isReadyToCompleteAnimating = false
             } else {
                 isAnimating = false
                 isReadyToCompleteAnimating = false
