@@ -11,7 +11,7 @@ struct ConstructionCompletionAnimation: View {
     @State private var showCompletionText = false
     @State private var particleOffset: CGFloat = 0
     @State private var isTransitioning = false
-    @State private var animationPosition: CGPoint = .zero
+    @State private var animationPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @State private var animationScale: CGFloat = 1.0
     @State private var animationOpacity: Double = 1.0
 
@@ -43,12 +43,12 @@ struct ConstructionCompletionAnimation: View {
                         .transition(.scale.combined(with: .opacity))
                 }
             }
-            .position(animationPosition)
+                                .position(animationPosition)
             .scaleEffect(animationScale)
             .opacity(animationOpacity)
-            .animation(.easeInOut(duration: 0.8), value: animationPosition)
             .animation(.easeInOut(duration: 0.8), value: animationScale)
             .animation(.easeInOut(duration: 0.8), value: animationOpacity)
+            .animation(isTransitioning ? .easeInOut(duration: 0.8) : .none, value: animationPosition)
             .onTapGesture {
                 if !isTransitioning {
                     startTransitionToBuilding()
@@ -86,10 +86,7 @@ struct ConstructionCompletionAnimation: View {
         }
     }
 
-        private func startAnimation() {
-        // Set initial position to center of screen immediately (no animation)
-        animationPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-
+            private func startAnimation() {
         // Start with building scale animation
         withAnimation(.easeInOut(duration: 0.3)) {
             scaleBuilding = true

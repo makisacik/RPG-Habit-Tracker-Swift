@@ -144,9 +144,9 @@ struct Building: Identifiable, Codable {
         case .goldmine:
             return "goldmine_active"
         case .tower2:
-            return "tower_blue" // Use same asset as tower
+            return "tower_1" // Use same asset as tower
         default:
-            return "\(type.rawValue)_blue"
+            return "\(type.rawValue)_1"
         }
     }
     

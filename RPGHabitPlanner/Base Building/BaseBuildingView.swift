@@ -202,7 +202,7 @@ struct BaseBuildingView: View {
                 // 🔹 TEST: Animated bush (sprite strip)
                 // Place it above the background but before buildings
                 
-                SpriteStripView(imageName: "sheep_strip", columns: 4, fps: 12, isPlaying: true)
+                SpriteStripView(imageName: "bush_2", columns: 8, fps: 12, isPlaying: true)
                     .frame(width: 64, height: 64)
                     .position(x: screenSize.width * 0.5, y: screenSize.height * 0.5)
 
