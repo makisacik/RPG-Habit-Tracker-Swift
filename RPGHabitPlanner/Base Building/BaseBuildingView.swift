@@ -342,9 +342,6 @@ struct BaseBuildingView: View {
                 SpriteStripView(imageName: "sheep_idle", fps: 4, isPlaying: true)
                     .frame(width: 55, height: 55)
                     .position(x: screenSize.width * 0.80, y: screenSize.height * 0.60)
-                
-                // Moving sheep
-                MovingSheepView(screenSize: screenSize)
             }
             
             // 🪨 Rocks - static decorations
@@ -563,108 +560,5 @@ struct BuildingTypeCard: View {
                 action()
             }
         }
-    }
-}
-
-// MARK: - Moving Sheep View
-
-struct MovingSheepView: View {
-    let screenSize: CGSize
-    
-    @State private var currentPosition: CGPoint
-    @State private var targetPosition: CGPoint
-    @State private var originalPosition: CGPoint
-    @State private var isMoving = false
-    @State private var isIdle = true
-    @State private var isReturning = false
-    @State private var idleTimer: Timer?
-    @State private var moveTimer: Timer?
-    
-    init(screenSize: CGSize) {
-        self.screenSize = screenSize
-        // Start at a random position
-        let startX = screenSize.width * 0.45
-        let startY = screenSize.height * 0.50
-        self._currentPosition = State(initialValue: CGPoint(x: startX, y: startY))
-        self._targetPosition = State(initialValue: CGPoint(x: startX, y: startY))
-        self._originalPosition = State(initialValue: CGPoint(x: startX, y: startY))
-    }
-    
-    var body: some View {
-        SpriteStripView(
-            imageName: isMoving ? "sheep_move" : "sheep_idle",
-            fps: isMoving ? 8 : 4,
-            isPlaying: true
-        )
-        .frame(width: 58, height: 58)
-        .position(currentPosition)
-        .onAppear {
-            startMovementCycle()
-        }
-        .onDisappear {
-            stopTimers()
-        }
-    }
-    
-    private func startMovementCycle() {
-        scheduleNextMove()
-    }
-    
-    private func scheduleNextMove() {
-        // Schedule idle period (6 seconds as requested)
-        let idleDuration = 6.0
-        idleTimer = Timer.scheduledTimer(withTimeInterval: idleDuration, repeats: false) { _ in
-            startMoving()
-        }
-    }
-    
-    private func startMoving() {
-        isIdle = false
-        isMoving = true
-        
-        if isReturning {
-            // Return to original position
-            targetPosition = originalPosition
-            isReturning = false
-        } else {
-            // Generate random target position within bounds
-            let minX = screenSize.width * 0.30
-            let maxX = screenSize.width * 0.70
-            let minY = screenSize.height * 0.30
-            let maxY = screenSize.height * 0.70
-            
-            targetPosition = CGPoint(
-                x: Double.random(in: minX...maxX),
-                y: Double.random(in: minY...maxY)
-            )
-            isReturning = true
-        }
-        
-        // Calculate movement duration based on distance with slower speed
-        let distance = sqrt(pow(targetPosition.x - currentPosition.x, 2) + pow(targetPosition.y - currentPosition.y, 2))
-        let moveDuration = distance / 50.0 // 50 points per second (slower than before)
-        
-        // Animate movement
-        withAnimation(.linear(duration: moveDuration)) {
-            currentPosition = targetPosition
-        }
-        
-        // Schedule end of movement
-        moveTimer = Timer.scheduledTimer(withTimeInterval: moveDuration, repeats: false) { _ in
-            stopMoving()
-        }
-    }
-    
-    private func stopMoving() {
-        isMoving = false
-        isIdle = true
-        scheduleNextMove()
-    }
-    
-    private func stopTimers() {
-        idleTimer?.invalidate()
-        moveTimer?.invalidate()
-        idleTimer = nil
-        moveTimer = nil
     }
 }
