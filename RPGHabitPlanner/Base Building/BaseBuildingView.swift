@@ -199,12 +199,8 @@ struct BaseBuildingView: View {
                 villageBackgroundView(theme: theme)
                     .frame(width: screenSize.width, height: screenSize.height)
 
-                // 🔹 TEST: Animated bush (sprite strip)
-                // Place it above the background but before buildings
-                
-                SpriteStripView(imageName: "bush_2", columns: 8, fps: 12, isPlaying: true)
-                    .frame(width: 64, height: 64)
-                    .position(x: screenSize.width * 0.5, y: screenSize.height * 0.5)
+                // 🌿 Decoration Layer - positioned above background but below buildings
+                decorationLayer(screenSize: screenSize)
 
                 // Buildings - render castle last so it appears on top
                 ForEach(viewModel.base.buildings.sorted { building1, building2 in
@@ -246,6 +242,165 @@ struct BaseBuildingView: View {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .clipped()
+    }
+
+    private func decorationLayer(screenSize: CGSize) -> some View {
+        ZStack {
+            // 🌳 Trees - positioned around the edges
+            Group {
+                // Top left trees
+                SpriteStripView(imageName: "tree_1", columns: 8, fps: 2, isPlaying: true)
+                    .frame(width: 80, height: 80)
+                    .position(x: screenSize.width * 0.15, y: screenSize.height * 0.12)
+                
+                SpriteStripView(imageName: "tree_2", columns: 8, fps: 3, isPlaying: true)
+                    .frame(width: 70, height: 70)
+                    .position(x: screenSize.width * 0.25, y: screenSize.height * 0.08)
+                
+                // Top right trees
+                SpriteStripView(imageName: "tree_3", fps: 7, isPlaying: true)
+                    .frame(width: 75, height: 75)
+                    .position(x: screenSize.width * 0.85, y: screenSize.height * 0.15)
+                
+                SpriteStripView(imageName: "tree_4", fps: 5, isPlaying: true)
+                    .frame(width: 65, height: 65)
+                    .position(x: screenSize.width * 0.75, y: screenSize.height * 0.10)
+                
+                // Bottom left trees
+                SpriteStripView(imageName: "tree_1", columns: 8, fps: 2, isPlaying: true)
+                    .frame(width: 70, height: 70)
+                    .position(x: screenSize.width * 0.12, y: screenSize.height * 0.88)
+                
+                SpriteStripView(imageName: "tree_2", columns: 8, fps: 3, isPlaying: true)
+                    .frame(width: 80, height: 80)
+                    .position(x: screenSize.width * 0.22, y: screenSize.height * 0.92)
+                
+                // Bottom right trees
+                SpriteStripView(imageName: "tree_3", fps: 7, isPlaying: true)
+                    .frame(width: 65, height: 65)
+                    .position(x: screenSize.width * 0.88, y: screenSize.height * 0.85)
+                
+                SpriteStripView(imageName: "tree_4", fps: 5, isPlaying: true)
+                    .frame(width: 75, height: 75)
+                    .position(x: screenSize.width * 0.78, y: screenSize.height * 0.90)
+            }
+            
+            // 🌿 Animated Bushes - scattered around the village
+            Group {
+                // Left side bushes
+                SpriteStripView(imageName: "bush_1", fps: 8, isPlaying: true)
+                    .frame(width: 50, height: 50)
+                    .position(x: screenSize.width * 0.18, y: screenSize.height * 0.35)
+                
+                SpriteStripView(imageName: "bush_2", fps: 10, isPlaying: true)
+                    .frame(width: 45, height: 45)
+                    .position(x: screenSize.width * 0.28, y: screenSize.height * 0.42)
+                
+                SpriteStripView(imageName: "bush_3", fps: 12, isPlaying: true)
+                    .frame(width: 55, height: 55)
+                    .position(x: screenSize.width * 0.15, y: screenSize.height * 0.65)
+                
+                SpriteStripView(imageName: "bush_4", fps: 9, isPlaying: true)
+                    .frame(width: 48, height: 48)
+                    .position(x: screenSize.width * 0.25, y: screenSize.height * 0.72)
+                
+                // Right side bushes
+                SpriteStripView(imageName: "bush_1", fps: 8, isPlaying: true)
+                    .frame(width: 52, height: 52)
+                    .position(x: screenSize.width * 0.82, y: screenSize.height * 0.38)
+                
+                SpriteStripView(imageName: "bush_2", fps: 10, isPlaying: true)
+                    .frame(width: 47, height: 47)
+                    .position(x: screenSize.width * 0.72, y: screenSize.height * 0.45)
+                
+                SpriteStripView(imageName: "bush_3", fps: 12, isPlaying: true)
+                    .frame(width: 53, height: 53)
+                    .position(x: screenSize.width * 0.85, y: screenSize.height * 0.68)
+                
+                SpriteStripView(imageName: "bush_4", fps: 9, isPlaying: true)
+                    .frame(width: 50, height: 50)
+                    .position(x: screenSize.width * 0.75, y: screenSize.height * 0.75)
+                
+                // Center area bushes (smaller)
+                SpriteStripView(imageName: "bush_1", fps: 8, isPlaying: true)
+                    .frame(width: 35, height: 35)
+                    .position(x: screenSize.width * 0.35, y: screenSize.height * 0.25)
+                
+                SpriteStripView(imageName: "bush_2", fps: 10, isPlaying: true)
+                    .frame(width: 32, height: 32)
+                    .position(x: screenSize.width * 0.65, y: screenSize.height * 0.28)
+            }
+            
+            // 🐑 Sheep - with animations
+            Group {
+                // Sheep eating grass
+                SpriteStripView(imageName: "sheep_grass", fps: 6, isPlaying: true)
+                    .frame(width: 60, height: 60)
+                    .position(x: screenSize.width * 0.20, y: screenSize.height * 0.55)
+                
+                // Sheep idle
+                SpriteStripView(imageName: "sheep_idle", fps: 4, isPlaying: true)
+                    .frame(width: 55, height: 55)
+                    .position(x: screenSize.width * 0.80, y: screenSize.height * 0.60)
+                
+                // Moving sheep
+                MovingSheepView(screenSize: screenSize)
+            }
+            
+            // 🪨 Rocks - static decorations
+            Group {
+                // Left side rocks
+                Image("rock_1")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                    .position(x: screenSize.width * 0.10, y: screenSize.height * 0.30)
+                
+                Image("rock_2")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 35, height: 35)
+                    .position(x: screenSize.width * 0.08, y: screenSize.height * 0.50)
+                
+                Image("rock_3")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 45, height: 45)
+                    .position(x: screenSize.width * 0.12, y: screenSize.height * 0.80)
+                
+                // Right side rocks
+                Image("rock_4")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 38, height: 38)
+                    .position(x: screenSize.width * 0.90, y: screenSize.height * 0.25)
+                
+                Image("rock_1")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 42, height: 42)
+                    .position(x: screenSize.width * 0.92, y: screenSize.height * 0.55)
+                
+                Image("rock_2")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 36, height: 36)
+                    .position(x: screenSize.width * 0.88, y: screenSize.height * 0.78)
+                
+                // Center area rocks (smaller)
+                Image("rock_3")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25)
+                    .position(x: screenSize.width * 0.40, y: screenSize.height * 0.35)
+                
+                Image("rock_4")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 28, height: 28)
+                    .position(x: screenSize.width * 0.60, y: screenSize.height * 0.40)
+            }
+        }
     }
 
     private func handleBuildingTap(_ building: Building) {
@@ -408,5 +563,108 @@ struct BuildingTypeCard: View {
                 action()
             }
         }
+    }
+}
+
+// MARK: - Moving Sheep View
+
+struct MovingSheepView: View {
+    let screenSize: CGSize
+    
+    @State private var currentPosition: CGPoint
+    @State private var targetPosition: CGPoint
+    @State private var originalPosition: CGPoint
+    @State private var isMoving = false
+    @State private var isIdle = true
+    @State private var isReturning = false
+    @State private var idleTimer: Timer?
+    @State private var moveTimer: Timer?
+    
+    init(screenSize: CGSize) {
+        self.screenSize = screenSize
+        // Start at a random position
+        let startX = screenSize.width * 0.45
+        let startY = screenSize.height * 0.50
+        self._currentPosition = State(initialValue: CGPoint(x: startX, y: startY))
+        self._targetPosition = State(initialValue: CGPoint(x: startX, y: startY))
+        self._originalPosition = State(initialValue: CGPoint(x: startX, y: startY))
+    }
+    
+    var body: some View {
+        SpriteStripView(
+            imageName: isMoving ? "sheep_move" : "sheep_idle",
+            fps: isMoving ? 8 : 4,
+            isPlaying: true
+        )
+        .frame(width: 58, height: 58)
+        .position(currentPosition)
+        .onAppear {
+            startMovementCycle()
+        }
+        .onDisappear {
+            stopTimers()
+        }
+    }
+    
+    private func startMovementCycle() {
+        scheduleNextMove()
+    }
+    
+    private func scheduleNextMove() {
+        // Schedule idle period (6 seconds as requested)
+        let idleDuration = 6.0
+        idleTimer = Timer.scheduledTimer(withTimeInterval: idleDuration, repeats: false) { _ in
+            startMoving()
+        }
+    }
+    
+    private func startMoving() {
+        isIdle = false
+        isMoving = true
+        
+        if isReturning {
+            // Return to original position
+            targetPosition = originalPosition
+            isReturning = false
+        } else {
+            // Generate random target position within bounds
+            let minX = screenSize.width * 0.30
+            let maxX = screenSize.width * 0.70
+            let minY = screenSize.height * 0.30
+            let maxY = screenSize.height * 0.70
+            
+            targetPosition = CGPoint(
+                x: Double.random(in: minX...maxX),
+                y: Double.random(in: minY...maxY)
+            )
+            isReturning = true
+        }
+        
+        // Calculate movement duration based on distance with slower speed
+        let distance = sqrt(pow(targetPosition.x - currentPosition.x, 2) + pow(targetPosition.y - currentPosition.y, 2))
+        let moveDuration = distance / 50.0 // 50 points per second (slower than before)
+        
+        // Animate movement
+        withAnimation(.linear(duration: moveDuration)) {
+            currentPosition = targetPosition
+        }
+        
+        // Schedule end of movement
+        moveTimer = Timer.scheduledTimer(withTimeInterval: moveDuration, repeats: false) { _ in
+            stopMoving()
+        }
+    }
+    
+    private func stopMoving() {
+        isMoving = false
+        isIdle = true
+        scheduleNextMove()
+    }
+    
+    private func stopTimers() {
+        idleTimer?.invalidate()
+        moveTimer?.invalidate()
+        idleTimer = nil
+        moveTimer = nil
     }
 }

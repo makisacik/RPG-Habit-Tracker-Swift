@@ -3,7 +3,7 @@ import Combine
 
 struct SpriteStripView: View {
     let imageName: String
-    var columns: Int? = nil
+    var columns: Int?
     var rows: Int = 1
     var fps: Double = 10
     var isPlaying: Bool = true
