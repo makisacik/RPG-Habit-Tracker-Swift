@@ -92,7 +92,7 @@ struct RewardView: View {
                         let boosterInfo = boosterManager.activeBoosters.isEmpty ? "" : " (with boosters!)"
                         rewardItem = Item(
                             name: "Rewards",
-                            info: "You earned \(boostedRewards.experience) XP and \(boostedRewards.coins) coins!\(boosterInfo)",
+                            description: "You earned \(boostedRewards.experience) XP and \(boostedRewards.coins) coins!\(boosterInfo)",
                             iconName: "icon_gold"
                         )
 

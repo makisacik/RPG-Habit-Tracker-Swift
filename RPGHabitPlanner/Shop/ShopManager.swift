@@ -11,7 +11,7 @@ import SwiftUI
 final class ShopManager: ObservableObject {
     static let shared = ShopManager()
     private let currencyManager = CurrencyManager.shared
-    private let inventoryManager = InventoryManager.shared
+    private lazy var inventoryManager = InventoryManager.shared
 
     private init() {
     }
@@ -74,7 +74,7 @@ final class ShopManager: ObservableObject {
         currencyManager.spendCoins(item.price) { success, error in
             if success {
                 // Add item to inventory
-                let inventoryItem = Item(name: item.name, info: item.description, iconName: item.iconName)
+                let inventoryItem = Item(name: item.name, description: item.description, iconName: item.iconName)
                 self.inventoryManager.addToInventory(inventoryItem)
 
                 DispatchQueue.main.async {
@@ -119,6 +119,15 @@ final class ShopManager: ObservableObject {
     }
 
     func getItemType(_ item: ShopItem) -> ItemType {
-        return isFunctionalItem(item) ? .functional : .collectible
+        switch item.category {
+        case .potions:
+            return .consumable
+        case .boosts:
+            return .booster
+        case .weapons, .armor:
+            return .equipable
+        case .accessories, .special:
+            return .collectible
+        }
     }
 }

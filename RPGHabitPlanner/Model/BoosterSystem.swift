@@ -58,6 +58,7 @@ struct BoosterEffect: Identifiable, Codable {
     let sourceId: String // Building type or item id
     let sourceName: String
     let isActive: Bool
+    let startTime: Date
     let expiresAt: Date?
     
     init(
@@ -69,6 +70,7 @@ struct BoosterEffect: Identifiable, Codable {
         sourceId: String,
         sourceName: String,
         isActive: Bool = true,
+        startTime: Date = Date(),
         expiresAt: Date? = nil
     ) {
         self.id = id
@@ -79,12 +81,26 @@ struct BoosterEffect: Identifiable, Codable {
         self.sourceId = sourceId
         self.sourceName = sourceName
         self.isActive = isActive
+        self.startTime = startTime
         self.expiresAt = expiresAt
     }
     
     var isExpired: Bool {
         guard let expiresAt = expiresAt else { return false }
         return Date() > expiresAt
+    }
+    
+    var remainingTime: TimeInterval? {
+        guard let expiresAt = expiresAt else { return nil }
+        let remaining = expiresAt.timeIntervalSince(Date())
+        return remaining > 0 ? remaining : nil
+    }
+
+    var progress: Double {
+        guard let expiresAt = expiresAt else { return 1.0 }
+        let totalDuration = expiresAt.timeIntervalSince(startTime)
+        let elapsed = Date().timeIntervalSince(startTime)
+        return min(1.0, max(0.0, elapsed / totalDuration))
     }
     
     var totalBonus: Double {
@@ -119,20 +135,23 @@ final class BoosterManager: ObservableObject {
     @Published var totalExperienceBonus: Int = 0
     @Published var totalCoinsBonus: Int = 0
     
-    private let baseBuildingService: BaseBuildingService
-    private let inventoryManager: InventoryManager
+    private lazy var inventoryManager = InventoryManager.shared
+    private var cleanupTimer: Timer?
     
     private init() {
-        self.baseBuildingService = BaseBuildingService(context: PersistenceController.shared.container.viewContext)
-        self.inventoryManager = InventoryManager.shared
         setupObservers()
+        setupCleanupTimer()
         refreshBoosters()
+    }
+    
+    deinit {
+        cleanupTimer?.invalidate()
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Public Methods
     
     func refreshBoosters() {
-        calculateBuildingBoosters()
         calculateItemBoosters()
         updateTotalBoosters()
     }
@@ -145,9 +164,7 @@ final class BoosterManager: ObservableObject {
     }
     
     func getActiveBoosters(for type: BoosterType) -> [BoosterEffect] {
-        // Create a local copy to avoid modification during iteration
-        let currentBoosters = activeBoosters
-        return currentBoosters.filter { booster in
+        return activeBoosters.filter { booster in
             booster.isActive && !booster.isExpired &&
             (booster.type == type || booster.type == .both)
         }
@@ -172,6 +189,32 @@ final class BoosterManager: ObservableObject {
         
         activeBoosters.append(booster)
         updateTotalBoosters()
+        
+        // Post notification for UI updates
+        NotificationCenter.default.post(name: .boosterAdded, object: booster)
+    }
+    
+    func addBuildingBooster(
+        type: BoosterType,
+        multiplier: Double,
+        flatBonus: Int = 0,
+        buildingId: String,
+        buildingName: String
+    ) {
+        // Remove existing building booster with same ID
+        activeBoosters.removeAll { $0.sourceId == buildingId }
+        
+        let booster = BoosterEffect(
+            type: type,
+            source: .building,
+            multiplier: multiplier,
+            flatBonus: flatBonus,
+            sourceId: buildingId,
+            sourceName: buildingName
+        )
+        
+        activeBoosters.append(booster)
+        updateTotalBoosters()
     }
     
     func removeBooster(id: UUID) {
@@ -179,10 +222,18 @@ final class BoosterManager: ObservableObject {
         updateTotalBoosters()
     }
     
+    func removeBuildingBooster(buildingId: String) {
+        activeBoosters.removeAll { $0.sourceId == buildingId }
+        updateTotalBoosters()
+    }
+    
     func clearExpiredBoosters() {
+        let expiredCount = activeBoosters.count
         activeBoosters.removeAll { $0.isExpired }
-        // Don't call updateTotalBoosters() here to avoid infinite recursion
-        // The calling method will handle updating totals
+        
+        if activeBoosters.count != expiredCount {
+            updateTotalBoosters()
+        }
     }
     
     // MARK: - Private Methods
@@ -190,99 +241,22 @@ final class BoosterManager: ObservableObject {
     private func setupObservers() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(handleUserUpdate),
-            name: .userDidUpdate,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleBuildingUpdate),
-            name: .buildingUpdated,
+            selector: #selector(handleActiveEffectsChanged),
+            name: .activeEffectsChanged,
             object: nil
         )
     }
     
-    @objc private func handleUserUpdate() {
+    private func setupCleanupTimer() {
+        // Clean up expired boosters every minute
+        cleanupTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { [weak self] _ in
+            self?.clearExpiredBoosters()
+        }
+    }
+    
+    @objc private func handleActiveEffectsChanged() {
         DispatchQueue.main.async { [weak self] in
             self?.refreshBoosters()
-        }
-    }
-    
-    @objc private func handleBuildingUpdate() {
-        DispatchQueue.main.async { [weak self] in
-            self?.refreshBoosters()
-        }
-    }
-    
-    private func calculateBuildingBoosters() {
-        // Remove existing building boosters
-        activeBoosters.removeAll { $0.source == .building }
-        
-        let base = baseBuildingService.loadBase()
-        let activeBuildings = base.buildings.filter { $0.state == .active }
-        
-        for building in activeBuildings {
-            let booster = createBuildingBooster(for: building)
-            if let booster = booster {
-                activeBoosters.append(booster)
-            }
-        }
-    }
-    
-    private func createBuildingBooster(for building: Building) -> BoosterEffect? {
-        switch building.type {
-        case .castle:
-            // Castle provides coin boost
-            let multiplier = 1.0 + (Double(building.level) * 0.1) // +10% per level
-            let flatBonus = building.level * 5 // +5 coins per level
-            return BoosterEffect(
-                type: .coins,
-                source: .building,
-                multiplier: multiplier,
-                flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
-                sourceName: "Castle (Lv.\(building.level))"
-            )
-            
-        case .house:
-            // House provides experience boost
-            let multiplier = 1.0 + (Double(building.level) * 0.15) // +15% per level
-            let flatBonus = building.level * 3 // +3 exp per level
-            return BoosterEffect(
-                type: .experience,
-                source: .building,
-                multiplier: multiplier,
-                flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
-                sourceName: "House (Lv.\(building.level))"
-            )
-            
-        case .goldmine:
-            // Goldmine provides additional coin boost
-            let multiplier = 1.0 + (Double(building.level) * 0.05) // +5% per level
-            let flatBonus = building.level * 2 // +2 coins per level
-            return BoosterEffect(
-                type: .coins,
-                source: .building,
-                multiplier: multiplier,
-                flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
-                sourceName: "Gold Mine (Lv.\(building.level))"
-            )
-            
-        case .tower, .tower2:
-            // Towers provide small experience boost
-            let multiplier = 1.0 + (Double(building.level) * 0.08) // +8% per level
-            let flatBonus = building.level * 1 // +1 exp per level
-            return BoosterEffect(
-                type: .experience,
-                source: .building,
-                multiplier: multiplier,
-                flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
-                sourceName: "Tower (Lv.\(building.level))"
-            )
         }
     }
     
@@ -301,8 +275,6 @@ final class BoosterManager: ObservableObject {
     }
     
     private func createItemBooster(from effect: ActiveEffect) -> BoosterEffect? {
-        // This would be implemented based on your item system
-        // For now, we'll create a placeholder implementation
         guard effect.isActive else { return nil }
         
         // Check if the effect is an XP boost
@@ -315,6 +287,7 @@ final class BoosterManager: ObservableObject {
                 flatBonus: 0,
                 sourceId: effect.sourceItemId.uuidString,
                 sourceName: "XP Boost Item",
+                startTime: effect.startTime,
                 expiresAt: effect.endTime
             )
         }
@@ -329,6 +302,7 @@ final class BoosterManager: ObservableObject {
                 flatBonus: 0,
                 sourceId: effect.sourceItemId.uuidString,
                 sourceName: "Coin Boost Item",
+                startTime: effect.startTime,
                 expiresAt: effect.endTime
             )
         }
@@ -362,16 +336,15 @@ final class BoosterManager: ObservableObject {
             totalCoinsMultiplier *= booster.multiplier
             totalCoinsBonus += booster.flatBonus
         }
+        
+        // Post notification for UI updates
+        NotificationCenter.default.post(name: .boostersUpdated, object: nil)
     }
 }
-
-// MARK: - Extensions
-
-// Note: ActiveEffect extensions have been removed as they're no longer needed
-// The booster logic is now handled directly in createItemBooster method
 
 // MARK: - Notifications
 
 extension Notification.Name {
-    static let buildingUpdated = Notification.Name("buildingUpdated")
+    static let boosterAdded = Notification.Name("boosterAdded")
+    static let boostersUpdated = Notification.Name("boostersUpdated")
 }

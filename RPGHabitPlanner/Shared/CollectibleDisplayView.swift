@@ -10,18 +10,23 @@ import SwiftUI
 struct CollectibleDisplayView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var inventoryManager: InventoryManager
-    @State private var selectedItem: Item?
+    @State private var selectedItemEntity: ItemEntity?
     @State private var showAddItemSheet = false
     
     private let maxDisplaySlots = 3
     
-    var collectibleItems: [Item] {
-        inventoryManager.inventoryItems.compactMap { itemEntity in
-            inventoryManager.getItemFromEntity(itemEntity)
-        }.filter { $0.itemType == .collectible }
+    var collectibleItems: [ItemEntity] {
+        inventoryManager.inventoryItems.filter { itemEntity in
+            guard let name = itemEntity.name else { return false }
+            // Filter for collectible items (not health potions, XP boosts, or coin boosts)
+            return !name.contains("Health Potion") &&
+                   !name.contains("XP Boost") &&
+                   !name.contains("Coin Boost") &&
+                   !name.contains("Potion")
+        }
     }
     
-    var displayedItems: [Item] {
+    var displayedItems: [ItemEntity] {
         Array(collectibleItems.prefix(maxDisplaySlots))
     }
     
@@ -56,12 +61,12 @@ struct CollectibleDisplayView: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
                 ForEach(0..<maxDisplaySlots, id: \.self) { index in
                     if index < displayedItems.count {
-                        let item = displayedItems[index]
+                        let itemEntity = displayedItems[index]
                         CollectibleItemCard(
-                            item: item
+                            itemEntity: itemEntity
                         ) {
                             // Present sheet tied to item so first frame has content
-                            selectedItem = item
+                            selectedItemEntity = itemEntity
                         }
                     } else {
                         EmptyCollectibleSlot()
@@ -86,9 +91,9 @@ struct CollectibleDisplayView: View {
                 .padding(.horizontal)
             }
         }
-        // Present only when selectedItem is non-nil (prevents blank first frame)
-        .sheet(item: $selectedItem) { item in
-            CollectibleItemDetailView(item: item)
+        // Present only when selectedItemEntity is non-nil (prevents blank first frame)
+        .sheet(item: $selectedItemEntity) { itemEntity in
+            CollectibleItemDetailView(itemEntity: itemEntity)
                 .environmentObject(themeManager)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
@@ -105,7 +110,7 @@ struct CollectibleDisplayView: View {
 
 struct CollectibleItemCard: View {
     @EnvironmentObject var themeManager: ThemeManager
-    let item: Item
+    let itemEntity: ItemEntity
     let onTap: () -> Void
     @State private var isPressed = false
     
@@ -127,16 +132,16 @@ struct CollectibleItemCard: View {
                 // Item icon with glow effect
                 ZStack {
                     // Glow
-                    Image(item.iconName)
+                    Image(itemEntity.iconName ?? "")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                         .blur(radius: 8)
                         .opacity(0.6)
-                        .foregroundColor(item.rarity.uiColor)
+                        .foregroundColor(rarityColor)
                     
                     // Main icon
-                    Image(item.iconName)
+                    Image(itemEntity.iconName ?? "")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
@@ -145,18 +150,16 @@ struct CollectibleItemCard: View {
                 .frame(width: 60, height: 60)
                 
                 // Item name
-                Text(item.name)
+                Text(itemEntity.name ?? "Unknown")
                     .font(.appFont(size: 12, weight: .black))
                     .foregroundColor(theme.textColor)
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
                 
                 // Rarity indicator - show star for all collectible items
-                if item.itemType == .collectible {
-                    Image(systemName: "star.fill")
-                        .font(.system(size: 8))
-                        .foregroundColor(item.rarity.uiColor)
-                }
+                Image(systemName: "star.fill")
+                    .font(.system(size: 8))
+                    .foregroundColor(rarityColor)
             }
             .frame(width: 80, height: 100)
             .padding(8)
@@ -165,7 +168,7 @@ struct CollectibleItemCard: View {
                     .fill(theme.secondaryColor)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(item.rarity.uiColor.opacity(0.3), lineWidth: 1)
+                            .stroke(rarityColor.opacity(0.3), lineWidth: 1)
                     )
                     .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
             )
@@ -173,6 +176,22 @@ struct CollectibleItemCard: View {
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
         }
         .buttonStyle(PlainButtonStyle())
+    }
+    
+    private var rarityColor: Color {
+        guard let name = itemEntity.name else { return .gray }
+        
+        if name.contains("Legendary") || name.contains("Crown") || name.contains("Medal") {
+            return .orange
+        } else if name.contains("Epic") || name.contains("Gold") || name.contains("Sword Double") {
+            return .purple
+        } else if name.contains("Rare") || name.contains("Silver") || name.contains("Blue") {
+            return .blue
+        } else if name.contains("Uncommon") || name.contains("Green") {
+            return .green
+        } else {
+            return .gray
+        }
     }
 }
 
@@ -211,7 +230,7 @@ struct EmptyCollectibleSlot: View {
 struct CollectibleItemDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
-    let item: Item
+    let itemEntity: ItemEntity
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -241,7 +260,7 @@ struct CollectibleItemDetailView: View {
                 .padding(.top, 16)
                 
                 // Item icon
-                Image(item.iconName)
+                Image(itemEntity.iconName ?? "")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 80)
@@ -250,12 +269,12 @@ struct CollectibleItemDetailView: View {
                 
                 // Item details
                 VStack(spacing: 12) {
-                    Text(item.name)
+                    Text(itemEntity.name ?? "Unknown")
                         .font(.appFont(size: 20, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
                     
-                    Text(item.description)
+                    Text(itemEntity.info ?? "No description available")
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .multilineTextAlignment(.center)
@@ -298,11 +317,16 @@ struct AddCollectibleItemView: View {
     @State private var selectedItemInfo = ""
     @State private var selectedItemIcon = ""
     
-    private var userCollectibleItems: [Item] {
+    private var userCollectibleItems: [ItemEntity] {
         // Get collectible items from user's existing inventory
-        return inventoryManager.inventoryItems.compactMap { itemEntity in
-            inventoryManager.getItemFromEntity(itemEntity)
-        }.filter { $0.itemType == .collectible }
+        return inventoryManager.inventoryItems.filter { itemEntity in
+            guard let name = itemEntity.name else { return false }
+            // Filter for collectible items (not health potions, XP boosts, or coin boosts)
+            return !name.contains("Health Potion") &&
+                   !name.contains("XP Boost") &&
+                   !name.contains("Coin Boost") &&
+                   !name.contains("Potion")
+        }
     }
     
     var body: some View {
@@ -338,20 +362,20 @@ struct AddCollectibleItemView: View {
                     } else {
                         // User's existing collectible items grid
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-                            ForEach(userCollectibleItems, id: \.id) { item in
+                            ForEach(userCollectibleItems, id: \.objectID) { itemEntity in
                                 Button(action: {
-                                    selectedItemName = item.name
-                                    selectedItemInfo = item.description
-                                    selectedItemIcon = item.iconName
+                                    selectedItemName = itemEntity.name ?? ""
+                                    selectedItemInfo = itemEntity.info ?? ""
+                                    selectedItemIcon = itemEntity.iconName ?? ""
                                 }) {
                                     VStack(spacing: 8) {
-                                        Image(item.iconName)
+                                        Image(itemEntity.iconName ?? "")
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(theme.textColor)
                                         
-                                        Text(item.name)
+                                        Text(itemEntity.name ?? "Unknown")
                                             .font(.appFont(size: 12, weight: .black))
                                             .foregroundColor(theme.textColor)
                                             .lineLimit(2)
@@ -361,10 +385,10 @@ struct AddCollectibleItemView: View {
                                     .padding(8)
                                     .background(
                                         RoundedRectangle(cornerRadius: 12)
-                                            .fill(selectedItemName == item.name ? Color.yellow.opacity(0.3) : theme.secondaryColor)
+                                            .fill(selectedItemName == itemEntity.name ? Color.yellow.opacity(0.3) : theme.secondaryColor)
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .stroke(selectedItemName == item.name ? Color.yellow : Color.yellow.opacity(0.3), lineWidth: selectedItemName == item.name ? 2 : 1)
+                                                    .stroke(selectedItemName == itemEntity.name ? Color.yellow : Color.yellow.opacity(0.3), lineWidth: selectedItemName == itemEntity.name ? 2 : 1)
                                             )
                                     )
                                 }

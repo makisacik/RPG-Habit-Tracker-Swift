@@ -79,18 +79,18 @@ struct BattleAction: Codable {
 struct BattleReward {
     let experience: Int
     let gold: Int
-    let items: [BattleItem]
+    let items: [Item]
     let achievement: AchievementDefinition?
 }
 
 // MARK: - Enemy Types
 
 enum EnemyType: String, CaseIterable, Codable {
-    case sleepyCat
-    case funnyZombie
-    case funkyMonster
-    case booMonster
-    case flyingDragon
+    case sleepyCat = "sleepyCat"
+    case funnyZombie = "funnyZombie"
+    case funkyMonster = "funkyMonster"
+    case booMonster = "booMonster"
+    case flyingDragon = "flyingDragon"
     
     var entity: BattleEntity {
         switch self {
@@ -98,8 +98,8 @@ enum EnemyType: String, CaseIterable, Codable {
             return BattleEntity(
                 name: "Sleepy Cat",
                 maxHealth: 80,
-                attackPower: 12,
-                defense: 8,
+                attackPower: 15,
+                defense: 5,
                 level: 1,
                 imageName: "sleepy-cat"
             )
@@ -107,8 +107,8 @@ enum EnemyType: String, CaseIterable, Codable {
             return BattleEntity(
                 name: "Funny Zombie",
                 maxHealth: 100,
-                attackPower: 15,
-                defense: 10,
+                attackPower: 18,
+                defense: 8,
                 level: 2,
                 imageName: "funny-zombie"
             )
@@ -116,27 +116,27 @@ enum EnemyType: String, CaseIterable, Codable {
             return BattleEntity(
                 name: "Funky Monster",
                 maxHealth: 120,
-                attackPower: 18,
+                attackPower: 22,
                 defense: 12,
-                level: 2,
+                level: 3,
                 imageName: "funky-monster"
             )
         case .booMonster:
             return BattleEntity(
                 name: "Boo Monster",
-                maxHealth: 90,
-                attackPower: 14,
-                defense: 9,
-                level: 1,
+                maxHealth: 150,
+                attackPower: 25,
+                defense: 15,
+                level: 4,
                 imageName: "boo-monster"
             )
         case .flyingDragon:
             return BattleEntity(
                 name: "Flying Dragon",
-                maxHealth: 150,
-                attackPower: 25,
-                defense: 15,
-                level: 3,
+                maxHealth: 200,
+                attackPower: 30,
+                defense: 20,
+                level: 5,
                 imageName: "flying-dragon"
             )
         }
@@ -216,29 +216,38 @@ struct BattleSession: Codable {
 struct FocusTimerSession {
     let id: UUID
     let startTime: Date
+    let settings: TimerSettings
     var currentState: TimerState
-    var timeRemaining: TimeInterval
     var completedPomodoros: Int
     var totalWorkTime: TimeInterval
+    var timeRemaining: TimeInterval
     var battleSession: BattleSession?
-    let settings: TimerSettings
     
     init(settings: TimerSettings = TimerSettings()) {
         self.id = UUID()
         self.startTime = Date()
+        self.settings = settings
         self.currentState = .idle
-        self.timeRemaining = settings.workDuration
         self.completedPomodoros = 0
         self.totalWorkTime = 0
+        self.timeRemaining = settings.workDuration
         self.battleSession = nil
-        self.settings = settings
     }
     
-    var isInBattle: Bool {
-        return battleSession != nil
+    var totalDuration: TimeInterval {
+        return Date().timeIntervalSince(startTime)
+    }
+    
+        var averagePomodoroDuration: TimeInterval {
+        guard completedPomodoros > 0 else { return 0 }
+        return totalWorkTime / Double(completedPomodoros)
     }
     
     var shouldStartLongBreak: Bool {
         return completedPomodoros > 0 && completedPomodoros % settings.pomodorosUntilLongBreak == 0
+    }
+    
+    var isInBattle: Bool {
+        return battleSession != nil && currentState == .battle
     }
 }

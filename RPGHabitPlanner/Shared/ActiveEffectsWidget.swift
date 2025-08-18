@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ActiveEffectsWidget: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var inventoryManager: InventoryManager
+    @EnvironmentObject var boosterManager: BoosterManager
     @State private var showAllEffects = false
     
     var body: some View {
         let theme = themeManager.activeTheme
         
-        if !inventoryManager.activeEffects.isEmpty {
+        if !boosterManager.activeBoosters.isEmpty {
             VStack(spacing: 8) {
                 // Header
                 HStack {
@@ -23,7 +23,7 @@ struct ActiveEffectsWidget: View {
                         .font(.system(size: 14))
                         .foregroundColor(.yellow)
                     
-                    Text("Active Effects")
+                    Text("Active Boosters")
                         .font(.appFont(size: 14, weight: .black))
                         .foregroundColor(theme.textColor)
                     
@@ -43,16 +43,16 @@ struct ActiveEffectsWidget: View {
                 // Effects list
                 if showAllEffects {
                     VStack(spacing: 6) {
-                        ForEach(inventoryManager.activeEffects) { effect in
-                            ActiveEffectWidgetRow(effect: effect)
+                        ForEach(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }) { booster in
+                            BoosterWidgetRow(booster: booster)
                                 .environmentObject(themeManager)
                         }
                     }
                     .transition(.move(edge: .top).combined(with: .opacity))
                 } else {
-                    // Compact view - show only the most important effect
-                    if let mostImportantEffect = getMostImportantEffect() {
-                        ActiveEffectWidgetRow(effect: mostImportantEffect, isCompact: true)
+                    // Compact view - show only the most important booster
+                    if let mostImportantBooster = getMostImportantBooster() {
+                        BoosterWidgetRow(booster: mostImportantBooster, isCompact: true)
                             .environmentObject(themeManager)
                             .transition(.move(edge: .top).combined(with: .opacity))
                     }
@@ -68,59 +68,50 @@ struct ActiveEffectsWidget: View {
         }
     }
     
-    private func getMostImportantEffect() -> ActiveEffect? {
-        // Priority order: XP Boost > Health Regeneration > Focus Regeneration > others
-        let priorityOrder: [ItemEffect.EffectType] = [
-            .xpBoost,
-            .healthRegeneration,
-            .focusRegeneration,
-            .coinBoost,
-            .attack,
-            .defense,
-            .luck,
-            .speed,
-            .criticalChance,
-            .criticalDamage
-        ]
+    private func getMostImportantBooster() -> BoosterEffect? {
+        // Priority order: Experience > Coins > others
+        let priorityOrder: [BoosterType] = [.experience, .coins, .both]
         
-        for effectType in priorityOrder {
-            if let effect = inventoryManager.getActiveEffect(for: effectType) {
-                return effect
+        for boosterType in priorityOrder {
+                            if let booster = boosterManager.activeBoosters.first(where: {
+                $0.type == boosterType && $0.isActive && !$0.isExpired
+            }) {
+                return booster
             }
         }
         
-        return inventoryManager.activeEffects.first
+        return boosterManager.activeBoosters.first { $0.isActive && !$0.isExpired }
     }
 }
 
-struct ActiveEffectWidgetRow: View {
+struct BoosterWidgetRow: View {
     @EnvironmentObject var themeManager: ThemeManager
-    let effect: ActiveEffect
+    let booster: BoosterEffect
     let isCompact: Bool
     @State private var remainingTime: TimeInterval = 0
     
-    init(effect: ActiveEffect, isCompact: Bool = false) {
-        self.effect = effect
+    init(booster: BoosterEffect, isCompact: Bool = false) {
+        self.booster = booster
         self.isCompact = isCompact
     }
     
     var body: some View {
         let theme = themeManager.activeTheme
         HStack(spacing: 8) {
-            // Effect icon
-            Image(systemName: effect.effect.type.icon)
+            // Booster icon
+            Image(systemName: boosterIcon)
                 .font(.system(size: isCompact ? 12 : 14))
                 .foregroundColor(.yellow)
                 .frame(width: isCompact ? 16 : 20)
             
-            // Effect name and value
+            // Booster name and value
             VStack(alignment: .leading, spacing: 2) {
-                Text(effect.effect.type.rawValue)
+                Text(booster.sourceName)
                     .font(.appFont(size: isCompact ? 10 : 12, weight: .black))
                     .foregroundColor(theme.textColor)
                 
                 if !isCompact {
-                    Text(effect.effect.displayValue)
+                    Text(boosterDescription)
                         .font(.appFont(size: 10, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                 }
@@ -129,7 +120,7 @@ struct ActiveEffectWidgetRow: View {
             Spacer()
             
             // Countdown timer
-            if let remaining = effect.remainingTime {
+            if let remaining = booster.remainingTime {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(formatTime(remaining))
                         .font(.appFont(size: isCompact ? 10 : 12, weight: .black))
@@ -137,7 +128,7 @@ struct ActiveEffectWidgetRow: View {
                     
                     if !isCompact {
                         // Progress bar
-                        ProgressView(value: effect.progress)
+                        ProgressView(value: booster.progress)
                             .progressViewStyle(LinearProgressViewStyle(tint: .yellow))
                             .frame(width: 40, height: 4)
                     }
@@ -153,8 +144,33 @@ struct ActiveEffectWidgetRow: View {
         }
     }
     
+    private var boosterIcon: String {
+        switch booster.type {
+        case .experience:
+            return "arrow.up.circle.fill"
+        case .coins:
+            return "dollarsign.circle.fill"
+        case .both:
+            return "bolt.fill"
+        }
+    }
+    
+    private var boosterDescription: String {
+        let multiplierText = String(format: "%.0f%%", (booster.multiplier - 1.0) * 100)
+        let bonusText = booster.flatBonus > 0 ? " +\(booster.flatBonus)" : ""
+        
+        switch booster.type {
+        case .experience:
+            return "\(multiplierText) XP\(bonusText)"
+        case .coins:
+            return "\(multiplierText) Coins\(bonusText)"
+        case .both:
+            return "\(multiplierText) XP & Coins\(bonusText)"
+        }
+    }
+    
     private func updateRemainingTime() {
-        remainingTime = effect.remainingTime ?? 0
+        remainingTime = booster.remainingTime ?? 0
     }
     
     private func formatTime(_ timeInterval: TimeInterval) -> String {
@@ -172,21 +188,32 @@ struct ActiveEffectWidgetRow: View {
 // MARK: - XP Boost Indicator
 
 struct XPBoostIndicator: View {
-    @EnvironmentObject var inventoryManager: InventoryManager
+    @EnvironmentObject var boosterManager: BoosterManager
     
     var body: some View {
-        if let xpBoost = inventoryManager.getActiveXPBoost() {
+        let expBoosters = boosterManager.getActiveBoosters(for: .experience)
+        if !expBoosters.isEmpty {
+            let totalMultiplier = expBoosters.reduce(1.0) { $0 * $1.multiplier }
+            let totalBonus = expBoosters.reduce(0) { $0 + $1.flatBonus }
+            
             HStack(spacing: 4) {
                 Image(systemName: "arrow.up.circle.fill")
                     .font(.system(size: 12))
                     .foregroundColor(.green)
                 
-                Text("\(Int(inventoryManager.getXPBoostMultiplier() * 100))% XP")
+                Text("\(Int((totalMultiplier - 1.0) * 100))% XP")
                     .font(.appFont(size: 10, weight: .black))
                     .foregroundColor(.green)
                 
-                if let remaining = xpBoost.remainingTime {
-                    Text("(\(formatTime(remaining)))")
+                if totalBonus > 0 {
+                    Text("+\(totalBonus)")
+                        .font(.appFont(size: 8, weight: .medium))
+                        .foregroundColor(.green.opacity(0.8))
+                }
+                
+                let remainingTimes = expBoosters.compactMap { $0.remainingTime }
+                if let shortestRemaining = remainingTimes.min() {
+                    Text("(\(formatTime(shortestRemaining)))")
                         .font(.appFont(size: 8, weight: .medium))
                         .foregroundColor(.green.opacity(0.8))
                 }
@@ -222,7 +249,7 @@ struct ActiveEffectsWidget_Previews: PreviewProvider {
     static var previews: some View {
         ActiveEffectsWidget()
             .environmentObject(ThemeManager.shared)
-            .environmentObject(InventoryManager.shared)
+            .environmentObject(BoosterManager.shared)
             .previewLayout(.sizeThatFits)
             .padding()
     }

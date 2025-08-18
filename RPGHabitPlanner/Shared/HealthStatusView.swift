@@ -83,7 +83,7 @@ struct HealthStatusView: View {
     // MARK: - Computed Properties
     
     private var healthIcon: String {
-        if healthManager.isDead() {
+        if healthManager.isDead {
             return "heart.slash.fill"
         } else if healthManager.isLowHealth {
             return "heart.fill"

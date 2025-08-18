@@ -156,8 +156,8 @@ class BattleLogic {
     
     // MARK: - Helper Methods
     
-    private static func generateBattleItems(enemyType: EnemyType, pomodorosCompleted: Int) -> [BattleItem] {
-        var items: [BattleItem] = []
+    private static func generateBattleItems(enemyType: EnemyType, pomodorosCompleted: Int) -> [Item] {
+        var items: [Item] = []
         
         // Base chance for items
         let baseChance = 0.3
@@ -173,16 +173,23 @@ class BattleLogic {
         return items
     }
     
-    private static func generateItemForEnemy(enemyType: EnemyType) -> BattleItem {
-        // This would integrate with your existing Item system
-        // For now, returning a placeholder
-        return BattleItem(
-            id: UUID(),
-            name: String.focusCrystal.localized,
-            description: String.focusCrystalDescription.localized,
-            iconName: "focus_crystal",
-            rarity: .common
-        )
+    private static func generateItemForEnemy(enemyType: EnemyType) -> Item {
+        // Generate items based on enemy type and difficulty
+        let itemDatabase = ItemDatabase.shared
+        
+        switch enemyType {
+        case .sleepyCat, .funnyZombie:
+            // Easy enemies give common items
+            return itemDatabase.getItems(of: .common).randomElement() ?? itemDatabase.getRandomItem()
+            
+        case .funkyMonster, .booMonster:
+            // Medium enemies give uncommon items
+            return itemDatabase.getItems(of: .uncommon).randomElement() ?? itemDatabase.getRandomItem()
+            
+        case .flyingDragon:
+            // Hard enemies give rare items
+            return itemDatabase.getItems(of: .rare).randomElement() ?? itemDatabase.getRandomItem()
+        }
     }
     
     private static func checkForAchievements(session: BattleSession) -> AchievementDefinition? {

@@ -276,8 +276,14 @@ class FocusTimerViewModel: ObservableObject {
                 print("Failed to award gold: \(error)")
             }
         }
+        
+        // Award items to inventory
+        let inventoryManager = InventoryManager.shared
+        for item in rewards.items {
+            inventoryManager.addToInventory(item)
+        }
 
-        print("Awarded \(boostedRewards.experience) XP and \(boostedRewards.coins) gold (with boosters)")
+        print("Awarded \(boostedRewards.experience) XP, \(boostedRewards.coins) gold, and \(rewards.items.count) items (with boosters)")
     }
     
     // MARK: - Private Methods
