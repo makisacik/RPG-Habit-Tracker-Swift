@@ -35,7 +35,12 @@ struct HomeView: View {
                             StreakDisplayView(streakManager: viewModel.streakManager)
                                 .environmentObject(themeManager)
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
-                            activeQuestsSection
+                            MyQuestsSection(
+                                viewModel: CalendarViewModel(questDataService: questDataService),
+                                selectedTab: $selectedTab,
+                                questDataService: questDataService
+                            )
+                            .environmentObject(themeManager)
                             recentAchievementsSection
                             quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                         }
