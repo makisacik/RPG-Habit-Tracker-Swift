@@ -114,7 +114,7 @@ extension HomeView {
                 
                 QuickActionCard(
                     icon: "checkmark.seal.fill",
-                    title: "Completed",
+                    title: "Finished",
                     subtitle: "View completed quests",
                     color: .orange,
                     theme: theme
@@ -149,7 +149,7 @@ extension HomeView {
                     color: .yellow,
                     theme: theme
                 ) {
-                    selectedTab = .shop
+                    selectedTab = .character
                 }
             }
         }

@@ -259,7 +259,7 @@
 
 // MARK: - Progress
 "progress" = "Progress";
-"completed" = "Completed";
+"completed" = "Finished";
 "in_progress" = "In Progress";
 "not_started" = "Not Started";
 "overdue" = "Overdue";
@@ -306,7 +306,7 @@
 
 // MARK: - Home Screen
 "active" = "Active";
-"completed" = "Completed";
+"completed" = "Finished";
 "view_all" = "View All";
 "create_quest" = "Create Quest";
 "loading_character" = "Loading character...";

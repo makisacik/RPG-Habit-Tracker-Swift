@@ -204,7 +204,7 @@
 
 // MARK: - Progress
 "progress" = "İlerleme";
-"completed" = "Tamamlandı";
+"completed" = "Bitirildi";
 "in_progress" = "Devam Ediyor";
 "not_started" = "Başlanmadı";
 "overdue" = "Gecikmiş";

@@ -40,14 +40,14 @@ struct StatCard: View {
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
         }
-        .frame(height: 90)
+        .padding(.vertical, 12)
+        .frame(height: 110)
         .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(theme.primaryColor)
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         )
-        .padding(.vertical, 8)
         .onTapGesture {
             action?()
         }
@@ -89,7 +89,8 @@ struct QuestPreviewCard: View {
                     .rotationEffect(.degrees(-90))
             }
         }
-        .padding(12)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(theme.primaryColor.opacity(0.5))
@@ -121,7 +122,8 @@ struct AchievementPreviewCard: View {
 
             Spacer()
         }
-        .padding(12)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(theme.primaryColor.opacity(0.5))
@@ -152,6 +154,7 @@ struct QuickActionCard: View {
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
+        .padding(.vertical, 8)
         .frame(height: 80)
         .frame(maxWidth: .infinity)
         .background(
@@ -187,6 +190,7 @@ struct NavigationQuickActionCard: View {
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
+        .padding(.vertical, 8)
         .frame(height: 80)
         .frame(maxWidth: .infinity)
         .background(
@@ -199,7 +203,6 @@ struct NavigationQuickActionCard: View {
 
 enum HomeTab: Hashable {
     case home
-    case shop
     case tracking
     case character
     case base

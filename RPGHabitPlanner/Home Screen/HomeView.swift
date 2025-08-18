@@ -147,16 +147,6 @@ struct HomeView: View {
             .tabItem { Label(String.home.localized, systemImage: "house.fill") }
             .tag(HomeTab.home)
 
-            // MARK: Shop
-            NavigationStack {
-                ZStack {
-                    theme.backgroundColor.ignoresSafeArea()
-                    ShopView()
-                        .environmentObject(themeManager)
-                }
-            }
-            .tabItem { Label("Shop", systemImage: "cart.fill") }
-            .tag(HomeTab.shop)
 
             // MARK: Quests
             NavigationStack {

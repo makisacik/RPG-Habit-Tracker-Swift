@@ -14,6 +14,7 @@ struct CharacterView: View {
     @StateObject private var boosterManager = BoosterManager.shared
     @State private var showBoosterInfo = false
     @State private var refreshTrigger = false
+    @State private var showShop = false
     let user: UserEntity
     
     var body: some View {
@@ -150,7 +151,8 @@ struct CharacterView: View {
         .navigationTitle(String.character.localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            // LEFT: Active booster indicator
+            ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     showBoosterInfo = true
                 }) {
@@ -160,8 +162,8 @@ struct CharacterView: View {
                             .frame(width: 18, height: 18)
                             .foregroundColor(.yellow)
                         
-                        if !boosterManager.activeBoosters.isEmpty {
-                            Text("\(boosterManager.activeBoosters.count)")
+                        if !boosterManager.activeBoosters.filter({ $0.isActive && !$0.isExpired }).isEmpty {
+                            Text("\(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }.count)")
                                 .font(.appFont(size: 12, weight: .bold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 6)
@@ -175,10 +177,27 @@ struct CharacterView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
             }
+            
+            // RIGHT: Shop button
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showShop = true
+                }) {
+                    Image(systemName: "cart.fill")
+                        .font(.title2)
+                        .foregroundColor(theme.textColor)
+                }
+            }
         }
         .sheet(isPresented: $showBoosterInfo) {
             BoosterInfoModalView()
                 .environmentObject(themeManager)
+        }
+        .sheet(isPresented: $showShop) {
+            NavigationStack {
+                ShopView()
+                    .environmentObject(themeManager)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
             print("🔄 CharacterView: Received boostersUpdated notification")
