@@ -11,6 +11,7 @@ enum QuestRepeatType: String, Codable {
     case oneTime
     case daily
     case weekly
+    case scheduled
 }
 
 struct Quest: Identifiable, Equatable {
@@ -32,6 +33,7 @@ struct Quest: Identifiable, Equatable {
     var completions: Set<Date>
     var tags: Set<Tag>
     var showProgress: Bool
+    var scheduledDays: Set<Int> // Days of week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
 
     init(
         id: UUID = UUID(),
@@ -51,7 +53,8 @@ struct Quest: Identifiable, Equatable {
         repeatType: QuestRepeatType = .oneTime,
         completions: Set<Date> = [],
         tags: Set<Tag> = [],
-        showProgress: Bool = false
+        showProgress: Bool = false,
+        scheduledDays: Set<Int> = []
     ) {
         self.id = id
         self.title = title
@@ -71,6 +74,7 @@ struct Quest: Identifiable, Equatable {
         self.completions = completions
         self.tags = tags
         self.showProgress = showProgress
+        self.scheduledDays = scheduledDays
     }
 }
 
@@ -93,6 +97,12 @@ extension Quest {
             let weekAnchor = weekAnchor(for: date, calendar: calendar)
             let isCompleted = completions.contains(weekAnchor)
             print("🔍 Quest '\(title)' isCompleted(on: \(date)) weekly: weekAnchor = \(weekAnchor), isCompleted = \(isCompleted)")
+            return isCompleted
+        case .scheduled:
+            // For scheduled quests, check if completed on this specific date
+            let dateAnchor = calendar.startOfDay(for: date)
+            let isCompleted = completions.contains(dateAnchor)
+            print("🔍 Quest '\(title)' isCompleted(on: \(date)) scheduled: dateAnchor = \(dateAnchor), isCompleted = \(isCompleted)")
             return isCompleted
         }
     }
@@ -140,6 +150,13 @@ extension Quest {
             let isCompletedThisWeek = isCompletedThisWeek(asOf: today, calendar: calendar)
             print("🔍 Quest '\(title)' weekly: isCompletedThisWeek = \(isCompletedThisWeek)")
             return !isCompletedThisWeek
+        case .scheduled:
+            // For scheduled quests, they're active if the date is in scheduledDays and not completed
+            let weekday = calendar.component(.weekday, from: date)
+            let isScheduledDay = scheduledDays.contains(weekday)
+            let isCompletedToday = isCompleted(on: date, calendar: calendar)
+            print("🔍 Quest '\(title)' scheduled: weekday = \(weekday), isScheduledDay = \(isScheduledDay), isCompletedToday = \(isCompletedToday)")
+            return isScheduledDay && !isCompletedToday
         }
     }
 }

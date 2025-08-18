@@ -229,13 +229,16 @@ struct CalendarView: View {
     }
 
     private func selectedDateDetails(theme: Theme) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
+        let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
+        
+        return VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(viewModel.selectedDate, style: .date)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Text("\(viewModel.itemsForSelectedDate.count) \(viewModel.itemsForSelectedDate.count == 1 ? String.activeQuest.localized : String.activeQuests.localized)")
+                Text("\(activeCount) active, \(completedCount) completed")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -406,6 +409,7 @@ struct CalendarDayView: View {
             case .daily: return .orange
             case .weekly: return .blue
             case .oneTime: return .orange
+            case .scheduled: return .purple
             }
         case .inactive: return .gray
         }
@@ -416,6 +420,7 @@ struct CalendarDayView: View {
         case .daily: return "D"
         case .weekly: return "W"
         case .oneTime: return "O"
+        case .scheduled: return "S"
         }
     }
 }
@@ -442,11 +447,11 @@ struct QuestCalendarRow: View {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(item.quest.title)
                             .font(.appFont(size: 15, weight: .medium))
-                            .foregroundColor(theme.textColor)
+                            .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.7 : 1.0))
                             .lineLimit(1)
                         Text(subtitle)
                             .font(.appFont(size: 11, weight: .black))
-                            .foregroundColor(theme.textColor.opacity(0.7))
+                            .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.5 : 0.7))
                     }
                     Spacer()
 
@@ -524,7 +529,7 @@ struct QuestCalendarRow: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.primaryColor)
+                    .fill(theme.primaryColor.opacity(item.state == .done ? 0.8 : 1.0))
                     .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             )
             .padding(.horizontal, 4)
@@ -557,6 +562,7 @@ struct QuestCalendarRow: View {
         case .daily: return "Daily"
         case .weekly: return "Weekly"
         case .oneTime: return "One-time"
+        case .scheduled: return "Scheduled"
         }
     }
 }

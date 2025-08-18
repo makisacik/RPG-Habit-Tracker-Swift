@@ -30,6 +30,9 @@ final class QuestLogService {
         case .oneTime:
             // For one-time quests, always store completion at the due date
             anchor = dayAnchor(quest.dueDate ?? date, calendar: calendar)
+        case .scheduled:
+            // For scheduled quests, use the specific date
+            anchor = dayAnchor(date, calendar: calendar)
         }
 
         if try fetchCompletion(quest: quest, on: anchor) != nil { return }
@@ -53,6 +56,9 @@ final class QuestLogService {
         case .oneTime:
             // For one-time quests, always store completion at the due date
             anchor = dayAnchor(quest.dueDate ?? date, calendar: calendar)
+        case .scheduled:
+            // For scheduled quests, use the specific date
+            anchor = dayAnchor(date, calendar: calendar)
         }
 
         if let existingCompletion = try fetchCompletion(quest: quest, on: anchor) {
@@ -73,6 +79,9 @@ final class QuestLogService {
         case .oneTime:
             // For one-time quests, always store completion at the due date
             anchor = dayAnchor(quest.dueDate ?? date, calendar: calendar)
+        case .scheduled:
+            // For scheduled quests, use the specific date
+            anchor = dayAnchor(date, calendar: calendar)
         }
         return try fetchCompletion(quest: quest, on: anchor) != nil
     }
@@ -143,6 +152,15 @@ final class QuestLogService {
             quest.isCompleted = doneThisWeek
             quest.isActive = !doneThisWeek
             print("🔄 Quest '\(quest.title ?? "Unknown")' weekly: doneThisWeek = \(doneThisWeek), isActive = \(quest.isActive)")
+        case .scheduled:
+            // For scheduled quests, check if it's a scheduled day and if it's completed
+            let weekday = calendar.component(.weekday, from: date)
+            let scheduledDays = quest.scheduledDays?.components(separatedBy: ",").compactMap { Int($0) } ?? []
+            let isScheduledDay = scheduledDays.contains(weekday)
+            let doneToday = try isCompleted(quest, on: date)
+            quest.isCompleted = doneToday
+            quest.isActive = isScheduledDay && !doneToday
+            print("🔄 Quest '\(quest.title ?? "Unknown")' scheduled: weekday = \(weekday), isScheduledDay = \(isScheduledDay), doneToday = \(doneToday), isActive = \(quest.isActive)")
         }
         try context.save()
     }

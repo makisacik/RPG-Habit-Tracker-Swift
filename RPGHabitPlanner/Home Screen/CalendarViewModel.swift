@@ -126,7 +126,7 @@ final class CalendarViewModel: ObservableObject {
         let day = calendar.startOfDay(for: date)
         let filteredQuests = applyTagFiltering(to: allQuests)
 
-        return filteredQuests.compactMap { quest in
+        let items: [DayQuestItem] = filteredQuests.compactMap { quest in
             // Don't show finished quests in the calendar
             guard !quest.isFinished else { return nil }
 
@@ -137,6 +137,13 @@ final class CalendarViewModel: ObservableObject {
             // Date must be between creation date and due date (inclusive)
             guard day >= creationDate && day <= dueDate else { return nil }
 
+            // For scheduled quests, check if it's a scheduled day (allow both active and completed quests)
+            if quest.repeatType == .scheduled {
+                let weekday = calendar.component(.weekday, from: day)
+                let isScheduledDay = quest.scheduledDays.contains(weekday)
+                guard isScheduledDay else { return nil }
+            }
+
             let state: DayQuestState
             if quest.isCompleted(on: day) {
                 state = .done
@@ -145,6 +152,18 @@ final class CalendarViewModel: ObservableObject {
             }
 
             return DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
+        }
+
+        // Sort items: active quests first, then completed quests
+        return items.sorted { (item1: DayQuestItem, item2: DayQuestItem) in
+            if item1.state == DayQuestState.todo && item2.state == DayQuestState.done {
+                return true // item1 (todo) comes before item2 (done)
+            } else if item1.state == DayQuestState.done && item2.state == DayQuestState.todo {
+                return false // item2 (todo) comes before item1 (done)
+            } else {
+                // If both have the same state, sort by creation date (newer first)
+                return item1.quest.creationDate > item2.quest.creationDate
+            }
         }
     }
 
@@ -194,6 +213,9 @@ final class CalendarViewModel: ObservableObject {
             completionDate = calendar.date(from: comps) ?? item.date
         case .daily:
             // For daily quests, use the specific date
+            completionDate = item.date
+        case .scheduled:
+            // For scheduled quests, use the specific date
             completionDate = item.date
         }
 

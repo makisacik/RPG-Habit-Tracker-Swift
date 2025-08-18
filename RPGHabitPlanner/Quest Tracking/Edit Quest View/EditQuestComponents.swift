@@ -70,6 +70,7 @@ struct EditQuestHeaderSection: View {
             case .daily: return "sun.max.fill"
             case .weekly: return "calendar.badge.clock"
             case .oneTime: return "target"
+            case .scheduled: return "calendar.badge.clock"
             }
         }
     }
@@ -82,6 +83,7 @@ struct EditQuestHeaderSection: View {
             case .daily: return .orange
             case .weekly: return .blue
             case .oneTime: return .purple
+            case .scheduled: return .purple
             }
         }
     }
@@ -297,6 +299,7 @@ struct EditQuestSettingsSection: View {
                         Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
                         Text(String.daily.localized).tag(QuestRepeatType.daily)
                         Text(String.weekly.localized).tag(QuestRepeatType.weekly)
+                        Text("Scheduled").tag(QuestRepeatType.scheduled)
                     }
                     .pickerStyle(.segmented)
                     .padding(12)
@@ -304,6 +307,15 @@ struct EditQuestSettingsSection: View {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(theme.primaryColor.opacity(0.3))
                     )
+                    
+                    // Show scheduled days selection when scheduled is selected
+                    if viewModel.repeatType == .scheduled {
+                        ScheduledDaysSelectionView(selectedDays: $viewModel.selectedScheduledDays)
+                            .transition(.asymmetric(
+                                insertion: .opacity.combined(with: .move(edge: .top)),
+                                removal: .opacity.combined(with: .move(edge: .top))
+                            ))
+                    }
                 }
                 
                 // Difficulty

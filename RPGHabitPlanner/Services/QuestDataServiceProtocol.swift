@@ -32,6 +32,7 @@ protocol QuestDataServiceProtocol {
         tasks: [String]?,
         tags: [Tag]?,
         showProgress: Bool?,
+        scheduledDays: Set<Int>?,
         completion: @escaping (Error?) -> Void
     )
 

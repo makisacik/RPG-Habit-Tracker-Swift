@@ -28,6 +28,7 @@ extension QuestEntity {
     @NSManaged public var title: String?
     @NSManaged public var tasks: NSOrderedSet?
     @NSManaged public var repeatType: String
+    @NSManaged public var scheduledDays: String?
     @NSManaged public var completionDate: Date?
     @NSManaged public var completions: NSSet?
     @NSManaged public var tags: NSSet?

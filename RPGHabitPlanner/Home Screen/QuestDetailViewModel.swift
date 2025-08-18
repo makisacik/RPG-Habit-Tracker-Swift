@@ -66,7 +66,8 @@ final class QuestDetailViewModel: ObservableObject {
             repeatType: quest.repeatType,
             tasks: quest.tasks.map { $0.title },
             tags: newTags,
-            showProgress: quest.showProgress
+            showProgress: quest.showProgress,
+            scheduledDays: quest.scheduledDays
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -136,6 +137,26 @@ final class QuestDetailViewModel: ObservableObject {
                 }
             } else {
                 questDataService.markQuestCompleted(forId: quest.id, on: dueDateAnchor) { [weak self] _ in
+                    // Record streak activity when completing a quest
+                    self?.streakManager.recordActivity()
+                    self?.refreshQuest()
+                }
+            }
+        case .scheduled:
+            // For scheduled quests, check if it's a scheduled day
+            let weekday = calendar.component(.weekday, from: date)
+            let isScheduledDay = quest.scheduledDays.contains(weekday)
+            guard isScheduledDay else {
+                alertMessage = "This quest can only be completed on scheduled days."
+                return
+            }
+            let dayAnchor = calendar.startOfDay(for: date)
+            if isCompleted {
+                questDataService.unmarkQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
+                    self?.refreshQuest()
+                }
+            } else {
+                questDataService.markQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
                     // Record streak activity when completing a quest
                     self?.streakManager.recordActivity()
                     self?.refreshQuest()

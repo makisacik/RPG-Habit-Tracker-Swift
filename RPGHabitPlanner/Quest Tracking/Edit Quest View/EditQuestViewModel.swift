@@ -23,6 +23,7 @@ final class EditQuestViewModel: ObservableObject {
     @Published var tasks: [String]        // Task titles only (UI edits)
     @Published var selectedTags: [Tag]    // Selected tags for the quest
     @Published var repeatType: QuestRepeatType
+    @Published var selectedScheduledDays: Set<Int>
 
     // UI state
     @Published var isSaving: Bool = false
@@ -43,6 +44,7 @@ final class EditQuestViewModel: ObservableObject {
         self.tasks = quest.tasks.map { $0.title }
         self.selectedTags = Array(quest.tags)
         self.repeatType = quest.repeatType
+        self.selectedScheduledDays = quest.scheduledDays
         self.questDataService = questDataService
     }
 
@@ -87,7 +89,8 @@ final class EditQuestViewModel: ObservableObject {
             repeatType: repeatType,
             tasks: tasks,
             tags: selectedTags,
-            showProgress: quest.showProgress
+            showProgress: quest.showProgress,
+            scheduledDays: selectedScheduledDays
         ) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -125,6 +128,7 @@ final class EditQuestViewModel: ObservableObject {
         quest.isActive = isActiveQuest
 
         quest.repeatType = repeatType
+        quest.scheduledDays = selectedScheduledDays
         quest.tags = Set(selectedTags)
 
         let existing = quest.tasks

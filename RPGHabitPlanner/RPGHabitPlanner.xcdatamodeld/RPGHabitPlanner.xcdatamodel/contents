@@ -50,6 +50,7 @@
         <attribute name="isMainQuest" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="progress" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="repeatType" optional="YES" attributeType="String"/>
+        <attribute name="scheduledDays" optional="YES" attributeType="String"/>
         <attribute name="showProgress" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="completions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuestCompletionEntity" inverseName="quest" inverseEntity="QuestCompletionEntity"/>

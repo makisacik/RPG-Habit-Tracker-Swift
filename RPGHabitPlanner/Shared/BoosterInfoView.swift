@@ -111,16 +111,3 @@ struct BoosterInfoView: View {
         }
     }
 }
-
-#Preview {
-    let building = Building(
-        type: .castle,
-        state: .active,
-        position: CGPoint(x: 0, y: 0),
-        level: 3
-    )
-    
-    return BoosterInfoView(building: building)
-        .padding()
-        .background(Color.black)
-}

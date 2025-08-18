@@ -79,6 +79,7 @@ struct QuestDetailHeaderSection: View {
             case .daily: return "sun.max.fill"
             case .weekly: return "calendar.badge.clock"
             case .oneTime: return "target"
+            case .scheduled: return "calendar.badge.clock"
             }
         }
     }
@@ -91,6 +92,7 @@ struct QuestDetailHeaderSection: View {
             case .daily: return .orange
             case .weekly: return .blue
             case .oneTime: return .purple
+            case .scheduled: return .purple
             }
         }
     }
@@ -192,6 +194,7 @@ struct QuestDetailDetailsSection: View {
         case .daily: return String.daily.localized
         case .weekly: return String.weekly.localized
         case .oneTime: return String.oneTime.localized
+        case .scheduled: return "Scheduled"
         }
     }
     

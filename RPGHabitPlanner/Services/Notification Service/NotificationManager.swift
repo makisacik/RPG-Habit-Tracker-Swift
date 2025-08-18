@@ -60,6 +60,19 @@ final class NotificationManager {
                                      time: notificationTime)
                 nextDate = calendar.date(byAdding: .weekOfYear, value: 1, to: nextDate)!
             }
+        case .scheduled:
+            // For scheduled quests, schedule notifications only on the specified days
+            var nextDate = startDate
+            while nextDate <= endDate {
+                let weekday = calendar.component(.weekday, from: nextDate)
+                if quest.scheduledDays.contains(weekday) {
+                    scheduleNotification(id: "\(quest.id.uuidString)_\(nextDate)",
+                                         content: content,
+                                         date: nextDate,
+                                         time: notificationTime)
+                }
+                nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
+            }
         }
     }
 

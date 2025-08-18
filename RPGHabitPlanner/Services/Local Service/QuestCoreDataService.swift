@@ -30,6 +30,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         tasks: [String]?,
         tags: [Tag]?,
         showProgress: Bool?,
+        scheduledDays: Set<Int>? = nil,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -52,7 +53,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 isActive: isActive,
                 progress: progress,
                 repeatType: repeatType,
-                showProgress: showProgress
+                showProgress: showProgress,
+                scheduledDays: scheduledDays
             )
             
             if let tasks = tasks {
@@ -82,7 +84,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         isActive: Bool?,
         progress: Int?,
         repeatType: QuestRepeatType?,
-        showProgress: Bool?
+        showProgress: Bool?,
+        scheduledDays: Set<Int>? = nil
     ) {
         if let title { questEntity.title = title }
         if let isMainQuest { questEntity.isMainQuest = isMainQuest }
@@ -93,6 +96,14 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         if let progress { questEntity.progress = Int16(progress) }
         if let repeatType { questEntity.repeatType = repeatType.rawValue }
         if let showProgress { questEntity.showProgress = showProgress }
+        if let scheduledDays {
+            if !scheduledDays.isEmpty {
+                let scheduledDaysString = scheduledDays.map { String($0) }.joined(separator: ",")
+                questEntity.scheduledDays = scheduledDaysString
+            } else {
+                questEntity.scheduledDays = nil
+            }
+        }
     }
     
     private func updateQuestTasks(questEntity: QuestEntity, tasks: [String], context: NSManagedObjectContext) {
@@ -200,6 +211,11 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.isCompleted = quest.isCompleted
         questEntity.progress = Int16(quest.progress)
         questEntity.repeatType = quest.repeatType.rawValue
+        // Convert scheduledDays Set<Int> to comma-separated string
+        if !quest.scheduledDays.isEmpty {
+            let scheduledDaysString = quest.scheduledDays.map { String($0) }.joined(separator: ",")
+            questEntity.scheduledDays = scheduledDaysString
+        }
         questEntity.completionDate = quest.completionDate
         questEntity.isFinished = quest.isFinished
         questEntity.isFinishedDate = quest.isFinishedDate
@@ -315,6 +331,15 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
 
         print("🗄️ QuestCoreDataService: Mapping quest '\(entity.title ?? "Unknown")' with \(entity.taskList.count) tasks and \(tags.count) tags")
 
+        // Parse scheduledDays from string to Set<Int>
+        let scheduledDays: Set<Int> = {
+            guard let scheduledDaysString = entity.scheduledDays, !scheduledDaysString.isEmpty else {
+                return []
+            }
+            let dayStrings = scheduledDaysString.components(separatedBy: ",")
+            return Set(dayStrings.compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
+        }()
+
         return Quest(
             id: entity.id ?? UUID(),
             title: entity.title ?? "",
@@ -335,7 +360,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
             completions: completions,
             tags: tags,
-            showProgress: entity.showProgress
+            showProgress: entity.showProgress,
+            scheduledDays: scheduledDays
         )
     }
 

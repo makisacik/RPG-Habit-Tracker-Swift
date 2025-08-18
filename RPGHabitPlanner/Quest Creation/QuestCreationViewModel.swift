@@ -28,6 +28,7 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var selectedTags: [Tag] = []
     @Published var notifyMe = true
     @Published var repeatType: QuestRepeatType = .oneTime
+    @Published var selectedScheduledDays: Set<Int> = []
     @Published var currentQuestCount: Int = 0
     @Published var shouldShowPaywall = false
 
@@ -68,7 +69,8 @@ final class QuestCreationViewModel: ObservableObject {
             isCompleted: false,
             completionDate: nil,
             repeatType: repeatType,
-            tags: Set(selectedTags)
+            tags: Set(selectedTags),
+            scheduledDays: selectedScheduledDays
         )
 
         let taskTitles = tasks
@@ -107,6 +109,7 @@ final class QuestCreationViewModel: ObservableObject {
         difficulty = 3
         isActiveQuest = false
         repeatType = .oneTime
+        selectedScheduledDays = []
         notifyMe = true
         selectedTags = []
     }
