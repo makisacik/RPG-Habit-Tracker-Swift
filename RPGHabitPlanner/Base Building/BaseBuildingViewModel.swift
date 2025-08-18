@@ -10,7 +10,9 @@ class BaseBuildingViewModel: ObservableObject {
     @Published var selectedBuilding: Building?
     @Published var selectedGridPosition: CGPoint = .zero
     @Published var totalGoldCollected = 0
-    @Published var currentCoins = 0
+    var currentCoins: Int {
+        return currencyManager.currentCoins
+    }
     @Published var showingVillageInfo = false
     
     private let baseService: BaseBuildingServiceProtocol
@@ -24,7 +26,6 @@ class BaseBuildingViewModel: ObservableObject {
         
         setupBindings()
         loadBase()
-        loadCurrentCoins()
         startConstructionTimer()
     }
     
@@ -75,9 +76,6 @@ class BaseBuildingViewModel: ObservableObject {
                     // Add experience for starting construction
                     self.base.addExperience(5)
                     self.baseService.saveBase(self.base)
-
-                    // Reload coins
-                    self.loadCurrentCoins()
                 }
             }
         }
@@ -104,10 +102,6 @@ class BaseBuildingViewModel: ObservableObject {
 
                 // Note: Boosters will be refreshed when construction completes and building becomes active
                 print("🏗️ Upgrade started successfully for \(building.type.rawValue)")
-
-                self.loadCurrentCoins()
-
-                print("🏗️ Upgrade started successfully for \(building.type.rawValue)")
             }
         }
     }
@@ -123,7 +117,6 @@ class BaseBuildingViewModel: ObservableObject {
             currencyManager.addCoins(goldAmount) { error in
                 if error == nil {
                     self.totalGoldCollected += goldAmount
-                    self.loadCurrentCoins()
                 }
             }
         }
@@ -212,8 +205,6 @@ class BaseBuildingViewModel: ObservableObject {
                     // Post notification to update boosters
                     NotificationCenter.default.post(name: .buildingUpdated, object: nil)
                     NotificationCenter.default.post(name: .boostersUpdated, object: nil)
-
-                    self.loadCurrentCoins()
                 }
             }
         }
@@ -237,18 +228,21 @@ class BaseBuildingViewModel: ObservableObject {
         // Listen for user updates
         NotificationCenter.default.publisher(for: .userDidUpdate)
             .sink { [weak self] _ in
-                self?.loadCurrentCoins()
+                // CurrencyManager will automatically update its published property
+                // No need to manually reload coins
+            }
+            .store(in: &cancellables)
+        
+        // Observe currency manager's published property
+        currencyManager.$currentCoins
+            .sink { [weak self] newCoins in
+                // Trigger UI update when coins change
+                print("🏗️ BaseBuildingViewModel: Currency changed to \(newCoins), triggering UI update")
+                self?.objectWillChange.send()
             }
             .store(in: &cancellables)
     }
     
-    private func loadCurrentCoins() {
-        currencyManager.getCurrentCoins { coins, _ in
-            DispatchQueue.main.async {
-                self.currentCoins = coins
-            }
-        }
-    }
     
     private func calculateTotalGoldCollected() {
         totalGoldCollected = base.totalGoldGeneration

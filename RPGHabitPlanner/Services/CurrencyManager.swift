@@ -16,22 +16,27 @@ final class CurrencyManager: ObservableObject {
     
     private init(container: NSPersistentContainer = PersistenceController.shared.container) {
         self.persistentContainer = container
+        loadInitialCoins()
     }
     
     // MARK: - Coin Operations
     
     func addCoins(_ amount: Int, completion: @escaping (Error?) -> Void) {
-        fetchUser { user, error in
+        fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
             }
             
-            let context = self.persistentContainer.viewContext
+            let context = self?.persistentContainer.viewContext
             user.coins += Int32(amount)
             
             do {
-                try context.save()
+                try context?.save()
+                DispatchQueue.main.async {
+                    self?.currentCoins = Int(user.coins)
+                    print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after adding coins")
+                }
                 NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(nil)
             } catch {
@@ -41,7 +46,7 @@ final class CurrencyManager: ObservableObject {
     }
     
     func spendCoins(_ amount: Int, completion: @escaping (Bool, Error?) -> Void) {
-        fetchUser { user, error in
+        fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(false, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
@@ -52,11 +57,15 @@ final class CurrencyManager: ObservableObject {
                 return
             }
             
-            let context = self.persistentContainer.viewContext
+            let context = self?.persistentContainer.viewContext
             user.coins -= Int32(amount)
             
             do {
-                try context.save()
+                try context?.save()
+                DispatchQueue.main.async {
+                    self?.currentCoins = Int(user.coins)
+                    print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after spending coins")
+                }
                 NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(true, nil)
             } catch {
@@ -66,23 +75,33 @@ final class CurrencyManager: ObservableObject {
     }
     
     func getCurrentCoins(completion: @escaping (Int, Error?) -> Void) {
-        fetchUser { user, error in
+        fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(0, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
             }
             
-            completion(Int(user.coins), nil)
+            let coins = Int(user.coins)
+            DispatchQueue.main.async {
+                self?.currentCoins = coins
+                print("💰 CurrencyManager: Updated currentCoins to \(coins) from getCurrentCoins")
+            }
+            completion(coins, nil)
         }
     }
     
-    func loadCurrentCoins() {
+    private func loadInitialCoins() {
         getCurrentCoins { _, _ in
-            // Don't update published property from within view updates
-            // The view will handle this through the completion handler
+            // This will update the published property automatically
         }
     }
-    
+
+    func refreshCoins() {
+        getCurrentCoins { _, _ in
+            // This will update the published property automatically
+        }
+    }
+
     // MARK: - Quest Reward Calculations
     
     func calculateQuestReward(difficulty: Int, isMainQuest: Bool, taskCount: Int) -> Int {
