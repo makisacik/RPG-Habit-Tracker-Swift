@@ -15,7 +15,7 @@ final class XPBoostTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
         mockService = MockInventoryService()
-        inventoryManager = InventoryManager()
+        inventoryManager = InventoryManager.shared
         // Inject mock service for testing
         // Note: In a real implementation, you'd want to make the service injectable
     }

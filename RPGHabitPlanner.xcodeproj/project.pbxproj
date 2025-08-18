@@ -72,6 +72,7 @@
 		32B57BC02CECAA73004D2A27 /* Exceptions for "RPGHabitPlanner" folder in "ActiveQuestWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"CoreDataModels/ActiveEffectEntity+CoreDataClass.swift",
 				"CoreDataModels/QuestCompletionEntity+CoreDataClass.swift",
 				"CoreDataModels/QuestCompletionEntity+CoreDataProperties.swift",
 				"CoreDataModels/QuestEntity+CoreDataClass.swift",

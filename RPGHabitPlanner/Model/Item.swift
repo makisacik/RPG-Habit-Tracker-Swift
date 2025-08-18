@@ -322,6 +322,15 @@ struct ActiveEffect: Identifiable, Codable {
             self.endTime = nil
         }
     }
+    
+    // Initializer for loading from persistence
+    init(id: UUID, effect: ItemEffect, startTime: Date, endTime: Date?, sourceItemId: UUID) {
+        self.id = id
+        self.effect = effect
+        self.startTime = startTime
+        self.endTime = endTime
+        self.sourceItemId = sourceItemId
+    }
 }
 
 // MARK: - Item Database

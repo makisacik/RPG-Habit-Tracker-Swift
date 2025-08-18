@@ -42,6 +42,7 @@ class InventoryManager: ObservableObject {
     // MARK: - Private Properties
     
     private let service: InventoryServiceProtocol
+    private let activeEffectsService: ActiveEffectsServiceProtocol
     private let itemDatabase = ItemDatabase.shared
     private lazy var usageHandler: ItemUsageHandler = {
         return DefaultItemUsageHandler(inventoryManager: self)
@@ -51,7 +52,9 @@ class InventoryManager: ObservableObject {
     
     private init() {
         self.service = InventoryService(container: PersistenceController.shared.container)
+        self.activeEffectsService = ActiveEffectsCoreDataService(container: PersistenceController.shared.container)
         refreshInventory()
+        loadActiveEffectsFromPersistence()
     }
     
     // MARK: - Inventory Management
@@ -138,24 +141,74 @@ class InventoryManager: ObservableObject {
     
     // MARK: - Active Effects Management
     
-    /// Adds an active effect to the inventory
+    /// Loads active effects from persistence
+    func loadActiveEffectsFromPersistence() {
+        let effects = activeEffectsService.fetchActiveEffects()
+        DispatchQueue.main.async { [weak self] in
+            self?.activeEffects = effects
+            print("💾 InventoryManager: Loaded \(effects.count) active effects from persistence")
+            
+            // Refresh boosters after loading effects from persistence
+            BoosterManager.shared.refreshBoostersFromPersistence()
+        }
+    }
+    
+    /// Adds an active effect to the inventory and persists it
     /// - Parameter effect: The effect to add
     func addActiveEffect(_ effect: ActiveEffect) {
+        // Add to Core Data
+        activeEffectsService.saveActiveEffect(effect)
+        
+        // Update local array
         activeEffects.append(effect)
+        
+        // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
+        
+        print("💾 InventoryManager: Added and persisted active effect \(effect.effect.type.rawValue)")
     }
     
-    /// Removes an active effect from the inventory
+    /// Removes an active effect from the inventory and persistence
     /// - Parameter effect: The effect to remove
     func removeActiveEffect(_ effect: ActiveEffect) {
+        // Remove from Core Data
+        activeEffectsService.removeActiveEffect(effect)
+        
+        // Update local array
         activeEffects.removeAll { $0.id == effect.id }
+        
+        // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
+        
+        print("💾 InventoryManager: Removed active effect from persistence")
     }
     
-    /// Clears all expired effects from the inventory
+    /// Clears all expired effects from the inventory and persistence
     func clearExpiredEffects() {
+        // Clear from Core Data
+        activeEffectsService.clearExpiredEffects()
+        
+        // Update local array
         activeEffects.removeAll { !$0.isActive }
+        
+        // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
+        
+        print("💾 InventoryManager: Cleared expired effects from persistence")
+    }
+    
+    /// Clears all active effects from the inventory and persistence
+    func clearAllEffects() {
+        // Clear from Core Data
+        activeEffectsService.clearAllEffects()
+        
+        // Update local array
+        activeEffects.removeAll()
+        
+        // Post notification for UI updates
+        NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
+        
+        print("💾 InventoryManager: Cleared all effects from persistence")
     }
     
     // MARK: - Helper Methods

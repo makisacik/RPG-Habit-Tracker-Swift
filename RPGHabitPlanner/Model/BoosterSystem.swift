@@ -173,6 +173,14 @@ final class BoosterManager: ObservableObject {
         updateTotalBoosters()
     }
     
+    /// Refreshes boosters when active effects are loaded from persistence
+    func refreshBoostersFromPersistence() {
+        print("🚀 BoosterManager: Refreshing boosters from persistence")
+        calculateItemBoosters()
+        updateTotalBoosters()
+        print("🚀 BoosterManager: Refreshed boosters from persistence - Total: \(activeBoosters.count)")
+    }
+    
     func ensureBuildingBoostersLoaded() {
         print("🚀 BoosterManager: Ensuring building boosters are loaded")
         
@@ -292,9 +300,16 @@ final class BoosterManager: ObservableObject {
     }
     
     private func setupCleanupTimer() {
-        // Clean up expired boosters every minute
+        // Clean up expired boosters and effects every minute
         cleanupTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { [weak self] _ in
             self?.clearExpiredBoosters()
+            
+            // Also clear expired effects from persistence
+            let activeEffectsService = ActiveEffectsCoreDataService()
+            activeEffectsService.clearExpiredEffects()
+            
+            // Refresh boosters after clearing expired effects
+            self?.refreshBoosters()
         }
     }
     

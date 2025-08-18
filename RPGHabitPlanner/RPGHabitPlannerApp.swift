@@ -40,6 +40,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         // Delay building booster loading to ensure proper initialization
         DispatchQueue.main.async {
+            // Clean up expired effects on app launch
+            let activeEffectsService = ActiveEffectsCoreDataService()
+            activeEffectsService.clearExpiredEffects()
+            
             boosterManager.ensureBuildingBoostersLoaded()
             
             #if DEBUG
