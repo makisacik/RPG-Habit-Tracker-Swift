@@ -206,4 +206,58 @@ final class BoosterSystemTests: XCTestCase {
         XCTAssertEqual(booster?.sourceName, "Test Booster")
         XCTAssertNotNil(booster?.expiresAt)
     }
+    
+    func testAdditivePercentageCalculation() {
+        // Test that multiple boosters add their percentages together instead of multiplying
+        let booster1 = BoosterEffect(
+            type: .experience,
+            source: .building,
+            multiplier: 1.2, // 20% boost
+            flatBonus: 0,
+            sourceId: "house1",
+            sourceName: "House 1"
+        )
+        
+        let booster2 = BoosterEffect(
+            type: .experience,
+            source: .building,
+            multiplier: 1.2, // 20% boost
+            flatBonus: 0,
+            sourceId: "house2",
+            sourceName: "House 2"
+        )
+        
+        boosterManager.activeBoosters = [booster1, booster2]
+        boosterManager.refreshBoosters()
+        
+        // With additive percentages: 20% + 20% = 40% boost = 1.4 multiplier
+        let (boostedExp, _) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
+        XCTAssertEqual(boostedExp, 140) // 100 * 1.4 = 140
+        
+        // Test coin boosters as well
+        let coinBooster1 = BoosterEffect(
+            type: .coins,
+            source: .building,
+            multiplier: 1.15, // 15% boost
+            flatBonus: 0,
+            sourceId: "castle1",
+            sourceName: "Castle 1"
+        )
+        
+        let coinBooster2 = BoosterEffect(
+            type: .coins,
+            source: .building,
+            multiplier: 1.25, // 25% boost
+            flatBonus: 0,
+            sourceId: "castle2",
+            sourceName: "Castle 2"
+        )
+        
+        boosterManager.activeBoosters = [booster1, booster2, coinBooster1, coinBooster2]
+        boosterManager.refreshBoosters()
+        
+        // With additive percentages: 15% + 25% = 40% boost = 1.4 multiplier
+        let (_, boostedCoins) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
+        XCTAssertEqual(boostedCoins, 70) // 50 * 1.4 = 70
+    }
 }

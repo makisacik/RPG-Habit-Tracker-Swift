@@ -85,6 +85,28 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
         NotificationCenter.default.post(name: .buildingUpdated, object: nil)
     }
     
+    // MARK: - Testing Helper Methods
+    
+    #if DEBUG
+    func activateBuildingForTesting(_ buildingType: BuildingType) {
+        if let building = base.buildings.first(where: { $0.type == buildingType }) {
+            var updatedBuilding = building
+            updatedBuilding.state = .active
+            updateBuilding(updatedBuilding)
+            print("🏗️ BaseBuildingService: Activated \(buildingType.rawValue) for testing")
+        }
+    }
+    
+    func activateAllBuildingsForTesting() {
+        for building in base.buildings {
+            var updatedBuilding = building
+            updatedBuilding.state = .active
+            updateBuilding(updatedBuilding)
+        }
+        print("🏗️ BaseBuildingService: Activated all buildings for testing")
+    }
+    #endif
+    
     func checkConstructionProgress() {
         var hasChanges = false
         

@@ -13,13 +13,19 @@ final class BuildingBoosterManager: ObservableObject {
     static let shared = BuildingBoosterManager()
     
     private let baseBuildingService: BaseBuildingService
-    private let boosterManager: BoosterManager
+    private var boosterManager: BoosterManager?
     
     private init() {
         self.baseBuildingService = BaseBuildingService(context: PersistenceController.shared.container.viewContext)
-        self.boosterManager = BoosterManager.shared
+        // Don't access BoosterManager.shared during init to avoid circular dependency
+        self.boosterManager = nil
         setupObservers()
-        refreshBuildingBoosters()
+        
+        // Initialize boosterManager and refresh boosters after initialization
+        DispatchQueue.main.async { [weak self] in
+            self?.boosterManager = BoosterManager.shared
+            self?.refreshBuildingBoosters()
+        }
     }
     
     deinit {
@@ -49,13 +55,25 @@ final class BuildingBoosterManager: ObservableObject {
         }
     }
     
-    private func calculateBuildingBoosters() {
+        private func calculateBuildingBoosters() {
+        guard let boosterManager = boosterManager else {
+            print("🏗️ BuildingBoosterManager: BoosterManager not available yet")
+            return
+        }
+        
+        // Clear all existing building boosters first
+        boosterManager.clearAllBuildingBoosters()
+
         let base = baseBuildingService.loadBase()
         let activeBuildings = base.buildings.filter { $0.state == .active }
-        
+
+        print("🏗️ BuildingBoosterManager: Found \(activeBuildings.count) active buildings out of \(base.buildings.count) total buildings")
+
         for building in activeBuildings {
+            print("🏗️ BuildingBoosterManager: Processing building \(building.type.rawValue) (Level \(building.level))")
             let booster = createBuildingBooster(for: building)
             if let booster = booster {
+                print("🏗️ BuildingBoosterManager: Adding booster for \(booster.sourceName) - \(booster.type.rawValue) x\(booster.multiplier)")
                 boosterManager.addBuildingBooster(
                     type: booster.type,
                     multiplier: booster.multiplier,
@@ -65,6 +83,8 @@ final class BuildingBoosterManager: ObservableObject {
                 )
             }
         }
+
+        print("🏗️ BuildingBoosterManager: Total boosters after calculation: \(boosterManager.activeBoosters.filter { $0.source == .building }.count)")
     }
     
     private func createBuildingBooster(for building: Building) -> BoosterEffect? {
@@ -78,7 +98,7 @@ final class BuildingBoosterManager: ObservableObject {
                 source: .building,
                 multiplier: multiplier,
                 flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
+                sourceId: "\(building.type.rawValue)_\(building.level)",
                 sourceName: "Castle (Lv.\(building.level))"
             )
             
@@ -91,7 +111,7 @@ final class BuildingBoosterManager: ObservableObject {
                 source: .building,
                 multiplier: multiplier,
                 flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
+                sourceId: "\(building.type.rawValue)_\(building.level)",
                 sourceName: "House (Lv.\(building.level))"
             )
             
@@ -104,7 +124,7 @@ final class BuildingBoosterManager: ObservableObject {
                 source: .building,
                 multiplier: multiplier,
                 flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
+                sourceId: "\(building.type.rawValue)_\(building.level)",
                 sourceName: "Gold Mine (Lv.\(building.level))"
             )
             
@@ -117,7 +137,7 @@ final class BuildingBoosterManager: ObservableObject {
                 source: .building,
                 multiplier: multiplier,
                 flatBonus: flatBonus,
-                sourceId: building.type.rawValue,
+                sourceId: "\(building.type.rawValue)_\(building.level)",
                 sourceName: "Tower (Lv.\(building.level))"
             )
         }

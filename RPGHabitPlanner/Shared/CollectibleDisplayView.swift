@@ -93,7 +93,8 @@ struct CollectibleDisplayView: View {
         }
         // Present only when selectedItemEntity is non-nil (prevents blank first frame)
         .sheet(item: $selectedItemEntity) { itemEntity in
-            CollectibleItemDetailView(itemEntity: itemEntity)
+            UnifiedItemDetailView(item: itemEntity)
+                .environmentObject(inventoryManager)
                 .environmentObject(themeManager)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
@@ -225,86 +226,6 @@ struct EmptyCollectibleSlot: View {
     }
 }
 
-// MARK: - Collectible Item Detail View
-
-struct CollectibleItemDetailView: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @Environment(\.dismiss) private var dismiss
-    let itemEntity: ItemEntity
-    
-    var body: some View {
-        let theme = themeManager.activeTheme
-        
-        ZStack {
-            theme.backgroundColor
-                .ignoresSafeArea()
-            
-            VStack(spacing: 20) {
-                // Header with close button
-                HStack {
-                    Text("Item Details")
-                        .font(.appFont(size: 18, weight: .black))
-                        .foregroundColor(theme.textColor)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(theme.textColor.opacity(0.6))
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                
-                // Item icon
-                Image(itemEntity.iconName ?? "")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .foregroundColor(theme.textColor)
-                    .shadow(radius: 4)
-                
-                // Item details
-                VStack(spacing: 12) {
-                    Text(itemEntity.name ?? "Unknown")
-                        .font(.appFont(size: 20, weight: .black))
-                        .foregroundColor(theme.textColor)
-                        .multilineTextAlignment(.center)
-                    
-                    Text(itemEntity.info ?? "No description available")
-                        .font(.appFont(size: 14, weight: .medium))
-                        .foregroundColor(theme.textColor.opacity(0.8))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 20)
-                    
-                    // Item type badge
-                    HStack {
-                        Image(systemName: "trophy.fill")
-                            .foregroundColor(.yellow)
-                        Text("Collectible")
-                            .font(.appFont(size: 12, weight: .black))
-                            .foregroundColor(.yellow)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.yellow.opacity(0.2))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.yellow, lineWidth: 1)
-                            )
-                    )
-                }
-                
-                Spacer(minLength: 0)
-            }
-        }
-    }
-}
 
 // MARK: - Add Collectible Item View
 

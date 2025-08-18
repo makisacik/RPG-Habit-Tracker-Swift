@@ -74,7 +74,7 @@ struct InventoryView: View {
         }
         .sheet(isPresented: $showItemDetail) {
             if let item = selectedItem {
-                InventoryItemDetailView(item: item)
+                UnifiedItemDetailView(item: item)
                     .environmentObject(inventoryManager)
                     .environmentObject(themeManager)
                     .presentationDetents([.medium])
@@ -84,108 +84,6 @@ struct InventoryView: View {
     }
 }
 
-// MARK: - Inventory Item Detail View
-
-struct InventoryItemDetailView: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var inventoryManager: InventoryManager
-    @Environment(\.dismiss) private var dismiss
-    let item: ItemEntity
-    @State private var isUsingItem = false
-    
-    var body: some View {
-        let theme = themeManager.activeTheme
-        
-        VStack(spacing: 20) {
-            // Item icon and name
-            VStack(spacing: 12) {
-                if let iconName = item.iconName {
-                    if iconName.contains("potion_health") {
-                        let rarity = getPotionRarity(from: iconName)
-                        HealthPotionIconView(rarity: rarity, size: 80)
-                    } else {
-                        Image(iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                    }
-                }
-                
-                Text(item.name ?? "Unknown Item")
-                    .font(.appFont(size: 20, weight: .black))
-                    .foregroundColor(theme.textColor)
-                    .multilineTextAlignment(.center)
-            }
-            
-            // Item description
-            if let info = item.info {
-                Text(info)
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.8))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-            }
-            
-            // Use button for consumable or booster items
-            if inventoryManager.isConsumable(item) || inventoryManager.isBooster(item) {
-                Button(action: {
-                    useItem()
-                }) {
-                    HStack {
-                        Image(systemName: "bolt.fill")
-                            .font(.system(size: 16))
-                        Text("Use")
-                            .font(.appFont(size: 16, weight: .black))
-                    }
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(theme.accentColor)
-                    )
-                }
-                .disabled(isUsingItem)
-                .opacity(isUsingItem ? 0.6 : 1.0)
-            }
-            
-            Spacer()
-        }
-        .padding()
-        .background(theme.backgroundColor)
-    }
-    
-    private func useItem() {
-        isUsingItem = true
-        
-        inventoryManager.useItem(item) { success, error in
-            DispatchQueue.main.async {
-                isUsingItem = false
-                
-                if success {
-                    dismiss()
-                } else {
-                    // Handle error - could show an alert here
-                    print("Failed to use item: \(error?.localizedDescription ?? "Unknown error")")
-                }
-            }
-        }
-    }
-    
-    private func getPotionRarity(from iconName: String) -> ItemRarity {
-        if iconName.contains("legendary") {
-            return .legendary
-        } else if iconName.contains("superior") {
-            return .epic
-        } else if iconName.contains("greater") {
-            return .rare
-        } else if iconName.contains("health") && !iconName.contains("minor") {
-            return .uncommon
-        } else {
-            return .common
-        }
-    }
-}
 
 // MARK: - Inventory Slot View
 

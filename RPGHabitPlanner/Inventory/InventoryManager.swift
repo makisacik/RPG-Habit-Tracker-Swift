@@ -250,16 +250,9 @@ class DefaultItemUsageHandler: ItemUsageHandler {
         )
 
         // Add to inventory manager's active effects
+        // The BoosterManager will automatically pick this up via calculateItemBoosters()
         inventoryManager?.addActiveEffect(activeEffect)
         
-        // Also add to booster manager for consistency
-        boosterManager.addTemporaryBooster(
-            type: .experience,
-            multiplier: multiplier,
-            flatBonus: 0,
-            duration: duration,
-            sourceName: sourceName
-        )
         completion(true, nil)
     }
     
@@ -279,16 +272,9 @@ class DefaultItemUsageHandler: ItemUsageHandler {
         )
 
         // Add to inventory manager's active effects
+        // The BoosterManager will automatically pick this up via calculateItemBoosters()
         inventoryManager?.addActiveEffect(activeEffect)
         
-        // Also add to booster manager for consistency
-        boosterManager.addTemporaryBooster(
-            type: .coins,
-            multiplier: multiplier,
-            flatBonus: 0,
-            duration: duration,
-            sourceName: sourceName
-        )
         completion(true, nil)
     }
 }

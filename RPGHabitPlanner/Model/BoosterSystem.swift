@@ -127,7 +127,19 @@ struct BoosterEffect: Identifiable, Codable {
 // MARK: - Booster Manager
 
 final class BoosterManager: ObservableObject {
-    static let shared = BoosterManager()
+    private static var _shared: BoosterManager?
+    private static let lock = NSLock()
+    
+    static var shared: BoosterManager {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        if _shared == nil {
+            _shared = BoosterManager()
+            print("🚀 BoosterManager: Singleton initialized")
+        }
+        return _shared!
+    }
     
     @Published var activeBoosters: [BoosterEffect] = []
     @Published var totalExperienceMultiplier: Double = 1.0
@@ -135,13 +147,16 @@ final class BoosterManager: ObservableObject {
     @Published var totalExperienceBonus: Int = 0
     @Published var totalCoinsBonus: Int = 0
     
-    private lazy var inventoryManager = InventoryManager.shared
+    private lazy var inventoryManager: InventoryManager = {
+        return InventoryManager.shared
+    }()
     private var cleanupTimer: Timer?
     
     private init() {
         setupObservers()
         setupCleanupTimer()
-        refreshBoosters()
+        // Don't call refreshBoosters() during init to avoid circular dependency
+        // Building boosters will be loaded separately after initialization
     }
     
     deinit {
@@ -153,7 +168,24 @@ final class BoosterManager: ObservableObject {
     
     func refreshBoosters() {
         calculateItemBoosters()
+        // Ensure building boosters are refreshed
+        BuildingBoosterManager.shared.refreshBuildingBoosters()
         updateTotalBoosters()
+    }
+    
+    func ensureBuildingBoostersLoaded() {
+        print("🚀 BoosterManager: Ensuring building boosters are loaded")
+        
+        // Ensure we're on the main thread for UI updates
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            BuildingBoosterManager.shared.refreshBuildingBoosters()
+            self.updateTotalBoosters()
+            print("🚀 BoosterManager: Total active boosters: \(self.activeBoosters.count)")
+            print("🚀 BoosterManager: Building boosters: \(self.activeBoosters.filter { $0.source == .building }.count)")
+            print("🚀 BoosterManager: Item boosters: \(self.activeBoosters.filter { $0.source == .item }.count)")
+        }
     }
     
     func calculateBoostedRewards(baseExperience: Int, baseCoins: Int) -> (experience: Int, coins: Int) {
@@ -226,6 +258,11 @@ final class BoosterManager: ObservableObject {
         activeBoosters.removeAll { $0.sourceId == buildingId }
         updateTotalBoosters()
     }
+
+    func clearAllBuildingBoosters() {
+        activeBoosters.removeAll { $0.source == .building }
+        updateTotalBoosters()
+    }
     
     func clearExpiredBoosters() {
         let expiredCount = activeBoosters.count
@@ -245,6 +282,13 @@ final class BoosterManager: ObservableObject {
             name: .activeEffectsChanged,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleBuildingUpdate),
+            name: .buildingUpdated,
+            object: nil
+        )
     }
     
     private func setupCleanupTimer() {
@@ -255,6 +299,12 @@ final class BoosterManager: ObservableObject {
     }
     
     @objc private func handleActiveEffectsChanged() {
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshBoosters()
+        }
+    }
+
+    @objc private func handleBuildingUpdate() {
         DispatchQueue.main.async { [weak self] in
             self?.refreshBoosters()
         }
@@ -323,19 +373,29 @@ final class BoosterManager: ObservableObject {
         // Get all active boosters (excluding expired ones)
         let activeBoosters = self.activeBoosters.filter { $0.isActive && !$0.isExpired }
         
-        // Calculate total experience boosters
+        // Calculate total experience boosters by adding percentages
         let expBoosters = activeBoosters.filter { $0.type == .experience || $0.type == .both }
+        var totalExpPercentage = 0.0
         for booster in expBoosters {
-            totalExperienceMultiplier *= booster.multiplier
+            // Convert multiplier to percentage and add it
+            let percentage = (booster.multiplier - 1.0) * 100.0
+            totalExpPercentage += percentage
             totalExperienceBonus += booster.flatBonus
         }
+        // Convert total percentage back to multiplier
+        totalExperienceMultiplier = 1.0 + (totalExpPercentage / 100.0)
         
-        // Calculate total coin boosters
+        // Calculate total coin boosters by adding percentages
         let coinBoosters = activeBoosters.filter { $0.type == .coins || $0.type == .both }
+        var totalCoinPercentage = 0.0
         for booster in coinBoosters {
-            totalCoinsMultiplier *= booster.multiplier
+            // Convert multiplier to percentage and add it
+            let percentage = (booster.multiplier - 1.0) * 100.0
+            totalCoinPercentage += percentage
             totalCoinsBonus += booster.flatBonus
         }
+        // Convert total percentage back to multiplier
+        totalCoinsMultiplier = 1.0 + (totalCoinPercentage / 100.0)
         
         // Post notification for UI updates
         NotificationCenter.default.post(name: .boostersUpdated, object: nil)
