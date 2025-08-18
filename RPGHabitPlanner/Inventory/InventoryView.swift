@@ -35,7 +35,7 @@ struct InventoryView: View {
                         .foregroundColor(theme.textColor)
                         .padding(.vertical, 6)
                         .padding(.horizontal, 14)
-                        .background(RoundedRectangle(cornerRadius: 6).fill(Color.purple.opacity(0.8)))
+                        .background(RoundedRectangle(cornerRadius: 6).fill(theme.secondaryColor.opacity(0.8)))
 
                     Spacer()
 
@@ -433,7 +433,7 @@ struct InventorySlotView: View {
                     )
                     .background(
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.purple.opacity(0.3))
+                            .fill(theme.secondaryColor.opacity(0.3))
                     )
 
                 if let item = item {
