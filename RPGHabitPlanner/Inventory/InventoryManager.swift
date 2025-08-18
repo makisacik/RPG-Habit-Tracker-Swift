@@ -43,13 +43,14 @@ class InventoryManager: ObservableObject {
     
     private let service: InventoryServiceProtocol
     private let itemDatabase = ItemDatabase.shared
-    private let usageHandler: ItemUsageHandler
+    private lazy var usageHandler: ItemUsageHandler = {
+        return DefaultItemUsageHandler(inventoryManager: self)
+    }()
     
     // MARK: - Initialization
     
     private init() {
         self.service = InventoryService(container: PersistenceController.shared.container)
-        self.usageHandler = DefaultItemUsageHandler()
         refreshInventory()
     }
     
@@ -194,6 +195,11 @@ class InventoryManager: ObservableObject {
 class DefaultItemUsageHandler: ItemUsageHandler {
     private lazy var healthManager = HealthManager.shared
     private lazy var boosterManager = BoosterManager.shared
+    private weak var inventoryManager: InventoryManager?
+    
+    init(inventoryManager: InventoryManager? = nil) {
+        self.inventoryManager = inventoryManager
+    }
     
     func useItem(_ item: Item, completion: @escaping (Bool, Error?) -> Void) {
         guard let usageData = item.usageData else {
@@ -229,6 +235,24 @@ class DefaultItemUsageHandler: ItemUsageHandler {
     }
     
     private func useXPBoost(multiplier: Double, duration: TimeInterval, sourceName: String, completion: @escaping (Bool, Error?) -> Void) {
+        // Create an ActiveEffect for the inventory manager
+        let itemEffect = ItemEffect(
+            type: .xpBoost,
+            value: Int((multiplier - 1.0) * 100), // Convert multiplier to percentage
+            duration: duration,
+            isPercentage: true
+        )
+        
+        let activeEffect = ActiveEffect(
+            effect: itemEffect,
+            sourceItemId: UUID(), // Generate a unique ID for this effect
+            duration: duration
+        )
+
+        // Add to inventory manager's active effects
+        inventoryManager?.addActiveEffect(activeEffect)
+        
+        // Also add to booster manager for consistency
         boosterManager.addTemporaryBooster(
             type: .experience,
             multiplier: multiplier,
@@ -240,6 +264,24 @@ class DefaultItemUsageHandler: ItemUsageHandler {
     }
     
     private func useCoinBoost(multiplier: Double, duration: TimeInterval, sourceName: String, completion: @escaping (Bool, Error?) -> Void) {
+        // Create an ActiveEffect for the inventory manager
+        let itemEffect = ItemEffect(
+            type: .coinBoost,
+            value: Int((multiplier - 1.0) * 100), // Convert multiplier to percentage
+            duration: duration,
+            isPercentage: true
+        )
+        
+        let activeEffect = ActiveEffect(
+            effect: itemEffect,
+            sourceItemId: UUID(), // Generate a unique ID for this effect
+            duration: duration
+        )
+
+        // Add to inventory manager's active effects
+        inventoryManager?.addActiveEffect(activeEffect)
+        
+        // Also add to booster manager for consistency
         boosterManager.addTemporaryBooster(
             type: .coins,
             multiplier: multiplier,

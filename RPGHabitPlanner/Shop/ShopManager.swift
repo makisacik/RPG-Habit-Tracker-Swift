@@ -18,43 +18,80 @@ final class ShopManager: ObservableObject {
 
     // MARK: - Shop Items
 
-    private let shopItems: [ShopItem] = [
-        // Weapons
-        ShopItem(name: "Iron Sword", description: "A reliable iron sword for basic combat", iconName: "icon_sword", price: 100, rarity: .common, category: .weapons),
-        ShopItem(name: "Steel Axe", description: "A powerful steel axe for heavy damage", iconName: "icon_axe", price: 250, rarity: .uncommon, category: .weapons),
-        ShopItem(name: "Magic Bow", description: "A bow imbued with magical properties", iconName: "icon_bow", price: 500, rarity: .rare, category: .weapons),
-        ShopItem(name: "Dragon Slayer", description: "Legendary sword that can slay dragons", iconName: "icon_sword_double", price: 2000, rarity: .legendary, category: .weapons),
+    private lazy var shopItems: [ShopItem] = {
+        let itemDatabase = ItemDatabase.shared
 
-        // Armor
-        ShopItem(name: "Leather Armor", description: "Light leather armor for mobility", iconName: "icon_armor", price: 150, rarity: .common, category: .armor),
-        ShopItem(name: "Steel Helmet", description: "Protective steel helmet", iconName: "icon_helmet", price: 300, rarity: .uncommon, category: .armor),
-        ShopItem(name: "Magic Robes", description: "Enchanted robes with magical protection", iconName: "icon_helmet_witch", price: 800, rarity: .epic, category: .armor),
+        // Convert ItemDatabase items to ShopItems
+        var items: [ShopItem] = []
 
-        // Potions
-        ShopItem(name: "Health Potion", description: "Restores health points", iconName: "icon_flash_red", price: 50, rarity: .common, category: .potions),
-        ShopItem(name: "Mana Potion", description: "Restores magical energy", iconName: "icon_flask_blue", price: 75, rarity: .common, category: .potions),
-        ShopItem(name: "Elixir of Life", description: "Powerful healing elixir", iconName: "icon_flash_green", price: 200, rarity: .rare, category: .potions),
+        // Add all health potions
+        for potion in ItemDatabase.allHealthPotions {
+            items.append(ShopItem(
+                name: potion.name,
+                description: potion.description,
+                iconName: potion.iconName,
+                price: potion.value,
+                rarity: potion.rarity,
+                category: .potions,
+                effects: potion.effects
+            ))
+        }
 
-        // XP Boosts
-        ShopItem(name: "Minor XP Boost", description: "Increases XP gain by 25% for 30 minutes", iconName: "icon_xp_boost_minor", price: 75, rarity: .common, category: .boosts),
-        ShopItem(name: "XP Boost", description: "Increases XP gain by 50% for 1 hour", iconName: "icon_xp_boost", price: 150, rarity: .uncommon, category: .boosts),
-        ShopItem(name: "Greater XP Boost", description: "Increases XP gain by 100% for 2 hours", iconName: "icon_xp_boost_greater", price: 300, rarity: .rare, category: .boosts),
-        ShopItem(name: "Legendary XP Boost", description: "Increases XP gain by 200% for 4 hours", iconName: "icon_xp_boost_legendary", price: 600, rarity: .legendary, category: .boosts),
+        // Add all XP boosts
+        for boost in ItemDatabase.allXPBoosts {
+            items.append(ShopItem(
+                name: boost.name,
+                description: boost.description,
+                iconName: boost.iconName,
+                price: boost.value,
+                rarity: boost.rarity,
+                category: .boosts,
+                effects: boost.effects
+            ))
+        }
 
-        // Coin Boosts
-        ShopItem(name: "Minor Coin Boost", description: "Increases coin gain by 25% for 30 minutes", iconName: "icon_coin_boost_minor", price: 100, rarity: .common, category: .boosts),
-        ShopItem(name: "Coin Boost", description: "Increases coin gain by 50% for 1 hour", iconName: "icon_coin_boost", price: 200, rarity: .uncommon, category: .boosts),
-        ShopItem(name: "Greater Coin Boost", description: "Increases coin gain by 100% for 2 hours", iconName: "icon_coin_boost_greater", price: 400, rarity: .rare, category: .boosts),
+        // Add all coin boosts
+        for boost in ItemDatabase.allCoinBoosts {
+            items.append(ShopItem(
+                name: boost.name,
+                description: boost.description,
+                iconName: boost.iconName,
+                price: boost.value,
+                rarity: boost.rarity,
+                category: .boosts,
+                effects: boost.effects
+            ))
+        }
 
-        // Accessories
-        ShopItem(name: "Lucky Charm", description: "Increases luck and critical hits", iconName: "icon_medal", price: 400, rarity: .uncommon, category: .accessories),
-        ShopItem(name: "Royal Crown", description: "Symbol of power and authority", iconName: "icon_crown", price: 1500, rarity: .epic, category: .accessories),
-        ShopItem(name: "Golden Key", description: "Opens special treasure chests", iconName: "icon_key_gold", price: 300, rarity: .rare, category: .accessories),
+        // Add some collectible items (weapons, armor, accessories)
+        let collectibleItems = [
+            "Sword", "Axe", "Bow", "Shield", "Helmet", "Crown", "Medal", "Key Gold", "Egg", "Pumpkin"
+        ]
 
-        // Special Items
-        ShopItem(name: "Mystery Egg", description: "What's inside? Only time will tell", iconName: "icon_egg", price: 1000, rarity: .epic, category: .special),
-        ShopItem(name: "Pumpkin of Fortune", description: "A magical pumpkin with unknown powers", iconName: "icon_pumpkin", price: 750, rarity: .rare, category: .special)
-    ]
+        for itemName in collectibleItems {
+            if let item = itemDatabase.findItem(by: itemName) {
+                let category: ShopCategory
+                switch item.collectionCategory {
+                case "Weapons": category = .weapons
+                case "Armor": category = .armor
+                case "Accessories", "Royalty": category = .accessories
+                default: category = .special
+                }
+
+                items.append(ShopItem(
+                    name: item.name,
+                    description: item.description,
+                    iconName: item.iconName,
+                    price: item.value,
+                    rarity: item.rarity,
+                    category: category,
+                    effects: item.effects
+                ))
+            }
+        }
+
+        return items
+    }()
 
     // MARK: - Public Methods
 
@@ -71,7 +108,14 @@ final class ShopManager: ObservableObject {
     }
 
     func purchaseItem(_ item: ShopItem, completion: @escaping (Bool, String?) -> Void) {
-        currencyManager.spendCoins(item.price) { success, error in
+        // In debug mode, all items cost 1 coin
+        #if DEBUG
+        let actualPrice = 1
+        #else
+        let actualPrice = item.price
+        #endif
+
+        currencyManager.spendCoins(actualPrice) { success, error in
             if success {
                 // Add item to inventory
                 let inventoryItem = Item(name: item.name, description: item.description, iconName: item.iconName)
@@ -89,9 +133,16 @@ final class ShopManager: ObservableObject {
     }
 
     func canAffordItem(_ item: ShopItem, completion: @escaping (Bool) -> Void) {
+        // In debug mode, all items cost 1 coin
+        #if DEBUG
+        let actualPrice = 1
+        #else
+        let actualPrice = item.price
+        #endif
+
         currencyManager.getCurrentCoins { coins, _ in
             DispatchQueue.main.async {
-                completion(coins >= item.price)
+                completion(coins >= actualPrice)
             }
         }
     }
@@ -105,7 +156,21 @@ final class ShopManager: ObservableObject {
     }
 
     func getDiscountedPrice(for item: ShopItem, discount: Double = 0.2) -> Int {
+        // In debug mode, all items cost 1 coin
+        #if DEBUG
+        return 1
+        #else
         return Int(Double(item.price) * (1.0 - discount))
+        #endif
+    }
+
+    func getDisplayPrice(for item: ShopItem) -> Int {
+        // In debug mode, all items cost 1 coin
+        #if DEBUG
+        return 1
+        #else
+        return item.price
+        #endif
     }
 
     // MARK: - Item Type Detection

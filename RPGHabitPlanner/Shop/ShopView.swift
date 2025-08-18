@@ -147,7 +147,7 @@ struct ShopView: View {
                 ForEach(items) { item in
                     ShopItemCard(
                         item: item,
-                        canAfford: currencyManager.currentCoins >= item.price,
+                        canAfford: currencyManager.currentCoins >= shopManager.getDisplayPrice(for: item),
                         onTap: {
                             selectedItem = item
                             showItemDetails = true
@@ -265,7 +265,7 @@ struct ShopItemCard: View {
                         .resizable()
                         .frame(width: 16, height: 16)
                     
-                    Text("\(item.price)")
+                    Text("\(shopManager.getDisplayPrice(for: item))")
                         .font(.appFont(size: 14, weight: .black))
                         .foregroundColor(canAfford ? .yellow : .red)
                 }
@@ -311,6 +311,7 @@ struct ShopItemCard: View {
 struct ItemDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var shopManager = ShopManager.shared
     let item: ShopItem
     let onPurchase: () -> Void
     @State private var isPressed = false
@@ -371,7 +372,7 @@ struct ItemDetailView: View {
                             .resizable()
                             .frame(width: 24, height: 24)
                         
-                        Text("\(item.price)")
+                        Text("\(shopManager.getDisplayPrice(for: item))")
                             .font(.appFont(size: 20, weight: .black))
                             .foregroundColor(.yellow)
                     }
@@ -389,7 +390,7 @@ struct ItemDetailView: View {
                         dismiss()
                     }
                 }) {
-                    Text("Purchase for \(item.price) Coins")
+                    Text("Purchase for \(shopManager.getDisplayPrice(for: item)) Coins")
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

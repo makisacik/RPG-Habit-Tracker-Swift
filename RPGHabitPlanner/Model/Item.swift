@@ -146,7 +146,7 @@ struct Item: GameItem {
         return Item(
             name: name,
             description: description,
-            iconName: "icon_flask_blue",
+            iconName: "icon_lightning",
             rarity: rarity,
             itemType: .booster,
             value: value,
