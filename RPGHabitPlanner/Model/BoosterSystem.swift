@@ -241,8 +241,14 @@ final class BoosterManager: ObservableObject {
         buildingId: String,
         buildingName: String
     ) {
+        print("🚀 BoosterManager: Adding building booster - \(buildingName) (ID: \(buildingId)) - \(type.rawValue) x\(multiplier)")
+        
         // Remove existing building booster with same ID
+        let removedCount = activeBoosters.filter { $0.sourceId == buildingId }.count
         activeBoosters.removeAll { $0.sourceId == buildingId }
+        if removedCount > 0 {
+            print("🚀 BoosterManager: Removed \(removedCount) existing boosters with ID \(buildingId)")
+        }
         
         let booster = BoosterEffect(
             type: type,
@@ -254,7 +260,10 @@ final class BoosterManager: ObservableObject {
         )
         
         activeBoosters.append(booster)
+        print("🚀 BoosterManager: Added booster - Total building boosters: \(activeBoosters.filter { $0.source == .building }.count)")
         updateTotalBoosters()
+        // Force UI update for building booster changes
+        objectWillChange.send()
     }
     
     func removeBooster(id: UUID) {
@@ -270,6 +279,8 @@ final class BoosterManager: ObservableObject {
     func clearAllBuildingBoosters() {
         activeBoosters.removeAll { $0.source == .building }
         updateTotalBoosters()
+        // Force UI update for building booster changes
+        objectWillChange.send()
     }
     
     func clearExpiredBoosters() {
@@ -376,6 +387,8 @@ final class BoosterManager: ObservableObject {
     }
     
     private func updateTotalBoosters() {
+        print("🚀 BoosterManager: updateTotalBoosters called")
+        
         // First, clear expired boosters
         clearExpiredBoosters()
         
@@ -412,7 +425,9 @@ final class BoosterManager: ObservableObject {
         // Convert total percentage back to multiplier
         totalCoinsMultiplier = 1.0 + (totalCoinPercentage / 100.0)
         
-        // Post notification for UI updates
+        // Force UI update and post notification for UI updates
+        print("🚀 BoosterManager: Sending objectWillChange and boostersUpdated notification")
+        objectWillChange.send()
         NotificationCenter.default.post(name: .boostersUpdated, object: nil)
     }
 }

@@ -10,38 +10,45 @@ import SwiftUI
 struct BoosterDisplayView: View {
     @ObservedObject private var boosterManager = BoosterManager.shared
     @StateObject private var themeManager = ThemeManager.shared
+    @State private var refreshTrigger = false
     
     var body: some View {
-        if !boosterManager.activeBoosters.isEmpty {
-            VStack(spacing: 8) {
-                HStack {
-                    Image(systemName: "bolt.fill")
-                        .foregroundColor(.yellow)
-                        .font(.system(size: 14, weight: .bold))
+        Group {
+            if !boosterManager.activeBoosters.isEmpty {
+                VStack(spacing: 8) {
+                    HStack {
+                        Image(systemName: "bolt.fill")
+                            .foregroundColor(.yellow)
+                            .font(.system(size: 14, weight: .bold))
+
+                        Text("Active Boosters")
+                            .font(.appFont(size: 14, weight: .bold))
+                            .foregroundColor(themeManager.activeTheme.textColor)
+
+                        Spacer()
+                    }
                     
-                    Text("Active Boosters")
-                        .font(.appFont(size: 14, weight: .bold))
-                        .foregroundColor(themeManager.activeTheme.textColor)
-                    
-                    Spacer()
-                }
-                
-                LazyVStack(spacing: 6) {
-                    ForEach(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }) { booster in
-                        BoosterItemView(booster: booster)
+                    LazyVStack(spacing: 6) {
+                        ForEach(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }) { booster in
+                            BoosterItemView(booster: booster)
+                        }
                     }
                 }
+                .padding(12)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(themeManager.activeTheme.backgroundColor.opacity(0.9))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                        )
+                )
+                .transition(.scale.combined(with: .opacity))
             }
-            .padding(12)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(themeManager.activeTheme.backgroundColor.opacity(0.9))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                    )
-            )
-            .transition(.scale.combined(with: .opacity))
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
+            print("🔄 BoosterDisplayView: Received boostersUpdated notification")
+            refreshTrigger.toggle()
         }
     }
 }

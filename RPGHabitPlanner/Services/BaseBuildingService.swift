@@ -34,6 +34,8 @@ class BaseBuildingService: BaseBuildingServiceProtocol, ObservableObject {
     // MARK: - Public Methods
     
     func loadBase() -> Base {
+        // Reload from Core Data to ensure we have the latest data
+        loadBaseFromCoreData()
         return base
     }
     

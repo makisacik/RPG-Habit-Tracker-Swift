@@ -11,60 +11,67 @@ struct ActiveEffectsWidget: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var boosterManager: BoosterManager
     @State private var showAllEffects = false
+    @State private var refreshTrigger = false
     
     var body: some View {
         let theme = themeManager.activeTheme
         
-        if !boosterManager.activeBoosters.isEmpty {
-            VStack(spacing: 8) {
-                // Header
-                HStack {
-                    Image(systemName: "bolt.fill")
-                        .font(.system(size: 14))
-                        .foregroundColor(.yellow)
-                    
-                    Text("Active Boosters")
-                        .font(.appFont(size: 14, weight: .black))
-                        .foregroundColor(theme.textColor)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            showAllEffects.toggle()
-                        }
-                    }) {
-                        Image(systemName: showAllEffects ? "chevron.up" : "chevron.down")
-                            .font(.system(size: 12))
+        Group {
+            if !boosterManager.activeBoosters.isEmpty {
+                VStack(spacing: 8) {
+                    // Header
+                    HStack {
+                        Image(systemName: "bolt.fill")
+                            .font(.system(size: 14))
                             .foregroundColor(.yellow)
-                    }
-                }
-                
-                // Effects list
-                if showAllEffects {
-                    VStack(spacing: 6) {
-                        ForEach(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }) { booster in
-                            BoosterWidgetRow(booster: booster)
-                                .environmentObject(themeManager)
+
+                        Text("Active Boosters")
+                            .font(.appFont(size: 14, weight: .black))
+                            .foregroundColor(theme.textColor)
+
+                        Spacer()
+
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                showAllEffects.toggle()
+                            }
+                        }) {
+                            Image(systemName: showAllEffects ? "chevron.up" : "chevron.down")
+                                .font(.system(size: 12))
+                                .foregroundColor(.yellow)
                         }
                     }
-                    .transition(.move(edge: .top).combined(with: .opacity))
-                } else {
-                    // Compact view - show only the most important booster
-                    if let mostImportantBooster = getMostImportantBooster() {
-                        BoosterWidgetRow(booster: mostImportantBooster, isCompact: true)
-                            .environmentObject(themeManager)
-                            .transition(.move(edge: .top).combined(with: .opacity))
+
+                    // Effects list
+                    if showAllEffects {
+                        VStack(spacing: 6) {
+                            ForEach(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }) { booster in
+                                BoosterWidgetRow(booster: booster)
+                                    .environmentObject(themeManager)
+                            }
+                        }
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                    } else {
+                        // Compact view - show only the most important booster
+                        if let mostImportantBooster = getMostImportantBooster() {
+                            BoosterWidgetRow(booster: mostImportantBooster, isCompact: true)
+                                .environmentObject(themeManager)
+                                .transition(.move(edge: .top).combined(with: .opacity))
+                        }
                     }
                 }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.secondaryColor)
+                        .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
+                )
+                .padding(.horizontal)
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.secondaryColor)
-                    .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
-            )
-            .padding(.horizontal)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
+            print("🔄 ActiveEffectsWidget: Received boostersUpdated notification")
+            refreshTrigger.toggle()
         }
     }
     

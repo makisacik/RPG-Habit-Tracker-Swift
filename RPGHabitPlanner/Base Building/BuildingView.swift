@@ -124,7 +124,7 @@ struct VillageBuildingView: View {
                         .foregroundColor(.yellow)
                         .font(.system(size: 10))
                     
-                    Text("Tap to Complete!")
+                    Text(building.constructionStartTime != nil ? "Tap to Complete Upgrade!" : "Tap to Complete!")
                         .font(.appFont(size: 8, weight: .bold))
                         .foregroundColor(.yellow)
                 }
@@ -350,7 +350,7 @@ struct BuildingDetailBottomSheet: View {
             if building.state == .construction {
                 VStack(spacing: 12) {
                     HStack {
-                        Text("Construction Progress")
+                        Text(building.constructionStartTime != nil ? "Upgrade Progress" : "Construction Progress")
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                         
@@ -513,7 +513,7 @@ struct BuildingDetailBottomSheet: View {
             }
             
             if building.state == .readyToComplete {
-                Button("Complete Construction") {
+                Button(building.constructionStartTime != nil ? "Complete Upgrade" : "Complete Construction") {
                     viewModel.completeConstruction(for: building)
                     dismiss()
                 }
@@ -530,11 +530,10 @@ struct BuildingDetailBottomSheet: View {
                         .opacity(isCompleteButtonPressed ? 0.7 : 1.0)
                 )
                 .buttonStyle(PlainButtonStyle())
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { _ in isCompleteButtonPressed = true }
-                        .onEnded { _ in isCompleteButtonPressed = false }
-                )
+                .onTapGesture {
+                    viewModel.completeConstruction(for: building)
+                    dismiss()
+                }
             }
             
             if building.canUpgrade && building.state == .active {
@@ -559,15 +558,12 @@ struct BuildingDetailBottomSheet: View {
                         )
                 )
                 .buttonStyle(PlainButtonStyle())
-                .simultaneousGesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { _ in
-                            if viewModel.canAffordUpgrade(building) {
-                                isUpgradeButtonPressed = true
-                            }
-                        }
-                        .onEnded { _ in isUpgradeButtonPressed = false }
-                )
+                .onTapGesture {
+                    if viewModel.canAffordUpgrade(building) {
+                        viewModel.upgradeBuilding(building)
+                        dismiss()
+                    }
+                }
                 .disabled(!viewModel.canAffordUpgrade(building))
             }
             
@@ -794,15 +790,12 @@ struct BuildingDetailView: View {
                                 )
                         )
                         .buttonStyle(PlainButtonStyle())
-                        .simultaneousGesture(
-                            DragGesture(minimumDistance: 0)
-                                .onChanged { _ in
-                                    if viewModel.canAffordUpgrade(building) {
-                                        isUpgradeButtonPressed = true
-                                    }
-                                }
-                                .onEnded { _ in isUpgradeButtonPressed = false }
-                        )
+                        .onTapGesture {
+                            if viewModel.canAffordUpgrade(building) {
+                                viewModel.upgradeBuilding(building)
+                                dismiss()
+                            }
+                        }
                         .disabled(!viewModel.canAffordUpgrade(building))
                     }
                     

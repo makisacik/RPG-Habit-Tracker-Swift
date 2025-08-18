@@ -11,6 +11,7 @@ struct BoosterInfoModalView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject private var boosterManager = BoosterManager.shared
     @Environment(\.dismiss) private var dismiss
+    @State private var refreshTrigger = false
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -65,6 +66,10 @@ struct BoosterInfoModalView: View {
                     .foregroundColor(theme.accentColor)
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
+                print("🔄 BoosterInfoModalView: Received boostersUpdated notification")
+                refreshTrigger.toggle()
+            }
         }
     }
     
@@ -102,7 +107,7 @@ struct BoosterInfoModalView: View {
                         .foregroundColor(.green)
                     
                     if boosterManager.totalExperienceBonus > 0 {
-                        Text("+\(boosterManager.totalExperienceBonus) flat")
+                        Text("+\(boosterManager.totalExperienceBonus)")
                             .font(.appFont(size: 12))
                             .foregroundColor(.green.opacity(0.8))
                     }
@@ -133,7 +138,7 @@ struct BoosterInfoModalView: View {
                         .foregroundColor(.yellow)
                     
                     if boosterManager.totalCoinsBonus > 0 {
-                        Text("+\(boosterManager.totalCoinsBonus) flat")
+                        Text("+\(boosterManager.totalCoinsBonus)")
                             .font(.appFont(size: 12))
                             .foregroundColor(.yellow.opacity(0.8))
                     }
@@ -207,7 +212,7 @@ struct BoosterInfoModalView: View {
                         .foregroundColor(boosterColor(for: booster.type))
                     
                     if booster.flatBonus > 0 {
-                        Text("+\(booster.flatBonus) flat")
+                        Text("+\(booster.flatBonus)")
                             .font(.appFont(size: 12))
                             .foregroundColor(boosterColor(for: booster.type).opacity(0.8))
                     }
@@ -256,7 +261,9 @@ struct BoosterInfoModalView: View {
     }
     
     private func getBuildingBoosters() -> [BoosterEffect] {
-        return boosterManager.activeBoosters.filter { $0.source == .building && $0.isActive && !$0.isExpired }
+        let buildingBoosters = boosterManager.activeBoosters.filter { $0.source == .building && $0.isActive && !$0.isExpired }
+        print("🔄 BoosterInfoModalView: Found \(buildingBoosters.count) building boosters: \(buildingBoosters.map { $0.sourceName })")
+        return buildingBoosters
     }
     
     private func getItemBoosters() -> [BoosterEffect] {

@@ -13,6 +13,7 @@ struct CharacterView: View {
     @StateObject private var inventoryManager = InventoryManager.shared
     @StateObject private var boosterManager = BoosterManager.shared
     @State private var showBoosterInfo = false
+    @State private var refreshTrigger = false
     let user: UserEntity
     
     var body: some View {
@@ -178,6 +179,10 @@ struct CharacterView: View {
         .sheet(isPresented: $showBoosterInfo) {
             BoosterInfoModalView()
                 .environmentObject(themeManager)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
+            print("🔄 CharacterView: Received boostersUpdated notification")
+            refreshTrigger.toggle()
         }
     }
 }

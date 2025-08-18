@@ -35,6 +35,7 @@ final class BuildingBoosterManager: ObservableObject {
     // MARK: - Public Methods
     
     func refreshBuildingBoosters() {
+        print("🏗️ BuildingBoosterManager: refreshBuildingBoosters called")
         calculateBuildingBoosters()
     }
     
@@ -61,6 +62,8 @@ final class BuildingBoosterManager: ObservableObject {
             return
         }
         
+        print("🏗️ BuildingBoosterManager: Starting building booster calculation")
+
         // Clear all existing building boosters first
         boosterManager.clearAllBuildingBoosters()
 
@@ -68,6 +71,9 @@ final class BuildingBoosterManager: ObservableObject {
         let activeBuildings = base.buildings.filter { $0.state == .active }
 
         print("🏗️ BuildingBoosterManager: Found \(activeBuildings.count) active buildings out of \(base.buildings.count) total buildings")
+        for building in base.buildings {
+            print("🏗️ BuildingBoosterManager: Building \(building.type.rawValue) - State: \(building.state), Level: \(building.level)")
+        }
 
         for building in activeBuildings {
             print("🏗️ BuildingBoosterManager: Processing building \(building.type.rawValue) (Level \(building.level))")
@@ -85,6 +91,12 @@ final class BuildingBoosterManager: ObservableObject {
         }
 
         print("🏗️ BuildingBoosterManager: Total boosters after calculation: \(boosterManager.activeBoosters.filter { $0.source == .building }.count)")
+        print("🏗️ BuildingBoosterManager: All active boosters: \(boosterManager.activeBoosters.map { "\($0.sourceName) (Level \($0.sourceId.components(separatedBy: "_").last ?? "?"))" })")
+
+        // Force UI update by posting notification
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .boostersUpdated, object: nil)
+        }
     }
     
     private func createBuildingBooster(for building: Building) -> BoosterEffect? {

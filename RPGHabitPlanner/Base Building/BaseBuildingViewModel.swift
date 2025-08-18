@@ -71,11 +71,11 @@ class BaseBuildingViewModel: ObservableObject {
                     // Update building in base
                     self.base.updateBuilding(updatedBuilding)
                     self.baseService.saveBase(self.base)
-                    
+
                     // Add experience for starting construction
                     self.base.addExperience(5)
                     self.baseService.saveBase(self.base)
-                    
+
                     // Reload coins
                     self.loadCurrentCoins()
                 }
@@ -83,22 +83,31 @@ class BaseBuildingViewModel: ObservableObject {
         }
     }
     
-    func upgradeBuilding(_ building: Building) {
+        func upgradeBuilding(_ building: Building) {
         guard canAffordUpgrade(building) else { return }
         
+        print("🏗️ Starting upgrade for \(building.type.rawValue) from level \(building.level) to level \(building.level + 1)")
+
+        // Start upgrade construction
         var updatedBuilding = building
-        updatedBuilding.level += 1
+        updatedBuilding.state = .construction
+        updatedBuilding.constructionStartTime = Date()
         
         currencyManager.spendCoins(building.upgradeCost) { success, _ in
             if success {
                 self.base.updateBuilding(updatedBuilding)
                 self.baseService.saveBase(self.base)
-                
-                // Add experience for upgrading
-                self.base.addExperience(15)
+
+                // Add experience for starting upgrade
+                self.base.addExperience(5)
                 self.baseService.saveBase(self.base)
-                
+
+                // Note: Boosters will be refreshed when construction completes and building becomes active
+                print("🏗️ Upgrade started successfully for \(building.type.rawValue)")
+
                 self.loadCurrentCoins()
+
+                print("🏗️ Upgrade started successfully for \(building.type.rawValue)")
             }
         }
     }
@@ -121,9 +130,54 @@ class BaseBuildingViewModel: ObservableObject {
         loadBase()
     }
     
-    func completeConstruction(for building: Building) {
-        baseService.completeConstruction(for: building)
-        loadBase()
+                func completeConstruction(for building: Building) {
+        print("🏗️ completeConstruction called for \(building.type.rawValue) - Level: \(building.level), State: \(building.state)")
+
+        // Check if this is an upgrade construction by looking at the construction start time
+        // If the building was already active (level >= 1) and went into construction, it's an upgrade
+        if building.state == .readyToComplete && building.level >= 1 && building.constructionStartTime != nil {
+            // This is an upgrade completion
+            var upgradedBuilding = building
+            upgradedBuilding.state = .active
+            upgradedBuilding.level += 1
+            upgradedBuilding.constructionStartTime = nil
+
+            // Add experience for completing upgrade
+            base.addExperience(15)
+            baseService.saveBase(base)
+
+                        // Update the building
+            print("🏗️ Before update - Building level: \(building.level)")
+            base.updateBuilding(upgradedBuilding)
+            baseService.saveBase(base)
+
+            // Verify the update worked
+            let updatedBase = baseService.loadBase()
+            if let updatedBuilding = updatedBase.getBuilding(at: building.position) {
+                print("🏗️ After update - Building level: \(updatedBuilding.level), State: \(updatedBuilding.state)")
+            }
+
+            print("🏗️ Building upgrade completed: \(building.type.rawValue) -> Level \(upgradedBuilding.level)")
+            print("🏗️ Building state: \(upgradedBuilding.state), Level: \(upgradedBuilding.level)")
+        } else {
+            // Regular construction completion
+            print("🏗️ Regular construction completion for \(building.type.rawValue)")
+            baseService.completeConstruction(for: building)
+        }
+
+        // Refresh building boosters after construction completion
+        print("🏗️ Refreshing building boosters...")
+        BuildingBoosterManager.shared.refreshBuildingBoosters()
+
+        // Post notification to update boosters
+        print("🏗️ Posting notifications...")
+        NotificationCenter.default.post(name: .buildingUpdated, object: nil)
+        NotificationCenter.default.post(name: .boostersUpdated, object: nil)
+
+        print("🏗️ Construction completed, boosters refreshed")
+
+        // Update the local base to reflect changes
+        self.base = baseService.loadBase()
     }
     
     func destroyBuilding(_ building: Building) {
@@ -132,6 +186,13 @@ class BaseBuildingViewModel: ObservableObject {
         updatedBuilding.level = 1
         base.updateBuilding(updatedBuilding)
         baseService.saveBase(base)
+
+        // Refresh building boosters after destruction
+        BuildingBoosterManager.shared.refreshBuildingBoosters()
+
+        // Post notification to update boosters
+        NotificationCenter.default.post(name: .buildingUpdated, object: nil)
+        NotificationCenter.default.post(name: .boostersUpdated, object: nil)
     }
     
     func repairBuilding(_ building: Building) {
@@ -144,6 +205,14 @@ class BaseBuildingViewModel: ObservableObject {
                     updatedBuilding.state = .active
                     self.base.updateBuilding(updatedBuilding)
                     self.baseService.saveBase(self.base)
+
+                    // Refresh building boosters after repair
+                    BuildingBoosterManager.shared.refreshBuildingBoosters()
+
+                    // Post notification to update boosters
+                    NotificationCenter.default.post(name: .buildingUpdated, object: nil)
+                    NotificationCenter.default.post(name: .boostersUpdated, object: nil)
+
                     self.loadCurrentCoins()
                 }
             }
@@ -206,6 +275,7 @@ class BaseBuildingViewModel: ObservableObject {
         if hasChanges {
             baseService.saveBase(base)
             objectWillChange.send()
+            print("🏗️ Construction state changed to readyToComplete")
         }
     }
     
