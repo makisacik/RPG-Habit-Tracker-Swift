@@ -23,16 +23,12 @@ struct QuestCreationView: View {
     @State private var showQuestGiver = false
     @State private var questGiverDialogue = ""
     @State private var showDialogue = false
-    @State private var showStepTransition = false
-    @State private var stepTransitionText = ""
     @State private var showParchmentEffect = false
-    @State private var showQuestAcceptance = false
     
     // Animation states
     @State private var animateQuestBoard = false
     @State private var animateQuestGiver = false
     @State private var animateParchment = false
-    @State private var animateAcceptance = false
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -82,19 +78,6 @@ struct QuestCreationView: View {
                         showTagPicker: $showTagPicker,
                         animate: animateParchment
                     )
-                    
-                case .questAcceptance:
-                    QuestAcceptanceView(
-                        viewModel: viewModel,
-                        onAcceptQuest: acceptQuest,
-                        onGoBack: moveToPreviousStep,
-                        animate: animateAcceptance
-                    )
-                }
-                
-                // Step transition overlay
-                if showStepTransition {
-                    StepTransitionOverlay(text: stepTransitionText)
                 }
                 
                 // Success animation
@@ -200,36 +183,8 @@ struct QuestCreationView: View {
     }
     
     private func moveToNextStep() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            showStepTransition = true
-            stepTransitionText = "Preparing your quest..."
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    showStepTransition = false
-                    
-                    switch currentStep {
-                    case .questBoard:
-                        currentStep = .questDetails
-                        withAnimation(.easeInOut(duration: 0.8)) {
-                            animateParchment = true
-                        }
-                    case .questGiver:
-                        currentStep = .questDetails
-                        withAnimation(.easeInOut(duration: 0.8)) {
-                            animateParchment = true
-                        }
-                    case .questDetails:
-                        currentStep = .questAcceptance
-                        withAnimation(.easeInOut(duration: 0.8)) {
-                            animateAcceptance = true
-                        }
-                    case .questAcceptance:
-                        break
-                    }
-                }
-            }
-        }
+        // This function is no longer needed for the direct creation flow
+        // Keeping it for potential future use
     }
     
     private func moveToPreviousStep() {
@@ -241,17 +196,7 @@ struct QuestCreationView: View {
                 currentStep = .questBoard
             case .questDetails:
                 currentStep = .questBoard
-            case .questAcceptance:
-                currentStep = .questDetails
             }
-        }
-    }
-    
-    private func acceptQuest() {
-        if viewModel.validateInputs() {
-            viewModel.saveQuest()
-        } else {
-            showAlert(title: String.warningTitle.localized, message: viewModel.errorMessage ?? String.unknownError.localized)
         }
     }
 
@@ -268,5 +213,4 @@ enum QuestCreationStep {
     case questBoard
     case questGiver
     case questDetails
-    case questAcceptance
 }

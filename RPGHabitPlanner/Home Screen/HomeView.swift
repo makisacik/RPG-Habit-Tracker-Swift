@@ -32,15 +32,15 @@ struct HomeView: View {
                     ScrollView {
                         VStack(spacing: 20) {
                             heroSection(healthManager: healthManager)
-                            StreakDisplayView(streakManager: viewModel.streakManager)
-                                .environmentObject(themeManager)
-                            quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             MyQuestsSection(
                                 viewModel: MyQuestsViewModel(questDataService: questDataService, userManager: viewModel.userManager),
                                 selectedTab: $selectedTab,
                                 questDataService: questDataService
                             )
                             .environmentObject(themeManager)
+                            StreakDisplayView(streakManager: viewModel.streakManager)
+                                .environmentObject(themeManager)
+                            quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             recentAchievementsSection
                             quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                         }
@@ -254,7 +254,6 @@ struct HomeView: View {
                     .font(.title2)
                     .foregroundColor(theme.textColor)
             }
-            .menuActionDismissBehavior(.automatic)
             .menuOrder(.fixed)
         }
     }

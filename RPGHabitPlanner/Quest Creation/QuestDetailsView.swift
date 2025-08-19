@@ -8,6 +8,7 @@ struct QuestDetailsView: View {
     @Binding var showTagPicker: Bool
     let animate: Bool
     @State private var isButtonPressed = false
+    @State private var showErrorAlert = false
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -26,11 +27,6 @@ struct QuestDetailsView: View {
                         .foregroundColor(theme.textColor)
                 }
                 .padding(.top, 8)
-                
-                // Premium indicator
-                if !PremiumManager.shared.isPremium {
-                    QuestLimitIndicatorView(currentQuestCount: viewModel.currentQuestCount)
-                }
                 
                 // Quest Title
                 GamifiedInputField(
@@ -104,13 +100,24 @@ struct QuestDetailsView: View {
                     isButtonPressed = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         isButtonPressed = false
-                        onContinue()
+                        // Directly save the quest instead of going to review
+                        if viewModel.validateInputs() {
+                            viewModel.saveQuest()
+                        } else {
+                            showErrorAlert = true
+                        }
                     }
                 }) {
                     HStack(spacing: 12) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.title2)
-                        Text("REVIEW QUEST")
+                        if viewModel.isSaving {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(0.8)
+                        } else {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title2)
+                        }
+                        Text(viewModel.isSaving ? "CREATING..." : "CREATE QUEST")
                             .font(.appFont(size: 16, weight: .black))
                     }
                     .foregroundColor(.white)
@@ -128,10 +135,22 @@ struct QuestDetailsView: View {
                     .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
                 }
                 .buttonStyle(PlainButtonStyle())
+                .disabled(viewModel.isSaving)
                 .padding(.bottom)
             }
             .padding(.horizontal)
             .padding(.top, 8)
+        }
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK") { }
+        } message: {
+            Text(viewModel.errorMessage ?? "An unknown error occurred")
+        }
+        .onChange(of: viewModel.didSaveQuest) { didSave in
+            if didSave {
+                // Quest was successfully created, dismiss the view
+                // This will be handled by the parent view
+            }
         }
     }
 }
