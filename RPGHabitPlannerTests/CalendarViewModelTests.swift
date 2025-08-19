@@ -10,15 +10,18 @@ import XCTest
 
 final class CalendarViewModelTests: XCTestCase {
     var mockQuestDataService: MockQuestDataService!
+    var mockUserManager: UserManager!
     var calendarViewModel: CalendarViewModel!
     
     override func setUpWithError() throws {
         mockQuestDataService = MockQuestDataService()
-        calendarViewModel = CalendarViewModel(questDataService: mockQuestDataService)
+        mockUserManager = UserManager()
+        calendarViewModel = CalendarViewModel(questDataService: mockQuestDataService, userManager: mockUserManager)
     }
     
     override func tearDownWithError() throws {
         mockQuestDataService = nil
+        mockUserManager = nil
         calendarViewModel = nil
     }
     

@@ -7,7 +7,6 @@ struct HomeView: View {
     @EnvironmentObject var premiumManager: PremiumManager
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel: HomeViewModel
-    @State private var isCharacterDetailsPresented = false
     @State private var isCompletedQuestsPresented = false
     @State var showAchievements = false
     @StateObject private var damageHandler = DamageHandler()
@@ -16,6 +15,7 @@ struct HomeView: View {
     @State private var showPaywall = false
     @State private var shouldNavigateToQuestCreation = false
     @State private var currentQuestCount = 0
+    @State private var showFocusTimer = false
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var questFailureHandler = QuestFailureHandler.shared
 
@@ -36,7 +36,7 @@ struct HomeView: View {
                                 .environmentObject(themeManager)
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             MyQuestsSection(
-                                viewModel: CalendarViewModel(questDataService: questDataService),
+                                viewModel: MyQuestsViewModel(questDataService: questDataService, userManager: viewModel.userManager),
                                 selectedTab: $selectedTab,
                                 questDataService: questDataService
                             )
@@ -47,7 +47,7 @@ struct HomeView: View {
                         .padding(.horizontal, 16)
                         .padding(.top, 10)
                     }
-                    
+
                     // Quest Failure Notification
                     if questFailureHandler.showFailureNotification {
                         VStack {
@@ -63,44 +63,13 @@ struct HomeView: View {
                 }
                 .navigationTitle(String.adventureHub.localized)
                 .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    // LEFT: Dropdown menu (native Menu)
-                    ToolbarItem(placement: .topBarLeading) {
-                        Menu {
-                            Button { goToSettings = true } label: {
-                                Label(String.settings.localized, systemImage: "gearshape.fill")
-                            }
-                            Button { /* TODO: About */ } label: {
-                                Label(String.about.localized, systemImage: "info.circle.fill")
-                            }
-                        } label: {
-                            Image(systemName: "line.3.horizontal")
-                                .font(.title2)
-                                .foregroundColor(theme.textColor)
-                        }
-                        .menuActionDismissBehavior(.automatic)
-                        .menuOrder(.fixed)
-                    }
 
-                    // RIGHT: Calendar shortcut (kept from your code)
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button { selectedTab = .calendar } label: {
-                            Image(systemName: "calendar")
-                                .font(.title2)
-                                .foregroundColor(theme.textColor)
-                        }
-                    }
-                }
-                // Push to Settings (not modal)
+                .toolbar(content: homeToolbarContent)
+
                 .navigationDestination(isPresented: $goToSettings) {
                     SettingsView()
                         .environmentObject(themeManager)
                         .environmentObject(LocalizationManager.shared)
-                }
-                .sheet(isPresented: $isCharacterDetailsPresented) {
-                    if let user = viewModel.user {
-                        CharacterDetailsView(user: user)
-                    }
                 }
                 .sheet(isPresented: $isCompletedQuestsPresented) {
                     NavigationStack {
@@ -148,10 +117,17 @@ struct HomeView: View {
                     PaywallView()
                         .environmentObject(premiumManager)
                 }
+                .sheet(isPresented: $showFocusTimer) {
+                    NavigationStack {
+                        TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
+                            .environmentObject(themeManager)
+                            .navigationTitle(String.focusTimer.localized)
+                            .navigationBarTitleDisplayMode(.inline)
+                    }
+                }
             }
             .tabItem { Label(String.home.localized, systemImage: "house.fill") }
             .tag(HomeTab.home)
-
 
             // MARK: Quests
             NavigationStack {
@@ -168,22 +144,9 @@ struct HomeView: View {
                     .font(.appFont(size: 16))
                     .navigationTitle(String.questJournal.localized)
                     .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            if !premiumManager.isPremium {
-                                QuestLimitIndicatorView(currentQuestCount: currentQuestCount)
-                            }
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(action: {
-                                handleCreateQuestTap()
-                            }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .font(.title2)
-                                    .foregroundColor(theme.textColor)
-                            }
-                        }
-                    }
+
+                    .toolbar(content: questsToolbarContent)
+
                     // Push to Quest Creation (not modal)
                     .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
                         QuestCreationView(
@@ -208,14 +171,6 @@ struct HomeView: View {
             .tabItem { Label(String.character.localized, systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
-            // MARK: Focus Timer
-            NavigationStack {
-                TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
-                    .environmentObject(themeManager)
-            }
-            .tabItem { Label(String.focusTimer.localized, systemImage: "timer") }
-            .tag(HomeTab.focusTimer)
-
             // MARK: Base
             NavigationStack {
                 ZStack {
@@ -235,7 +190,7 @@ struct HomeView: View {
 
             // MARK: Calendar
             NavigationStack {
-                CalendarView(viewModel: CalendarViewModel(questDataService: questDataService))
+                CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
                     .environmentObject(themeManager)
             }
             .tabItem { Label(String.calendar.localized, systemImage: "calendar") }
@@ -252,7 +207,7 @@ struct HomeView: View {
             }
         }
     }
-    
+
     private func fetchCurrentQuestCount() {
         questDataService.fetchAllQuests { quests, _ in
             DispatchQueue.main.async {
@@ -260,12 +215,68 @@ struct HomeView: View {
             }
         }
     }
-    
-     func handleCreateQuestTap() {
+
+    func handleCreateQuestTap() {
         if premiumManager.canCreateQuest(currentQuestCount: currentQuestCount) {
             shouldNavigateToQuestCreation = true
         } else {
             showPaywall = true
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private func homeToolbarContent() -> some ToolbarContent {
+        let theme = themeManager.activeTheme
+        
+        ToolbarItem(placement: .primaryAction) {
+            Button { selectedTab = .calendar } label: {
+                Image(systemName: "calendar")
+                    .font(.title2)
+                    .foregroundColor(theme.textColor)
+            }
+        }
+
+        ToolbarItem(placement: .cancellationAction) {
+            Menu {
+                Button {
+                    showFocusTimer = true
+                } label: {
+                    Label(String.focusTimer.localized, systemImage: "timer")
+                }
+                Button { goToSettings = true } label: {
+                    Label(String.settings.localized, systemImage: "gearshape.fill")
+                }
+                Button { /* TODO: About */ } label: {
+                    Label(String.about.localized, systemImage: "info.circle.fill")
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal")
+                    .font(.title2)
+                    .foregroundColor(theme.textColor)
+            }
+            .menuActionDismissBehavior(.automatic)
+            .menuOrder(.fixed)
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private func questsToolbarContent() -> some ToolbarContent {
+        let theme = themeManager.activeTheme
+        
+        ToolbarItem(placement: .destructiveAction) {
+            Button(action: {
+                handleCreateQuestTap()
+            }) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(theme.textColor)
+            }
+        }
+
+        ToolbarItem(placement: .confirmationAction) {
+            if !premiumManager.isPremium {
+                QuestLimitIndicatorView(currentQuestCount: currentQuestCount)
+            }
         }
     }
 }

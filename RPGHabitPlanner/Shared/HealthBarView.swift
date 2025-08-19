@@ -24,20 +24,16 @@ struct HealthBarView: View {
         VStack(spacing: size.textSpacing) {
             // Health Bar Container
             ZStack(alignment: .leading) {
-                // Background
-                RoundedRectangle(cornerRadius: size.cornerRadius)
-                    .fill(theme.backgroundColor.opacity(0.3))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: size.cornerRadius)
-                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
-                    )
+                // Background - match home character card style
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.red.opacity(0.2))
                     .frame(height: size.height)
                 
                 // Health Fill
                 GeometryReader { geometry in
                     let healthWidth = geometry.size.width * healthPercentage
                     
-                    RoundedRectangle(cornerRadius: size.cornerRadius)
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(healthGradient(for: healthPercentage))
                         .overlay(
                             // Animated shine effect - contained within health bar
@@ -71,14 +67,14 @@ struct HealthBarView: View {
                 
                 // Damage/Heal Animation Overlay
                 if healthManager.showDamageAnimation {
-                    RoundedRectangle(cornerRadius: size.cornerRadius)
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(Color.red.opacity(0.6))
                         .frame(height: size.height)
                         .transition(.scale.combined(with: .opacity))
                 }
                 
                 if healthManager.showHealAnimation {
-                    RoundedRectangle(cornerRadius: size.cornerRadius)
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(Color.green.opacity(0.6))
                         .frame(height: size.height)
                         .transition(.scale.combined(with: .opacity))
@@ -100,24 +96,20 @@ struct HealthBarView: View {
                     Spacer()
                 }
                 .padding(.leading, size.iconPadding)
-            }
-            .frame(height: size.height)
-            
-            // Health Text
-            if showText {
-                HStack {
-                    Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
-                        .font(.appFont(size: size.textSize, weight: .black))
-                        .foregroundColor(theme.textColor)
-                        .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
-                    
-                    Spacer()
-                    
-                    Text("\(Int(healthPercentage * 100))%")
-                        .font(.appFont(size: size.textSize - 2, weight: .medium))
-                        .foregroundColor(theme.textColor.opacity(0.8))
+
+                // HP Amount in the middle of the bar
+                if showText {
+                    HStack {
+                        Spacer()
+                        Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
+                            .font(.appFont(size: size.textSize, weight: .black))
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
+                        Spacer()
+                    }
                 }
             }
+            .frame(height: size.height)
         }
         .onAppear {
             if showShineAnimation {
@@ -135,18 +127,8 @@ struct HealthBarView: View {
     // MARK: - Helper Methods
     
     private func healthGradient(for percentage: Double) -> LinearGradient {
-        let colors: [Color]
-        
-        switch percentage {
-        case 0.0..<0.25:
-            colors = [.red, .red.opacity(0.8)]
-        case 0.25..<0.5:
-            colors = [.orange, .red.opacity(0.7)]
-        case 0.5..<0.75:
-            colors = [.yellow, .orange.opacity(0.7)]
-        default:
-            colors = [.green, .green.opacity(0.8)]
-        }
+        // Use the same red gradient as the home character card
+        let colors = [Color.red, Color.red.opacity(0.8)]
         
         return LinearGradient(
             gradient: Gradient(colors: colors),
@@ -156,16 +138,8 @@ struct HealthBarView: View {
     }
     
     private func healthColor(for percentage: Double) -> Color {
-        switch percentage {
-        case 0.0..<0.25:
-            return .red
-        case 0.25..<0.5:
-            return .orange
-        case 0.5..<0.75:
-            return .yellow
-        default:
-            return .green
-        }
+        // Use red color to match home character card
+        return .red
     }
     
     private func healthIcon(for percentage: Double) -> String {

@@ -200,7 +200,7 @@ extension HomeView {
 
                                 ZStack(alignment: .leading) {
                                     RoundedRectangle(cornerRadius: 6)
-                                        .fill(theme.backgroundColor.opacity(0.3))
+                                        .fill(theme.backgroundColor.opacity(0.7))
                                         .frame(width: 120, height: 12)
 
                                     let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)

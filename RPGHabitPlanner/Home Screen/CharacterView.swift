@@ -81,12 +81,9 @@ struct CharacterView: View {
                                     .font(.appFont(size: 18))
                                     .foregroundColor(theme.textColor)
                                 Spacer()
-                                Text("\(String.exp.localized): \(user.exp)/100")
-                                    .font(.appFont(size: 14))
-                                    .foregroundColor(theme.textColor)
                             }
                             
-                            ZStack(alignment: .leading) {
+                            ZStack {
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(theme.backgroundColor.opacity(0.7))
                                     .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
@@ -117,14 +114,10 @@ struct CharacterView: View {
                                 }
                                 .frame(height: 22)
 
-                                HStack {
-                                    Spacer()
-                                    Text("\(user.exp) / 100")
-                                        .font(.appFont(size: 12, weight: .black))
-                                        .foregroundColor(theme.textColor)
-                                        .shadow(radius: 1)
-                                    Spacer()
-                                }
+                                Text("\(user.exp) / 100")
+                                    .font(.appFont(size: 12, weight: .black))
+                                    .foregroundColor(theme.textColor)
+                                    .shadow(radius: 1)
                             }
                             .frame(height: 22)
                         }

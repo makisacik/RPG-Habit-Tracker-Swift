@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyQuestsSection: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @ObservedObject var viewModel: CalendarViewModel
+    @ObservedObject var viewModel: MyQuestsViewModel
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showingQuestCreation = false
     @Binding var selectedTab: HomeTab

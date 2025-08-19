@@ -1,23 +1,14 @@
 //
-//  CalendarViewModel.swift
+//  MyQuestsViewModel.swift
 //  RPGHabitPlanner
 //
-//  Created by Mehmet Ali Kısacık on 11.11.2024.
+//  Created by Assistant on 18.08.2025.
 //
 
 import SwiftUI
 import Foundation
 
-enum DayQuestState { case done, todo, inactive }
-
-struct DayQuestItem: Identifiable {
-    let id: UUID
-    let quest: Quest
-    let date: Date
-    let state: DayQuestState
-}
-
-final class CalendarViewModel: ObservableObject {
+final class MyQuestsViewModel: ObservableObject {
     @Published var allQuests: [Quest] = []
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
@@ -29,13 +20,6 @@ final class CalendarViewModel: ObservableObject {
     private let calendar = Calendar.current
     private let streakManager = StreakManager.shared
     private let boosterManager = BoosterManager.shared
-
-    // Tag filtering support
-    lazy var tagFilterViewModel: TagFilterViewModel = {
-        TagFilterViewModel { [weak self] tagIds, matchMode in
-            self?.handleTagFilterChange(tagIds: tagIds, matchMode: matchMode)
-        }
-    }()
 
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
@@ -72,28 +56,25 @@ final class CalendarViewModel: ObservableObject {
     }
 
     @objc private func handleQuestUpdated(_ notification: Notification) {
-        print("🔄 CalendarViewModel: Received quest updated notification")
+        print("🔄 MyQuestsViewModel: Received quest updated notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            // Force UI refresh
             self?.refreshTrigger.toggle()
         }
     }
 
     @objc private func handleQuestDeleted(_ notification: Notification) {
-        print("🗑️ CalendarViewModel: Received quest deleted notification")
+        print("🗑️ MyQuestsViewModel: Received quest deleted notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            // Force UI refresh
             self?.refreshTrigger.toggle()
         }
     }
 
     @objc private func handleQuestCreated(_ notification: Notification) {
-        print("➕ CalendarViewModel: Received quest created notification")
+        print("➕ MyQuestsViewModel: Received quest created notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            // Force UI refresh
             self?.refreshTrigger.toggle()
         }
     }
@@ -105,19 +86,19 @@ final class CalendarViewModel: ObservableObject {
     }
 
     func fetchQuests() {
-        print("📅 CalendarViewModel: Starting fetchQuests()")
+        print("📅 MyQuestsViewModel: Starting fetchQuests()")
         isLoading = true
 
         // First refresh all quest states to ensure they're up to date
         questDataService.refreshAllQuests(on: Date()) { [weak self] error in
             if let error = error {
-                print("❌ CalendarViewModel: Error refreshing quests: \(error)")
+                print("❌ MyQuestsViewModel: Error refreshing quests: \(error)")
             }
 
             // Then fetch the updated quest data
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
-                    print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
+                    print("📅 MyQuestsViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
                 }
@@ -127,10 +108,9 @@ final class CalendarViewModel: ObservableObject {
 
     func items(for date: Date) -> [DayQuestItem] {
         let day = calendar.startOfDay(for: date)
-        let filteredQuests = applyTagFiltering(to: allQuests)
 
-        let items: [DayQuestItem] = filteredQuests.compactMap { quest in
-            // Don't show finished quests in the calendar
+        let items: [DayQuestItem] = allQuests.compactMap { quest in
+            // Don't show finished quests in the my quests section
             guard !quest.isFinished else { return nil }
 
             // First check if the date is within the quest's valid date range
@@ -166,36 +146,6 @@ final class CalendarViewModel: ObservableObject {
             } else {
                 // If both have the same state, sort by creation date (newer first)
                 return item1.quest.creationDate > item2.quest.creationDate
-            }
-        }
-    }
-
-    // MARK: - Tag Filtering
-
-    private func handleTagFilterChange(tagIds: [UUID], matchMode: TagMatchMode) {
-        // This method is called when tag filter changes
-        // The filtering is applied in the items(for:) method
-        print("🏷️ Calendar tag filter changed: \(tagIds.count) tags, mode: \(matchMode)")
-    }
-
-    func applyTagFiltering(to quests: [Quest]) -> [Quest] {
-        let selectedTagIds = tagFilterViewModel.selectedTags.map { $0.id }
-
-        // If no tags are selected, return all quests
-        guard !selectedTagIds.isEmpty else {
-            return quests
-        }
-
-        return quests.filter { quest in
-            let questTagIds = quest.tags.map { $0.id }
-
-            switch tagFilterViewModel.matchMode {
-            case .any:
-                // Quest has ANY of the selected tags
-                return !Set(questTagIds).isDisjoint(with: Set(selectedTagIds))
-            case .all:
-                // Quest has ALL of the selected tags
-                return Set(selectedTagIds).isSubset(of: Set(questTagIds))
             }
         }
     }
@@ -310,13 +260,6 @@ final class CalendarViewModel: ObservableObject {
             }
         }
     }
-    
-    private func checkAchievements() {
-        AchievementManager.shared.checkAchievements(
-            questDataService: questDataService,
-            userManager: userManager
-        ) { _ in }
-    }
 
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
         questDataService.updateTask(
@@ -331,5 +274,12 @@ final class CalendarViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    private func checkAchievements() {
+        AchievementManager.shared.checkAchievements(
+            questDataService: questDataService,
+            userManager: userManager
+        ) { _ in }
     }
 }

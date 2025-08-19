@@ -11,6 +11,8 @@ import Foundation
 class MockQuestDataService: QuestDataServiceProtocol {
     var mockQuests: [Quest] = []
     var mockError: Error?
+    var shouldMarkQuestAsFinishedSucceed: Bool = true
+    var markQuestAsFinishedCalled: Bool = false
 
     func saveQuest(_ quest: Quest, withTasks taskTitles: [String], completion: @escaping (Error?) -> Void) {
         if let error = mockError {
@@ -132,8 +134,12 @@ class MockQuestDataService: QuestDataServiceProtocol {
     }
     
     func markQuestAsFinished(forId id: UUID, completion: @escaping (Error?) -> Void) {
+        markQuestAsFinishedCalled = true
+
         if let error = mockError {
             completion(error)
+        } else if !shouldMarkQuestAsFinishedSucceed {
+            completion(NSError(domain: "MockQuestDataService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Mock failure"]))
         } else {
             if let index = mockQuests.firstIndex(where: { $0.id == id }) {
                 mockQuests[index].isFinished = true
