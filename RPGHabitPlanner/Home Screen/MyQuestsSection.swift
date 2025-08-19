@@ -13,34 +13,34 @@ struct MyQuestsSection: View {
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showingQuestCreation = false
     @Binding var selectedTab: HomeTab
-    
+
     let questDataService: QuestDataServiceProtocol
-    
+
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d"
         return dateFormatter
     }()
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         var creationVM: QuestCreationViewModel {
             let creationVM = QuestCreationViewModel(questDataService: questDataService)
             creationVM.questDueDate = viewModel.selectedDate
             return creationVM
         }
-        
+
         VStack(alignment: .leading, spacing: 12) {
             // Header with date selection
             HStack {
                 Text("My Quests")
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 // Date navigation
                 HStack(spacing: 12) {
                     Button(action: previousDay) {
@@ -48,13 +48,13 @@ struct MyQuestsSection: View {
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
-                    
+
                     Text(dateFormatter.string(from: viewModel.selectedDate))
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
                         .frame(width: 150, alignment: .center)
-                    
+
                     Button(action: nextDay) {
                         Image(systemName: "chevron.right")
                             .font(.system(size: 16, weight: .medium))
@@ -68,36 +68,50 @@ struct MyQuestsSection: View {
                         .fill(theme.primaryColor.opacity(0.3))
                 )
             }
-            
+
             // Quest count summary
             let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
             let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
-            
+
             HStack {
                 Text("\(activeCount) active, \(completedCount) completed")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
-                
+
                 Spacer()
-                
+
                 Button("View All") {
                     selectedTab = .tracking
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(.blue)
             }
-            
+
             // Quests list
-            if !viewModel.itemsForSelectedDate.isEmpty {
+            if viewModel.isLoading {
+                HStack(spacing: 8) {
+                    ProgressView()
+                    Text("Loading quests…")
+                        .font(.appFont(size: 14))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                .padding(.vertical, 12)
+            } else if !viewModel.itemsForSelectedDate.isEmpty {
                 VStack(spacing: 8) {
                     ForEach(viewModel.itemsForSelectedDate) { item in
                         MyQuestRow(
                             item: item,
                             theme: theme,
                             onToggle: { viewModel.toggle(item: item) },
-                            onMarkFinished: { viewModel.markQuestAsFinished(questId: item.quest.id) },
+                            onMarkFinished: {
+                                viewModel.markQuestAsFinished(questId: item.quest.id)
+                            },
                             onToggleTaskCompletion: { taskId, isCompleted in
-                                viewModel.toggleTaskCompletion(questId: item.quest.id, taskId: taskId, newValue: isCompleted)
+                                viewModel.toggleTaskCompletion(
+                                    questId: item.quest.id,
+                                    taskId: taskId,
+                                    newValue: isCompleted
+                                )
                             },
                             onQuestTap: { questItem in
                                 selectedQuestItem = questItem
@@ -111,11 +125,11 @@ struct MyQuestsSection: View {
                     Image(systemName: "list.bullet.clipboard")
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
-                    
+
                     Text("No quests for \(dateFormatter.string(from: viewModel.selectedDate))")
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
-                    
+
                     Button("Create Quest") {
                         showingQuestCreation = true
                     }
@@ -153,14 +167,21 @@ struct MyQuestsSection: View {
                 .environmentObject(themeManager)
             }
         }
+        // Make sure the section refreshes when it appears
+        .onAppear {
+            // Only fetch if we don’t have data yet, to avoid spam
+            if viewModel.allQuests.isEmpty {
+                viewModel.fetchQuests()
+            }
+        }
     }
-    
+
     private func previousDay() {
         if let newDate = calendar.date(byAdding: .day, value: -1, to: viewModel.selectedDate) {
             viewModel.selectedDate = calendar.startOfDay(for: newDate)
         }
     }
-    
+
     private func nextDay() {
         if let newDate = calendar.date(byAdding: .day, value: 1, to: viewModel.selectedDate) {
             viewModel.selectedDate = calendar.startOfDay(for: newDate)

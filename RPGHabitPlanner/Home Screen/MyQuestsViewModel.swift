@@ -2,7 +2,7 @@
 //  MyQuestsViewModel.swift
 //  RPGHabitPlanner
 //
-//  Created by Assistant on 18.08.2025.
+//  Created by Mehmet Ali Kısacık on 18.08.2025.
 //
 
 import SwiftUI
@@ -14,6 +14,11 @@ final class MyQuestsViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var alertMessage: String?
     @Published var refreshTrigger: Bool = false
+    @Published var questCompleted: Bool = false
+    @Published var didLevelUp: Bool = false
+    @Published var newLevel: Int16?
+    @Published var lastCompletedQuestId: UUID?
+    @Published var lastCompletedQuest: Quest?
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -53,6 +58,14 @@ final class MyQuestsViewModel: ObservableObject {
             name: .questCreated,
             object: nil
         )
+
+        // Support "complete from detail" flow (NEW)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestCompletedFromDetail),
+            name: .questCompletedFromDetail,
+            object: nil
+        )
     }
 
     @objc private func handleQuestUpdated(_ notification: Notification) {
@@ -79,8 +92,30 @@ final class MyQuestsViewModel: ObservableObject {
         }
     }
 
+    // NEW: mirror QuestTrackingViewModel behavior for "complete from detail"
+    @objc private func handleQuestCompletedFromDetail(_ notification: Notification) {
+        print("🎯 MyQuestsViewModel: Received quest completed from detail notification")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let quest = notification.object as? Quest,
+                  let userInfo = notification.userInfo,
+                  let questId = userInfo["questId"] as? UUID,
+                  let leveledUp = userInfo["leveledUp"] as? Bool,
+                  let newLevel = userInfo["newLevel"] as? Int16 else {
+                return
+            }
+
+            self.lastCompletedQuestId = questId
+            self.lastCompletedQuest = quest
+            self.questCompleted = true
+            self.didLevelUp = leveledUp
+            self.newLevel = newLevel
+
+            self.fetchQuests()
+        }
+    }
+
     var itemsForSelectedDate: [DayQuestItem] {
-        // Force recomputation when refreshTrigger changes
         _ = refreshTrigger
         return items(for: selectedDate)
     }
@@ -88,14 +123,7 @@ final class MyQuestsViewModel: ObservableObject {
     func fetchQuests() {
         print("📅 MyQuestsViewModel: Starting fetchQuests()")
         isLoading = true
-
-        // First refresh all quest states to ensure they're up to date
-        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
-            if let error = error {
-                print("❌ MyQuestsViewModel: Error refreshing quests: \(error)")
-            }
-
-            // Then fetch the updated quest data
+        questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
                     print("📅 MyQuestsViewModel: Received \(quests.count) quests from fetchAllQuests")
@@ -110,83 +138,54 @@ final class MyQuestsViewModel: ObservableObject {
         let day = calendar.startOfDay(for: date)
 
         let items: [DayQuestItem] = allQuests.compactMap { quest in
-            // Don't show finished quests in the my quests section
             guard !quest.isFinished else { return nil }
 
-            // First check if the date is within the quest's valid date range
             let creationDate = calendar.startOfDay(for: quest.creationDate)
             let dueDate = calendar.startOfDay(for: quest.dueDate)
-
-            // Date must be between creation date and due date (inclusive)
             guard day >= creationDate && day <= dueDate else { return nil }
 
-            // For scheduled quests, check if it's a scheduled day (allow both active and completed quests)
             if quest.repeatType == .scheduled {
                 let weekday = calendar.component(.weekday, from: day)
-                let isScheduledDay = quest.scheduledDays.contains(weekday)
-                guard isScheduledDay else { return nil }
+                guard quest.scheduledDays.contains(weekday) else { return nil }
             }
 
-            let state: DayQuestState
-            if quest.isCompleted(on: day) {
-                state = .done
-            } else {
-                state = .todo
-            }
-
+            let state: DayQuestState = quest.isCompleted(on: day) ? .done : .todo
             return DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }
 
-        // Sort items: active quests first, then completed quests
-        return items.sorted { (item1: DayQuestItem, item2: DayQuestItem) in
-            if item1.state == DayQuestState.todo && item2.state == DayQuestState.done {
-                return true // item1 (todo) comes before item2 (done)
-            } else if item1.state == DayQuestState.done && item2.state == DayQuestState.todo {
-                return false // item2 (todo) comes before item1 (done)
-            } else {
-                // If both have the same state, sort by creation date (newer first)
-                return item1.quest.creationDate > item2.quest.creationDate
-            }
+        return items.sorted { a, b in
+            if a.state == .todo, b.state == .done { return true }
+            if a.state == .done, b.state == .todo { return false }
+            return a.quest.creationDate > b.quest.creationDate
         }
     }
 
     func toggle(item: DayQuestItem) {
         let newState: DayQuestState = item.state == .done ? .todo : .done
 
-        // Determine the correct completion date based on quest type
         let completionDate: Date
         switch item.quest.repeatType {
         case .oneTime:
-            // For one-time quests, always use the due date for completion tracking
             completionDate = item.quest.dueDate
         case .weekly:
-            // For weekly quests, use the week anchor (start of the week)
-            let calendar = Calendar.current
             let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: item.date)
             completionDate = calendar.date(from: comps) ?? item.date
-        case .daily:
-            // For daily quests, use the specific date
-            completionDate = item.date
-        case .scheduled:
-            // For scheduled quests, use the specific date
+        case .daily, .scheduled:
             completionDate = item.date
         }
 
         if newState == .done {
-            // Mark as completed
             questDataService.markQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
                     } else {
-                        // Record streak activity when completing a quest
                         self?.streakManager.recordActivity()
                         self?.fetchQuests()
                     }
                 }
             }
         } else {
-            // Mark as incomplete
             questDataService.unmarkQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
@@ -200,19 +199,17 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     func markQuestAsFinished(questId: UUID) {
-        // Find the quest to get its details for reward calculation
         guard let quest = allQuests.first(where: { $0.id == questId }) else {
             alertMessage = "Quest not found"
             return
         }
-        
+
         questDataService.markQuestAsFinished(forId: questId) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 if let error = error {
                     self.alertMessage = error.localizedDescription
                 } else {
-                    // Calculate base rewards
                     let baseExp: Int
                     let baseCoins: Int
 
@@ -222,37 +219,37 @@ final class MyQuestsViewModel: ObservableObject {
                     baseExp = 10 * quest.difficulty
                     #endif
 
-                    // Calculate coin reward using CurrencyManager
                     baseCoins = CurrencyManager.shared.calculateQuestReward(
                         difficulty: quest.difficulty,
                         isMainQuest: quest.isMainQuest,
                         taskCount: quest.tasks.count
                     )
 
-                    // Apply boosters
-                    let boostedRewards = self.boosterManager.calculateBoostedRewards(
+                    let boosted = self.boosterManager.calculateBoostedRewards(
                         baseExperience: baseExp,
                         baseCoins: baseCoins
                     )
 
-                    // Award boosted experience
-                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { _, _, expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(boosted.experience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.alertMessage = expError.localizedDescription
                         } else {
-                            // Award boosted coins
-                            CurrencyManager.shared.addCoins(boostedRewards.coins) { coinError in
+                            CurrencyManager.shared.addCoins(boosted.coins) { coinError in
                                 if let coinError = coinError {
                                     print("❌ Error adding coins: \(coinError)")
                                 }
                             }
 
-                            // Record streak activity when finishing a quest
                             self.streakManager.recordActivity()
-                            
-                            // Check achievements
                             self.checkAchievements()
-                            
+
+                            // ✅ Expose completion/level-up to the View
+                            self.lastCompletedQuestId = questId
+                            self.lastCompletedQuest = quest
+                            self.questCompleted = true
+                            self.didLevelUp = leveledUp
+                            self.newLevel = newLevel
+
                             self.fetchQuests()
                         }
                     }
@@ -262,10 +259,7 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
-        questDataService.updateTask(
-            withId: taskId,
-            isCompleted: newValue
-        ) { [weak self] error in
+        questDataService.updateTask(withId: taskId, isCompleted: newValue) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
@@ -275,7 +269,7 @@ final class MyQuestsViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func checkAchievements() {
         AchievementManager.shared.checkAchievements(
             questDataService: questDataService,

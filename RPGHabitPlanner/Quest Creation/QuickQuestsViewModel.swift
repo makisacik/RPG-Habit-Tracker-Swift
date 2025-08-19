@@ -59,6 +59,8 @@ final class QuickQuestsViewModel: ObservableObject {
                     print("Failed to save quick quest: \(error)")
                 } else {
                     print("Quick quest saved successfully: \(template.title)")
+                    // Send notification to update other views
+                    NotificationCenter.default.post(name: .questCreated, object: newQuest)
                 }
             }
         }

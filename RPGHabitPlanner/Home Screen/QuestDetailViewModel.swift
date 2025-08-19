@@ -8,13 +8,6 @@
 import SwiftUI
 import Foundation
 
-// MARK: - Quest Update Notifications
-extension Notification.Name {
-    static let questUpdated = Notification.Name("questUpdated")
-    static let questDeleted = Notification.Name("questDeleted")
-    static let questCreated = Notification.Name("questCreated")
-    static let questCompletedFromDetail = Notification.Name("questCompletedFromDetail")
-}
 
 final class QuestDetailViewModel: ObservableObject {
     @Published var quest: Quest

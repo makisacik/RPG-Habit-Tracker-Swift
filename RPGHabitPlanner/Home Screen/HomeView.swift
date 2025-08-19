@@ -7,6 +7,10 @@ struct HomeView: View {
     @EnvironmentObject var premiumManager: PremiumManager
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel: HomeViewModel
+
+    // ✅ Hold MyQuests VM here so we can listen for completions
+    @StateObject private var myQuestsVM: MyQuestsViewModel
+
     @State private var isCompletedQuestsPresented = false
     @State var showAchievements = false
     @StateObject private var damageHandler = DamageHandler()
@@ -19,7 +23,23 @@ struct HomeView: View {
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var questFailureHandler = QuestFailureHandler.shared
 
+    // ✅ Overlays live at Home level
+    @State private var showReward = false
+    @State private var completedQuest: Quest?
+    @State private var showLevelUp = false
+    @State private var levelUpLevel: Int = 0
+
     let questDataService: QuestDataServiceProtocol
+
+    // ✅ Custom init to build StateObject with dependencies
+    init(viewModel: HomeViewModel, questDataService: QuestDataServiceProtocol) {
+        self.viewModel = viewModel
+        self.questDataService = questDataService
+        _myQuestsVM = StateObject(wrappedValue: MyQuestsViewModel(
+            questDataService: questDataService,
+            userManager: viewModel.userManager
+        ))
+    }
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -29,17 +49,22 @@ struct HomeView: View {
             NavigationStack {
                 ZStack {
                     theme.backgroundColor.ignoresSafeArea()
+
                     ScrollView {
                         VStack(spacing: 20) {
                             heroSection(healthManager: healthManager)
+
+                            // ✅ Use the shared VM instance
                             MyQuestsSection(
-                                viewModel: MyQuestsViewModel(questDataService: questDataService, userManager: viewModel.userManager),
+                                viewModel: myQuestsVM,
                                 selectedTab: $selectedTab,
                                 questDataService: questDataService
                             )
                             .environmentObject(themeManager)
+
                             StreakDisplayView(streakManager: viewModel.streakManager)
                                 .environmentObject(themeManager)
+
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             recentAchievementsSection
                             quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
@@ -60,12 +85,19 @@ struct HomeView: View {
                         }
                         .zIndex(30)
                     }
+
+                    // ✅ Reward + Level overlays (now shown on Home)
+                    if let quest = completedQuest, showReward {
+                        RewardView(isVisible: $showReward, quest: quest)
+                            .id("reward-\(quest.id)")
+                            .zIndex(50)
+                    }
+                    LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
+                        .zIndex(50)
                 }
                 .navigationTitle(String.adventureHub.localized)
                 .navigationBarTitleDisplayMode(.large)
-
                 .toolbar(content: homeToolbarContent)
-
                 .navigationDestination(isPresented: $goToSettings) {
                     SettingsView()
                         .environmentObject(themeManager)
@@ -81,7 +113,6 @@ struct HomeView: View {
                     }
                 }
                 .onAppear {
-                    // apply theme once on load
                     themeManager.applyTheme(using: colorScheme)
                     viewModel.fetchUserData()
                     viewModel.fetchDashboardData()
@@ -100,22 +131,17 @@ struct HomeView: View {
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     viewModel.fetchDashboardData()
                 }
-                // keep theme in sync with system changes
                 .onChange(of: colorScheme) { newScheme in
                     themeManager.applyTheme(using: newScheme)
                 }
-                // re-apply when user switches between .light/.dark/.system
                 .onChange(of: themeManager.currentTheme) { _ in
                     themeManager.applyTheme(using: colorScheme)
                 }
                 .onChange(of: premiumManager.isPremium) { isPremium in
-                    if isPremium {
-                        showPaywall = false
-                    }
+                    if isPremium { showPaywall = false }
                 }
                 .sheet(isPresented: $showPaywall) {
-                    PaywallView()
-                        .environmentObject(premiumManager)
+                    PaywallView().environmentObject(premiumManager)
                 }
                 .sheet(isPresented: $showFocusTimer) {
                     NavigationStack {
@@ -123,6 +149,30 @@ struct HomeView: View {
                             .environmentObject(themeManager)
                             .navigationTitle(String.focusTimer.localized)
                             .navigationBarTitleDisplayMode(.inline)
+                    }
+                }
+
+                // ✅ Listen to MyQuestsViewModel signals → show overlays
+                .onChange(of: myQuestsVM.questCompleted) { completed in
+                    if completed && !showReward {
+                        if let quest = myQuestsVM.lastCompletedQuest {
+                            completedQuest = quest
+                        } else if
+                            let id = myQuestsVM.lastCompletedQuestId,
+                            let quest = myQuestsVM.allQuests.first(where: { $0.id == id }) {
+                            completedQuest = quest
+                        }
+                        showReward = (completedQuest != nil)
+                        // Reset flag so we don't re-trigger when list refreshes
+                        myQuestsVM.questCompleted = false
+                    }
+                }
+                .onChange(of: showReward) { visible in
+                    if !visible, myQuestsVM.didLevelUp, let lvl = myQuestsVM.newLevel {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            levelUpLevel = Int(lvl)
+                            showLevelUp = true
+                        }
                     }
                 }
             }
@@ -144,10 +194,7 @@ struct HomeView: View {
                     .font(.appFont(size: 16))
                     .navigationTitle(String.questJournal.localized)
                     .navigationBarTitleDisplayMode(.inline)
-
                     .toolbar(content: questsToolbarContent)
-
-                    // Push to Quest Creation (not modal)
                     .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
                         QuestCreationView(
                             viewModel: QuestCreationViewModel(questDataService: questDataService)
@@ -205,7 +252,6 @@ struct HomeView: View {
             .tag(HomeTab.calendar)
         }
         .accentColor(.red)
-        // Achievements presentation (used by cards/stat tiles)
         .sheet(isPresented: $showAchievements) {
             NavigationStack {
                 AchievementView()
@@ -231,11 +277,11 @@ struct HomeView: View {
             showPaywall = true
         }
     }
-    
+
     @ToolbarContentBuilder
     private func homeToolbarContent() -> some ToolbarContent {
         let theme = themeManager.activeTheme
-        
+
         ToolbarItem(placement: .primaryAction) {
             Button { selectedTab = .calendar } label: {
                 Image(systemName: "calendar")
@@ -246,9 +292,7 @@ struct HomeView: View {
 
         ToolbarItem(placement: .cancellationAction) {
             Menu {
-                Button {
-                    showFocusTimer = true
-                } label: {
+                Button { showFocusTimer = true } label: {
                     Label(String.focusTimer.localized, systemImage: "timer")
                 }
                 Button { goToSettings = true } label: {
@@ -265,15 +309,13 @@ struct HomeView: View {
             .menuOrder(.fixed)
         }
     }
-    
+
     @ToolbarContentBuilder
     private func questsToolbarContent() -> some ToolbarContent {
         let theme = themeManager.activeTheme
-        
+
         ToolbarItem(placement: .destructiveAction) {
-            Button(action: {
-                handleCreateQuestTap()
-            }) {
+            Button(action: { handleCreateQuestTap() }) {
                 Image(systemName: "plus.circle.fill")
                     .font(.title2)
                     .foregroundColor(theme.textColor)
