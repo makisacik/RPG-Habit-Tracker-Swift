@@ -64,6 +64,19 @@ final class TagService: TagServiceProtocol {
                 return
             }
             
+            // Check if default tags need to be created
+            if tagEntities.isEmpty {
+                createDefaultTags { [weak self] error in
+                    if let error = error {
+                        completion([], error)
+                    } else {
+                        // Fetch again after creating default tags
+                        self?.fetchAllTags(completion: completion)
+                    }
+                }
+                return
+            }
+            
             let tags = tagEntities.map { Tag(entity: $0) }
             completion(tags, nil)
         } catch {
@@ -297,6 +310,34 @@ final class TagService: TagServiceProtocol {
             completion(quests, nil)
         } catch {
             completion([], error)
+        }
+    }
+    
+    // MARK: - Default Tags
+    
+    func createDefaultTags(completion: @escaping (Error?) -> Void) {
+        let context = persistentContainer.viewContext
+        
+        let defaultTags = [
+            (name: "Project", icon: "folder.fill", color: "#4ECDC4"), // Teal
+            (name: "Work", icon: "briefcase.fill", color: "#45B7D1"), // Blue
+            (name: "Gym", icon: "dumbbell.fill", color: "#FF6B6B")   // Red
+        ]
+        
+        for (name, icon, color) in defaultTags {
+            let tagEntity = TagEntity(context: context)
+            tagEntity.id = UUID()
+            tagEntity.name = name
+            tagEntity.nameNormalized = name.lowercased()
+            tagEntity.icon = icon
+            tagEntity.color = color
+        }
+        
+        do {
+            try context.save()
+            completion(nil)
+        } catch {
+            completion(error)
         }
     }
     

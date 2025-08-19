@@ -337,7 +337,7 @@ struct StreakCalendarDayView: View {
     
     private var selectionTextColor: Color {
         if isSelected {
-            if theme.backgroundColor == Color(hex: "#F8F7FF") {
+            if theme.backgroundColor == Color(hex: "#F0F0F0") {
                 return theme.textColor
             } else {
                 return .white
@@ -349,7 +349,7 @@ struct StreakCalendarDayView: View {
     
     private var selectionBackgroundColor: Color {
         if isSelected {
-            if theme.backgroundColor == Color(hex: "#F8F7FF") {
+            if theme.backgroundColor == Color(hex: "#F0F0F0") {
                 return Color(hex: "#E5E7EB").opacity(0.8)
             } else {
                 return theme.primaryColor

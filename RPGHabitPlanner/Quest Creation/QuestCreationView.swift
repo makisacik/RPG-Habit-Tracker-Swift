@@ -15,6 +15,9 @@ struct QuestCreationView: View {
     @State private var showPaywall = false
     @State private var showTagPicker = false
     
+    // UserDefaults for first-time visit
+    @AppStorage("hasSeenQuestCreation") private var hasSeenQuestCreation = false
+    
     // Gamified quest creation states
     @State private var currentStep: QuestCreationStep = .questBoard
     @State private var showQuestGiver = false
@@ -33,25 +36,35 @@ struct QuestCreationView: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        NavigationView {
-            ZStack {
+        ZStack {
                 // Background with RPG atmosphere
                 RoundedRectangle(cornerRadius: 12)
                     .fill(theme.backgroundColor)
                     .ignoresSafeArea()
                 
                 // Animated background elements
-                if currentStep == .questBoard {
+                if currentStep == .questBoard && !hasSeenQuestCreation {
                     QuestBoardBackground(animate: animateQuestBoard)
                 }
                 
                 // Main content based on current step
                 switch currentStep {
                 case .questBoard:
-                    QuestBoardView(
-                        onStartQuest: startQuestCreation,
-                        animate: animateQuestBoard
-                    )
+                    if !hasSeenQuestCreation {
+                        QuestBoardView(
+                            onStartQuest: startQuestCreation,
+                            animate: animateQuestBoard
+                        )
+                    } else {
+                        // Skip directly to quest details for returning users
+                        QuestDetailsView(
+                            viewModel: viewModel,
+                            onContinue: moveToNextStep,
+                            showTaskPopup: $isTaskPopupVisible,
+                            showTagPicker: $showTagPicker,
+                            animate: animateParchment
+                        )
+                    }
                     
                 case .questGiver:
                     QuestGiverView(
@@ -114,7 +127,7 @@ struct QuestCreationView: View {
                         .transition(.scale.combined(with: .opacity))
                         .zIndex(10)
                 }
-            }
+        }
             .animation(.easeInOut(duration: 0.25), value: isTaskPopupVisible)
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -167,30 +180,26 @@ struct QuestCreationView: View {
                 }
                 .environmentObject(themeManager)
             }
-        }
     }
     
     // MARK: - Quest Creation Flow Methods
     
     private func startQuestCreation() {
+        // Mark that user has seen quest creation
+        hasSeenQuestCreation = true
+        
         withAnimation(.easeInOut(duration: 0.5)) {
-            currentStep = .questGiver
+            currentStep = .questDetails
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            questGiverDialogue = "Greetings, brave adventurer! I have a quest that requires your attention. Are you ready to embark on this journey?"
-            withAnimation(.easeInOut(duration: 0.3)) {
-                showDialogue = true
-                animateQuestGiver = true
+            withAnimation(.easeInOut(duration: 0.8)) {
+                animateParchment = true
             }
         }
     }
     
     private func moveToNextStep() {
-        withAnimation(.easeInOut(duration: 0.3)) {
-            showDialogue = false
-        }
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             showStepTransition = true
             stepTransitionText = "Preparing your quest..."
@@ -201,7 +210,10 @@ struct QuestCreationView: View {
                     
                     switch currentStep {
                     case .questBoard:
-                        currentStep = .questGiver
+                        currentStep = .questDetails
+                        withAnimation(.easeInOut(duration: 0.8)) {
+                            animateParchment = true
+                        }
                     case .questGiver:
                         currentStep = .questDetails
                         withAnimation(.easeInOut(duration: 0.8)) {
@@ -228,7 +240,7 @@ struct QuestCreationView: View {
             case .questGiver:
                 currentStep = .questBoard
             case .questDetails:
-                currentStep = .questGiver
+                currentStep = .questBoard
             case .questAcceptance:
                 currentStep = .questDetails
             }

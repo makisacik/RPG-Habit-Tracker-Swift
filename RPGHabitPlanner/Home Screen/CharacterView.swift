@@ -74,7 +74,7 @@ struct CharacterView: View {
                         // Level and Experience
                         VStack(spacing: 8) {
                             HStack {
-                                Image("minimap_icon_star_yellow")
+                                Image("icon_star_fill")
                                     .resizable()
                                     .frame(width: 18, height: 18)
                                 Text("\(String.level.localized) \(user.level)")

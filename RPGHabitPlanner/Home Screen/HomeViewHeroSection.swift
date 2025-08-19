@@ -87,9 +87,9 @@ extension HomeView {
                             // Level and XP
                             HStack {
                                 HStack(spacing: 4) {
-                                    Image(systemName: "star.fill")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.yellow)
+                                    Image("icon_star_fill")
+                                        .resizable()
+                                        .frame(width: 14, height: 14)
                                     Text("\(String.level.localized) \(user.level)")
                                         .font(.appFont(size: 16, weight: .bold))
                                         .foregroundColor(theme.textColor)
@@ -98,9 +98,9 @@ extension HomeView {
                                 Spacer()
 
                                 HStack(spacing: 4) {
-                                    Image(systemName: "bolt.fill")
-                                        .font(.system(size: 12))
-                                        .foregroundColor(.orange)
+                                    Image("icon_lightning")
+                                        .resizable()
+                                        .frame(width: 12, height: 12)
                                     Text("\(user.exp)/100 XP")
                                         .font(.appFont(size: 14, weight: .medium))
                                         .foregroundColor(theme.textColor.opacity(0.8))

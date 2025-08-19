@@ -253,11 +253,10 @@ struct CoinRewardPreviewSection: View {
     let taskCount: Int
     
     private var coinReward: Int {
-        CurrencyManager.shared.calculateQuestReward(
-            difficulty: difficulty,
-            isMainQuest: isMainQuest,
-            taskCount: taskCount
-        )
+        // Calculate reward without random bonus for quest creation preview
+        let baseReward = difficulty * 10
+        let taskBonus = taskCount * 5
+        return baseReward + taskBonus
     }
     
     var body: some View {
@@ -292,18 +291,6 @@ struct CoinRewardPreviewSection: View {
                     Text("\(difficulty * 10)")
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(theme.textColor)
-                }
-                
-                if isMainQuest {
-                    HStack {
-                        Text("Main Quest Bonus:")
-                            .font(.appFont(size: 12, weight: .medium))
-                            .foregroundColor(theme.textColor.opacity(0.7))
-                        Spacer()
-                        Text("+50")
-                            .font(.appFont(size: 12, weight: .black))
-                            .foregroundColor(.green)
-                    }
                 }
                 
                 HStack {
@@ -355,7 +342,7 @@ struct GamifiedTagsSection: View {
                     }
                 }
                 .font(.appFont(size: 14, weight: .medium))
-                .foregroundColor(.yellow)
+                .foregroundColor(theme.textColor)
                 .opacity(isButtonPressed ? 0.7 : 1.0)
                 .scaleEffect(isButtonPressed ? 0.95 : 1.0)
                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)

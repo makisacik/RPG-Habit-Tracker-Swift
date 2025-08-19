@@ -106,11 +106,10 @@ final class CurrencyManager: ObservableObject {
     
     func calculateQuestReward(difficulty: Int, isMainQuest: Bool, taskCount: Int) -> Int {
         let baseReward = difficulty * 10
-        let mainQuestBonus = isMainQuest ? 50 : 0
         let taskBonus = taskCount * 5
         let randomBonus = Int.random(in: 5...25)
         
-        return baseReward + mainQuestBonus + taskBonus + randomBonus
+        return baseReward + taskBonus + randomBonus
     }
     
     // MARK: - Private Methods

@@ -51,7 +51,7 @@ struct CharacterDetailsView: View {
                         
                         VStack(spacing: 8) {
                             HStack {
-                                Image("minimap_icon_star_yellow")
+                                Image("icon_star_fill")
                                     .resizable()
                                     .frame(width: 16, height: 16)
                                 Text("\(String.level.localized) \(user.level)")

@@ -25,7 +25,7 @@ struct QuestDetailsView: View {
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
-                .padding(.top)
+                .padding(.top, 8)
                 
                 // Premium indicator
                 if !PremiumManager.shared.isPremium {
@@ -48,16 +48,10 @@ struct QuestDetailsView: View {
                     placeholder: "Describe your quest..."
                 )
                 
-                // Main Quest Toggle
-                GamifiedToggleCard(
-                    label: "Is this a Main Quest?",
-                    isOn: $viewModel.isMainQuest
-                )
-                
-                // Due Date
-                GamifiedDatePicker(
-                    title: "Quest Deadline",
-                    date: $viewModel.questDueDate
+                // Repeat Type
+                GamifiedRepeatTypeSection(
+                    repeatType: $viewModel.repeatType,
+                    selectedScheduledDays: $viewModel.selectedScheduledDays
                 )
                 
                 // Tasks
@@ -65,26 +59,45 @@ struct QuestDetailsView: View {
                     tasks: $viewModel.tasks
                 ) { showTaskPopup = true }
                 
-                // Difficulty
-                GamifiedDifficultySection(difficulty: $viewModel.difficulty)
-                
-                // Coin Reward Preview
-                CoinRewardPreviewSection(
-                    difficulty: viewModel.difficulty,
-                    isMainQuest: viewModel.isMainQuest,
-                    taskCount: viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count
-                )
-                
-                // Repeat Type
-                GamifiedRepeatTypeSection(
-                    repeatType: $viewModel.repeatType,
-                    selectedScheduledDays: $viewModel.selectedScheduledDays
+                // Quest Deadline
+                GamifiedDatePicker(
+                    title: "Quest Deadline",
+                    date: $viewModel.questDueDate
                 )
                 
                 // Tags
                 GamifiedTagsSection(
                     selectedTags: $viewModel.selectedTags
                 ) { showTagPicker = true }
+                
+                // Difficulty
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Image(systemName: "star.circle.fill")
+                            .foregroundColor(.yellow)
+                        Text("Quest Difficulty")
+                            .font(.appFont(size: 14, weight: .black))
+                            .foregroundColor(theme.textColor)
+                    }
+                    
+                    StarRatingView(rating: $viewModel.difficulty)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.primaryColor.opacity(0.3))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                }
+                
+                // Quest Reward
+                CoinRewardPreviewSection(
+                    difficulty: viewModel.difficulty,
+                    isMainQuest: true,
+                    taskCount: viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count
+                )
                 
                 // Continue Button
                 Button(action: {
@@ -117,7 +130,8 @@ struct QuestDetailsView: View {
                 .buttonStyle(PlainButtonStyle())
                 .padding(.bottom)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, 8)
         }
     }
 }

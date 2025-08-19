@@ -472,6 +472,8 @@ class TagPickerViewModel: ObservableObject {
     func addNewTag(_ tag: Tag) {
         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
             allTags.append(tag)
+            // Sort tags alphabetically by name
+            allTags.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
             selectedTags.append(tag)
         }
     }

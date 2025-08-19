@@ -173,7 +173,7 @@ struct TaskEditorPopup: View {
                             Text(String.addNewTask.localized)
                                 .font(.appFont(size: 14, weight: .black))
                         }
-                        .foregroundColor(.yellow)
+                        .foregroundColor(theme.textColor)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(
