@@ -13,13 +13,13 @@ extension HomeView {
     func heroSection(healthManager: HealthManager) -> some View {
         let theme = themeManager.activeTheme
 
-        return VStack(spacing: 16) {
+        return VStack(spacing: 12) {
             if let user = viewModel.user {
-                // Redesigned Character Card
+                // Compact Character Card
                 VStack(spacing: 0) {
                     // Top section with character info
-                    HStack(spacing: 16) {
-                        // Character Avatar with enhanced styling
+                    HStack(spacing: 12) {
+                        // Character Avatar with compact styling
                         ZStack {
                             // Outer glow effect
                             Circle()
@@ -30,8 +30,8 @@ extension HomeView {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .frame(width: 90, height: 90)
-                                .shadow(color: .yellow.opacity(0.3), radius: 8, x: 0, y: 4)
+                                .frame(width: 70, height: 70)
+                                .shadow(color: .yellow.opacity(0.3), radius: 6, x: 0, y: 3)
 
                             // Main avatar background
                             Circle()
@@ -42,25 +42,25 @@ extension HomeView {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .frame(width: 80, height: 80)
-                                .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 3)
+                                .frame(width: 62, height: 62)
+                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
 
                             // Character icon
                             if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
                                 Image(characterClass.iconName)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                    .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
+                                    .frame(width: 45, height: 45)
+                                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
                             }
                         }
 
                         // Character details
-                        VStack(alignment: .leading, spacing: 8) {
+                        VStack(alignment: .leading, spacing: 6) {
                             // Name and premium badge
                             HStack {
                                 Text(user.nickname ?? "Adventurer")
-                                    .font(.appFont(size: 24, weight: .black))
+                                    .font(.appFont(size: 20, weight: .black))
                                     .foregroundColor(theme.textColor)
                                     .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
                                 Spacer()
@@ -70,15 +70,15 @@ extension HomeView {
                             // Character class
                             if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
                                 Text(characterClass.displayName)
-                                    .font(.appFont(size: 16, weight: .medium))
+                                    .font(.appFont(size: 14, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.8))
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 8)
+                                        RoundedRectangle(cornerRadius: 6)
                                             .fill(Color.yellow.opacity(0.2))
                                             .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
+                                                RoundedRectangle(cornerRadius: 6)
                                                     .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
                                             )
                                     )
@@ -86,23 +86,23 @@ extension HomeView {
 
                             // Level and XP
                             HStack {
-                                HStack(spacing: 4) {
+                                HStack(spacing: 3) {
                                     Image("icon_star_fill")
                                         .resizable()
-                                        .frame(width: 14, height: 14)
+                                        .frame(width: 12, height: 12)
                                     Text("\(String.level.localized) \(user.level)")
-                                        .font(.appFont(size: 16, weight: .bold))
+                                        .font(.appFont(size: 14, weight: .bold))
                                         .foregroundColor(theme.textColor)
                                 }
 
                                 Spacer()
 
-                                HStack(spacing: 4) {
+                                HStack(spacing: 3) {
                                     Image("icon_lightning")
                                         .resizable()
-                                        .frame(width: 12, height: 12)
+                                        .frame(width: 10, height: 10)
                                     Text("\(user.exp)/100 XP")
-                                        .font(.appFont(size: 14, weight: .medium))
+                                        .font(.appFont(size: 12, weight: .medium))
                                         .foregroundColor(theme.textColor.opacity(0.8))
                                 }
                             }
@@ -110,8 +110,8 @@ extension HomeView {
 
                         Spacer()
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
 
                     // Divider
                     Rectangle()
@@ -123,35 +123,35 @@ extension HomeView {
                             )
                         )
                         .frame(height: 1)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 16)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
 
                     // Bottom section with stats
-                    VStack(spacing: 12) {
+                    VStack(spacing: 10) {
                         // Health Bar with reddish color
-                        VStack(spacing: 6) {
+                        VStack(spacing: 4) {
                             HStack {
                                 Image(systemName: "heart.fill")
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 12))
                                     .foregroundColor(.red)
                                 Text("Health")
-                                    .font(.appFont(size: 14, weight: .bold))
+                                    .font(.appFont(size: 12, weight: .bold))
                                     .foregroundColor(theme.textColor)
                                 Spacer()
                                 Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
-                                    .font(.appFont(size: 12, weight: .black))
+                                    .font(.appFont(size: 11, weight: .black))
                                     .foregroundColor(theme.textColor)
                             }
 
                             // Reddish health bar
                             GeometryReader { geometry in
                                 ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 8)
+                                    RoundedRectangle(cornerRadius: 6)
                                         .fill(Color.red.opacity(0.2))
-                                        .frame(height: 16)
+                                        .frame(height: 12)
 
                                     let healthPercentage = healthManager.getHealthPercentage()
-                                    RoundedRectangle(cornerRadius: 8)
+                                    RoundedRectangle(cornerRadius: 6)
                                         .fill(
                                             LinearGradient(
                                                 colors: [Color.red, Color.red.opacity(0.8)],
@@ -159,33 +159,33 @@ extension HomeView {
                                                 endPoint: .trailing
                                             )
                                         )
-                                        .frame(width: geometry.size.width * healthPercentage, height: 16)
+                                        .frame(width: geometry.size.width * healthPercentage, height: 12)
                                         .animation(.easeOut(duration: 0.5), value: healthPercentage)
                                 }
                             }
-                            .frame(height: 16)
+                            .frame(height: 12)
                         }
 
                         // Coins and Experience Bar
-                        HStack(spacing: 16) {
+                        HStack(spacing: 12) {
                             // Coins display
-                            HStack(spacing: 6) {
+                            HStack(spacing: 4) {
                                 Image("icon_gold")
                                     .resizable()
-                                    .frame(width: 18, height: 18)
+                                    .frame(width: 14, height: 14)
                                     .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
                                 Text("\(user.coins)")
-                                    .font(.appFont(size: 16, weight: .black))
+                                    .font(.appFont(size: 14, weight: .black))
                                     .foregroundColor(.yellow)
                                     .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
                             .background(
-                                RoundedRectangle(cornerRadius: 8)
+                                RoundedRectangle(cornerRadius: 6)
                                     .fill(Color.yellow.opacity(0.2))
                                     .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
+                                        RoundedRectangle(cornerRadius: 6)
                                             .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
                                     )
                             )
@@ -193,18 +193,18 @@ extension HomeView {
                             Spacer()
 
                             // Experience Bar
-                            VStack(spacing: 4) {
+                            VStack(spacing: 3) {
                                 Text("Experience")
-                                    .font(.appFont(size: 12, weight: .medium))
+                                    .font(.appFont(size: 10, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.7))
 
                                 ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 6)
+                                    RoundedRectangle(cornerRadius: 4)
                                         .fill(theme.backgroundColor.opacity(0.7))
-                                        .frame(width: 120, height: 12)
+                                        .frame(width: 100, height: 8)
 
                                     let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
-                                    RoundedRectangle(cornerRadius: 6)
+                                    RoundedRectangle(cornerRadius: 4)
                                         .fill(
                                             LinearGradient(
                                                 colors: [Color.green, Color.green.opacity(0.7)],
@@ -212,17 +212,17 @@ extension HomeView {
                                                 endPoint: .trailing
                                             )
                                         )
-                                        .frame(width: 120 * expRatio, height: 12)
+                                        .frame(width: 100 * expRatio, height: 8)
                                         .animation(.easeInOut(duration: 0.5), value: user.exp)
                                 }
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
                 }
                 .background(
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: 16)
                         .fill(
                             LinearGradient(
                                 colors: [
@@ -233,24 +233,24 @@ extension HomeView {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
+                        .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                 )
             } else {
                 // Loading state
                 HStack {
                     ProgressView()
-                        .scaleEffect(1.2)
+                        .scaleEffect(1.0)
                         .tint(.yellow)
                     Text(String.loadingCharacter.localized)
-                        .font(.appFont(size: 16))
+                        .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor)
                 }
-                .frame(height: 120)
+                .frame(height: 80)
                 .frame(maxWidth: .infinity)
                 .background(
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 12)
                         .fill(theme.primaryColor)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
                 )
             }
         }

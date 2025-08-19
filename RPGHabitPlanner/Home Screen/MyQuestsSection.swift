@@ -42,7 +42,7 @@ struct MyQuestsSection: View {
                 Spacer()
                 
                 // Date navigation
-                HStack(spacing: 16) {
+                HStack(spacing: 12) {
                     Button(action: previousDay) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .medium))
@@ -52,7 +52,8 @@ struct MyQuestsSection: View {
                     Text(dateFormatter.string(from: viewModel.selectedDate))
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
-                        .frame(minWidth: 120)
+                        .multilineTextAlignment(.center)
+                        .frame(width: 150, alignment: .center)
                     
                     Button(action: nextDay) {
                         Image(systemName: "chevron.right")
