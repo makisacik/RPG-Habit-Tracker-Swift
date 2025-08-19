@@ -171,6 +171,14 @@ struct HomeView: View {
             .tabItem { Label(String.character.localized, systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
+            // MARK: Character Test
+            NavigationStack {
+                CharacterTestView()
+                    .environmentObject(themeManager)
+            }
+            .tabItem { Label("Test", systemImage: "person.crop.circle.badge.questionmark") }
+            .tag(HomeTab.characterTest)
+
             // MARK: Base
             NavigationStack {
                 ZStack {

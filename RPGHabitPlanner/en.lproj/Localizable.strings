@@ -87,6 +87,15 @@
 // MARK: - Character & Stats
 "character" = "Character";
 "character_class" = "Character Class";
+"character_test" = "Character Test";
+"character_preview" = "Character Preview";
+"customize_character" = "Customize Your Character";
+"hair_style" = "Hair Style";
+"eye_style" = "Eye Style";
+"outfit" = "Outfit";
+"weapon" = "Weapon";
+"current_selection" = "Current Selection";
+"style" = "Style";
 "level" = "Level";
 "experience" = "Experience";
 "health" = "Health";

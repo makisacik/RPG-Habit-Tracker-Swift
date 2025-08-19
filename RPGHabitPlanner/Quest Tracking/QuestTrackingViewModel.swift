@@ -15,6 +15,7 @@ final class QuestTrackingViewModel: ObservableObject {
     @Published var questCompleted: Bool = false
     @Published var newLevel: Int16?
     @Published var lastCompletedQuestId: UUID?
+    @Published var lastCompletedQuest: Quest?
     @Published var lastRefreshDay: Date = Calendar.current.startOfDay(for: Date())
     @Published var selectedDayFilter: DayFilter = .active
 
@@ -63,6 +64,13 @@ final class QuestTrackingViewModel: ObservableObject {
             name: .questCreated,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestCompletedFromDetail),
+            name: .questCompletedFromDetail,
+            object: nil
+        )
     }
 
     @objc private func handleQuestUpdated(_ notification: Notification) {
@@ -83,6 +91,30 @@ final class QuestTrackingViewModel: ObservableObject {
         print("➕ QuestTrackingViewModel: Received quest created notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
+        }
+    }
+
+    @objc private func handleQuestCompletedFromDetail(_ notification: Notification) {
+        print("🎯 QuestTrackingViewModel: Received quest completed from detail notification")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let quest = notification.object as? Quest,
+                  let userInfo = notification.userInfo,
+                  let questId = userInfo["questId"] as? UUID,
+                  let leveledUp = userInfo["leveledUp"] as? Bool,
+                  let newLevel = userInfo["newLevel"] as? Int16 else {
+                return
+            }
+
+            // Set the completion flags to trigger reward view
+            self.lastCompletedQuestId = questId
+            self.lastCompletedQuest = quest
+            self.questCompleted = true
+            self.didLevelUp = leveledUp
+            self.newLevel = newLevel
+
+            // Refresh quests to get updated state
+            self.fetchQuests()
         }
     }
 
@@ -160,6 +192,7 @@ final class QuestTrackingViewModel: ObservableObject {
                             }
 
                             self.lastCompletedQuestId = id
+                            self.lastCompletedQuest = self.quests[index]
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel

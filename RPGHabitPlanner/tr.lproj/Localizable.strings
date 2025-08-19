@@ -75,6 +75,15 @@
 // MARK: - Character & Stats
 "character" = "Karakter";
 "character_class" = "Karakter Sınıfı";
+"character_test" = "Karakter Testi";
+"character_preview" = "Karakter Önizleme";
+"customize_character" = "Karakterinizi Özelleştirin";
+"hair_style" = "Saç Stili";
+"eye_style" = "Göz Stili";
+"outfit" = "Kıyafet";
+"weapon" = "Silah";
+"current_selection" = "Mevcut Seçim";
+"style" = "Stil";
 "level" = "Seviye";
 "experience" = "Deneyim";
 "health" = "Can";

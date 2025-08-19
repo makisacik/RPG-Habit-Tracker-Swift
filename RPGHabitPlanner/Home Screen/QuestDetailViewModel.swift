@@ -13,6 +13,7 @@ extension Notification.Name {
     static let questUpdated = Notification.Name("questUpdated")
     static let questDeleted = Notification.Name("questDeleted")
     static let questCreated = Notification.Name("questCreated")
+    static let questCompletedFromDetail = Notification.Name("questCompletedFromDetail")
 }
 
 final class QuestDetailViewModel: ObservableObject {
@@ -175,16 +176,76 @@ final class QuestDetailViewModel: ObservableObject {
         // Update the server
         questDataService.markQuestAsFinished(forId: quest.id) { [weak self] error in
             DispatchQueue.main.async {
+                guard let self = self else { return }
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error marking quest as finished: \(error)")
                     // Revert the optimistic update on error
-                    self?.refreshQuest()
+                    self.refreshQuest()
                 } else {
                     print("✅ QuestDetailViewModel: Successfully marked quest as finished on server")
-                    // Record streak activity when finishing a quest
-                    self?.streakManager.recordActivity()
+
+                    // Calculate and award rewards (same logic as QuestTrackingViewModel)
+                    let baseExp: Int
+                    let baseCoins: Int
+
+                    #if DEBUG
+                    baseExp = 50 * self.quest.difficulty
+                    #else
+                    baseExp = 10 * self.quest.difficulty
+                    #endif
+
+                    // Calculate coin reward using CurrencyManager
+                    baseCoins = CurrencyManager.shared.calculateQuestReward(
+                        difficulty: self.quest.difficulty,
+                        isMainQuest: self.quest.isMainQuest,
+                        taskCount: self.quest.tasks.count
+                    )
+
+                    // Apply boosters
+                    let boosterManager = BoosterManager.shared
+                    let boostedRewards = boosterManager.calculateBoostedRewards(
+                        baseExperience: baseExp,
+                        baseCoins: baseCoins
+                    )
+
+                    // Award boosted experience
+                    let userManager = UserManager(container: PersistenceController.shared.container)
+                    userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { leveledUp, newLevel, expError in
+                        if let expError = expError {
+                            print("❌ Error updating experience: \(expError)")
+                        } else {
+                            // Award boosted coins
+                            CurrencyManager.shared.addCoins(boostedRewards.coins) { coinError in
+                                if let coinError = coinError {
+                                    print("❌ Error adding coins: \(coinError)")
+                                }
+                            }
+
+                            // Record streak activity when finishing a quest
+                            self.streakManager.recordActivity()
+
+                            // Check achievements
+                            AchievementManager.shared.checkAchievements(
+                                questDataService: self.questDataService,
+                                userManager: userManager
+                            ) { _ in }
+
+                            // Post notification with quest completion data for QuestTrackingView
+                            let userInfo: [String: Any] = [
+                                "questId": self.quest.id,
+                                "leveledUp": leveledUp,
+                                "newLevel": newLevel ?? 0
+                            ]
+                            NotificationCenter.default.post(
+                                name: .questCompletedFromDetail,
+                                object: self.quest,
+                                userInfo: userInfo
+                            )
+                        }
+                    }
+
                     // Notify other views that quest was updated
-                    NotificationCenter.default.post(name: .questUpdated, object: self?.quest)
+                    NotificationCenter.default.post(name: .questUpdated, object: self.quest)
                 }
             }
         }

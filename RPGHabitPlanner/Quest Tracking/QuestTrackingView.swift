@@ -27,8 +27,9 @@ struct QuestTrackingView: View {
         ZStack {
             mainContent
             SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
-            if let quest = completedQuest {
+            if let quest = completedQuest, showReward {
                 RewardView(isVisible: $showReward, quest: quest)
+                    .id("reward-\(quest.id)") // Use quest ID as stable identifier
             }
             LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
         }
@@ -136,10 +137,14 @@ struct QuestTrackingView: View {
             showAlert = errorMessage != nil
         }
         .onChange(of: viewModel.questCompleted) { completed in
-            if completed {
+            if completed && !showReward {
                 // Find the completed quest from viewModel
                 if let completedQuestId = viewModel.lastCompletedQuestId,
                    let quest = viewModel.quests.first(where: { $0.id == completedQuestId }) {
+                    completedQuest = quest
+                    showReward = true
+                } else if let quest = viewModel.lastCompletedQuest {
+                    // Use the quest from the notification (completed from detail view)
                     completedQuest = quest
                     showReward = true
                 }
@@ -219,10 +224,6 @@ struct QuestTrackingView: View {
                 withAnimation {
                     viewModel.markQuestAsCompleted(id: id)
                     lastScrollPosition = id
-                    if let quest = viewModel.quests.first(where: { $0.id == id }) {
-                        completedQuest = quest
-                        showReward = true
-                    }
                 }
             },
             onEditQuest: { _ in }, // No longer used but keeping for compatibility

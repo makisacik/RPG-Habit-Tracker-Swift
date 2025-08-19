@@ -20,6 +20,7 @@ struct RewardView: View {
     @State private var boostedExp: Int = 0
     @State private var boostedCoins: Int = 0
     @State private var hasBoosters: Bool = false
+    @State private var viewAppeared: Bool = false
 
     var body: some View {
         if isVisible {
@@ -146,6 +147,9 @@ struct RewardView: View {
                             .shadow(color: theme.shadowColor, radius: 10, x: 0, y: 5)
                     )
                     .padding(.horizontal, 20)
+                    .scaleEffect(viewAppeared ? 1.0 : 0.8)
+                    .opacity(viewAppeared ? 1.0 : 0.0)
+                    .animation(.spring(response: 0.6, dampingFraction: 0.8), value: viewAppeared)
 
                     // Dismiss Button - positioned under the card
                     Button(action: {
@@ -181,13 +185,21 @@ struct RewardView: View {
                     .buttonStyle(PlainButtonStyle())
                     .padding(.horizontal, 20)
                     .opacity(showRewards ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.3).delay(0.5), value: showRewards)
+                    .animation(.easeInOut(duration: 0.3), value: showRewards)
 
                     Spacer()
                 }
             }
             .onAppear {
-                startRewardSequence()
+                // Start the view appearance animation
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    viewAppeared = true
+                }
+
+                // Start the reward sequence after a short delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    startRewardSequence()
+                }
             }
         }
     }
@@ -198,6 +210,7 @@ struct RewardView: View {
         showRewards = false
         fadeOut = false
         rotation = 0
+        viewAppeared = true // Ensure view is visible
 
         // Calculate rewards
         #if DEBUG

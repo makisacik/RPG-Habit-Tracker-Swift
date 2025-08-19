@@ -154,6 +154,15 @@ extension String {
     // MARK: - Character & Stats
     static let character = "character"
     static let characterClass = "character_class"
+    static let characterTest = "character_test"
+    static let characterPreview = "character_preview"
+    static let customizeCharacter = "customize_character"
+    static let hairStyle = "hair_style"
+    static let eyeStyle = "eye_style"
+    static let outfit = "outfit"
+    static let weapon = "weapon"
+    static let currentSelection = "current_selection"
+    static let style = "style"
     static let level = "level"
     static let experience = "experience"
     static let health = "health"
@@ -384,7 +393,6 @@ extension String {
     
     // MARK: - Character Details
     static let exp = "exp"
-    static let weapon = "weapon"
     static let equippedWeapon = "equipped_weapon"
     static let characterId = "character_id"
     
