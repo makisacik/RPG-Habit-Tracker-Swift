@@ -19,6 +19,7 @@ final class MyQuestsViewModel: ObservableObject {
     @Published var newLevel: Int16?
     @Published var lastCompletedQuestId: UUID?
     @Published var lastCompletedQuest: Quest?
+    @Published var shouldAnimateReordering: Bool = false
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -134,6 +135,26 @@ final class MyQuestsViewModel: ObservableObject {
         }
     }
 
+    // New method to refresh quest data without showing loading state
+    private func refreshQuestData() {
+        questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
+            self?.questDataService.fetchAllQuests { [weak self] quests, _ in
+                DispatchQueue.main.async {
+                    print("📅 MyQuestsViewModel: Refreshed quest data with \(quests.count) quests")
+                    self?.allQuests = quests
+
+                    // Check if reordering animation should be enabled
+                    let currentItems = self?.items(for: self?.selectedDate ?? Date()) ?? []
+                    let hasActiveQuests = currentItems.contains { $0.state == .todo }
+                    let hasCompletedQuests = currentItems.contains { $0.state == .done }
+                    self?.shouldAnimateReordering = hasActiveQuests && hasCompletedQuests
+
+                    self?.refreshTrigger.toggle()
+                }
+            }
+        }
+    }
+
     func items(for date: Date) -> [DayQuestItem] {
         let day = calendar.startOfDay(for: date)
 
@@ -181,7 +202,8 @@ final class MyQuestsViewModel: ObservableObject {
                         self?.alertMessage = error.localizedDescription
                     } else {
                         self?.streakManager.recordActivity()
-                        self?.fetchQuests()
+                        // Refresh quest data to update the view
+                        self?.refreshQuestData()
                     }
                 }
             }
@@ -191,7 +213,8 @@ final class MyQuestsViewModel: ObservableObject {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
                     } else {
-                        self?.fetchQuests()
+                        // Refresh quest data to update the view
+                        self?.refreshQuestData()
                     }
                 }
             }
@@ -250,7 +273,8 @@ final class MyQuestsViewModel: ObservableObject {
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
 
-                            self.fetchQuests()
+                            // Refresh quest data to update the view
+                            self.refreshQuestData()
                         }
                     }
                 }
@@ -264,7 +288,8 @@ final class MyQuestsViewModel: ObservableObject {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
                 } else {
-                    self?.fetchQuests()
+                    // Refresh quest data to update the view
+                    self?.refreshQuestData()
                 }
             }
         }

@@ -26,12 +26,6 @@ struct MyQuestsSection: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
-        var creationVM: QuestCreationViewModel {
-            let creationVM = QuestCreationViewModel(questDataService: questDataService)
-            creationVM.questDueDate = viewModel.selectedDate
-            return creationVM
-        }
-
         VStack(alignment: .leading, spacing: 12) {
             // Header with date selection
             HStack {
@@ -42,107 +36,14 @@ struct MyQuestsSection: View {
                 Spacer()
 
                 // Date navigation
-                HStack(spacing: 12) {
-                    Button(action: previousDay) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(theme.textColor)
-                    }
-
-                    Text(dateFormatter.string(from: viewModel.selectedDate))
-                        .font(.appFont(size: 16, weight: .medium))
-                        .foregroundColor(theme.textColor)
-                        .multilineTextAlignment(.center)
-                        .frame(width: 150, alignment: .center)
-
-                    Button(action: nextDay) {
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(theme.textColor)
-                    }
-                }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(theme.primaryColor.opacity(0.3))
-                )
+                dateNavigationView(theme: theme)
             }
 
             // Quest count summary
-            let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
-            let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
-
-            HStack {
-                Text("\(activeCount) active, \(completedCount) completed")
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-
-                Spacer()
-
-                Button("View All") {
-                    selectedTab = .tracking
-                }
-                .font(.appFont(size: 14, weight: .medium))
-                .foregroundColor(.blue)
-            }
+            questCountSummary(theme: theme)
 
             // Quests list
-            if viewModel.isLoading {
-                HStack(spacing: 8) {
-                    ProgressView()
-                    Text("Loading quests…")
-                        .font(.appFont(size: 14))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                }
-                .padding(.vertical, 12)
-            } else if !viewModel.itemsForSelectedDate.isEmpty {
-                VStack(spacing: 8) {
-                    ForEach(viewModel.itemsForSelectedDate) { item in
-                        MyQuestRow(
-                            item: item,
-                            theme: theme,
-                            onToggle: { viewModel.toggle(item: item) },
-                            onMarkFinished: {
-                                viewModel.markQuestAsFinished(questId: item.quest.id)
-                            },
-                            onToggleTaskCompletion: { taskId, isCompleted in
-                                viewModel.toggleTaskCompletion(
-                                    questId: item.quest.id,
-                                    taskId: taskId,
-                                    newValue: isCompleted
-                                )
-                            },
-                            onQuestTap: { questItem in
-                                selectedQuestItem = questItem
-                            }
-                        )
-                    }
-                }
-            } else {
-                // Empty state
-                VStack(spacing: 8) {
-                    Image(systemName: "list.bullet.clipboard")
-                        .font(.system(size: 32))
-                        .foregroundColor(theme.textColor.opacity(0.5))
-
-                    Text("No quests for \(dateFormatter.string(from: viewModel.selectedDate))")
-                        .font(.appFont(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-
-                    Button("Create Quest") {
-                        showingQuestCreation = true
-                    }
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(.blue)
-                }
-                .frame(height: 100)
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.primaryColor.opacity(0.5))
-                )
-            }
+            questsListView(theme: theme)
         }
         .padding(16)
         .background(
@@ -154,7 +55,7 @@ struct MyQuestsSection: View {
             viewModel.fetchQuests()
         }) {
             NavigationStack {
-                QuestCreationView(viewModel: creationVM)
+                QuestCreationView(viewModel: createQuestCreationViewModel())
             }
         }
         .sheet(item: $selectedQuestItem) { questItem in
@@ -169,11 +70,151 @@ struct MyQuestsSection: View {
         }
         // Make sure the section refreshes when it appears
         .onAppear {
-            // Only fetch if we don’t have data yet, to avoid spam
+            // Only fetch if we don't have data yet, to avoid spam
             if viewModel.allQuests.isEmpty {
                 viewModel.fetchQuests()
             }
         }
+    }
+
+    // MARK: - Helper Views
+
+    @ViewBuilder
+    private func dateNavigationView(theme: Theme) -> some View {
+        HStack(spacing: 12) {
+            Button(action: previousDay) {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(theme.textColor)
+            }
+
+            Text(dateFormatter.string(from: viewModel.selectedDate))
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(theme.textColor)
+                .multilineTextAlignment(.center)
+                .frame(width: 150, alignment: .center)
+
+            Button(action: nextDay) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(theme.textColor)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(theme.primaryColor.opacity(0.3))
+        )
+    }
+
+    @ViewBuilder
+    private func questCountSummary(theme: Theme) -> some View {
+        let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
+        let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
+
+        HStack {
+            Text("\(activeCount) active, \(completedCount) completed")
+                .font(.appFont(size: 14))
+                .foregroundColor(theme.textColor.opacity(0.7))
+
+            Spacer()
+
+            Button("View All") {
+                selectedTab = .tracking
+            }
+            .font(.appFont(size: 14, weight: .medium))
+            .foregroundColor(.blue)
+        }
+    }
+
+    @ViewBuilder
+    private func questsListView(theme: Theme) -> some View {
+        if viewModel.isLoading && viewModel.allQuests.isEmpty {
+            loadingView(theme: theme)
+        } else if !viewModel.itemsForSelectedDate.isEmpty {
+            questsListContent(theme: theme)
+        } else {
+            emptyStateView(theme: theme)
+        }
+    }
+
+    @ViewBuilder
+    private func loadingView(theme: Theme) -> some View {
+        HStack(spacing: 8) {
+            ProgressView()
+                .scaleEffect(0.8)
+            Text("Loading quests…")
+                .font(.appFont(size: 14))
+                .foregroundColor(theme.textColor.opacity(0.7))
+        }
+        .padding(.vertical, 12)
+    }
+
+    @ViewBuilder
+    private func questsListContent(theme: Theme) -> some View {
+        VStack(spacing: 8) {
+            ForEach(viewModel.itemsForSelectedDate) { item in
+                MyQuestRow(
+                    item: item,
+                    theme: theme,
+                    onToggle: {
+                        viewModel.toggle(item: item)
+                    },
+                    onMarkFinished: {
+                        viewModel.markQuestAsFinished(questId: item.quest.id)
+                    },
+                    onToggleTaskCompletion: { taskId, isCompleted in
+                        viewModel.toggleTaskCompletion(
+                            questId: item.quest.id,
+                            taskId: taskId,
+                            newValue: isCompleted
+                        )
+                    },
+                    onQuestTap: { questItem in
+                        selectedQuestItem = questItem
+                    }
+                )
+                .transition(.asymmetric(
+                    insertion: .scale.combined(with: .opacity),
+                    removal: .scale.combined(with: .opacity)
+                ))
+            }
+        }
+        .animation(viewModel.shouldAnimateReordering ? .spring(response: 0.6, dampingFraction: 0.8) : nil, value: viewModel.itemsForSelectedDate.map { $0.id })
+    }
+
+    @ViewBuilder
+    private func emptyStateView(theme: Theme) -> some View {
+        VStack(spacing: 8) {
+            Image(systemName: "list.bullet.clipboard")
+                .font(.system(size: 32))
+                .foregroundColor(theme.textColor.opacity(0.5))
+
+            Text("No quests for \(dateFormatter.string(from: viewModel.selectedDate))")
+                .font(.appFont(size: 16))
+                .foregroundColor(theme.textColor.opacity(0.7))
+
+            Button("Create Quest") {
+                showingQuestCreation = true
+            }
+            .font(.appFont(size: 14, weight: .medium))
+            .foregroundColor(.blue)
+        }
+        .frame(height: 100)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.primaryColor.opacity(0.5))
+        )
+    }
+
+    // MARK: - Helper Methods
+
+    private func createQuestCreationViewModel() -> QuestCreationViewModel {
+        let creationVM = QuestCreationViewModel(questDataService: questDataService)
+        creationVM.questDueDate = viewModel.selectedDate
+        return creationVM
     }
 
     private func previousDay() {
@@ -289,7 +330,7 @@ struct MyQuestRow: View {
                             }
                         }
                         .padding(.bottom, 12)
-                        .transition(.opacity.combined(with: .slide))
+                        .transition(.opacity.combined(with: .move(edge: .top)))
                     }
                 }
             }
