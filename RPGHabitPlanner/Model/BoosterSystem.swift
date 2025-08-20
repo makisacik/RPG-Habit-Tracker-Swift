@@ -34,13 +34,11 @@ enum BoosterType: String, CaseIterable, Codable {
 // MARK: - Booster Source
 
 enum BoosterSource: String, CaseIterable, Codable {
-    case building = "building"
     case item = "item"
     case temporary = "temporary"
     
     var displayName: String {
         switch self {
-        case .building: return "Building"
         case .item: return "Item"
         case .temporary: return "Temporary"
         }
@@ -55,7 +53,7 @@ struct BoosterEffect: Identifiable, Codable {
     let source: BoosterSource
     let multiplier: Double
     let flatBonus: Int
-    let sourceId: String // Building type or item id
+    let sourceId: String // Item id
     let sourceName: String
     let isActive: Bool
     let startTime: Date
@@ -156,7 +154,7 @@ final class BoosterManager: ObservableObject {
         setupObservers()
         setupCleanupTimer()
         // Don't call refreshBoosters() during init to avoid circular dependency
-        // Building boosters will be loaded separately after initialization
+        // Item boosters will be loaded separately after initialization
     }
     
     deinit {
@@ -168,8 +166,6 @@ final class BoosterManager: ObservableObject {
     
     func refreshBoosters() {
         calculateItemBoosters()
-        // Ensure building boosters are refreshed
-        BuildingBoosterManager.shared.refreshBuildingBoosters()
         updateTotalBoosters()
     }
     
@@ -181,20 +177,6 @@ final class BoosterManager: ObservableObject {
         print("🚀 BoosterManager: Refreshed boosters from persistence - Total: \(activeBoosters.count)")
     }
     
-    func ensureBuildingBoostersLoaded() {
-        print("🚀 BoosterManager: Ensuring building boosters are loaded")
-        
-        // Ensure we're on the main thread for UI updates
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            BuildingBoosterManager.shared.refreshBuildingBoosters()
-            self.updateTotalBoosters()
-            print("🚀 BoosterManager: Total active boosters: \(self.activeBoosters.count)")
-            print("🚀 BoosterManager: Building boosters: \(self.activeBoosters.filter { $0.source == .building }.count)")
-            print("🚀 BoosterManager: Item boosters: \(self.activeBoosters.filter { $0.source == .item }.count)")
-        }
-    }
     
     func calculateBoostedRewards(baseExperience: Int, baseCoins: Int) -> (experience: Int, coins: Int) {
         let boostedExperience = Int(Double(baseExperience) * totalExperienceMultiplier) + totalExperienceBonus
@@ -234,54 +216,12 @@ final class BoosterManager: ObservableObject {
         NotificationCenter.default.post(name: .boosterAdded, object: booster)
     }
     
-    func addBuildingBooster(
-        type: BoosterType,
-        multiplier: Double,
-        flatBonus: Int = 0,
-        buildingId: String,
-        buildingName: String
-    ) {
-        print("🚀 BoosterManager: Adding building booster - \(buildingName) (ID: \(buildingId)) - \(type.rawValue) x\(multiplier)")
-        
-        // Remove existing building booster with same ID
-        let removedCount = activeBoosters.filter { $0.sourceId == buildingId }.count
-        activeBoosters.removeAll { $0.sourceId == buildingId }
-        if removedCount > 0 {
-            print("🚀 BoosterManager: Removed \(removedCount) existing boosters with ID \(buildingId)")
-        }
-        
-        let booster = BoosterEffect(
-            type: type,
-            source: .building,
-            multiplier: multiplier,
-            flatBonus: flatBonus,
-            sourceId: buildingId,
-            sourceName: buildingName
-        )
-        
-        activeBoosters.append(booster)
-        print("🚀 BoosterManager: Added booster - Total building boosters: \(activeBoosters.filter { $0.source == .building }.count)")
-        updateTotalBoosters()
-        // Force UI update for building booster changes
-        objectWillChange.send()
-    }
     
     func removeBooster(id: UUID) {
         activeBoosters.removeAll { $0.id == id }
         updateTotalBoosters()
     }
     
-    func removeBuildingBooster(buildingId: String) {
-        activeBoosters.removeAll { $0.sourceId == buildingId }
-        updateTotalBoosters()
-    }
-
-    func clearAllBuildingBoosters() {
-        activeBoosters.removeAll { $0.source == .building }
-        updateTotalBoosters()
-        // Force UI update for building booster changes
-        objectWillChange.send()
-    }
     
     func clearExpiredBoosters() {
         let expiredCount = activeBoosters.count
@@ -299,13 +239,6 @@ final class BoosterManager: ObservableObject {
             self,
             selector: #selector(handleActiveEffectsChanged),
             name: .activeEffectsChanged,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleBuildingUpdate),
-            name: .buildingUpdated,
             object: nil
         )
     }
@@ -330,11 +263,6 @@ final class BoosterManager: ObservableObject {
         }
     }
 
-    @objc private func handleBuildingUpdate() {
-        DispatchQueue.main.async { [weak self] in
-            self?.refreshBoosters()
-        }
-    }
     
     private func calculateItemBoosters() {
         // Remove existing item boosters

@@ -24,19 +24,19 @@ final class BoosterSystemTests: XCTestCase {
     func testBoosterEffectCreation() {
         let booster = BoosterEffect(
             type: .experience,
-            source: .building,
+            source: .item,
             multiplier: 1.5,
             flatBonus: 10,
-            sourceId: "castle",
-            sourceName: "Castle (Lv.3)"
+            sourceId: "xp_boost_item",
+            sourceName: "XP Boost Item"
         )
         
         XCTAssertEqual(booster.type, .experience)
-        XCTAssertEqual(booster.source, .building)
+        XCTAssertEqual(booster.source, .item)
         XCTAssertEqual(booster.multiplier, 1.5)
         XCTAssertEqual(booster.flatBonus, 10)
-        XCTAssertEqual(booster.sourceId, "castle")
-        XCTAssertEqual(booster.sourceName, "Castle (Lv.3)")
+        XCTAssertEqual(booster.sourceId, "xp_boost_item")
+        XCTAssertEqual(booster.sourceName, "XP Boost Item")
         XCTAssertTrue(booster.isActive)
         XCTAssertFalse(booster.isExpired)
     }
@@ -44,15 +44,15 @@ final class BoosterSystemTests: XCTestCase {
     func testBoosterEffectDescription() {
         let booster = BoosterEffect(
             type: .coins,
-            source: .building,
+            source: .item,
             multiplier: 1.25,
             flatBonus: 5,
-            sourceId: "house",
-            sourceName: "House (Lv.2)"
+            sourceId: "coin_boost_item",
+            sourceName: "Coin Boost Item"
         )
         
         let description = booster.description
-        XCTAssertTrue(description.contains("House (Lv.2) provides"))
+        XCTAssertTrue(description.contains("Coin Boost Item provides"))
         XCTAssertTrue(description.contains("+25%"))
         XCTAssertTrue(description.contains("+5"))
         XCTAssertTrue(description.contains("coins"))
@@ -97,11 +97,11 @@ final class BoosterSystemTests: XCTestCase {
         // Test with experience booster
         let expBooster = BoosterEffect(
             type: .experience,
-            source: .building,
+            source: .item,
             multiplier: 1.5,
             flatBonus: 10,
-            sourceId: "house",
-            sourceName: "House"
+            sourceId: "xp_boost_item",
+            sourceName: "XP Boost Item"
         )
         boosterManager.activeBoosters = [expBooster]
         boosterManager.refreshBoosters()
@@ -114,7 +114,7 @@ final class BoosterSystemTests: XCTestCase {
     func testMultipleBoosters() {
         let expBooster = BoosterEffect(
             type: .experience,
-            source: .building,
+            source: .item,
             multiplier: 1.2,
             flatBonus: 5,
             sourceId: "house",
@@ -123,11 +123,11 @@ final class BoosterSystemTests: XCTestCase {
         
         let coinBooster = BoosterEffect(
             type: .coins,
-            source: .building,
+            source: .item,
             multiplier: 1.3,
             flatBonus: 3,
-            sourceId: "castle",
-            sourceName: "Castle"
+            sourceId: "coin_boost_item",
+            sourceName: "Coin Boost Item"
         )
         
         boosterManager.activeBoosters = [expBooster, coinBooster]
@@ -159,11 +159,11 @@ final class BoosterSystemTests: XCTestCase {
     func testGetActiveBoosters() {
         let activeBooster = BoosterEffect(
             type: .experience,
-            source: .building,
+            source: .item,
             multiplier: 1.2,
             flatBonus: 0,
-            sourceId: "house",
-            sourceName: "House"
+            sourceId: "xp_boost_item",
+            sourceName: "XP Boost Item"
         )
         
         let expiredBooster = BoosterEffect(
@@ -180,7 +180,7 @@ final class BoosterSystemTests: XCTestCase {
         
         let activeExpBoosters = boosterManager.getActiveBoosters(for: .experience)
         XCTAssertEqual(activeExpBoosters.count, 1)
-        XCTAssertEqual(activeExpBoosters.first?.sourceName, "House")
+        XCTAssertEqual(activeExpBoosters.first?.sourceName, "XP Boost Item")
         
         let activeCoinBoosters = boosterManager.getActiveBoosters(for: .coins)
         XCTAssertEqual(activeCoinBoosters.count, 0) // Expired booster should be filtered out
@@ -211,20 +211,20 @@ final class BoosterSystemTests: XCTestCase {
         // Test that multiple boosters add their percentages together instead of multiplying
         let booster1 = BoosterEffect(
             type: .experience,
-            source: .building,
+            source: .item,
             multiplier: 1.2, // 20% boost
             flatBonus: 0,
-            sourceId: "house1",
-            sourceName: "House 1"
+            sourceId: "xp_boost_item1",
+            sourceName: "XP Boost Item 1"
         )
         
         let booster2 = BoosterEffect(
             type: .experience,
-            source: .building,
+            source: .item,
             multiplier: 1.2, // 20% boost
             flatBonus: 0,
-            sourceId: "house2",
-            sourceName: "House 2"
+            sourceId: "xp_boost_item2",
+            sourceName: "XP Boost Item 2"
         )
         
         boosterManager.activeBoosters = [booster1, booster2]
@@ -237,20 +237,20 @@ final class BoosterSystemTests: XCTestCase {
         // Test coin boosters as well
         let coinBooster1 = BoosterEffect(
             type: .coins,
-            source: .building,
+            source: .item,
             multiplier: 1.15, // 15% boost
             flatBonus: 0,
-            sourceId: "castle1",
-            sourceName: "Castle 1"
+            sourceId: "coin_boost_item1",
+            sourceName: "Coin Boost Item 1"
         )
         
         let coinBooster2 = BoosterEffect(
             type: .coins,
-            source: .building,
+            source: .item,
             multiplier: 1.25, // 25% boost
             flatBonus: 0,
-            sourceId: "castle2",
-            sourceName: "Castle 2"
+            sourceId: "coin_boost_item2",
+            sourceName: "Coin Boost Item 2"
         )
         
         boosterManager.activeBoosters = [booster1, booster2, coinBooster1, coinBooster2]

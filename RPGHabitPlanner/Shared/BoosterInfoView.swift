@@ -8,21 +8,12 @@
 import SwiftUI
 
 struct BoosterInfoView: View {
-    let building: Building
     @StateObject private var themeManager = ThemeManager.shared
     @ObservedObject private var boosterManager = BoosterManager.shared
     @State private var refreshTrigger = false
     
     var body: some View {
-        Group {
-            if let booster = getBuildingBooster() {
-                boosterContent(booster: booster)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
-            print("🔄 BoosterInfoView: Received boostersUpdated notification")
-            refreshTrigger.toggle()
-        }
+        EmptyView()
     }
     
     @ViewBuilder
@@ -81,13 +72,6 @@ struct BoosterInfoView: View {
         }
     }
     
-    private func getBuildingBooster() -> BoosterEffect? {
-        let buildingBoosters = boosterManager.activeBoosters.filter { booster in
-            booster.source == .building && booster.sourceId.hasPrefix(building.type.rawValue + "_")
-        }
-        print("🏗️ BoosterInfoView: Looking for \(building.type.rawValue), found \(buildingBoosters.count) boosters: \(buildingBoosters.map { $0.sourceName })")
-        return buildingBoosters.first
-    }
     
     private func boosterIconName(for type: BoosterType) -> String {
         switch type {

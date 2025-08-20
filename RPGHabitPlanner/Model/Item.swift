@@ -503,7 +503,7 @@ struct ItemDatabase {
         Item.collectible(name: "Witch Helmet", description: "Witch's magical hat", iconName: "icon_helmet_witch", rarity: .rare, collectionCategory: "Armor", isRare: true),
         Item.collectible(name: "Level Wings", description: "Wings of experience", iconName: "icon_level_wings", rarity: .epic, collectionCategory: "General", isRare: true),
         Item.collectible(name: "Level", description: "Symbol of leveling up", iconName: "icon_level", collectionCategory: "General"),
-        Item.collectible(name: "Castle", description: "Mighty castle", iconName: "icon_castle", rarity: .legendary, collectionCategory: "Buildings", isRare: true),
+        Item.collectible(name: "Castle", description: "Mighty castle", iconName: "icon_castle", rarity: .legendary, collectionCategory: "General", isRare: true),
         Item.collectible(name: "Gear", description: "Mechanical gear", iconName: "icon_gear", collectionCategory: "General"),
         Item.collectible(name: "Bag", description: "Storage bag", iconName: "icon_bag", collectionCategory: "General"),
         Item.collectible(name: "Item Pouch Green", description: "Green item pouch", iconName: "item_pouch_green", collectionCategory: "General")

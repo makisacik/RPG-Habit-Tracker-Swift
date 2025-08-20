@@ -35,23 +35,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Setup background timer manager
         BackgroundTimerManager.shared.setupBackgroundTasks()
 
-        // Initialize booster system to ensure building boosters are loaded
+        // Initialize booster system
         let boosterManager = BoosterManager.shared
         
-        // Delay building booster loading to ensure proper initialization
+        // Delay booster loading to ensure proper initialization
         DispatchQueue.main.async {
             // Clean up expired effects on app launch
             let activeEffectsService = ActiveEffectsCoreDataService()
             activeEffectsService.clearExpiredEffects()
-            
-            boosterManager.ensureBuildingBoostersLoaded()
-            
-            #if DEBUG
-            // Activate some buildings for testing
-            let baseBuildingService = BaseBuildingService(context: PersistenceController.shared.container.viewContext)
-            baseBuildingService.activateBuildingForTesting(.house)
-            baseBuildingService.activateBuildingForTesting(.castle)
-            #endif
         }
 
         return true

@@ -26,15 +26,6 @@ struct BoosterInfoModalView: View {
                         // Header with total boosters
                         totalBoostersSection(theme: theme)
                         
-                        // Building boosters
-                        if !getBuildingBoosters().isEmpty {
-                            boosterSection(
-                                title: "Building Boosters",
-                                icon: "building.2.fill",
-                                boosters: getBuildingBoosters(),
-                                theme: theme
-                            )
-                        }
                         
                         // Item boosters
                         if !getItemBoosters().isEmpty {
@@ -247,7 +238,7 @@ struct BoosterInfoModalView: View {
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
             
-            Text("Build structures in your town or collect items to get boosters!")
+            Text("Collect items to get boosters!")
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -260,11 +251,6 @@ struct BoosterInfoModalView: View {
         )
     }
     
-    private func getBuildingBoosters() -> [BoosterEffect] {
-        let buildingBoosters = boosterManager.activeBoosters.filter { $0.source == .building && $0.isActive && !$0.isExpired }
-        print("🔄 BoosterInfoModalView: Found \(buildingBoosters.count) building boosters: \(buildingBoosters.map { $0.sourceName })")
-        return buildingBoosters
-    }
     
     private func getItemBoosters() -> [BoosterEffect] {
         return boosterManager.activeBoosters.filter { $0.source == .item && $0.isActive && !$0.isExpired }

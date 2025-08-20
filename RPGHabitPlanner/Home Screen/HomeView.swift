@@ -226,22 +226,6 @@ struct HomeView: View {
             .tabItem { Label("Test", systemImage: "person.crop.circle.badge.questionmark") }
             .tag(HomeTab.characterTest)
 
-            // MARK: Base
-            NavigationStack {
-                ZStack {
-                    theme.backgroundColor.ignoresSafeArea()
-                    BaseBuildingView(
-                        viewModel: BaseBuildingViewModel(
-                            baseService: BaseBuildingService(context: PersistenceController.shared.container.viewContext),
-                            userManager: viewModel.userManager
-                        )
-                    )
-                    .environmentObject(themeManager)
-                    .environmentObject(localizationManager)
-                }
-            }
-            .tabItem { Label("Base", systemImage: "building.2.fill") }
-            .tag(HomeTab.base)
 
             // MARK: Calendar
             NavigationStack {
