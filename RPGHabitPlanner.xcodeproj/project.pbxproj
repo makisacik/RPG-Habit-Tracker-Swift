@@ -73,6 +73,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"CoreDataModels/ActiveEffectEntity+CoreDataClass.swift",
+				"CoreDataModels/CharacterCustomizationEntity+CoreDataClass.swift",
+				"CoreDataModels/CharacterPresetEntity+CoreDataClass.swift",
+				"CoreDataModels/CustomizationItemEntity+CoreDataClass.swift",
 				"CoreDataModels/QuestCompletionEntity+CoreDataClass.swift",
 				"CoreDataModels/QuestCompletionEntity+CoreDataProperties.swift",
 				"CoreDataModels/QuestEntity+CoreDataClass.swift",
@@ -83,6 +86,7 @@
 				"CoreDataModels/TaskEntity+CoreDataProperties.swift",
 				"Fonts/IMFellEnglishSC-Regular.ttf",
 				"Fonts/Quicksand-VariableFont_wght.ttf",
+				Model/Item.swift,
 				Persistence.swift,
 				RPGHabitPlanner.xcdatamodeld,
 			);

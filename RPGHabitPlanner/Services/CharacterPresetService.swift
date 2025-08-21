@@ -153,7 +153,6 @@ final class CharacterPresetService: CharacterPresetServiceProtocol {
 // MARK: - Preset Management Extensions
 
 extension CharacterPresetService {
-    
     /// Applies a preset to the user's current customization
     func applyPreset(_ preset: CharacterPresetEntity, to customizationEntity: CharacterCustomizationEntity) {
         guard let customization = preset.characterCustomization else { return }

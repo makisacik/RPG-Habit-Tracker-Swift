@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 extension CharacterPresetEntity {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CharacterPresetEntity> {
         return NSFetchRequest<CharacterPresetEntity>(entityName: "CharacterPresetEntity")
     }
@@ -22,16 +21,13 @@ extension CharacterPresetEntity {
     @NSManaged public var createdAt: Date?
     @NSManaged public var updatedAt: Date?
     @NSManaged public var user: UserEntity?
-
 }
 
-extension CharacterPresetEntity : Identifiable {
-
+extension CharacterPresetEntity: Identifiable {
 }
 
 // MARK: - Convenience Methods
 extension CharacterPresetEntity {
-    
     /// Converts customization data JSON to CharacterCustomization
     var characterCustomization: CharacterCustomization? {
         guard let customizationData = customizationData,

@@ -54,7 +54,6 @@ enum EquipmentSlot: String, CaseIterable, Identifiable {
 // MARK: - Equipment Validation
 
 struct EquipmentValidation {
-    
     static func canEquip(item: CustomizationItemEntity, to slot: EquipmentSlot, for user: UserEntity) -> (canEquip: Bool, reason: String?) {
         // Check if item is unlocked
         guard item.isUnlocked else {
@@ -106,7 +105,7 @@ final class EquipmentManager: ObservableObject {
     // MARK: - Published Properties
     
     @Published var equippedItems: [EquipmentSlot: [CustomizationItemEntity]] = [:]
-    @Published var currentCustomization: CharacterCustomization = CharacterCustomization()
+    @Published var currentCustomization = CharacterCustomization()
     
     // MARK: - Private Properties
     

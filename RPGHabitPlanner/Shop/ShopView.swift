@@ -12,7 +12,7 @@ struct ShopView: View {
     @StateObject private var shopManager = ShopManager.shared
     @StateObject private var currencyManager = CurrencyManager.shared
     @State private var selectedCategory: EnhancedShopCategory = .weapons
-    @State private var selectedRarity: ItemRarity? = nil
+    @State private var selectedRarity: ItemRarity?
     @State private var showOnlyAffordable = false
     @State private var showPurchaseAlert = false
     @State private var purchaseAlertMessage = ""
@@ -33,22 +33,20 @@ struct ShopView: View {
                 
                 // Enhanced category picker
                 ShopCategoryView(
-                    selectedCategory: $selectedCategory,
-                    onCategorySelected: { category in
+                    selectedCategory: $selectedCategory
+                ) { category in
                         selectedCategory = category
-                    }
-                )
+                }
                 .padding(.vertical, 8)
                 
                 // Filters
                 ShopFilterView(
                     selectedRarity: $selectedRarity,
                     priceRange: .constant(0...1000),
-                    showOnlyAffordable: $showOnlyAffordable,
-                    onFilterChanged: {
+                    showOnlyAffordable: $showOnlyAffordable
+                ) {
                         // Filter logic handled in itemsGrid
-                    }
-                )
+                }
                 
                 // Enhanced items grid
                 enhancedItemsGrid(theme: theme)
@@ -186,14 +184,14 @@ struct ShopView: View {
     private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
         guard let assetCategory = category.assetCategory else { return [] }
         
-        let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
+        let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
         return assets.map { asset in
             ShopItem(
                 name: asset.name,
                 description: "Customize your character with this \(assetCategory.displayName.lowercased())",
                 iconName: asset.imageName,
                 price: asset.basePrice,
-                rarity: asset.rarity == .common ? .common : 
+                rarity: asset.rarity == .common ? .common :
                         asset.rarity == .uncommon ? .uncommon :
                         asset.rarity == .rare ? .rare :
                         asset.rarity == .epic ? .epic : .legendary,
@@ -213,7 +211,6 @@ struct ShopView: View {
         }
     }
     
-
     
     // MARK: - Helper Methods
     

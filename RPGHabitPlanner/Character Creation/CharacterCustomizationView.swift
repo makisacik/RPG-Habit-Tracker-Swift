@@ -7,14 +7,17 @@
 
 import SwiftUI
 
+// Note: This file contains the legacy character customization view
+// The new system uses CharacterCustomizationWizardView
+
 struct CharacterCustomizationView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var customizationManager = CharacterCustomizationManager()
     @Binding var isCustomizationCompleted: Bool
-    @State private var selectedCategory: CustomizationCategory = .body
+    @State private var selectedCategory: CustomizationCategory = .bodyType
     
     private let categories: [CustomizationCategory] = [
-        .body, .skin, .hair, .eyes, .outfit, .weapon, .accessory
+        .bodyType, .skinColor, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
     ]
     
     var body: some View {
@@ -210,13 +213,15 @@ struct CharacterCustomizationView: View {
     // MARK: - Helper Methods
     private func getOptionsForCategory() -> [CustomizationOption] {
         switch selectedCategory {
-        case .body:
+        case .bodyType:
             return BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
-        case .skin:
+        case .skinColor:
             return SkinColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: false, color: $0.color) }
-        case .hair:
+        case .hairStyle:
             return HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
-        case .eyes:
+        case .hairColor:
+            return HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: false, color: $0.color) }
+        case .eyeColor:
             return EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
         case .outfit:
             return Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
@@ -229,13 +234,15 @@ struct CharacterCustomizationView: View {
     
     private func isOptionSelected(_ option: CustomizationOption) -> Bool {
         switch selectedCategory {
-        case .body:
+        case .bodyType:
             return customizationManager.currentCustomization.bodyType.rawValue == option.id
-        case .skin:
+        case .skinColor:
             return customizationManager.currentCustomization.skinColor.rawValue == option.id
-        case .hair:
+        case .hairStyle:
             return customizationManager.currentCustomization.hairStyle.rawValue == option.id
-        case .eyes:
+        case .hairColor:
+            return customizationManager.currentCustomization.hairColor.rawValue == option.id
+        case .eyeColor:
             return customizationManager.currentCustomization.eyeColor.rawValue == option.id
         case .outfit:
             return customizationManager.currentCustomization.outfit.rawValue == option.id
@@ -249,19 +256,23 @@ struct CharacterCustomizationView: View {
     private func handleOptionSelection(_ option: CustomizationOption) {
         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
             switch selectedCategory {
-            case .body:
+            case .bodyType:
                 if let bodyType = BodyType(rawValue: option.id) {
                     customizationManager.updateBodyType(bodyType)
                 }
-            case .skin:
+            case .skinColor:
                 if let skinColor = SkinColor(rawValue: option.id) {
                     customizationManager.updateSkinColor(skinColor)
                 }
-            case .hair:
+            case .hairStyle:
                 if let hairStyle = HairStyle(rawValue: option.id) {
                     customizationManager.updateHairStyle(hairStyle)
                 }
-            case .eyes:
+            case .hairColor:
+                if let hairColor = HairColor(rawValue: option.id) {
+                    customizationManager.updateHairColor(hairColor)
+                }
+            case .eyeColor:
                 if let eyeColor = EyeColor(rawValue: option.id) {
                     customizationManager.updateEyeColor(eyeColor)
                 }
@@ -285,20 +296,35 @@ struct CharacterCustomizationView: View {
 // MARK: - Supporting Types and Views
 
 enum CustomizationCategory: String, CaseIterable {
-    case body = "Body"
-    case skin = "Skin"
-    case hair = "Hair"
-    case eyes = "Eyes"
+    case bodyType = "BodyType"
+    case skinColor = "SkinColor"
+    case hairStyle = "HairStyle"
+    case hairColor = "HairColor"
+    case eyeColor = "EyeColor"
     case outfit = "Outfit"
     case weapon = "Weapon"
     case accessory = "Accessory"
     
+    var displayName: String {
+        switch self {
+        case .bodyType: return "Body Type"
+        case .skinColor: return "Skin Color"
+        case .hairStyle: return "Hair Style"
+        case .hairColor: return "Hair Color"
+        case .eyeColor: return "Eye Color"
+        case .outfit: return "Outfit"
+        case .weapon: return "Weapon"
+        case .accessory: return "Accessory"
+        }
+    }
+    
     var icon: String {
         switch self {
-        case .body: return "person.fill"
-        case .skin: return "paintbrush.fill"
-        case .hair: return "scissors"
-        case .eyes: return "eye.fill"
+        case .bodyType: return "person.fill"
+        case .skinColor: return "paintpalette.fill"
+        case .hairStyle: return "scissors"
+        case .hairColor: return "paintbrush.fill"
+        case .eyeColor: return "eye.fill"
         case .outfit: return "tshirt.fill"
         case .weapon: return "sword.fill"
         case .accessory: return "crown.fill"
@@ -491,44 +517,8 @@ struct OptimizedImageLoader: View {
     }
 }
 
-// MARK: - Optimized Character Preview Component
-struct CustomizedCharacterPreviewCard: View {
-    let customization: CharacterCustomization
-    let theme: Theme
-    let showTitle: Bool
-    
-    init(customization: CharacterCustomization, theme: Theme, showTitle: Bool = true) {
-        self.customization = customization
-        self.theme = theme
-        self.showTitle = showTitle
-    }
-    
-    var body: some View {
-        VStack(spacing: 16) {
-            // Optimized character visual
-            OptimizedCharacterView(customization: customization)
-                .frame(height: 120)
-            
-            if showTitle {
-                VStack(spacing: 4) {
-                    Text(String.yourCharacter.localized)
-                        .font(.appFont(size: 12))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                    
-                    Text(String.customized.localized)
-                        .font(.appFont(size: 16, weight: .bold))
-                        .foregroundColor(theme.textColor)
-                }
-            }
-        }
-        .padding(24)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(theme.cardBackgroundColor)
-                .shadow(color: theme.textColor.opacity(0.1), radius: 10, x: 0, y: 5)
-        )
-    }
-}
+// MARK: - Character Preview (Legacy)
+// Note: CustomizedCharacterPreviewCard is now defined in CustomizedCharacterPreviewCard.swift
 
 // MARK: - Memory-Efficient Character View
 struct OptimizedCharacterView: View {

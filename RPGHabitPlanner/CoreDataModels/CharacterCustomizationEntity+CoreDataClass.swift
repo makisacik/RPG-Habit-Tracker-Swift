@@ -11,5 +11,4 @@ import CoreData
 
 @objc(CharacterCustomizationEntity)
 public class CharacterCustomizationEntity: NSManagedObject {
-    
 }

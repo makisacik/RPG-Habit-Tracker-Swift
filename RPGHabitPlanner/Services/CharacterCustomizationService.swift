@@ -107,15 +107,14 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
 // MARK: - Character Customization Extensions
 
 extension CharacterCustomizationEntity {
-    
     /// Convenience method to check if the user owns a specific customization item
     func ownsCustomizationItem(category: CustomizationCategory, itemId: String) -> Bool {
         guard let user = user else { return false }
         
         let items = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
         return items.contains { item in
-            item.category == category.rawValue && 
-            item.name == itemId && 
+            item.category == category.rawValue &&
+            item.name == itemId &&
             item.isUnlocked
         }
     }

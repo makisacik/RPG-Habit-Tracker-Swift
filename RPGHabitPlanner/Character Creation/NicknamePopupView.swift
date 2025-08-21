@@ -12,6 +12,7 @@ struct NicknamePopupView: View {
     @Binding var nickname: String
     var onConfirm: () -> Void
     var onCancel: () -> Void
+    var customization: CharacterCustomization?
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -23,13 +24,23 @@ struct NicknamePopupView: View {
                 .frame(width: 155)
 
             VStack(spacing: 16) {
+                // Character preview
+                if let customization = customization {
+                    CustomizedCharacterPreviewCard(
+                        customization: customization,
+                        theme: theme
+                    )
+                    .frame(width: 120, height: 120)
+                    .padding(.bottom, 8)
+                }
+                
                 Text(String.enterYourNickname.localized)
                     .font(.appFont(size: 18, weight: .black))
                     .foregroundColor(theme.textColor)
 
                 TextField(String.nickname.localized, text: $nickname)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                     .font(.appFont(size: 18))
                     .padding()
                     .background(

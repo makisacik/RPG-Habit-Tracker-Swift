@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 extension CustomizationItemEntity {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CustomizationItemEntity> {
         return NSFetchRequest<CustomizationItemEntity>(entityName: "CustomizationItemEntity")
     }
@@ -26,16 +25,13 @@ extension CustomizationItemEntity {
     @NSManaged public var createdAt: Date?
     @NSManaged public var itemData: String?
     @NSManaged public var owner: UserEntity?
-
 }
 
-extension CustomizationItemEntity : Identifiable {
-
+extension CustomizationItemEntity: Identifiable {
 }
 
 // MARK: - Convenience Methods
 extension CustomizationItemEntity {
-    
     /// Computed property for item rarity enum
     var itemRarity: ItemRarity? {
         guard let rarity = rarity else { return nil }
@@ -74,40 +70,4 @@ extension CustomizationItemEntity {
     }
 }
 
-// MARK: - CustomizationCategory Enum
-enum CustomizationCategory: String, CaseIterable {
-    case bodyType = "BodyType"
-    case skinColor = "SkinColor" 
-    case hairStyle = "HairStyle"
-    case hairColor = "HairColor"
-    case eyeColor = "EyeColor"
-    case outfit = "Outfit"
-    case weapon = "Weapon"
-    case accessory = "Accessory"
-    
-    var displayName: String {
-        switch self {
-        case .bodyType: return "Body Type"
-        case .skinColor: return "Skin Color"
-        case .hairStyle: return "Hair Style"
-        case .hairColor: return "Hair Color"
-        case .eyeColor: return "Eye Color"
-        case .outfit: return "Outfit"
-        case .weapon: return "Weapon"
-        case .accessory: return "Accessory"
-        }
-    }
-    
-    var icon: String {
-        switch self {
-        case .bodyType: return "person.fill"
-        case .skinColor: return "paintpalette.fill"
-        case .hairStyle: return "scissors"
-        case .hairColor: return "paintbrush.fill"
-        case .eyeColor: return "eye.fill"
-        case .outfit: return "tshirt.fill"
-        case .weapon: return "sword.fill"
-        case .accessory: return "crown.fill"
-        }
-    }
-}
+// Note: CustomizationCategory enum is defined in CharacterCustomizationView.swift

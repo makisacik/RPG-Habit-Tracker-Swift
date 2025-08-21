@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 extension CharacterCustomizationEntity {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CharacterCustomizationEntity> {
         return NSFetchRequest<CharacterCustomizationEntity>(entityName: "CharacterCustomizationEntity")
     }
@@ -28,16 +27,13 @@ extension CharacterCustomizationEntity {
     @NSManaged public var createdAt: Date?
     @NSManaged public var updatedAt: Date?
     @NSManaged public var user: UserEntity?
-
 }
 
-extension CharacterCustomizationEntity : Identifiable {
-
+extension CharacterCustomizationEntity: Identifiable {
 }
 
 // MARK: - Convenience Methods
 extension CharacterCustomizationEntity {
-    
     /// Converts accessories JSON string to array
     var accessoriesArray: [String] {
         guard let accessories = accessories,

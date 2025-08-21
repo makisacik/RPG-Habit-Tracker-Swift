@@ -193,6 +193,28 @@ final class CharacterAssetManager: ObservableObject {
         }
     }
     
+    /// Gets all available assets for a category with preview images (for shop and onboarding)
+    func getAvailableAssetsWithPreview(for category: AssetCategory) -> [AssetItem] {
+        switch category {
+        case .bodyType:
+            return BodyType.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: .common) }
+        case .skinColor:
+            return SkinColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
+        case .hairStyle:
+            return HairStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .hairColor:
+            return HairColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
+        case .eyeColor:
+            return EyeColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: .common) }
+        case .outfit:
+            return Outfit.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .weapon:
+            return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .accessory:
+            return Accessory.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        }
+    }
+    
     /// Determines rarity based on asset name
     private func getRarity(for assetName: String) -> AssetRarity {
         let name = assetName.lowercased()
@@ -267,7 +289,6 @@ struct AssetItem: Identifiable, Hashable {
 // MARK: - Asset Loading Extensions
 
 extension CharacterAssetManager {
-    
     /// Batch loads multiple assets
     func preloadAssets(_ assetNames: [String], completion: @escaping () -> Void) {
         cacheQueue.async { [weak self] in

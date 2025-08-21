@@ -76,12 +76,11 @@ struct CharacterCustomizationWizardView: View {
                 title: currentStep.title,
                 category: currentStep.category,
                 selectedAsset: selectedAssets[currentStep.category],
-                availableAssets: getAvailableAssets(for: currentStep.category),
-                onAssetSelected: { asset in
+                availableAssets: getAvailableAssets(for: currentStep.category)
+            ) { asset in
                     selectedAssets[currentStep.category] = asset
                     updateCustomization()
-                }
-            )
+            }
             
             Spacer()
             
@@ -291,15 +290,16 @@ struct CharacterFullPreview: View {
             VStack {
                 // Body
                 if !customization.bodyType.rawValue.isEmpty {
-                    AsyncImage(url: Bundle.main.url(forResource: customization.bodyType.rawValue, withExtension: nil)) { image in
-                        image
+                    if let image = UIImage(named: customization.bodyType.rawValue) {
+                        Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
-                    } placeholder: {
+                            .frame(width: size * 0.8, height: size * 0.8)
+                    } else {
                         Rectangle()
                             .fill(customization.skinColor.color)
+                            .frame(width: size * 0.8, height: size * 0.8)
                     }
-                    .frame(width: size * 0.8, height: size * 0.8)
                 }
                 
                 Text(customization.bodyType.displayName)

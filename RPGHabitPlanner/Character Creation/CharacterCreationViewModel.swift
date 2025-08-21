@@ -18,7 +18,7 @@ class CharacterCreationViewModel: ObservableObject {
     @Published var selectedWeapon: Weapon = .swordBroad
     
     // New customization properties
-    @Published var currentCustomization: CharacterCustomization = CharacterCustomization()
+    @Published var currentCustomization = CharacterCustomization()
     @Published var isCustomizationComplete: Bool = false
     @Published var nickname: String = ""
     @Published var isCharacterCreated: Bool = false

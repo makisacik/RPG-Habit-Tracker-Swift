@@ -11,5 +11,4 @@ import CoreData
 
 @objc(CustomizationItemEntity)
 public class CustomizationItemEntity: NSManagedObject {
-    
 }

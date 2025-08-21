@@ -129,7 +129,7 @@ struct CharacterCustomizationStepView: View {
             }
         } else {
             // Show character customization view
-            CharacterCustomizationView(isCustomizationCompleted: $isCustomizationCompleted)
+            CharacterCustomizationOnboardingView(isCustomizationCompleted: $isCustomizationCompleted)
                 .environmentObject(ThemeManager.shared)
         }
     }

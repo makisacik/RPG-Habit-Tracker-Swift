@@ -149,8 +149,8 @@ final class CustomizationItemService: CustomizationItemServiceProtocol {
         
         // Create items from owned items set
         for itemId in ownedItems {
-            if let category = determineCategory(for: itemId),
-               let rarity = determineRarity(for: itemId) {
+            if let category = determineCategory(for: itemId) {
+                let rarity = determineRarity(for: itemId)
                 _ = addItem(
                     to: user,
                     name: itemId,
@@ -207,7 +207,6 @@ final class CustomizationItemService: CustomizationItemServiceProtocol {
 // MARK: - Default Items Helper
 
 extension CustomizationItemService {
-    
     /// Populates default items for a user
     func populateDefaultItems(for user: UserEntity) {
         // Add all basic items as owned
@@ -231,7 +230,7 @@ extension CustomizationItemService {
             
             // Weapons
             (CharacterWeapon.swordDaggerWood.rawValue, .weapon, .common),
-            (CharacterWeapon.swordDagger.rawValue, .weapon, .uncommon),
+            (CharacterWeapon.swordDagger.rawValue, .weapon, .uncommon)
         ]
         
         for (itemName, category, rarity) in defaultItems {

@@ -63,9 +63,9 @@ struct CustomizedCharacterPreviewCard: View {
     }
 }
 
-// MARK: - Character Customization View for Onboarding
+// MARK: - Character Customization Onboarding View
 
-struct CharacterCustomizationView: View {
+struct CharacterCustomizationOnboardingView: View {
     @Binding var isCustomizationCompleted: Bool
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var viewModel = CharacterCreationViewModel()

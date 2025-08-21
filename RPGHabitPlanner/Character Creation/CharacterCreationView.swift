@@ -102,7 +102,8 @@ struct CharacterCreationView: View {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                                 showNicknamePopup = false
                             }
-                        }
+                        },
+                        customization: viewModel.currentCustomization
                     )
                     .environmentObject(themeManager)
                 }

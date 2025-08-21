@@ -86,14 +86,13 @@ struct ShopCategoryView: View {
                 ForEach(EnhancedShopCategory.allCases) { category in
                     ShopCategoryCard(
                         category: category,
-                        isSelected: selectedCategory == category,
-                        onTap: {
+                        isSelected: selectedCategory == category
+                    ) {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 selectedCategory = category
                                 onCategorySelected(category)
                             }
-                        }
-                    )
+                    }
                 }
             }
             .padding(.horizontal)
@@ -181,18 +180,21 @@ struct EnhancedShopItemCard: View {
                 }
                 
                 // Item image
-                AsyncImage(url: Bundle.main.url(forResource: item.iconName, withExtension: nil)) { image in
-                    image
+                if let image = UIImage(named: item.iconName) {
+                    Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
-                } placeholder: {
+                        .frame(width: 80, height: 80)
+                        .scaleEffect(isHovered ? 1.1 : 1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
+                } else {
                     Image(systemName: "photo")
                         .font(.system(size: 30))
                         .foregroundColor(theme.textColor.opacity(0.3))
+                        .frame(width: 80, height: 80)
+                        .scaleEffect(isHovered ? 1.1 : 1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
                 }
-                .frame(width: 80, height: 80)
-                .scaleEffect(isHovered ? 1.1 : 1.0)
-                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
                 
                 // Preview button for customization items
                 if isCustomizationItem, let onPreview = onPreview {
@@ -223,7 +225,7 @@ struct EnhancedShopItemCard: View {
                     .multilineTextAlignment(.center)
                 
                 // Rarity badge
-                RarityBadge(rarity: item.rarity)
+                RarityBadge(rarity: item.rarity.toAssetRarity)
                 
                 // Price and purchase button
                 HStack {
@@ -327,24 +329,22 @@ struct ShopFilterView: View {
                                 FilterChip(
                                     text: "All",
                                     isSelected: selectedRarity == nil,
-                                    color: .gray,
-                                    onTap: {
+                                    color: .gray
+                                ) {
                                         selectedRarity = nil
                                         onFilterChanged()
-                                    }
-                                )
+                                }
                                 
                                 // Rarity options
                                 ForEach(ItemRarity.allCases, id: \.self) { rarity in
                                     FilterChip(
                                         text: rarity.rawValue,
                                         isSelected: selectedRarity == rarity,
-                                        color: rarity.uiColor,
-                                        onTap: {
+                                        color: rarity.uiColor
+                                    ) {
                                             selectedRarity = selectedRarity == rarity ? nil : rarity
                                             onFilterChanged()
-                                        }
-                                    )
+                                    }
                                 }
                             }
                             .padding(.horizontal)
@@ -457,18 +457,21 @@ struct ItemPreviewModal: View {
                         
                         // Character with item preview
                         VStack {
-                            AsyncImage(url: Bundle.main.url(forResource: item.iconName, withExtension: nil)) { image in
-                                image
+                            if let image = UIImage(named: item.iconName) {
+                                Image(uiImage: image)
                                     .resizable()
                                     .scaledToFit()
-                            } placeholder: {
+                                    .frame(width: 120, height: 120)
+                                    .scaleEffect(previewScale)
+                                    .animation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true), value: previewScale)
+                            } else {
                                 Image(systemName: "photo")
                                     .font(.system(size: 40))
                                     .foregroundColor(theme.textColor.opacity(0.3))
+                                    .frame(width: 120, height: 120)
+                                    .scaleEffect(previewScale)
+                                    .animation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true), value: previewScale)
                             }
-                            .frame(width: 120, height: 120)
-                            .scaleEffect(previewScale)
-                            .animation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true), value: previewScale)
                         }
                     }
                     
@@ -478,7 +481,7 @@ struct ItemPreviewModal: View {
                             .font(.appFont(size: 18, weight: .bold))
                             .foregroundColor(theme.textColor)
                         
-                        RarityBadge(rarity: item.rarity)
+                        RarityBadge(rarity: item.rarity.toAssetRarity)
                         
                         Text(item.description)
                             .font(.appFont(size: 14))

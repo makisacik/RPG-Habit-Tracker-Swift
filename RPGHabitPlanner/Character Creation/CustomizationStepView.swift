@@ -37,11 +37,10 @@ struct CustomizationStepView: View {
             // Asset selection carousel
             CustomizationCarousel(
                 assets: availableAssets,
-                selectedIndex: $selectedIndex,
-                onSelectionChanged: { asset in
+                selectedIndex: $selectedIndex
+            ) { asset in
                     onAssetSelected(asset)
-                }
-            )
+            }
             
             // Asset info
             if let asset = selectedAsset {
@@ -103,20 +102,22 @@ struct AssetPreviewView: View {
             
             // Asset image
             if let asset = asset, !asset.imageName.isEmpty {
-                AsyncImage(url: Bundle.main.url(forResource: asset.imageName, withExtension: nil)) { image in
-                    image
+                if let image = UIImage(named: asset.imageName) {
+                    Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
-                } placeholder: {
+                        .frame(width: size, height: size)
+                        .clipShape(Circle())
+                } else {
                     Rectangle()
                         .fill(theme.backgroundColor.opacity(0.3))
                         .overlay(
                             Image(systemName: "photo")
                                 .foregroundColor(theme.textColor.opacity(0.5))
                         )
+                        .frame(width: size, height: size)
+                        .clipShape(Circle())
                 }
-                .frame(width: size, height: size)
-                .clipShape(Circle())
             } else {
                 // Fallback for color-based assets (like skin/hair colors)
                 Circle()
@@ -168,14 +169,13 @@ struct CustomizationCarousel: View {
                     ForEach(Array(assets.enumerated()), id: \.element.id) { index, asset in
                         AssetCarouselCard(
                             asset: asset,
-                            isSelected: index == selectedIndex,
-                            onTap: {
+                            isSelected: index == selectedIndex
+                        ) {
                                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                     selectedIndex = index
                                     onSelectionChanged(asset)
                                 }
-                            }
-                        )
+                        }
                         .id(index)
                     }
                 }
