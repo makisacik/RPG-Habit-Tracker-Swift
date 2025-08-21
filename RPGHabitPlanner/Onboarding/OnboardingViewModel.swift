@@ -17,8 +17,6 @@ enum OnboardingStep: Int, CaseIterable {
 
 class OnboardingViewModel: ObservableObject {
     @Published var currentStep: OnboardingStep = .welcome
-    @Published var selectedCharacterClass: CharacterClass = .knight // Deprecated, kept for compatibility
-    @Published var selectedWeapon: Weapon = .swordBroad // Deprecated, kept for compatibility
     @Published var nickname: String = ""
     @Published var isOnboardingCompleted: Bool = false
     
@@ -64,9 +62,7 @@ class OnboardingViewModel: ObservableObject {
         
         // Save user with new customization system
         userManager.saveUser(
-            nickname: nickname,
-            characterClass: selectedCharacterClass, // Keep for backward compatibility
-            weapon: selectedWeapon // Keep for backward compatibility
+            nickname: nickname
         ) { error in
             if let error = error {
                 print("Failed to save user: \(error.localizedDescription)")
@@ -75,21 +71,6 @@ class OnboardingViewModel: ObservableObject {
                     self.isOnboardingCompleted = true
                 }
             }
-        }
-    }
-    
-    func updateAvailableWeapons() {
-        let weapons: [CharacterClass: [Weapon]] = [
-            .knight: [.swordBroad, .swordLong, .swordDouble],
-            .archer: [.bow, .crossbow],
-            .elephant: [.bow, .crossbow],
-            .ninja: [.bow, .crossbow],
-            .octopus: [.bow, .crossbow]
-        ]
-        
-        let availableWeapons = weapons[selectedCharacterClass] ?? []
-        if !availableWeapons.contains(selectedWeapon) {
-            selectedWeapon = availableWeapons.first ?? .swordBroad
         }
     }
 }

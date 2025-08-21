@@ -17,8 +17,6 @@ final class UserManager {
     
     func saveUser(
         nickname: String,
-        characterClass: CharacterClass,
-        weapon: Weapon,
         level: Int16 = 1,
         exp: Int16 = 0,
         coins: Int32 = 100,
@@ -31,8 +29,6 @@ final class UserManager {
         
         userEntity.id = UUID()
         userEntity.nickname = nickname
-        userEntity.characterClass = characterClass.rawValue
-        userEntity.weapon = weapon.rawValue
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins
@@ -59,47 +55,71 @@ final class UserManager {
         }
     }
     
+    func updateUser(
+        nickname: String? = nil,
+        level: Int16? = nil,
+        exp: Int16? = nil,
+        coins: Int32? = nil,
+        health: Int16? = nil,
+        maxHealth: Int16? = nil,
+        completion: @escaping (Error?) -> Void
+    ) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+        
+        do {
+            let users = try context.fetch(fetchRequest)
+            guard let user = users.first else {
+                completion(NSError(domain: "UserManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+            
+            if let nickname = nickname {
+                user.nickname = nickname
+            }
+            if let level = level {
+                user.level = level
+            }
+            if let exp = exp {
+                user.exp = exp
+            }
+            if let coins = coins {
+                user.coins = coins
+            }
+            if let health = health {
+                user.health = health
+            }
+            if let maxHealth = maxHealth {
+                user.maxHealth = maxHealth
+            }
+            
+            try context.save()
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
+    
     func deleteUser(completion: @escaping (Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
         
         do {
             let users = try context.fetch(fetchRequest)
-            if let user = users.first {
+            for user in users {
                 context.delete(user)
-                try context.save()
-                completion(nil)
-            } else {
-                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
             }
+            try context.save()
+            completion(nil)
         } catch {
             completion(error)
-        }
-    }
-    
-    func updateUserLevel(newLevel: Int16, completion: @escaping (Error?) -> Void) {
-        fetchUser { user, error in
-            guard let user = user, error == nil else {
-                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
-                return
-            }
-            
-            let context = self.persistentContainer.viewContext
-            user.level = newLevel
-            
-            do {
-                try context.save()
-                completion(nil)
-            } catch {
-                completion(error)
-            }
         }
     }
     
     func updateUserExperience(additionalExp: Int16, completion: @escaping (Bool, Int16?, Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
-                completion(false, nil, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                completion(false, nil, error ?? NSError(domain: "UserManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
             }
             

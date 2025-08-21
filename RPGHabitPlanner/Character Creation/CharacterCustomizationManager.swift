@@ -78,6 +78,13 @@ class CharacterCustomizationManager: ObservableObject {
         }
     }
     
+    func loadCustomization() {
+        if let data = userDefaults.data(forKey: customizationKey),
+           let customization = try? JSONDecoder().decode(CharacterCustomization.self, from: data) {
+            self.currentCustomization = customization
+        }
+    }
+    
     func saveOwnedItems() {
         let ownedItemsArray = Array(ownedItems)
         userDefaults.set(ownedItemsArray, forKey: ownedItemsKey)

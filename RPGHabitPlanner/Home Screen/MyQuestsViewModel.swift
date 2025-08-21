@@ -251,7 +251,7 @@ final class MyQuestsViewModel: ObservableObject {
                         baseCoins: baseCoins
                     )
 
-                    self.userManager.updateUserExperience(additionalExp: Int16(boosted.experience)) { leveledUp, newLevel, expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(boosted.experience)) { (leveledUp: Bool, newLevel: Int16?, expError: Error?) in
                         if let expError = expError {
                             self.alertMessage = expError.localizedDescription
                         } else {

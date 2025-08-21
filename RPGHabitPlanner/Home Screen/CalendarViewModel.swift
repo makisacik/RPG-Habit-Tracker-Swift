@@ -286,7 +286,7 @@ final class CalendarViewModel: ObservableObject {
                     )
 
                     // Award boosted experience
-                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { _, _, expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { (leveledUp: Bool, newLevel: Int16?, expError: Error?) in
                         if let expError = expError {
                             self.alertMessage = expError.localizedDescription
                         } else {

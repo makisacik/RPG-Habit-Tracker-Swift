@@ -10,6 +10,7 @@ struct HomeView: View {
 
     // ✅ Hold MyQuests VM here so we can listen for completions
     @StateObject private var myQuestsVM: MyQuestsViewModel
+    @StateObject private var customizationManager = CharacterCustomizationManager()
 
     @State private var isCompletedQuestsPresented = false
     @State var showAchievements = false
@@ -52,7 +53,7 @@ struct HomeView: View {
 
                     ScrollView {
                         VStack(spacing: 20) {
-                            heroSection(healthManager: healthManager)
+                            heroSection(healthManager: healthManager, customizationManager: customizationManager)
 
                             // ✅ Use the shared VM instance
                             MyQuestsSection(
@@ -118,6 +119,7 @@ struct HomeView: View {
                     viewModel.fetchDashboardData()
                     fetchCurrentQuestCount()
                     WidgetCenter.shared.reloadAllTimelines()
+                    customizationManager.loadCustomization()
 
                     // Record streak activity when app is opened
                     viewModel.streakManager.recordActivity()

@@ -259,7 +259,7 @@ class FocusTimerViewModel: ObservableObject {
         )
 
         // Award boosted experience to user
-        userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { [weak self] leveledUp, newLevel, error in
+        userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { (leveledUp: Bool, newLevel: Int16?, error: Error?) in
             DispatchQueue.main.async {
                 if let error = error {
                     print("Failed to award experience: \(error)")

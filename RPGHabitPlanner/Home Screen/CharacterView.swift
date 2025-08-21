@@ -12,6 +12,7 @@ struct CharacterView: View {
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var inventoryManager = InventoryManager.shared
     @StateObject private var boosterManager = BoosterManager.shared
+    @StateObject private var customizationManager = CharacterCustomizationManager()
     @State private var showBoosterInfo = false
     @State private var refreshTrigger = false
     @State private var showShop = false
@@ -42,85 +43,76 @@ struct CharacterView: View {
                         )
                         
                         VStack(spacing: 12) {
-                            if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
-                                Image(characterClass.iconName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 150, height: 150)
-                                    .shadow(radius: 8)
-                            }
+                            // Custom Character Display
+                            CustomizedCharacterPreviewCard(
+                                customization: customizationManager.currentCustomization,
+                                theme: theme,
+                                showTitle: false
+                            )
+                            .frame(height: 150)
                             
                             Text(user.nickname ?? "Unknown")
                                 .font(.appFont(size: 28, weight: .black))
                                 .foregroundColor(theme.textColor)
                             
-                            if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
-                                Text(characterClass.displayName)
-                                    .font(.appFont(size: 18))
-                                    .foregroundColor(theme.textColor)
-                            }
+                            Text("Level \(user.level)")
+                                .font(.appFont(size: 18))
+                                .foregroundColor(theme.textColor)
                         }
                         .padding(.top, 20)
-                        .padding(.bottom, 20)
                     }
-                    .frame(height: 250)
-                    .clipped()
                     
-                    VStack(spacing: 12) {
-                        // Health Bar
-                        HealthBarView(healthManager: healthManager, size: .large, showShineAnimation: false)
-                            .padding(.horizontal)
-                        
-                        // Level and Experience
-                        VStack(spacing: 8) {
-                            HStack {
-                                Image("icon_star_fill")
-                                    .resizable()
-                                    .frame(width: 18, height: 18)
-                                Text("\(String.level.localized) \(user.level)")
-                                    .font(.appFont(size: 18))
-                                    .foregroundColor(theme.textColor)
-                                Spacer()
-                            }
+                    // Health Bar
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text(String.health.localized)
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor)
                             
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(theme.backgroundColor.opacity(0.7))
-                                    .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
-                                    .frame(height: 22)
-
-                                GeometryReader { geometry in
-                                    let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
-                                    if expRatio > 0 {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(
-                                                LinearGradient(
-                                                    gradient: Gradient(colors: [
-                                                        Color.green.opacity(0.9),
-                                                        Color.green.opacity(0.7),
-                                                        Color.green.opacity(0.9)
-                                                    ]),
-                                                    startPoint: .leading,
-                                                    endPoint: .trailing
-                                                )
-                                            )
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                                            )
-                                            .frame(width: geometry.size.width * expRatio, height: 22)
-                                            .animation(.easeOut(duration: 0.3), value: expRatio)
-                                    }
-                                }
-                                .frame(height: 22)
-
-                                Text("\(user.exp) / 100")
-                                    .font(.appFont(size: 12, weight: .black))
-                                    .foregroundColor(theme.textColor)
-                                    .shadow(radius: 1)
-                            }
-                            .frame(height: 22)
+                            Spacer()
+                            
+                            Text("\(user.health)/\(user.maxHealth)")
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor)
                         }
+                        
+                        ProgressView(value: Double(user.health), total: Double(user.maxHealth))
+                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
+                            .scaleEffect(x: 1, y: 2, anchor: .center)
+                    }
+                    .padding(.horizontal)
+                    
+                    // Experience Bar
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text(String.experience.localized)
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor)
+                            
+                            Spacer()
+                            
+                            Text("\(user.exp)/100")
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor)
+                        }
+                        
+                        ProgressView(value: Double(user.exp), total: 100.0)
+                            .progressViewStyle(LinearProgressViewStyle(tint: .blue))
+                            .scaleEffect(x: 1, y: 2, anchor: .center)
+                    }
+                    .padding(.horizontal)
+                    
+                    // Coins Display
+                    HStack {
+                        Image(systemName: "coins")
+                            .foregroundColor(.yellow)
+                            .font(.title2)
+                        
+                        Text("\(user.coins)")
+                            .font(.appFont(size: 18, weight: .bold))
+                            .foregroundColor(theme.textColor)
+                        
+                        Spacer()
                     }
                     .padding(.horizontal)
                     
@@ -153,22 +145,18 @@ struct CharacterView: View {
                         Image("icon_lightning")
                             .resizable()
                             .frame(width: 18, height: 18)
-                            .foregroundColor(.yellow)
                         
-                        if !boosterManager.activeBoosters.filter({ $0.isActive && !$0.isExpired }).isEmpty {
-                            Text("\(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }.count)")
-                                .font(.appFont(size: 12, weight: .bold))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(
-                                    Circle()
-                                        .fill(Color.yellow)
-                                )
-                        }
+                        Text("\(boosterManager.activeBoosterCount)")
+                            .font(.appFont(size: 12, weight: .bold))
+                            .foregroundColor(theme.textColor)
+                            .frame(width: 16, height: 16)
+                            .background(
+                                Circle()
+                                    .fill(Color.red)
+                            )
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+                .disabled(boosterManager.activeBoosterCount == 0)
             }
             
             // RIGHT: Shop button
@@ -177,24 +165,21 @@ struct CharacterView: View {
                     showShop = true
                 }) {
                     Image(systemName: "cart.fill")
-                        .font(.title2)
                         .foregroundColor(theme.textColor)
                 }
             }
         }
-        .sheet(isPresented: $showBoosterInfo) {
+        .sheet(isPresented: $showBoosterInfo, content: {
             BoosterInfoModalView()
+                .environmentObject(boosterManager)
                 .environmentObject(themeManager)
-        }
-        .sheet(isPresented: $showShop) {
-            NavigationStack {
-                ShopView()
-                    .environmentObject(themeManager)
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
-            print("🔄 CharacterView: Received boostersUpdated notification")
-            refreshTrigger.toggle()
+        })
+        .sheet(isPresented: $showShop, content: {
+            ShopView()
+                .environmentObject(themeManager)
+        })
+        .onAppear {
+            customizationManager.loadCustomization()
         }
     }
 }

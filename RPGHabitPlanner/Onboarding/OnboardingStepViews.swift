@@ -296,7 +296,7 @@ struct FinalStepView: View {
                         .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
                         .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
                     
-                    Text(viewModel.selectedCharacterClass.displayName)
+                    Text("Adventurer")
                         .font(.appFont(size: 18, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .opacity(showCompletionAnimation ? 1.0 : 0.7)
@@ -470,24 +470,25 @@ struct CharacterClassCard: View {
 }
 
 struct CharacterPreviewCard: View {
-    let characterClass: CharacterClass
+    let customization: CharacterCustomization
     let theme: Theme
     
     var body: some View {
         VStack(spacing: 16) {
-            if let image = UIImage(named: characterClass.iconName) {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 120)
-            }
+            // Custom Character Display
+            CustomizedCharacterPreviewCard(
+                customization: customization,
+                theme: theme,
+                showTitle: false
+            )
+            .frame(height: 120)
             
             VStack(spacing: 4) {
-                Text(String.classLabel.localized)
+                Text(String.character.localized)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.7))
                 
-                Text(characterClass.displayName)
+                Text("Custom Character")
                     .font(.appFont(size: 16, weight: .bold))
                     .foregroundColor(theme.textColor)
             }

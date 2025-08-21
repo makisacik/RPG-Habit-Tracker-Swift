@@ -203,7 +203,7 @@ final class QuestDetailViewModel: ObservableObject {
 
                     // Award boosted experience
                     let userManager = UserManager(container: PersistenceController.shared.container)
-                    userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { leveledUp, newLevel, expError in
+                    userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { (leveledUp: Bool, newLevel: Int16?, expError: Error?) in
                         if let expError = expError {
                             print("❌ Error updating experience: \(expError)")
                         } else {
