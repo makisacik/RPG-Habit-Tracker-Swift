@@ -434,40 +434,7 @@ struct FeatureRow: View {
     }
 }
 
-struct CharacterClassCard: View {
-    let characterClass: CharacterClass
-    let isSelected: Bool
-    let theme: Theme
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 12) {
-                if let image = UIImage(named: characterClass.iconName) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 60)
-                }
-                
-                Text(characterClass.displayName)
-                    .font(.appFont(size: 16, weight: .bold))
-                    .foregroundColor(theme.textColor)
-            }
-            .frame(height: 120)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(isSelected ? theme.primaryColor.opacity(0.1) : theme.cardBackgroundColor)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(isSelected ? theme.primaryColor : Color.clear, lineWidth: 2)
-                    )
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
+// CharacterClassCard removed - no longer needed with new customization system
 
 struct CharacterPreviewCard: View {
     let customization: CharacterCustomization
@@ -479,9 +446,8 @@ struct CharacterPreviewCard: View {
             CustomizedCharacterPreviewCard(
                 customization: customization,
                 theme: theme,
-                showTitle: false
+                size: CGSize(width: 120, height: 120)
             )
-            .frame(height: 120)
             
             VStack(spacing: 4) {
                 Text(String.character.localized)

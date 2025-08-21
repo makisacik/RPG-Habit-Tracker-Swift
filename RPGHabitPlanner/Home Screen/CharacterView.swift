@@ -47,9 +47,8 @@ struct CharacterView: View {
                             CustomizedCharacterPreviewCard(
                                 customization: customizationManager.currentCustomization,
                                 theme: theme,
-                                showTitle: false
+                                size: CGSize(width: 150, height: 150)
                             )
-                            .frame(height: 150)
                             
                             Text(user.nickname ?? "Unknown")
                                 .font(.appFont(size: 28, weight: .black))
@@ -146,7 +145,7 @@ struct CharacterView: View {
                             .resizable()
                             .frame(width: 18, height: 18)
                         
-                        Text("\(boosterManager.activeBoosterCount)")
+                        Text("\($boosterManager.activeBoosters.wrappedValue.count)")
                             .font(.appFont(size: 12, weight: .bold))
                             .foregroundColor(theme.textColor)
                             .frame(width: 16, height: 16)
@@ -156,7 +155,7 @@ struct CharacterView: View {
                             )
                     }
                 }
-                .disabled(boosterManager.activeBoosterCount == 0)
+                .disabled($boosterManager.activeBoosters.wrappedValue.isEmpty)
             }
             
             // RIGHT: Shop button
@@ -169,15 +168,15 @@ struct CharacterView: View {
                 }
             }
         }
-        .sheet(isPresented: $showBoosterInfo, content: {
+        .sheet(isPresented: $showBoosterInfo) {
             BoosterInfoModalView()
                 .environmentObject(boosterManager)
                 .environmentObject(themeManager)
-        })
-        .sheet(isPresented: $showShop, content: {
+        }
+        .sheet(isPresented: $showShop) {
             ShopView()
                 .environmentObject(themeManager)
-        })
+        }
         .onAppear {
             customizationManager.loadCustomization()
         }

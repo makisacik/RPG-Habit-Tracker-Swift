@@ -37,13 +37,11 @@ final class UserManagerTests: XCTestCase {
     func testSaveUser() {
         let expectation = self.expectation(description: "User saved successfully")
         
-        userManager.saveUser(
+        let customization = CharacterCustomization()
+        userManager.saveUserWithCustomization(
             nickname: "TestUser",
-            characterClass: .knight,
-            weapon: .swordBroad,
-            level: 1,
-            exp: 0
-        ) { error in
+            customization: customization
+        ) { _, error in
             XCTAssertNil(error)
             expectation.fulfill()
         }
@@ -54,8 +52,6 @@ final class UserManagerTests: XCTestCase {
             XCTAssertNil(error)
             XCTAssertNotNil(user)
             XCTAssertEqual(user?.nickname, "TestUser")
-            XCTAssertEqual(user?.characterClass, CharacterClass.knight.rawValue)
-            XCTAssertEqual(user?.weapon, Weapon.swordBroad.rawValue)
             XCTAssertEqual(user?.level, 1)
             XCTAssertEqual(user?.exp, 0)
         }

@@ -68,7 +68,7 @@ struct CustomizedCharacterPreviewCard: View {
 struct CharacterCustomizationOnboardingView: View {
     @Binding var isCustomizationCompleted: Bool
     @EnvironmentObject var themeManager: ThemeManager
-    @StateObject private var viewModel = CharacterCreationViewModel()
+    @State private var customization = CharacterCustomization()
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -79,11 +79,8 @@ struct CharacterCustomizationOnboardingView: View {
                 .foregroundColor(theme.textColor)
             
             // Simplified customization for onboarding
-            CharacterCustomizationWizardView(viewModel: viewModel)
+            CharacterCustomizationView(isCustomizationCompleted: $isCustomizationCompleted)
                 .environmentObject(themeManager)
-                .onChange(of: viewModel.isCustomizationComplete) { completed in
-                    isCustomizationCompleted = completed
-                }
         }
         .padding()
     }

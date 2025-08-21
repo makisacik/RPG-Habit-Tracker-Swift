@@ -37,9 +37,8 @@ extension HomeView {
                             CustomizedCharacterPreviewCard(
                                 customization: customizationManager.currentCustomization,
                                 theme: theme,
-                                showTitle: false
+                                size: CGSize(width: 60, height: 60)
                             )
-                            .frame(width: 60, height: 60)
                             .clipShape(Circle())
                         }
 
