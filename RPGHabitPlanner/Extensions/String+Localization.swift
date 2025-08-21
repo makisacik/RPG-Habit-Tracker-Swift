@@ -154,7 +154,6 @@ extension String {
     // MARK: - Character & Stats
     static let character = "character"
     static let characterClass = "character_class"
-    static let characterTest = "character_test"
     static let characterPreview = "character_preview"
     static let customizeCharacter = "customize_character"
     static let hairStyle = "hair_style"
