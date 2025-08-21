@@ -42,23 +42,20 @@ struct CharacterView: View {
                         )
                         
                         VStack(spacing: 12) {
-                            if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
-                                Image(characterClass.iconName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 150, height: 150)
-                                    .shadow(radius: 8)
-                            }
+                            // Use character customization image instead of class icon
+                            Image("char_body_male_1") // Default character body image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 150, height: 150)
+                                .shadow(radius: 8)
                             
                             Text(user.nickname ?? "Unknown")
                                 .font(.appFont(size: 28, weight: .black))
                                 .foregroundColor(theme.textColor)
                             
-                            if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
-                                Text(characterClass.displayName)
-                                    .font(.appFont(size: 18))
-                                    .foregroundColor(theme.textColor)
-                            }
+                            Text("Custom Character")
+                                .font(.appFont(size: 18))
+                                .foregroundColor(theme.textColor)
                         }
                         .padding(.top, 20)
                         .padding(.bottom, 20)

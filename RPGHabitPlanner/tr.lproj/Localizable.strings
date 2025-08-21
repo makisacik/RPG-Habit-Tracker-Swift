@@ -74,7 +74,7 @@
 
 // MARK: - Character & Stats
 "character" = "Karakter";
-"character_class" = "Karakter Sınıfı";
+
 "character_test" = "Karakter Testi";
 "character_preview" = "Karakter Önizleme";
 "customize_character" = "Karakterinizi Özelleştirin";
@@ -173,7 +173,7 @@
 "welcome_to_rpg_habit_planner" = "RPG Alışkanlık Planlayıcısına Hoş Geldiniz";
 "create_your_character" = "Karakterinizi Oluşturun";
 "choose_your_class" = "Sınıfınızı Seçin";
-"choose_your_character_class" = "Karakter Sınıfınızı Seçin";
+
 "start_your_adventure" = "Macaranızı Başlatın";
 "lets_begin" = "Başlayalım";
 

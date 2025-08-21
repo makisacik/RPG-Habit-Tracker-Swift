@@ -65,7 +65,7 @@ final class ShopManager: ObservableObject {
 
         // Add some collectible items (weapons, armor, accessories)
         let collectibleItems = [
-            "Sword", "Axe", "Bow", "Shield", "Helmet", "Crown", "Medal", "Key Gold", "Egg", "Pumpkin"
+            "Sword", "Axe", "Dagger", "Shield", "Helmet", "Crown", "Medal", "Key Gold", "Egg", "Pumpkin"
         ]
 
         for itemName in collectibleItems {

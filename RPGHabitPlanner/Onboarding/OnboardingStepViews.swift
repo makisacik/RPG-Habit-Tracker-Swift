@@ -58,45 +58,6 @@ struct WelcomeStepView: View {
     }
 }
 
-// MARK: - Character Class Step (Replaced with Customization)
-struct CharacterClassStepView: View {
-    @ObservedObject var viewModel: OnboardingViewModel
-    let theme: Theme
-    
-    var body: some View {
-        VStack(spacing: 30) {
-            // Header
-            VStack(spacing: 12) {
-                Text(String.chooseYourHero.localized)
-                    .font(.appFont(size: 32, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                
-                Text(String.selectCharacterClassForPlaystyle.localized)
-                    .font(.appFont(size: 16))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-            }
-            .padding(.top, 20)
-            
-            // Placeholder for character class selection (deprecated)
-            VStack(spacing: 20) {
-                Text("Character customization has been moved to the next step!")
-                    .font(.appFont(size: 18, weight: .medium))
-                    .foregroundColor(theme.textColor)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-                
-                Image(systemName: "person.fill.questionmark")
-                    .font(.system(size: 60))
-                    .foregroundColor(theme.textColor.opacity(0.5))
-            }
-            .padding(.horizontal, 20)
-            
-            Spacer()
-        }
-    }
-}
 
 // MARK: - Character Customization Step
 struct CharacterCustomizationStepView: View {
@@ -296,7 +257,7 @@ struct FinalStepView: View {
                         .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
                         .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
                     
-                    Text(viewModel.selectedCharacterClass.displayName)
+                    Text("Custom Character")
                         .font(.appFont(size: 18, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .opacity(showCompletionAnimation ? 1.0 : 0.7)
@@ -430,73 +391,6 @@ struct FeatureRow: View {
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(theme.cardBackgroundColor)
-        )
-    }
-}
-
-struct CharacterClassCard: View {
-    let characterClass: CharacterClass
-    let isSelected: Bool
-    let theme: Theme
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 12) {
-                if let image = UIImage(named: characterClass.iconName) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 60)
-                }
-                
-                Text(characterClass.displayName)
-                    .font(.appFont(size: 16, weight: .bold))
-                    .foregroundColor(theme.textColor)
-            }
-            .frame(height: 120)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(isSelected ? theme.primaryColor.opacity(0.1) : theme.cardBackgroundColor)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(isSelected ? theme.primaryColor : Color.clear, lineWidth: 2)
-                    )
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
-
-struct CharacterPreviewCard: View {
-    let characterClass: CharacterClass
-    let theme: Theme
-    
-    var body: some View {
-        VStack(spacing: 16) {
-            if let image = UIImage(named: characterClass.iconName) {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 120)
-            }
-            
-            VStack(spacing: 4) {
-                Text(String.classLabel.localized)
-                    .font(.appFont(size: 12))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                
-                Text(characterClass.displayName)
-                    .font(.appFont(size: 16, weight: .bold))
-                    .foregroundColor(theme.textColor)
-            }
-        }
-        .padding(24)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(theme.cardBackgroundColor)
-                .shadow(color: theme.textColor.opacity(0.1), radius: 10, x: 0, y: 5)
         )
     }
 }

@@ -45,14 +45,12 @@ extension HomeView {
                                 .frame(width: 62, height: 62)
                                 .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
 
-                            // Character icon
-                            if let characterClass = CharacterClass(rawValue: user.characterClass ?? "knight") {
-                                Image(characterClass.iconName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 45, height: 45)
-                                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
-                            }
+                            // Character icon - using customization image
+                            Image("char_body_male_1") // Default character body image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 45, height: 45)
+                                .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
                         }
 
                         // Character details
@@ -67,22 +65,20 @@ extension HomeView {
                                 PremiumBadgeView()
                             }
 
-                            // Character class
-                            if let characterClass = CharacterClass(rawValue: user.characterClass ?? "") {
-                                Text(characterClass.displayName)
-                                    .font(.appFont(size: 14, weight: .medium))
-                                    .foregroundColor(theme.textColor.opacity(0.8))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 3)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .fill(Color.yellow.opacity(0.2))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                                            )
-                                    )
-                            }
+                            // Character type
+                            Text("Custom Character")
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor.opacity(0.8))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .fill(Color.yellow.opacity(0.2))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 6)
+                                                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                                        )
+                                )
 
                             // Level and XP
                             HStack {

@@ -17,8 +17,8 @@ final class UserManager {
     
     func saveUser(
         nickname: String,
-        characterClass: CharacterClass,
-        weapon: Weapon,
+        characterClass: String,
+        weapon: String,
         level: Int16 = 1,
         exp: Int16 = 0,
         coins: Int32 = 100,
@@ -31,8 +31,6 @@ final class UserManager {
         
         userEntity.id = UUID()
         userEntity.nickname = nickname
-        userEntity.characterClass = characterClass.rawValue
-        userEntity.weapon = weapon.rawValue
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins
@@ -145,11 +143,6 @@ final class UserManager {
         userEntity.coins = coins
         userEntity.health = health
         userEntity.maxHealth = maxHealth
-        
-        // Set legacy fields for compatibility
-        userEntity.characterClass = "Custom" // No longer using classes
-        userEntity.weapon = customization.weapon.rawValue
-        
         do {
             try context.save()
             completion(userEntity, nil)

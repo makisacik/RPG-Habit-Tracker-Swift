@@ -39,9 +39,6 @@ struct OnboardingView: View {
                     WelcomeStepView(viewModel: viewModel, theme: theme)
                         .tag(OnboardingStep.welcome)
                     
-                    CharacterClassStepView(viewModel: viewModel, theme: theme)
-                        .tag(OnboardingStep.characterClass)
-                    
                     CharacterCustomizationStepView(viewModel: viewModel, theme: theme)
                         .tag(OnboardingStep.characterCustomization)
                     

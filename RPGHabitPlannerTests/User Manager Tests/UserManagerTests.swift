@@ -39,8 +39,8 @@ final class UserManagerTests: XCTestCase {
         
         userManager.saveUser(
             nickname: "TestUser",
-            characterClass: .knight,
-            weapon: .swordBroad,
+            characterClass: "Custom",
+            weapon: "char_sword_dagger_wood",
             level: 1,
             exp: 0
         ) { error in
@@ -54,8 +54,8 @@ final class UserManagerTests: XCTestCase {
             XCTAssertNil(error)
             XCTAssertNotNil(user)
             XCTAssertEqual(user?.nickname, "TestUser")
-            XCTAssertEqual(user?.characterClass, CharacterClass.knight.rawValue)
-            XCTAssertEqual(user?.weapon, Weapon.swordBroad.rawValue)
+            XCTAssertEqual(user?.characterClass, "Custom")
+            XCTAssertEqual(user?.weapon, "char_sword_dagger_wood")
             XCTAssertEqual(user?.level, 1)
             XCTAssertEqual(user?.exp, 0)
         }
