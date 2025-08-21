@@ -32,37 +32,38 @@ struct CharacterCreationView: View {
                                 .padding(.top, 10)
                         )
 
-                    VStack(spacing: 8) {
-                        Text(String.chooseYourClass.localized)
-                            .font(.appFont(size: 18))
+                    // Character customization wizard
+                    CharacterCustomizationWizardView(viewModel: viewModel)
+                        .frame(height: 400)
 
-                        ClassSelectionView(viewModel: viewModel)
-                    }
-
-                    Button(action: {
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                            showNicknamePopup = true
+                    // Show confirm button only after customization is complete
+                    if viewModel.isCustomizationComplete {
+                        Button(action: {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                showNicknamePopup = true
+                            }
+                        }) {
+                            Text(String.confirmSelection.localized)
+                                .font(.appFont(size: 18))
+                                .foregroundColor(theme.textColor)
+                                .padding(.horizontal)
+                                .frame(height: 44)
+                                .background(
+                                    Image(theme.buttonPrimary)
+                                        .resizable(
+                                            capInsets: EdgeInsets(
+                                                top: 20,
+                                                leading: 20,
+                                                bottom: 20,
+                                                trailing: 20
+                                            ),
+                                            resizingMode: .stretch
+                                        )
+                                )
+                                .padding(.bottom)
+                                .cornerRadius(8)
                         }
-                    }) {
-                        Text(String.confirmSelection.localized)
-                            .font(.appFont(size: 18))
-                            .foregroundColor(theme.textColor)
-                            .padding(.horizontal)
-                            .frame(height: 44)
-                            .background(
-                                Image(theme.buttonPrimary)
-                                    .resizable(
-                                        capInsets: EdgeInsets(
-                                            top: 20,
-                                            leading: 20,
-                                            bottom: 20,
-                                            trailing: 20
-                                        ),
-                                        resizingMode: .stretch
-                                    )
-                            )
-                            .padding(.bottom)
-                            .cornerRadius(8)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
                 .padding()

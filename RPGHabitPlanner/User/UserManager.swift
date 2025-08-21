@@ -122,6 +122,41 @@ final class UserManager {
             }
         }
     }
+    
+    // MARK: - New Customization Methods
+    
+    func saveUserWithCustomization(
+        nickname: String,
+        customization: CharacterCustomization,
+        level: Int16 = 1,
+        exp: Int16 = 0,
+        coins: Int32 = 100,
+        health: Int16 = 50,
+        maxHealth: Int16 = 50,
+        completion: @escaping (UserEntity?, Error?) -> Void
+    ) {
+        let context = persistentContainer.viewContext
+        let userEntity = UserEntity(context: context)
+        
+        userEntity.id = UUID()
+        userEntity.nickname = nickname
+        userEntity.level = level
+        userEntity.exp = exp
+        userEntity.coins = coins
+        userEntity.health = health
+        userEntity.maxHealth = maxHealth
+        
+        // Set legacy fields for compatibility
+        userEntity.characterClass = "Custom" // No longer using classes
+        userEntity.weapon = customization.weapon.rawValue
+        
+        do {
+            try context.save()
+            completion(userEntity, nil)
+        } catch {
+            completion(nil, error)
+        }
+    }
 }
 
 extension Notification.Name {

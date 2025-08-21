@@ -11,11 +11,14 @@ struct ShopView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var shopManager = ShopManager.shared
     @StateObject private var currencyManager = CurrencyManager.shared
-    @State private var selectedCategory: ShopCategory = .weapons
+    @State private var selectedCategory: EnhancedShopCategory = .weapons
+    @State private var selectedRarity: ItemRarity? = nil
+    @State private var showOnlyAffordable = false
     @State private var showPurchaseAlert = false
     @State private var purchaseAlertMessage = ""
     @State private var selectedItem: ShopItem?
     @State private var showItemDetails = false
+    @State private var showItemPreview = false
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -28,11 +31,27 @@ struct ShopView: View {
                 // Header with coins
                 shopHeader(theme: theme)
                 
-                // Category picker
-                categoryPicker(theme: theme)
+                // Enhanced category picker
+                ShopCategoryView(
+                    selectedCategory: $selectedCategory,
+                    onCategorySelected: { category in
+                        selectedCategory = category
+                    }
+                )
+                .padding(.vertical, 8)
                 
-                // Items grid
-                itemsGrid(theme: theme)
+                // Filters
+                ShopFilterView(
+                    selectedRarity: $selectedRarity,
+                    priceRange: .constant(0...1000),
+                    showOnlyAffordable: $showOnlyAffordable,
+                    onFilterChanged: {
+                        // Filter logic handled in itemsGrid
+                    }
+                )
+                
+                // Enhanced items grid
+                enhancedItemsGrid(theme: theme)
             }
         }
         .navigationTitle("Shop")
@@ -49,6 +68,16 @@ struct ShopView: View {
             if let item = selectedItem {
                 ItemDetailView(item: item) { purchaseItem(item) }
                     .environmentObject(themeManager)
+            }
+        }
+        .overlay {
+            if showItemPreview, let item = selectedItem {
+                ItemPreviewModal(
+                    item: item,
+                    onDismiss: { showItemPreview = false },
+                    onPurchase: { purchaseItem(item) }
+                )
+                .environmentObject(themeManager)
             }
         }
     }
@@ -100,69 +129,91 @@ struct ShopView: View {
         .padding(.top)
     }
     
-    // MARK: - Category Picker
+    // MARK: - Enhanced Items Grid
     
-    private func categoryPicker(theme: Theme) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
-                ForEach(ShopCategory.allCases, id: \.self) { category in
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            selectedCategory = category
-                        }
-                    }) {
-                        HStack(spacing: 8) {
-                            Image(systemName: category.icon)
-                                .font(.system(size: 16))
-                            
-                            Text(category.rawValue)
-                                .font(.appFont(size: 14, weight: .medium))
-                        }
-                        .foregroundColor(selectedCategory == category ? .white : theme.textColor)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(selectedCategory == category ? Color.yellow : theme.secondaryColor)
-                        )
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            .padding(.horizontal)
-        }
-        .padding(.vertical, 8)
-    }
-    
-    // MARK: - Items Grid
-    
-    private func itemsGrid(theme: Theme) -> some View {
-        let items = shopManager.getItemsByCategory(selectedCategory)
+    private func enhancedItemsGrid(theme: Theme) -> some View {
+        let filteredItems = getFilteredItems()
         
         return ScrollView {
             LazyVGrid(columns: [
                 GridItem(.flexible(), spacing: 16),
                 GridItem(.flexible(), spacing: 16)
             ], spacing: 16) {
-                ForEach(items) { item in
-                    ShopItemCard(
+                ForEach(filteredItems) { item in
+                    EnhancedShopItemCard(
                         item: item,
-                        canAfford: currencyManager.currentCoins >= shopManager.getDisplayPrice(for: item),
-                        onTap: {
-                            selectedItem = item
-                            showItemDetails = true
-                        },
+                        isCustomizationItem: selectedCategory.isCustomizationCategory,
                         onPurchase: {
                             purchaseItem(item)
-                        }
+                        },
+                        onPreview: selectedCategory.isCustomizationCategory ? {
+                            selectedItem = item
+                            showItemPreview = true
+                        } : nil
                     )
                     .environmentObject(themeManager)
-                    .environmentObject(shopManager)
                 }
             }
             .padding()
         }
     }
+    
+    private func getFilteredItems() -> [ShopItem] {
+        var items: [ShopItem]
+        
+        // Get items for category
+        if selectedCategory.isCustomizationCategory {
+            items = getCustomizationItems(for: selectedCategory)
+        } else {
+            // Use legacy category mapping
+            let legacyCategory = mapToLegacyCategory(selectedCategory)
+            items = shopManager.getItemsByCategory(legacyCategory)
+        }
+        
+        // Apply rarity filter
+        if let selectedRarity = selectedRarity {
+            items = items.filter { $0.rarity == selectedRarity }
+        }
+        
+        // Apply affordability filter
+        if showOnlyAffordable {
+            items = items.filter { currencyManager.currentCoins >= shopManager.getDisplayPrice(for: $0) }
+        }
+        
+        return items
+    }
+    
+    private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
+        guard let assetCategory = category.assetCategory else { return [] }
+        
+        let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
+        return assets.map { asset in
+            ShopItem(
+                name: asset.name,
+                description: "Customize your character with this \(assetCategory.displayName.lowercased())",
+                iconName: asset.imageName,
+                price: asset.basePrice,
+                rarity: asset.rarity == .common ? .common : 
+                        asset.rarity == .uncommon ? .uncommon :
+                        asset.rarity == .rare ? .rare :
+                        asset.rarity == .epic ? .epic : .legendary,
+                category: mapToLegacyCategory(category)
+            )
+        }
+    }
+    
+    private func mapToLegacyCategory(_ enhancedCategory: EnhancedShopCategory) -> ShopCategory {
+        switch enhancedCategory {
+        case .bodyTypes, .hairStyles, .eyeColors, .outfits: return .armor
+        case .weapons: return .weapons
+        case .accessories: return .accessories
+        case .potions: return .potions
+        case .boosts: return .boosts
+        case .special: return .special
+        }
+    }
+    
+
     
     // MARK: - Helper Methods
     
