@@ -36,6 +36,26 @@ enum ItemRarity: String, CaseIterable, Codable {
         case .legendary: return .orange
         }
     }
+    
+    var borderColor: Color {
+        switch self {
+        case .common: return .gray.opacity(0.8)
+        case .uncommon: return .green.opacity(0.8)
+        case .rare: return .blue.opacity(0.8)
+        case .epic: return .purple.opacity(0.8)
+        case .legendary: return .orange.opacity(0.8)
+        }
+    }
+    
+    var glowColor: Color {
+        switch self {
+        case .common: return .clear
+        case .uncommon: return .green.opacity(0.3)
+        case .rare: return .blue.opacity(0.3)
+        case .epic: return .purple.opacity(0.3)
+        case .legendary: return .orange.opacity(0.5)
+        }
+    }
 }
 
 // MARK: - Item Types
