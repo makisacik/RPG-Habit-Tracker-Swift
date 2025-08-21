@@ -175,8 +175,6 @@ final class MyQuestsViewModel: ObservableObject {
         }
 
         return items.sorted { a, b in
-            if a.state == .todo, b.state == .done { return true }
-            if a.state == .done, b.state == .todo { return false }
             return a.quest.creationDate > b.quest.creationDate
         }
     }
