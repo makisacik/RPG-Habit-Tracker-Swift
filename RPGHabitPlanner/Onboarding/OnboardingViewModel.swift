@@ -17,12 +17,13 @@ enum OnboardingStep: Int, CaseIterable {
 
 class OnboardingViewModel: ObservableObject {
     @Published var currentStep: OnboardingStep = .welcome
-    @Published var selectedCharacterClass: CharacterClass = .knight
-    @Published var selectedWeapon: Weapon = .swordBroad
+    @Published var selectedCharacterClass: CharacterClass = .knight // Deprecated, kept for compatibility
+    @Published var selectedWeapon: Weapon = .swordBroad // Deprecated, kept for compatibility
     @Published var nickname: String = ""
     @Published var isOnboardingCompleted: Bool = false
     
     private let userManager = UserManager()
+    let customizationManager = CharacterCustomizationManager()
     
     var canProceedToNextStep: Bool {
         switch currentStep {
@@ -58,10 +59,14 @@ class OnboardingViewModel: ObservableObject {
     }
     
     func completeOnboarding() {
+        // Save character customization data
+        customizationManager.saveCustomization()
+        
+        // Save user with new customization system
         userManager.saveUser(
             nickname: nickname,
-            characterClass: selectedCharacterClass,
-            weapon: selectedWeapon
+            characterClass: selectedCharacterClass, // Keep for backward compatibility
+            weapon: selectedWeapon // Keep for backward compatibility
         ) { error in
             if let error = error {
                 print("Failed to save user: \(error.localizedDescription)")

@@ -90,6 +90,12 @@
 "character_test" = "Character Test";
 "character_preview" = "Character Preview";
 "customize_character" = "Customize Your Character";
+"customizeYourHero" = "Customize Your Hero";
+"createYourUniqueCharacter" = "Create your unique character";
+"preview" = "Preview";
+"continueButton" = "Continue";
+"yourCharacter" = "Your Character";
+"customized" = "Customized";
 "hair_style" = "Hair Style";
 "eye_style" = "Eye Style";
 "outfit" = "Outfit";

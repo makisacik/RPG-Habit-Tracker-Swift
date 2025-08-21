@@ -78,6 +78,12 @@
 "character_test" = "Karakter Testi";
 "character_preview" = "Karakter Önizleme";
 "customize_character" = "Karakterinizi Özelleştirin";
+"customizeYourHero" = "Kahramanınızı Özelleştirin";
+"createYourUniqueCharacter" = "Benzersiz karakterinizi oluşturun";
+"preview" = "Önizleme";
+"continueButton" = "Devam Et";
+"yourCharacter" = "Karakteriniz";
+"customized" = "Özelleştirilmiş";
 "hair_style" = "Saç Stili";
 "eye_style" = "Göz Stili";
 "outfit" = "Kıyafet";

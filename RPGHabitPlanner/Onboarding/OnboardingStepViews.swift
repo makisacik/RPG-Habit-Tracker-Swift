@@ -58,7 +58,7 @@ struct WelcomeStepView: View {
     }
 }
 
-// MARK: - Character Class Step
+// MARK: - Character Class Step (Replaced with Customization)
 struct CharacterClassStepView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     let theme: Theme
@@ -79,20 +79,17 @@ struct CharacterClassStepView: View {
             }
             .padding(.top, 20)
             
-            // Character class selection
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
-                ForEach(CharacterClass.allCases, id: \.self) { characterClass in
-                    CharacterClassCard(
-                        characterClass: characterClass,
-                        isSelected: viewModel.selectedCharacterClass == characterClass,
-                        theme: theme
-                    ) {
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                            viewModel.selectedCharacterClass = characterClass
-                            viewModel.updateAvailableWeapons()
-                        }
-                    }
-                }
+            // Placeholder for character class selection (deprecated)
+            VStack(spacing: 20) {
+                Text("Character customization has been moved to the next step!")
+                    .font(.appFont(size: 18, weight: .medium))
+                    .foregroundColor(theme.textColor)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+                
+                Image(systemName: "person.fill.questionmark")
+                    .font(.system(size: 60))
+                    .foregroundColor(theme.textColor.opacity(0.5))
             }
             .padding(.horizontal, 20)
             
@@ -105,31 +102,35 @@ struct CharacterClassStepView: View {
 struct CharacterCustomizationStepView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     let theme: Theme
+    @State private var isCustomizationCompleted = false
     
     var body: some View {
-        VStack(spacing: 30) {
-            // Header
-            VStack(spacing: 12) {
-                Text(String.customizeYourHero.localized)
-                    .font(.appFont(size: 32, weight: .bold))
-                    .foregroundColor(theme.textColor)
+        if isCustomizationCompleted {
+            // Show completion state
+            VStack(spacing: 30) {
+                VStack(spacing: 12) {
+                    Text(String.customizeYourHero.localized)
+                        .font(.appFont(size: 32, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                    
+                    Text("Character customization completed!")
+                        .font(.appFont(size: 16))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                }
+                .padding(.top, 20)
                 
-                Text(String.chooseYourCharacterClass.localized)
-                    .font(.appFont(size: 16))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 80))
+                    .foregroundColor(.green)
+                
+                Spacer()
             }
-            .padding(.top, 20)
-            
-            // Character preview
-            CharacterPreviewCard(
-                characterClass: viewModel.selectedCharacterClass,
-                theme: theme
-            )
-            .padding(.horizontal, 20)
-            
-            Spacer()
+        } else {
+            // Show character customization view
+            CharacterCustomizationView(isCustomizationCompleted: $isCustomizationCompleted)
+                .environmentObject(ThemeManager.shared)
         }
     }
 }
@@ -157,8 +158,8 @@ struct NicknameStepView: View {
             
             // Character preview with name
             VStack(spacing: 20) {
-                CharacterPreviewCard(
-                    characterClass: viewModel.selectedCharacterClass,
+                CustomizedCharacterPreviewCard(
+                    customization: viewModel.customizationManager.currentCustomization,
                     theme: theme
                 )
                 
@@ -262,8 +263,8 @@ struct FinalStepView: View {
                 // Final character preview
             VStack(spacing: 20) {
                 ZStack {
-                    CharacterPreviewCard(
-                        characterClass: viewModel.selectedCharacterClass,
+                    CustomizedCharacterPreviewCard(
+                        customization: viewModel.customizationManager.currentCustomization,
                         theme: theme
                     )
                     .scaleEffect(heroScale)
