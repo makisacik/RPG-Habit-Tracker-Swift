@@ -24,7 +24,12 @@ struct CharacterTestView: View {
     // Available options for each category with descriptive names
     private let bodyOptions = [
         (0, "Default"),
-        (1, "White Skin")
+        (1, "Body 1"),
+        (2, "Body 2"),
+        (3, "Body 3"),
+        (4, "Body 4"),
+        (5, "Body 5"),
+        (6, "Body 6")
     ]
 
     private let hairOptions = [
@@ -54,9 +59,9 @@ struct CharacterTestView: View {
         (2, "Assassin"),
         (3, "Bat"),
         (4, "Dress"),
-        (5, "Fire 1"),
+        (5, "Fire"),
         (6, "Simple"),
-        (7, "Hoodie Green"),
+        (7, "Hoodie"),
         (8, "Red")
     ]
 
@@ -101,7 +106,7 @@ struct CharacterTestView: View {
                     .scaledToFit()
                     .frame(width: 400, height: 400)
             } else {
-                Image("char_body_white_skin")
+                Image("char_body_\(selectedBody)")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 400, height: 400)
@@ -109,7 +114,7 @@ struct CharacterTestView: View {
             
             // 2. Character outfit (on top of body)
             if selectedOutfit > 0 {
-                let outfitNames = ["iron", "asassin", "bat", "dress", "fire_1", "simple", "hoodie_green", "red"]
+                let outfitNames = ["iron", "asassin", "bat", "dress", "fire", "simple", "hoodie", "red"]
                 Image("char_outfit_\(outfitNames[selectedOutfit - 1])")
                     .resizable()
                     .scaledToFit()
