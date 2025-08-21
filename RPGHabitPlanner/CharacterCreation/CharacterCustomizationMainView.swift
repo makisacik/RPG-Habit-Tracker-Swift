@@ -214,21 +214,21 @@ struct CharacterCustomizationView: View {
     private func getOptionsForCategory() -> [CustomizationOption] {
         switch selectedCategory {
         case .bodyType:
-            return BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
+            return BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         case .skinColor:
-            return SkinColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: false, color: $0.color) }
+            return SkinColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: "", isPremium: false, isUnlocked: true) }
         case .hairStyle:
-            return HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
+            return HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         case .hairColor:
-            return HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: false, color: $0.color) }
+            return HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: "", isPremium: false, isUnlocked: true) }
         case .eyeColor:
-            return EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
+            return EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         case .outfit:
-            return Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
+            return Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         case .weapon:
-            return CharacterWeapon.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
+            return CharacterWeapon.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         case .accessory:
-            return Accessory.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, isPremium: $0.isPremium, imageName: $0.previewImageName) }
+            return Accessory.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         }
     }
     
@@ -332,21 +332,6 @@ enum CustomizationCategory: String, CaseIterable {
     }
 }
 
-struct CustomizationOption: Identifiable {
-    let id: String
-    let name: String
-    let isPremium: Bool
-    let imageName: String?
-    let color: Color?
-    
-    init(id: String, name: String, isPremium: Bool, imageName: String? = nil, color: Color? = nil) {
-        self.id = id
-        self.name = name
-        self.isPremium = isPremium
-        self.imageName = imageName
-        self.color = color
-    }
-}
 
 struct CategoryButton: View {
     let category: CustomizationCategory
@@ -389,12 +374,12 @@ struct OptimizedCustomizationOptionCard: View {
         Button(action: action) {
             VStack(spacing: 8) {
                 ZStack {
-                    if let imageName = option.imageName {
-                        OptimizedImageLoader(imageName: imageName, height: 40)
-                    } else if let color = option.color {
-                        Circle()
-                            .fill(color)
-                            .frame(width: 40, height: 40)
+                    if !option.imageName.isEmpty {
+                        OptimizedImageLoader(imageName: option.imageName, height: 40)
+                    } else {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(theme.textColor.opacity(0.5))
                     }
                 }
                 
@@ -416,6 +401,7 @@ struct OptimizedCustomizationOptionCard: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
+        .opacity(option.isUnlocked ? 1.0 : 0.5)
     }
 }
 

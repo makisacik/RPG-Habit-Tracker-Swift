@@ -80,7 +80,9 @@
 "customize_character" = "Karakterinizi Özelleştirin";
 "customizeYourHero" = "Kahramanınızı Özelleştirin";
 "createYourUniqueCharacter" = "Benzersiz karakterinizi oluşturun";
+"createYourCharacter" = "Karakterinizi Oluşturun";
 "preview" = "Önizleme";
+"confirmSelection" = "Seçimi Onayla";
 "continueButton" = "Devam Et";
 "yourCharacter" = "Karakteriniz";
 "customized" = "Özelleştirilmiş";

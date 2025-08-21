@@ -1,33 +1,33 @@
 //
-//  OnboardingViewModel.swift
+//  OnboardingCoordinator.swift
 //  RPGHabitPlanner
 //
-//  Created by Mehmet Ali Kısacık on 10.11.2024.
+//  Created by Mehmet Ali Kısacık on 7.01.2025.
 //
 
 import SwiftUI
 
-enum OnboardingStep: Int, CaseIterable {
-    case welcome = 0
-    case characterCustomization = 1
-    case nickname = 2
-    case final = 3
-}
+// MARK: - Onboarding Coordinator
 
-class OnboardingViewModel: ObservableObject {
+class OnboardingCoordinator: ObservableObject {
     @Published var currentStep: OnboardingStep = .welcome
-    @Published var nickname: String = ""
     @Published var isOnboardingCompleted: Bool = false
     
+    // Character customization data
+    @Published var nickname: String = ""
+    @Published var characterCustomization = CharacterCustomization()
+    @Published var isCharacterCustomizationComplete: Bool = false
+    
+    // Services
     private let userManager = UserManager()
-    let customizationManager = CharacterCustomizationManager()
+    private let customizationManager = CharacterCustomizationManager()
     
     var canProceedToNextStep: Bool {
         switch currentStep {
         case .welcome:
             return true
         case .characterCustomization:
-            return true
+            return isCharacterCustomizationComplete
         case .nickname:
             return !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         case .final:
@@ -60,8 +60,8 @@ class OnboardingViewModel: ObservableObject {
         // Save user with new customization system
         userManager.saveUser(
             nickname: nickname,
-            characterClass: "Custom", // Using custom character system
-            weapon: customizationManager.currentCustomization.weapon.rawValue
+            characterClass: "Custom",
+            weapon: characterCustomization.weapon.rawValue
         ) { error in
             if let error = error {
                 print("Failed to save user: \(error.localizedDescription)")
@@ -70,6 +70,32 @@ class OnboardingViewModel: ObservableObject {
                     self.isOnboardingCompleted = true
                 }
             }
+        }
+    }
+    
+    func updateCharacterCustomization(_ customization: CharacterCustomization) {
+        self.characterCustomization = customization
+    }
+    
+    func markCharacterCustomizationComplete() {
+        self.isCharacterCustomizationComplete = true
+    }
+}
+
+// MARK: - Onboarding Steps
+
+enum OnboardingStep: Int, CaseIterable {
+    case welcome = 0
+    case characterCustomization = 1
+    case nickname = 2
+    case final = 3
+    
+    var title: String {
+        switch self {
+        case .welcome: return "Welcome"
+        case .characterCustomization: return "Customize Character"
+        case .nickname: return "Choose Name"
+        case .final: return "Ready"
         }
     }
 }

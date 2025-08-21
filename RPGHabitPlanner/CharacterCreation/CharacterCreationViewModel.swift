@@ -37,6 +37,62 @@ class CharacterCreationViewModel: ObservableObject {
     
     func updateCustomization(_ customization: CharacterCustomization) {
         self.currentCustomization = customization
+        checkCustomizationComplete()
+    }
+    
+    // MARK: - Individual Update Methods for Carousel Interface
+    
+    func updateBodyType(_ bodyType: BodyType) {
+        currentCustomization.bodyType = bodyType
+        checkCustomizationComplete()
+    }
+    
+    func updateSkinColor(_ skinColor: SkinColor) {
+        currentCustomization.skinColor = skinColor
+        checkCustomizationComplete()
+    }
+    
+    func updateHairStyle(_ hairStyle: HairStyle) {
+        currentCustomization.hairStyle = hairStyle
+        checkCustomizationComplete()
+    }
+    
+    func updateHairColor(_ hairColor: HairColor) {
+        currentCustomization.hairColor = hairColor
+        checkCustomizationComplete()
+    }
+    
+    func updateEyeColor(_ eyeColor: EyeColor) {
+        currentCustomization.eyeColor = eyeColor
+        checkCustomizationComplete()
+    }
+    
+    func updateOutfit(_ outfit: Outfit) {
+        currentCustomization.outfit = outfit
+        checkCustomizationComplete()
+    }
+    
+    func updateWeapon(_ weapon: CharacterWeapon) {
+        currentCustomization.weapon = weapon
+        checkCustomizationComplete()
+    }
+    
+    func updateAccessory(_ accessory: Accessory?) {
+        currentCustomization.accessory = accessory
+        checkCustomizationComplete()
+    }
+    
+    private func checkCustomizationComplete() {
+        // Check if all required customization options are selected
+        let isComplete = !currentCustomization.bodyType.rawValue.isEmpty &&
+                        !currentCustomization.skinColor.rawValue.isEmpty &&
+                        !currentCustomization.hairStyle.rawValue.isEmpty &&
+                        !currentCustomization.hairColor.rawValue.isEmpty &&
+                        !currentCustomization.eyeColor.rawValue.isEmpty &&
+                        !currentCustomization.outfit.rawValue.isEmpty &&
+                        !currentCustomization.weapon.rawValue.isEmpty
+        
+        isCustomizationComplete = isComplete
     }
     
     func saveUserWithCustomization(completion: @escaping (Error?) -> Void) {

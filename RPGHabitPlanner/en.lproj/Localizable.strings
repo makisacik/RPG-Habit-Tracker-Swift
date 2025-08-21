@@ -92,7 +92,9 @@
 "customize_character" = "Customize Your Character";
 "customizeYourHero" = "Customize Your Hero";
 "createYourUniqueCharacter" = "Create your unique character";
+"createYourCharacter" = "Create Your Character";
 "preview" = "Preview";
+"confirmSelection" = "Confirm Selection";
 "continueButton" = "Continue";
 "yourCharacter" = "Your Character";
 "customized" = "Customized";

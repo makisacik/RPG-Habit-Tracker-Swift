@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - Customization Step View
 
-struct CustomizationStepView: View {
+struct LegacyCustomizationStepView: View {
     let title: String
     let category: AssetCategory
     let selectedAsset: AssetItem?
@@ -259,81 +259,5 @@ struct RarityBadge: View {
                         .stroke(rarity.borderColor, lineWidth: 1)
                 )
         )
-    }
-}
-
-// MARK: - Customization Progress View
-
-struct CustomizationProgressView: View {
-    let currentStep: Int
-    let totalSteps: Int
-    
-    @EnvironmentObject var themeManager: ThemeManager
-    
-    var body: some View {
-        let theme = themeManager.activeTheme
-        
-        HStack(spacing: 8) {
-            ForEach(0..<totalSteps, id: \.self) { step in
-                Circle()
-                    .fill(step <= currentStep ? theme.accentColor : theme.backgroundColor.opacity(0.3))
-                    .frame(width: 12, height: 12)
-                    .scaleEffect(step == currentStep ? 1.2 : 1.0)
-                    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: currentStep)
-            }
-        }
-    }
-}
-
-// MARK: - Customization Navigation Buttons
-
-struct CustomizationNavigationButtons: View {
-    let canGoBack: Bool
-    let canGoForward: Bool
-    let onBack: () -> Void
-    let onForward: () -> Void
-    
-    @EnvironmentObject var themeManager: ThemeManager
-    
-    var body: some View {
-        let theme = themeManager.activeTheme
-        
-        HStack(spacing: 16) {
-            // Back button
-            Button(action: onBack) {
-                HStack {
-                    Image(systemName: "chevron.left")
-                    Text("Back")
-                }
-                .font(.appFont(size: 16))
-                .foregroundColor(canGoBack ? theme.textColor : theme.textColor.opacity(0.3))
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(canGoBack ? theme.primaryColor : theme.primaryColor.opacity(0.3))
-                )
-            }
-            .disabled(!canGoBack)
-            
-            Spacer()
-            
-            // Forward button
-            Button(action: onForward) {
-                HStack {
-                    Text("Next")
-                    Image(systemName: "chevron.right")
-                }
-                .font(.appFont(size: 16))
-                .foregroundColor(canGoForward ? theme.textColor : theme.textColor.opacity(0.3))
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(canGoForward ? theme.accentColor : theme.primaryColor.opacity(0.3))
-                )
-            }
-            .disabled(!canGoForward)
-        }
     }
 }
