@@ -1,14 +1,14 @@
 //
-//  MyQuestsViewModel.swift
+//  QuestsViewModel.swift
 //  RPGHabitPlanner
 //
-//  Created by Mehmet Ali Kısacık on 18.08.2025.
+//  Created by Mehmet Ali Kısacık on 6.08.2025.
 //
 
 import SwiftUI
 import Foundation
 
-final class MyQuestsViewModel: ObservableObject {
+final class QuestsViewModel: ObservableObject {
     @Published var allQuests: [Quest] = []
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
@@ -60,7 +60,7 @@ final class MyQuestsViewModel: ObservableObject {
             object: nil
         )
 
-        // Support "complete from detail" flow (NEW)
+        // Support "complete from detail" flow
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleQuestCompletedFromDetail),
@@ -70,7 +70,7 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     @objc private func handleQuestUpdated(_ notification: Notification) {
-        print("🔄 MyQuestsViewModel: Received quest updated notification")
+        print("🔄 QuestsViewModel: Received quest updated notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
             self?.refreshTrigger.toggle()
@@ -78,7 +78,7 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     @objc private func handleQuestDeleted(_ notification: Notification) {
-        print("🗑️ MyQuestsViewModel: Received quest deleted notification")
+        print("🗑️ QuestsViewModel: Received quest deleted notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
             self?.refreshTrigger.toggle()
@@ -86,16 +86,15 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     @objc private func handleQuestCreated(_ notification: Notification) {
-        print("➕ MyQuestsViewModel: Received quest created notification")
+        print("➕ QuestsViewModel: Received quest created notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
             self?.refreshTrigger.toggle()
         }
     }
 
-    // NEW: mirror QuestsViewModel behavior for "complete from detail"
     @objc private func handleQuestCompletedFromDetail(_ notification: Notification) {
-        print("🎯 MyQuestsViewModel: Received quest completed from detail notification")
+        print("🎯 QuestsViewModel: Received quest completed from detail notification")
         DispatchQueue.main.async { [weak self] in
             guard let self = self,
                   let quest = notification.object as? Quest,
@@ -122,12 +121,12 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     func fetchQuests() {
-        print("📅 MyQuestsViewModel: Starting fetchQuests()")
+        print("📅 QuestsViewModel: Starting fetchQuests()")
         isLoading = true
         questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
-                    print("📅 MyQuestsViewModel: Received \(quests.count) quests from fetchAllQuests")
+                    print("📅 QuestsViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
                 }
@@ -140,7 +139,7 @@ final class MyQuestsViewModel: ObservableObject {
         questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
-                    print("📅 MyQuestsViewModel: Refreshed quest data with \(quests.count) quests")
+                    print("📅 QuestsViewModel: Refreshed quest data with \(quests.count) quests")
                     self?.allQuests = quests
 
                     // Check if reordering animation should be enabled
@@ -264,7 +263,7 @@ final class MyQuestsViewModel: ObservableObject {
                             self.streakManager.recordActivity()
                             self.checkAchievements()
 
-                            // ✅ Expose completion/level-up to the View
+                            // Expose completion/level-up to the View
                             self.lastCompletedQuestId = questId
                             self.lastCompletedQuest = quest
                             self.questCompleted = true

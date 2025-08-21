@@ -181,25 +181,19 @@ struct HomeView: View {
 
             // MARK: Quests
             NavigationStack {
-                ZStack {
-                    theme.backgroundColor.ignoresSafeArea()
-                    VStack(spacing: 0) {
-                        QuestTrackingView(
-                            viewModel: QuestTrackingViewModel(
-                                questDataService: questDataService,
-                                userManager: viewModel.userManager
-                            )
-                        )
-                    }
-                    .font(.appFont(size: 16))
-                    .navigationTitle(String.questJournal.localized)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar(content: questsToolbarContent)
-                    .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
-                        QuestCreationView(
-                            viewModel: QuestCreationViewModel(questDataService: questDataService)
-                        )
-                    }
+                QuestsView(
+                    viewModel: QuestsViewModel(
+                        questDataService: questDataService,
+                        userManager: viewModel.userManager
+                    ),
+                    questDataService: questDataService
+                )
+                .environmentObject(themeManager)
+                .toolbar(content: questsToolbarContent)
+                .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
+                    QuestCreationView(
+                        viewModel: QuestCreationViewModel(questDataService: questDataService)
+                    )
                 }
             }
             .tabItem { Label(String.quests.localized, systemImage: "list.bullet.clipboard.fill") }

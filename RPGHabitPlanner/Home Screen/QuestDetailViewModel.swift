@@ -177,7 +177,7 @@ final class QuestDetailViewModel: ObservableObject {
                 } else {
                     print("✅ QuestDetailViewModel: Successfully marked quest as finished on server")
 
-                    // Calculate and award rewards (same logic as QuestTrackingViewModel)
+                    // Calculate and award rewards (same logic as QuestsViewModel)
                     let baseExp: Int
                     let baseCoins: Int
 
@@ -223,7 +223,7 @@ final class QuestDetailViewModel: ObservableObject {
                                 userManager: userManager
                             ) { _ in }
 
-                            // Post notification with quest completion data for QuestTrackingView
+                            // Post notification with quest completion data for QuestsView
                             let userInfo: [String: Any] = [
                                 "questId": self.quest.id,
                                 "leveledUp": leveledUp,
