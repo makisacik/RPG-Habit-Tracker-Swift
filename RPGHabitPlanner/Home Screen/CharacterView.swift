@@ -172,18 +172,39 @@ struct CharacterSectionView: View {
                 // Center Character Display
                 VStack(spacing: 16) {
                     // Character Display
+                    // Character Display
+                    // Character Display (fills perfectly with .scaledToFill)
                     ZStack {
-                        RoundedRectangle(cornerRadius: 16)
+                        let corner: CGFloat = 16
+
+                        // Card background
+                        RoundedRectangle(cornerRadius: corner)
                             .fill(theme.cardBackgroundColor.opacity(0.8))
                             .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
 
+                        // Background image sized to the container, then clipped
+                        GeometryReader { proxy in
+                            Image("char_background")
+                                .resizable()
+                                .scaledToFill() // covers the whole card
+                                .frame(width: proxy.size.width, height: proxy.size.height)
+                                .clipped() // remove the overflow from scaledToFill
+                                .opacity(0.30)
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: corner))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: corner)
+                                .stroke(theme.borderColor.opacity(0.12), lineWidth: 1)
+                        )
+
                         CharacterDisplayView(
                             customization: characterCustomization,
-                            size: 180,
+                            size: 200,
                             showShadow: true
                         )
                     }
-                    .frame(width: 200, height: 240)
+                    .frame(width: 200, height: 270)
+
 
                     // Character Stats
                     VStack(spacing: 8) {
