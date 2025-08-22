@@ -551,7 +551,6 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
 
 // MARK: - Weapons
 enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
-    case swordDaggerWood = "char_sword_dagger_wood"
     case swordWood = "char_sword_wood"
     case swordIron = "char_sword_iron"
     case swordSteel = "char_sword_steel"
@@ -571,7 +570,6 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .swordDaggerWood: return "Wood Dagger"
         case .swordWood: return "Wood Sword"
         case .swordIron: return "Iron Sword"
         case .swordSteel: return "Steel Sword"
@@ -591,7 +589,6 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
 
     var previewImageName: String {
         switch self {
-        case .swordDaggerWood: return "char_sword_dagger_wood_preview"
         case .swordWood: return "char_sword_wood_preview"
         case .swordIron: return "char_sword_iron_preview"
         case .swordSteel: return "char_sword_steel_preview"

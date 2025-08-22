@@ -481,7 +481,6 @@ struct ItemDatabase {
         Item.collectible(name: "Arrows", description: "A bundle of arrows for ranged attacks", iconName: "icon_arrows", collectionCategory: "Weapons"),
         Item.collectible(name: "Axe Spear", description: "Dual weapon for melee combat", iconName: "icon_axe_spear", collectionCategory: "Weapons"),
         Item.collectible(name: "Axe", description: "Heavy axe for chopping or battle", iconName: "icon_axe", collectionCategory: "Weapons"),
-        Item.collectible(name: "Wooden Dagger", description: "Basic weapon for beginners", iconName: "char_sword_dagger_wood", collectionCategory: "Weapons"),
         Item.collectible(name: "Crown", description: "Symbol of royalty", iconName: "icon_crown", rarity: .legendary, collectionCategory: "Royalty", isRare: true),
         Item.collectible(name: "Egg", description: "Mysterious egg, what's inside?", iconName: "icon_egg", collectionCategory: "General"),
         Item.collectible(name: "Gold", description: "Precious gold coin", iconName: "icon_gold", rarity: .epic, collectionCategory: "Treasure", isRare: true),
