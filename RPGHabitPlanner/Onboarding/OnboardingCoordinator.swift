@@ -36,6 +36,9 @@ class OnboardingCoordinator: ObservableObject {
     }
     
     func nextStep() {
+        // Dismiss keyboard before navigation
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        
         guard let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep),
               currentIndex < OnboardingStep.allCases.count - 1 else { return }
         
@@ -45,6 +48,9 @@ class OnboardingCoordinator: ObservableObject {
     }
     
     func previousStep() {
+        // Dismiss keyboard before navigation
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        
         guard let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep),
               currentIndex > 0 else { return }
         
