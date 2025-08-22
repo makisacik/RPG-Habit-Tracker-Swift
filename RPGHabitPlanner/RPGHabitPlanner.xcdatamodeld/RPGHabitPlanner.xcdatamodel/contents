@@ -57,6 +57,7 @@
         <attribute name="info" optional="YES" attributeType="String"/>
         <attribute name="itemType" optional="YES" attributeType="String"/>
         <attribute name="gearCategory" optional="YES" attributeType="String"/>
+        <attribute name="accessoryCategory" optional="YES" attributeType="String"/>
         <attribute name="rarity" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="collectionCategory" optional="YES" attributeType="String"/>

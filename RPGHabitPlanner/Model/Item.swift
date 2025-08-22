@@ -108,6 +108,28 @@ enum GearCategory: String, CaseIterable, Codable {
     }
 }
 
+// MARK: - Accessory Categories
+
+enum AccessoryCategory: String, CaseIterable, Codable {
+    case earrings = "Earrings"
+    case eyeglasses = "Eyeglasses"
+    case lashes = "Lashes"
+    case clips = "Clips"
+
+    var description: String {
+        switch self {
+        case .earrings:
+            return "Ear accessories"
+        case .eyeglasses:
+            return "Eye accessories"
+        case .lashes:
+            return "Eyelash accessories"
+        case .clips:
+            return "Hair clips and flowers"
+        }
+    }
+}
+
 // MARK: - Base Item Protocol
 
 protocol GameItem: Identifiable, Equatable, Codable {
@@ -139,6 +161,9 @@ struct Item: GameItem {
     let gearCategory: GearCategory?
     let rarity: ItemRarity?
 
+    // Accessory-specific properties
+    let accessoryCategory: AccessoryCategory?
+
     init(
         id: UUID = UUID(),
         name: String,
@@ -151,7 +176,8 @@ struct Item: GameItem {
         effects: [ItemEffect]? = nil,
         usageData: ItemUsageData? = nil,
         gearCategory: GearCategory? = nil,
-        rarity: ItemRarity? = nil
+        rarity: ItemRarity? = nil,
+        accessoryCategory: AccessoryCategory? = nil
     ) {
         self.id = id
         self.name = name
@@ -165,6 +191,7 @@ struct Item: GameItem {
         self.usageData = usageData
         self.gearCategory = gearCategory
         self.rarity = rarity
+        self.accessoryCategory = accessoryCategory
         
         // Validate that only gear items have rarity
         if itemType != .gear && rarity != nil {
@@ -228,6 +255,7 @@ struct Item: GameItem {
         name: String,
         description: String,
         iconName: String,
+        category: AccessoryCategory,
         value: Int = 0
     ) -> Item {
         return Item(
@@ -235,7 +263,8 @@ struct Item: GameItem {
             description: description,
             iconName: iconName,
             itemType: .accessory,
-            value: value
+            value: value,
+            accessoryCategory: category
         )
     }
 
@@ -529,15 +558,22 @@ struct ItemDatabase {
 
     // MARK: - Accessories
     static let allAccessories: [Item] = [
-        Item.accessory(name: "Blue Flower", description: "A beautiful blue flower accessory", iconName: "char_flower_blue"),
-        Item.accessory(name: "Green Flower", description: "A lovely green flower accessory", iconName: "char_flower_green"),
-        Item.accessory(name: "Purple Flower", description: "An elegant purple flower accessory", iconName: "char_flower_purple"),
-        Item.accessory(name: "Blue Glasses", description: "Stylish blue glasses", iconName: "char_glass_blue"),
-        Item.accessory(name: "Gray Glasses", description: "Classic gray glasses", iconName: "char_glass_gray"),
-        Item.accessory(name: "Red Glasses", description: "Bold red glasses", iconName: "char_glass_red"),
-        Item.accessory(name: "Earring 1", description: "A simple earring", iconName: "char_earring_1"),
-        Item.accessory(name: "Earring 2", description: "An elegant earring", iconName: "char_earring_2"),
-        Item.accessory(name: "Blush", description: "A touch of blush for your cheeks", iconName: "char_blush")
+        // Clips (Flowers)
+        Item.accessory(name: "Blue Flower", description: "A beautiful blue flower accessory", iconName: "char_flower_blue", category: .clips),
+        Item.accessory(name: "Green Flower", description: "A lovely green flower accessory", iconName: "char_flower_green", category: .clips),
+        Item.accessory(name: "Purple Flower", description: "An elegant purple flower accessory", iconName: "char_flower_purple", category: .clips),
+        
+        // Eyeglasses
+        Item.accessory(name: "Blue Glasses", description: "Stylish blue glasses", iconName: "char_glass_blue", category: .eyeglasses),
+        Item.accessory(name: "Gray Glasses", description: "Classic gray glasses", iconName: "char_glass_gray", category: .eyeglasses),
+        Item.accessory(name: "Red Glasses", description: "Bold red glasses", iconName: "char_glass_red", category: .eyeglasses),
+        
+        // Earrings
+        Item.accessory(name: "Earring 1", description: "A simple earring", iconName: "char_earring_1", category: .earrings),
+        Item.accessory(name: "Earring 2", description: "An elegant earring", iconName: "char_earring_2", category: .earrings),
+        
+        // Lashes
+        Item.accessory(name: "Blush", description: "A touch of blush for your cheeks", iconName: "char_blush", category: .lashes)
     ]
 
     // MARK: - Gear Items

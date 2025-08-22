@@ -73,6 +73,7 @@ class InventoryManager: ObservableObject {
             iconName: item.iconName,
             itemType: item.itemType.rawValue,
             gearCategory: item.gearCategory?.rawValue,
+            accessoryCategory: item.accessoryCategory?.rawValue,
             rarity: item.rarity?.rawValue,
             value: Int32(item.value),
             collectionCategory: item.collectionCategory,
@@ -302,12 +303,29 @@ class InventoryManager: ObservableObject {
         return itemDatabase.getGearItems(of: category, rarity: rarity)
     }
 
+    /// Gets all accessory items of a specific category
+    /// - Parameter category: The accessory category to filter by
+    /// - Returns: Array of accessory items of the specified category
+    func getAccessoryItems(of category: AccessoryCategory) -> [Item] {
+        return ItemDatabase.allAccessories.filter { $0.accessoryCategory == category }
+    }
+
     /// Gets the gear category of an item
     /// - Parameter item: The item to check
     /// - Returns: The gear category if the item is gear
     func getGearCategory(_ item: ItemEntity) -> GearCategory? {
         if let gearCategoryString = item.gearCategory {
             return GearCategory(rawValue: gearCategoryString)
+        }
+        return nil
+    }
+
+    /// Gets the accessory category of an item
+    /// - Parameter item: The item to check
+    /// - Returns: The accessory category if the item is an accessory
+    func getAccessoryCategory(_ item: ItemEntity) -> AccessoryCategory? {
+        if let accessoryCategoryString = item.accessoryCategory {
+            return AccessoryCategory(rawValue: accessoryCategoryString)
         }
         return nil
     }
