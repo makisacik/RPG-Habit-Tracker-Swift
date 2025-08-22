@@ -129,6 +129,7 @@ struct CharacterSectionView: View {
         let theme = themeManager.activeTheme
 
         ZStack {
+            // Background with particles
             ParticleBackground(
                 color: Color.blue.opacity(0.2),
                 count: 15,
@@ -143,50 +144,177 @@ struct CharacterSectionView: View {
                 speedRange: 6...12
             )
 
-            VStack(spacing: 16) {
-                // Use reusable character display component with larger size
-                CharacterDisplayView(
-                    customization: characterCustomization,
-                    size: 200,
-                    showShadow: true
-                )
+            HStack(spacing: 20) {
+                // Left Equipment Slots
+                VStack(spacing: 16) {
+                    EquipmentSlotView(
+                        slotType: "HEAD",
+                        iconName: "helmet",
+                        isEquipped: false,
+                        theme: theme
+                    )
 
-                VStack(spacing: 8) {
-                    Text(user.nickname ?? "Unknown")
-                        .font(.appFont(size: 28, weight: .black))
-                        .foregroundColor(theme.textColor)
+                    EquipmentSlotView(
+                        slotType: "OUTFIT",
+                        iconName: "tshirt",
+                        isEquipped: false,
+                        theme: theme
+                    )
 
-                    Text("Custom Character")
-                        .font(.appFont(size: 18))
-                        .foregroundColor(theme.textColor)
+                    EquipmentSlotView(
+                        slotType: "WING",
+                        iconName: "wing",
+                        isEquipped: false,
+                        theme: theme
+                    )
+                }
 
-                    // Customize Button
-                    Button(action: {
-                        showCustomizationModal = true
-                    }) {
-                        HStack(spacing: 8) {
-                            Image(systemName: "pencil.circle.fill")
-                                .font(.system(size: 16))
-                            Text("Customize")
-                                .font(.appFont(size: 14, weight: .medium))
-                        }
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(theme.primaryColor)
-                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                // Center Character Display
+                VStack(spacing: 16) {
+                    // Character Display
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(theme.cardBackgroundColor.opacity(0.8))
+                            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+
+                        CharacterDisplayView(
+                            customization: characterCustomization,
+                            size: 180,
+                            showShadow: true
                         )
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .frame(width: 200, height: 240)
+
+                    // Character Stats
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("DAMAGE")
+                                .font(.appFont(size: 14, weight: .bold))
+                                .foregroundColor(.yellow)
+                            Spacer()
+                            Text("37")
+                                .font(.appFont(size: 16, weight: .bold))
+                                .foregroundColor(.yellow)
+                        }
+                        
+                        HStack {
+                            Text("ARMOR")
+                                .font(.appFont(size: 14, weight: .bold))
+                                .foregroundColor(.yellow)
+                            Spacer()
+                            Text("194")
+                                .font(.appFont(size: 16, weight: .bold))
+                                .foregroundColor(.yellow)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(theme.backgroundColor.opacity(0.7))
+                    )
+
+                    // Action Buttons
+                    HStack(spacing: 12) {
+                        Button(action: {
+                            showCustomizationModal = true
+                        }) {
+                            Text("SKINS")
+                                .font(.appFont(size: 12, weight: .medium))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(theme.primaryColor)
+                                )
+                        }
+
+                        Button(action: {
+                            // TODO: Show stats
+                        }) {
+                            Text("STATS")
+                                .font(.appFont(size: 12, weight: .medium))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(theme.primaryColor)
+                                )
+                        }
+                    }
+                }
+
+                // Right Equipment Slots
+                VStack(spacing: 16) {
+                    EquipmentSlotView(
+                        slotType: "WEAPON",
+                        iconName: "sword",
+                        isEquipped: false,
+                        theme: theme
+                    )
+
+                    EquipmentSlotView(
+                        slotType: "SHIELD",
+                        iconName: "shield",
+                        isEquipped: false,
+                        theme: theme
+                    )
+
+                    EquipmentSlotView(
+                        slotType: "PET",
+                        iconName: "pawprint",
+                        isEquipped: false,
+                        theme: theme
+                    )
                 }
             }
-            .padding(.top, 20)
-            .padding(.bottom, 20)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
         }
-        .frame(height: 320)
+        .frame(height: 400)
         .clipped()
+    }
+}
+
+// MARK: - Equipment Slot View
+struct EquipmentSlotView: View {
+    let slotType: String
+    let iconName: String
+    let isEquipped: Bool
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 8) {
+            ZStack {
+                // Slot background
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(theme.backgroundColor.opacity(0.7))
+                    .frame(width: 60, height: 60)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(theme.borderColor.opacity(0.5), lineWidth: 1)
+                    )
+                
+                // Equipment icon or placeholder
+                if isEquipped {
+                    // TODO: Show actual equipped item icon
+                    Image(systemName: iconName)
+                        .font(.system(size: 24))
+                        .foregroundColor(theme.textColor)
+                } else {
+                    // Placeholder for unequipped slot
+                    Image(systemName: iconName)
+                        .font(.system(size: 20))
+                        .foregroundColor(theme.textColor.opacity(0.3))
+                }
+            }
+            
+            Text(slotType)
+                .font(.appFont(size: 10, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.8))
+        }
     }
 }
 
