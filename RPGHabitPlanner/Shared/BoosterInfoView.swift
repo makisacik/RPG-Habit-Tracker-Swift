@@ -11,11 +11,11 @@ struct BoosterInfoView: View {
     @StateObject private var themeManager = ThemeManager.shared
     @ObservedObject private var boosterManager = BoosterManager.shared
     @State private var refreshTrigger = false
-    
+
     var body: some View {
         EmptyView()
     }
-    
+
     @ViewBuilder
     private func boosterContent(booster: BoosterEffect) -> some View {
         VStack(spacing: 8) {
@@ -32,7 +32,7 @@ struct BoosterInfoView: View {
                 )
         )
     }
-    
+
     @ViewBuilder
     private func boosterHeader(booster: BoosterEffect) -> some View {
         HStack {
@@ -45,7 +45,7 @@ struct BoosterInfoView: View {
             Spacer()
         }
     }
-    
+
     @ViewBuilder
     private func boosterIcon(booster: BoosterEffect) -> some View {
         if booster.type == .coins {
@@ -58,7 +58,7 @@ struct BoosterInfoView: View {
                 .font(.system(size: 14, weight: .bold))
         }
     }
-    
+
     @ViewBuilder
     private func boosterDetails(booster: BoosterEffect) -> some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -71,8 +71,8 @@ struct BoosterInfoView: View {
                 .foregroundColor(.green)
         }
     }
-    
-    
+
+
     private func boosterIconName(for type: BoosterType) -> String {
         switch type {
         case .experience:
@@ -83,7 +83,7 @@ struct BoosterInfoView: View {
             return "bolt.fill"
         }
     }
-    
+
     private func boosterColor(for type: BoosterType) -> Color {
         switch type {
         case .experience:

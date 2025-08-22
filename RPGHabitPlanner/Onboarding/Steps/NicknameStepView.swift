@@ -11,60 +11,60 @@ struct NicknameStepView: View {
     @ObservedObject var coordinator: OnboardingCoordinator
     let theme: Theme
     @FocusState private var isTextFieldFocused: Bool
-    
+
     // Character name generation
     let characterNames: [String] = [
         // Heroic
         "Arion", "Kaelith", "Seraphis", "Thalor", "Veyra", "Draven", "Calidora", "Orwyn", "Branthor", "Cedric",
         "Eldrin", "Galanor", "Korath", "Alaric", "Fenric", "Dorian", "Lucien", "Kaelor", "Thandor", "Vorian",
-        
+
         // Mystical
         "Eloria", "Sylthas", "Zoranel", "Lythera", "Nivara", "Morwyn", "Ithildor", "Zephyra", "Valindor", "Orthelia",
         "Eryndor", "Faylen", "Thalindra", "Seloria", "Melivor", "Aetheris", "Kyrandel", "Elvoria", "Nolwyn", "Quivara",
-        
+
         // Dark
         "Duskbane", "Shadowrend", "Malrik", "Vorneth", "Ashborn", "Skalara", "Noctira", "Grimveil", "Zalthor", "Draemir",
         "Oblivara", "Ravengar", "Tharnok", "Morgrath", "Blackthorn", "Gorthak", "Venmar", "Xaldrith", "Omenis", "Kryvak",
-        
+
         // Nature
         "Oakhelm", "Riveran", "Thornwyn", "Elaris", "Mossath", "Sunara", "Briarthorn", "Lunara", "Silverleaf", "Fernalis",
         "Rowanth", "Willowis", "Thalflora", "Starbloom", "Elenwyn", "Mistara", "Petalyn", "Greenveil", "Solenya", "Bramblethorn",
-        
+
         // Noble
         "Aurelius", "Isolde", "Caelwyn", "Theodric", "Lysandra", "Valeria", "Octavian", "Seraphiel", "Marcellus", "Evelora",
         "Gaius", "Annelise", "Bellador", "Cassian", "Heliora", "Leontius", "Rosalith", "Aurion", "Dracella", "Ventorius",
-        
+
         // Quirky
         "Sir Pickles", "Muffinbane", "Glitterfist", "Bongo the Brave", "Tofu Slayer", "Waffleheart", "Captain Snail", "Bananafang",
         "Lord Noodle", "Princess Pancake", "Burrito Knight", "Lady Cupcake", "Toastcrusher", "Sir Wobbles", "Baron Donut",
         "Count Sockula", "Jellybean the Bold", "Pineapple Wizard", "Ducklord Quackius", "Potatoeater",
-        
+
         // Short
         "Zyra", "Kael", "Vorn", "Nyx", "Lira", "Thar", "Vex", "Kiro", "Ryn", "Oza",
         "Xel", "Zyn", "Krel", "Mora", "Dax", "Tyra", "Vel", "Zor", "Quin", "Jax"
     ]
-    
+
     func randomName() -> String {
         characterNames.randomElement() ?? "Hero"
     }
-    
+
     var body: some View {
         VStack(spacing: 40) {
             Spacer()
-            
+
             // Header
             VStack(spacing: 16) {
                 Text("Name Your Hero")
                     .font(.appFont(size: 32, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("Choose a legendary name for your character")
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
             }
-            
+
             // Name input
             VStack(spacing: 12) {
                 TextField("Enter hero name", text: $coordinator.nickname)
@@ -90,7 +90,7 @@ struct NicknameStepView: View {
                     .submitLabel(.done)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.words)
-                
+
                 // Random name button
                 Button(action: {
                     coordinator.nickname = randomName()
@@ -113,13 +113,13 @@ struct NicknameStepView: View {
                             )
                     )
                 }
-                
+
                 Text("Maximum 20 characters")
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.5))
             }
             .padding(.horizontal, 20)
-            
+
             Spacer()
         }
         .padding(.horizontal, 20)

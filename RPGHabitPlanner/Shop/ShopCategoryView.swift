@@ -17,14 +17,14 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
     case outfits = "Outfits"
     case weapons = "Weapons"
     case accessories = "Accessories"
-    
+
     // Functional categories
     case potions = "Potions"
     case boosts = "Boosts"
     case special = "Special"
-    
+
     var id: String { rawValue }
-    
+
     var icon: String {
         switch self {
         case .bodyTypes: return "person.fill"
@@ -38,7 +38,7 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         case .special: return "star.fill"
         }
     }
-    
+
     var color: Color {
         switch self {
         case .bodyTypes: return .blue
@@ -52,7 +52,7 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         case .special: return .indigo
         }
     }
-    
+
     var assetCategory: AssetCategory? {
         switch self {
         case .bodyTypes: return .bodyType
@@ -64,7 +64,7 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         default: return nil
         }
     }
-    
+
     var isCustomizationCategory: Bool {
         return assetCategory != nil
     }
@@ -75,12 +75,12 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 struct ShopCategoryView: View {
     @Binding var selectedCategory: EnhancedShopCategory
     let onCategorySelected: (EnhancedShopCategory) -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
                 ForEach(EnhancedShopCategory.allCases) { category in
@@ -106,12 +106,12 @@ struct ShopCategoryCard: View {
     let category: EnhancedShopCategory
     let isSelected: Bool
     let onTap: () -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 8) {
             // Category icon
             ZStack {
@@ -122,12 +122,12 @@ struct ShopCategoryCard: View {
                         Circle()
                             .stroke(isSelected ? category.color : Color.clear, lineWidth: 2)
                     )
-                
+
                 Image(systemName: category.icon)
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(isSelected ? category.color : theme.textColor)
             }
-            
+
             // Category name
             Text(category.rawValue)
                 .font(.appFont(size: 12, weight: isSelected ? .bold : .medium))
@@ -152,14 +152,14 @@ struct EnhancedShopItemCard: View {
     let isCustomizationItem: Bool
     let onPurchase: () -> Void
     let onPreview: (() -> Void)?
-    
+
     @EnvironmentObject var themeManager: ThemeManager
     @State private var canAfford = true
     @State private var isHovered = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 12) {
             // Item preview
             ZStack {
@@ -170,7 +170,7 @@ struct EnhancedShopItemCard: View {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(item.rarity.borderColor, lineWidth: 2)
                     )
-                
+
                 // Rarity glow effect
                 if item.rarity != .common {
                     RoundedRectangle(cornerRadius: 12)
@@ -178,7 +178,7 @@ struct EnhancedShopItemCard: View {
                         .frame(height: 120)
                         .blur(radius: 4)
                 }
-                
+
                 // Item image
                 if let image = UIImage(named: item.iconName) {
                     Image(uiImage: image)
@@ -195,7 +195,7 @@ struct EnhancedShopItemCard: View {
                         .scaleEffect(isHovered ? 1.1 : 1.0)
                         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
                 }
-                
+
                 // Preview button for customization items
                 if isCustomizationItem, let onPreview = onPreview {
                     VStack {
@@ -214,7 +214,7 @@ struct EnhancedShopItemCard: View {
                     .padding(8)
                 }
             }
-            
+
             // Item info
             VStack(spacing: 6) {
                 // Item name
@@ -223,10 +223,10 @@ struct EnhancedShopItemCard: View {
                     .foregroundColor(theme.textColor)
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
-                
+
                 // Rarity badge
                 RarityBadge(rarity: item.rarity.toAssetRarity)
-                
+
                 // Price and purchase button
                 HStack {
                     // Price
@@ -237,9 +237,9 @@ struct EnhancedShopItemCard: View {
                             .font(.appFont(size: 12, weight: .bold))
                             .foregroundColor(canAfford ? theme.textColor : .red)
                     }
-                    
+
                     Spacer()
-                    
+
                     // Purchase button
                     Button(action: onPurchase) {
                         Text("Buy")
@@ -269,7 +269,7 @@ struct EnhancedShopItemCard: View {
             checkAffordability()
         }
     }
-    
+
     private func checkAffordability() {
         ShopManager.shared.canAffordItem(item) { canAfford in
             self.canAfford = canAfford
@@ -284,13 +284,13 @@ struct ShopFilterView: View {
     @Binding var priceRange: ClosedRange<Int>
     @Binding var showOnlyAffordable: Bool
     let onFilterChanged: () -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
     @State private var showFilters = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 0) {
             // Filter toggle button
             Button(action: {
@@ -313,7 +313,7 @@ struct ShopFilterView: View {
                         .fill(theme.primaryColor)
                 )
             }
-            
+
             // Filter options
             if showFilters {
                 VStack(spacing: 16) {
@@ -322,7 +322,7 @@ struct ShopFilterView: View {
                         Text("Rarity")
                             .font(.appFont(size: 14, weight: .bold))
                             .foregroundColor(theme.textColor)
-                        
+
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
                                 // All option
@@ -334,7 +334,7 @@ struct ShopFilterView: View {
                                         selectedRarity = nil
                                         onFilterChanged()
                                 }
-                                
+
                                 // Rarity options
                                 ForEach(ItemRarity.allCases, id: \.self) { rarity in
                                     FilterChip(
@@ -350,7 +350,7 @@ struct ShopFilterView: View {
                             .padding(.horizontal)
                         }
                     }
-                    
+
                     // Affordability filter
                     Toggle("Show only affordable items", isOn: $showOnlyAffordable)
                         .font(.appFont(size: 14))
@@ -378,12 +378,12 @@ struct FilterChip: View {
     let isSelected: Bool
     let color: Color
     let onTap: () -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         Text(text)
             .font(.appFont(size: 12, weight: .medium))
             .foregroundColor(isSelected ? .white : color)
@@ -411,14 +411,14 @@ struct ItemPreviewModal: View {
     let item: ShopItem
     let onDismiss: () -> Void
     let onPurchase: () -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
     @State private var previewScale: CGFloat = 0.8
     @State private var showItemDetails = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             // Background overlay
             Color.black.opacity(0.6)
@@ -426,7 +426,7 @@ struct ItemPreviewModal: View {
                 .onTapGesture {
                     onDismiss()
                 }
-            
+
             // Modal content
             VStack(spacing: 20) {
                 // Header
@@ -434,16 +434,16 @@ struct ItemPreviewModal: View {
                     Text("Item Preview")
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
-                    
+
                     Spacer()
-                    
+
                     Button(action: onDismiss) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 24))
                             .foregroundColor(theme.textColor.opacity(0.6))
                     }
                 }
-                
+
                 // Character preview with item
                 VStack(spacing: 16) {
                     ZStack {
@@ -454,7 +454,7 @@ struct ItemPreviewModal: View {
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(item.rarity.borderColor, lineWidth: 3)
                             )
-                        
+
                         // Character with item preview
                         VStack {
                             if let image = UIImage(named: item.iconName) {
@@ -474,15 +474,15 @@ struct ItemPreviewModal: View {
                             }
                         }
                     }
-                    
+
                     // Item info
                     VStack(spacing: 8) {
                         Text(item.name)
                             .font(.appFont(size: 18, weight: .bold))
                             .foregroundColor(theme.textColor)
-                        
+
                         RarityBadge(rarity: item.rarity.toAssetRarity)
-                        
+
                         Text(item.description)
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.7))
@@ -490,7 +490,7 @@ struct ItemPreviewModal: View {
                             .padding(.horizontal)
                     }
                 }
-                
+
                 // Action buttons
                 HStack(spacing: 16) {
                     Button(action: onDismiss) {
@@ -504,7 +504,7 @@ struct ItemPreviewModal: View {
                                     .fill(theme.primaryColor)
                             )
                     }
-                    
+
                     Button(action: {
                         onPurchase()
                         onDismiss()
@@ -541,7 +541,7 @@ struct ItemPreviewModal: View {
             startPreviewAnimation()
         }
     }
-    
+
     private func startPreviewAnimation() {
         withAnimation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true)) {
             previewScale = 1.1

@@ -12,7 +12,7 @@ struct AddTasksView: View {
     @Binding var tasks: [String]
     var onEditTapped: () -> Void
     @State private var isButtonPressed = false
-    
+
     private var validTaskCount: Int {
         return tasks.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
     }
@@ -27,12 +27,12 @@ struct AddTasksView: View {
                     Image(systemName: "list.bullet.clipboard")
                         .font(.title2)
                         .foregroundColor(.yellow)
-                    
+
                     VStack(alignment: .leading, spacing: 2) {
                         Text(String.tasks.localized)
                             .font(.appFont(size: 16, weight: .black))
                             .foregroundColor(theme.textColor)
-                        
+
                         Text("\(validTaskCount) \(validTaskCount == 1 ? String.task.localized : String.tasks.localized)")
                             .font(.appFont(size: 12, weight: .regular))
                             .foregroundColor(theme.textColor.opacity(0.7))
@@ -50,7 +50,7 @@ struct AddTasksView: View {
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.yellow.opacity(0.2))
                             )
-                        
+
                         Image(systemName: "chevron.right")
                             .font(.caption)
                             .foregroundColor(theme.textColor.opacity(0.6))
@@ -130,7 +130,7 @@ struct TaskEditorPopup: View {
                     Image(systemName: "list.bullet.clipboard")
                         .font(.title2)
                         .foregroundColor(.yellow)
-                    
+
                     Text(String.editTasks.localized)
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
@@ -225,7 +225,7 @@ struct TaskEditorPopup: View {
         }
         .padding()
     }
-    
+
     private func cleanupBlankTasks() {
         tasks = tasks.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
     }

@@ -37,30 +37,30 @@ extension CustomizationItemEntity {
         guard let rarity = rarity else { return nil }
         return ItemRarity(rawValue: rarity)
     }
-    
+
     /// Sets the item rarity
     func setRarity(_ rarity: ItemRarity) {
         self.rarity = rarity.rawValue
     }
-    
+
     /// Computed property for customization category
     var customizationCategory: CustomizationCategory? {
         guard let category = category else { return nil }
         return CustomizationCategory(rawValue: category)
     }
-    
+
     /// Sets the customization category
     func setCategory(_ category: CustomizationCategory) {
         self.category = category.rawValue
     }
-    
+
     /// Parses item data JSON
     var itemDataDictionary: [String: Any]? {
         guard let itemData = itemData,
               let data = itemData.data(using: .utf8) else { return nil }
         return try? JSONSerialization.jsonObject(with: data) as? [String: Any]
     }
-    
+
     /// Sets item data from dictionary
     func setItemData(_ data: [String: Any]) {
         if let jsonData = try? JSONSerialization.data(withJSONObject: data),

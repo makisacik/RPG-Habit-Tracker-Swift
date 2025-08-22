@@ -100,7 +100,7 @@ struct QuestDetailView: View {
                 }
             }
         }
-        
+
         .sheet(item: $editingQuest) { questToEdit in
             EditQuestView(
                 viewModel: EditQuestViewModel(
@@ -168,7 +168,7 @@ struct QuestDetailView: View {
         uiIsCompleted = true
         viewModel.markQuestAsFinished()
         refreshCurrentQuestFromStore()
-        
+
         // Automatically dismiss the detail view since quest is now finished
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             dismiss()
@@ -191,7 +191,7 @@ struct QuestDetailTagsSection: View {
     let theme: Theme
     @Binding var showTagPicker: Bool
     let onTagsUpdated: ([Tag]) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -199,14 +199,14 @@ struct QuestDetailTagsSection: View {
                     Image(systemName: "tag.fill")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(theme.accentColor)
-                    
+
                     Text("Tags")
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                         showTagPicker = true
@@ -232,14 +232,14 @@ struct QuestDetailTagsSection: View {
                 }
                 .buttonStyle(PlainButtonStyle())
             }
-            
+
             if quest.tags.isEmpty {
                 // Empty state
                 VStack(spacing: 8) {
                     Image(systemName: "tag")
                         .font(.system(size: 24, weight: .light))
                         .foregroundColor(theme.textColor.opacity(0.3))
-                    
+
                     Text("No tags assigned")
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))

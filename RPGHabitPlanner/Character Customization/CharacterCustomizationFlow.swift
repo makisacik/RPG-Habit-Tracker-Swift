@@ -9,13 +9,13 @@ import SwiftUI
 
 struct CharacterCustomizationFlow: View {
     let onCustomizationChanged: (CharacterCustomization) -> Void
-    
+
     @StateObject private var flowCoordinator = CharacterCustomizationFlowCoordinator()
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 20) {
             // Progress indicator
             CustomizationProgressView(
@@ -23,7 +23,7 @@ struct CharacterCustomizationFlow: View {
                 totalSteps: CustomizationStep.allCases.count - 1,
                 theme: theme
             )
-            
+
             // Current step view
             CustomizationStepView(
                 step: flowCoordinator.currentStep,
@@ -34,9 +34,9 @@ struct CharacterCustomizationFlow: View {
                 },
                 theme: theme
             )
-            
+
             Spacer()
-            
+
             // Navigation buttons
             CustomizationNavigationButtons(
                 canGoBack: flowCoordinator.canGoBack,
@@ -59,33 +59,33 @@ struct CharacterCustomizationFlow: View {
 class CharacterCustomizationFlowCoordinator: ObservableObject {
     @Published var currentStep: CustomizationStep = .skinColor
     @Published var selectedCustomization = CharacterCustomization()
-    
+
     private let assetManager = CharacterAssetManager.shared
-    
+
     var canGoBack: Bool {
         return currentStep.rawValue > 0
     }
-    
+
     var canGoForward: Bool {
         // Optional steps (like accessories) can always proceed
         if currentStep.isOptional {
             return true
         }
-        
+
         // Required steps need a valid selection
         return hasValidSelection(for: currentStep)
     }
-    
+
     func nextStep() {
         guard canGoForward else { return }
-        
+
         if currentStep.rawValue < CustomizationStep.allCases.count - 1 {
             withAnimation(.easeInOut(duration: 0.3)) {
                 currentStep = CustomizationStep(rawValue: currentStep.rawValue + 1) ?? currentStep
             }
         }
     }
-    
+
     func previousStep() {
         if canGoBack {
             withAnimation(.easeInOut(duration: 0.3)) {
@@ -93,15 +93,15 @@ class CharacterCustomizationFlowCoordinator: ObservableObject {
             }
         }
     }
-    
+
     func updateCustomization(_ customization: CharacterCustomization) {
         selectedCustomization = customization
     }
-    
+
     func initializeDefaultCustomization() {
         selectedCustomization = CharacterCustomization()
     }
-    
+
     private func hasValidSelection(for step: CustomizationStep) -> Bool {
         switch step {
         case .skinColor:
@@ -138,7 +138,7 @@ enum CustomizationStep: Int, CaseIterable {
     case mustache = 6   // new step for mustaches
     case flower = 7     // new step for flowers
     case accessory = 8  // moved up
-    
+
     var title: String {
         switch self {
         case .skinColor: return "Select Skin Color"
@@ -152,7 +152,7 @@ enum CustomizationStep: Int, CaseIterable {
         case .accessory: return "Add Accessories"
         }
     }
-    
+
     var category: AssetCategory {
         switch self {
         case .skinColor: return .bodyType  // keep the same category mapping
@@ -166,7 +166,7 @@ enum CustomizationStep: Int, CaseIterable {
         case .accessory: return .accessory
         }
     }
-    
+
     var isOptional: Bool {
         return self == .accessory || self == .mustache || self == .flower || self == .hairBackStyle
     }

@@ -16,7 +16,7 @@ struct ShopItem: Identifiable, Equatable {
     let rarity: ItemRarity
     let category: ShopCategory
     let effects: [ItemEffect]?
-    
+
     init(id: UUID = UUID(), name: String, description: String, iconName: String, price: Int, rarity: ItemRarity = .common, category: ShopCategory, effects: [ItemEffect]? = nil) {
         self.id = id
         self.name = name
@@ -36,7 +36,7 @@ enum ShopCategory: String, CaseIterable {
     case boosts = "Boosts"
     case accessories = "Accessories"
     case special = "Special"
-    
+
     var icon: String {
         switch self {
         case .weapons: return "sword.fill"

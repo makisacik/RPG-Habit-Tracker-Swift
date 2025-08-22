@@ -11,28 +11,28 @@ struct LanguageSettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 theme.backgroundColor.ignoresSafeArea()
-                
+
                 VStack(spacing: 20) {
                     // Header
                     VStack(spacing: 8) {
                         Text(String.language.localized)
                             .font(.appFont(size: 24, weight: .black))
                             .foregroundColor(theme.textColor)
-                        
+
                         Text(String.chooseYourPreferredLanguage.localized)
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
                     }
                     .padding(.top, 20)
-                    
+
                     // Language Options
                     VStack(spacing: 12) {
                         ForEach(LocalizationManager.Language.allCases) { language in
@@ -46,16 +46,16 @@ struct LanguageSettingsView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    
+
                     Spacer()
-                    
+
                     // Info Text
                     VStack(spacing: 8) {
                         Text(String.languageChangesWillTakeEffectImmediately.localized)
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.6))
                             .multilineTextAlignment(.center)
-                        
+
                         Text(String.someSystemElementsMayRemainInPreviousLanguage.localized)
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.5))
@@ -85,27 +85,27 @@ struct LanguageOptionCard: View {
     let isSelected: Bool
     let theme: Theme
     let onTap: () -> Void
-    
+
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
                 // Flag
                 Text(language.flag)
                     .font(.title)
-                
+
                 // Language Info
                 VStack(alignment: .leading, spacing: 4) {
                     Text(language.displayName)
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
-                    
+
                     Text(language.rawValue.uppercased())
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
-                
+
                 Spacer()
-                
+
                 // Selection Indicator
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")

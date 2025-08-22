@@ -10,11 +10,11 @@ import CoreData
 
 final class UserManager {
     private let persistentContainer: NSPersistentContainer
-    
+
     init(container: NSPersistentContainer = PersistenceController.shared.container) {
         self.persistentContainer = container
     }
-    
+
     func saveUser(
         nickname: String,
         characterClass: String,
@@ -28,7 +28,7 @@ final class UserManager {
     ) {
         let context = persistentContainer.viewContext
         let userEntity = UserEntity(context: context)
-        
+
         userEntity.id = UUID()
         userEntity.nickname = nickname
         userEntity.level = level
@@ -36,7 +36,7 @@ final class UserManager {
         userEntity.coins = coins
         userEntity.health = health
         userEntity.maxHealth = maxHealth
-        
+
         do {
             try context.save()
             completion(nil)
@@ -44,11 +44,11 @@ final class UserManager {
             completion(error)
         }
     }
-    
+
     func fetchUser(completion: @escaping (UserEntity?, Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
-        
+
         do {
             let users = try context.fetch(fetchRequest)
             completion(users.first, nil)
@@ -56,11 +56,11 @@ final class UserManager {
             completion(nil, error)
         }
     }
-    
+
     func deleteUser(completion: @escaping (Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
-        
+
         do {
             let users = try context.fetch(fetchRequest)
             if let user = users.first {
@@ -74,17 +74,17 @@ final class UserManager {
             completion(error)
         }
     }
-    
+
     func updateUserLevel(newLevel: Int16, completion: @escaping (Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
                 completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             user.level = newLevel
-            
+
             do {
                 try context.save()
                 completion(nil)
@@ -93,24 +93,24 @@ final class UserManager {
             }
         }
     }
-    
+
     func updateUserExperience(additionalExp: Int16, completion: @escaping (Bool, Int16?, Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
                 completion(false, nil, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             user.exp += additionalExp
-            
+
             var leveledUp = false
             while user.exp >= 100 {
                 user.exp -= 100
                 user.level += 1
                 leveledUp = true
             }
-            
+
             do {
                 try context.save()
                 NotificationCenter.default.post(name: .userDidUpdate, object: nil)
@@ -120,9 +120,9 @@ final class UserManager {
             }
         }
     }
-    
+
     // MARK: - New Customization Methods
-    
+
     func saveUserWithCustomization(
         nickname: String,
         customization: CharacterCustomization,
@@ -135,7 +135,7 @@ final class UserManager {
     ) {
         let context = persistentContainer.viewContext
         let userEntity = UserEntity(context: context)
-        
+
         userEntity.id = UUID()
         userEntity.nickname = nickname
         userEntity.level = level

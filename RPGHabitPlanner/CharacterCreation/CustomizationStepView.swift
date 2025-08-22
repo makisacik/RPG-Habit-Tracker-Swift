@@ -15,25 +15,25 @@ struct LegacyCustomizationStepView: View {
     let selectedAsset: AssetItem?
     let availableAssets: [AssetItem]
     let onAssetSelected: (AssetItem) -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
     @State private var selectedIndex: Int = 0
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 16) {
             // Step title
             Text(title)
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             // Asset preview
             AssetPreviewView(
                 asset: selectedAsset ?? availableAssets.first,
                 size: 120
             )
-            
+
             // Asset selection carousel
             CustomizationCarousel(
                 assets: availableAssets,
@@ -41,17 +41,17 @@ struct LegacyCustomizationStepView: View {
             ) { asset in
                     onAssetSelected(asset)
             }
-            
+
             // Asset info
             if let asset = selectedAsset {
                 VStack(spacing: 4) {
                     Text(asset.name)
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
-                    
+
                     HStack {
                         RarityBadge(rarity: asset.rarity)
-                        
+
                         if asset.price > 0 {
                             HStack(spacing: 4) {
                                 Image(systemName: "dollarsign.circle.fill")
@@ -79,19 +79,19 @@ struct LegacyCustomizationStepView: View {
 struct AssetPreviewView: View {
     let asset: AssetItem?
     let size: CGFloat
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             // Background circle
             Circle()
                 .fill(theme.primaryColor)
                 .frame(width: size + 20, height: size + 20)
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
+
             // Rarity glow effect
             if let asset = asset, asset.rarity != .common {
                 Circle()
@@ -99,7 +99,7 @@ struct AssetPreviewView: View {
                     .frame(width: size + 24, height: size + 24)
                     .blur(radius: 2)
             }
-            
+
             // Asset image
             if let asset = asset, !asset.imageName.isEmpty {
                 if let image = UIImage(named: asset.imageName) {
@@ -130,10 +130,10 @@ struct AssetPreviewView: View {
             }
         }
     }
-    
+
     private func getAssetColor(_ asset: AssetItem?) -> Color {
         guard let asset = asset else { return .gray }
-        
+
         switch asset.category {
         case .hairColor:
             if let hairColor = HairColor(rawValue: asset.id) {
@@ -142,7 +142,7 @@ struct AssetPreviewView: View {
         default:
             break
         }
-        
+
         return asset.rarity.color.opacity(0.3)
     }
 }
@@ -153,12 +153,12 @@ struct CustomizationCarousel: View {
     let assets: [AssetItem]
     @Binding var selectedIndex: Int
     let onSelectionChanged: (AssetItem) -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
@@ -192,23 +192,23 @@ struct AssetCarouselCard: View {
     let asset: AssetItem
     let isSelected: Bool
     let onTap: () -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 8) {
             ZStack {
                 // Selection indicator
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(isSelected ? asset.rarity.borderColor : Color.clear, lineWidth: 3)
                     .frame(width: 72, height: 72)
-                
+
                 // Asset preview
                 AssetPreviewView(asset: asset, size: 60)
             }
-            
+
             // Asset name
             Text(asset.name)
                 .font(.appFont(size: 12, weight: isSelected ? .bold : .medium))
@@ -234,13 +234,13 @@ struct AssetCarouselCard: View {
 
 struct RarityBadge: View {
     let rarity: AssetRarity
-    
+
     var body: some View {
         HStack(spacing: 4) {
             Circle()
                 .fill(rarity.color)
                 .frame(width: 8, height: 8)
-            
+
             Text(rarity.rawValue)
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(rarity.color)

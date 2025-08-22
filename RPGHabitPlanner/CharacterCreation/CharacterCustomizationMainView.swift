@@ -15,38 +15,38 @@ struct CharacterCustomizationView: View {
     @StateObject private var customizationManager = CharacterCustomizationManager()
     @Binding var isCustomizationCompleted: Bool
     @State private var selectedCategory: CustomizationCategory = .bodyType
-    
+
     private let categories: [CustomizationCategory] = [
         .bodyType, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
     ]
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .fill(theme.backgroundColor)
-            
+
             VStack(spacing: 0) {
                 // Header
                 headerView(theme: theme)
-                
+
                 // Character Preview
                 characterPreviewView(theme: theme)
-                
+
                 // Category Selector
                 categorySelectorView(theme: theme)
-                
+
                 // Options Grid
                 optionsGridView(theme: theme)
-                
+
                 // Continue Button
                 continueButtonView(theme: theme)
             }
             .padding()
         }
     }
-    
+
     // MARK: - Header View
     @ViewBuilder
     private func headerView(theme: Theme) -> some View {
@@ -60,7 +60,7 @@ struct CharacterCustomizationView: View {
                         .foregroundColor(theme.textColor)
                         .padding(.top, 10)
                 )
-            
+
             Text(String.createYourUniqueCharacter.localized)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.8))
@@ -68,7 +68,7 @@ struct CharacterCustomizationView: View {
         }
         .padding(.bottom, 20)
     }
-    
+
     // MARK: - Character Preview View
     @ViewBuilder
     private func characterPreviewView(theme: Theme) -> some View {
@@ -76,7 +76,7 @@ struct CharacterCustomizationView: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(theme.cardBackgroundColor)
                 .shadow(color: theme.textColor.opacity(0.1), radius: 8, x: 0, y: 4)
-            
+
             VStack(spacing: 12) {
                 // Character Image Stack
                 ZStack {
@@ -87,38 +87,38 @@ struct CharacterCustomizationView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 120)
                     }
-                    
+
                     // Body
                     Image(customizationManager.currentCustomization.bodyType.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
-                    
+
                     // Hair
                     Image(customizationManager.currentCustomization.hairStyle.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
                         .colorMultiply(customizationManager.currentCustomization.hairColor.color)
-                    
+
                     // Eyes
                     Image(customizationManager.currentCustomization.eyeColor.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
-                    
+
                     // Outfit
                     Image(customizationManager.currentCustomization.outfit.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
-                    
+
                     // Weapon
                     Image(customizationManager.currentCustomization.weapon.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
-                    
+
                     // Other Accessories (non-wings) - Draw last so they appear on top
                     if let accessory = customizationManager.currentCustomization.accessory,
                        accessory != .wingsWhite {
@@ -128,7 +128,7 @@ struct CharacterCustomizationView: View {
                             .frame(height: 120)
                     }
                 }
-                
+
                 Text(String.preview.localized)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
@@ -138,7 +138,7 @@ struct CharacterCustomizationView: View {
         .frame(height: 180)
         .padding(.bottom, 20)
     }
-    
+
     // MARK: - Category Selector View
     @ViewBuilder
     private func categorySelectorView(theme: Theme) -> some View {
@@ -160,7 +160,7 @@ struct CharacterCustomizationView: View {
         }
         .padding(.bottom, 20)
     }
-    
+
     // MARK: - Options Grid View
     @ViewBuilder
     private func optionsGridView(theme: Theme) -> some View {
@@ -180,7 +180,7 @@ struct CharacterCustomizationView: View {
         }
         .frame(maxHeight: 300)
     }
-    
+
     // MARK: - Continue Button View
     @ViewBuilder
     private func continueButtonView(theme: Theme) -> some View {
@@ -208,7 +208,7 @@ struct CharacterCustomizationView: View {
         }
         .padding(.top, 20)
     }
-    
+
     // MARK: - Helper Methods
     private func getOptionsForCategory() -> [CustomizationOption] {
         let optionsMap: [CustomizationCategory: [CustomizationOption]] = [
@@ -226,7 +226,7 @@ struct CharacterCustomizationView: View {
         ]
         return optionsMap[selectedCategory] ?? []
     }
-    
+
     private func isOptionSelected(_ option: CustomizationOption) -> Bool {
         let selectedValueMap: [CustomizationCategory: String?] = [
             .bodyType: customizationManager.currentCustomization.bodyType.rawValue,
@@ -243,7 +243,7 @@ struct CharacterCustomizationView: View {
         ]
         return selectedValueMap[selectedCategory] == option.id
     }
-    
+
     private func handleOptionSelection(_ option: CustomizationOption) {
         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
             let updateActionMap: [CustomizationCategory: (String) -> Void] = [
@@ -299,7 +299,7 @@ struct CharacterCustomizationView: View {
                     }
                 }
             ]
-            
+
             updateActionMap[selectedCategory]?(option.id)
         }
     }
@@ -318,11 +318,11 @@ enum CustomizationCategory: String, CaseIterable {
     case accessory = "Accessory"
     case mustache = "Mustache"
     case flower = "Flower"
-    
+
     var title: String {
         return displayName
     }
-    
+
     var displayName: String {
         switch self {
         case .bodyType: return "Body Type"
@@ -337,7 +337,7 @@ enum CustomizationCategory: String, CaseIterable {
         case .flower: return "Flower"
         }
     }
-    
+
     var icon: String {
         switch self {
         case .bodyType: return "person.fill"
@@ -360,14 +360,14 @@ struct CategoryButton: View {
     let isSelected: Bool
     let theme: Theme
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: 8) {
                 Image(systemName: category.icon)
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
-                
+
                 Text(category.rawValue)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
@@ -391,7 +391,7 @@ struct OptimizedCustomizationOptionCard: View {
     let isSelected: Bool
     let theme: Theme
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: 8) {
@@ -404,7 +404,7 @@ struct OptimizedCustomizationOptionCard: View {
                             .foregroundColor(theme.textColor.opacity(0.5))
                     }
                 }
-                
+
                 Text(option.name)
                     .font(.appFont(size: 10, weight: .medium))
                     .foregroundColor(theme.textColor)
@@ -432,17 +432,17 @@ class ImageCache {
     static let shared = ImageCache()
     private var cache: [String: UIImage] = [:]
     private let queue = DispatchQueue(label: "imageCache", qos: .userInitiated)
-    
+
     func getImage(_ name: String) -> UIImage? {
         return queue.sync { cache[name] }
     }
-    
+
     func setImage(_ image: UIImage, for name: String) {
         queue.async {
             self.cache[name] = image
         }
     }
-    
+
     func clearCache() {
         queue.async {
             self.cache.removeAll()
@@ -456,7 +456,7 @@ struct OptimizedImageLoader: View {
     let height: CGFloat
     @State private var image: UIImage?
     @State private var isLoading = true
-    
+
     var body: some View {
         Group {
             if let image = image {
@@ -486,25 +486,25 @@ struct OptimizedImageLoader: View {
             loadImage()
         }
     }
-    
+
     private func loadImage() {
         guard image == nil else { return }
-        
+
         // Check cache first
         if let cachedImage = ImageCache.shared.getImage(imageName) {
             self.image = cachedImage
             self.isLoading = false
             return
         }
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             // Load and resize image on background thread
             if let originalImage = UIImage(named: imageName) {
                 let resizedImage = resizeImage(originalImage, to: CGSize(width: height * 2, height: height * 2))
-                
+
                 // Cache the resized image
                 ImageCache.shared.setImage(resizedImage, for: imageName)
-                
+
                 DispatchQueue.main.async {
                     self.image = resizedImage
                     self.isLoading = false
@@ -516,7 +516,7 @@ struct OptimizedImageLoader: View {
             }
         }
     }
-    
+
     private func resizeImage(_ image: UIImage, to size: CGSize) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: size)
         return renderer.image { _ in
@@ -532,7 +532,7 @@ struct OptimizedImageLoader: View {
 struct OptimizedCharacterView: View {
     let customization: CharacterCustomization
     @State private var cachedImage: UIImage?
-    
+
     var body: some View {
         Group {
             if let cachedImage = cachedImage {
@@ -556,7 +556,7 @@ struct OptimizedCharacterView: View {
             generateCharacterImage()
         }
     }
-    
+
     private func generateCharacterImage() {
         DispatchQueue.global(qos: .userInitiated).async {
             let image = createCharacterImage()
@@ -565,17 +565,17 @@ struct OptimizedCharacterView: View {
             }
         }
     }
-    
+
     private func createCharacterImage() -> UIImage? {
         let size = CGSize(width: 240, height: 240) // Fixed size for consistency
         UIGraphicsBeginImageContextWithOptions(size, false, 2.0) // 2x scale for retina
-        
+
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        
+
         // Clear background
         context.setFillColor(UIColor.clear.cgColor)
         context.fill(CGRect(origin: .zero, size: size))
-        
+
         // Draw wings first (if present) so they appear behind everything
         if let accessory = customization.accessory, accessory == .wingsWhite {
             let accessoryImage = ImageCache.shared.getImage(accessory.rawValue) ?? UIImage(named: accessory.rawValue)
@@ -583,7 +583,7 @@ struct OptimizedCharacterView: View {
                 drawImage(accessoryImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
             }
         }
-        
+
         // Draw character layers in order
         let layers = [
             (customization.bodyType.rawValue, nil),
@@ -591,7 +591,7 @@ struct OptimizedCharacterView: View {
             (customization.outfit.rawValue, nil),
             (customization.weapon.rawValue, nil)
         ]
-        
+
         for (imageName, tintColor) in layers {
             // Try cache first, then load from bundle
             let image = ImageCache.shared.getImage(imageName) ?? UIImage(named: imageName)
@@ -599,7 +599,7 @@ struct OptimizedCharacterView: View {
                 drawImage(image, in: CGRect(origin: .zero, size: size), tintColor: tintColor)
             }
         }
-        
+
         // Draw other accessories (non-wings) last so they appear on top
         if let accessory = customization.accessory, accessory != .wingsWhite {
             let accessoryImage = ImageCache.shared.getImage(accessory.rawValue) ?? UIImage(named: accessory.rawValue)
@@ -607,28 +607,28 @@ struct OptimizedCharacterView: View {
                 drawImage(accessoryImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
             }
         }
-        
+
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return result
     }
-    
+
     private func drawImage(_ image: UIImage, in rect: CGRect, tintColor: Color?) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        
+
         context.saveGState()
-        
+
         // Apply tint if specified
         if let tintColor = tintColor {
             context.setBlendMode(.multiply)
             context.setFillColor(UIColor(tintColor).cgColor)
             context.fill(rect)
         }
-        
+
         // Draw image
         image.draw(in: rect, blendMode: .normal, alpha: 1.0)
-        
+
         context.restoreGState()
     }
 }

@@ -10,17 +10,17 @@ import Combine
 
 final class ThemeManager: ObservableObject {
     static let shared = ThemeManager()
-    
+
     @Published var currentTheme: AppTheme = .system
     @Published var activeTheme = Theme.create(for: .light)
     @Published var forcedColorScheme: ColorScheme?
-    
+
     private var cancellables = Set<AnyCancellable>()
-    
+
     private init() {
         loadTheme()
     }
-    
+
     func setTheme(_ theme: AppTheme) {
         currentTheme = theme
         saveTheme()
@@ -38,7 +38,7 @@ final class ThemeManager: ObservableObject {
             // Will be handled by system color scheme
         }
     }
-    
+
     func applyTheme(using colorScheme: ColorScheme) {
         switch currentTheme {
         case .light:
@@ -49,7 +49,7 @@ final class ThemeManager: ObservableObject {
             activeTheme = (colorScheme == .dark) ? Theme.create(for: .dark) : Theme.create(for: .light)
         }
     }
-    
+
     func bindColorScheme(_ colorScheme: Published<ColorScheme>.Publisher) {
         colorScheme
             .sink { [weak self] scheme in
@@ -57,11 +57,11 @@ final class ThemeManager: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     private func saveTheme() {
         UserDefaults.standard.set(currentTheme.rawValue, forKey: "selectedTheme")
     }
-    
+
     private func loadTheme() {
         if let raw = UserDefaults.standard.string(forKey: "selectedTheme"),
            let saved = AppTheme(rawValue: raw) {

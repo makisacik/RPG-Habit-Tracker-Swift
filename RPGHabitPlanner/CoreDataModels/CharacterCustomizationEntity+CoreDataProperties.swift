@@ -45,7 +45,7 @@ extension CharacterCustomizationEntity {
         }
         return array
     }
-    
+
     /// Sets accessories from array
     func setAccessories(_ accessories: [String]) {
         if let data = try? JSONSerialization.data(withJSONObject: accessories),
@@ -53,65 +53,65 @@ extension CharacterCustomizationEntity {
             self.accessory = jsonString
         }
     }
-    
+
     // MARK: - Conversion Methods
-    
+
     func toCharacterCustomization() -> CharacterCustomization {
         var customization = CharacterCustomization()
-        
+
         if let bodyTypeString = bodyType,
            let bodyType = BodyType(rawValue: bodyTypeString) {
             customization.bodyType = bodyType
         }
-        
+
         if let hairStyleString = hairStyle,
            let hairStyle = HairStyle(rawValue: hairStyleString) {
             customization.hairStyle = hairStyle
         }
-        
+
         if let hairBackStyleString = hairBackStyle,
            let hairBackStyle = HairBackStyle(rawValue: hairBackStyleString) {
             customization.hairBackStyle = hairBackStyle
         }
-        
+
         if let hairColorString = hairColor,
            let hairColor = HairColor(rawValue: hairColorString) {
             customization.hairColor = hairColor
         }
-        
+
         if let eyeColorString = eyeColor,
            let eyeColor = EyeColor(rawValue: eyeColorString) {
             customization.eyeColor = eyeColor
         }
-        
+
         if let outfitString = outfit,
            let outfit = Outfit(rawValue: outfitString) {
             customization.outfit = outfit
         }
-        
+
         if let weaponString = weapon,
            let weapon = CharacterWeapon(rawValue: weaponString) {
             customization.weapon = weapon
         }
-        
+
         if let accessoryString = accessory,
            let accessory = Accessory(rawValue: accessoryString) {
             customization.accessory = accessory
         }
-        
+
         if let mustacheString = mustache,
            let mustache = Mustache(rawValue: mustacheString) {
             customization.mustache = mustache
         }
-        
+
         if let flowerString = flower,
            let flower = Flower(rawValue: flowerString) {
             customization.flower = flower
         }
-        
+
         return customization
     }
-    
+
     func updateFrom(_ customization: CharacterCustomization) {
         bodyType = customization.bodyType.rawValue
         hairStyle = customization.hairStyle.rawValue

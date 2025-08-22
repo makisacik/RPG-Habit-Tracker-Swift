@@ -13,11 +13,11 @@ class DamageHandler: ObservableObject {
     @Published var battleEffects: [BattleEffect] = []
     @Published var screenShake: Bool = false
     @Published var flashEffect: Bool = false
-    
+
     private var cancellables = Set<AnyCancellable>()
-    
+
     // MARK: - Damage Number Management
-    
+
     func showDamageNumber(damage: Int, position: CGPoint, isCritical: Bool = false, isHealing: Bool = false) {
         let damageNumber = DamageNumber(
             id: UUID(),
@@ -27,49 +27,49 @@ class DamageHandler: ObservableObject {
             isHealing: isHealing,
             timestamp: Date()
         )
-        
+
         damageNumbers.append(damageNumber)
-        
+
         // Remove damage number after animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.damageNumbers.removeAll { $0.id == damageNumber.id }
         }
     }
-    
+
     func showBattleEffect(_ effect: BattleEffect) {
         battleEffects.append(effect)
-        
+
         // Remove effect after duration
         DispatchQueue.main.asyncAfter(deadline: .now() + effect.duration) {
             self.battleEffects.removeAll { $0.id == effect.id }
         }
     }
-    
+
     // MARK: - Visual Effects
-    
+
     func triggerScreenShake(intensity: ScreenShakeIntensity = .medium) {
         screenShake = true
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + intensity.duration) {
             self.screenShake = false
         }
     }
-    
+
     func triggerFlashEffect(color: Color = .red, duration: TimeInterval = 0.3) {
         flashEffect = true
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             self.flashEffect = false
         }
     }
-    
+
     // MARK: - Battle Action Processing
-    
+
     func processBattleAction(_ action: BattleAction, entityPosition: CGPoint) {
         let damage = action.damage
         let isCritical = damage > action.attacker.attackPower
         let isHealing = action.actionType == .focus && action.target.isPlayer
-        
+
         // Show damage number
         showDamageNumber(
             damage: damage,
@@ -77,7 +77,7 @@ class DamageHandler: ObservableObject {
             isCritical: isCritical,
             isHealing: isHealing
         )
-        
+
         // Trigger visual effects based on action type
         switch action.actionType {
         case .attack:
@@ -90,7 +90,7 @@ class DamageHandler: ObservableObject {
             triggerScreenShake(intensity: .heavy)
             triggerFlashEffect(color: .purple, duration: 0.5)
         }
-        
+
         // Show battle effect
         let effect = BattleEffect(
             id: UUID(),
@@ -101,14 +101,14 @@ class DamageHandler: ObservableObject {
         )
         showBattleEffect(effect)
     }
-    
+
     // MARK: - Health Bar Animation
-    
+
     func animateHealthBar(from: Double, targetValue: Double, duration: TimeInterval = 0.5) -> AnyPublisher<Double, Never> {
         let steps = 30
         let stepDuration = duration / Double(steps)
         let stepValue = (targetValue - from) / Double(steps)
-        
+
         return Timer.publish(every: stepDuration, on: .main, in: .common)
             .autoconnect()
             .scan(from) { current, _ in
@@ -129,11 +129,11 @@ struct DamageNumber: Identifiable {
     let isCritical: Bool
     let isHealing: Bool
     let timestamp: Date
-    
+
     var displayText: String {
         return isHealing ? "+\(value)" : "\(value)"
     }
-    
+
     var textColor: Color {
         if isHealing {
             return .green
@@ -143,7 +143,7 @@ struct DamageNumber: Identifiable {
             return .white
         }
     }
-    
+
     var fontSize: CGFloat {
         return isCritical ? 24 : 18
     }
@@ -155,7 +155,7 @@ struct BattleEffect: Identifiable {
     let position: CGPoint
     let color: Color
     let duration: TimeInterval
-    
+
     enum EffectType {
         case damage
         case heal
@@ -169,7 +169,7 @@ enum ScreenShakeIntensity {
     case light
     case medium
     case heavy
-    
+
     var duration: TimeInterval {
         switch self {
         case .light: return 0.2
@@ -177,7 +177,7 @@ enum ScreenShakeIntensity {
         case .heavy: return 0.6
         }
     }
-    
+
     var magnitude: CGFloat {
         switch self {
         case .light: return 5
@@ -194,7 +194,7 @@ struct DamageNumberView: View {
     @State private var offset: CGSize = .zero
     @State private var opacity: Double = 1.0
     @State private var scale: CGFloat = 1.0
-    
+
     var body: some View {
         Text(damageNumber.displayText)
             .font(.system(size: damageNumber.fontSize, weight: .bold))
@@ -207,12 +207,12 @@ struct DamageNumberView: View {
                 animateDamageNumber()
             }
     }
-    
+
     private func animateDamageNumber() {
         // Random upward movement
         let randomX = CGFloat.random(in: -20...20)
         let randomY = CGFloat.random(in: -60...(-40))
-        
+
         withAnimation(.easeOut(duration: 2.0)) {
             offset = CGSize(width: randomX, height: randomY)
             opacity = 0.0
@@ -227,7 +227,7 @@ struct BattleEffectView: View {
     let effect: BattleEffect
     @State private var scale: CGFloat = 0.1
     @State private var opacity: Double = 1.0
-    
+
     var body: some View {
         Circle()
             .fill(effect.color)
@@ -239,7 +239,7 @@ struct BattleEffectView: View {
                 animateEffect()
             }
     }
-    
+
     private func animateEffect() {
         withAnimation(.easeOut(duration: effect.duration)) {
             scale = 2.0
@@ -253,7 +253,7 @@ struct BattleEffectView: View {
 struct ScreenShakeModifier: ViewModifier {
     let isShaking: Bool
     let intensity: ScreenShakeIntensity
-    
+
     func body(content: Content) -> some View {
         content
             .offset(x: isShaking ? CGFloat.random(in: -intensity.magnitude...intensity.magnitude) : 0,

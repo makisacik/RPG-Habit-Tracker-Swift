@@ -12,10 +12,10 @@ struct ActiveEffectsWidget: View {
     @EnvironmentObject var boosterManager: BoosterManager
     @State private var showAllEffects = false
     @State private var refreshTrigger = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         Group {
             if !boosterManager.activeBoosters.isEmpty {
                 VStack(spacing: 8) {
@@ -74,11 +74,11 @@ struct ActiveEffectsWidget: View {
             refreshTrigger.toggle()
         }
     }
-    
+
     private func getMostImportantBooster() -> BoosterEffect? {
         // Priority order: Experience > Coins > others
         let priorityOrder: [BoosterType] = [.experience, .coins, .both]
-        
+
         for boosterType in priorityOrder {
                             if let booster = boosterManager.activeBoosters.first(where: {
                 $0.type == boosterType && $0.isActive && !$0.isExpired
@@ -86,7 +86,7 @@ struct ActiveEffectsWidget: View {
                 return booster
             }
         }
-        
+
         return boosterManager.activeBoosters.first { $0.isActive && !$0.isExpired }
     }
 }
@@ -96,12 +96,12 @@ struct BoosterWidgetRow: View {
     let booster: BoosterEffect
     let isCompact: Bool
     @State private var remainingTime: TimeInterval = 0
-    
+
     init(booster: BoosterEffect, isCompact: Bool = false) {
         self.booster = booster
         self.isCompact = isCompact
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         HStack(spacing: 8) {
@@ -110,29 +110,29 @@ struct BoosterWidgetRow: View {
                 .font(.system(size: isCompact ? 12 : 14))
                 .foregroundColor(.yellow)
                 .frame(width: isCompact ? 16 : 20)
-            
+
             // Booster name and value
             VStack(alignment: .leading, spacing: 2) {
                 Text(booster.sourceName)
                     .font(.appFont(size: isCompact ? 10 : 12, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 if !isCompact {
                     Text(boosterDescription)
                         .font(.appFont(size: 10, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                 }
             }
-            
+
             Spacer()
-            
+
             // Countdown timer
             if let remaining = booster.remainingTime {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(formatTime(remaining))
                         .font(.appFont(size: isCompact ? 10 : 12, weight: .black))
                         .foregroundColor(.yellow)
-                    
+
                     if !isCompact {
                         // Progress bar
                         ProgressView(value: booster.progress)
@@ -150,7 +150,7 @@ struct BoosterWidgetRow: View {
             updateRemainingTime()
         }
     }
-    
+
     private var boosterIcon: String {
         switch booster.type {
         case .experience:
@@ -161,11 +161,11 @@ struct BoosterWidgetRow: View {
             return "bolt.fill"
         }
     }
-    
+
     private var boosterDescription: String {
         let multiplierText = String(format: "%.0f%%", (booster.multiplier - 1.0) * 100)
         let bonusText = booster.flatBonus > 0 ? " +\(booster.flatBonus)" : ""
-        
+
         switch booster.type {
         case .experience:
             return "\(multiplierText) XP\(bonusText)"
@@ -175,15 +175,15 @@ struct BoosterWidgetRow: View {
             return "\(multiplierText) XP & Coins\(bonusText)"
         }
     }
-    
+
     private func updateRemainingTime() {
         remainingTime = booster.remainingTime ?? 0
     }
-    
+
     private func formatTime(_ timeInterval: TimeInterval) -> String {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60
-        
+
         if minutes > 0 {
             return String(format: "%dm %02ds", minutes, seconds)
         } else {
@@ -196,28 +196,28 @@ struct BoosterWidgetRow: View {
 
 struct XPBoostIndicator: View {
     @EnvironmentObject var boosterManager: BoosterManager
-    
+
     var body: some View {
         let expBoosters = boosterManager.getActiveBoosters(for: .experience)
         if !expBoosters.isEmpty {
             let totalMultiplier = expBoosters.reduce(1.0) { $0 * $1.multiplier }
             let totalBonus = expBoosters.reduce(0) { $0 + $1.flatBonus }
-            
+
             HStack(spacing: 4) {
                 Image(systemName: "arrow.up.circle.fill")
                     .font(.system(size: 12))
                     .foregroundColor(.green)
-                
+
                 Text("\(Int((totalMultiplier - 1.0) * 100))% XP")
                     .font(.appFont(size: 10, weight: .black))
                     .foregroundColor(.green)
-                
+
                 if totalBonus > 0 {
                     Text("+\(totalBonus)")
                         .font(.appFont(size: 8, weight: .medium))
                         .foregroundColor(.green.opacity(0.8))
                 }
-                
+
                 let remainingTimes = expBoosters.compactMap { $0.remainingTime }
                 if let shortestRemaining = remainingTimes.min() {
                     Text("(\(formatTime(shortestRemaining)))")
@@ -237,11 +237,11 @@ struct XPBoostIndicator: View {
             )
         }
     }
-    
+
     private func formatTime(_ timeInterval: TimeInterval) -> String {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60
-        
+
         if minutes > 0 {
             return String(format: "%dm", minutes)
         } else {

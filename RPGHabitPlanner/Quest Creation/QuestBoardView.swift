@@ -5,12 +5,12 @@ struct QuestBoardView: View {
     let onStartQuest: () -> Void
     let animate: Bool
     @State private var isButtonPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(spacing: 30) {
             Spacer()
-            
+
             // Quest Board Title
             VStack(spacing: 16) {
                 Image(systemName: "scroll.fill")
@@ -18,20 +18,20 @@ struct QuestBoardView: View {
                     .foregroundColor(.yellow)
                     .rotationEffect(.degrees(animate ? 5 : -5))
                     .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: animate)
-                
+
                 Text("QUEST BOARD")
                     .font(.appFont(size: 32, weight: .black))
                     .foregroundColor(theme.textColor)
                     .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 2)
-                
+
                 Text("Adventure awaits, brave one!")
                     .font(.appFont(size: 18, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
             }
-            
+
             Spacer()
-            
+
             // Start Quest Button
             Button(action: {
                 isButtonPressed = true
@@ -61,7 +61,7 @@ struct QuestBoardView: View {
                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
             }
             .buttonStyle(PlainButtonStyle())
-            
+
             Spacer()
         }
         .padding()
@@ -70,7 +70,7 @@ struct QuestBoardView: View {
 
 struct QuestBoardBackground: View {
     let animate: Bool
-    
+
     var body: some View {
         ZStack {
             // Animated background elements

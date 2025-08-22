@@ -12,21 +12,21 @@ struct BoosterInfoModalView: View {
     @ObservedObject private var boosterManager = BoosterManager.shared
     @Environment(\.dismiss) private var dismiss
     @State private var refreshTrigger = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 theme.backgroundColor
                     .ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(spacing: 20) {
                         // Header with total boosters
                         totalBoostersSection(theme: theme)
-                        
-                        
+
+
                         // Item boosters
                         if !getItemBoosters().isEmpty {
                             boosterSection(
@@ -36,12 +36,12 @@ struct BoosterInfoModalView: View {
                                 theme: theme
                             )
                         }
-                        
+
                         // No boosters message
                         if boosterManager.activeBoosters.isEmpty {
                             noBoostersView(theme: theme)
                         }
-                        
+
                         Spacer()
                     }
                     .padding()
@@ -63,7 +63,7 @@ struct BoosterInfoModalView: View {
             }
         }
     }
-    
+
     private func totalBoostersSection(theme: Theme) -> some View {
         VStack(spacing: 16) {
             HStack {
@@ -71,14 +71,14 @@ struct BoosterInfoModalView: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundColor(.yellow)
-                
+
                 Text("Total Active Boosters")
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
             }
-            
+
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
@@ -92,11 +92,11 @@ struct BoosterInfoModalView: View {
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
-                    
+
                     Text("\(Int((boosterManager.totalExperienceMultiplier - 1.0) * 100))%")
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(.green)
-                    
+
                     if boosterManager.totalExperienceBonus > 0 {
                         Text("+\(boosterManager.totalExperienceBonus)")
                             .font(.appFont(size: 12))
@@ -112,7 +112,7 @@ struct BoosterInfoModalView: View {
                                 .stroke(Color.green.opacity(0.3), lineWidth: 1)
                         )
                 )
-                
+
                 // Coin Booster
                 VStack(spacing: 8) {
                     HStack {
@@ -123,11 +123,11 @@ struct BoosterInfoModalView: View {
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
-                    
+
                     Text("\(Int((boosterManager.totalCoinsMultiplier - 1.0) * 100))%")
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(.yellow)
-                    
+
                     if boosterManager.totalCoinsBonus > 0 {
                         Text("+\(boosterManager.totalCoinsBonus)")
                             .font(.appFont(size: 12))
@@ -152,7 +152,7 @@ struct BoosterInfoModalView: View {
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
-    
+
     private func boosterSection(title: String, icon: String, boosters: [BoosterEffect], theme: Theme) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -163,7 +163,7 @@ struct BoosterInfoModalView: View {
                     .foregroundColor(theme.textColor)
                 Spacer()
             }
-            
+
             LazyVStack(spacing: 8) {
                 ForEach(boosters, id: \.sourceId) { booster in
                     boosterRow(booster: booster, theme: theme)
@@ -177,7 +177,7 @@ struct BoosterInfoModalView: View {
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
-    
+
     private func boosterRow(booster: BoosterEffect, theme: Theme) -> some View {
         HStack(spacing: 12) {
             // Booster icon
@@ -191,23 +191,23 @@ struct BoosterInfoModalView: View {
                     .font(.system(size: 16, weight: .bold))
                     .frame(width: 24, height: 24)
             }
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(booster.sourceName)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor)
-                
+
                 HStack(spacing: 8) {
                     Text("\(Int((booster.multiplier - 1.0) * 100))%")
                         .font(.appFont(size: 12, weight: .bold))
                         .foregroundColor(boosterColor(for: booster.type))
-                    
+
                     if booster.flatBonus > 0 {
                         Text("+\(booster.flatBonus)")
                             .font(.appFont(size: 12))
                             .foregroundColor(boosterColor(for: booster.type).opacity(0.8))
                     }
-                    
+
                     if let expiresAt = booster.expiresAt {
                         Spacer()
                         Text("Expires: \(expiresAt, style: .relative)")
@@ -216,7 +216,7 @@ struct BoosterInfoModalView: View {
                     }
                 }
             }
-            
+
             Spacer()
         }
         .padding(.vertical, 8)
@@ -226,18 +226,18 @@ struct BoosterInfoModalView: View {
                 .fill(theme.primaryColor.opacity(0.05))
         )
     }
-    
+
     private func noBoostersView(theme: Theme) -> some View {
         VStack(spacing: 16) {
             Image("icon_lightning")
                 .resizable()
                 .frame(width: 64, height: 64)
                 .foregroundColor(.gray.opacity(0.5))
-            
+
             Text("No Active Boosters")
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             Text("Collect items to get boosters!")
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
@@ -250,12 +250,12 @@ struct BoosterInfoModalView: View {
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
-    
-    
+
+
     private func getItemBoosters() -> [BoosterEffect] {
         return boosterManager.activeBoosters.filter { $0.source == .item && $0.isActive && !$0.isExpired }
     }
-    
+
     private func boosterIconName(for type: BoosterType) -> String {
         switch type {
         case .experience: return "star.fill"
@@ -263,7 +263,7 @@ struct BoosterInfoModalView: View {
         case .both: return "bolt.fill"
         }
     }
-    
+
     private func boosterColor(for type: BoosterType) -> Color {
         switch type {
         case .experience: return .green

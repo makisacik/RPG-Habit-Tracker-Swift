@@ -13,7 +13,7 @@ import ActivityKit
 struct RPGHabitPlannerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var localizationManager = LocalizationManager.shared
-    
+
     var body: some Scene {
         WindowGroup {
             let questDataService = QuestCoreDataService()
@@ -37,7 +37,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         // Initialize booster system
         let boosterManager = BoosterManager.shared
-        
+
         // Delay booster loading to ensure proper initialization
         DispatchQueue.main.async {
             // Clean up expired effects on app launch
@@ -52,17 +52,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Handle background fetch
         completionHandler(.newData)
     }
-    
+
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Ensure background tasks are properly managed when app enters background
         BackgroundTimerManager.shared.handleAppDidEnterBackground()
     }
-    
+
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Ensure background tasks are properly managed when app enters foreground
         BackgroundTimerManager.shared.handleAppWillEnterForeground()
     }
-    
+
     func applicationWillTerminate(_ application: UIApplication) {
         // Clean up background tasks when app terminates
         BackgroundTimerManager.shared.stopTimer()

@@ -17,18 +17,18 @@ class FocusTimerViewModel: ObservableObject {
     @Published var currentPhase: String = "Work"
     @Published var showMonsterDefeated: Bool = false
     @Published var isMonsterShaking: Bool = false
-    
+
     private var timer: Timer?
     private var lastDamageTime = Date()
     private var initialDamageApplied: Bool = false
     private var cancellables = Set<AnyCancellable>()
-    
+
     let userManager: UserManager
     let damageHandler: DamageHandler
     let backgroundTimerManager = BackgroundTimerManager.shared
     private let persistenceService = MonsterHPPersistenceService.shared
     private let streakManager = StreakManager.shared
-    
+
     init(userManager: UserManager, damageHandler: DamageHandler) {
         self.session = FocusTimerSession()
         self.userManager = userManager
@@ -37,56 +37,56 @@ class FocusTimerViewModel: ObservableObject {
         setupNotifications()
         loadPersistedData()
     }
-    
+
     deinit {
         timer?.invalidate()
     }
-    
+
     // MARK: - Timer Control
-    
+
     func startTimer() {
         guard !isRunning else { return }
-        
+
         // Check if monster is selected
         guard session.battleSession != nil else {
             // No monster selected, trigger monster selection
             NotificationCenter.default.post(name: .showMonsterSelection, object: nil)
             return
         }
-        
+
         isRunning = true
         session.currentState = .working
         updatePhaseDisplay()
-        
+
         // Apply initial damage only once per session
         if var battleSession = session.battleSession, !initialDamageApplied {
             let initialDamage = 5
             battleSession.enemy.currentHealth = max(0, battleSession.enemy.currentHealth - initialDamage)
             session.battleSession = battleSession
-            
+
             // Save the updated HP
             saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
             savePersistedData()
-            
+
             // Show damage effect with dramatic animation
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: initialDamage, position: position, isCritical: false)
             damageHandler.triggerScreenShake(intensity: .medium)
             triggerMonsterShake()
-            
+
             // Mark initial damage as applied
             initialDamageApplied = true
-            
+
             // Check if monster is defeated
             if battleSession.enemy.currentHealth <= 0 {
                 showMonsterDefeated = true
                 pauseTimer()
             }
         }
-        
+
         // Start background timer
         backgroundTimerManager.startTimer(duration: session.timeRemaining, phase: currentPhase)
-        
+
         // Listen for background timer updates - this is the single source of truth
         backgroundTimerManager.$timeRemaining
             .receive(on: DispatchQueue.main)
@@ -98,34 +98,34 @@ class FocusTimerViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     func pauseTimer() {
         isRunning = false
         timer?.invalidate()
         timer = nil
-        
+
         // Pause background timer
         backgroundTimerManager.pauseTimer()
     }
-    
+
     func resetTimer() {
         pauseTimer()
-        
+
         // Heal enemy when timer is reset (user gives up)
         if var battleSession = session.battleSession {
             let healAmount = 20
             battleSession.enemy.currentHealth = min(battleSession.enemy.maxHealth, battleSession.enemy.currentHealth + healAmount)
             session.battleSession = battleSession
-            
+
             // Save the updated HP
             saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
             savePersistedData()
-            
+
             // Show healing effect
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: healAmount, position: position, isHealing: true)
         }
-        
+
         // Reset timer but keep the monster
         session.currentState = .idle
         session.timeRemaining = session.settings.workDuration
@@ -134,122 +134,122 @@ class FocusTimerViewModel: ObservableObject {
         initialDamageApplied = false // Reset initial damage flag when timer is reset
         updateDisplay()
     }
-    
+
     func skipPhase() {
         pauseTimer()
-        
+
         // Heal enemy when phase is skipped (user avoids work)
         if var battleSession = session.battleSession {
             let healAmount = 15
             battleSession.enemy.currentHealth = min(battleSession.enemy.maxHealth, battleSession.enemy.currentHealth + healAmount)
             session.battleSession = battleSession
-            
+
             // Show healing effect
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: healAmount, position: position, isHealing: true)
         }
-        
+
         transitionToNextPhase()
     }
-    
+
     // MARK: - Battle Mode
-    
+
     func startBattleMode(enemyType: EnemyType) {
         guard let user = createPlayerFromUser() else { return }
-        
+
         var battleSession = BattleLogic.startBattle(
             player: user,
             enemyType: enemyType,
             targetPomodoros: session.settings.pomodorosUntilLongBreak
         )
-        
+
         // Load persisted HP if available
         if let savedHP = loadMonsterHP(enemyType: enemyType) {
             battleSession.enemy.currentHealth = savedHP
         }
-        
+
         session.battleSession = battleSession
         session.currentState = .idle
         lastDamageTime = Date() // Reset the damage timer for new monster
         initialDamageApplied = false // Reset initial damage flag for new monster
-        
+
         // Save the battle session
         savePersistedData()
     }
-    
+
     func completePomodoro() {
         session.completedPomodoros += 1
         session.totalWorkTime += session.settings.workDuration
-        
+
         // Record streak activity when completing a pomodoro
         streakManager.recordActivity()
-        
+
         // Process battle logic if in battle mode
         if var battleSession = session.battleSession {
             // Deal damage to enemy for completing a pomodoro
             let damageAmount = 25
             battleSession.enemy.currentHealth = max(0, battleSession.enemy.currentHealth - damageAmount)
-            
+
             // Show damage effect with dramatic animation
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: damageAmount, position: position, isCritical: false)
             damageHandler.triggerScreenShake(intensity: .medium)
             triggerMonsterShake()
-            
+
             // Process additional battle logic
             let actions = BattleLogic.processPomodoroCompletion(session: &battleSession)
             session.battleSession = battleSession
-            
+
             // Save the updated HP
             saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
             savePersistedData()
-            
+
             // Process visual effects
             for action in actions {
                 damageHandler.processBattleAction(action, entityPosition: position)
             }
-            
+
             // Check if battle is complete
             if battleSession.isCompleted {
                 handleBattleCompletion(battleSession)
             }
         }
-        
+
         transitionToNextPhase()
     }
-    
+
     func handleDistraction() {
         // Process distraction in battle mode
         if var battleSession = session.battleSession {
             let action = BattleLogic.processDistraction(session: &battleSession)
             session.battleSession = battleSession
-            
+
             // Process visual effects
             let position = CGPoint(x: 200, y: 300) // This would be dynamic based on UI
             damageHandler.processBattleAction(action, entityPosition: position)
-            
+
             // Check if battle is complete
             if battleSession.isCompleted {
                 handleBattleCompletion(battleSession)
             }
         }
     }
-    
+
     private func handleBattleCompletion(_ battleSession: BattleSession) {
         if battleSession.isVictory {
             session.currentState = .victory
             let rewards = BattleLogic.calculateRewards(session: battleSession)
             awardRewards(rewards)
-            
+
             // Record streak activity when defeating a monster
             streakManager.recordActivity()
         } else {
             session.currentState = .defeat
         }
-        
+
         pauseTimer()
     }
-    
+
     private func awardRewards(_ rewards: BattleReward) {
         // Apply boosters to battle rewards
         let boosterManager = BoosterManager.shared
@@ -269,14 +269,14 @@ class FocusTimerViewModel: ObservableObject {
                 }
             }
         }
-        
+
         // Award boosted gold
         CurrencyManager.shared.addCoins(boostedRewards.coins) { error in
             if let error = error {
                 print("Failed to award gold: \(error)")
             }
         }
-        
+
         // Award items to inventory
         let inventoryManager = InventoryManager.shared
         for item in rewards.items {
@@ -285,13 +285,13 @@ class FocusTimerViewModel: ObservableObject {
 
         print("Awarded \(boostedRewards.experience) XP, \(boostedRewards.coins) gold, and \(rewards.items.count) items (with boosters)")
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupTimer() {
         updateDisplay()
     }
-    
+
     private func setupNotifications() {
         // Listen for timer completion from background manager
         NotificationCenter.default.publisher(for: .timerCompleted)
@@ -300,47 +300,47 @@ class FocusTimerViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     private func handleTimerCompletion() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
+
             // Ensure timer is stopped
             self.isRunning = false
-            
+
             // Complete the current phase
             self.completePhase()
         }
     }
-    
-    
+
+
     private func applyAutomaticDamage() {
         guard let battleSession = session.battleSession,
               isRunning,
               session.currentState == .working else { return }
-        
+
         let currentTime = Date()
         let timeSinceLastDamage = currentTime.timeIntervalSince(lastDamageTime)
-        
+
         // Apply damage every 60 seconds (1 minute)
         if timeSinceLastDamage >= 60 {
             let damageAmount = 2
             var updatedBattleSession = battleSession
             updatedBattleSession.enemy.currentHealth = max(0, updatedBattleSession.enemy.currentHealth - damageAmount)
-            
+
             // Show damage effect with dramatic animation
             let position = CGPoint(x: 200, y: 300)
             damageHandler.showDamageNumber(damage: damageAmount, position: position, isCritical: false)
             damageHandler.triggerScreenShake(intensity: .light)
             triggerMonsterShake()
-            
+
             session.battleSession = updatedBattleSession
             lastDamageTime = currentTime
-            
+
             // Save the updated HP
             saveMonsterHP(enemyType: updatedBattleSession.enemyType, currentHealth: updatedBattleSession.enemy.currentHealth)
             savePersistedData()
-            
+
             // Check if monster is defeated
             if updatedBattleSession.enemy.currentHealth <= 0 {
                 showMonsterDefeated = true
@@ -348,16 +348,16 @@ class FocusTimerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func updateDisplay() {
         let minutes = Int(session.timeRemaining) / 60
         let seconds = Int(session.timeRemaining) % 60
         timeString = String(format: "%02d:%02d", minutes, seconds)
-        
+
         let totalDuration = getCurrentPhaseDuration()
         progress = 1.0 - (session.timeRemaining / totalDuration)
     }
-    
+
     private func updatePhaseDisplay() {
         switch session.currentState {
         case .working:
@@ -376,7 +376,7 @@ class FocusTimerViewModel: ObservableObject {
             currentPhase = "Idle"
         }
     }
-    
+
     private func completePhase() {
         switch session.currentState {
         case .working:
@@ -387,7 +387,7 @@ class FocusTimerViewModel: ObservableObject {
             break
         }
     }
-    
+
     private func transitionToNextPhase() {
         if session.currentState == .working {
             if session.shouldStartLongBreak {
@@ -401,11 +401,11 @@ class FocusTimerViewModel: ObservableObject {
             session.currentState = .working
             session.timeRemaining = session.settings.workDuration
         }
-        
+
         updatePhaseDisplay()
         startTimer()
     }
-    
+
     private func getCurrentPhaseDuration() -> TimeInterval {
         switch session.currentState {
         case .working:
@@ -418,7 +418,7 @@ class FocusTimerViewModel: ObservableObject {
             return session.settings.workDuration
         }
     }
-    
+
     private func createPlayerFromUser() -> BattleEntity? {
         // This would fetch the current user and create a BattleEntity
         // For now, returning a placeholder
@@ -432,15 +432,15 @@ class FocusTimerViewModel: ObservableObject {
             isPlayer: true
         )
     }
-    
+
     // MARK: - Persistence Methods
-    
+
     private func loadPersistedData() {
         // Load last damage time
         if let savedLastDamageTime = persistenceService.loadLastDamageTime() {
             lastDamageTime = savedLastDamageTime
         }
-        
+
         // Load battle session if exists
         if let battleSession = session.battleSession {
             if let savedBattleSession = persistenceService.loadBattleSession(id: battleSession.id) {
@@ -448,48 +448,48 @@ class FocusTimerViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func savePersistedData() {
         // Save last damage time
         persistenceService.saveLastDamageTime(lastDamageTime)
-        
+
         // Save battle session if exists
         if let battleSession = session.battleSession {
             persistenceService.saveBattleSession(battleSession)
-            
+
             // Save monster HP
             persistenceService.saveMonsterHP(enemyType: battleSession.enemyType, currentHealth: battleSession.enemy.currentHealth)
         }
     }
-    
+
     private func loadMonsterHP(enemyType: EnemyType) -> Int? {
         return persistenceService.loadMonsterHP(enemyType: enemyType)
     }
-    
+
     private func saveMonsterHP(enemyType: EnemyType, currentHealth: Int) {
         persistenceService.saveMonsterHP(enemyType: enemyType, currentHealth: currentHealth)
     }
-    
+
     func clearDefeatedMonsterData(battleSession: BattleSession) {
         persistenceService.clearMonsterHP(enemyType: battleSession.enemyType)
         persistenceService.clearBattleSession(id: battleSession.id)
         // Increment defeat count for this monster
         persistenceService.incrementMonsterDefeats(enemyType: battleSession.enemyType)
     }
-    
+
     // MARK: - Animation Methods
-    
+
     func triggerMonsterShake() {
         isMonsterShaking = true
-        
+
         // Stop shaking after animation duration
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             self.isMonsterShaking = false
         }
     }
-    
+
     // MARK: - Session Management
-    
+
     func resetInitialDamageFlag() {
         initialDamageApplied = false
     }
@@ -501,38 +501,38 @@ struct TimerView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject var viewModel: FocusTimerViewModel
     @State private var showingEnemySelection = false
-    
+
     init(userManager: UserManager, damageHandler: DamageHandler) {
         self._viewModel = StateObject(wrappedValue: FocusTimerViewModel(userManager: userManager, damageHandler: damageHandler))
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             theme.backgroundColor
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 30) {
                 // Timer Display
                 timerDisplay(theme: theme)
-                
+
                 // Progress Bar
                 progressBar(theme: theme)
-                
+
                 // Controls
                 controlButtons(theme: theme)
-                
+
                 // Monster Selection Button (if no monster is selected)
                 if viewModel.session.battleSession == nil {
                     monsterSelectionButton(theme: theme)
                 }
-                
-                
+
+
                 Spacer()
             }
             .padding()
-            
+
             // Damage Numbers Overlay
             ZStack {
                 ForEach(viewModel.damageHandler.damageNumbers) { damageNumber in
@@ -540,14 +540,14 @@ struct TimerView: View {
                         .position(damageNumber.position)
                 }
             }
-            
+
             // Battle Effects Overlay
             ZStack {
                 ForEach(viewModel.damageHandler.battleEffects) { effect in
                     BattleEffectView(effect: effect)
                 }
             }
-            
+
             // Monster Defeated Overlay
             if viewModel.showMonsterDefeated {
                 MonsterDefeatedOverlay(theme: theme) {
@@ -578,7 +578,7 @@ struct TimerView: View {
             showingEnemySelection = true
         }
     }
-    
+
     private func timerDisplay(theme: Theme) -> some View {
         VStack(spacing: 20) {
             // Timer Display
@@ -587,17 +587,17 @@ struct TimerView: View {
                     .font(.system(size: 72, weight: .bold, design: .monospaced))
                     .foregroundColor(theme.textColor)
                     .shadow(color: .black.opacity(0.3), radius: 2)
-                
+
                 Text(viewModel.currentPhase)
                     .font(.appFont(size: 18, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.8))
             }
-            
+
             // Monster Display (always show)
             monsterDisplay(theme: theme)
         }
     }
-    
+
     private func monsterDisplay(theme: Theme) -> some View {
         VStack(spacing: 15) {
             // Monster Image
@@ -606,7 +606,7 @@ struct TimerView: View {
                     .fill(theme.primaryColor.opacity(0.3))
                     .frame(width: 120, height: 120)
                     .shadow(color: .black.opacity(0.2), radius: 8)
-                
+
                 if let battleSession = viewModel.session.battleSession {
                     // Selected monster Lottie animation with shaking effect (reduced frequency for main page)
                     LottieView(animation: .named(battleSession.enemyType.animationName))
@@ -621,25 +621,25 @@ struct TimerView: View {
                         Image(systemName: "questionmark.circle.fill")
                             .font(.system(size: 40))
                             .foregroundColor(theme.textColor.opacity(0.5))
-                        
+
                         Text(String.selectMonster.localized)
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
                 }
             }
-            
+
             // Monster Name, Level, and Health
             VStack(spacing: 4) {
                 if let battleSession = viewModel.session.battleSession {
                     Text(battleSession.enemy.name)
                         .font(.appFont(size: 16, weight: .bold))
                         .foregroundColor(theme.textColor)
-                    
+
                     Text("\(String.level.localized) \(battleSession.enemy.level)")
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.7))
-                    
+
                     Text("\(battleSession.enemy.currentHealth)/\(battleSession.enemy.maxHealth) \(String.healthPoints.localized)")
                         .font(.appFont(size: 12, weight: .bold))
                         .foregroundColor(.red)
@@ -647,13 +647,13 @@ struct TimerView: View {
                     Text(String.noMonsterSelected.localized)
                         .font(.appFont(size: 16, weight: .bold))
                         .foregroundColor(theme.textColor.opacity(0.5))
-                    
+
                     Text(String.chooseYourEnemy.localized)
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.5))
                 }
             }
-            
+
             // Health Bar
             VStack(spacing: 4) {
                 GeometryReader { geometry in
@@ -661,7 +661,7 @@ struct TimerView: View {
                         RoundedRectangle(cornerRadius: 6)
                             .fill(Color.red.opacity(0.3))
                             .frame(height: 12)
-                        
+
                         if let battleSession = viewModel.session.battleSession {
                             RoundedRectangle(cornerRadius: 6)
                                 .fill(Color.red)
@@ -712,7 +712,7 @@ struct TimerView: View {
             .padding(.trailing, 8)
         )
     }
-    
+
     private func progressBar(theme: Theme) -> some View {
         VStack(spacing: 8) {
             GeometryReader { geometry in
@@ -720,7 +720,7 @@ struct TimerView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(theme.backgroundColor.opacity(0.3))
                         .frame(height: 20)
-                    
+
                     RoundedRectangle(cornerRadius: 10)
                         .fill(progressColor(theme: theme))
                         .frame(width: geometry.size.width * viewModel.progress, height: 20)
@@ -728,7 +728,7 @@ struct TimerView: View {
                 }
             }
             .frame(height: 20)
-            
+
             if viewModel.session.isInBattle, let battleSession = viewModel.session.battleSession {
                 Text("\(String.pomodoros.localized): \(battleSession.completedPomodoros)/\(battleSession.targetPomodoros)")
                     .font(.appFont(size: 14))
@@ -736,7 +736,7 @@ struct TimerView: View {
             }
         }
     }
-    
+
     private func progressColor(theme: Theme) -> Color {
         switch viewModel.session.currentState {
         case .working:
@@ -753,7 +753,7 @@ struct TimerView: View {
             return theme.primaryColor
         }
     }
-    
+
     private func controlButtons(theme: Theme) -> some View {
         HStack(spacing: 20) {
             Button(action: {
@@ -767,7 +767,7 @@ struct TimerView: View {
                     .font(.system(size: 50))
                     .foregroundColor(theme.textColor)
             }
-            
+
             Button(action: {
                 viewModel.resetTimer()
             }) {
@@ -775,7 +775,7 @@ struct TimerView: View {
                     .font(.system(size: 50))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
-            
+
             Button(action: {
                 viewModel.skipPhase()
             }) {
@@ -785,8 +785,8 @@ struct TimerView: View {
             }
         }
     }
-    
-    
+
+
     private func monsterSelectionButton(theme: Theme) -> some View {
         Button(action: {
             showingEnemySelection = true
@@ -813,15 +813,15 @@ struct EnemySelectionView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
     let onEnemySelected: (EnemyType) -> Void
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 theme.backgroundColor
                     .ignoresSafeArea()
-                
+
                 ScrollView {
                     LazyVGrid(columns: [
                         GridItem(.flexible()),
@@ -849,15 +849,15 @@ struct EnemyCard: View {
     @EnvironmentObject var themeManager: ThemeManager
     let enemyType: EnemyType
     let onSelect: () -> Void
-    
+
     private var defeatCount: Int {
         MonsterHPPersistenceService.shared.getMonsterDefeats(enemyType: enemyType)
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         let entity = enemyType.entity
-        
+
         Button(action: onSelect) {
             ZStack {
                 VStack(spacing: 12) {
@@ -865,17 +865,17 @@ struct EnemyCard: View {
                     LottieView(animation: .named(enemyType.animationName))
                         .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
                         .frame(width: enemyType == .flyingDragon ? 100 : 80, height: enemyType == .flyingDragon ? 100 : 80)
-                    
+
                     VStack(spacing: 4) {
                         Text(entity.name)
                             .font(.appFont(size: 14, weight: .bold))
                             .foregroundColor(theme.textColor)
                             .multilineTextAlignment(.center)
-                        
+
                         Text("\(String.level.localized) \(entity.level)")
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
-                        
+
                         Text(enemyType.description)
                             .font(.appFont(size: 10))
                             .foregroundColor(theme.textColor.opacity(0.6))
@@ -889,7 +889,7 @@ struct EnemyCard: View {
                         .fill(theme.primaryColor.opacity(0.5))
                         .shadow(color: .black.opacity(0.1), radius: 4)
                 )
-                
+
                 // Skull icon with defeat count (top right)
                 if defeatCount > 0 {
                     VStack {
@@ -901,7 +901,7 @@ struct EnemyCard: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 24, height: 24)
                                     .opacity(0.6)
-                                
+
                                 Text("\(defeatCount)")
                                     .font(.appFont(size: 10, weight: .bold))
                                     .foregroundColor(.white)
@@ -930,7 +930,7 @@ struct EnemyCard: View {
 
 struct MonsterShakeModifier: ViewModifier {
     let isShaking: Bool
-    
+
     func body(content: Content) -> some View {
         content
             .offset(x: isShaking ? CGFloat.random(in: -12...12) : 0,
@@ -947,7 +947,7 @@ struct MonsterDefeatedOverlay: View {
     let onDismiss: () -> Void
     @State private var showContent = false
     @State private var isDismissing = false
-    
+
     var body: some View {
         ZStack {
             // Background overlay
@@ -956,7 +956,7 @@ struct MonsterDefeatedOverlay: View {
                 .onTapGesture {
                     dismissWithAnimation()
                 }
-            
+
             // Content
             VStack(spacing: 20) {
                 // Victory icon
@@ -966,7 +966,7 @@ struct MonsterDefeatedOverlay: View {
                     .scaleEffect(showContent ? 1.0 : 0.5)
                     .opacity(showContent ? 1.0 : 0.0)
                     .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.2), value: showContent)
-                
+
                 // Title
                 Text(String.monsterDefeated.localized)
                     .font(.appFont(size: 28, weight: .black))
@@ -974,7 +974,7 @@ struct MonsterDefeatedOverlay: View {
                     .opacity(showContent ? 1.0 : 0.0)
                     .offset(y: showContent ? 0 : 20)
                     .animation(.easeOut(duration: 0.5).delay(0.4), value: showContent)
-                
+
                 // Description
                 Text(String.youHaveSuccessfullyDefeatedMonster.localized)
                     .font(.appFont(size: 16, weight: .medium))
@@ -983,7 +983,7 @@ struct MonsterDefeatedOverlay: View {
                     .opacity(showContent ? 1.0 : 0.0)
                     .offset(y: showContent ? 0 : 20)
                     .animation(.easeOut(duration: 0.5).delay(0.6), value: showContent)
-                
+
                 // Continue button
                 Button(action: {
                     dismissWithAnimation()
@@ -1019,11 +1019,11 @@ struct MonsterDefeatedOverlay: View {
             }
         }
     }
-    
+
     private func dismissWithAnimation() {
         isDismissing = true
         showContent = false
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             onDismiss()
         }

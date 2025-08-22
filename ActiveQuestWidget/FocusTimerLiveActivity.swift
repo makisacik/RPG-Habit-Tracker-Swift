@@ -29,7 +29,7 @@ struct FocusTimerLiveActivity: Widget {
                             .foregroundColor(.white.opacity(0.8))
                     }
                 }
-                
+
                 DynamicIslandExpandedRegion(.trailing) {
                     VStack(alignment: .trailing, spacing: 4) {
                         Text(context.attributes.timerName)
@@ -41,7 +41,7 @@ struct FocusTimerLiveActivity: Widget {
                             .foregroundColor(.white.opacity(0.8))
                     }
                 }
-                
+
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(spacing: 8) {
                         Text(LocalizationHelper.localized(LocalizationHelper.focusTimer))
@@ -69,7 +69,7 @@ struct FocusTimerLiveActivity: Widget {
             }
         }
     }
-    
+
     private func formatTime(_ timeInterval: TimeInterval) -> String {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60
@@ -79,7 +79,7 @@ struct FocusTimerLiveActivity: Widget {
 
 struct LockScreenLiveActivityView: View {
     let context: ActivityViewContext<FocusTimerAttributes>
-    
+
     var body: some View {
         VStack(spacing: 12) {
             HStack {
@@ -87,20 +87,20 @@ struct LockScreenLiveActivityView: View {
                     Text(context.attributes.timerName)
                         .font(.headline)
                         .fontWeight(.bold)
-                    
+
                     Text(LocalizationHelper.localized(LocalizationHelper.focusTimer))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(formatTime(context.state.timeRemaining))
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.blue)
-                    
+
                     Text(LocalizationHelper.localized(LocalizationHelper.remaining))
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -110,7 +110,7 @@ struct LockScreenLiveActivityView: View {
         .padding()
         .background(Color(.systemBackground))
     }
-    
+
     private func formatTime(_ timeInterval: TimeInterval) -> String {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60

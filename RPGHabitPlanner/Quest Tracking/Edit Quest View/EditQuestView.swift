@@ -15,7 +15,7 @@ struct EditQuestView: View {
     var onSaveSuccess: (() -> Void)?
     var onCancel: (() -> Void)?
     var onDeleteSuccess: (() -> Void)?
-    
+
     private var theme: Theme { themeManager.activeTheme }
 
     var body: some View {

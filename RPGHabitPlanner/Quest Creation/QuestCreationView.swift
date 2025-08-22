@@ -14,17 +14,17 @@ struct QuestCreationView: View {
     @State private var notifyMe = true
     @State private var showPaywall = false
     @State private var showTagPicker = false
-    
+
     // UserDefaults for first-time visit
     @AppStorage("hasSeenQuestCreation") private var hasSeenQuestCreation = false
-    
+
     // Gamified quest creation states
     @State private var currentStep: QuestCreationStep = .questBoard
     @State private var showQuestGiver = false
     @State private var questGiverDialogue = ""
     @State private var showDialogue = false
     @State private var showParchmentEffect = false
-    
+
     // Animation states
     @State private var animateQuestBoard = false
     @State private var animateQuestGiver = false
@@ -37,12 +37,12 @@ struct QuestCreationView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(theme.backgroundColor)
                     .ignoresSafeArea()
-                
+
                 // Animated background elements
                 if currentStep == .questBoard && !hasSeenQuestCreation {
                     QuestBoardBackground(animate: animateQuestBoard)
                 }
-                
+
                 // Main content based on current step
                 switch currentStep {
                 case .questBoard:
@@ -61,7 +61,7 @@ struct QuestCreationView: View {
                             animate: animateParchment
                         )
                     }
-                    
+
                 case .questGiver:
                     QuestGiverView(
                         dialogue: questGiverDialogue,
@@ -69,7 +69,7 @@ struct QuestCreationView: View {
                         onContinue: moveToNextStep,
                         animate: animateQuestGiver
                     )
-                    
+
                 case .questDetails:
                     QuestDetailsView(
                         viewModel: viewModel,
@@ -79,13 +79,13 @@ struct QuestCreationView: View {
                         animate: animateParchment
                     )
                 }
-                
+
                 // Success animation
                 if showSuccessAnimation {
                     SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
                         .zIndex(20)
                 }
-                
+
                 // Task popup
                 if isTaskPopupVisible {
                     Color.black.opacity(0.6)
@@ -164,29 +164,29 @@ struct QuestCreationView: View {
                 .environmentObject(themeManager)
             }
     }
-    
+
     // MARK: - Quest Creation Flow Methods
-    
+
     private func startQuestCreation() {
         // Mark that user has seen quest creation
         hasSeenQuestCreation = true
-        
+
         withAnimation(.easeInOut(duration: 0.5)) {
             currentStep = .questDetails
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             withAnimation(.easeInOut(duration: 0.8)) {
                 animateParchment = true
             }
         }
     }
-    
+
     private func moveToNextStep() {
         // This function is no longer needed for the direct creation flow
         // Keeping it for potential future use
     }
-    
+
     private func moveToPreviousStep() {
         withAnimation(.easeInOut(duration: 0.5)) {
             switch currentStep {

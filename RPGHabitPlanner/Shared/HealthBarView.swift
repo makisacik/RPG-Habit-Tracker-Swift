@@ -6,21 +6,21 @@ struct HealthBarView: View {
     let size: HealthBarSize
     let showText: Bool
     let showShineAnimation: Bool
-    
+
     @State private var animateHealth: Bool = false
     @State private var pulseAnimation: Bool = false
-    
+
     init(healthManager: HealthManager, size: HealthBarSize = .medium, showText: Bool = true, showShineAnimation: Bool = true) {
         self.healthManager = healthManager
         self.size = size
         self.showText = showText
         self.showShineAnimation = showShineAnimation
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         let healthPercentage = healthManager.getHealthPercentage()
-        
+
         VStack(spacing: size.textSpacing) {
             // Health Bar Container
             ZStack(alignment: .leading) {
@@ -28,11 +28,11 @@ struct HealthBarView: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.red.opacity(0.2))
                     .frame(height: size.height)
-                
+
                 // Health Fill
                 GeometryReader { geometry in
                     let healthWidth = geometry.size.width * healthPercentage
-                    
+
                     RoundedRectangle(cornerRadius: 8)
                         .fill(healthGradient(for: healthPercentage))
                         .overlay(
@@ -64,7 +64,7 @@ struct HealthBarView: View {
                         .animation(.easeOut(duration: 0.8), value: healthPercentage)
                 }
                 .frame(height: size.height)
-                
+
                 // Damage/Heal Animation Overlay
                 if healthManager.showDamageAnimation {
                     RoundedRectangle(cornerRadius: 8)
@@ -72,14 +72,14 @@ struct HealthBarView: View {
                         .frame(height: size.height)
                         .transition(.scale.combined(with: .opacity))
                 }
-                
+
                 if healthManager.showHealAnimation {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(Color.green.opacity(0.6))
                         .frame(height: size.height)
                         .transition(.scale.combined(with: .opacity))
                 }
-                
+
                 // Health Icon
                 HStack {
                     Image(systemName: healthIcon(for: healthPercentage))
@@ -92,7 +92,7 @@ struct HealthBarView: View {
                             .repeatForever(autoreverses: true),
                             value: pulseAnimation
                         )
-                    
+
                     Spacer()
                 }
                 .padding(.leading, size.iconPadding)
@@ -123,25 +123,25 @@ struct HealthBarView: View {
             pulseAnimation = isLow
         }
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func healthGradient(for percentage: Double) -> LinearGradient {
         // Use the same red gradient as the home character card
         let colors = [Color.red, Color.red.opacity(0.8)]
-        
+
         return LinearGradient(
             gradient: Gradient(colors: colors),
             startPoint: .leading,
             endPoint: .trailing
         )
     }
-    
+
     private func healthColor(for percentage: Double) -> Color {
         // Use red color to match home character card
         return .red
     }
-    
+
     private func healthIcon(for percentage: Double) -> String {
         switch percentage {
         case 0.0:
@@ -164,7 +164,7 @@ enum HealthBarSize {
     case small
     case medium
     case large
-    
+
     var height: CGFloat {
         switch self {
         case .small: return 20
@@ -172,7 +172,7 @@ enum HealthBarSize {
         case .large: return 36
         }
     }
-    
+
     var cornerRadius: CGFloat {
         switch self {
         case .small: return 10
@@ -180,7 +180,7 @@ enum HealthBarSize {
         case .large: return 18
         }
     }
-    
+
     var iconSize: CGFloat {
         switch self {
         case .small: return 12
@@ -188,7 +188,7 @@ enum HealthBarSize {
         case .large: return 20
         }
     }
-    
+
     var iconPadding: CGFloat {
         switch self {
         case .small: return 6
@@ -196,7 +196,7 @@ enum HealthBarSize {
         case .large: return 10
         }
     }
-    
+
     var textSize: CGFloat {
         switch self {
         case .small: return 12
@@ -204,7 +204,7 @@ enum HealthBarSize {
         case .large: return 16
         }
     }
-    
+
     var textSpacing: CGFloat {
         switch self {
         case .small: return 4
@@ -219,11 +219,11 @@ enum HealthBarSize {
 struct CompactHealthBarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var healthManager: HealthManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         let healthPercentage = healthManager.getHealthPercentage()
-        
+
         HStack(spacing: 8) {
             // Health Icon
             Image(systemName: "heart.fill")
@@ -235,14 +235,14 @@ struct CompactHealthBarView: View {
                     .repeatForever(autoreverses: true),
                     value: healthManager.isLowHealth
                 )
-            
+
             // Health Bar
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 6)
                         .fill(theme.backgroundColor.opacity(0.3))
                         .frame(height: 12)
-                    
+
                     RoundedRectangle(cornerRadius: 6)
                         .fill(healthGradient(for: healthPercentage))
                         .frame(width: geometry.size.width * healthPercentage, height: 12)
@@ -250,7 +250,7 @@ struct CompactHealthBarView: View {
                 }
             }
             .frame(width: 60, height: 12)
-            
+
             // Health Text
             Text("\(healthManager.currentHealth)")
                 .font(.appFont(size: 12, weight: .black))
@@ -258,7 +258,7 @@ struct CompactHealthBarView: View {
                 .frame(minWidth: 25, alignment: .trailing)
         }
     }
-    
+
     private func healthGradient(for percentage: Double) -> LinearGradient {
         let colors: [Color]
 

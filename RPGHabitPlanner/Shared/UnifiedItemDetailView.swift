@@ -13,23 +13,23 @@ struct UnifiedItemDetailView: View {
     @Environment(\.dismiss) private var dismiss
     let item: ItemEntity
     @State private var isUsingItem = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             theme.backgroundColor
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 20) {
                 // Header with close button
                 HStack {
                     Text("Item Details")
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         dismiss()
                     }) {
@@ -40,7 +40,7 @@ struct UnifiedItemDetailView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
-                
+
                 // Item icon
                 if let iconName = item.iconName {
                     if iconName.contains("potion_health") {
@@ -55,20 +55,20 @@ struct UnifiedItemDetailView: View {
                             .shadow(radius: 4)
                     }
                 }
-                
+
                 // Item details
                 VStack(spacing: 12) {
                     Text(item.name ?? "Unknown")
                         .font(.appFont(size: 20, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
-                    
+
                     Text(item.info ?? "No description available")
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 20)
-                    
+
                     // Item type badge
                     HStack {
                         Image(systemName: itemTypeIcon)
@@ -88,7 +88,7 @@ struct UnifiedItemDetailView: View {
                             )
                     )
                 }
-                
+
                 // Use button for consumable or booster items
                 if inventoryManager.isConsumable(item) || inventoryManager.isBooster(item) {
                     Button(action: {
@@ -111,12 +111,12 @@ struct UnifiedItemDetailView: View {
                     .disabled(isUsingItem)
                     .opacity(isUsingItem ? 0.6 : 1.0)
                 }
-                
+
                 Spacer(minLength: 0)
             }
         }
     }
-    
+
     private var itemTypeIcon: String {
         if inventoryManager.isConsumable(item) {
             return "drop.fill"
@@ -126,7 +126,7 @@ struct UnifiedItemDetailView: View {
             return "trophy.fill"
         }
     }
-    
+
     private var itemTypeColor: Color {
         if inventoryManager.isConsumable(item) {
             return .red
@@ -136,7 +136,7 @@ struct UnifiedItemDetailView: View {
             return .yellow
         }
     }
-    
+
     private var itemTypeText: String {
         if inventoryManager.isConsumable(item) {
             return "Consumable"
@@ -146,14 +146,14 @@ struct UnifiedItemDetailView: View {
             return "Collectible"
         }
     }
-    
+
     private func useItem() {
         isUsingItem = true
-        
+
         inventoryManager.useItem(item) { success, error in
             DispatchQueue.main.async {
                 isUsingItem = false
-                
+
                 if success {
                     dismiss()
                 } else {
@@ -163,7 +163,7 @@ struct UnifiedItemDetailView: View {
             }
         }
     }
-    
+
     private func getPotionRarity(from iconName: String) -> ItemRarity {
         if iconName.contains("legendary") {
             return .legendary

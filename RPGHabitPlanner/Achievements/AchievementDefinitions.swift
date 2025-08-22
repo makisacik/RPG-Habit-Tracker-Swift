@@ -27,7 +27,7 @@ struct AchievementDefinition: Identifiable, Codable {
         self.requirement = requirement
         self.type = type
     }
-    
+
     static let allAchievements: [AchievementDefinition] = [
         // Quest Achievements
         AchievementDefinition(
@@ -66,7 +66,7 @@ struct AchievementDefinition: Identifiable, Codable {
             requirement: .consecutiveDays(7),
             type: .quest
         ),
-        
+
         // Level Achievements
         AchievementDefinition(
             id: "level_5",
@@ -104,8 +104,8 @@ struct AchievementDefinition: Identifiable, Codable {
             requirement: .totalExperience(1000),
             type: .leveling
         ),
-        
-        
+
+
         // Special Achievements
         AchievementDefinition(
             id: "early_bird",
@@ -168,7 +168,7 @@ enum AchievementType: String, CaseIterable, Codable {
     case focus
     case battle
     case special
-    
+
     var displayName: String {
         switch self {
         case .quest: return "Quest"
@@ -187,7 +187,7 @@ enum AchievementCategory: String, CaseIterable, Codable {
     case quests
     case leveling
     case special
-    
+
     var displayName: String {
         switch self {
         case .all: return "All"

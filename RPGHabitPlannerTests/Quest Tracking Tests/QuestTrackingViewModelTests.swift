@@ -11,26 +11,26 @@ import XCTest
 final class QuestsViewModelTests: XCTestCase {
     var viewModel: QuestsViewModel!
     var mockService: MockQuestDataService!
-    
+
     override func setUp() {
         super.setUp()
         mockService = MockQuestDataService()
         viewModel = QuestsViewModel(questDataService: mockService, userManager: UserManager())
     }
-    
+
     override func tearDown() {
         viewModel = nil
         mockService = nil
         super.tearDown()
     }
-    
+
     func testFetchQuests_Success() {
         let expectation = XCTestExpectation(description: "Quests fetched successfully")
         let quest = Quest(title: "Test Quest", isMainQuest: true, info: "Test Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 60)
         mockService.mockQuests = [quest]
-        
+
         viewModel.fetchQuests()
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XCTAssertEqual(self.viewModel.allQuests.count, 1)
             XCTAssertEqual(self.viewModel.allQuests.first?.title, "Test Quest")
@@ -38,7 +38,7 @@ final class QuestsViewModelTests: XCTestCase {
             XCTAssertNil(self.viewModel.alertMessage)
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 1.0)
     }
 
@@ -46,18 +46,18 @@ final class QuestsViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Quests fetch failed")
         let mockError = NSError(domain: "MockErrorDomain", code: 1, userInfo: [NSLocalizedDescriptionKey: "Fetch failed"])
         mockService.mockError = mockError
-        
+
         viewModel.fetchQuests()
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XCTAssertEqual(self.viewModel.alertMessage, "Fetch failed")
             XCTAssertTrue(self.viewModel.allQuests.isEmpty)
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 1.0)
     }
-    
+
     // TODO: These tests need to be updated to match the current QuestsViewModel implementation
     // The current implementation doesn't have selectedStatus, mainQuests, sideQuests, or updateQuestProgress methods
     /*
@@ -66,7 +66,7 @@ final class QuestsViewModelTests: XCTestCase {
         let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80)
         let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20)
         mockService.mockQuests = [mainQuest, sideQuest]
-        
+
         viewModel.selectedStatus = .active
         viewModel.fetchQuests()
 
@@ -76,7 +76,7 @@ final class QuestsViewModelTests: XCTestCase {
             XCTAssertEqual(self.viewModel.mainQuests.first?.progress, 80)
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 1.0)
     }
 
@@ -85,7 +85,7 @@ final class QuestsViewModelTests: XCTestCase {
         let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80)
         let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20)
         mockService.mockQuests = [mainQuest, sideQuest]
-        
+
         viewModel.fetchQuests()
         viewModel.selectedStatus = .inactive
 
@@ -95,10 +95,10 @@ final class QuestsViewModelTests: XCTestCase {
             XCTAssertEqual(self.viewModel.sideQuests.first?.progress, 20)
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 1.0)
     }
-    
+
     func testUpdateQuestProgress_Increase() {
         let quest = Quest(
             title: "Test Quest",
@@ -125,7 +125,7 @@ final class QuestsViewModelTests: XCTestCase {
 
         wait(for: [expectation], timeout: 2.0)
     }
-    
+
     func testUpdateQuestProgress_Decrease() {
         let quest = Quest(
             title: "Test Quest",

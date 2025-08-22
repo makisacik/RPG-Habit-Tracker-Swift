@@ -21,9 +21,9 @@ enum AssetCategory: String, CaseIterable, Identifiable {
     case accessory = "Accessory"
     case mustache = "Mustache"
     case flower = "Flower"
-    
+
     var id: String { rawValue }
-    
+
     var displayName: String {
         switch self {
         case .bodyType: return "Body Type"
@@ -38,7 +38,7 @@ enum AssetCategory: String, CaseIterable, Identifiable {
         case .flower: return "Flower"
         }
     }
-    
+
     var icon: String {
         switch self {
         case .bodyType: return "person.fill"
@@ -63,9 +63,9 @@ enum AssetRarity: String, CaseIterable, Identifiable {
     case rare = "Rare"
     case epic = "Epic"
     case legendary = "Legendary"
-    
+
     var id: String { rawValue }
-    
+
     var color: Color {
         switch self {
         case .common: return .gray
@@ -75,7 +75,7 @@ enum AssetRarity: String, CaseIterable, Identifiable {
         case .legendary: return .orange
         }
     }
-    
+
     var borderColor: Color {
         switch self {
         case .common: return .gray.opacity(0.8)
@@ -85,7 +85,7 @@ enum AssetRarity: String, CaseIterable, Identifiable {
         case .legendary: return .orange.opacity(0.8)
         }
     }
-    
+
     var glowColor: Color {
         switch self {
         case .common: return .clear
@@ -95,7 +95,7 @@ enum AssetRarity: String, CaseIterable, Identifiable {
         case .legendary: return .orange.opacity(0.5)
         }
     }
-    
+
     var basePriceMultiplier: Double {
         switch self {
         case .common: return 1.0
@@ -111,39 +111,39 @@ enum AssetRarity: String, CaseIterable, Identifiable {
 
 final class CharacterAssetManager: ObservableObject {
     static let shared = CharacterAssetManager()
-    
+
     // MARK: - Asset Cache
-    
+
     private var imageCache: [String: UIImage] = [:]
     private let cacheQueue = DispatchQueue(label: "asset-cache", qos: .utility)
-    
+
     private init() {
         preloadCommonAssets()
     }
-    
+
     // MARK: - Asset Loading
-    
+
     /// Loads an asset image with caching
     func loadAsset(named imageName: String) -> UIImage? {
         // Check cache first
         if let cachedImage = imageCache[imageName] {
             return cachedImage
         }
-        
+
         // Load from bundle
         guard let image = UIImage(named: imageName) else {
             print("⚠️ Asset not found: \(imageName)")
             return nil
         }
-        
+
         // Cache the image
         cacheQueue.async { [weak self] in
             self?.imageCache[imageName] = image
         }
-        
+
         return image
     }
-    
+
     /// Preloads commonly used assets
     private func preloadCommonAssets() {
         cacheQueue.async { [weak self] in
@@ -151,32 +151,32 @@ final class CharacterAssetManager: ObservableObject {
                 // Default body types (skin colors)
                 BodyType.bodyWhite.rawValue,
                 BodyType.bodyBlue.rawValue,
-                
+
                 // Default hair styles
                 HairStyle.hair1Brown.rawValue,
                 HairStyle.hair1Black.rawValue,
-                
+
                 // Default outfits
                 Outfit.outfitVillager.rawValue,
                 Outfit.outfitVillagerBlue.rawValue,
-                
+
                 // Default weapons
                 CharacterWeapon.swordWood.rawValue,
                 CharacterWeapon.swordIron.rawValue,
-                
+
                 // Default eye colors
                 EyeColor.eyeBlack.rawValue,
                 EyeColor.eyeBlue.rawValue
             ]
-            
+
             for assetName in commonAssets {
                 _ = self?.loadAsset(named: assetName)
             }
         }
     }
-    
+
     // MARK: - Asset Information
-    
+
     /// Gets all available assets for a category
     func getAvailableAssets(for category: AssetCategory) -> [AssetItem] {
         switch category {
@@ -202,7 +202,7 @@ final class CharacterAssetManager: ObservableObject {
             return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         }
     }
-    
+
     /// Gets all available assets for a category with preview images (for shop and onboarding)
     func getAvailableAssetsWithPreview(for category: AssetCategory) -> [AssetItem] {
         switch category {
@@ -228,11 +228,11 @@ final class CharacterAssetManager: ObservableObject {
             return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         }
     }
-    
+
     /// Determines rarity based on asset name
     private func getRarity(for assetName: String) -> AssetRarity {
         let name = assetName.lowercased()
-        
+
         if name.contains("legendary") || name.contains("firelord") || name.contains("deadly") {
             return .legendary
         } else if name.contains("epic") || name.contains("fire") || name.contains("iron") || name.contains("assassin") {
@@ -244,14 +244,14 @@ final class CharacterAssetManager: ObservableObject {
         }
         return .common
     }
-    
+
     // MARK: - Asset Validation
-    
+
     /// Checks if an asset exists in the bundle
     func assetExists(named imageName: String) -> Bool {
         return UIImage(named: imageName) != nil
     }
-    
+
     /// Gets fallback asset for category
     func getFallbackAsset(for category: AssetCategory) -> String {
         switch category {
@@ -259,7 +259,7 @@ final class CharacterAssetManager: ObservableObject {
         case .hairStyle: return HairStyle.hair1Brown.rawValue
         case .hairBackStyle: return ""
         case .hairColor: return HairColor.brown.rawValue
-        case .eyeColor: return EyeColor.brown.rawValue
+        case .eyeColor: return EyeColor.eyeBlack.rawValue
         case .outfit: return Outfit.outfitVillager.rawValue
         case .weapon: return CharacterWeapon.swordWood.rawValue
         case .accessory: return ""
@@ -267,7 +267,7 @@ final class CharacterAssetManager: ObservableObject {
         case .flower: return ""
         }
     }
-    
+
     /// Gets the default asset for a category
     func getDefaultAssetForCategory(_ category: AssetCategory) -> String {
         switch category {
@@ -275,7 +275,7 @@ final class CharacterAssetManager: ObservableObject {
         case .hairStyle: return HairStyle.hair1Brown.rawValue
         case .hairBackStyle: return ""
         case .hairColor: return HairColor.brown.rawValue
-        case .eyeColor: return EyeColor.brown.rawValue
+        case .eyeColor: return EyeColor.eyeBlack.rawValue
         case .outfit: return Outfit.outfitVillager.rawValue
         case .weapon: return CharacterWeapon.swordWood.rawValue
         case .accessory: return ""
@@ -283,16 +283,16 @@ final class CharacterAssetManager: ObservableObject {
         case .flower: return ""
         }
     }
-    
+
     // MARK: - Cache Management
-    
+
     /// Clears the asset cache
     func clearCache() {
         cacheQueue.async { [weak self] in
             self?.imageCache.removeAll()
         }
     }
-    
+
     /// Gets cache size information
     func getCacheInfo() -> (count: Int, estimatedSizeKB: Int) {
         let count = imageCache.count
@@ -312,7 +312,7 @@ struct AssetItem: Identifiable, Hashable {
     var isUnlocked: Bool = false
     var isEquipped: Bool = false
     var price: Int = 0
-    
+
     var basePrice: Int {
         return Int(50.0 * rarity.basePriceMultiplier)
     }
@@ -327,20 +327,20 @@ extension CharacterAssetManager {
             for assetName in assetNames {
                 _ = self?.loadAsset(named: assetName)
             }
-            
+
             DispatchQueue.main.async {
                 completion()
             }
         }
     }
-    
+
     /// Preloads assets for a specific category
     func preloadCategory(_ category: AssetCategory, completion: @escaping () -> Void) {
         let assets = getAvailableAssets(for: category)
         let assetNames = assets.map { $0.imageName }.filter { !$0.isEmpty }
         preloadAssets(assetNames, completion: completion)
     }
-    
+
     /// Preloads all character customization assets
     func preloadAllCustomizationAssets(completion: @escaping () -> Void) {
         cacheQueue.async { [weak self] in
@@ -352,7 +352,7 @@ extension CharacterAssetManager {
                     }
                 }
             }
-            
+
             DispatchQueue.main.async {
                 completion()
             }

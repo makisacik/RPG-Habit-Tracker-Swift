@@ -9,7 +9,7 @@ struct QuestDetailsView: View {
     let animate: Bool
     @State private var isButtonPressed = false
     @State private var showErrorAlert = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         ScrollView {
@@ -21,13 +21,13 @@ struct QuestDetailsView: View {
                         .foregroundColor(.yellow)
                         .scaleEffect(animate ? 1.05 : 1.0)
                         .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: animate)
-                    
+
                     Text("QUEST DETAILS")
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
                 .padding(.top, 8)
-                
+
                 // Quest Title
                 GamifiedInputField(
                     title: "Quest Title",
@@ -35,7 +35,7 @@ struct QuestDetailsView: View {
                     icon: "pencil.circle.fill",
                     placeholder: "Enter your quest's name..."
                 )
-                
+
                 // Quest Description
                 GamifiedInputField(
                     title: "Quest Description",
@@ -43,29 +43,29 @@ struct QuestDetailsView: View {
                     icon: "doc.text.fill",
                     placeholder: "Describe your quest..."
                 )
-                
+
                 // Repeat Type
                 GamifiedRepeatTypeSection(
                     repeatType: $viewModel.repeatType,
                     selectedScheduledDays: $viewModel.selectedScheduledDays
                 )
-                
+
                 // Tasks
                 GamifiedTasksSection(
                     tasks: $viewModel.tasks
                 ) { showTaskPopup = true }
-                
+
                 // Quest Deadline
                 GamifiedDatePicker(
                     title: "Quest Deadline",
                     date: $viewModel.questDueDate
                 )
-                
+
                 // Tags
                 GamifiedTagsSection(
                     selectedTags: $viewModel.selectedTags
                 ) { showTagPicker = true }
-                
+
                 // Difficulty
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
@@ -75,7 +75,7 @@ struct QuestDetailsView: View {
                             .font(.appFont(size: 14, weight: .black))
                             .foregroundColor(theme.textColor)
                     }
-                    
+
                     StarRatingView(rating: $viewModel.difficulty)
                         .padding(12)
                         .background(
@@ -87,14 +87,14 @@ struct QuestDetailsView: View {
                                 )
                         )
                 }
-                
+
                 // Quest Reward
                 CoinRewardPreviewSection(
                     difficulty: viewModel.difficulty,
                     isMainQuest: true,
                     taskCount: viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count
                 )
-                
+
                 // Continue Button
                 Button(action: {
                     isButtonPressed = true

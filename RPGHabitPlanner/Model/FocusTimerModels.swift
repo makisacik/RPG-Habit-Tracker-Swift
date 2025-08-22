@@ -39,7 +39,7 @@ struct BattleEntity: Codable {
     var level: Int
     var imageName: String
     var isPlayer: Bool
-    
+
     init(id: UUID = UUID(), name: String, maxHealth: Int, currentHealth: Int? = nil, attackPower: Int, defense: Int, level: Int, imageName: String, isPlayer: Bool = false) {
         self.id = id
         self.name = name
@@ -51,11 +51,11 @@ struct BattleEntity: Codable {
         self.imageName = imageName
         self.isPlayer = isPlayer
     }
-    
+
     var healthPercentage: Double {
         return Double(currentHealth) / Double(maxHealth)
     }
-    
+
     var isAlive: Bool {
         return currentHealth > 0
     }
@@ -67,7 +67,7 @@ struct BattleAction: Codable {
     let damage: Int
     let actionType: ActionType
     let timestamp: Date
-    
+
     enum ActionType: String, Codable {
         case attack
         case distraction
@@ -91,7 +91,7 @@ enum EnemyType: String, CaseIterable, Codable {
     case funkyMonster = "funkyMonster"
     case booMonster = "booMonster"
     case flyingDragon = "flyingDragon"
-    
+
     var entity: BattleEntity {
         switch self {
         case .sleepyCat:
@@ -141,7 +141,7 @@ enum EnemyType: String, CaseIterable, Codable {
             )
         }
     }
-    
+
     var description: String {
         switch self {
         case .sleepyCat:
@@ -156,7 +156,7 @@ enum EnemyType: String, CaseIterable, Codable {
             return "A majestic flying dragon that's hard to defeat"
         }
     }
-    
+
     var animationName: String {
         switch self {
         case .sleepyCat:
@@ -185,7 +185,7 @@ struct BattleSession: Codable {
     var completedPomodoros: Int
     let targetPomodoros: Int
     var isCompleted: Bool
-    
+
     init(player: BattleEntity, enemyType: EnemyType, targetPomodoros: Int = 4) {
         self.id = UUID()
         self.startTime = Date()
@@ -197,15 +197,15 @@ struct BattleSession: Codable {
         self.targetPomodoros = targetPomodoros
         self.isCompleted = false
     }
-    
+
     var isVictory: Bool {
         return !enemy.isAlive && completedPomodoros >= targetPomodoros
     }
-    
+
     var isDefeat: Bool {
         return !player.isAlive || (enemy.isAlive && completedPomodoros >= targetPomodoros)
     }
-    
+
     var progress: Double {
         return Double(completedPomodoros) / Double(targetPomodoros)
     }
@@ -222,7 +222,7 @@ struct FocusTimerSession {
     var totalWorkTime: TimeInterval
     var timeRemaining: TimeInterval
     var battleSession: BattleSession?
-    
+
     init(settings: TimerSettings = TimerSettings()) {
         self.id = UUID()
         self.startTime = Date()
@@ -233,20 +233,20 @@ struct FocusTimerSession {
         self.timeRemaining = settings.workDuration
         self.battleSession = nil
     }
-    
+
     var totalDuration: TimeInterval {
         return Date().timeIntervalSince(startTime)
     }
-    
+
         var averagePomodoroDuration: TimeInterval {
         guard completedPomodoros > 0 else { return 0 }
         return totalWorkTime / Double(completedPomodoros)
     }
-    
+
     var shouldStartLongBreak: Bool {
         return completedPomodoros > 0 && completedPomodoros % settings.pomodorosUntilLongBreak == 0
     }
-    
+
     var isInBattle: Bool {
         return battleSession != nil && currentState == .battle
     }

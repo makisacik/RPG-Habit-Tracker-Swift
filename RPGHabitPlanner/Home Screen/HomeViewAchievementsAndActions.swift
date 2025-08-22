@@ -12,7 +12,7 @@ import SwiftUI
 extension HomeView {
     var recentAchievementsSection: some View {
         let theme = themeManager.activeTheme
-        
+
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(String.recentAchievements.localized)
@@ -65,15 +65,15 @@ extension HomeView {
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
-    
+
     func quickActionsSection(isCompletedQuestsPresented: Binding<Bool>) -> some View {
         let theme = themeManager.activeTheme
-        
+
         return VStack(alignment: .leading, spacing: 12) {
                             Text(String.quickActions.localized)
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
@@ -89,7 +89,7 @@ extension HomeView {
                         theme: theme
                     )
                 }
-                
+
                 NavigationLink(destination: QuickQuestsView(
                     viewModel: QuickQuestsViewModel(questDataService: questDataService)
                 )) {
@@ -101,7 +101,7 @@ extension HomeView {
                         theme: theme
                     )
                 }
-                
+
                 QuickActionCard(
                     icon: "person.crop.circle.fill",
                     title: "Character",
@@ -111,7 +111,7 @@ extension HomeView {
                 ) {
                     selectedTab = .character
                 }
-                
+
                 QuickActionCard(
                     icon: "checkmark.seal.fill",
                     title: "Finished",
@@ -121,7 +121,7 @@ extension HomeView {
                 ) {
                     isCompletedQuestsPresented.wrappedValue = true
                 }
-                
+
                 QuickActionCard(
                     icon: "trophy.fill",
                     title: "Achievements",
@@ -131,7 +131,7 @@ extension HomeView {
                 ) {
                     showAchievements = true   // ← was: selectedTab = .achievements
                 }
-                
+
                 QuickActionCard(
                     icon: "timer",
                     title: "Focus Timer",
@@ -141,7 +141,7 @@ extension HomeView {
                 ) {
                     selectedTab = .focusTimer
                 }
-                
+
                 QuickActionCard(
                     icon: "cart.fill",
                     title: "Shop",

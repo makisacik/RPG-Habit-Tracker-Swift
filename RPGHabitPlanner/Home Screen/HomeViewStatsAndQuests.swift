@@ -12,7 +12,7 @@ import SwiftUI
 extension HomeView {
     func quickStatsSection(isCompletedQuestsPresented: Binding<Bool>) -> some View {
         let theme = themeManager.activeTheme
-        
+
         return LazyVGrid(columns: [
             GridItem(.flexible()),
             GridItem(.flexible()),
@@ -27,7 +27,7 @@ extension HomeView {
             ) {
                     selectedTab = .tracking
             }
-            
+
             StatCard(
                 icon: "checkmark.seal.fill",
                 title: String.completed.localized,
@@ -37,7 +37,7 @@ extension HomeView {
             ) {
                     isCompletedQuestsPresented.wrappedValue = true
             }
-            
+
             StatCard(
                 icon: "trophy.fill",
                 title: String.achievements.localized,
@@ -49,25 +49,25 @@ extension HomeView {
             }
         }
     }
-    
+
     var activeQuestsSection: some View {
         let theme = themeManager.activeTheme
-        
+
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(String.activeQuests.localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 Button(String.viewAll.localized) {
                     selectedTab = .tracking
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(.blue)
             }
-            
+
             if !viewModel.recentActiveQuests.isEmpty {
                 VStack(spacing: 8) {
                     ForEach(viewModel.recentActiveQuests.prefix(3), id: \.id) { quest in
@@ -79,11 +79,11 @@ extension HomeView {
                     Image(systemName: "list.bullet.clipboard")
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
-                    
+
                     Text(String.noActiveQuests.localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
-                    
+
                     NavigationLink(destination: QuestCreationView(
                         viewModel: QuestCreationViewModel(questDataService: questDataService)
                     )) {

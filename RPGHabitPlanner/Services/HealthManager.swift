@@ -5,25 +5,25 @@ import SwiftUI
 final class HealthManager: ObservableObject {
     static let shared = HealthManager()
     private let persistentContainer: NSPersistentContainer
-    
+
     @Published var currentHealth: Int16 = 50
     @Published var maxHealth: Int16 = 50
     @Published var isLowHealth: Bool = false
     @Published var showDamageAnimation: Bool = false
     @Published var showHealAnimation: Bool = false
     @Published var isDead: Bool = false
-    
+
     private init(container: NSPersistentContainer = PersistenceController.shared.container) {
         self.persistentContainer = container
         loadHealthData()
     }
-    
+
     // MARK: - Health Management
-    
+
     func loadHealthData() {
         fetchUser { [weak self] user, error in
             guard let self = self else { return }
-            
+
             if let user = user, error == nil {
                 DispatchQueue.main.async {
                     self.currentHealth = user.health
@@ -35,25 +35,25 @@ final class HealthManager: ObservableObject {
             }
         }
     }
-    
+
     func takeDamage(_ amount: Int16, completion: @escaping (Error?) -> Void = { _ in }) {
         guard amount > 0 else {
             completion(HealthError.invalidDamageAmount)
             return
         }
-        
+
         fetchUser { [weak self] user, error in
             guard let self = self else { return }
-            
+
             guard let user = user, error == nil else {
                 completion(error ?? HealthError.userNotFound)
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             let newHealth = max(0, user.health - amount)
             user.health = newHealth
-            
+
             do {
                 try context.save()
                 DispatchQueue.main.async {
@@ -67,25 +67,25 @@ final class HealthManager: ObservableObject {
             }
         }
     }
-    
+
     func heal(_ amount: Int16, completion: @escaping (Error?) -> Void = { _ in }) {
         guard amount > 0 else {
             completion(HealthError.invalidHealAmount)
             return
         }
-        
+
         fetchUser { [weak self] user, error in
             guard let self = self else { return }
-            
+
             guard let user = user, error == nil else {
                 completion(error ?? HealthError.userNotFound)
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             let newHealth = min(user.maxHealth, user.health + amount)
             user.health = newHealth
-            
+
             do {
                 try context.save()
                 DispatchQueue.main.async {
@@ -99,19 +99,19 @@ final class HealthManager: ObservableObject {
             }
         }
     }
-    
+
     func restoreFullHealth(completion: @escaping (Error?) -> Void = { _ in }) {
         fetchUser { [weak self] user, error in
             guard let self = self else { return }
-            
+
             guard let user = user, error == nil else {
                 completion(error ?? HealthError.userNotFound)
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             user.health = user.maxHealth
-            
+
             do {
                 try context.save()
                 DispatchQueue.main.async {
@@ -125,27 +125,27 @@ final class HealthManager: ObservableObject {
             }
         }
     }
-    
+
     func increaseMaxHealth(_ amount: Int16, completion: @escaping (Error?) -> Void = { _ in }) {
         guard amount > 0 else {
             completion(HealthError.invalidMaxHealthAmount)
             return
         }
-        
+
         fetchUser { [weak self] user, error in
             guard let self = self else { return }
-            
+
             guard let user = user, error == nil else {
                 completion(error ?? HealthError.userNotFound)
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             let newMaxHealth = user.maxHealth + amount
             user.maxHealth = newMaxHealth
             // Also increase current health by the same amount
             user.health = min(newMaxHealth, user.health + amount)
-            
+
             do {
                 try context.save()
                 DispatchQueue.main.async {
@@ -160,25 +160,25 @@ final class HealthManager: ObservableObject {
             }
         }
     }
-    
+
     func setHealth(_ health: Int16, completion: @escaping (Error?) -> Void = { _ in }) {
         guard health >= 0 else {
             completion(HealthError.invalidHealthAmount)
             return
         }
-        
+
         fetchUser { [weak self] user, error in
             guard let self = self else { return }
-            
+
             guard let user = user, error == nil else {
                 completion(error ?? HealthError.userNotFound)
                 return
             }
-            
+
             let context = self.persistentContainer.viewContext
             let clampedHealth = min(user.maxHealth, health)
             user.health = clampedHealth
-            
+
             do {
                 try context.save()
                 DispatchQueue.main.async {
@@ -196,19 +196,19 @@ final class HealthManager: ObservableObject {
             }
         }
     }
-    
+
     // MARK: - Quest Failure Damage
-    
+
     func handleQuestFailure(questDifficulty: Int, completion: @escaping (Error?) -> Void = { _ in }) {
         guard questDifficulty >= 1 && questDifficulty <= 5 else {
             completion(HealthError.invalidQuestDifficulty)
             return
         }
-        
+
         // Calculate damage based on quest difficulty (1-5)
         // Higher difficulty quests cause more damage when failed
         let damageAmount = Int16(questDifficulty * 2) // 2, 4, 6, 8, 10 damage
-        
+
         takeDamage(damageAmount) { error in
             if error == nil {
                 // Post notification for UI updates
@@ -217,22 +217,22 @@ final class HealthManager: ObservableObject {
             completion(error)
         }
     }
-    
+
     // MARK: - Health Status
-    
+
     private func updateHealthStatus() {
         let healthPercentage = Double(currentHealth) / Double(maxHealth)
         isLowHealth = healthPercentage <= 0.3 // 30% or less is considered low health
         isDead = currentHealth <= 0
     }
-    
+
     func getHealthPercentage() -> Double {
         return Double(currentHealth) / Double(maxHealth)
     }
-    
+
     func getHealthStatus() -> HealthStatus {
         let percentage = getHealthPercentage()
-        
+
         switch percentage {
         case 0.0:
             return .dead
@@ -248,37 +248,37 @@ final class HealthManager: ObservableObject {
             return .unknown
         }
     }
-    
+
     func canTakeDamage() -> Bool {
         return !isDead
     }
-    
+
     func canHeal() -> Bool {
         return currentHealth < maxHealth
     }
-    
+
     // MARK: - Animations
-    
+
     private func triggerDamageAnimation() {
         showDamageAnimation = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.showDamageAnimation = false
         }
     }
-    
+
     private func triggerHealAnimation() {
         showHealAnimation = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.showHealAnimation = false
         }
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func fetchUser(completion: @escaping (UserEntity?, Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
-        
+
         do {
             let users = try context.fetch(fetchRequest)
             completion(users.first, nil)
@@ -297,7 +297,7 @@ enum HealthStatus {
     case moderate
     case full
     case unknown
-    
+
     var description: String {
         switch self {
         case .dead:
@@ -314,7 +314,7 @@ enum HealthStatus {
             return "Unknown"
         }
     }
-    
+
     var color: Color {
         switch self {
         case .dead:
@@ -344,7 +344,7 @@ enum HealthError: LocalizedError {
     case invalidQuestDifficulty
     case healthAtMaximum
     case healthAtMinimum
-    
+
     var errorDescription: String? {
         switch self {
         case .userNotFound:

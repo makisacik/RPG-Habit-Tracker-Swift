@@ -36,7 +36,7 @@ final class QuestLogService {
         }
 
         if try fetchCompletion(quest: quest, on: anchor) != nil { return }
-        
+
         let completion = QuestCompletionEntity(context: context)
         completion.id = UUID()
         completion.date = anchor

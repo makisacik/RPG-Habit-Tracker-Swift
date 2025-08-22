@@ -11,15 +11,15 @@ struct OnboardingFlowView: View {
     @StateObject private var coordinator = OnboardingCoordinator()
     @EnvironmentObject var themeManager: ThemeManager
     @Binding var isOnboardingCompleted: Bool
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             // Background
             theme.backgroundColor
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Progress indicator
                 OnboardingProgressIndicator(
@@ -29,24 +29,24 @@ struct OnboardingFlowView: View {
                 )
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
-                
+
                 // Content area
                 TabView(selection: $coordinator.currentStep) {
                     WelcomeStepView(coordinator: coordinator, theme: theme)
                         .tag(OnboardingStep.welcome)
-                    
+
                     CharacterCustomizationStepView(coordinator: coordinator, theme: theme)
                         .tag(OnboardingStep.characterCustomization)
-                    
+
                     NicknameStepView(coordinator: coordinator, theme: theme)
                         .tag(OnboardingStep.nickname)
-                    
+
                     FinalStepView(coordinator: coordinator, theme: theme)
                         .tag(OnboardingStep.final)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .animation(.easeInOut(duration: 0.3), value: coordinator.currentStep)
-                
+
                 // Navigation buttons
                 OnboardingNavigationButtons(
                     coordinator: coordinator,
@@ -73,7 +73,7 @@ struct OnboardingProgressIndicator: View {
     let currentStep: OnboardingStep
     let totalSteps: Int
     let theme: Theme
-    
+
     var body: some View {
         HStack(spacing: 8) {
             ForEach(0..<totalSteps, id: \.self) { index in
@@ -94,7 +94,7 @@ struct OnboardingNavigationButtons: View {
     @ObservedObject var coordinator: OnboardingCoordinator
     @Binding var isOnboardingCompleted: Bool
     let theme: Theme
-    
+
     var body: some View {
         HStack {
             // Back button
@@ -117,9 +117,9 @@ struct OnboardingNavigationButtons: View {
                     )
                 }
             }
-            
+
             Spacer()
-            
+
             // Next/Complete button
             Button(action: {
                 if coordinator.currentStep == .final {

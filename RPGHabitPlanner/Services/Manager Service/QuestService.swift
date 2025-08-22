@@ -10,7 +10,7 @@ import Foundation
 final class QuestService {
     let questPersistence: QuestDataServiceProtocol
     let questCloudClient: QuestDataServiceProtocol
-    
+
     init(questPersistence: QuestDataServiceProtocol, questCloudClient: QuestDataServiceProtocol) {
         self.questPersistence = questPersistence
         self.questCloudClient = questCloudClient

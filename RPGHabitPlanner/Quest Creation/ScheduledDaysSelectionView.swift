@@ -10,7 +10,7 @@ import SwiftUI
 struct ScheduledDaysSelectionView: View {
     @Binding var selectedDays: Set<Int>
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     private let weekdays = [
         (1, "Sun"),
         (2, "Mon"),
@@ -20,23 +20,23 @@ struct ScheduledDaysSelectionView: View {
         (6, "Fri"),
         (7, "Sat")
     ]
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: "calendar")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.6))
-                
+
                 Text("Scheduled Days")
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.6))
-                
+
                 Spacer()
             }
-            
+
             HStack(spacing: 8) {
                 ForEach(weekdays, id: \.0) { dayNumber, dayName in
                     Button(action: {

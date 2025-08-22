@@ -34,7 +34,7 @@ extension CharacterPresetEntity {
               let data = customizationData.data(using: .utf8) else { return nil }
         return try? JSONDecoder().decode(CharacterCustomization.self, from: data)
     }
-    
+
     /// Sets customization data from CharacterCustomization
     func setCustomization(_ customization: CharacterCustomization) {
         if let data = try? JSONEncoder().encode(customization),
@@ -43,7 +43,7 @@ extension CharacterPresetEntity {
         }
         updatedAt = Date()
     }
-    
+
     /// Creates a new preset with the given customization
     static func create(
         name: String,

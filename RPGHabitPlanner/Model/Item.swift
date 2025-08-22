@@ -26,7 +26,7 @@ enum ItemRarity: String, CaseIterable, Codable {
         case .legendary: return "orange"
         }
     }
-    
+
     var uiColor: Color {
         switch self {
         case .common: return .gray
@@ -36,7 +36,7 @@ enum ItemRarity: String, CaseIterable, Codable {
         case .legendary: return .orange
         }
     }
-    
+
     var borderColor: Color {
         switch self {
         case .common: return .gray.opacity(0.8)
@@ -46,7 +46,7 @@ enum ItemRarity: String, CaseIterable, Codable {
         case .legendary: return .orange.opacity(0.8)
         }
     }
-    
+
     var glowColor: Color {
         switch self {
         case .common: return .clear
@@ -134,9 +134,9 @@ struct Item: GameItem {
         self.effects = effects
         self.usageData = usageData
     }
-    
+
     // MARK: - Convenience Initializers
-    
+
     static func healthPotion(
         name: String,
         description: String,
@@ -154,7 +154,7 @@ struct Item: GameItem {
             usageData: .healthPotion(healAmount: healAmount)
         )
     }
-    
+
     static func xpBoost(
         name: String,
         description: String,
@@ -173,7 +173,7 @@ struct Item: GameItem {
             usageData: .xpBoost(multiplier: multiplier, duration: duration)
         )
     }
-    
+
     static func coinBoost(
         name: String,
         description: String,
@@ -192,7 +192,7 @@ struct Item: GameItem {
             usageData: .coinBoost(multiplier: multiplier, duration: duration)
         )
     }
-    
+
     static func collectible(
         name: String,
         description: String,
@@ -219,7 +219,7 @@ enum ItemUsageData: Codable, Equatable {
     case healthPotion(healAmount: Int16)
     case xpBoost(multiplier: Double, duration: TimeInterval)
     case coinBoost(multiplier: Double, duration: TimeInterval)
-    
+
     var isConsumable: Bool {
         switch self {
         case .healthPotion, .xpBoost, .coinBoost:
@@ -342,7 +342,7 @@ struct ActiveEffect: Identifiable, Codable {
             self.endTime = nil
         }
     }
-    
+
     // Initializer for loading from persistence
     init(id: UUID, effect: ItemEffect, startTime: Date, endTime: Date?, sourceItemId: UUID) {
         self.id = id
@@ -357,9 +357,9 @@ struct ActiveEffect: Identifiable, Codable {
 
 struct ItemDatabase {
     static let shared = ItemDatabase()
-    
+
     private init() {}
-    
+
     // MARK: - Health Potions
     static let minorHealthPotion = Item.healthPotion(
         name: "Minor Health Potion",
@@ -368,7 +368,7 @@ struct ItemDatabase {
         rarity: .common,
         value: 25
     )
-    
+
     static let healthPotion = Item.healthPotion(
         name: "Health Potion",
         description: "Restores 30 HP. A reliable healing potion for adventurers.",
@@ -376,7 +376,7 @@ struct ItemDatabase {
         rarity: .uncommon,
         value: 50
     )
-    
+
     static let greaterHealthPotion = Item.healthPotion(
         name: "Greater Health Potion",
         description: "Restores 50 HP. A powerful healing potion that can save your life.",
@@ -384,7 +384,7 @@ struct ItemDatabase {
         rarity: .rare,
         value: 100
     )
-    
+
     static let superiorHealthPotion = Item.healthPotion(
         name: "Superior Health Potion",
         description: "Restores 75 HP. An exceptional healing potion with rare ingredients.",
@@ -392,7 +392,7 @@ struct ItemDatabase {
         rarity: .epic,
         value: 200
     )
-    
+
     static let legendaryHealthPotion = Item.healthPotion(
         name: "Legendary Health Potion",
         description: "Fully restores health. A legendary potion that brings you back from the brink of death.",
@@ -400,7 +400,7 @@ struct ItemDatabase {
         rarity: .legendary,
         value: 500
     )
-    
+
     // MARK: - XP Boosts
     static let minorXPBoost = Item.xpBoost(
         name: "Minor XP Boost",
@@ -410,7 +410,7 @@ struct ItemDatabase {
         rarity: .common,
         value: 50
     )
-    
+
     static let xpBoost = Item.xpBoost(
         name: "XP Boost",
         description: "Increases XP gain by 50% for 1 hour",
@@ -419,7 +419,7 @@ struct ItemDatabase {
         rarity: .uncommon,
         value: 100
     )
-    
+
     static let greaterXPBoost = Item.xpBoost(
         name: "Greater XP Boost",
         description: "Increases XP gain by 100% for 2 hours",
@@ -428,7 +428,7 @@ struct ItemDatabase {
         rarity: .rare,
         value: 250
     )
-    
+
     static let legendaryXPBoost = Item.xpBoost(
         name: "Legendary XP Boost",
         description: "Increases XP gain by 200% for 4 hours",
@@ -437,7 +437,7 @@ struct ItemDatabase {
         rarity: .legendary,
         value: 500
     )
-    
+
     // MARK: - Coin Boosts
     static let minorCoinBoost = Item.coinBoost(
         name: "Minor Coin Boost",
@@ -447,7 +447,7 @@ struct ItemDatabase {
         rarity: .common,
         value: 50
     )
-    
+
     static let coinBoost = Item.coinBoost(
         name: "Coin Boost",
         description: "Increases coin gain by 50% for 1 hour",
@@ -456,7 +456,7 @@ struct ItemDatabase {
         rarity: .uncommon,
         value: 100
     )
-    
+
     static let greaterCoinBoost = Item.coinBoost(
         name: "Greater Coin Boost",
         description: "Increases coin gain by 100% for 2 hours",
@@ -465,7 +465,7 @@ struct ItemDatabase {
         rarity: .rare,
         value: 250
     )
-    
+
     static let legendaryCoinBoost = Item.coinBoost(
         name: "Legendary Coin Boost",
         description: "Increases coin gain by 200% for 4 hours",
@@ -474,7 +474,7 @@ struct ItemDatabase {
         rarity: .legendary,
         value: 500
     )
-    
+
     // MARK: - Collectible Items
     static let allCollectibles: [Item] = [
         Item.collectible(name: "Armor", description: "Protective armor to increase defense", iconName: "icon_armor", collectionCategory: "Armor"),
@@ -528,37 +528,37 @@ struct ItemDatabase {
         Item.collectible(name: "Bag", description: "Storage bag", iconName: "icon_bag", collectionCategory: "General"),
         Item.collectible(name: "Item Pouch Green", description: "Green item pouch", iconName: "item_pouch_green", collectionCategory: "General")
     ]
-    
+
     // MARK: - All Items
     static var allItems: [Item] {
         return allHealthPotions + allXPBoosts + allCoinBoosts + allCollectibles
     }
-    
+
     static var allHealthPotions: [Item] {
         return [minorHealthPotion, healthPotion, greaterHealthPotion, superiorHealthPotion, legendaryHealthPotion]
     }
-    
+
     static var allXPBoosts: [Item] {
         return [minorXPBoost, xpBoost, greaterXPBoost, legendaryXPBoost]
     }
-    
+
     static var allCoinBoosts: [Item] {
         return [minorCoinBoost, coinBoost, greaterCoinBoost, legendaryCoinBoost]
     }
-    
+
     // MARK: - Helper Methods
     func findItem(by name: String) -> Item? {
         return ItemDatabase.allItems.first { $0.name == name }
     }
-    
+
     func getRandomItem() -> Item {
         return ItemDatabase.allItems.randomElement() ?? ItemDatabase.healthPotion
     }
-    
+
     func getItems(of type: ItemType) -> [Item] {
         return ItemDatabase.allItems.filter { $0.itemType == type }
     }
-    
+
     func getItems(of rarity: ItemRarity) -> [Item] {
         return ItemDatabase.allItems.filter { $0.rarity == rarity }
     }

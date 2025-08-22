@@ -13,7 +13,7 @@ struct TagChip: View {
     let isRemovable: Bool
     let onTap: () -> Void
     let onRemove: (() -> Void)?
-    
+
     init(
         tag: Tag,
         isSelected: Bool = false,
@@ -27,19 +27,19 @@ struct TagChip: View {
         self.onTap = onTap
         self.onRemove = onRemove
     }
-    
+
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 4) {
                 Image(systemName: tag.displayIcon)
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.white)
-                
+
                 Text(tag.name)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(.white)
                     .lineLimit(1)
-                
+
                 if isRemovable, let onRemove = onRemove {
                     Button(action: onRemove) {
                         Image(systemName: "xmark.circle.fill")
@@ -70,7 +70,7 @@ struct TagChipRow: View {
     let selectedTags: Set<Tag>
     let onTagTap: (Tag) -> Void
     let onTagRemove: ((Tag) -> Void)?
-    
+
     init(
         tags: [Tag],
         isSelectable: Bool = false,
@@ -84,7 +84,7 @@ struct TagChipRow: View {
         self.onTagTap = onTagTap
         self.onTagRemove = onTagRemove
     }
-    
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 8) {
@@ -110,19 +110,19 @@ struct TagChipRow: View {
         TagChip(
             tag: Tag(name: "Work", icon: "briefcase", color: "#FF6B6B")
         ) {}
-        
+
         TagChip(
             tag: Tag(name: "Personal", icon: "heart", color: "#4ECDC4"),
             isSelected: true
         ) {}
-        
+
         TagChip(
             tag: Tag(name: "Urgent", icon: "exclamationmark.triangle", color: "#FFB347"),
             isRemovable: true,
             onTap: {},
             onRemove: {}
         )
-        
+
         TagChipRow(
             tags: [
                 Tag(name: "Work", icon: "briefcase", color: "#FF6B6B"),

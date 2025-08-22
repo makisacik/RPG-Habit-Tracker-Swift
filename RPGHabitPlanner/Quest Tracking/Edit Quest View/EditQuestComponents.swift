@@ -11,7 +11,7 @@ import SwiftUI
 struct EditQuestHeaderSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 16) {
             // Quest Icon and Status
@@ -20,7 +20,7 @@ struct EditQuestHeaderSection: View {
                 Spacer()
                 statusBadge
             }
-            
+
             // Quest Title Preview
             Text(viewModel.title.isEmpty ? "Untitled Quest" : viewModel.title)
                 .font(.appFont(size: 24, weight: .black))
@@ -35,22 +35,22 @@ struct EditQuestHeaderSection: View {
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
-    
+
     private var questIcon: some View {
         ZStack {
             Circle()
                 .fill(questTypeColor.opacity(0.2))
                 .frame(width: 60, height: 60)
-            
+
             Image(systemName: questIconName)
                 .font(.system(size: 24, weight: .medium))
                 .foregroundColor(questTypeColor)
         }
     }
-    
+
     private var statusBadge: some View {
         let (text, color) = statusInfo
-        
+
         return Text(text)
             .font(.appFont(size: 12, weight: .black))
             .foregroundColor(.white)
@@ -61,7 +61,7 @@ struct EditQuestHeaderSection: View {
                     .fill(color)
             )
     }
-    
+
     private var questIconName: String {
         if viewModel.isMainQuest {
             return "crown.fill"
@@ -74,7 +74,7 @@ struct EditQuestHeaderSection: View {
             }
         }
     }
-    
+
     private var questTypeColor: Color {
         if viewModel.isMainQuest {
             return .yellow
@@ -87,7 +87,7 @@ struct EditQuestHeaderSection: View {
             }
         }
     }
-    
+
     private var statusInfo: (String, Color) {
         if viewModel.quest.isFinished {
             return ("Finished", .gray)
@@ -102,7 +102,7 @@ struct EditQuestBasicInfoSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
     let theme: Theme
     @State private var showTagPicker = false
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -111,14 +111,14 @@ struct EditQuestBasicInfoSection: View {
                     .foregroundColor(theme.textColor)
                 Spacer()
             }
-            
+
             VStack(spacing: 12) {
                 // Title Field
                 VStack(alignment: .leading, spacing: 8) {
                     Text(String.questTitle.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    
+
                     TextField(String.enterQuestTitle.localized, text: $viewModel.title)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
@@ -128,13 +128,13 @@ struct EditQuestBasicInfoSection: View {
                                 .fill(theme.primaryColor.opacity(0.3))
                         )
                 }
-                
+
                 // Description Field
                 VStack(alignment: .leading, spacing: 8) {
                     Text(String.questDescription.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    
+
                     TextField(String.enterQuestDescription.localized, text: $viewModel.description, axis: .vertical)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
@@ -145,16 +145,16 @@ struct EditQuestBasicInfoSection: View {
                                 .fill(theme.primaryColor.opacity(0.3))
                         )
                 }
-                
+
                 // Tags Field
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text("Tags")
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
                             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                                 showTagPicker = true
@@ -176,18 +176,18 @@ struct EditQuestBasicInfoSection: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
-                    
+
                     if viewModel.selectedTags.isEmpty {
                         // Empty state
                         HStack {
                             Image(systemName: "tag")
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.4))
-                            
+
                             Text("No tags assigned")
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor.opacity(0.6))
-                            
+
                             Spacer()
                         }
                         .padding(12)
@@ -241,7 +241,7 @@ struct EditQuestBasicInfoSection: View {
 struct EditQuestSettingsSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -250,20 +250,20 @@ struct EditQuestSettingsSection: View {
                     .foregroundColor(theme.textColor)
                 Spacer()
             }
-            
+
             VStack(spacing: 16) {
                 // Main Quest Toggle
                 HStack {
                     Image(systemName: "crown.fill")
                         .foregroundColor(.yellow)
                         .font(.system(size: 16))
-                    
+
                     Text(String.mainQuest.localized)
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
-                    
+
                     Spacer()
-                    
+
                     Toggle("", isOn: $viewModel.isMainQuest)
                         .tint(.yellow)
                 }
@@ -272,13 +272,13 @@ struct EditQuestSettingsSection: View {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(theme.primaryColor.opacity(0.3))
                 )
-                
+
                 // Due Date
                 VStack(alignment: .leading, spacing: 8) {
                     Text(String.questDueDate.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    
+
                     DatePicker("", selection: $viewModel.dueDate, displayedComponents: [.date])
                         .labelsHidden()
                         .datePickerStyle(.compact)
@@ -288,13 +288,13 @@ struct EditQuestSettingsSection: View {
                                 .fill(theme.primaryColor.opacity(0.3))
                         )
                 }
-                
+
                 // Repeat Type
                 VStack(alignment: .leading, spacing: 8) {
                     Text(String.repeatType.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    
+
                     Picker(String.repeatType.localized, selection: $viewModel.repeatType) {
                         Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
                         Text(String.daily.localized).tag(QuestRepeatType.daily)
@@ -307,7 +307,7 @@ struct EditQuestSettingsSection: View {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(theme.primaryColor.opacity(0.3))
                     )
-                    
+
                     // Show scheduled days selection when scheduled is selected
                     if viewModel.repeatType == .scheduled {
                         ScheduledDaysSelectionView(selectedDays: $viewModel.selectedScheduledDays)
@@ -317,13 +317,13 @@ struct EditQuestSettingsSection: View {
                             ))
                     }
                 }
-                
+
                 // Difficulty
                 VStack(alignment: .leading, spacing: 8) {
                     Text(String.questDifficulty.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    
+
                     StarRatingView(rating: $viewModel.difficulty)
                         .padding(12)
                         .background(
@@ -347,7 +347,7 @@ struct EditQuestTasksSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
     let theme: Theme
     let onEditTasks: () -> Void
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -355,30 +355,30 @@ struct EditQuestTasksSection: View {
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                
+
                 Text("\(validTaskCount)")
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
-            
+
             Button(action: onEditTasks) {
                 HStack(spacing: 12) {
                     Image(systemName: "list.bullet.clipboard")
                         .font(.title2)
                         .foregroundColor(.yellow)
-                    
+
                     VStack(alignment: .leading, spacing: 2) {
                         Text(String.manageTasks.localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
-                        
+
                         Text("\(validTaskCount) \(validTaskCount == 1 ? String.task.localized : String.tasks.localized)")
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
-                    
+
                     Spacer()
-                    
+
                     Image(systemName: "chevron.right")
                         .font(.caption)
                         .foregroundColor(theme.textColor.opacity(0.6))
@@ -398,7 +398,7 @@ struct EditQuestTasksSection: View {
                 .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         )
     }
-    
+
     private var validTaskCount: Int {
         viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
     }
@@ -410,7 +410,7 @@ struct EditQuestActionButtonsSection: View {
     let theme: Theme
     let isButtonPressed: Bool
     let onSave: () -> Void
-    
+
     var body: some View {
         VStack(spacing: 12) {
             // Save Button
@@ -449,12 +449,12 @@ struct EditQuestTaskEditorSheet: View {
     @ObservedObject var viewModel: EditQuestViewModel
     let theme: Theme
     let isPresented: Binding<Bool>
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 theme.backgroundColor.ignoresSafeArea()
-                
+
                 VStack(spacing: 16) {
                     // Task List
                     ScrollView {
@@ -462,7 +462,7 @@ struct EditQuestTaskEditorSheet: View {
                             ForEach(viewModel.tasks.indices, id: \.self) { index in
                                 taskRow(index: index, theme: theme)
                             }
-                            
+
                             // Add Task Button
                             Button(action: addNewTask) {
                                 HStack(spacing: 8) {
@@ -496,7 +496,7 @@ struct EditQuestTaskEditorSheet: View {
                     }
                     .foregroundColor(theme.textColor)
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(String.doneButton.localized) {
                         cleanupBlankTasks()
@@ -508,7 +508,7 @@ struct EditQuestTaskEditorSheet: View {
             }
         }
     }
-    
+
     private func taskRow(index: Int, theme: Theme) -> some View {
         HStack(spacing: 12) {
             Text("\(index + 1)")
@@ -519,7 +519,7 @@ struct EditQuestTaskEditorSheet: View {
                     Circle()
                         .fill(.yellow.opacity(0.2))
                 )
-            
+
             TextField("Enter task description", text: $viewModel.tasks[index])
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor)
@@ -529,7 +529,7 @@ struct EditQuestTaskEditorSheet: View {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(theme.primaryColor.opacity(0.3))
                 )
-            
+
             Button(action: {
                 withAnimation {
                     if index < viewModel.tasks.count {
@@ -545,13 +545,13 @@ struct EditQuestTaskEditorSheet: View {
         }
         .padding(.horizontal, 4)
     }
-    
+
     private func addNewTask() {
         withAnimation(.easeInOut(duration: 0.2)) {
             viewModel.tasks.append("")
         }
     }
-    
+
     private func cleanupBlankTasks() {
         viewModel.tasks = viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
     }

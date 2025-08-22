@@ -10,20 +10,20 @@ import SwiftUI
 struct PremiumIndicatorView: View {
     @EnvironmentObject var premiumManager: PremiumManager
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     let theme: Theme
-    
+
     init() {
         self.theme = ThemeManager.shared.activeTheme
     }
-    
+
     var body: some View {
         if premiumManager.isPremium {
             HStack(spacing: 4) {
                 Image(systemName: "crown.fill")
                     .font(.system(size: 12))
                     .foregroundColor(theme.accentColor)
-                
+
                 Text("Premium")
                     .font(.appFont(size: 12, weight: .bold))
                     .foregroundColor(theme.accentColor)
@@ -41,13 +41,13 @@ struct PremiumIndicatorView: View {
 struct PremiumBadgeView: View {
     @EnvironmentObject var premiumManager: PremiumManager
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     let theme: Theme
-    
+
     init() {
         self.theme = ThemeManager.shared.activeTheme
     }
-    
+
     var body: some View {
         if premiumManager.isPremium {
             Image(systemName: "crown.fill")
@@ -60,31 +60,31 @@ struct PremiumBadgeView: View {
 struct PremiumLockView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var premiumManager: PremiumManager
-    
+
     let theme: Theme
     let currentQuestCount: Int
-    
+
     init(currentQuestCount: Int) {
         self.currentQuestCount = currentQuestCount
         self.theme = ThemeManager.shared.activeTheme
     }
-    
+
     var body: some View {
         if premiumManager.shouldShowPaywall(currentQuestCount: currentQuestCount) {
             VStack(spacing: 12) {
                 Image(systemName: "lock.fill")
                     .font(.system(size: 32))
                     .foregroundColor(theme.textColor.opacity(0.5))
-                
+
                 Text("Quest Limit Reached")
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("You've created \(currentQuestCount) quests. Upgrade to Premium for unlimited quests!")
                     .font(.appFont(size: 14, weight: .regular))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
-                
+
                 Button("Upgrade to Premium") {
                     // This will be handled by the parent view
                 }
@@ -114,26 +114,26 @@ struct PremiumLockView: View {
 struct QuestLimitIndicatorView: View {
     @EnvironmentObject var premiumManager: PremiumManager
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     let currentQuestCount: Int
     let theme: Theme
-    
+
     init(currentQuestCount: Int) {
         self.currentQuestCount = currentQuestCount
         self.theme = ThemeManager.shared.activeTheme
     }
-    
+
     var body: some View {
         if !premiumManager.isPremium {
             HStack(spacing: 8) {
                 Image(systemName: "list.bullet.clipboard")
                     .font(.system(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
-                
+
                 Text("\(currentQuestCount)/\(PremiumManager.freeQuestLimit) Quests")
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
-                
+
                 if currentQuestCount >= PremiumManager.freeQuestLimit {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .font(.system(size: 14))

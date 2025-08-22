@@ -13,24 +13,24 @@ struct CustomizationProgressView: View {
     let currentStep: Int
     let totalSteps: Int
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 8) {
             HStack {
                 Text("Step \(currentStep + 1) of \(totalSteps + 1)")
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
-                
+
                 Spacer()
             }
-            
+
             // Progress bar
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(theme.textColor.opacity(0.2))
                         .frame(height: 8)
-                    
+
                     RoundedRectangle(cornerRadius: 4)
                         .fill(theme.accentColor)
                         .frame(width: geometry.size.width * CGFloat(currentStep + 1) / CGFloat(totalSteps + 1), height: 8)
@@ -49,9 +49,9 @@ struct CustomizationStepView: View {
     let selectedCustomization: CharacterCustomization
     let onSelectionChanged: (CharacterCustomization) -> Void
     let theme: Theme
-    
+
     private let assetManager = CharacterAssetManager.shared
-    
+
     var body: some View {
         VStack(spacing: 20) {
             // Step title
@@ -59,13 +59,13 @@ struct CustomizationStepView: View {
                 .font(.appFont(size: 24, weight: .bold))
                 .foregroundColor(theme.textColor)
                 .multilineTextAlignment(.center)
-            
+
             // Character preview
             CharacterFullPreview(
                 customization: selectedCustomization,
                 size: 150
             )
-            
+
             // Options grid
             CustomizationOptionsGrid(
                 step: step,
@@ -85,12 +85,12 @@ struct CustomizationOptionsGrid: View {
     let selectedCustomization: CharacterCustomization
     let onSelectionChanged: (CharacterCustomization) -> Void
     let theme: Theme
-    
+
     private let assetManager = CharacterAssetManager.shared
-    
+
     var body: some View {
         let options = getOptionsForStep()
-        
+
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
             ForEach(options, id: \.id) { option in
                 CustomizationOptionCard(
@@ -104,10 +104,10 @@ struct CustomizationOptionsGrid: View {
             }
         }
     }
-    
+
     private func getOptionsForStep() -> [CustomizationOption] {
         let allAssets = assetManager.getAvailableAssets(for: step.category)
-        
+
         return allAssets.map { asset in
             CustomizationOption(
                 id: asset.id,
@@ -118,21 +118,21 @@ struct CustomizationOptionsGrid: View {
             )
         }
     }
-    
+
     private func isOptionSelected(_ option: CustomizationOption) -> Bool {
         return getSelectedValue(for: step.category) == option.id
     }
-    
+
     private func getSelectedValue(for category: AssetCategory) -> String? {
         return selectedCustomization.getValue(for: category)
     }
-    
+
     private func selectOption(_ option: CustomizationOption) {
         var updatedCustomization = selectedCustomization
         updateCustomizationForCategory(&updatedCustomization, option: option)
         onSelectionChanged(updatedCustomization)
     }
-    
+
     private func updateCustomizationForCategory(_ customization: inout CharacterCustomization, option: CustomizationOption) {
         customization.setValue(option.id, for: step.category)
     }
@@ -145,7 +145,7 @@ struct CustomizationOptionCard: View {
     let isSelected: Bool
     let onTap: () -> Void
     let theme: Theme
-    
+
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 8) {
@@ -159,7 +159,7 @@ struct CustomizationOptionCard: View {
                                 .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)
                         )
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
-                    
+
                     if !option.imageName.isEmpty {
                         Image(option.imageName)
                             .resizable()
@@ -170,7 +170,7 @@ struct CustomizationOptionCard: View {
                             .font(.system(size: 30))
                             .foregroundColor(theme.textColor.opacity(0.5))
                     }
-                    
+
                     // Premium indicator
                     if option.isPremium {
                         VStack {
@@ -186,7 +186,7 @@ struct CustomizationOptionCard: View {
                         }
                     }
                 }
-                
+
                 // Option name
                 Text(option.name)
                     .font(.appFont(size: 12, weight: .medium))
@@ -208,7 +208,7 @@ struct CustomizationNavigationButtons: View {
     let onBack: () -> Void
     let onForward: () -> Void
     let theme: Theme
-    
+
     var body: some View {
         HStack {
             // Back button
@@ -229,9 +229,9 @@ struct CustomizationNavigationButtons: View {
                     )
                 }
             }
-            
+
             Spacer()
-            
+
             // Next button
             Button(action: onForward) {
                 HStack(spacing: 8) {

@@ -72,7 +72,7 @@ struct SettingsView: View {
                 NavigationLink(String.dataAndStorage.localized) { Text(String.dataAndStorageSettings.localized) }
             }
 
-            
+
             Section("About") {
                 NavigationLink(String.aboutApp.localized) { Text(String.versionInfo.localized) }
             }

@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - HomeView Sections Extension
 // This file has been refactored into separate files to reduce type body length:
 // - HomeViewHeroSection.swift
-// - HomeViewStatsAndQuests.swift  
+// - HomeViewStatsAndQuests.swift
 // - HomeViewAchievementsAndActions.swift
 
-// The sections are now defined in their respective files as extensions of HomeView 
+// The sections are now defined in their respective files as extensions of HomeView

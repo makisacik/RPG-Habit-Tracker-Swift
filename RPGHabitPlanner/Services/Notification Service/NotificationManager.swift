@@ -11,20 +11,20 @@ import UserNotifications
 final class NotificationManager {
     static let shared = NotificationManager()
     private init() {}
-    
+
     func scheduleQuestNotification(for quest: Quest) {
         let content = UNMutableNotificationContent()
         content.title = "Traveller, don't forget your quest!"
         content.body = quest.title
         content.sound = .default
-        
+
         let calendar = Calendar.current
         let startDate = quest.creationDate
         let endDate = quest.dueDate
         let notificationTime = DateComponents(hour: 11, minute: 0)
-        
+
         // guard endDate >= Date() else { return }
-        
+
         switch quest.repeatType {
         case .oneTime:
             if let afterCreation = calendar.date(byAdding: .day, value: 1, to: startDate) {
@@ -33,14 +33,14 @@ final class NotificationManager {
                                      date: afterCreation,
                                      time: notificationTime)
             }
-            
+
             if let beforeDue = calendar.date(byAdding: .day, value: -1, to: endDate) {
                 scheduleNotification(id: quest.id.uuidString + "_beforeDue",
                                      content: content,
                                      date: beforeDue,
                                      time: notificationTime)
             }
-            
+
         case .daily:
             var nextDate = startDate
             while nextDate <= endDate {
@@ -50,7 +50,7 @@ final class NotificationManager {
                                      time: notificationTime)
                 nextDate = calendar.date(byAdding: .day, value: 1, to: nextDate)!
             }
-            
+
         case .weekly:
             var nextDate = startDate
             while nextDate <= endDate {
@@ -80,9 +80,9 @@ final class NotificationManager {
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
         dateComponents.hour = time.hour
         dateComponents.minute = time.minute
-        
+
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
+
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
@@ -98,14 +98,14 @@ final class NotificationManager {
             let idsToRemove = requests
                 .map { $0.identifier }
                 .filter { $0.hasPrefix(questId.uuidString) }
-            
+
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: idsToRemove)
-            
+
             print("Removed notifications:", idsToRemove)
         }
     }
 
-    
+
     func requestPermission(completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if let error = error {
@@ -114,7 +114,7 @@ final class NotificationManager {
             completion(granted)
         }
     }
-    
+
     func checkAndRequestPermission(shouldRequestIfDenied: Bool = false, completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
@@ -133,7 +133,7 @@ final class NotificationManager {
             }
         }
     }
-    
+
     func handleNotificationForQuest(_ quest: Quest, enabled: Bool) {
         if enabled {
             checkAndRequestPermission(shouldRequestIfDenied: true) { granted in

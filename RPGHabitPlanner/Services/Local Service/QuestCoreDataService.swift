@@ -16,7 +16,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
     init(container: NSPersistentContainer = PersistenceController.shared.container) {
         self.persistentContainer = container
     }
-    
+
     func updateQuest(
         withId id: UUID,
         title: String?,
@@ -42,7 +42,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Quest not found"]))
                 return
             }
-            
+
             updateQuestBasicProperties(
                 questEntity: questEntity,
                 title: title,
@@ -56,11 +56,11 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 showProgress: showProgress,
                 scheduledDays: scheduledDays
             )
-            
+
             if let tasks = tasks {
                 updateQuestTasks(questEntity: questEntity, tasks: tasks, context: context)
             }
-            
+
             if let tags = tags {
                 updateQuestTags(questEntity: questEntity, tags: tags, context: context)
             }
@@ -71,9 +71,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completion(error)
         }
     }
-    
+
     // MARK: - Private Helper Methods
-    
+
     private func updateQuestBasicProperties(
         questEntity: QuestEntity,
         title: String?,
@@ -105,7 +105,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     private func updateQuestTasks(questEntity: QuestEntity, tasks: [String], context: NSManagedObjectContext) {
         let existingTasks = questEntity.tasks?.array as? [TaskEntity] ?? []
         var existingTasksSet = Set(existingTasks)
@@ -129,7 +129,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             context.delete(task)
         }
     }
-    
+
     private func updateQuestTags(questEntity: QuestEntity, tags: [Tag], context: NSManagedObjectContext) {
         // Remove existing tags
         if let existingTags = questEntity.tags as? Set<TagEntity> {
@@ -137,14 +137,14 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 questEntity.removeFromTags(tagEntity)
             }
         }
-        
+
         // Add new tags
         guard !tags.isEmpty else { return }
-        
+
         let tagFetchRequest: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
         let tagIds = tags.map { $0.id.uuidString }
         tagFetchRequest.predicate = NSPredicate(format: "id IN %@", tagIds)
-        
+
         do {
             let tagEntities = try context.fetch(tagFetchRequest)
             for tagEntity in tagEntities {
@@ -252,7 +252,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             let tagFetchRequest: NSFetchRequest<TagEntity> = TagEntity.fetchRequest()
             let tagIds = quest.tags.map { $0.id.uuidString }
             tagFetchRequest.predicate = NSPredicate(format: "id IN %@", tagIds)
-            
+
             do {
                 let tagEntities = try context.fetch(tagFetchRequest)
                 for tagEntity in tagEntities {

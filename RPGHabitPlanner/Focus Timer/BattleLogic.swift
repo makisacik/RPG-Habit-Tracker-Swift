@@ -9,10 +9,10 @@ import Foundation
 
 class BattleLogic {
     // MARK: - Damage Calculation
-    
+
     static func calculateDamage(attacker: BattleEntity, target: BattleEntity, actionType: BattleAction.ActionType) -> Int {
         let baseDamage: Int
-        
+
         switch actionType {
         case .attack:
             baseDamage = attacker.attackPower
@@ -23,25 +23,25 @@ class BattleLogic {
         case .special:
             baseDamage = Int(Double(attacker.attackPower) * 1.5) // Special attacks are very effective
         }
-        
+
         // Apply defense reduction
         let damageAfterDefense = max(1, baseDamage - target.defense)
-        
+
         // Add some randomness (±20%)
         let randomFactor = Double.random(in: 0.8...1.2)
         let finalDamage = Int(Double(damageAfterDefense) * randomFactor)
-        
+
         return max(1, finalDamage) // Minimum 1 damage
     }
-    
+
     // MARK: - Battle Actions
-    
+
     static func performAttack(attacker: BattleEntity, target: inout BattleEntity, actionType: BattleAction.ActionType) -> BattleAction {
         let damage = calculateDamage(attacker: attacker, target: target, actionType: actionType)
-        
+
         // Apply damage
         target.currentHealth = max(0, target.currentHealth - damage)
-        
+
         // Create battle action
         let action = BattleAction(
             attacker: attacker,
@@ -50,34 +50,34 @@ class BattleLogic {
             actionType: actionType,
             timestamp: Date()
         )
-        
+
         return action
     }
-    
+
     // MARK: - Enemy AI
-    
+
     static func generateEnemyAction(enemy: BattleEntity, player: BattleEntity) -> BattleAction.ActionType {
         // Simple AI: randomly choose between attack and distraction
         let random = Double.random(in: 0...1)
-        
+
         if random < 0.7 {
             return .attack
         } else {
             return .distraction
         }
     }
-    
+
     // MARK: - Battle Session Management
-    
+
     static func startBattle(player: BattleEntity, enemyType: EnemyType, targetPomodoros: Int = 4) -> BattleSession {
         return BattleSession(player: player, enemyType: enemyType, targetPomodoros: targetPomodoros)
     }
-    
+
     static func processPomodoroCompletion(session: inout BattleSession) -> [BattleAction] {
         session.completedPomodoros += 1
-        
+
         var actions: [BattleAction] = []
-        
+
         // Player gets a focus attack for completing a pomodoro
         let focusAction = performAttack(
             attacker: session.player,
@@ -85,7 +85,7 @@ class BattleLogic {
             actionType: .focus
         )
         actions.append(focusAction)
-        
+
         // Enemy gets a counter-attack
         let enemyActionType = generateEnemyAction(enemy: session.enemy, player: session.player)
         let enemyAction = performAttack(
@@ -94,18 +94,18 @@ class BattleLogic {
             actionType: enemyActionType
         )
         actions.append(enemyAction)
-        
+
         // Add actions to session
         session.actions.append(contentsOf: actions)
-        
+
         // Check if battle is complete
         if session.isVictory || session.isDefeat {
             session.isCompleted = true
         }
-        
+
         return actions
     }
-    
+
     static func processDistraction(session: inout BattleSession) -> BattleAction {
         // Distraction gives enemy a free attack
         let enemyActionType = generateEnemyAction(enemy: session.enemy, player: session.player)
@@ -114,38 +114,38 @@ class BattleLogic {
             target: &session.player,
             actionType: enemyActionType
         )
-        
+
         session.actions.append(enemyAction)
-        
+
         // Check if battle is complete
         if session.isDefeat {
             session.isCompleted = true
         }
-        
+
         return enemyAction
     }
-    
+
     // MARK: - Battle Rewards
-    
+
     static func calculateRewards(session: BattleSession) -> BattleReward {
         guard session.isVictory else {
             return BattleReward(experience: 0, gold: 0, items: [], achievement: nil)
         }
-        
+
         let baseExp = 50
         let expPerPomodoro = 25
         let totalExp = baseExp + (session.completedPomodoros * expPerPomodoro)
-        
+
         let baseGold = 10
         let goldPerPomodoro = 5
         let totalGold = baseGold + (session.completedPomodoros * goldPerPomodoro)
-        
+
         // Generate random items based on enemy type and completion
         let items = generateBattleItems(enemyType: session.enemyType, pomodorosCompleted: session.completedPomodoros)
-        
+
         // Check for achievements
         let achievement = checkForAchievements(session: session)
-        
+
         return BattleReward(
             experience: totalExp,
             gold: totalGold,
@@ -153,45 +153,45 @@ class BattleLogic {
             achievement: achievement
         )
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private static func generateBattleItems(enemyType: EnemyType, pomodorosCompleted: Int) -> [Item] {
         var items: [Item] = []
-        
+
         // Base chance for items
         let baseChance = 0.3
         let chancePerPomodoro = 0.1
         let totalChance = baseChance + (Double(pomodorosCompleted) * chancePerPomodoro)
-        
+
         if Double.random(in: 0...1) < totalChance {
             // Generate a random item based on enemy type
             let item = generateItemForEnemy(enemyType: enemyType)
             items.append(item)
         }
-        
+
         return items
     }
-    
+
     private static func generateItemForEnemy(enemyType: EnemyType) -> Item {
         // Generate items based on enemy type and difficulty
         let itemDatabase = ItemDatabase.shared
-        
+
         switch enemyType {
         case .sleepyCat, .funnyZombie:
             // Easy enemies give common items
             return itemDatabase.getItems(of: .common).randomElement() ?? itemDatabase.getRandomItem()
-            
+
         case .funkyMonster, .booMonster:
             // Medium enemies give uncommon items
             return itemDatabase.getItems(of: .uncommon).randomElement() ?? itemDatabase.getRandomItem()
-            
+
         case .flyingDragon:
             // Hard enemies give rare items
             return itemDatabase.getItems(of: .rare).randomElement() ?? itemDatabase.getRandomItem()
         }
     }
-    
+
     private static func checkForAchievements(session: BattleSession) -> AchievementDefinition? {
         // Check for various achievements
         if session.completedPomodoros >= 8 {
@@ -205,7 +205,7 @@ class BattleLogic {
                 type: .focus
             )
         }
-        
+
         if session.enemyType == .flyingDragon && session.isVictory {
             return AchievementDefinition(
                 id: "dragon_slayer",
@@ -217,7 +217,7 @@ class BattleLogic {
                 type: .battle
             )
         }
-        
+
         return nil
     }
 }
@@ -232,7 +232,7 @@ struct BattleStatistics {
     let totalGoldEarned: Int
     let favoriteEnemyType: EnemyType?
     let averagePomodorosPerBattle: Double
-    
+
     var winRate: Double {
         guard totalBattles > 0 else { return 0 }
         return Double(victories) / Double(totalBattles)

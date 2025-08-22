@@ -10,7 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     @Binding var isOnboardingCompleted: Bool
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         OnboardingFlowView(isOnboardingCompleted: $isOnboardingCompleted)
             .environmentObject(themeManager)

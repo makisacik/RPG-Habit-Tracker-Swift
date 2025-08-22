@@ -36,14 +36,14 @@ extension ActiveEffectEntity {
               let sourceItemId = sourceItemId else {
             return nil
         }
-        
+
         let effect = ItemEffect(
             type: effectType,
             value: Int(effectValue),
             duration: nil, // Duration is calculated from startTime and endTime
             isPercentage: isPercentage
         )
-        
+
         // Create ActiveEffect with the persisted ID and times
         return ActiveEffect(
             id: id,
@@ -53,7 +53,7 @@ extension ActiveEffectEntity {
             sourceItemId: sourceItemId
         )
     }
-    
+
     func updateFromActiveEffect(_ activeEffect: ActiveEffect) {
         self.id = activeEffect.id
         self.effectType = activeEffect.effect.type.rawValue

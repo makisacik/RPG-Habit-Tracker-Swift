@@ -12,9 +12,9 @@ struct CollectibleDisplayView: View {
     @EnvironmentObject var inventoryManager: InventoryManager
     @State private var selectedItemEntity: ItemEntity?
     @State private var showAddItemSheet = false
-    
+
     private let maxDisplaySlots = 3
-    
+
     var collectibleItems: [ItemEntity] {
         inventoryManager.inventoryItems.filter { itemEntity in
             guard let name = itemEntity.name else { return false }
@@ -25,27 +25,27 @@ struct CollectibleDisplayView: View {
                    !name.contains("Potion")
         }
     }
-    
+
     var displayedItems: [ItemEntity] {
         Array(collectibleItems.prefix(maxDisplaySlots))
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 16) {
             // Header
             HStack {
                 Image(systemName: "trophy.fill")
                     .foregroundColor(.yellow)
                     .font(.title2)
-                
+
                 Text("Collectibles")
                     .font(.appFont(size: 20, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 // Add item button
                 Button(action: {
                     showAddItemSheet = true
@@ -56,7 +56,7 @@ struct CollectibleDisplayView: View {
                 }
             }
             .padding(.horizontal)
-            
+
             // Collectible items grid
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
                 ForEach(0..<maxDisplaySlots, id: \.self) { index in
@@ -74,16 +74,16 @@ struct CollectibleDisplayView: View {
                 }
             }
             .padding(.horizontal)
-            
+
             // Collection stats
             if !collectibleItems.isEmpty {
                 HStack {
                     Text("Collection: \(collectibleItems.count) items")
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    
+
                     Spacer()
-                    
+
                     Text("Display: \(displayedItems.count)/\(maxDisplaySlots)")
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
@@ -114,10 +114,10 @@ struct CollectibleItemCard: View {
     let itemEntity: ItemEntity
     let onTap: () -> Void
     @State private var isPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 isPressed = true
@@ -140,7 +140,7 @@ struct CollectibleItemCard: View {
                         .blur(radius: 8)
                         .opacity(0.6)
                         .foregroundColor(rarityColor)
-                    
+
                     // Main icon
                     Image(itemEntity.iconName ?? "")
                         .resizable()
@@ -149,14 +149,14 @@ struct CollectibleItemCard: View {
                         .foregroundColor(theme.textColor)
                 }
                 .frame(width: 60, height: 60)
-                
+
                 // Item name
                 Text(itemEntity.name ?? "Unknown")
                     .font(.appFont(size: 12, weight: .black))
                     .foregroundColor(theme.textColor)
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
-                
+
                 // Rarity indicator - show star for all collectible items
                 Image(systemName: "star.fill")
                     .font(.system(size: 8))
@@ -178,10 +178,10 @@ struct CollectibleItemCard: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
-    
+
     private var rarityColor: Color {
         guard let name = itemEntity.name else { return .gray }
-        
+
         if name.contains("Legendary") || name.contains("Crown") || name.contains("Medal") {
             return .orange
         } else if name.contains("Epic") || name.contains("Gold") || name.contains("Sword Double") {
@@ -200,15 +200,15 @@ struct CollectibleItemCard: View {
 
 struct EmptyCollectibleSlot: View {
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 8) {
             Image(systemName: "plus.circle")
                 .font(.system(size: 30))
                 .foregroundColor(theme.textColor.opacity(0.3))
-            
+
             Text("Empty")
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.5))
@@ -233,11 +233,11 @@ struct AddCollectibleItemView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var inventoryManager: InventoryManager
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var selectedItemName = ""
     @State private var selectedItemInfo = ""
     @State private var selectedItemIcon = ""
-    
+
     private var userCollectibleItems: [ItemEntity] {
         // Get collectible items from user's existing inventory
         return inventoryManager.inventoryItems.filter { itemEntity in
@@ -249,31 +249,31 @@ struct AddCollectibleItemView: View {
                    !name.contains("Potion")
         }
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 theme.backgroundColor
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 20) {
                     Text("Select Collectible")
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
                         .padding(.top)
-                    
+
                     if userCollectibleItems.isEmpty {
                         VStack(spacing: 16) {
                             Image(systemName: "tray")
                                 .font(.system(size: 40))
                                 .foregroundColor(theme.textColor.opacity(0.5))
-                            
+
                             Text("No Collectible Items")
                                 .font(.appFont(size: 18, weight: .black))
                                 .foregroundColor(theme.textColor)
-                            
+
                             Text("You don't have any collectible items in your inventory yet.")
                                 .font(.appFont(size: 14, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.7))
@@ -295,7 +295,7 @@ struct AddCollectibleItemView: View {
                                             .scaledToFit()
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(theme.textColor)
-                                        
+
                                         Text(itemEntity.name ?? "Unknown")
                                             .font(.appFont(size: 12, weight: .black))
                                             .foregroundColor(theme.textColor)
@@ -317,7 +317,7 @@ struct AddCollectibleItemView: View {
                             }
                         }
                         .padding(.horizontal)
-                        
+
                         // Select button
                         if !selectedItemName.isEmpty {
                             Button(action: {
@@ -341,7 +341,7 @@ struct AddCollectibleItemView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    
+
                     Spacer()
                 }
             }

@@ -10,17 +10,17 @@ import XCTest
 
 final class BoosterSystemTests: XCTestCase {
     var boosterManager: BoosterManager!
-    
+
     override func setUp() {
         super.setUp()
         boosterManager = BoosterManager.shared
     }
-    
+
     override func tearDown() {
         boosterManager = nil
         super.tearDown()
     }
-    
+
     func testBoosterEffectCreation() {
         let booster = BoosterEffect(
             type: .experience,
@@ -30,7 +30,7 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "xp_boost_item",
             sourceName: "XP Boost Item"
         )
-        
+
         XCTAssertEqual(booster.type, .experience)
         XCTAssertEqual(booster.source, .item)
         XCTAssertEqual(booster.multiplier, 1.5)
@@ -40,7 +40,7 @@ final class BoosterSystemTests: XCTestCase {
         XCTAssertTrue(booster.isActive)
         XCTAssertFalse(booster.isExpired)
     }
-    
+
     func testBoosterEffectDescription() {
         let booster = BoosterEffect(
             type: .coins,
@@ -50,14 +50,14 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "coin_boost_item",
             sourceName: "Coin Boost Item"
         )
-        
+
         let description = booster.description
         XCTAssertTrue(description.contains("Coin Boost Item provides"))
         XCTAssertTrue(description.contains("+25%"))
         XCTAssertTrue(description.contains("+5"))
         XCTAssertTrue(description.contains("coins"))
     }
-    
+
     func testExpiredBooster() {
         let expiredDate = Date().addingTimeInterval(-3600) // 1 hour ago
         let booster = BoosterEffect(
@@ -69,10 +69,10 @@ final class BoosterSystemTests: XCTestCase {
             sourceName: "Temporary Booster",
             expiresAt: expiredDate
         )
-        
+
         XCTAssertTrue(booster.isExpired)
     }
-    
+
     func testActiveBooster() {
         let futureDate = Date().addingTimeInterval(3600) // 1 hour from now
         let booster = BoosterEffect(
@@ -84,16 +84,16 @@ final class BoosterSystemTests: XCTestCase {
             sourceName: "Temporary Booster",
             expiresAt: futureDate
         )
-        
+
         XCTAssertFalse(booster.isExpired)
     }
-    
+
     func testCalculateBoostedRewards() {
         // Test with no boosters
         let (exp, coins) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
         XCTAssertEqual(exp, 100)
         XCTAssertEqual(coins, 50)
-        
+
         // Test with experience booster
         let expBooster = BoosterEffect(
             type: .experience,
@@ -105,12 +105,12 @@ final class BoosterSystemTests: XCTestCase {
         )
         boosterManager.activeBoosters = [expBooster]
         boosterManager.refreshBoosters()
-        
+
         let (boostedExp, boostedCoins) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
         XCTAssertEqual(boostedExp, 160) // (100 * 1.5) + 10
         XCTAssertEqual(boostedCoins, 50) // No coin booster
     }
-    
+
     func testMultipleBoosters() {
         let expBooster = BoosterEffect(
             type: .experience,
@@ -120,7 +120,7 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "house",
             sourceName: "House"
         )
-        
+
         let coinBooster = BoosterEffect(
             type: .coins,
             source: .item,
@@ -129,15 +129,15 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "coin_boost_item",
             sourceName: "Coin Boost Item"
         )
-        
+
         boosterManager.activeBoosters = [expBooster, coinBooster]
         boosterManager.refreshBoosters()
-        
+
         let (boostedExp, boostedCoins) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
         XCTAssertEqual(boostedExp, 125) // (100 * 1.2) + 5
         XCTAssertEqual(boostedCoins, 68) // (50 * 1.3) + 3
     }
-    
+
     func testBothTypeBooster() {
         let bothBooster = BoosterEffect(
             type: .both,
@@ -147,15 +147,15 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "item",
             sourceName: "Magic Item"
         )
-        
+
         boosterManager.activeBoosters = [bothBooster]
         boosterManager.refreshBoosters()
-        
+
         let (boostedExp, boostedCoins) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
         XCTAssertEqual(boostedExp, 112) // (100 * 1.1) + 2
         XCTAssertEqual(boostedCoins, 57) // (50 * 1.1) + 2
     }
-    
+
     func testGetActiveBoosters() {
         let activeBooster = BoosterEffect(
             type: .experience,
@@ -165,7 +165,7 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "xp_boost_item",
             sourceName: "XP Boost Item"
         )
-        
+
         let expiredBooster = BoosterEffect(
             type: .coins,
             source: .temporary,
@@ -175,17 +175,17 @@ final class BoosterSystemTests: XCTestCase {
             sourceName: "Expired",
             expiresAt: Date().addingTimeInterval(-3600)
         )
-        
+
         boosterManager.activeBoosters = [activeBooster, expiredBooster]
-        
+
         let activeExpBoosters = boosterManager.getActiveBoosters(for: .experience)
         XCTAssertEqual(activeExpBoosters.count, 1)
         XCTAssertEqual(activeExpBoosters.first?.sourceName, "XP Boost Item")
-        
+
         let activeCoinBoosters = boosterManager.getActiveBoosters(for: .coins)
         XCTAssertEqual(activeCoinBoosters.count, 0) // Expired booster should be filtered out
     }
-    
+
     func testAddTemporaryBooster() {
         boosterManager.addTemporaryBooster(
             type: .experience,
@@ -194,10 +194,10 @@ final class BoosterSystemTests: XCTestCase {
             duration: 3600, // 1 hour
             sourceName: "Test Booster"
         )
-        
+
         let activeBoosters = boosterManager.getActiveBoosters(for: .experience)
         XCTAssertEqual(activeBoosters.count, 1)
-        
+
         let booster = activeBoosters.first
         XCTAssertEqual(booster?.type, .experience)
         XCTAssertEqual(booster?.source, .temporary)
@@ -206,7 +206,7 @@ final class BoosterSystemTests: XCTestCase {
         XCTAssertEqual(booster?.sourceName, "Test Booster")
         XCTAssertNotNil(booster?.expiresAt)
     }
-    
+
     func testAdditivePercentageCalculation() {
         // Test that multiple boosters add their percentages together instead of multiplying
         let booster1 = BoosterEffect(
@@ -217,7 +217,7 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "xp_boost_item1",
             sourceName: "XP Boost Item 1"
         )
-        
+
         let booster2 = BoosterEffect(
             type: .experience,
             source: .item,
@@ -226,14 +226,14 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "xp_boost_item2",
             sourceName: "XP Boost Item 2"
         )
-        
+
         boosterManager.activeBoosters = [booster1, booster2]
         boosterManager.refreshBoosters()
-        
+
         // With additive percentages: 20% + 20% = 40% boost = 1.4 multiplier
         let (boostedExp, _) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
         XCTAssertEqual(boostedExp, 140) // 100 * 1.4 = 140
-        
+
         // Test coin boosters as well
         let coinBooster1 = BoosterEffect(
             type: .coins,
@@ -243,7 +243,7 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "coin_boost_item1",
             sourceName: "Coin Boost Item 1"
         )
-        
+
         let coinBooster2 = BoosterEffect(
             type: .coins,
             source: .item,
@@ -252,10 +252,10 @@ final class BoosterSystemTests: XCTestCase {
             sourceId: "coin_boost_item2",
             sourceName: "Coin Boost Item 2"
         )
-        
+
         boosterManager.activeBoosters = [booster1, booster2, coinBooster1, coinBooster2]
         boosterManager.refreshBoosters()
-        
+
         // With additive percentages: 15% + 25% = 40% boost = 1.4 multiplier
         let (_, boostedCoins) = boosterManager.calculateBoostedRewards(baseExperience: 100, baseCoins: 50)
         XCTAssertEqual(boostedCoins, 70) // 50 * 1.4 = 70

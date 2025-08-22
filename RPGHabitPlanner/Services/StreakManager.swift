@@ -3,15 +3,15 @@ import CoreData
 
 class StreakManager: ObservableObject {
     static let shared = StreakManager()
-    
+
     private let userManager: UserManager
     private let persistentContainer: NSPersistentContainer
-    
+
     @Published var currentStreak: Int = 0
     @Published var longestStreak: Int = 0
     @Published var lastActivityDate: Date?
     @Published var activityDates: Set<Date> = []
-    
+
     private init() {
         print("🔥 StreakManager: Initializing StreakManager")
         self.userManager = UserManager()
@@ -19,9 +19,9 @@ class StreakManager: ObservableObject {
         loadStreakData()
         print("🔥 StreakManager: StreakManager initialization complete")
     }
-    
+
     // MARK: - Public Methods
-    
+
         /// Records an activity and updates the streak
     func recordActivity() {
         let today = Date().startOfDay
@@ -32,11 +32,11 @@ class StreakManager: ObservableObject {
             print("🔥 StreakManager: Activity already recorded today, skipping")
             return // Already recorded today
         }
-        
+
         // Check if this is a consecutive day
         if let lastDate = lastActivityDate {
             let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? today
-            
+
             if Calendar.current.isDate(lastDate, inSameDayAs: yesterday) {
                 // Consecutive day - increment streak
                 currentStreak += 1
@@ -51,12 +51,12 @@ class StreakManager: ObservableObject {
             // First activity ever
             currentStreak = 1
         }
-        
+
         // Update longest streak if current is higher
         if currentStreak > longestStreak {
             longestStreak = currentStreak
         }
-        
+
         lastActivityDate = today
 
         // Add to activity dates
@@ -66,27 +66,27 @@ class StreakManager: ObservableObject {
         // Save to Core Data
         saveStreakData()
         saveActivityDates()
-        
+
         // Post notification for UI updates
         NotificationCenter.default.post(name: .streakUpdated, object: nil)
     }
-    
+
     /// Gets the current streak count
     func getCurrentStreak() -> Int {
         return currentStreak
     }
-    
+
     /// Gets the longest streak achieved
     func getLongestStreak() -> Int {
         return longestStreak
     }
-    
+
     /// Checks if user was active today
     func wasActiveToday() -> Bool {
         guard let lastDate = lastActivityDate else { return false }
         return Calendar.current.isDateInToday(lastDate)
     }
-    
+
     /// Gets the date of the last activity
     func getLastActivityDate() -> Date? {
         return lastActivityDate
@@ -98,7 +98,7 @@ class StreakManager: ObservableObject {
         print("🔥 StreakManager: Activity dates: \(activityDates)")
         return activityDates
     }
-    
+
     /// Resets the streak (for testing or manual reset)
     func resetStreak() {
         currentStreak = 0
@@ -109,13 +109,13 @@ class StreakManager: ObservableObject {
         saveActivityDates()
         NotificationCenter.default.post(name: .streakUpdated, object: nil)
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func loadStreakData() {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<StreakEntity> = StreakEntity.fetchRequest()
-        
+
         do {
             let streaks = try context.fetch(fetchRequest)
             print("🔥 StreakManager: Found \(streaks.count) StreakEntity objects")
@@ -133,26 +133,26 @@ class StreakManager: ObservableObject {
 
         loadActivityDates()
     }
-    
+
     private func saveStreakData() {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<StreakEntity> = StreakEntity.fetchRequest()
-        
+
         do {
             let streaks = try context.fetch(fetchRequest)
             let streak: StreakEntity
-            
+
             if let existingStreak = streaks.first {
                 streak = existingStreak
             } else {
                 streak = StreakEntity(context: context)
                 streak.id = UUID()
             }
-            
+
             streak.currentStreak = Int16(currentStreak)
             streak.longestStreak = Int16(longestStreak)
             streak.lastActivityDate = lastActivityDate
-            
+
             try context.save()
         } catch {
             print("Failed to save streak data: \(error)")

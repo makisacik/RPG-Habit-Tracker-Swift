@@ -27,11 +27,11 @@ final class ActiveEffectsCoreDataService: ActiveEffectsServiceProtocol {
 
     func fetchActiveEffects() -> [ActiveEffect] {
         let request: NSFetchRequest<ActiveEffectEntity> = ActiveEffectEntity.fetchRequest()
-        
+
         // Only fetch non-expired effects
         let now = Date()
         request.predicate = NSPredicate(format: "endTime == nil OR endTime > %@", now as NSDate)
-        
+
         do {
             let entities = try context.fetch(request)
             let effects = entities.compactMap { $0.toActiveEffect() }
@@ -46,7 +46,7 @@ final class ActiveEffectsCoreDataService: ActiveEffectsServiceProtocol {
     func saveActiveEffect(_ effect: ActiveEffect) {
         let entity = ActiveEffectEntity(context: context)
         entity.updateFromActiveEffect(effect)
-        
+
         do {
             try context.save()
             print("💾 ActiveEffectsCoreDataService: Saved active effect \(effect.effect.type.rawValue)")
@@ -58,7 +58,7 @@ final class ActiveEffectsCoreDataService: ActiveEffectsServiceProtocol {
     func removeActiveEffect(_ effect: ActiveEffect) {
         let request: NSFetchRequest<ActiveEffectEntity> = ActiveEffectEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", effect.id as CVarArg)
-        
+
         do {
             let entities = try context.fetch(request)
             entities.forEach { context.delete($0) }
@@ -73,14 +73,14 @@ final class ActiveEffectsCoreDataService: ActiveEffectsServiceProtocol {
         let request: NSFetchRequest<ActiveEffectEntity> = ActiveEffectEntity.fetchRequest()
         let now = Date()
         request.predicate = NSPredicate(format: "endTime != nil AND endTime <= %@", now as NSDate)
-        
+
         do {
             let expiredEntities = try context.fetch(request)
             let expiredCount = expiredEntities.count
-            
+
             expiredEntities.forEach { context.delete($0) }
             try context.save()
-            
+
             if expiredCount > 0 {
                 print("💾 ActiveEffectsCoreDataService: Removed \(expiredCount) expired effects")
             }
@@ -92,7 +92,7 @@ final class ActiveEffectsCoreDataService: ActiveEffectsServiceProtocol {
     func clearAllEffects() {
         let request: NSFetchRequest<NSFetchRequestResult> = ActiveEffectEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
-        
+
         do {
             try context.execute(deleteRequest)
             try context.save()

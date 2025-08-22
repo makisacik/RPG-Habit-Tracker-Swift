@@ -33,7 +33,7 @@ struct CalendarView: View {
 
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Fixed header that won't move
                 HStack {
@@ -99,7 +99,7 @@ struct CalendarView: View {
                         .padding(.trailing, 20)
                     }
                 }
-                
+
                 // Scrollable content area
                 ScrollView {
                     VStack(spacing: 0) {
@@ -231,7 +231,7 @@ struct CalendarView: View {
     private func selectedDateDetails(theme: Theme) -> some View {
         let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
         let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
-        
+
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(viewModel.selectedDate, style: .date)

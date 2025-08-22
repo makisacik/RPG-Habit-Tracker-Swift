@@ -12,13 +12,13 @@ struct ContentView: View {
     @State private var isCharacterCreated = false
     @StateObject private var themeManager = ThemeManager.shared
     @EnvironmentObject var localizationManager: LocalizationManager
-    
+
     private let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
     private let homeViewModel: HomeViewModel
-    
+
     @Environment(\.colorScheme) private var colorScheme
-    
+
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
         self.userManager = UserManager()

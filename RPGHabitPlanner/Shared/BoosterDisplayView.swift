@@ -11,7 +11,7 @@ struct BoosterDisplayView: View {
     @ObservedObject private var boosterManager = BoosterManager.shared
     @StateObject private var themeManager = ThemeManager.shared
     @State private var refreshTrigger = false
-    
+
     var body: some View {
         Group {
             if !boosterManager.activeBoosters.isEmpty {
@@ -27,7 +27,7 @@ struct BoosterDisplayView: View {
 
                         Spacer()
                     }
-                    
+
                     LazyVStack(spacing: 6) {
                         ForEach(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }) { booster in
                             BoosterItemView(booster: booster)
@@ -56,7 +56,7 @@ struct BoosterDisplayView: View {
 struct BoosterItemView: View {
     let booster: BoosterEffect
     @StateObject private var themeManager = ThemeManager.shared
-    
+
     var body: some View {
         HStack(spacing: 8) {
             // Booster type icon
@@ -70,20 +70,20 @@ struct BoosterItemView: View {
                     .font(.system(size: 12, weight: .medium))
                     .frame(width: 16, height: 16)
             }
-            
+
             // Booster description
             VStack(alignment: .leading, spacing: 2) {
                 Text(booster.sourceName)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(themeManager.activeTheme.textColor)
-                
+
                 Text(booster.description)
                     .font(.appFont(size: 10))
                     .foregroundColor(themeManager.activeTheme.textColor.opacity(0.7))
             }
-            
+
             Spacer()
-            
+
             // Time remaining (for temporary boosters)
             if let expiresAt = booster.expiresAt {
                 Text(timeRemainingText(from: expiresAt))
@@ -97,7 +97,7 @@ struct BoosterItemView: View {
                 .fill(themeManager.activeTheme.backgroundColor.opacity(0.5))
         )
     }
-    
+
     private var boosterIconName: String {
         switch booster.type {
         case .experience:
@@ -108,7 +108,7 @@ struct BoosterItemView: View {
             return "bolt.fill"
         }
     }
-    
+
     private var boosterColor: Color {
         switch booster.type {
         case .experience:
@@ -119,17 +119,17 @@ struct BoosterItemView: View {
             return .orange
         }
     }
-    
+
     private func timeRemainingText(from expiresAt: Date) -> String {
         let timeInterval = expiresAt.timeIntervalSinceNow
         if timeInterval <= 0 {
             return "Expired"
         }
-        
+
         let minutes = Int(timeInterval / 60)
         let hours = minutes / 60
         let remainingMinutes = minutes % 60
-        
+
         if hours > 0 {
             return "\(hours)h \(remainingMinutes)m"
         } else {

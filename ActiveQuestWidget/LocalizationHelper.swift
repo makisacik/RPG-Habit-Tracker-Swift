@@ -15,7 +15,7 @@ struct LocalizationHelper {
     static func localized(_ key: String) -> String {
         return NSLocalizedString(key, bundle: Bundle.main, comment: "")
     }
-    
+
     /// Localizes a string with format arguments
     /// - Parameters:
     ///   - key: The localization key
@@ -34,7 +34,7 @@ extension LocalizationHelper {
     static let focusTimer = "focus_timer"
     static let percentComplete = "percent_complete"
     static let complete = "complete"
-    
+
     // Widget specific
     static let activeQuest = "active_quest"
     static let noActiveQuests = "no_active_quests"

@@ -11,18 +11,18 @@ struct AchievementView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var achievementManager = AchievementManager.shared
     @State private var selectedCategory: AchievementCategory = .all
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             theme.backgroundColor
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 16) {
                 // Category Picker
                 categoryPicker
-                
+
                 // Achievement List
                 ScrollView {
                     LazyVGrid(columns: [
@@ -42,10 +42,10 @@ struct AchievementView: View {
                         .navigationTitle(String.achievements.localized)
         .navigationBarTitleDisplayMode(.inline)
     }
-    
+
     private var categoryPicker: some View {
         let theme = themeManager.activeTheme
-        
+
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
                 ForEach(AchievementCategory.allCases, id: \.self) { category in
@@ -71,7 +71,7 @@ struct AchievementView: View {
             .padding(.horizontal)
         }
     }
-    
+
     private var filteredAchievements: [AchievementDefinition] {
         let allAchievements = achievementManager.getAllAchievements()
         if selectedCategory == .all {
@@ -86,22 +86,22 @@ struct AchievementCardView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var achievementManager = AchievementManager.shared
     let achievement: AchievementDefinition
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 12) {
             // Achievement Icon
             ZStack {
                 Circle()
                     .fill(isUnlocked ? Color.yellow.opacity(0.2) : Color.gray.opacity(0.2))
                     .frame(width: 60, height: 60)
-                
+
                 Image(systemName: achievement.iconName)
                     .font(.title2)
                     .foregroundColor(isUnlocked ? .yellow : .gray)
             }
-            
+
             // Achievement Info
             VStack(spacing: 4) {
                 Text(achievement.title)
@@ -109,13 +109,13 @@ struct AchievementCardView: View {
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                
+
                 Text(achievement.description)
                     .font(.appFont(size: 12, weight: .regular))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
-                
+
                 if isUnlocked {
                     Text(String.unlocked.localized)
                         .font(.appFont(size: 10, weight: .black))
@@ -148,7 +148,7 @@ struct AchievementCardView: View {
         )
         .opacity(isUnlocked ? 1.0 : 0.7)
     }
-    
+
     private var isUnlocked: Bool {
         achievementManager.isAchievementUnlocked(achievement.id)
     }

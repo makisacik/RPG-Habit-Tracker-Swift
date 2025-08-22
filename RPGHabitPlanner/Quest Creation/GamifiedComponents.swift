@@ -8,7 +8,7 @@ struct GamifiedInputField: View {
     @Binding var text: String
     let icon: String
     let placeholder: String
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -19,7 +19,7 @@ struct GamifiedInputField: View {
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
-            
+
             TextField("", text: $text, prompt: Text(placeholder).foregroundColor(theme.textColor.opacity(0.6)))
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
@@ -43,16 +43,16 @@ struct GamifiedToggleCard: View {
     @EnvironmentObject var themeManager: ThemeManager
     let label: String
     @Binding var isOn: Bool
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         HStack {
             Text(label)
                 .font(.appFont(size: 16, weight: .black))
                 .foregroundColor(theme.textColor)
-            
+
             Spacer()
-            
+
             Toggle("", isOn: $isOn)
                 .tint(.yellow)
         }
@@ -72,7 +72,7 @@ struct GamifiedDatePicker: View {
     @EnvironmentObject var themeManager: ThemeManager
     let title: String
     @Binding var date: Date
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -83,7 +83,7 @@ struct GamifiedDatePicker: View {
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
-            
+
             DatePicker("", selection: $date, displayedComponents: [.date])
                 .labelsHidden()
                 .padding()
@@ -104,7 +104,7 @@ struct GamifiedTasksSection: View {
     @Binding var tasks: [String]
     let onEditTapped: () -> Void
     @State private var isButtonPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -114,9 +114,9 @@ struct GamifiedTasksSection: View {
                 Text("Quest Tasks")
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 Text("\(tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count)")
                     .font(.appFont(size: 12, weight: .black))
                     .foregroundColor(.white)
@@ -127,7 +127,7 @@ struct GamifiedTasksSection: View {
                             .fill(Color.yellow)
                     )
             }
-            
+
             Button(action: {
                 isButtonPressed = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -164,7 +164,7 @@ struct GamifiedTasksSection: View {
 struct GamifiedDifficultySection: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Binding var difficulty: Int
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -175,7 +175,7 @@ struct GamifiedDifficultySection: View {
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
-            
+
             HStack(spacing: 8) {
                 ForEach(1...5, id: \.self) { star in
                     Button(action: {
@@ -205,7 +205,7 @@ struct GamifiedRepeatTypeSection: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Binding var repeatType: QuestRepeatType
     @Binding var selectedScheduledDays: Set<Int>
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -216,7 +216,7 @@ struct GamifiedRepeatTypeSection: View {
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
-            
+
             Picker("", selection: $repeatType) {
                 Text("One Time").tag(QuestRepeatType.oneTime)
                 Text("Daily").tag(QuestRepeatType.daily)
@@ -233,7 +233,7 @@ struct GamifiedRepeatTypeSection: View {
                             .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
                     )
             )
-            
+
             // Show scheduled days selection when scheduled is selected
             if repeatType == .scheduled {
                 ScheduledDaysSelectionView(selectedDays: $selectedScheduledDays)
@@ -251,14 +251,14 @@ struct CoinRewardPreviewSection: View {
     let difficulty: Int
     let isMainQuest: Bool
     let taskCount: Int
-    
+
     private var coinReward: Int {
         // Calculate reward without random bonus for quest creation preview
         let baseReward = difficulty * 10
         let taskBonus = taskCount * 5
         return baseReward + taskBonus
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -269,9 +269,9 @@ struct CoinRewardPreviewSection: View {
                 Text("Quest Reward")
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 HStack(spacing: 4) {
                     Image("icon_gold")
                         .resizable()
@@ -281,7 +281,7 @@ struct CoinRewardPreviewSection: View {
                         .foregroundColor(.yellow)
                 }
             }
-            
+
             VStack(spacing: 8) {
                 HStack {
                     Text("Base Reward:")
@@ -292,7 +292,7 @@ struct CoinRewardPreviewSection: View {
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
-                
+
                 HStack {
                     Text("Task Bonus:")
                         .font(.appFont(size: 12, weight: .medium))
@@ -321,7 +321,7 @@ struct GamifiedTagsSection: View {
     @Binding var selectedTags: [Tag]
     let onAddTags: () -> Void
     @State private var isButtonPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -331,9 +331,9 @@ struct GamifiedTagsSection: View {
                 Text("Quest Tags")
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 Button("Add Tags") {
                     isButtonPressed = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -347,7 +347,7 @@ struct GamifiedTagsSection: View {
                 .scaleEffect(isButtonPressed ? 0.95 : 1.0)
                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
             }
-            
+
             if selectedTags.isEmpty {
                 Text("No tags selected")
                     .font(.appFont(size: 14, weight: .regular))

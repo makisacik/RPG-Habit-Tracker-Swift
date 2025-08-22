@@ -21,12 +21,12 @@ struct CharacterCustomization: Codable, Equatable {
     var accessory: Accessory?
     var mustache: Mustache? // New field for mustaches
     var flower: Flower? // New field for flowers
-    
+
     init() {
         self.bodyType = .bodyWhite
-        self.hairStyle = .hair1Brown
+        self.hairStyle = .hair1Black // Use the default black color for hair style 1
         self.hairBackStyle = nil
-        self.hairColor = .brown
+        self.hairColor = .black // Match the default hair color
         self.eyeColor = .eyeBlack
         self.outfit = .outfitVillager
         self.weapon = .swordWood
@@ -34,9 +34,9 @@ struct CharacterCustomization: Codable, Equatable {
         self.mustache = nil
         self.flower = nil
     }
-    
+
     // MARK: - Helper Methods for Customization Components
-    
+
     func getValue(for category: AssetCategory) -> String? {
         switch category {
         case .bodyType:
@@ -61,7 +61,7 @@ struct CharacterCustomization: Codable, Equatable {
             return flower?.rawValue
         }
     }
-    
+
     mutating func setValue(_ value: String, for category: AssetCategory) {
         let setterMap: [AssetCategory: (inout CharacterCustomization, String) -> Void] = [
             .bodyType: { customization, value in
@@ -95,7 +95,7 @@ struct CharacterCustomization: Codable, Equatable {
                 customization.flower = Flower(rawValue: value)
             }
         ]
-        
+
         setterMap[category]?(&self, value)
     }
 }
@@ -111,9 +111,9 @@ enum BodyType: String, CaseIterable, Codable, Identifiable {
     case bodyDark1 = "char_body_dark_1"
     case bodyDark2 = "char_body_dark_2"
     case bodyGreen = "char_body_green"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
         case .bodyWhite: return "White"
@@ -127,7 +127,7 @@ enum BodyType: String, CaseIterable, Codable, Identifiable {
         case .bodyGreen: return "Green"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .bodyWhite: return "char_body_white_preview"
@@ -141,11 +141,11 @@ enum BodyType: String, CaseIterable, Codable, Identifiable {
         case .bodyGreen: return "char_body_green_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
     }
-    
+
     var color: Color {
         switch self {
         case .bodyWhite: return Color(red: 0.95, green: 0.85, blue: 0.75)
@@ -164,78 +164,184 @@ enum BodyType: String, CaseIterable, Codable, Identifiable {
 
 // MARK: - Hair Styles
 enum HairStyle: String, CaseIterable, Codable, Identifiable {
-    case hair1Brown = "char_hair_1_brown"
+    // Hair Style 1 - Default: black
     case hair1Black = "char_hair_1_black"
     case hair1Blonde = "char_hair_1_blonde"
-    case hair3Brown = "char_hair_3_brown"
+    case hair1Brown = "char_hair_1_brown"
+    case hair1Darkbrown = "char_hair_1_darkbrown"
+
+    // Hair Style 2 - REMOVED (no assets available)
+
+    // Hair Style 3 - Default: black
     case hair3Black = "char_hair_3_black"
     case hair3Blonde = "char_hair_3_blonde"
+    case hair3Brown = "char_hair_3_brown"
     case hair3Darkbrown = "char_hair_3_darkbrown"
-    case hair4Brown = "char_hair_4_brown"
+
+    // Hair Style 4 - Default: black
     case hair4Black = "char_hair_4_black"
     case hair4Blonde = "char_hair_4_blonde"
+    case hair4Brown = "char_hair_4_brown"
     case hair4Darkbrown = "char_hair_4_darkbrown"
-    case hair5Brown = "char_hair_5_brown"
+
+    // Hair Style 5 - Default: black
     case hair5Black = "char_hair_5_black"
     case hair5Blonde = "char_hair_5_blonde"
+    case hair5Brown = "char_hair_5_brown"
     case hair5Darkbrown = "char_hair_5_darkbrown"
+
+    // Hair Style 10 - Default: brown
     case hair10Brown = "char_hair_10_brown"
+    case hair10Darkbrown = "char_hair_10_darkbrown"
+
+    // Hair Style 11 - Default: brown
     case hair11Brown = "char_hair_11_brown"
     case hair11Darkbrown = "char_hair_11_darkbrown"
+
+    // Hair Style 12 - Default: black
     case hair12Black = "char_hair_12_black"
-    
+
+    // Hair Style 13 - Default: red
+    case hair13Red = "char_hair_13_red"
+
     var id: String { self.rawValue }
-    
-    var displayName: String {
-        switch self {
-        case .hair1Brown: return "Classic Brown"
-        case .hair1Black: return "Classic Black"
-        case .hair1Blonde: return "Classic Blonde"
-        case .hair3Brown: return "Modern Brown"
-        case .hair3Black: return "Modern Black"
-        case .hair3Blonde: return "Modern Blonde"
-        case .hair3Darkbrown: return "Modern Dark Brown"
-        case .hair4Brown: return "Punk Brown"
-        case .hair4Black: return "Punk Black"
-        case .hair4Blonde: return "Punk Blonde"
-        case .hair4Darkbrown: return "Punk Dark Brown"
-        case .hair5Brown: return "Spiky Brown"
-        case .hair5Black: return "Spiky Black"
-        case .hair5Blonde: return "Spiky Blonde"
-        case .hair5Darkbrown: return "Spiky Dark Brown"
-        case .hair10Brown: return "Long Brown"
-        case .hair11Brown: return "Curly Brown"
-        case .hair11Darkbrown: return "Curly Dark Brown"
-        case .hair12Black: return "Long Black"
+
+    // Get the hair type (e.g., "hair1", "hair2", "hair3", etc.)
+    var hairType: String {
+        let components = self.rawValue.components(separatedBy: "_")
+        if components.count >= 3 {
+            return components[1] + components[2] // hair1, hair3, hair4, etc.
+        }
+        return "hair1"
+    }
+
+    // Get the hair color from the style
+    var hairColor: HairColor {
+        if self.rawValue.contains("black") {
+            return .black
+        } else if self.rawValue.contains("blonde") {
+            return .blonde
+        } else if self.rawValue.contains("red") {
+            return .red
+        } else if self.rawValue.contains("darkbrown") {
+            return .darkbrown
+        } else if self.rawValue.contains("brown") {
+            return .brown
+        } else {
+            return .black // Default fallback
         }
     }
-    
+
+    // Get the default hair style for each hair type
+    static func getDefaultStyle(for hairType: String) -> HairStyle {
+        switch hairType {
+        case "hair1": return .hair1Black
+        case "hair3": return .hair3Black
+        case "hair4": return .hair4Black
+        case "hair5": return .hair5Black
+        case "hair10": return .hair10Brown
+        case "hair11": return .hair11Brown
+        case "hair12": return .hair12Black
+        case "hair13": return .hair13Red
+        default: return .hair1Black
+        }
+    }
+
+    // Get the default color for each hair type
+    static func getDefaultColor(for hairType: String) -> HairColor {
+        switch hairType {
+        case "hair1", "hair3", "hair4", "hair5", "hair12": return .black
+        case "hair10", "hair11": return .brown
+        case "hair13": return .red
+        default: return .black
+        }
+    }
+
+    var displayName: String {
+        let hairNumber = hairType.replacingOccurrences(of: "hair", with: "")
+        return "Hair Style \(hairNumber)"
+    }
+
     var previewImageName: String {
         switch self {
-        case .hair1Brown: return "char_hair_1_brown_preview"
+        // Hair Style 1
         case .hair1Black: return "char_hair_1_black_preview"
         case .hair1Blonde: return "char_hair_1_blonde_preview"
-        case .hair3Brown: return "char_hair_3_brown_preview"
+        case .hair1Brown: return "char_hair_1_brown_preview"
+        case .hair1Darkbrown: return "char_hair_1_darkbrown_preview"
+
+        // Hair Style 2 - REMOVED
+
+        // Hair Style 3
         case .hair3Black: return "char_hair_3_black_preview"
         case .hair3Blonde: return "char_hair_3_blonde_preview"
+        case .hair3Brown: return "char_hair_3_brown_preview"
         case .hair3Darkbrown: return "char_hair_3_darkbrown_preview"
-        case .hair4Brown: return "char_hair_4_brown_preview"
+
+        // Hair Style 4
         case .hair4Black: return "char_hair_4_black_preview"
         case .hair4Blonde: return "char_hair_4_blonde_preview"
+        case .hair4Brown: return "char_hair_4_brown_preview"
         case .hair4Darkbrown: return "char_hair_4_darkbrown_preview"
-        case .hair5Brown: return "char_hair_5_brown_preview"
+
+        // Hair Style 5
         case .hair5Black: return "char_hair_5_black_preview"
         case .hair5Blonde: return "char_hair_5_blonde_preview"
+        case .hair5Brown: return "char_hair_5_brown_preview"
         case .hair5Darkbrown: return "char_hair_5_darkbrown_preview"
+
+        // Hair Style 10
         case .hair10Brown: return "char_hair_10_brown_preview"
+        case .hair10Darkbrown: return "char_hair_10_darkbrown_preview"
+
+        // Hair Style 11
         case .hair11Brown: return "char_hair_11_brown_preview"
         case .hair11Darkbrown: return "char_hair_11_darkbrown_preview"
+
+        // Hair Style 12
         case .hair12Black: return "char_hair_12_black_preview"
+
+        // Hair Style 13
+        case .hair13Red: return "char_hair_13_red_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
+    }
+
+    // Get unique hair types (for showing in hair style selection)
+    static var uniqueHairTypes: [String] {
+        let allStyles = HairStyle.allCases
+        var seenTypes: Set<String> = []
+
+        for style in allStyles {
+            seenTypes.insert(style.hairType)
+        }
+
+        return Array(seenTypes).sorted { $0 < $1 }
+    }
+
+    // Get all hair styles for a specific hair type
+    static func getStylesForType(_ hairType: String) -> [HairStyle] {
+        return HairStyle.allCases.filter { $0.hairType == hairType }
+    }
+
+    // Get available hair colors for a specific hair type
+    static func getAvailableColorsForType(_ hairType: String) -> [HairColor] {
+        let styles = getStylesForType(hairType)
+        var colors: Set<HairColor> = []
+
+        for style in styles {
+            colors.insert(style.hairColor)
+        }
+
+        return Array(colors).sorted { $0.rawValue < $1.rawValue }
+    }
+
+    // Get the hair style for a specific hair type and color
+    static func getStyle(for hairType: String, color: HairColor) -> HairStyle? {
+        return HairStyle.allCases.first { $0.hairType == hairType && $0.hairColor == color }
     }
 }
 
@@ -284,7 +390,7 @@ enum HairBackStyle: String, CaseIterable, Codable, Identifiable {
         case .hair9BackDarkbrown: return "Back Style 9 Dark Brown"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .hair2BackBrown: return "char_hair_2_back_brown_preview"
@@ -320,9 +426,9 @@ enum HairColor: String, CaseIterable, Codable, Identifiable {
     case blonde = "blonde"
     case red = "red"
     case darkbrown = "darkbrown"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
         case .brown: return "Brown"
@@ -332,7 +438,7 @@ enum HairColor: String, CaseIterable, Codable, Identifiable {
         case .darkbrown: return "Dark Brown"
         }
     }
-    
+
     var color: Color {
         switch self {
         case .brown: return Color(red: 0.4, green: 0.2, blue: 0.1)
@@ -342,7 +448,7 @@ enum HairColor: String, CaseIterable, Codable, Identifiable {
         case .darkbrown: return Color(red: 0.2, green: 0.1, blue: 0.05)
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .brown: return "char_hair_1_brown_preview"
@@ -352,7 +458,7 @@ enum HairColor: String, CaseIterable, Codable, Identifiable {
         case .darkbrown: return "char_hair_1_darkbrown_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
     }
@@ -360,31 +466,28 @@ enum HairColor: String, CaseIterable, Codable, Identifiable {
 
 // MARK: - Eye Colors
 enum EyeColor: String, CaseIterable, Codable, Identifiable {
-    case brown = "char_eye_brown"
     case eyeBlack = "char_eye_black"
     case eyeBlue = "char_eye_blue"
     case eyeGreen = "char_eye_green"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
-        case .brown: return "Brown"
         case .eyeBlack: return "Black"
         case .eyeBlue: return "Blue"
         case .eyeGreen: return "Green"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
-        case .brown: return "char_eye_brown_preview"
         case .eyeBlack: return "char_eye_black_preview"
         case .eyeBlue: return "char_eye_blue_preview"
         case .eyeGreen: return "char_eye_green_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
     }
@@ -404,9 +507,9 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
     case outfitBat = "char_outfit_bat"
     case outfitRed = "char_outfit_red"
     case outfitHoodie = "char_outfit_hoodie"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
         case .simple: return "Simple"
@@ -423,7 +526,7 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
         case .outfitHoodie: return "Hoodie"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .simple: return "char_outfit_simple_preview"
@@ -440,7 +543,7 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
         case .outfitHoodie: return "char_outfit_hoodie_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
     }
@@ -463,9 +566,9 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
     case swordMace = "char_sword_mace"
     case swordStaff = "char_sword_staff"
     case swordWhip = "char_sword_whip"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
         case .swordDaggerWood: return "Wood Dagger"
@@ -485,7 +588,7 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
         case .swordWhip: return "Whip"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .swordDaggerWood: return "char_sword_dagger_wood_preview"
@@ -505,7 +608,7 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
         case .swordWhip: return "char_sword_whip_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
     }
@@ -513,9 +616,9 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
 
 // MARK: - Accessories
 enum Accessory: String, CaseIterable, Codable, Identifiable {
-    case eyeglassRed = "char_eyeglass_red"
-    case eyeglassBlue = "char_eyeglass_blue"
-    case eyeglassGray = "char_eyeglass_gray"
+    case eyeglassRed = "char_glass_red"
+    case eyeglassBlue = "char_glass_blue"
+    case eyeglassGray = "char_glass_gray"
     case helmetRed = "char_helmet_red"
     case helmetHood = "char_helmet_hood"
     case helmetIron = "char_helmet_iron"
@@ -529,9 +632,9 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
     case earring1 = "char_earring_1"
     case earring2 = "char_earring_2"
     case petCat2 = "char_pet_cat_2"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
         case .eyeglassRed: return "Red Glasses"
@@ -552,7 +655,7 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
         case .petCat2: return "Pet Cat"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .eyeglassRed: return "char_glass_red_preview"
@@ -573,7 +676,7 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
         case .petCat2: return "char_pet_cat_2_preview"
         }
     }
-    
+
     var isPremium: Bool {
         return false // Remove premium restriction
     }
@@ -604,7 +707,7 @@ enum Mustache: String, CaseIterable, Codable, Identifiable {
         case .mustache2Darkbrown: return "Mustache 2 Dark Brown"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .mustache1Brown: return "char_mustache_1_brown_preview"
@@ -638,7 +741,7 @@ enum Flower: String, CaseIterable, Codable, Identifiable {
         case .flowerPurple: return "Purple Flower"
         }
     }
-    
+
     var previewImageName: String {
         switch self {
         case .flowerGreen: return "char_flower_green_preview"
@@ -655,39 +758,39 @@ enum Flower: String, CaseIterable, Codable, Identifiable {
 // MARK: - Character Preview
 struct CharacterPreview {
     let customization: CharacterCustomization
-    
+
     var bodyImageName: String {
         return customization.bodyType.rawValue
     }
-    
+
     var hairImageName: String {
         return customization.hairStyle.rawValue
     }
-    
+
     var hairBackImageName: String? {
         return customization.hairBackStyle?.rawValue
     }
-    
+
     var eyeImageName: String {
         return customization.eyeColor.rawValue
     }
-    
+
     var outfitImageName: String {
         return customization.outfit.rawValue
     }
-    
+
     var weaponImageName: String {
         return customization.weapon.rawValue
     }
-    
+
     var accessoryImageName: String? {
         return customization.accessory?.rawValue
     }
-    
+
     var mustacheImageName: String? {
         return customization.mustache?.rawValue
     }
-    
+
     var flowerImageName: String? {
         return customization.flower?.rawValue
     }

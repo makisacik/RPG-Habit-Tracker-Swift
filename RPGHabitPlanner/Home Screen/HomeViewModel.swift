@@ -31,11 +31,11 @@ class HomeViewModel: ObservableObject {
         setupQuestNotificationObservers()
         fetchUserData()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     private func setupQuestNotificationObservers() {
         NotificationCenter.default.addObserver(
             self,
@@ -150,7 +150,7 @@ class HomeViewModel: ObservableObject {
                 self?.fetchUserData()
             }
             .store(in: &cancellables)
-        
+
         // Observe streak updates
         NotificationCenter.default.publisher(for: .streakUpdated)
             .sink { [weak self] _ in

@@ -26,7 +26,7 @@ struct Theme {
     let buttonPrimary: String
     let paperSimple: String
     let sword: String
-    
+
     // Additional semantic colors for better consistency
     let surfaceColor: Color
     let borderColor: Color
@@ -35,7 +35,7 @@ struct Theme {
     let warningColor: Color
     let errorColor: Color
     let infoColor: Color
-    
+
     static func create(for mode: AppTheme, colorScheme: ColorScheme = .light) -> Theme {
         let resolvedMode: AppTheme
         if mode == .system {
@@ -43,7 +43,7 @@ struct Theme {
         } else {
             resolvedMode = mode
         }
-        
+
         switch resolvedMode {
         case .light:
             return Theme(

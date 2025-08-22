@@ -16,14 +16,14 @@ struct CharacterView: View {
     @State private var refreshTrigger = false
     @State private var showShop = false
     let user: UserEntity
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             theme.backgroundColor
                 .ignoresSafeArea()
-            
+
             ScrollView {
                 VStack(spacing: 20) {
                     ZStack {
@@ -33,14 +33,14 @@ struct CharacterView: View {
                             sizeRange: 8...16,
                             speedRange: 12...20
                         )
-                        
+
                         ParticleBackground(
                             color: Color.blue.opacity(0.3),
                             count: 20,
                             sizeRange: 5...10,
                             speedRange: 6...12
                         )
-                        
+
                         VStack(spacing: 12) {
                             // Use character customization image instead of class icon
                             Image("char_body_male_1") // Default character body image
@@ -48,11 +48,11 @@ struct CharacterView: View {
                                 .scaledToFit()
                                 .frame(width: 150, height: 150)
                                 .shadow(radius: 8)
-                            
+
                             Text(user.nickname ?? "Unknown")
                                 .font(.appFont(size: 28, weight: .black))
                                 .foregroundColor(theme.textColor)
-                            
+
                             Text("Custom Character")
                                 .font(.appFont(size: 18))
                                 .foregroundColor(theme.textColor)
@@ -62,12 +62,12 @@ struct CharacterView: View {
                     }
                     .frame(height: 250)
                     .clipped()
-                    
+
                     VStack(spacing: 12) {
                         // Health Bar
                         HealthBarView(healthManager: healthManager, size: .large, showShineAnimation: false)
                             .padding(.horizontal)
-                        
+
                         // Level and Experience
                         VStack(spacing: 8) {
                             HStack {
@@ -79,7 +79,7 @@ struct CharacterView: View {
                                     .foregroundColor(theme.textColor)
                                 Spacer()
                             }
-                            
+
                             ZStack {
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(theme.backgroundColor.opacity(0.7))
@@ -120,20 +120,20 @@ struct CharacterView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
+
                     Divider()
                         .padding(.horizontal)
-                    
+
                     // Collectible Items Display
                     CollectibleDisplayView()
                         .environmentObject(inventoryManager)
                         .environmentObject(themeManager)
-                    
+
                     Divider()
                         .padding(.horizontal)
-                    
+
                     InventoryView()
-                    
+
                     Spacer()
                 }
             }
@@ -151,7 +151,7 @@ struct CharacterView: View {
                             .resizable()
                             .frame(width: 18, height: 18)
                             .foregroundColor(.yellow)
-                        
+
                         if !boosterManager.activeBoosters.filter({ $0.isActive && !$0.isExpired }).isEmpty {
                             Text("\(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }.count)")
                                 .font(.appFont(size: 12, weight: .bold))
@@ -167,7 +167,7 @@ struct CharacterView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
             }
-            
+
             // RIGHT: Shop button
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -203,19 +203,19 @@ struct ParticleBackground: View {
     var count: Int
     var sizeRange: ClosedRange<CGFloat>
     var speedRange: ClosedRange<Double>
-    
+
     var body: some View {
         GeometryReader { geo in
             ForEach(0..<count, id: \.self) { _ in
                 let size = CGFloat.random(in: sizeRange)
                 let xPos = CGFloat.random(in: 0...geo.size.width)
-                
+
                 let startY = CGFloat.random(in: geo.size.height...(geo.size.height + 100))
-                
+
                 let endYPosition: CGFloat = -geo.size.height * 1.5
-                
+
                 let speed = Double.random(in: speedRange) * 1.8
-                
+
                 Circle()
                     .fill(color)
                     .frame(width: size, height: size)
@@ -230,13 +230,13 @@ struct VerticalFloat: ViewModifier {
     @State private var y: CGFloat
     var endYPosition: CGFloat
     var duration: Double
-    
+
     init(from startY: CGFloat, to endY: CGFloat, duration: Double) {
         self._y = State(initialValue: startY)
         self.endYPosition = endY
         self.duration = duration
     }
-    
+
     func body(content: Content) -> some View {
         content
             .offset(y: y)

@@ -12,16 +12,16 @@ struct PaywallView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var premiumManager: PremiumManager
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var selectedPlan: PremiumPlan = .monthly
     @State private var showingError = false
-    
+
     private let theme: Theme
-    
+
     init() {
         self.theme = ThemeManager.shared.activeTheme
     }
-    
+
     var body: some View {
         ZStack {
             // Background gradient
@@ -35,7 +35,7 @@ struct PaywallView: View {
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Header with close button
                 HStack {
@@ -48,21 +48,21 @@ struct PaywallView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
                 }
-                
+
                 ScrollView {
                     VStack(spacing: 24) {
                         // Header
                         headerSection
-                        
+
                         // Premium features
                         featuresSection
-                        
+
                         // Pricing plans
                         pricingSection
-                        
+
                         // Action buttons
                         actionSection
-                        
+
                         // Terms and restore
                         footerSection
                     }
@@ -80,9 +80,9 @@ struct PaywallView: View {
             showingError = errorMessage != nil
         }
     }
-    
+
     // MARK: - Header Section
-    
+
     private var headerSection: some View {
         VStack(spacing: 16) {
             // Premium crown icon
@@ -90,17 +90,17 @@ struct PaywallView: View {
                 Circle()
                     .fill(theme.accentColor.opacity(0.2))
                     .frame(width: 80, height: 80)
-                
+
                 Image(systemName: "crown.fill")
                     .font(.system(size: 40))
                     .foregroundColor(theme.accentColor)
             }
-            
+
             VStack(spacing: 8) {
                 Text("Unlock Premium")
                     .font(.appFont(size: 28, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("Transform your quest planning experience")
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
@@ -108,16 +108,16 @@ struct PaywallView: View {
             }
         }
     }
-    
+
     // MARK: - Features Section
-    
+
     private var featuresSection: some View {
         VStack(spacing: 16) {
             Text("Premium Features")
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             VStack(spacing: 12) {
                 PremiumFeatureRow(icon: "infinity", title: "Unlimited Quests", description: "Create as many quests as you want")
                 PremiumFeatureRow(icon: "chart.bar.fill", title: "Advanced Analytics", description: "Track your progress with detailed insights")
@@ -134,22 +134,22 @@ struct PaywallView: View {
                 .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
-    
+
     // MARK: - Pricing Section
-    
+
     private var pricingSection: some View {
         VStack(spacing: 16) {
             Text("Choose Your Plan")
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             HStack(spacing: 12) {
                 PricingCard(
                     plan: .monthly,
                     isSelected: selectedPlan == .monthly
                 ) { selectedPlan = .monthly }
-                
+
                 PricingCard(
                     plan: .lifetime,
                     isSelected: selectedPlan == .lifetime
@@ -157,9 +157,9 @@ struct PaywallView: View {
             }
         }
     }
-    
+
     // MARK: - Action Section
-    
+
     private var actionSection: some View {
         VStack(spacing: 16) {
             Button(action: {
@@ -200,7 +200,7 @@ struct PaywallView: View {
                 .cornerRadius(16)
             }
             .disabled(premiumManager.isLoading)
-            
+
             Button("Restore Purchases") {
                 Task {
                     do {
@@ -216,9 +216,9 @@ struct PaywallView: View {
             .disabled(premiumManager.isLoading)
         }
     }
-    
+
     // MARK: - Footer Section
-    
+
     private var footerSection: some View {
         VStack(spacing: 12) {
             HStack(spacing: 20) {
@@ -227,14 +227,14 @@ struct PaywallView: View {
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.6))
-                
+
                 Button("Privacy Policy") {
                     // Handle privacy policy
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.6))
             }
-            
+
             Text("Cancel anytime. Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.")
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.5))
@@ -250,30 +250,30 @@ struct PremiumFeatureRow: View {
     let icon: String
     let title: String
     let description: String
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     private var theme: Theme {
         themeManager.activeTheme
     }
-    
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(theme.accentColor)
                 .frame(width: 24)
-            
+
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.appFont(size: 16, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Text(description)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
-            
+
             Spacer()
         }
     }
@@ -283,29 +283,29 @@ struct PricingCard: View {
     let plan: PremiumPlan
     let isSelected: Bool
     let onTap: () -> Void
-    
+
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     private var theme: Theme {
         themeManager.activeTheme
     }
-    
+
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 12) {
                 Text(plan.title)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(isSelected ? .white : theme.textColor)
-                
+
                 Text(plan.price)
                     .font(.appFont(size: 24, weight: .bold))
                     .foregroundColor(isSelected ? .white : theme.accentColor)
-                
+
                 Text(plan.description)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(isSelected ? .white.opacity(0.8) : theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
-                
+
                 if plan.isPopular {
                     Text("MOST POPULAR")
                         .font(.appFont(size: 10, weight: .bold))
@@ -341,7 +341,7 @@ struct PricingCard: View {
 enum PremiumPlan {
     case monthly
     case lifetime
-    
+
     var title: String {
         switch self {
         case .monthly:
@@ -350,7 +350,7 @@ enum PremiumPlan {
             return "Lifetime"
         }
     }
-    
+
     var price: String {
         switch self {
         case .monthly:
@@ -359,7 +359,7 @@ enum PremiumPlan {
             return "$29.99"
         }
     }
-    
+
     var description: String {
         switch self {
         case .monthly:
@@ -368,7 +368,7 @@ enum PremiumPlan {
             return "one-time payment"
         }
     }
-    
+
     var isPopular: Bool {
         switch self {
         case .monthly:

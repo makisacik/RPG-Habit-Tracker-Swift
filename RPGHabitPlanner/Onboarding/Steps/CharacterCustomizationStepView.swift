@@ -11,7 +11,7 @@ struct CharacterCustomizationStepView: View {
     @ObservedObject var coordinator: OnboardingCoordinator
     let theme: Theme
     @StateObject private var characterCreationViewModel = CharacterCreationViewModel()
-    
+
     var body: some View {
         VStack(spacing: 0) {
             // Use the new carousel-based character creation view

@@ -96,7 +96,7 @@ struct InventorySlotView: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         Button(action: onTap) {
             ZStack {
                 // Slot background
@@ -126,7 +126,7 @@ struct InventorySlotView: View {
                                     .frame(maxWidth: 40, maxHeight: 40)
                                     .padding(2)
                             }
-                            
+
                             // XP Boost indicator (top-right corner)
                             if inventoryManager.isBooster(item) && item.name?.contains("XP") == true {
                                 VStack {
@@ -141,7 +141,7 @@ struct InventorySlotView: View {
                                     Spacer()
                                 }
                             }
-                            
+
                             // Coin Boost indicator (top-left corner)
                             if inventoryManager.isBooster(item) && item.name?.contains("Coin") == true {
                                 VStack {
@@ -158,7 +158,7 @@ struct InventorySlotView: View {
                             }
                         }
                         .frame(height: 44)
-                        
+
                         // Item type indicator (bottom)
                         HStack {
                             Spacer()
@@ -204,13 +204,13 @@ struct InfoBubbleView: View {
     let title: String
     let description: String
     let theme: Theme
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.appFont(size: 16, weight: .black))
                 .foregroundColor(theme.textColor)
-            
+
             Text(description)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.8))
@@ -236,7 +236,7 @@ struct InventorySlotView_Legacy: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         Button(action: onTap) {
             ZStack {
                 // Slot background

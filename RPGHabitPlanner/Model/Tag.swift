@@ -14,7 +14,7 @@ struct Tag: Identifiable, Equatable, Hashable {
     var nameNormalized: String
     var icon: String?
     var color: String?
-    
+
     init(
         id: UUID = UUID(),
         name: String,
@@ -43,14 +43,14 @@ extension Tag {
         self.icon = entity.icon
         self.color = entity.color
     }
-    
+
     var displayColor: Color {
         if let colorString = color {
             return Color(hex: colorString)
         }
         return .blue
     }
-    
+
     var displayIcon: String {
         return icon ?? "tag"
     }
@@ -75,7 +75,7 @@ extension Tag {
         "#F1948A", // Light Red
         "#D7BDE2"  // Light Purple
     ]
-    
+
     static let iconSet: [String] = [
         "tag", "star", "heart", "bookmark", "flag", "bolt", "fire", "leaf", "moon", "sun",
         "cloud", "drop", "flame", "gift", "key", "lock", "map", "music", "pencil", "phone",

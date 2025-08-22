@@ -13,7 +13,7 @@ struct CharacterCreationView: View {
     @Binding var isCharacterCreated: Bool
 
     @State private var currentSectionIndex = 0
-    
+
     private let categories: [CustomizationCategory] = [
         .bodyType, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
     ]
@@ -30,24 +30,24 @@ struct CharacterCreationView: View {
                     )
                 )
                 .shadow(color: theme.shadowColor, radius: 8, x: 0, y: 4)
-            
+
             VStack(spacing: 12) {
                 // Header
                 CharacterCreationHeaderView(theme: theme)
-                
+
                 // Character Preview
                 CharacterPreviewSectionView(
                     customization: viewModel.currentCustomization,
                     theme: theme
                 )
-                
+
                 // Section Navigation
                 SectionNavigationView(
                     currentIndex: $currentSectionIndex,
                     sections: categories,
                     theme: theme
                 )
-                
+
                 // Current Section Content
                 CurrentSectionContentView(
                     currentIndex: currentSectionIndex,
@@ -55,7 +55,7 @@ struct CharacterCreationView: View {
                     viewModel: viewModel,
                     theme: theme
                 )
-                
+
                 Spacer(minLength: 0)
             }
             .padding(.horizontal, 12)
@@ -68,13 +68,13 @@ struct CharacterCreationView: View {
 // MARK: - Header View
 struct CharacterCreationHeaderView: View {
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 8) {
             Text("createYourCharacter".localized)
                 .font(.custom("Quicksand-Bold", size: 24))
                 .foregroundColor(theme.textColor)
-            
+
             Text("createYourUniqueCharacter".localized)
                 .font(.custom("Quicksand-Regular", size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
@@ -86,14 +86,14 @@ struct CharacterCreationHeaderView: View {
 struct CharacterPreviewSectionView: View {
     let customization: CharacterCustomization
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 0) {
             Text("preview".localized)
                 .font(.custom("Quicksand-Bold", size: 18))
                 .foregroundColor(theme.textColor)
                 .padding(.bottom, 4)
-            
+
             CharacterFullPreview(customization: customization, size: 280)
                 .environmentObject(ThemeManager.shared)
         }
@@ -105,7 +105,7 @@ struct SectionNavigationView: View {
     @Binding var currentIndex: Int
     let sections: [CustomizationCategory]
     let theme: Theme
-    
+
     var body: some View {
         HStack {
             // Left Arrow
@@ -121,13 +121,13 @@ struct SectionNavigationView: View {
                     .background(theme.cardBackgroundColor)
                     .clipShape(Circle())
             }
-            
+
             // Section Title
             Text(sections[currentIndex].title)
                 .font(.custom("Quicksand-Bold", size: 18))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity)
-            
+
             // Right Arrow
             Button(action: {
                 withAnimation(.easeInOut(duration: 0.3)) {
@@ -151,10 +151,10 @@ struct CurrentSectionContentView: View {
     let categories: [CustomizationCategory]
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
     var body: some View {
         let currentSection = categories[currentIndex]
-        
+
         VStack(spacing: 12) {
             switch currentSection {
             case .bodyType:
@@ -187,9 +187,9 @@ struct CurrentSectionContentView: View {
 struct BodyTypeSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 5), spacing: 8) {
             ForEach(BodyType.allCases, id: \.self) { bodyType in
                 BodyTypeOptionCard(
                     bodyType: bodyType,
@@ -209,28 +209,21 @@ struct BodyTypeOptionCard: View {
     let isSelected: Bool
     let theme: Theme
     let onTap: () -> Void
-    
+
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 8) {
-                // Body color circle
+            VStack(spacing: 4) {
+                // Body color circle - smaller size
                 Circle()
                     .fill(bodyType.color)
-                    .frame(width: 50, height: 50)
+                    .frame(width: 35, height: 35)
                     .overlay(
                         Circle()
                             .stroke(isSelected ? theme.accentColor : theme.textColor.opacity(0.2), lineWidth: isSelected ? 3 : 2)
                     )
                     .shadow(color: isSelected ? theme.accentColor.opacity(0.3) : Color.black.opacity(0.1), radius: isSelected ? 4 : 2)
-                
-                // Body type name
-                Text(bodyType.displayName)
-                    .font(.custom("Quicksand-Medium", size: 12))
-                    .foregroundColor(theme.textColor)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.center)
             }
-            .frame(height: 80)
+            .frame(height: 50)
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 12)
@@ -249,25 +242,44 @@ struct BodyTypeOptionCard: View {
 struct HairstyleSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
+    // Define the default hair styles to show (one for each hair type)
+    private var defaultHairStyles: [HairStyle] {
+        return [
+            .hair1Black,   // Hair Style 1 - Default black
+            .hair3Black,   // Hair Style 3 - Default black
+            .hair4Black,   // Hair Style 4 - Default black
+            .hair5Black,   // Hair Style 5 - Default black
+            .hair10Brown,  // Hair Style 10 - Default brown
+            .hair11Brown,  // Hair Style 11 - Default brown
+            .hair12Black,  // Hair Style 12 - Default black
+            .hair13Red     // Hair Style 13 - Default red
+        ]
+    }
+
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-            ForEach(HairStyle.allCases, id: \.self) { hairStyle in
-                CustomizationOptionCard(
-                    option: CustomizationOption(
-                        id: hairStyle.rawValue,
-                        name: hairStyle.displayName,
-                        imageName: hairStyle.previewImageName,
-                        isPremium: hairStyle.isPremium,
-                        isUnlocked: true
-                    ),
-                    isSelected: viewModel.currentCustomization.hairStyle == hairStyle,
-                    onTap: {
-                        viewModel.updateHairStyle(hairStyle)
-                    },
-                    theme: theme
-                )
+        ScrollView {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
+                ForEach(defaultHairStyles, id: \.self) { hairStyle in
+                    let isSelected = viewModel.currentCustomization.hairStyle.hairType == hairStyle.hairType
+
+                    CustomizationOptionCard(
+                        option: CustomizationOption(
+                            id: hairStyle.rawValue,
+                            name: hairStyle.displayName,
+                            imageName: hairStyle.previewImageName,
+                            isPremium: hairStyle.isPremium,
+                            isUnlocked: true
+                        ),
+                        isSelected: isSelected,
+                        onTap: {
+                            viewModel.updateHairStyleAndColor(hairStyle)
+                        },
+                        theme: theme
+                    )
+                }
             }
+            .padding(.horizontal, 12)
         }
     }
 }
@@ -275,7 +287,7 @@ struct HairstyleSectionView: View {
 struct EyeColorSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
             ForEach(EyeColor.allCases, id: \.self) { eyeColor in
@@ -334,12 +346,12 @@ struct AccessoriesSectionView: View {
 struct OutfitSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
     // Filter to only show villager outfits
     private var availableOutfits: [Outfit] {
         return [.outfitVillager, .outfitVillagerBlue]
     }
-    
+
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
             ForEach(availableOutfits, id: \.self) { outfit in
@@ -398,25 +410,95 @@ struct HairColorSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
     
+    // Get available colors for the current hair style
+    private var availableColors: [HairColor] {
+        let currentHairType = viewModel.currentCustomization.hairStyle.hairType
+        return HairStyle.getAvailableColorsForType(currentHairType)
+    }
+    
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
-            ForEach(HairColor.allCases, id: \.self) { hairColor in
-                CustomizationOptionCard(
-                    option: CustomizationOption(
-                        id: hairColor.rawValue,
-                        name: hairColor.displayName,
-                        imageName: hairColor.previewImageName,
-                        isPremium: hairColor.isPremium,
-                        isUnlocked: true
-                    ),
-                    isSelected: viewModel.currentCustomization.hairColor == hairColor,
-                    onTap: {
-                        viewModel.updateHairColor(hairColor)
-                    },
-                    theme: theme
-                )
+        VStack {
+            if availableColors.isEmpty {
+                Text("No colors available for this hair style")
+                    .font(.custom("Quicksand-Regular", size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+                    .padding()
+            } else if availableColors.count == 1 {
+                // If only one color is available, show it as selected
+                HStack {
+                    Spacer()
+                    HairColorOptionCard(
+                        hairColor: availableColors[0],
+                        isSelected: true,
+                        theme: theme
+                    ) {
+                        viewModel.updateHairColor(availableColors[0], updateHairStyle: true)
+                    }
+                    Spacer()
+                }
+            } else {
+                // Dynamic grid based on number of colors
+                let columns = min(availableColors.count, 4)
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: columns), spacing: 12) {
+                    ForEach(availableColors, id: \.self) { hairColor in
+                        HairColorOptionCard(
+                            hairColor: hairColor,
+                            isSelected: viewModel.currentCustomization.hairColor == hairColor,
+                            theme: theme
+                        ) {
+                            viewModel.updateHairColor(hairColor, updateHairStyle: true)
+                        }
+                    }
+                }
             }
         }
+        .onAppear {
+            // Auto-select the first available color if current color is not available
+            if !availableColors.isEmpty && !availableColors.contains(viewModel.currentCustomization.hairColor) {
+                viewModel.updateHairColor(availableColors[0], updateHairStyle: true)
+            }
+        }
+        .onChange(of: availableColors) { newColors in
+            // Auto-select the first available color if current color is not available
+            if !newColors.isEmpty && !newColors.contains(viewModel.currentCustomization.hairColor) {
+                viewModel.updateHairColor(newColors[0], updateHairStyle: true)
+            }
+        }
+    }
+}
+
+// MARK: - Hair Color Option Card
+struct HairColorOptionCard: View {
+    let hairColor: HairColor
+    let isSelected: Bool
+    let theme: Theme
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 4) {
+                // Hair color circle
+                Circle()
+                    .fill(hairColor.color)
+                    .frame(width: 35, height: 35)
+                    .overlay(
+                        Circle()
+                            .stroke(isSelected ? theme.accentColor : theme.textColor.opacity(0.2), lineWidth: isSelected ? 3 : 2)
+                    )
+                    .shadow(color: isSelected ? theme.accentColor.opacity(0.3) : Color.black.opacity(0.1), radius: isSelected ? 4 : 2)
+            }
+            .frame(height: 50)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? theme.accentColor.opacity(0.1) : theme.cardBackgroundColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(isSelected ? theme.accentColor : Color.clear, lineWidth: 2)
+                    )
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

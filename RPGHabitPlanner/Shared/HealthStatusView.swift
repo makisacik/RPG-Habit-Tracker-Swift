@@ -4,16 +4,16 @@ struct HealthStatusView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var healthManager: HealthManager
     let showDetails: Bool
-    
+
     init(healthManager: HealthManager, showDetails: Bool = true) {
         self.healthManager = healthManager
         self.showDetails = showDetails
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         let healthPercentage = healthManager.getHealthPercentage()
-        
+
         VStack(spacing: 8) {
             HStack {
                 Image(systemName: healthIcon)
@@ -25,20 +25,20 @@ struct HealthStatusView: View {
                         .repeatForever(autoreverses: true),
                         value: healthManager.isLowHealth
                     )
-                
+
                 Text("Health")
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 if showDetails {
                     Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
             }
-            
+
             if showDetails {
                 // Health Bar
                 GeometryReader { geometry in
@@ -46,7 +46,7 @@ struct HealthStatusView: View {
                         RoundedRectangle(cornerRadius: 6)
                             .fill(theme.backgroundColor.opacity(0.3))
                             .frame(height: 12)
-                        
+
                         RoundedRectangle(cornerRadius: 6)
                             .fill(healthGradient)
                             .frame(width: geometry.size.width * healthPercentage, height: 12)
@@ -54,15 +54,15 @@ struct HealthStatusView: View {
                     }
                 }
                 .frame(height: 12)
-                
+
                 // Health Status Text
                 HStack {
                     Text(healthStatusText)
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(healthColor)
-                    
+
                     Spacer()
-                    
+
                     Text("\(Int(healthPercentage * 100))%")
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(theme.textColor.opacity(0.8))
@@ -79,9 +79,9 @@ struct HealthStatusView: View {
                 )
         )
     }
-    
+
     // MARK: - Computed Properties
-    
+
     private var healthIcon: String {
         if healthManager.isDead {
             return "heart.slash.fill"
@@ -91,7 +91,7 @@ struct HealthStatusView: View {
             return "heart.fill"
         }
     }
-    
+
     private var healthColor: Color {
         let percentage = healthManager.getHealthPercentage()
 
@@ -130,10 +130,10 @@ struct HealthStatusView: View {
             endPoint: .trailing
         )
     }
-    
+
     private var healthStatusText: String {
         let percentage = healthManager.getHealthPercentage()
-        
+
         switch percentage {
         case 0.0:
             return "Dead"
@@ -156,11 +156,11 @@ struct HealthStatusView: View {
 struct CompactHealthStatusView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var healthManager: HealthManager
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         let healthPercentage = healthManager.getHealthPercentage()
-        
+
         HStack(spacing: 6) {
             Image(systemName: "heart.fill")
                 .font(.system(size: 12))
@@ -171,7 +171,7 @@ struct CompactHealthStatusView: View {
                     .repeatForever(autoreverses: true),
                     value: healthManager.isLowHealth
                 )
-            
+
             Text("\(healthManager.currentHealth)")
                 .font(.appFont(size: 12, weight: .black))
                 .foregroundColor(theme.textColor)
@@ -187,7 +187,7 @@ struct CompactHealthStatusView: View {
                 )
         )
     }
-    
+
     private func healthColor(for percentage: Double) -> Color {
         switch percentage {
         case 0.0..<0.25:

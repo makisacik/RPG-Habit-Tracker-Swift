@@ -32,7 +32,7 @@ struct NicknamePopupView: View {
                     )
                     .padding(.bottom, 8)
                 }
-                
+
                 Text(String.enterYourNickname.localized)
                     .font(.appFont(size: 18, weight: .black))
                     .foregroundColor(theme.textColor)

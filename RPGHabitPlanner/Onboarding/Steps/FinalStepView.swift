@@ -10,13 +10,13 @@ import SwiftUI
 struct FinalStepView: View {
     @ObservedObject var coordinator: OnboardingCoordinator
     let theme: Theme
-    
+
     @State private var showCompletionAnimation = false
     @State private var heroScale: CGFloat = 0.8
     @State private var heroRotation: Double = 0
     @State private var showSparkles = false
     @State private var backgroundGlow = false
-    
+
     var body: some View {
         ZStack {
             // Animated background
@@ -29,10 +29,10 @@ struct FinalStepView: View {
                         .blur(radius: 50)
                         .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: backgroundGlow)
                 )
-            
+
             VStack(spacing: 30) {
                 Spacer()
-                
+
                 // Hero preview with animations
                 VStack(spacing: 20) {
                     ZStack {
@@ -47,7 +47,7 @@ struct FinalStepView: View {
                             )
                             .shadow(color: theme.shadowColor, radius: 8, x: 0, y: 4)
                             .frame(width: 180, height: 180)
-                        
+
                         CharacterFullPreview(
                             customization: coordinator.characterCustomization,
                             size: 150
@@ -56,7 +56,7 @@ struct FinalStepView: View {
                         .rotationEffect(.degrees(heroRotation))
                         .animation(.spring(response: 0.8, dampingFraction: 0.6), value: heroScale)
                         .animation(.easeInOut(duration: 1.0), value: heroRotation)
-                        
+
                         // Sparkle effects
                         if showSparkles {
                             ForEach(0..<8, id: \.self) { index in
@@ -73,7 +73,7 @@ struct FinalStepView: View {
                             }
                         }
                     }
-                    
+
                     VStack(spacing: 8) {
                         Text(coordinator.nickname.isEmpty ? "Hero" : coordinator.nickname)
                             .font(.appFont(size: 28, weight: .bold))
@@ -82,7 +82,7 @@ struct FinalStepView: View {
                             .minimumScaleFactor(0.5)
                             .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
                             .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
-                        
+
                         Text("Custom Character")
                             .font(.appFont(size: 18, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
@@ -99,7 +99,7 @@ struct FinalStepView: View {
                     .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showCompletionAnimation)
                 }
                 .padding(.horizontal, 20)
-                
+
                 // Adventure summary
                 VStack(spacing: 16) {
                     Text("Your Adventure Awaits!")
@@ -107,7 +107,7 @@ struct FinalStepView: View {
                         .foregroundColor(theme.textColor)
                         .opacity(showCompletionAnimation ? 1.0 : 0.8)
                         .animation(.easeInOut(duration: 1.2), value: showCompletionAnimation)
-                    
+
                     VStack(spacing: 12) {
                         AdventureFeatureRow(icon: "sword.fill", text: "Create quests and complete tasks", theme: theme)
                             .opacity(showCompletionAnimation ? 1.0 : 0.6)
@@ -121,7 +121,7 @@ struct FinalStepView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                
+
                 Spacer()
             }
         }
@@ -129,13 +129,13 @@ struct FinalStepView: View {
             startCompletionAnimation()
         }
     }
-    
+
     private func startCompletionAnimation() {
         // Start background glow
         withAnimation(.easeInOut(duration: 1.0)) {
             backgroundGlow = true
         }
-        
+
         // Start main completion animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
@@ -143,14 +143,14 @@ struct FinalStepView: View {
                 heroScale = 1.0
             }
         }
-        
+
         // Start sparkles
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             withAnimation(.easeInOut(duration: 0.5)) {
                 showSparkles = true
             }
         }
-        
+
         // Hero rotation effect
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             withAnimation(.easeInOut(duration: 1.0)) {
@@ -165,7 +165,7 @@ struct FinalStepView: View {
 struct SparkleView: View {
     let theme: Theme
     @State private var isAnimating = false
-    
+
     // Random sparkle colors for better visibility
     private var sparkleColor: Color {
         let colors: [Color] = [
@@ -181,7 +181,7 @@ struct SparkleView: View {
         ]
         return colors.randomElement() ?? .yellow
     }
-    
+
     var body: some View {
         Image(systemName: "sparkle")
             .font(.system(size: 18, weight: .bold))
@@ -204,17 +204,17 @@ struct AdventureFeatureRow: View {
     let icon: String
     let text: String
     let theme: Theme
-    
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 16))
                 .foregroundColor(theme.textColor)
-            
+
             Text(text)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.8))
-            
+
             Spacer()
         }
     }

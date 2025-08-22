@@ -7,12 +7,12 @@ struct QuestGiverView: View {
     let onContinue: () -> Void
     let animate: Bool
     @State private var isButtonPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(spacing: 30) {
             Spacer()
-            
+
             // Quest Giver Character
             VStack(spacing: 20) {
                 Image(systemName: "person.fill.questionmark")
@@ -20,12 +20,12 @@ struct QuestGiverView: View {
                     .foregroundColor(.yellow)
                     .scaleEffect(animate ? 1.1 : 1.0)
                     .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: animate)
-                
+
                 Text("Quest Master")
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
             }
-            
+
             // Dialogue Box
             if showDialogue {
                 VStack(spacing: 16) {
@@ -40,7 +40,7 @@ struct QuestGiverView: View {
                                 .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
                         )
                         .transition(.scale.combined(with: .opacity))
-                    
+
                     Button(action: {
                         isButtonPressed = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -72,7 +72,7 @@ struct QuestGiverView: View {
                 }
                 .transition(.scale.combined(with: .opacity))
             }
-            
+
             Spacer()
         }
         .padding()

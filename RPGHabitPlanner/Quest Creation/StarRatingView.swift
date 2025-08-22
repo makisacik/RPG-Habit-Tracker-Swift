@@ -9,12 +9,12 @@ import SwiftUI
 
 struct StarRatingView: View {
     @Binding var rating: Int
-    
+
     let maxRating: Int
     let onImageName: String
     let starSize: CGFloat
     let spacing: CGFloat
-    
+
     init(rating: Binding<Int>,
          maxRating: Int = 5,
          onImageName: String = "icon_star_fill",
@@ -26,7 +26,7 @@ struct StarRatingView: View {
         self.starSize = starSize
         self.spacing = spacing
     }
-    
+
     var body: some View {
         HStack(spacing: spacing) {
             ForEach(1...maxRating, id: \.self) { number in

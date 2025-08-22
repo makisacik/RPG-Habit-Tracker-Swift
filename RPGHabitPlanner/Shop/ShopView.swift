@@ -19,18 +19,18 @@ struct ShopView: View {
     @State private var selectedItem: ShopItem?
     @State private var showItemDetails = false
     @State private var showItemPreview = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             theme.backgroundColor
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Header with coins
                 shopHeader(theme: theme)
-                
+
                 // Enhanced category picker
                 ShopCategoryView(
                     selectedCategory: $selectedCategory
@@ -38,7 +38,7 @@ struct ShopView: View {
                         selectedCategory = category
                 }
                 .padding(.vertical, 8)
-                
+
                 // Filters
                 ShopFilterView(
                     selectedRarity: $selectedRarity,
@@ -47,7 +47,7 @@ struct ShopView: View {
                 ) {
                         // Filter logic handled in itemsGrid
                 }
-                
+
                 // Enhanced items grid
                 enhancedItemsGrid(theme: theme)
             }
@@ -79,29 +79,29 @@ struct ShopView: View {
             }
         }
     }
-    
+
     // MARK: - Header
-    
+
     private func shopHeader(theme: Theme) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Adventure Shop")
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
-                
+
                 Text("Trade your coins for powerful items")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
-            
+
             Spacer()
-            
+
             // Coin display
             HStack(spacing: 8) {
                 Image("icon_gold")
                     .resizable()
                     .frame(width: 24, height: 24)
-                
+
                 Text("\(currencyManager.currentCoins)")
                     .font(.appFont(size: 18, weight: .black))
                     .foregroundColor(.yellow)
@@ -126,12 +126,12 @@ struct ShopView: View {
         .padding(.horizontal)
         .padding(.top)
     }
-    
+
     // MARK: - Enhanced Items Grid
-    
+
     private func enhancedItemsGrid(theme: Theme) -> some View {
         let filteredItems = getFilteredItems()
-        
+
         return ScrollView {
             LazyVGrid(columns: [
                 GridItem(.flexible(), spacing: 16),
@@ -155,10 +155,10 @@ struct ShopView: View {
             .padding()
         }
     }
-    
+
     private func getFilteredItems() -> [ShopItem] {
         var items: [ShopItem]
-        
+
         // Get items for category
         if selectedCategory.isCustomizationCategory {
             items = getCustomizationItems(for: selectedCategory)
@@ -167,23 +167,23 @@ struct ShopView: View {
             let legacyCategory = mapToLegacyCategory(selectedCategory)
             items = shopManager.getItemsByCategory(legacyCategory)
         }
-        
+
         // Apply rarity filter
         if let selectedRarity = selectedRarity {
             items = items.filter { $0.rarity == selectedRarity }
         }
-        
+
         // Apply affordability filter
         if showOnlyAffordable {
             items = items.filter { currencyManager.currentCoins >= shopManager.getDisplayPrice(for: $0) }
         }
-        
+
         return items
     }
-    
+
     private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
         guard let assetCategory = category.assetCategory else { return [] }
-        
+
         let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
         return assets.map { asset in
             ShopItem(
@@ -199,7 +199,7 @@ struct ShopView: View {
             )
         }
     }
-    
+
     private func mapToLegacyCategory(_ enhancedCategory: EnhancedShopCategory) -> ShopCategory {
         switch enhancedCategory {
         case .bodyTypes, .hairStyles, .eyeColors, .outfits: return .armor
@@ -210,10 +210,10 @@ struct ShopView: View {
         case .special: return .special
         }
     }
-    
-    
+
+
     // MARK: - Helper Methods
-    
+
     private func loadCurrentCoins() {
         currencyManager.getCurrentCoins { coins, _ in
             DispatchQueue.main.async {
@@ -221,7 +221,7 @@ struct ShopView: View {
             }
         }
     }
-    
+
     private func purchaseItem(_ item: ShopItem) {
         shopManager.purchaseItem(item) { success, errorMessage in
             if success {
@@ -245,23 +245,23 @@ struct ShopItemCard: View {
     let onTap: () -> Void
     let onPurchase: () -> Void
     @State private var isPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         VStack(spacing: 12) {
             // Item icon
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(theme.secondaryColor)
                     .frame(height: 80)
-                
+
                 Image(item.iconName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
             }
-            
+
             // Item info
             VStack(spacing: 4) {
                 HStack {
@@ -269,7 +269,7 @@ struct ShopItemCard: View {
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
-                    
+
                     // Item type indicator
                     if shopManager.isFunctionalItem(item) {
                         Image(systemName: "bolt.fill")
@@ -281,13 +281,13 @@ struct ShopItemCard: View {
                             .foregroundColor(.white.opacity(0.6))
                     }
                 }
-                
+
                 Text(item.description)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                
+
                 // Item type label
                 HStack(spacing: 4) {
                     if shopManager.isFunctionalItem(item) {
@@ -306,20 +306,20 @@ struct ShopItemCard: View {
                     RoundedRectangle(cornerRadius: 4)
                         .fill(shopManager.isFunctionalItem(item) ? Color.yellow.opacity(0.2) : Color.white.opacity(0.1))
                 )
-                
+
                 // Price
                 HStack(spacing: 4) {
                     Image("icon_gold")
                         .resizable()
                         .frame(width: 16, height: 16)
-                    
+
                     Text("\(shopManager.getDisplayPrice(for: item))")
                         .font(.appFont(size: 14, weight: .black))
                         .foregroundColor(canAfford ? .yellow : .red)
                 }
                 .padding(.top, 4)
             }
-            
+
             // Purchase button
             Button(action: {
                 isPressed = true
@@ -363,10 +363,10 @@ struct ItemDetailView: View {
     let item: ShopItem
     let onPurchase: () -> Void
     @State private var isPressed = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             VStack(spacing: 24) {
                 // Item icon
@@ -374,25 +374,25 @@ struct ItemDetailView: View {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(theme.secondaryColor)
                         .frame(width: 120, height: 120)
-                    
+
                     Image(item.iconName)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 80, height: 80)
                 }
-                
+
                 // Item details
                 VStack(spacing: 16) {
                     Text(item.name)
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
-                    
+
                     Text(item.description)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
-                    
+
                     // Rarity and category
                     HStack(spacing: 20) {
                         VStack {
@@ -403,7 +403,7 @@ struct ItemDetailView: View {
                                 .font(.appFont(size: 14, weight: .black))
                                 .foregroundColor(theme.textColor)
                         }
-                        
+
                         VStack {
                             Text("Category")
                                 .font(.appFont(size: 12, weight: .medium))
@@ -413,22 +413,22 @@ struct ItemDetailView: View {
                                 .foregroundColor(theme.textColor)
                         }
                     }
-                    
+
                     // Price
                     HStack(spacing: 8) {
                         Image("icon_gold")
                             .resizable()
                             .frame(width: 24, height: 24)
-                        
+
                         Text("\(shopManager.getDisplayPrice(for: item))")
                             .font(.appFont(size: 20, weight: .black))
                             .foregroundColor(.yellow)
                     }
                     .padding(.top, 8)
                 }
-                
+
                 Spacer()
-                
+
                 // Purchase button
                 Button(action: {
                     isPressed = true

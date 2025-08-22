@@ -81,7 +81,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func updateQuest(
         withId id: UUID,
         title: String?,
@@ -119,7 +119,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
 
         completion(nil)
     }
-    
+
     func updateQuestProgress(withId id: UUID, progress: Int, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
@@ -132,7 +132,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func markQuestAsFinished(forId id: UUID, completion: @escaping (Error?) -> Void) {
         markQuestAsFinishedCalled = true
 
@@ -150,7 +150,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func updateTask(withId id: UUID, title: String?, isCompleted: Bool?, order: Int16?, questId: UUID?, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
@@ -167,7 +167,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func markQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
@@ -180,7 +180,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func unmarkQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
         if let error = mockError {
             completion(error)
@@ -193,7 +193,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func isQuestCompleted(forId id: UUID, on date: Date, completion: @escaping (Bool, Error?) -> Void) {
         if let error = mockError {
             completion(false, error)
@@ -206,7 +206,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func questCompletionCount(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping (Int, Error?) -> Void) {
         if let error = mockError {
             completion(0, error)
@@ -219,7 +219,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func questCompletionDates(forId id: UUID, from startDate: Date, to endDate: Date, completion: @escaping ([Date], Error?) -> Void) {
         if let error = mockError {
             completion([], error)
@@ -232,7 +232,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
             }
         }
     }
-    
+
     func questCurrentStreak(forId id: UUID, asOf date: Date, completion: @escaping (Int, Error?) -> Void) {
         if let error = mockError {
             completion(0, error)
@@ -241,15 +241,15 @@ class MockQuestDataService: QuestDataServiceProtocol {
             completion(3, nil)
         }
     }
-    
+
     func refreshQuestState(forId id: UUID, on date: Date, completion: @escaping (Error?) -> Void) {
         completion(nil)
     }
-    
+
     func refreshAllQuests(on date: Date, completion: @escaping (Error?) -> Void) {
         completion(nil)
     }
-    
+
     func fetchFinishedQuests(completion: @escaping ([Quest], Error?) -> Void) {
         if let error = mockError {
             completion([], error)

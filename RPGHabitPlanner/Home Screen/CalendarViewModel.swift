@@ -255,7 +255,7 @@ final class CalendarViewModel: ObservableObject {
             alertMessage = "Quest not found"
             return
         }
-        
+
         questDataService.markQuestAsFinished(forId: questId) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -299,10 +299,10 @@ final class CalendarViewModel: ObservableObject {
 
                             // Record streak activity when finishing a quest
                             self.streakManager.recordActivity()
-                            
+
                             // Check achievements
                             self.checkAchievements()
-                            
+
                             self.fetchQuests()
                         }
                     }
@@ -310,7 +310,7 @@ final class CalendarViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func checkAchievements() {
         AchievementManager.shared.checkAchievements(
             questDataService: questDataService,

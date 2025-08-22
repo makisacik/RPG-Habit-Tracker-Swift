@@ -5,30 +5,30 @@ struct StreakCalendarView: View {
     @ObservedObject var streakManager: StreakManager
     @State private var selectedDate = Date()
     @State private var showingStreakDetails = false
-    
+
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM yyyy"
         return dateFormatter
     }()
-    
+
     // Store activity dates for the current month
     @State private var activityDates: Set<Date> = []
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Fixed header
                 HStack {
                     monthHeader(theme: theme)
                     Spacer()
                 }
-                
+
                 // Scrollable content area
                 ScrollView {
                     VStack(spacing: 0) {
@@ -52,7 +52,7 @@ struct StreakCalendarView: View {
             loadActivityDates()
         }
     }
-    
+
     private func monthHeader(theme: Theme) -> some View {
         HStack {
             Button(action: previousMonth) {
@@ -81,7 +81,7 @@ struct StreakCalendarView: View {
         .padding(.bottom, 16)
         .animation(.easeInOut(duration: 0.3), value: selectedDate)
     }
-    
+
     private func dayOfWeekHeaders(theme: Theme) -> some View {
         HStack(spacing: 0) {
             ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
@@ -94,7 +94,7 @@ struct StreakCalendarView: View {
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
     }
-    
+
     private func calendarGrid(theme: Theme) -> some View {
         let days = daysInMonth()
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
@@ -118,7 +118,7 @@ struct StreakCalendarView: View {
         .padding(.horizontal, 20)
         .animation(.easeInOut(duration: 0.3), value: selectedDate)
     }
-    
+
     private func streakStatisticsSection(theme: Theme) -> some View {
         VStack(spacing: 20) {
             // Current streak info
@@ -132,7 +132,7 @@ struct StreakCalendarView: View {
                         .foregroundColor(theme.textColor)
                     Spacer()
                 }
-                
+
                 HStack(spacing: 12) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("\(streakManager.currentStreak)")
@@ -142,9 +142,9 @@ struct StreakCalendarView: View {
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
-                    
+
                     Spacer()
-                    
+
                     VStack(alignment: .trailing, spacing: 4) {
                         Text("\(streakManager.longestStreak)")
                             .font(.appFont(size: 24, weight: .bold))
@@ -165,7 +165,7 @@ struct StreakCalendarView: View {
                         )
                 )
             }
-            
+
             // Monthly statistics
             VStack(spacing: 16) {
                 HStack {
@@ -177,9 +177,9 @@ struct StreakCalendarView: View {
                         .foregroundColor(theme.textColor)
                     Spacer()
                 }
-                
+
                 let monthlyStats = calculateMonthlyStats()
-                
+
                 HStack(spacing: 20) {
                     StreakStatCard(
                         title: String.activeDays.localized,
@@ -187,7 +187,7 @@ struct StreakCalendarView: View {
                         total: "\(monthlyStats.totalDays)",
                         theme: theme
                     )
-                    
+
                     StreakStatCard(
                         title: String.activityRate.localized,
                         value: "\(monthlyStats.activityRate)%",
@@ -200,29 +200,29 @@ struct StreakCalendarView: View {
         .padding(.top, 20)
         .padding(.bottom, 40)
     }
-    
+
     private func previousMonth() {
         withAnimation(.easeInOut(duration: 0.3)) {
             selectedDate = calendar.date(byAdding: .month, value: -1, to: selectedDate) ?? selectedDate
         }
     }
-    
+
     private func nextMonth() {
         withAnimation(.easeInOut(duration: 0.3)) {
             selectedDate = calendar.date(byAdding: .month, value: 1, to: selectedDate) ?? selectedDate
         }
     }
-    
+
     private func daysInMonth() -> [Date?] {
         let startOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
         let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startOfMonth)?.start ?? startOfMonth
-        
+
         let endOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.end ?? selectedDate
         let endOfWeek = calendar.dateInterval(of: .weekOfYear, for: endOfMonth)?.end ?? endOfMonth
-        
+
         var days: [Date?] = []
         var currentDate = startOfWeek
-        
+
         while currentDate < endOfWeek {
             if calendar.isDate(currentDate, equalTo: startOfMonth, toGranularity: .month) {
                 days.append(currentDate)
@@ -231,33 +231,33 @@ struct StreakCalendarView: View {
             }
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
         }
-        
+
         return days
     }
-    
-    
+
+
     private func loadActivityDates() {
         // Load actual activity dates from StreakManager
         activityDates = streakManager.getActivityDates()
         print("📅 StreakCalendarView: Loaded \(activityDates.count) activity dates")
         print("📅 StreakCalendarView: Activity dates: \(activityDates)")
     }
-    
+
     private func calculateMonthlyStats() -> (activeDays: Int, totalDays: Int, activityRate: Int) {
         let startOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
         let endOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.end ?? selectedDate
-        
+
         // Calculate total days in the month
         let totalDays = calendar.dateComponents([.day], from: startOfMonth, to: endOfMonth).day ?? 0
-        
+
         // Filter activity dates for the current month
         let activeDays = activityDates.filter { date in
             let dateStartOfDay = calendar.startOfDay(for: date)
             return dateStartOfDay >= startOfMonth && dateStartOfDay < endOfMonth
         }.count
-        
+
         let activityRate = totalDays > 0 ? Int((Double(activeDays) / Double(totalDays)) * 100) : 0
-        
+
         print("📅 StreakCalendarView: Monthly stats calculation:")
         print("📅 StreakCalendarView: Selected date: \(selectedDate)")
         print("📅 StreakCalendarView: Start of month: \(startOfMonth)")
@@ -265,7 +265,7 @@ struct StreakCalendarView: View {
         print("📅 StreakCalendarView: Total days: \(totalDays)")
         print("📅 StreakCalendarView: Active days: \(activeDays)")
         print("📅 StreakCalendarView: Activity rate: \(activityRate)%")
-        
+
         return (activeDays: activeDays, totalDays: totalDays, activityRate: activityRate)
     }
 }
@@ -277,13 +277,13 @@ struct CalendarDayItem: View {
     let theme: Theme
     let calendar: Calendar
     let onDateSelected: (Date) -> Void
-    
+
     var body: some View {
         Group {
             if let date = date {
                 let dateStartOfDay = calendar.startOfDay(for: date)
                 let hasActivity = activityDates.contains(dateStartOfDay)
-                
+
                 StreakCalendarDayView(
                     date: date,
                     hasActivity: hasActivity,
@@ -305,16 +305,16 @@ struct StreakCalendarDayView: View {
     let isSelected: Bool
     let theme: Theme
     let onTap: () -> Void
-    
+
     private let calendar = Calendar.current
-    
+
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 2) {
                 Text("\(calendar.component(.day, from: date))")
                     .font(.appFont(size: 16, weight: isSelected ? .bold : .medium))
                     .foregroundColor(selectionTextColor)
-                
+
                 if hasActivity {
                     Circle()
                         .fill(activityColor)
@@ -334,7 +334,7 @@ struct StreakCalendarDayView: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
-    
+
     private var selectionTextColor: Color {
         if isSelected {
             if theme.backgroundColor == Color(hex: "#F0F0F0") {
@@ -346,7 +346,7 @@ struct StreakCalendarDayView: View {
             return theme.textColor
         }
     }
-    
+
     private var selectionBackgroundColor: Color {
         if isSelected {
             if theme.backgroundColor == Color(hex: "#F0F0F0") {
@@ -358,7 +358,7 @@ struct StreakCalendarDayView: View {
             return Color.clear
         }
     }
-    
+
     private var activityColor: Color {
         if hasActivity {
             return .orange
@@ -373,25 +373,25 @@ struct StreakStatCard: View {
     let value: String
     let total: String?
     let theme: Theme
-    
+
     init(title: String, value: String, total: String? = nil, theme: Theme) {
         self.title = title
         self.value = value
         self.total = total
         self.theme = theme
     }
-    
+
     var body: some View {
         VStack(spacing: 8) {
             Text(title)
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.7))
-            
+
             HStack(spacing: 4) {
                 Text(value)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 if let total = total {
                     Text("/ \(total)")
                         .font(.appFont(size: 14, weight: .medium))

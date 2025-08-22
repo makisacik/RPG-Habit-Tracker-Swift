@@ -16,7 +16,7 @@ extension Notification.Name {
 class LocalizationManager: ObservableObject {
     // MARK: - Singleton
     static let shared = LocalizationManager()
-    
+
     // MARK: - Published Properties
     @Published var currentLanguage: Language {
         didSet {
@@ -24,20 +24,20 @@ class LocalizationManager: ObservableObject {
             updateLocale()
         }
     }
-    
+
     @Published var currentLocale: Locale {
         didSet {
             UserDefaults.standard.set(currentLocale.identifier, forKey: "selectedLocale")
         }
     }
-    
+
     // MARK: - Available Languages
     enum Language: String, CaseIterable, Identifiable {
         case english = "en"
         case turkish = "tr"
-        
+
         var id: String { rawValue }
-        
+
         var displayName: String {
             switch self {
             case .english:
@@ -46,7 +46,7 @@ class LocalizationManager: ObservableObject {
                 return "Türkçe"
             }
         }
-        
+
         var flag: String {
             switch self {
             case .english:
@@ -55,7 +55,7 @@ class LocalizationManager: ObservableObject {
                 return "🇹🇷"
             }
         }
-        
+
         var locale: Locale {
             switch self {
             case .english:
@@ -65,7 +65,7 @@ class LocalizationManager: ObservableObject {
             }
         }
     }
-    
+
     // MARK: - Initialization
     private init() {
         // Determine the initial language
@@ -83,10 +83,10 @@ class LocalizationManager: ObservableObject {
                 initialLanguage = .english
             }
         }
-        
+
         // Initialize stored properties
         self.currentLanguage = initialLanguage
-        
+
         // Determine the initial locale
         let initialLocale: Locale
         if let savedLocaleId = UserDefaults.standard.string(forKey: "selectedLocale") {
@@ -94,41 +94,41 @@ class LocalizationManager: ObservableObject {
         } else {
             initialLocale = initialLanguage.locale
         }
-        
+
         self.currentLocale = initialLocale
     }
-    
+
     // MARK: - Public Methods
-    
+
     /// Changes the current language
     /// - Parameter language: The new language to set
     func changeLanguage(to language: Language) {
         currentLanguage = language
         currentLocale = language.locale
-        
+
         // Post notification to trigger UI updates
         NotificationCenter.default.post(name: .languageChanged, object: language)
-        
+
         // Force UI refresh by updating the object
         objectWillChange.send()
     }
-    
+
     /// Gets the localized string for a key
     /// - Parameter key: The localization key
     /// - Returns: Localized string
     func localizedString(for key: String) -> String {
         let bundle = Bundle.main
-        
+
         // Try to get the localized string for the specific locale
         if let languagePath = bundle.path(forResource: currentLocale.language.languageCode?.identifier, ofType: "lproj"),
            let languageBundle = Bundle(path: languagePath) {
             return languageBundle.localizedString(forKey: key, value: key, table: nil)
         }
-        
+
         // Fallback to default NSLocalizedString
         return NSLocalizedString(key, comment: "")
     }
-    
+
     /// Gets the localized string with arguments
     /// - Parameters:
     ///   - key: The localization key
@@ -138,7 +138,7 @@ class LocalizationManager: ObservableObject {
         let format = NSLocalizedString(key, comment: "")
         return String(format: format, arguments: arguments)
     }
-    
+
     /// Gets the localized string with a single argument
     /// - Parameters:
     ///   - key: The localization key
@@ -148,7 +148,7 @@ class LocalizationManager: ObservableObject {
         let format = NSLocalizedString(key, comment: "")
         return String(format: format, argument)
     }
-    
+
     /// Gets the localized string with pluralization
     /// - Parameters:
     ///   - key: The localization key
@@ -158,7 +158,7 @@ class LocalizationManager: ObservableObject {
         let format = NSLocalizedString(key, comment: "")
         return String(format: format, count)
     }
-    
+
     /// Formats a date according to the current locale
     /// - Parameters:
     ///   - date: The date to format
@@ -170,7 +170,7 @@ class LocalizationManager: ObservableObject {
         formatter.dateStyle = style
         return formatter.string(from: date)
     }
-    
+
     /// Formats a date with custom format
     /// - Parameters:
     ///   - date: The date to format
@@ -182,7 +182,7 @@ class LocalizationManager: ObservableObject {
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
-    
+
     /// Formats a number according to the current locale
     /// - Parameters:
     ///   - number: The number to format
@@ -194,7 +194,7 @@ class LocalizationManager: ObservableObject {
         formatter.numberStyle = style
         return formatter.string(from: number) ?? "\(number)"
     }
-    
+
     /// Formats a number with custom format
     /// - Parameters:
     ///   - number: The number to format
@@ -206,9 +206,9 @@ class LocalizationManager: ObservableObject {
         formatter.positiveFormat = format
         return formatter.string(from: number) ?? "\(number)"
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func updateLocale() {
         currentLocale = currentLanguage.locale
     }

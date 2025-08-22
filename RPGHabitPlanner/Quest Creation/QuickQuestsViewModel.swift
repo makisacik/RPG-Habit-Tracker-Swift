@@ -5,17 +5,17 @@ import CoreData
 
 final class QuickQuestsViewModel: ObservableObject {
     private let questDataService: QuestDataServiceProtocol
-    
+
     @Published var selectedQuestType: QuestType = .daily
     @Published var selectedTemplate: QuickQuestTemplate?
     @Published var showDueDatePicker = false
-    
+
     private var cancellables = Set<AnyCancellable>()
-    
+
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
     }
-    
+
     var questsForSelectedType: [QuickQuestTemplate] {
         switch selectedQuestType {
         case .daily:
@@ -26,7 +26,7 @@ final class QuickQuestsViewModel: ObservableObject {
             return QuickQuestTemplate.oneTimeQuests
         }
     }
-    
+
     func addQuickQuest(template: QuickQuestTemplate, dueDate: Date) {
         let repeatType: QuestRepeatType
         switch selectedQuestType {
@@ -37,7 +37,7 @@ final class QuickQuestsViewModel: ObservableObject {
         case .oneTime:
             repeatType = .oneTime
         }
-        
+
         let newQuest = Quest(
             title: template.title,
             isMainQuest: false,
@@ -52,7 +52,7 @@ final class QuickQuestsViewModel: ObservableObject {
             tasks: template.tasks,
             repeatType: repeatType
         )
-        
+
         questDataService.saveQuest(newQuest, withTasks: template.tasks.map { $0.title }) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -121,7 +121,7 @@ extension QuickQuestTemplate {
             ]
         )
     ]
-    
+
     static let weeklyQuests: [QuickQuestTemplate] = [
         QuickQuestTemplate(
             title: "Weekly Planning",
@@ -176,7 +176,7 @@ extension QuickQuestTemplate {
             ]
         )
     ]
-    
+
     static let oneTimeQuests: [QuickQuestTemplate] = [
         QuickQuestTemplate(
             title: "Bucket List Adventure",

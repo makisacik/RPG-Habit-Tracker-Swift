@@ -10,18 +10,18 @@ import SwiftUI
 struct CreateTagView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
-    
+
     @StateObject private var viewModel = CreateTagViewModel()
     let onTagCreated: (Tag) -> Void
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 // Background
                 theme.backgroundColor.ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(spacing: 24) {
                         // Large Preview Section
@@ -30,7 +30,7 @@ struct CreateTagView: View {
                                 .font(.appFont(size: 20, weight: .bold))
                                 .foregroundColor(theme.textColor)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            
+
                             if !viewModel.tagName.isEmpty {
                                 TagChip(
                                     tag: Tag(
@@ -64,19 +64,19 @@ struct CreateTagView: View {
                         )
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
-                        
+
                         // Tag name input with modern styling
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Tag Name")
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
-                            
+
                             HStack(spacing: 12) {
                                 Image(systemName: "tag.fill")
                                     .font(.system(size: 18, weight: .medium))
                                     .foregroundColor(theme.accentColor)
                                     .frame(width: 24)
-                                
+
                                 TextField("Enter tag name", text: $viewModel.tagName)
                                     .textFieldStyle(PlainTextFieldStyle())
                                     .font(.appFont(size: 16, weight: .regular))
@@ -100,16 +100,16 @@ struct CreateTagView: View {
                                 .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 4)
                         )
                         .padding(.horizontal, 20)
-                        
+
                         // Icon selection with modern grid
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Text("Icon")
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
-                                
+
                                 Spacer()
-                                
+
                                 Button(action: {
                                     withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                                         viewModel.showIconPicker = true
@@ -130,7 +130,7 @@ struct CreateTagView: View {
                                     )
                                 }
                             }
-                            
+
                             // Selected icon preview
                             HStack(spacing: 16) {
                                 Image(systemName: viewModel.selectedIcon)
@@ -142,17 +142,17 @@ struct CreateTagView: View {
                                             .fill(Color(hex: viewModel.selectedColor))
                                             .shadow(color: Color(hex: viewModel.selectedColor).opacity(0.3), radius: 8, x: 0, y: 4)
                                     )
-                                
+
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Selected Icon")
                                         .font(.appFont(size: 14, weight: .medium))
                                         .foregroundColor(theme.textColor.opacity(0.7))
-                                    
+
                                     Text(viewModel.selectedIcon)
                                         .font(.appFont(size: 16, weight: .bold))
                                         .foregroundColor(theme.textColor)
                                 }
-                                
+
                                 Spacer()
                             }
                             .padding(20)
@@ -172,13 +172,13 @@ struct CreateTagView: View {
                                 .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 4)
                         )
                         .padding(.horizontal, 20)
-                        
+
                         // Color selection with modern palette
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Color")
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
-                            
+
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 16) {
                                 ForEach(Tag.colorPalette, id: \.self) { colorHex in
                                     Button(action: {
@@ -191,12 +191,12 @@ struct CreateTagView: View {
                                                 .fill(Color(hex: colorHex))
                                                 .frame(width: 50, height: 50)
                                                 .shadow(color: Color(hex: colorHex).opacity(0.3), radius: 6, x: 0, y: 3)
-                                            
+
                                             if viewModel.selectedColor == colorHex {
                                                 Circle()
                                                     .stroke(theme.accentColor, lineWidth: 3)
                                                     .frame(width: 56, height: 56)
-                                                
+
                                                 Image(systemName: "checkmark")
                                                     .font(.system(size: 16, weight: .bold))
                                                     .foregroundColor(.white)
@@ -228,7 +228,7 @@ struct CreateTagView: View {
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
-                
+
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -244,7 +244,7 @@ struct CreateTagView: View {
                         .foregroundColor(theme.accentColor)
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -279,9 +279,9 @@ struct CreateTagView: View {
 struct IconPickerView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) private var dismiss
-    
+
     @Binding var selectedIcon: String
-    
+
     private let iconCategories = [
         ("General", ["tag", "bookmark", "star", "heart", "flag", "pin"]),
         ("Work", ["briefcase", "folder", "doc.text", "calendar", "clock", "checkmark.circle"]),
@@ -294,14 +294,14 @@ struct IconPickerView: View {
         ("Objects", ["gift", "shoppingbag", "creditcard", "key", "lock", "gear"]),
         ("Emotions", ["face.smiling", "hand.thumbsup", "hand.thumbsdown", "exclamationmark.triangle", "questionmark.circle", "info.circle"])
     ]
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 theme.backgroundColor.ignoresSafeArea()
-                
+
                 ScrollView {
                     LazyVStack(spacing: 24) {
                         ForEach(iconCategories, id: \.0) { category in
@@ -310,7 +310,7 @@ struct IconPickerView: View {
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
                                     .padding(.horizontal, 20)
-                                
+
                                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 16) {
                                     ForEach(category.1, id: \.self) { iconName in
                                         Button(action: {
@@ -324,7 +324,7 @@ struct IconPickerView: View {
                                                     .fill(selectedIcon == iconName ? theme.accentColor : theme.cardBackgroundColor)
                                                     .frame(width: 60, height: 60)
                                                     .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-                                                
+
                                                 Image(systemName: iconName)
                                                     .font(.system(size: 24, weight: .medium))
                                                     .foregroundColor(selectedIcon == iconName ? .white : theme.textColor)
@@ -364,9 +364,9 @@ class CreateTagViewModel: ObservableObject {
     @Published var showError: Bool = false
     @Published var errorMessage: String?
     @Published var showIconPicker: Bool = false
-    
+
     private let tagService: TagServiceProtocol = TagService()
-    
+
     func reset() {
         tagName = ""
         selectedIcon = "tag"
@@ -376,12 +376,12 @@ class CreateTagViewModel: ObservableObject {
         errorMessage = nil
         showIconPicker = false
     }
-    
+
     func createTag(completion: @escaping (Tag) -> Void) {
         guard !tagName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        
+
         isCreating = true
-        
+
         tagService.createTag(
             name: tagName.trimmingCharacters(in: .whitespacesAndNewlines),
             icon: selectedIcon,
@@ -389,7 +389,7 @@ class CreateTagViewModel: ObservableObject {
         ) { [weak self] tag, error in
             DispatchQueue.main.async {
                 self?.isCreating = false
-                
+
                 if let error = error {
                     self?.errorMessage = error.localizedDescription
                     self?.showError = true

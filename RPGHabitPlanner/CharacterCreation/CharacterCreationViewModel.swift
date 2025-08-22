@@ -13,7 +13,7 @@ class CharacterCreationViewModel: ObservableObject {
     @Published var isCustomizationComplete: Bool = true // Set to true by default since CharacterCustomization() has default values
     @Published var nickname: String = ""
     @Published var isCharacterCreated: Bool = false
-    
+
     // Services
     private let userManager = UserManager()
     private let customizationService = CharacterCustomizationService()
@@ -32,52 +32,69 @@ class CharacterCreationViewModel: ObservableObject {
             }
         }
     }
-    
+
     // MARK: - New Customization Methods
-    
+
     func updateCustomization(_ customization: CharacterCustomization) {
         self.currentCustomization = customization
         checkCustomizationComplete()
     }
-    
+
     // MARK: - Individual Update Methods for Carousel Interface
-    
+
     func updateBodyType(_ bodyType: BodyType) {
         currentCustomization.bodyType = bodyType
         objectWillChange.send()
     }
-    
+
     func updateHairStyle(_ hairStyle: HairStyle) {
         currentCustomization.hairStyle = hairStyle
+        // Update hair color to match the new hair style
+        currentCustomization.hairColor = hairStyle.hairColor
         objectWillChange.send()
     }
     
-    func updateHairColor(_ hairColor: HairColor) {
+    func updateHairColor(_ hairColor: HairColor, updateHairStyle: Bool = true) {
         currentCustomization.hairColor = hairColor
+        
+        // Only update hair style if requested and if there's a matching style for the current hair type
+        if updateHairStyle {
+            let currentHairType = currentCustomization.hairStyle.hairType
+            if let newStyle = HairStyle.getStyle(for: currentHairType, color: hairColor) {
+                currentCustomization.hairStyle = newStyle
+            }
+        }
+        
         objectWillChange.send()
     }
     
-    
+    // New method to update hair style and color together
+    func updateHairStyleAndColor(_ hairStyle: HairStyle) {
+        currentCustomization.hairStyle = hairStyle
+        currentCustomization.hairColor = hairStyle.hairColor
+        objectWillChange.send()
+    }
+
     func updateEyeColor(_ eyeColor: EyeColor) {
         currentCustomization.eyeColor = eyeColor
         objectWillChange.send()
     }
-    
+
     func updateOutfit(_ outfit: Outfit) {
         currentCustomization.outfit = outfit
         objectWillChange.send()
     }
-    
+
     func updateWeapon(_ weapon: CharacterWeapon) {
         currentCustomization.weapon = weapon
         objectWillChange.send()
     }
-    
+
     func updateAccessory(_ accessory: Accessory?) {
         currentCustomization.accessory = accessory
         objectWillChange.send()
     }
-    
+
     func updateHairBackStyle(_ hairBackStyle: HairBackStyle?) {
         currentCustomization.hairBackStyle = hairBackStyle
         checkCustomizationComplete()
@@ -92,7 +109,7 @@ class CharacterCreationViewModel: ObservableObject {
         currentCustomization.flower = flower
         checkCustomizationComplete()
     }
-    
+
     private func checkCustomizationComplete() {
         // Check if all required customization options are selected
         let isComplete = !currentCustomization.bodyType.rawValue.isEmpty &&
@@ -101,10 +118,10 @@ class CharacterCreationViewModel: ObservableObject {
                         !currentCustomization.eyeColor.rawValue.isEmpty &&
                         !currentCustomization.outfit.rawValue.isEmpty &&
                         !currentCustomization.weapon.rawValue.isEmpty
-        
+
         isCustomizationComplete = isComplete
     }
-    
+
     func saveUserWithCustomization(completion: @escaping (Error?) -> Void) {
         // First create the user
         userManager.saveUserWithCustomization(
@@ -115,32 +132,32 @@ class CharacterCreationViewModel: ObservableObject {
                 completion(error)
                 return
             }
-            
+
             guard let user = user, let self = self else {
                 completion(NSError(domain: "CharacterCreation", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create user"]))
                 return
             }
-            
+
             // Create customization entity
             _ = self.customizationService.createCustomization(for: user, customization: self.currentCustomization)
-            
+
             // Populate default items
             self.customizationItemService.populateDefaultItems(for: user)
-            
+
             // Create default preset
             _ = self.presetService.createDefaultPreset(for: user, customization: self.currentCustomization)
-            
+
             completion(nil)
         }
     }
-    
+
     func resetCustomization() {
         currentCustomization = CharacterCustomization()
         isCustomizationComplete = false
     }
-    
+
     // MARK: - Validation
-    
+
     var canProceed: Bool {
         return !currentCustomization.bodyType.rawValue.isEmpty &&
                !currentCustomization.hairStyle.rawValue.isEmpty &&

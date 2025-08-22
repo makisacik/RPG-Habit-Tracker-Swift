@@ -20,72 +20,72 @@ protocol ItemUsageHandler {
 /// Manages the player's inventory, including items, active effects, and item usage
 class InventoryManager: ObservableObject {
     // MARK: - Singleton Implementation
-    
+
     private static var _shared: InventoryManager?
     private static let lock = NSLock()
-    
+
     static var shared: InventoryManager {
         lock.lock()
         defer { lock.unlock() }
-        
+
         if _shared == nil {
             _shared = InventoryManager()
         }
         return _shared!
     }
-    
+
     // MARK: - Published Properties
-    
+
     @Published var inventoryItems: [ItemEntity] = []
     @Published var activeEffects: [ActiveEffect] = []
-    
+
     // MARK: - Private Properties
-    
+
     private let service: InventoryServiceProtocol
     private let activeEffectsService: ActiveEffectsServiceProtocol
     private let itemDatabase = ItemDatabase.shared
     private lazy var usageHandler: ItemUsageHandler = {
         return DefaultItemUsageHandler(inventoryManager: self)
     }()
-    
+
     // MARK: - Initialization
-    
+
     private init() {
         self.service = InventoryService(container: PersistenceController.shared.container)
         self.activeEffectsService = ActiveEffectsCoreDataService(container: PersistenceController.shared.container)
         refreshInventory()
         loadActiveEffectsFromPersistence()
     }
-    
+
     // MARK: - Inventory Management
-    
+
     /// Refreshes the inventory from the data service
     func refreshInventory() {
         inventoryItems = service.fetchInventory()
     }
-    
+
     /// Adds an item to the inventory
     /// - Parameter item: The item to add
     func addToInventory(_ item: Item) {
         service.addItem(name: item.name, info: item.description, iconName: item.iconName)
         refreshInventory()
     }
-    
+
     /// Removes an item from the inventory
     /// - Parameter item: The item to remove
     func removeFromInventory(_ item: ItemEntity) {
         service.removeItem(item)
         refreshInventory()
     }
-    
+
     /// Clears all items from the inventory
     func clearInventory() {
         service.clearInventory()
         refreshInventory()
     }
-    
+
     // MARK: - Item Usage
-    
+
     /// Uses an item from the inventory
     /// - Parameters:
     ///   - item: The item entity to use
@@ -96,7 +96,7 @@ class InventoryManager: ObservableObject {
             completion(false, InventoryError.invalidItem)
             return
         }
-        
+
         usageHandler.useItem(itemDefinition) { [weak self] success, error in
             if success {
                 self?.removeFromInventory(item)
@@ -104,9 +104,9 @@ class InventoryManager: ObservableObject {
             completion(success, error)
         }
     }
-    
+
     // MARK: - Item Type Detection
-    
+
     /// Gets the type of an item
     /// - Parameter item: The item to check
     /// - Returns: The item type if found
@@ -117,108 +117,108 @@ class InventoryManager: ObservableObject {
         }
         return itemDefinition.itemType
     }
-    
+
     /// Checks if an item is consumable
     /// - Parameter item: The item to check
     /// - Returns: True if the item is consumable
     func isConsumable(_ item: ItemEntity) -> Bool {
         return getItemType(item) == .consumable
     }
-    
+
     /// Checks if an item is a booster
     /// - Parameter item: The item to check
     /// - Returns: True if the item is a booster
     func isBooster(_ item: ItemEntity) -> Bool {
         return getItemType(item) == .booster
     }
-    
+
     /// Checks if an item is a collectible
     /// - Parameter item: The item to check
     /// - Returns: True if the item is a collectible
     func isCollectible(_ item: ItemEntity) -> Bool {
         return getItemType(item) == .collectible
     }
-    
+
     // MARK: - Active Effects Management
-    
+
     /// Loads active effects from persistence
     func loadActiveEffectsFromPersistence() {
         let effects = activeEffectsService.fetchActiveEffects()
         DispatchQueue.main.async { [weak self] in
             self?.activeEffects = effects
             print("💾 InventoryManager: Loaded \(effects.count) active effects from persistence")
-            
+
             // Refresh boosters after loading effects from persistence
             BoosterManager.shared.refreshBoostersFromPersistence()
         }
     }
-    
+
     /// Adds an active effect to the inventory and persists it
     /// - Parameter effect: The effect to add
     func addActiveEffect(_ effect: ActiveEffect) {
         // Add to Core Data
         activeEffectsService.saveActiveEffect(effect)
-        
+
         // Update local array
         activeEffects.append(effect)
-        
+
         // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
-        
+
         print("💾 InventoryManager: Added and persisted active effect \(effect.effect.type.rawValue)")
     }
-    
+
     /// Removes an active effect from the inventory and persistence
     /// - Parameter effect: The effect to remove
     func removeActiveEffect(_ effect: ActiveEffect) {
         // Remove from Core Data
         activeEffectsService.removeActiveEffect(effect)
-        
+
         // Update local array
         activeEffects.removeAll { $0.id == effect.id }
-        
+
         // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
-        
+
         print("💾 InventoryManager: Removed active effect from persistence")
     }
-    
+
     /// Clears all expired effects from the inventory and persistence
     func clearExpiredEffects() {
         // Clear from Core Data
         activeEffectsService.clearExpiredEffects()
-        
+
         // Update local array
         activeEffects.removeAll { !$0.isActive }
-        
+
         // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
-        
+
         print("💾 InventoryManager: Cleared expired effects from persistence")
     }
-    
+
     /// Clears all active effects from the inventory and persistence
     func clearAllEffects() {
         // Clear from Core Data
         activeEffectsService.clearAllEffects()
-        
+
         // Update local array
         activeEffects.removeAll()
-        
+
         // Post notification for UI updates
         NotificationCenter.default.post(name: .activeEffectsChanged, object: nil)
-        
+
         print("💾 InventoryManager: Cleared all effects from persistence")
     }
-    
+
     // MARK: - Helper Methods
-    
+
     /// Gets a random reward item
     /// - Returns: A random item from the database
     func getRandomReward() -> Item {
         return itemDatabase.getRandomItem()
     }
-    
+
     /// Adds starter items to the inventory
     func addStarterItems() {
         addToInventory(ItemDatabase.minorHealthPotion)
@@ -226,14 +226,14 @@ class InventoryManager: ObservableObject {
         addToInventory(ItemDatabase.minorXPBoost)
         addToInventory(ItemDatabase.minorCoinBoost)
     }
-    
+
     /// Gets all items of a specific type
     /// - Parameter type: The item type to filter by
     /// - Returns: Array of items of the specified type
     func getItems(of type: ItemType) -> [Item] {
         return itemDatabase.getItems(of: type)
     }
-    
+
     /// Gets all items of a specific rarity
     /// - Parameter rarity: The item rarity to filter by
     /// - Returns: Array of items of the specified rarity
@@ -249,30 +249,30 @@ class DefaultItemUsageHandler: ItemUsageHandler {
     private lazy var healthManager = HealthManager.shared
     private lazy var boosterManager = BoosterManager.shared
     private weak var inventoryManager: InventoryManager?
-    
+
     init(inventoryManager: InventoryManager? = nil) {
         self.inventoryManager = inventoryManager
     }
-    
+
     func useItem(_ item: Item, completion: @escaping (Bool, Error?) -> Void) {
         guard let usageData = item.usageData else {
             // For collectible items, just return success
             completion(true, nil)
             return
         }
-        
+
         switch usageData {
         case .healthPotion(let healAmount):
             useHealthPotion(healAmount: healAmount, completion: completion)
-            
+
         case .xpBoost(let multiplier, let duration):
             useXPBoost(multiplier: multiplier, duration: duration, sourceName: item.name, completion: completion)
-            
+
         case .coinBoost(let multiplier, let duration):
             useCoinBoost(multiplier: multiplier, duration: duration, sourceName: item.name, completion: completion)
         }
     }
-    
+
     private func useHealthPotion(healAmount: Int16, completion: @escaping (Bool, Error?) -> Void) {
         if healAmount >= 999 {
             // Full heal
@@ -286,7 +286,7 @@ class DefaultItemUsageHandler: ItemUsageHandler {
             }
         }
     }
-    
+
     private func useXPBoost(multiplier: Double, duration: TimeInterval, sourceName: String, completion: @escaping (Bool, Error?) -> Void) {
         // Create an ActiveEffect for the inventory manager
         let itemEffect = ItemEffect(
@@ -295,7 +295,7 @@ class DefaultItemUsageHandler: ItemUsageHandler {
             duration: duration,
             isPercentage: true
         )
-        
+
         let activeEffect = ActiveEffect(
             effect: itemEffect,
             sourceItemId: UUID(), // Generate a unique ID for this effect
@@ -305,10 +305,10 @@ class DefaultItemUsageHandler: ItemUsageHandler {
         // Add to inventory manager's active effects
         // The BoosterManager will automatically pick this up via calculateItemBoosters()
         inventoryManager?.addActiveEffect(activeEffect)
-        
+
         completion(true, nil)
     }
-    
+
     private func useCoinBoost(multiplier: Double, duration: TimeInterval, sourceName: String, completion: @escaping (Bool, Error?) -> Void) {
         // Create an ActiveEffect for the inventory manager
         let itemEffect = ItemEffect(
@@ -317,7 +317,7 @@ class DefaultItemUsageHandler: ItemUsageHandler {
             duration: duration,
             isPercentage: true
         )
-        
+
         let activeEffect = ActiveEffect(
             effect: itemEffect,
             sourceItemId: UUID(), // Generate a unique ID for this effect
@@ -327,7 +327,7 @@ class DefaultItemUsageHandler: ItemUsageHandler {
         // Add to inventory manager's active effects
         // The BoosterManager will automatically pick this up via calculateItemBoosters()
         inventoryManager?.addActiveEffect(activeEffect)
-        
+
         completion(true, nil)
     }
 }
@@ -340,7 +340,7 @@ enum InventoryError: LocalizedError {
     case itemNotFound
     case insufficientQuantity
     case itemNotUsable
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidItem:

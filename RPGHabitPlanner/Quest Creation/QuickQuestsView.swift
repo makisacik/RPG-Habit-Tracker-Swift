@@ -9,20 +9,20 @@ struct QuickQuestsView: View {
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
     @State private var showSuccessAnimation = false
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 if showSuccessAnimation {
                     SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
                         .zIndex(20)
                 }
-                
+
                 theme.backgroundColor
                     .ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(spacing: 20) {
                         // Header
@@ -30,14 +30,14 @@ struct QuickQuestsView: View {
                             Text(String.quickQuests.localized)
                                 .font(.appFont(size: 28, weight: .black))
                                 .foregroundColor(theme.textColor)
-                            
+
                             Text(String.chooseFromCuratedQuestTemplates.localized)
                                 .font(.appFont(size: 16))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                                 .multilineTextAlignment(.center)
                         }
                         .padding(.top, 20)
-                        
+
                         // Quest Type Segments
                         Picker(String.questType.localized, selection: $viewModel.selectedQuestType) {
                             Text(String.daily.localized).tag(QuestType.daily)
@@ -46,7 +46,7 @@ struct QuickQuestsView: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         .padding(.horizontal, 16)
-                        
+
                         // Quest Templates
                         LazyVStack(spacing: 16) {
                             ForEach(viewModel.questsForSelectedType, id: \.id) { template in
@@ -106,41 +106,41 @@ struct QuickQuestTemplateCard: View {
     let template: QuickQuestTemplate
     let theme: Theme
     let onAddQuest: () -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: template.iconName)
                     .font(.title2)
                     .foregroundColor(template.category.color)
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(template.title)
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
-                    
+
                     Text(template.description)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                         .lineLimit(2)
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: onAddQuest) {
                     Image(systemName: "plus.circle.fill")
                         .font(.title2)
                         .foregroundColor(.green)
                 }
             }
-            
+
             HStack {
                 Label("\(template.difficulty)", systemImage: "star.fill")
                     .font(.appFont(size: 12))
                     .foregroundColor(.yellow)
-                
+
                 Spacer()
-                
+
                 Text(template.category.displayName)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(template.category.color)
@@ -167,18 +167,18 @@ struct DueDateSelectionView: View {
     let template: QuickQuestTemplate
     let questType: QuestType
     let onSave: (Date) -> Void
-    
+
     @State private var selectedDueDate: Date
-    
+
     init(template: QuickQuestTemplate, questType: QuestType, onSave: @escaping (Date) -> Void) {
         self.template = template
         self.questType = questType
         self.onSave = onSave
-        
+
         // Set default due date based on quest type
         let calendar = Calendar.current
         let now = Date()
-        
+
         switch questType {
         case .daily:
             // 5 days from now
@@ -191,40 +191,40 @@ struct DueDateSelectionView: View {
             self._selectedDueDate = State(initialValue: calendar.date(byAdding: .month, value: 1, to: now) ?? now)
         }
     }
-    
+
     var body: some View {
         let theme = themeManager.activeTheme
-        
+
         NavigationView {
             ZStack {
                 theme.backgroundColor
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 24) {
                     // Quest Info
                     VStack(spacing: 16) {
                         Image(systemName: template.iconName)
                             .font(.system(size: 48))
                             .foregroundColor(template.category.color)
-                        
+
                         Text(template.title)
                             .font(.appFont(size: 24, weight: .black))
                             .foregroundColor(theme.textColor)
                             .multilineTextAlignment(.center)
-                        
+
                         Text(template.description)
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
                     }
                     .padding(.top, 20)
-                    
+
                     // Due Date Selection
                     VStack(alignment: .leading, spacing: 12) {
                         Text(String.dueDate.localized)
                             .font(.appFont(size: 18, weight: .bold))
                             .foregroundColor(theme.textColor)
-                        
+
                         DatePicker("", selection: $selectedDueDate, displayedComponents: [.date])
                             .datePickerStyle(WheelDatePickerStyle())
                             .labelsHidden()
@@ -235,20 +235,20 @@ struct DueDateSelectionView: View {
                             )
                     }
                     .padding(.horizontal, 20)
-                    
+
                     // Default Duration Info
                     VStack(spacing: 8) {
                         Text(String.defaultDuration.localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
-                        
+
                         Text(defaultDurationText)
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.5))
                     }
-                    
+
                     Spacer()
-                    
+
                     // Action Buttons
                     VStack(spacing: 12) {
                         Button(action: {
@@ -271,7 +271,7 @@ struct DueDateSelectionView: View {
                                     )
                             )
                         }
-                        
+
                         Button(String.cancelButton.localized) {
                             dismiss()
                         }
@@ -289,7 +289,7 @@ struct DueDateSelectionView: View {
                             })
         }
     }
-    
+
     private var defaultDurationText: String {
         switch questType {
         case .daily:
@@ -325,7 +325,7 @@ enum QuickQuestCategory: String, CaseIterable {
     case mindfulness = "mindfulness"
     case fitness = "fitness"
     case social = "social"
-    
+
     var displayName: String {
         switch self {
         case .health:
@@ -342,7 +342,7 @@ enum QuickQuestCategory: String, CaseIterable {
             return String.social.localized
         }
     }
-    
+
     var color: Color {
         switch self {
         case .health:

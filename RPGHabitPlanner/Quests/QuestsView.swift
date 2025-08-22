@@ -13,7 +13,7 @@ struct QuestsView: View {
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showingQuestCreation = false
     @State private var showAlert: Bool = false
-    
+
     // Reward and level-up overlay states
     @State private var showReward = false
     @State private var completedQuest: Quest?
@@ -70,7 +70,7 @@ struct QuestsView: View {
                     .padding(.top, 20)
                 }
             }
-            
+
             // Reward and level-up overlays
             if let quest = completedQuest, showReward {
                 RewardView(isVisible: $showReward, quest: quest)
@@ -281,14 +281,14 @@ struct QuestsView: View {
 
 struct QuestRow: View {
     @State private var isExpanded: Bool = true // Tasks are expanded by default
-    
+
     let item: DayQuestItem
     let theme: Theme
     let onToggle: () -> Void
     let onMarkFinished: () -> Void
     let onToggleTaskCompletion: (UUID, Bool) -> Void
     let onQuestTap: (DayQuestItem) -> Void
-    
+
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading, spacing: 0) {
@@ -297,20 +297,20 @@ struct QuestRow: View {
                     Circle()
                         .fill(indicatorColor)
                         .frame(width: 8, height: 8)
-                    
+
                     VStack(alignment: .leading, spacing: 1) {
                         Text(item.quest.title)
                             .font(.appFont(size: 15, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.7 : 1.0))
                             .lineLimit(1)
-                        
+
                         Text(subtitle)
                             .font(.appFont(size: 11, weight: .black))
                             .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.5 : 0.7))
                     }
-                    
+
                     Spacer()
-                    
+
                     Button(action: onToggle) {
                         Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
                             .font(.title3)
@@ -323,14 +323,14 @@ struct QuestRow: View {
                 .onTapGesture {
                     onQuestTap(item)
                 }
-                
+
                 // Tasks section (if quest has tasks)
                 let tasks = item.quest.tasks
                 if !tasks.isEmpty {
                     Divider()
                         .background(theme.textColor.opacity(0.2))
                         .padding(.horizontal, 12)
-                    
+
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.2)) {
                             isExpanded.toggle()
@@ -351,7 +351,7 @@ struct QuestRow: View {
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
-                    
+
                     if isExpanded {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(tasks, id: \.id) { task in
@@ -365,12 +365,12 @@ struct QuestRow: View {
                                             .foregroundColor(task.isCompleted ? .green : .gray)
                                     }
                                     .buttonStyle(PlainButtonStyle())
-                                    
+
                                     Text(task.title)
                                         .font(.appFont(size: 12))
                                         .foregroundColor(theme.textColor.opacity(0.9))
                                         .strikethrough(task.isCompleted)
-                                    
+
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -390,7 +390,7 @@ struct QuestRow: View {
             )
             .padding(.horizontal, 4)
             .padding(.vertical, 2)
-            
+
             Menu {
                 Button("Mark as Finished") {
                     onMarkFinished()
@@ -404,7 +404,7 @@ struct QuestRow: View {
             .padding(.trailing, 8)
         }
     }
-    
+
     private var indicatorColor: Color {
         switch item.state {
         case .done: return .green
@@ -412,7 +412,7 @@ struct QuestRow: View {
         case .inactive: return .gray
         }
     }
-    
+
     private var subtitle: String {
         switch item.quest.repeatType {
         case .daily: return "Daily"
