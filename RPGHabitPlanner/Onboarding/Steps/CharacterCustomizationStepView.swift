@@ -31,5 +31,12 @@ struct CharacterCustomizationStepView: View {
                 }
             }
         }
+        .onAppear {
+            // Update coordinator with current customization and mark as complete since defaults are set
+            coordinator.updateCharacterCustomization(characterCreationViewModel.currentCustomization)
+            if characterCreationViewModel.isCustomizationComplete {
+                coordinator.markCharacterCustomizationComplete()
+            }
+        }
     }
 }

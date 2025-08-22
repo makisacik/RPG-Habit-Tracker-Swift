@@ -10,7 +10,7 @@ import SwiftUI
 class CharacterCreationViewModel: ObservableObject {
     // New customization properties
     @Published var currentCustomization = CharacterCustomization()
-    @Published var isCustomizationComplete: Bool = false
+    @Published var isCustomizationComplete: Bool = true // Set to true by default since CharacterCustomization() has default values
     @Published var nickname: String = ""
     @Published var isCharacterCreated: Bool = false
     

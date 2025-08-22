@@ -166,15 +166,32 @@ struct SparkleView: View {
     let theme: Theme
     @State private var isAnimating = false
     
+    // Random sparkle colors for better visibility
+    private var sparkleColor: Color {
+        let colors: [Color] = [
+            .yellow,
+            .orange,
+            .red,
+            .pink,
+            .purple,
+            .blue,
+            .cyan,
+            .green,
+            .white
+        ]
+        return colors.randomElement() ?? .yellow
+    }
+    
     var body: some View {
         Image(systemName: "sparkle")
-            .font(.system(size: 16, weight: .bold))
-            .foregroundColor(theme.primaryColor)
-            .scaleEffect(isAnimating ? 1.5 : 0.5)
+            .font(.system(size: 18, weight: .bold))
+            .foregroundColor(sparkleColor)
+            .shadow(color: sparkleColor.opacity(0.8), radius: 2, x: 0, y: 0)
+            .scaleEffect(isAnimating ? 1.8 : 0.3)
             .opacity(isAnimating ? 0.0 : 1.0)
             .rotationEffect(.degrees(isAnimating ? 180 : 0))
             .onAppear {
-                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: false)) {
+                withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: false)) {
                     isAnimating = true
                 }
             }
