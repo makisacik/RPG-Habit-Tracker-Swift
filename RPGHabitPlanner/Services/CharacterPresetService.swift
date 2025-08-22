@@ -192,33 +192,33 @@ extension CharacterPresetService {
     
     private func createKnightPreset() -> CharacterCustomization {
         var customization = CharacterCustomization()
-        customization.outfit = .iron
+        customization.outfit = .outfitIron
         customization.weapon = .swordIron
-        customization.bodyType = .body1
+        customization.bodyType = .bodyWhite
         return customization
     }
     
     private func createArcherPreset() -> CharacterCustomization {
         var customization = CharacterCustomization()
-        customization.outfit = .simple
-        customization.weapon = .swordDagger
-        customization.bodyType = .body2
+        customization.outfit = .outfitVillager
+        customization.weapon = .swordWood
+        customization.bodyType = .bodyBlue
         return customization
     }
     
     private func createMagePreset() -> CharacterCustomization {
         var customization = CharacterCustomization()
-        customization.outfit = .dress
-        customization.weapon = .swordDagger
+        customization.outfit = .outfitDress
+        customization.weapon = .swordStaff
         customization.accessory = .eyeglassBlue
         return customization
     }
     
     private func createAssassinPreset() -> CharacterCustomization {
         var customization = CharacterCustomization()
-        customization.outfit = .assassin
+        customization.outfit = .outfitBat
         customization.weapon = .swordDeadly
-        customization.hairStyle = .punk
+        customization.hairStyle = .hair4Black
         return customization
     }
 }

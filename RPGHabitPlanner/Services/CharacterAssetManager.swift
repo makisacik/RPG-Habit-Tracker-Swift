@@ -12,39 +12,45 @@ import SwiftUI
 
 enum AssetCategory: String, CaseIterable, Identifiable {
     case bodyType = "BodyType"
-    case skinColor = "SkinColor"
     case hairStyle = "HairStyle"
+    case hairBackStyle = "HairBackStyle"
     case hairColor = "HairColor"
     case eyeColor = "EyeColor"
     case outfit = "Outfit"
     case weapon = "Weapon"
     case accessory = "Accessory"
+    case mustache = "Mustache"
+    case flower = "Flower"
     
     var id: String { rawValue }
     
     var displayName: String {
         switch self {
         case .bodyType: return "Body Type"
-        case .skinColor: return "Skin Color"
         case .hairStyle: return "Hair Style"
+        case .hairBackStyle: return "Hair Back Style"
         case .hairColor: return "Hair Color"
         case .eyeColor: return "Eye Color"
         case .outfit: return "Outfit"
         case .weapon: return "Weapon"
         case .accessory: return "Accessory"
+        case .mustache: return "Mustache"
+        case .flower: return "Flower"
         }
     }
     
     var icon: String {
         switch self {
         case .bodyType: return "person.fill"
-        case .skinColor: return "paintpalette.fill"
         case .hairStyle: return "scissors"
+        case .hairBackStyle: return "scissors"
         case .hairColor: return "paintbrush.fill"
         case .eyeColor: return "eye.fill"
         case .outfit: return "tshirt.fill"
         case .weapon: return "sword.fill"
         case .accessory: return "crown.fill"
+        case .mustache: return "mustache"
+        case .flower: return "leaf.fill"
         }
     }
 }
@@ -142,25 +148,25 @@ final class CharacterAssetManager: ObservableObject {
     private func preloadCommonAssets() {
         cacheQueue.async { [weak self] in
             let commonAssets = [
-                // Default body types
-                BodyType.body1.rawValue,
-                BodyType.body2.rawValue,
+                // Default body types (skin colors)
+                BodyType.bodyWhite.rawValue,
+                BodyType.bodyBlue.rawValue,
                 
                 // Default hair styles
-                HairStyle.brown1.rawValue,
-                HairStyle.brown2.rawValue,
+                HairStyle.hair1Brown.rawValue,
+                HairStyle.hair1Black.rawValue,
                 
                 // Default outfits
-                Outfit.simple.rawValue,
-                Outfit.hoodie.rawValue,
+                Outfit.outfitVillager.rawValue,
+                Outfit.outfitVillagerBlue.rawValue,
                 
                 // Default weapons
-                CharacterWeapon.swordDaggerWood.rawValue,
-                CharacterWeapon.swordDagger.rawValue,
+                CharacterWeapon.swordWood.rawValue,
+                CharacterWeapon.swordIron.rawValue,
                 
                 // Default eye colors
-                EyeColor.brown.rawValue,
-                EyeColor.blue.rawValue
+                EyeColor.eyeBlack.rawValue,
+                EyeColor.eyeBlue.rawValue
             ]
             
             for assetName in commonAssets {
@@ -176,10 +182,10 @@ final class CharacterAssetManager: ObservableObject {
         switch category {
         case .bodyType:
             return BodyType.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: .common) }
-        case .skinColor:
-            return SkinColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
         case .hairStyle:
             return HairStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .hairBackStyle:
+            return HairBackStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .hairColor:
             return HairColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
         case .eyeColor:
@@ -190,6 +196,10 @@ final class CharacterAssetManager: ObservableObject {
             return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .accessory:
             return Accessory.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .mustache:
+            return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .flower:
+            return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         }
     }
     
@@ -198,10 +208,10 @@ final class CharacterAssetManager: ObservableObject {
         switch category {
         case .bodyType:
             return BodyType.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: .common) }
-        case .skinColor:
-            return SkinColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
         case .hairStyle:
             return HairStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .hairBackStyle:
+            return HairBackStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .hairColor:
             return HairColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
         case .eyeColor:
@@ -212,6 +222,10 @@ final class CharacterAssetManager: ObservableObject {
             return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .accessory:
             return Accessory.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .mustache:
+            return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .flower:
+            return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         }
     }
     
@@ -241,14 +255,32 @@ final class CharacterAssetManager: ObservableObject {
     /// Gets fallback asset for category
     func getFallbackAsset(for category: AssetCategory) -> String {
         switch category {
-        case .bodyType: return BodyType.body1.rawValue
-        case .skinColor: return SkinColor.light.rawValue
-        case .hairStyle: return HairStyle.brown1.rawValue
+        case .bodyType: return BodyType.bodyWhite.rawValue
+        case .hairStyle: return HairStyle.hair1Brown.rawValue
+        case .hairBackStyle: return ""
         case .hairColor: return HairColor.brown.rawValue
         case .eyeColor: return EyeColor.brown.rawValue
-        case .outfit: return Outfit.simple.rawValue
-        case .weapon: return CharacterWeapon.swordDaggerWood.rawValue
+        case .outfit: return Outfit.outfitVillager.rawValue
+        case .weapon: return CharacterWeapon.swordWood.rawValue
         case .accessory: return ""
+        case .mustache: return ""
+        case .flower: return ""
+        }
+    }
+    
+    /// Gets the default asset for a category
+    func getDefaultAssetForCategory(_ category: AssetCategory) -> String {
+        switch category {
+        case .bodyType: return BodyType.bodyWhite.rawValue
+        case .hairStyle: return HairStyle.hair1Brown.rawValue
+        case .hairBackStyle: return ""
+        case .hairColor: return HairColor.brown.rawValue
+        case .eyeColor: return EyeColor.brown.rawValue
+        case .outfit: return Outfit.outfitVillager.rawValue
+        case .weapon: return CharacterWeapon.swordWood.rawValue
+        case .accessory: return ""
+        case .mustache: return ""
+        case .flower: return ""
         }
     }
     

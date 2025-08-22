@@ -14,7 +14,9 @@ struct CharacterCreationView: View {
 
     @State private var currentSectionIndex = 0
     
-    private let sections = CustomizationStep.allCases
+    private let categories: [CustomizationCategory] = [
+        .bodyType, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
+    ]
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -42,13 +44,14 @@ struct CharacterCreationView: View {
                 // Section Navigation
                 SectionNavigationView(
                     currentIndex: $currentSectionIndex,
-                    sections: sections,
+                    sections: categories,
                     theme: theme
                 )
                 
                 // Current Section Content
                 CurrentSectionContentView(
                     currentIndex: currentSectionIndex,
+                    categories: categories,
                     viewModel: viewModel,
                     theme: theme
                 )
@@ -100,7 +103,7 @@ struct CharacterPreviewSectionView: View {
 // MARK: - Section Navigation
 struct SectionNavigationView: View {
     @Binding var currentIndex: Int
-    let sections: [CustomizationStep]
+    let sections: [CustomizationCategory]
     let theme: Theme
     
     var body: some View {
@@ -145,18 +148,23 @@ struct SectionNavigationView: View {
 // MARK: - Current Section Content
 struct CurrentSectionContentView: View {
     let currentIndex: Int
+    let categories: [CustomizationCategory]
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
     
     var body: some View {
-        let currentSection = CustomizationStep.allCases[currentIndex]
+        let currentSection = categories[currentIndex]
         
         VStack(spacing: 12) {
             switch currentSection {
-            case .skinColor:
-                SkinColorSectionView(viewModel: viewModel, theme: theme)
-            case .hairstyle:
+            case .bodyType:
+                BodyTypeSectionView(viewModel: viewModel, theme: theme)
+            case .hairStyle:
                 HairstyleSectionView(viewModel: viewModel, theme: theme)
+            case .hairBackStyle:
+                HairBackStyleSectionView(viewModel: viewModel, theme: theme)
+            case .hairColor:
+                HairColorSectionView(viewModel: viewModel, theme: theme)
             case .eyeColor:
                 EyeColorSectionView(viewModel: viewModel, theme: theme)
             case .outfit:
@@ -165,6 +173,10 @@ struct CurrentSectionContentView: View {
                 WeaponSectionView(viewModel: viewModel, theme: theme)
             case .accessory:
                 AccessoriesSectionView(viewModel: viewModel, theme: theme)
+            case .mustache:
+                MustacheSectionView(viewModel: viewModel, theme: theme)
+            case .flower:
+                FlowerSectionView(viewModel: viewModel, theme: theme)
             }
         }
         .frame(maxHeight: 200)
@@ -172,42 +184,28 @@ struct CurrentSectionContentView: View {
 }
 
 // MARK: - Section Implementations
-struct SkinColorSectionView: View {
+struct BodyTypeSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
     
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
-            ForEach(SkinColor.allCases, id: \.self) { skinColor in
-                SkinColorOptionCard(
-                    skinColor: skinColor,
-                    isSelected: viewModel.currentCustomization.skinColor == skinColor,
+            ForEach(BodyType.allCases, id: \.self) { bodyType in
+                BodyTypeOptionCard(
+                    bodyType: bodyType,
+                    isSelected: viewModel.currentCustomization.bodyType == bodyType,
                     theme: theme
                 ) {
-                    // Map skin color to body type and update
-                    let bodyType = mapSkinColorToBodyType(skinColor)
-                    viewModel.updateBodyType(bodyType)
-                    viewModel.updateSkinColor(skinColor)
+                        viewModel.updateBodyType(bodyType)
                 }
             }
         }
     }
-    
-    // Helper function to map skin color to body type
-    private func mapSkinColorToBodyType(_ skinColor: SkinColor) -> BodyType {
-        switch skinColor {
-        case .light: return .body1
-        case .medium: return .body2
-        case .dark: return .body3
-        case .tan: return .body4
-        case .olive: return .body5
-        }
-    }
 }
 
-// MARK: - Skin Color Option Card
-struct SkinColorOptionCard: View {
-    let skinColor: SkinColor
+// MARK: - Body Type Option Card
+struct BodyTypeOptionCard: View {
+    let bodyType: BodyType
     let isSelected: Bool
     let theme: Theme
     let onTap: () -> Void
@@ -215,9 +213,9 @@ struct SkinColorOptionCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 8) {
-                // Skin color circle
+                // Body color circle
                 Circle()
-                    .fill(skinColor.color)
+                    .fill(bodyType.color)
                     .frame(width: 50, height: 50)
                     .overlay(
                         Circle()
@@ -225,8 +223,8 @@ struct SkinColorOptionCard: View {
                     )
                     .shadow(color: isSelected ? theme.accentColor.opacity(0.3) : Color.black.opacity(0.1), radius: isSelected ? 4 : 2)
                 
-                // Skin color name
-                Text(skinColor.displayName)
+                // Body type name
+                Text(bodyType.displayName)
                     .font(.custom("Quicksand-Medium", size: 12))
                     .foregroundColor(theme.textColor)
                     .lineLimit(2)
@@ -246,6 +244,7 @@ struct SkinColorOptionCard: View {
         .buttonStyle(PlainButtonStyle())
     }
 }
+
 
 struct HairstyleSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
@@ -336,9 +335,9 @@ struct OutfitSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
     
-    // Filter to only show simple and hoodie outfits
+    // Filter to only show villager outfits
     private var availableOutfits: [Outfit] {
-        return [.simple, .hoodie]
+        return [.outfitVillager, .outfitVillagerBlue]
     }
     
     var body: some View {
@@ -367,9 +366,9 @@ struct WeaponSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
 
-    // Filter to only show wooden and steel daggers
+    // Filter to only show basic weapons
     private var availableWeapons: [CharacterWeapon] {
-        return [.swordDaggerWood, .swordDagger]
+        return [.swordWood, .swordIron]
     }
 
     var body: some View {
@@ -393,3 +392,120 @@ struct WeaponSectionView: View {
         }
     }
 }
+
+
+struct HairColorSectionView: View {
+    @ObservedObject var viewModel: CharacterCreationViewModel
+    let theme: Theme
+    
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
+            ForEach(HairColor.allCases, id: \.self) { hairColor in
+                CustomizationOptionCard(
+                    option: CustomizationOption(
+                        id: hairColor.rawValue,
+                        name: hairColor.displayName,
+                        imageName: hairColor.previewImageName,
+                        isPremium: hairColor.isPremium,
+                        isUnlocked: true
+                    ),
+                    isSelected: viewModel.currentCustomization.hairColor == hairColor,
+                    onTap: {
+                        viewModel.updateHairColor(hairColor)
+                    },
+                    theme: theme
+                )
+            }
+        }
+    }
+}
+
+struct HairBackStyleSectionView: View {
+    @ObservedObject var viewModel: CharacterCreationViewModel
+    let theme: Theme
+
+    // Filter to show a few hair back styles
+    private var availableHairBacks: [HairBackStyle] {
+        return [.hair2BackBrown, .hair6BackBrown, .hair7BackBrown, .hair8BackBrown]
+    }
+
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
+            ForEach(availableHairBacks, id: \.self) { hairBack in
+                CustomizationOptionCard(
+                    option: CustomizationOption(
+                        id: hairBack.rawValue,
+                        name: hairBack.displayName,
+                        imageName: hairBack.previewImageName,
+                        isPremium: hairBack.isPremium,
+                        isUnlocked: true
+                    ),
+                    isSelected: viewModel.currentCustomization.hairBackStyle == hairBack,
+                    onTap: {
+                        viewModel.updateHairBackStyle(hairBack)
+                    },
+                    theme: theme
+                )
+            }
+        }
+    }
+}
+
+struct MustacheSectionView: View {
+    @ObservedObject var viewModel: CharacterCreationViewModel
+    let theme: Theme
+
+    // Filter to show a few mustache styles
+    private var availableMustaches: [Mustache] {
+        return [.mustache1Brown, .mustache1Black, .mustache2Brown, .mustache2Black]
+    }
+
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
+            ForEach(availableMustaches, id: \.self) { mustache in
+                CustomizationOptionCard(
+                    option: CustomizationOption(
+                        id: mustache.rawValue,
+                        name: mustache.displayName,
+                        imageName: mustache.previewImageName,
+                        isPremium: mustache.isPremium,
+                        isUnlocked: true
+                    ),
+                    isSelected: viewModel.currentCustomization.mustache == mustache,
+                    onTap: {
+                        viewModel.updateMustache(mustache)
+                    },
+                    theme: theme
+                )
+            }
+        }
+    }
+}
+
+struct FlowerSectionView: View {
+    @ObservedObject var viewModel: CharacterCreationViewModel
+    let theme: Theme
+
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
+            ForEach(Flower.allCases, id: \.self) { flower in
+                CustomizationOptionCard(
+                    option: CustomizationOption(
+                        id: flower.rawValue,
+                        name: flower.displayName,
+                        imageName: flower.previewImageName,
+                        isPremium: flower.isPremium,
+                        isUnlocked: true
+                    ),
+                    isSelected: viewModel.currentCustomization.flower == flower,
+                    onTap: {
+                        viewModel.updateFlower(flower)
+                    },
+                    theme: theme
+                )
+            }
+        }
+    }
+}
+
+// MARK: - Supporting Types and Views

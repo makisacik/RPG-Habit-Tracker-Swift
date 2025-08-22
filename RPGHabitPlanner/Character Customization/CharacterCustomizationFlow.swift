@@ -108,12 +108,18 @@ class CharacterCustomizationFlowCoordinator: ObservableObject {
             return !selectedCustomization.bodyType.rawValue.isEmpty
         case .hairstyle:
             return !selectedCustomization.hairStyle.rawValue.isEmpty
+        case .hairBackStyle:
+            return true // Optional
         case .eyeColor:
             return !selectedCustomization.eyeColor.rawValue.isEmpty
         case .outfit:
             return !selectedCustomization.outfit.rawValue.isEmpty
         case .weapon:
             return !selectedCustomization.weapon.rawValue.isEmpty
+        case .mustache:
+            return true // Optional
+        case .flower:
+            return true // Optional
         case .accessory:
             return true // Optional
         }
@@ -125,18 +131,24 @@ class CharacterCustomizationFlowCoordinator: ObservableObject {
 enum CustomizationStep: Int, CaseIterable {
     case skinColor = 0  // renamed from bodyType
     case hairstyle = 1  // renamed from hairStyle
-    case eyeColor = 2   // moved up
-    case outfit = 3     // moved up
-    case weapon = 4     // moved up
-    case accessory = 5  // moved up
+    case hairBackStyle = 2  // new step for hair backs
+    case eyeColor = 3   // moved up
+    case outfit = 4     // moved up
+    case weapon = 5     // moved up
+    case mustache = 6   // new step for mustaches
+    case flower = 7     // new step for flowers
+    case accessory = 8  // moved up
     
     var title: String {
         switch self {
         case .skinColor: return "Select Skin Color"
         case .hairstyle: return "Choose Hairstyle"
+        case .hairBackStyle: return "Choose Hair Back Style"
         case .eyeColor: return "Select Eye Color"
         case .outfit: return "Choose Outfit"
         case .weapon: return "Pick Your Weapon"
+        case .mustache: return "Add Mustache"
+        case .flower: return "Add Flower"
         case .accessory: return "Add Accessories"
         }
     }
@@ -145,14 +157,17 @@ enum CustomizationStep: Int, CaseIterable {
         switch self {
         case .skinColor: return .bodyType  // keep the same category mapping
         case .hairstyle: return .hairStyle
+        case .hairBackStyle: return .hairBackStyle
         case .eyeColor: return .eyeColor
         case .outfit: return .outfit
         case .weapon: return .weapon
+        case .mustache: return .mustache
+        case .flower: return .flower
         case .accessory: return .accessory
         }
     }
     
     var isOptional: Bool {
-        return self == .accessory
+        return self == .accessory || self == .mustache || self == .flower || self == .hairBackStyle
     }
 }

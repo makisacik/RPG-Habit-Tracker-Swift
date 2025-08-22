@@ -211,26 +211,26 @@ extension CustomizationItemService {
     func populateDefaultItems(for user: UserEntity) {
         // Add all basic items as owned
         let defaultItems: [(String, CustomizationCategory, ItemRarity)] = [
-            // Body types
-            (BodyType.body1.rawValue, .bodyType, .common),
-            (BodyType.body2.rawValue, .bodyType, .common),
-            (BodyType.body3.rawValue, .bodyType, .uncommon),
+            // Body types (skin colors)
+            (BodyType.bodyWhite.rawValue, .bodyType, .common),
+            (BodyType.bodyBlue.rawValue, .bodyType, .common),
+            (BodyType.bodyTan.rawValue, .bodyType, .uncommon),
             
             // Hair styles
-            (HairStyle.brown1.rawValue, .hairStyle, .common),
-            (HairStyle.brown2.rawValue, .hairStyle, .uncommon),
+            (HairStyle.hair1Brown.rawValue, .hairStyle, .common),
+            (HairStyle.hair1Black.rawValue, .hairStyle, .uncommon),
             
             // Eye colors
-            (EyeColor.brown.rawValue, .eyeColor, .common),
-            (EyeColor.blue.rawValue, .eyeColor, .uncommon),
+            (EyeColor.eyeBlack.rawValue, .eyeColor, .common),
+            (EyeColor.eyeBlue.rawValue, .eyeColor, .uncommon),
             
             // Outfits
-            (Outfit.simple.rawValue, .outfit, .common),
-            (Outfit.hoodie.rawValue, .outfit, .uncommon),
+            (Outfit.outfitVillager.rawValue, .outfit, .common),
+            (Outfit.outfitVillagerBlue.rawValue, .outfit, .uncommon),
             
             // Weapons
-            (CharacterWeapon.swordDaggerWood.rawValue, .weapon, .common),
-            (CharacterWeapon.swordDagger.rawValue, .weapon, .uncommon)
+            (CharacterWeapon.swordWood.rawValue, .weapon, .common),
+            (CharacterWeapon.swordIron.rawValue, .weapon, .uncommon)
         ]
         
         for (itemName, category, rarity) in defaultItems {

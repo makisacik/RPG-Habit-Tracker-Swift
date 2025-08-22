@@ -113,72 +113,28 @@ struct CustomizationOptionsGrid: View {
                 id: asset.id,
                 name: asset.name,
                 imageName: asset.imageName,
-                isPremium: asset.rarity != .common,
+                isPremium: asset.rarity != AssetRarity.common,
                 isUnlocked: asset.isUnlocked
             )
         }
     }
     
     private func isOptionSelected(_ option: CustomizationOption) -> Bool {
-        switch step.category {
-        case .bodyType:
-            return selectedCustomization.bodyType.rawValue == option.id
-        case .skinColor:
-            return selectedCustomization.skinColor.rawValue == option.id
-        case .hairStyle:
-            return selectedCustomization.hairStyle.rawValue == option.id
-        case .hairColor:
-            return selectedCustomization.hairColor.rawValue == option.id
-        case .eyeColor:
-            return selectedCustomization.eyeColor.rawValue == option.id
-        case .outfit:
-            return selectedCustomization.outfit.rawValue == option.id
-        case .weapon:
-            return selectedCustomization.weapon.rawValue == option.id
-        case .accessory:
-            return selectedCustomization.accessory?.rawValue == option.id
-        }
+        return getSelectedValue(for: step.category) == option.id
+    }
+    
+    private func getSelectedValue(for category: AssetCategory) -> String? {
+        return selectedCustomization.getValue(for: category)
     }
     
     private func selectOption(_ option: CustomizationOption) {
         var updatedCustomization = selectedCustomization
-        
-        switch step.category {
-        case .bodyType:
-            if let bodyType = BodyType(rawValue: option.id) {
-                updatedCustomization.bodyType = bodyType
-            }
-        case .skinColor:
-            if let skinColor = SkinColor(rawValue: option.id) {
-                updatedCustomization.skinColor = skinColor
-            }
-        case .hairStyle:
-            if let hairStyle = HairStyle(rawValue: option.id) {
-                updatedCustomization.hairStyle = hairStyle
-            }
-        case .hairColor:
-            if let hairColor = HairColor(rawValue: option.id) {
-                updatedCustomization.hairColor = hairColor
-            }
-        case .eyeColor:
-            if let eyeColor = EyeColor(rawValue: option.id) {
-                updatedCustomization.eyeColor = eyeColor
-            }
-        case .outfit:
-            if let outfit = Outfit(rawValue: option.id) {
-                updatedCustomization.outfit = outfit
-            }
-        case .weapon:
-            if let weapon = CharacterWeapon(rawValue: option.id) {
-                updatedCustomization.weapon = weapon
-            }
-        case .accessory:
-            if let accessory = Accessory(rawValue: option.id) {
-                updatedCustomization.accessory = accessory
-            }
-        }
-        
+        updateCustomizationForCategory(&updatedCustomization, option: option)
         onSelectionChanged(updatedCustomization)
+    }
+    
+    private func updateCustomizationForCategory(_ customization: inout CharacterCustomization, option: CustomizationOption) {
+        customization.setValue(option.id, for: step.category)
     }
 }
 

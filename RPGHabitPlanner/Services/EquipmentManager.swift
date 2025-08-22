@@ -13,7 +13,6 @@ import Combine
 
 enum EquipmentSlot: String, CaseIterable, Identifiable {
     case bodyType = "BodyType"
-    case skinColor = "SkinColor"
     case hairStyle = "HairStyle"
     case hairColor = "HairColor"
     case eyeColor = "EyeColor"
@@ -26,7 +25,6 @@ enum EquipmentSlot: String, CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .bodyType: return "Body Type"
-        case .skinColor: return "Skin Color"
         case .hairStyle: return "Hair Style"
         case .hairColor: return "Hair Color"
         case .eyeColor: return "Eye Color"
@@ -251,10 +249,6 @@ final class EquipmentManager: ObservableObject {
             if let bodyType = BodyType(rawValue: itemName) {
                 customization.bodyType = bodyType
             }
-        case .skinColor:
-            if let skinColor = SkinColor(rawValue: itemName) {
-                customization.skinColor = skinColor
-            }
         case .hairStyle:
             if let hairStyle = HairStyle(rawValue: itemName) {
                 customization.hairStyle = hairStyle
@@ -328,8 +322,8 @@ struct EquipmentSet: Identifiable {
         EquipmentSet(
             id: "assassin_set",
             name: "Assassin Set",
-            description: "Stealth and agility focused",
-            requiredItems: [Outfit.assassin.rawValue, CharacterWeapon.swordDeadly.rawValue, HairStyle.punk.rawValue],
+            description: "A deadly combination for stealth missions",
+            requiredItems: [Outfit.outfitBat.rawValue, CharacterWeapon.swordDeadly.rawValue, HairStyle.hair4Black.rawValue],
             setBonus: SetBonus(name: "Shadow Strike", description: "+15% completion speed", bonusType: .speedMultiplier(1.15))
         )
     ]

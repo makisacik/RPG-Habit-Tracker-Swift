@@ -17,13 +17,15 @@ extension CharacterCustomizationEntity {
     @NSManaged public var id: UUID?
     @NSManaged public var userId: UUID?
     @NSManaged public var bodyType: String?
-    @NSManaged public var skinColor: String?
     @NSManaged public var hairStyle: String?
+    @NSManaged public var hairBackStyle: String?
     @NSManaged public var hairColor: String?
     @NSManaged public var eyeColor: String?
     @NSManaged public var outfit: String?
     @NSManaged public var weapon: String?
-    @NSManaged public var accessories: String?
+    @NSManaged public var accessory: String?
+    @NSManaged public var mustache: String?
+    @NSManaged public var flower: String?
     @NSManaged public var createdAt: Date?
     @NSManaged public var updatedAt: Date?
     @NSManaged public var user: UserEntity?
@@ -36,7 +38,7 @@ extension CharacterCustomizationEntity: Identifiable {
 extension CharacterCustomizationEntity {
     /// Converts accessories JSON string to array
     var accessoriesArray: [String] {
-        guard let accessories = accessories,
+        guard let accessories = accessory,
               let data = accessories.data(using: .utf8),
               let array = try? JSONSerialization.jsonObject(with: data) as? [String] else {
             return []
@@ -48,11 +50,12 @@ extension CharacterCustomizationEntity {
     func setAccessories(_ accessories: [String]) {
         if let data = try? JSONSerialization.data(withJSONObject: accessories),
            let jsonString = String(data: data, encoding: .utf8) {
-            self.accessories = jsonString
+            self.accessory = jsonString
         }
     }
     
-    /// Converts to CharacterCustomization model
+    // MARK: - Conversion Methods
+    
     func toCharacterCustomization() -> CharacterCustomization {
         var customization = CharacterCustomization()
         
@@ -61,14 +64,14 @@ extension CharacterCustomizationEntity {
             customization.bodyType = bodyType
         }
         
-        if let skinColorString = skinColor,
-           let skinColor = SkinColor(rawValue: skinColorString) {
-            customization.skinColor = skinColor
-        }
-        
         if let hairStyleString = hairStyle,
            let hairStyle = HairStyle(rawValue: hairStyleString) {
             customization.hairStyle = hairStyle
+        }
+        
+        if let hairBackStyleString = hairBackStyle,
+           let hairBackStyle = HairBackStyle(rawValue: hairBackStyleString) {
+            customization.hairBackStyle = hairBackStyle
         }
         
         if let hairColorString = hairColor,
@@ -91,33 +94,34 @@ extension CharacterCustomizationEntity {
             customization.weapon = weapon
         }
         
-        // Handle accessories (first one for now, since CharacterCustomization only supports one)
-        let accessoriesArray = self.accessoriesArray
-        if let firstAccessory = accessoriesArray.first,
-           let accessory = Accessory(rawValue: firstAccessory) {
+        if let accessoryString = accessory,
+           let accessory = Accessory(rawValue: accessoryString) {
             customization.accessory = accessory
+        }
+        
+        if let mustacheString = mustache,
+           let mustache = Mustache(rawValue: mustacheString) {
+            customization.mustache = mustache
+        }
+        
+        if let flowerString = flower,
+           let flower = Flower(rawValue: flowerString) {
+            customization.flower = flower
         }
         
         return customization
     }
     
-    /// Updates from CharacterCustomization model
     func updateFrom(_ customization: CharacterCustomization) {
         bodyType = customization.bodyType.rawValue
-        skinColor = customization.skinColor.rawValue
         hairStyle = customization.hairStyle.rawValue
+        hairBackStyle = customization.hairBackStyle?.rawValue
         hairColor = customization.hairColor.rawValue
         eyeColor = customization.eyeColor.rawValue
         outfit = customization.outfit.rawValue
         weapon = customization.weapon.rawValue
-        
-        // Handle accessories
-        var accessoriesArray: [String] = []
-        if let accessory = customization.accessory {
-            accessoriesArray.append(accessory.rawValue)
-        }
-        setAccessories(accessoriesArray)
-        
-        updatedAt = Date()
+        accessory = customization.accessory?.rawValue
+        mustache = customization.mustache?.rawValue
+        flower = customization.flower?.rawValue
     }
 }

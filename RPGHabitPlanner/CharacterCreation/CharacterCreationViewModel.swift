@@ -44,48 +44,58 @@ class CharacterCreationViewModel: ObservableObject {
     
     func updateBodyType(_ bodyType: BodyType) {
         currentCustomization.bodyType = bodyType
-        checkCustomizationComplete()
-    }
-    
-    func updateSkinColor(_ skinColor: SkinColor) {
-        currentCustomization.skinColor = skinColor
-        checkCustomizationComplete()
+        objectWillChange.send()
     }
     
     func updateHairStyle(_ hairStyle: HairStyle) {
         currentCustomization.hairStyle = hairStyle
-        checkCustomizationComplete()
+        objectWillChange.send()
     }
     
     func updateHairColor(_ hairColor: HairColor) {
         currentCustomization.hairColor = hairColor
-        checkCustomizationComplete()
+        objectWillChange.send()
     }
+    
     
     func updateEyeColor(_ eyeColor: EyeColor) {
         currentCustomization.eyeColor = eyeColor
-        checkCustomizationComplete()
+        objectWillChange.send()
     }
     
     func updateOutfit(_ outfit: Outfit) {
         currentCustomization.outfit = outfit
-        checkCustomizationComplete()
+        objectWillChange.send()
     }
     
     func updateWeapon(_ weapon: CharacterWeapon) {
         currentCustomization.weapon = weapon
-        checkCustomizationComplete()
+        objectWillChange.send()
     }
     
     func updateAccessory(_ accessory: Accessory?) {
         currentCustomization.accessory = accessory
+        objectWillChange.send()
+    }
+    
+    func updateHairBackStyle(_ hairBackStyle: HairBackStyle?) {
+        currentCustomization.hairBackStyle = hairBackStyle
+        checkCustomizationComplete()
+    }
+
+    func updateMustache(_ mustache: Mustache?) {
+        currentCustomization.mustache = mustache
+        checkCustomizationComplete()
+    }
+
+    func updateFlower(_ flower: Flower?) {
+        currentCustomization.flower = flower
         checkCustomizationComplete()
     }
     
     private func checkCustomizationComplete() {
         // Check if all required customization options are selected
         let isComplete = !currentCustomization.bodyType.rawValue.isEmpty &&
-                        !currentCustomization.skinColor.rawValue.isEmpty &&
                         !currentCustomization.hairStyle.rawValue.isEmpty &&
                         !currentCustomization.hairColor.rawValue.isEmpty &&
                         !currentCustomization.eyeColor.rawValue.isEmpty &&
@@ -127,5 +137,16 @@ class CharacterCreationViewModel: ObservableObject {
     func resetCustomization() {
         currentCustomization = CharacterCustomization()
         isCustomizationComplete = false
+    }
+    
+    // MARK: - Validation
+    
+    var canProceed: Bool {
+        return !currentCustomization.bodyType.rawValue.isEmpty &&
+               !currentCustomization.hairStyle.rawValue.isEmpty &&
+               !currentCustomization.hairColor.rawValue.isEmpty &&
+               !currentCustomization.eyeColor.rawValue.isEmpty &&
+               !currentCustomization.outfit.rawValue.isEmpty &&
+               !currentCustomization.weapon.rawValue.isEmpty
     }
 }

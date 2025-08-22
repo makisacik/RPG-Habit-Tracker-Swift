@@ -104,13 +104,14 @@ class CharacterCustomizationManager: ObservableObject {
         saveCustomization()
     }
     
-    func updateSkinColor(_ skinColor: SkinColor) {
-        currentCustomization.skinColor = skinColor
-        saveCustomization()
-    }
     
     func updateHairStyle(_ hairStyle: HairStyle) {
         currentCustomization.hairStyle = hairStyle
+        saveCustomization()
+    }
+    
+    func updateHairBackStyle(_ hairBackStyle: HairBackStyle?) {
+        currentCustomization.hairBackStyle = hairBackStyle
         saveCustomization()
     }
     
@@ -139,10 +140,21 @@ class CharacterCustomizationManager: ObservableObject {
         saveCustomization()
     }
     
+    func updateMustache(_ mustache: Mustache?) {
+        currentCustomization.mustache = mustache
+        saveCustomization()
+    }
+    
+    func updateFlower(_ flower: Flower?) {
+        currentCustomization.flower = flower
+        saveCustomization()
+    }
+    
     // MARK: - Validation Methods
     func canUseBodyType(_ bodyType: BodyType) -> Bool {
         return ownsItem(bodyType.rawValue)
     }
+    
     
     func canUseHairStyle(_ hairStyle: HairStyle) -> Bool {
         return ownsItem(hairStyle.rawValue)
@@ -169,6 +181,7 @@ class CharacterCustomizationManager: ObservableObject {
         return BodyType.allCases.filter { canUseBodyType($0) }
     }
     
+    
     var availableHairStyles: [HairStyle] {
         return HairStyle.allCases.filter { canUseHairStyle($0) }
     }
@@ -193,6 +206,7 @@ class CharacterCustomizationManager: ObservableObject {
     var premiumBodyTypes: [BodyType] {
         return BodyType.allCases.filter { $0.isPremium && !canUseBodyType($0) }
     }
+    
     
     var premiumHairStyles: [HairStyle] {
         return HairStyle.allCases.filter { $0.isPremium && !canUseHairStyle($0) }

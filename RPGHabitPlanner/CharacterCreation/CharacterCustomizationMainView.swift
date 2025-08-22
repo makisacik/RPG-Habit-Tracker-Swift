@@ -17,7 +17,7 @@ struct CharacterCustomizationView: View {
     @State private var selectedCategory: CustomizationCategory = .bodyType
     
     private let categories: [CustomizationCategory] = [
-        .bodyType, .skinColor, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
+        .bodyType, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
     ]
     
     var body: some View {
@@ -93,7 +93,6 @@ struct CharacterCustomizationView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
-                        .colorMultiply(customizationManager.currentCustomization.skinColor.color)
                     
                     // Hair
                     Image(customizationManager.currentCustomization.hairStyle.rawValue)
@@ -212,83 +211,96 @@ struct CharacterCustomizationView: View {
     
     // MARK: - Helper Methods
     private func getOptionsForCategory() -> [CustomizationOption] {
-        switch selectedCategory {
-        case .bodyType:
-            return BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
-        case .skinColor:
-            return SkinColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: "", isPremium: false, isUnlocked: true) }
-        case .hairStyle:
-            return HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
-        case .hairColor:
-            return HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: "", isPremium: false, isUnlocked: true) }
-        case .eyeColor:
-            return EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
-        case .outfit:
-            return Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
-        case .weapon:
-            return CharacterWeapon.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
-        case .accessory:
-            return Accessory.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
-        }
+        let optionsMap: [CustomizationCategory: [CustomizationOption]] = [
+            .bodyType: BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+
+            .hairStyle: HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .hairBackStyle: HairBackStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .hairColor: HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: "", isPremium: false, isUnlocked: true) },
+            .eyeColor: EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .outfit: Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .weapon: CharacterWeapon.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .accessory: Accessory.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .mustache: Mustache.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .flower: Flower.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
+        ]
+        return optionsMap[selectedCategory] ?? []
     }
     
     private func isOptionSelected(_ option: CustomizationOption) -> Bool {
-        switch selectedCategory {
-        case .bodyType:
-            return customizationManager.currentCustomization.bodyType.rawValue == option.id
-        case .skinColor:
-            return customizationManager.currentCustomization.skinColor.rawValue == option.id
-        case .hairStyle:
-            return customizationManager.currentCustomization.hairStyle.rawValue == option.id
-        case .hairColor:
-            return customizationManager.currentCustomization.hairColor.rawValue == option.id
-        case .eyeColor:
-            return customizationManager.currentCustomization.eyeColor.rawValue == option.id
-        case .outfit:
-            return customizationManager.currentCustomization.outfit.rawValue == option.id
-        case .weapon:
-            return customizationManager.currentCustomization.weapon.rawValue == option.id
-        case .accessory:
-            return customizationManager.currentCustomization.accessory?.rawValue == option.id
-        }
+        let selectedValueMap: [CustomizationCategory: String?] = [
+            .bodyType: customizationManager.currentCustomization.bodyType.rawValue,
+
+            .hairStyle: customizationManager.currentCustomization.hairStyle.rawValue,
+            .hairBackStyle: customizationManager.currentCustomization.hairBackStyle?.rawValue,
+            .hairColor: customizationManager.currentCustomization.hairColor.rawValue,
+            .eyeColor: customizationManager.currentCustomization.eyeColor.rawValue,
+            .outfit: customizationManager.currentCustomization.outfit.rawValue,
+            .weapon: customizationManager.currentCustomization.weapon.rawValue,
+            .accessory: customizationManager.currentCustomization.accessory?.rawValue,
+            .mustache: customizationManager.currentCustomization.mustache?.rawValue,
+            .flower: customizationManager.currentCustomization.flower?.rawValue
+        ]
+        return selectedValueMap[selectedCategory] == option.id
     }
     
     private func handleOptionSelection(_ option: CustomizationOption) {
         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-            switch selectedCategory {
-            case .bodyType:
-                if let bodyType = BodyType(rawValue: option.id) {
-                    customizationManager.updateBodyType(bodyType)
+            let updateActionMap: [CustomizationCategory: (String) -> Void] = [
+                .bodyType: { optionId in
+                    if let bodyType = BodyType(rawValue: optionId) {
+                        customizationManager.updateBodyType(bodyType)
+                    }
+                },
+
+                .hairStyle: { optionId in
+                    if let hairStyle = HairStyle(rawValue: optionId) {
+                        customizationManager.updateHairStyle(hairStyle)
+                    }
+                },
+                .hairBackStyle: { optionId in
+                    if let hairBackStyle = HairBackStyle(rawValue: optionId) {
+                        customizationManager.updateHairBackStyle(hairBackStyle)
+                    }
+                },
+                .hairColor: { optionId in
+                    if let hairColor = HairColor(rawValue: optionId) {
+                        customizationManager.updateHairColor(hairColor)
+                    }
+                },
+                .eyeColor: { optionId in
+                    if let eyeColor = EyeColor(rawValue: optionId) {
+                        customizationManager.updateEyeColor(eyeColor)
+                    }
+                },
+                .outfit: { optionId in
+                    if let outfit = Outfit(rawValue: optionId) {
+                        customizationManager.updateOutfit(outfit)
+                    }
+                },
+                .weapon: { optionId in
+                    if let weapon = CharacterWeapon(rawValue: optionId) {
+                        customizationManager.updateWeapon(weapon)
+                    }
+                },
+                .accessory: { optionId in
+                    if let accessory = Accessory(rawValue: optionId) {
+                        customizationManager.updateAccessory(accessory)
+                    }
+                },
+                .mustache: { optionId in
+                    if let mustache = Mustache(rawValue: optionId) {
+                        customizationManager.updateMustache(mustache)
+                    }
+                },
+                .flower: { optionId in
+                    if let flower = Flower(rawValue: optionId) {
+                        customizationManager.updateFlower(flower)
+                    }
                 }
-            case .skinColor:
-                if let skinColor = SkinColor(rawValue: option.id) {
-                    customizationManager.updateSkinColor(skinColor)
-                }
-            case .hairStyle:
-                if let hairStyle = HairStyle(rawValue: option.id) {
-                    customizationManager.updateHairStyle(hairStyle)
-                }
-            case .hairColor:
-                if let hairColor = HairColor(rawValue: option.id) {
-                    customizationManager.updateHairColor(hairColor)
-                }
-            case .eyeColor:
-                if let eyeColor = EyeColor(rawValue: option.id) {
-                    customizationManager.updateEyeColor(eyeColor)
-                }
-            case .outfit:
-                if let outfit = Outfit(rawValue: option.id) {
-                    customizationManager.updateOutfit(outfit)
-                }
-            case .weapon:
-                if let weapon = CharacterWeapon(rawValue: option.id) {
-                    customizationManager.updateWeapon(weapon)
-                }
-            case .accessory:
-                if let accessory = Accessory(rawValue: option.id) {
-                    customizationManager.updateAccessory(accessory)
-                }
-            }
+            ]
+            
+            updateActionMap[selectedCategory]?(option.id)
         }
     }
 }
@@ -297,37 +309,47 @@ struct CharacterCustomizationView: View {
 
 enum CustomizationCategory: String, CaseIterable {
     case bodyType = "BodyType"
-    case skinColor = "SkinColor"
     case hairStyle = "HairStyle"
+    case hairBackStyle = "HairBackStyle"
     case hairColor = "HairColor"
     case eyeColor = "EyeColor"
     case outfit = "Outfit"
     case weapon = "Weapon"
     case accessory = "Accessory"
+    case mustache = "Mustache"
+    case flower = "Flower"
+    
+    var title: String {
+        return displayName
+    }
     
     var displayName: String {
         switch self {
         case .bodyType: return "Body Type"
-        case .skinColor: return "Skin Color"
         case .hairStyle: return "Hair Style"
+        case .hairBackStyle: return "Hair Back Style"
         case .hairColor: return "Hair Color"
         case .eyeColor: return "Eye Color"
         case .outfit: return "Outfit"
         case .weapon: return "Weapon"
         case .accessory: return "Accessory"
+        case .mustache: return "Mustache"
+        case .flower: return "Flower"
         }
     }
     
     var icon: String {
         switch self {
         case .bodyType: return "person.fill"
-        case .skinColor: return "paintpalette.fill"
         case .hairStyle: return "scissors"
+        case .hairBackStyle: return "scissors"
         case .hairColor: return "paintbrush.fill"
         case .eyeColor: return "eye.fill"
         case .outfit: return "tshirt.fill"
         case .weapon: return "sword.fill"
         case .accessory: return "crown.fill"
+        case .mustache: return "mustache"
+        case .flower: return "leaf.fill"
         }
     }
 }

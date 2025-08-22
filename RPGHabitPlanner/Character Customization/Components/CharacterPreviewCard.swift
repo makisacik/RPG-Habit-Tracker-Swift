@@ -30,7 +30,7 @@ struct CharacterPreviewCard: View {
                 ZStack {
                     // Body background
                     Circle()
-                        .fill(customization.skinColor.color)
+                        .fill(getBodyColor(for: customization.bodyType))
                         .frame(width: size.width * 0.7, height: size.height * 0.7)
                     
                     // Character icon placeholder (simplified for now)
@@ -38,7 +38,7 @@ struct CharacterPreviewCard: View {
                         // Body type icon
                         Image(systemName: "person.fill")
                             .font(.system(size: size.width * 0.3))
-                            .foregroundColor(customization.skinColor.color.opacity(0.8))
+                            .foregroundColor(getBodyColor(for: customization.bodyType).opacity(0.8))
                         
                         // Outfit indicator
                         Text(customization.outfit.displayName)
@@ -77,7 +77,8 @@ struct CharacterFullPreview: View {
         // Character layers (proper layering) - removed background for cleaner look
         ZStack {
             // Wings (Accessory) - Draw first so it appears behind everything
-            if let accessory = customization.accessory {
+            if let accessory = customization.accessory,
+               [.wingsWhite, .wingsRed, .wingsBat].contains(accessory) {
                 Image(accessory.rawValue)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -89,14 +90,23 @@ struct CharacterFullPreview: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
-                .colorMultiply(customization.skinColor.color)
+
+            // Hair Back - Draw behind the character
+            if let hairBackStyle = customization.hairBackStyle {
+                Image(hairBackStyle.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+                    .colorMultiply(getHairColor(for: customization.hairColor))
+            }
 
             // Hair
             Image(customization.hairStyle.rawValue)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
-                .colorMultiply(customization.hairColor.color)
+                .colorMultiply(getHairColor(for: customization.hairColor))
+                .foregroundColor(getHairColor(for: customization.hairColor).opacity(0.8))
 
             // Eyes
             Image(customization.eyeColor.rawValue)
@@ -116,9 +126,25 @@ struct CharacterFullPreview: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
 
+            // Mustache - Draw after outfit but before other accessories
+            if let mustache = customization.mustache {
+                Image(mustache.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+            }
+
+            // Flower - Draw after mustache
+            if let flower = customization.flower {
+                Image(flower.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+            }
+
             // Other Accessories (non-wings) - Draw last so they appear on top
             if let accessory = customization.accessory,
-               accessory != .wingsWhite {
+               ![.wingsWhite, .wingsRed, .wingsBat].contains(accessory) {
                 Image(accessory.rawValue)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -126,5 +152,21 @@ struct CharacterFullPreview: View {
             }
         }
         .frame(width: size, height: size)
+    }
+}
+
+// MARK: - Helper Functions
+
+private func getBodyColor(for bodyType: BodyType) -> Color {
+    return bodyType.color
+}
+
+private func getHairColor(for hairColor: HairColor) -> Color {
+    switch hairColor {
+    case .brown: return Color(red: 0.6, green: 0.4, blue: 0.2)
+    case .black: return Color(red: 0.1, green: 0.1, blue: 0.1)
+    case .blonde: return Color(red: 0.9, green: 0.8, blue: 0.6)
+    case .red: return Color(red: 0.8, green: 0.3, blue: 0.2)
+    case .darkbrown: return Color(red: 0.4, green: 0.25, blue: 0.1)
     }
 }

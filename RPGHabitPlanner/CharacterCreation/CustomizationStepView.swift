@@ -135,10 +135,6 @@ struct AssetPreviewView: View {
         guard let asset = asset else { return .gray }
         
         switch asset.category {
-        case .skinColor:
-            if let skinColor = SkinColor(rawValue: asset.id) {
-                return skinColor.color
-            }
         case .hairColor:
             if let hairColor = HairColor(rawValue: asset.id) {
                 return hairColor.color
