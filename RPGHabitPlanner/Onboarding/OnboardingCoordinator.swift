@@ -42,8 +42,23 @@ class OnboardingCoordinator: ObservableObject {
         guard let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep),
               currentIndex < OnboardingStep.allCases.count - 1 else { return }
         
+        let nextStep = OnboardingStep.allCases[currentIndex + 1]
+        
         withAnimation(.easeInOut(duration: 0.3)) {
-            currentStep = OnboardingStep.allCases[currentIndex + 1]
+            currentStep = nextStep
+        }
+        
+        // Show keyboard when navigating to nickname step
+        if nextStep == .nickname {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                // Find and focus the text field in the nickname step
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    window.makeKey()
+                    // Trigger focus on the text field
+                    NotificationCenter.default.post(name: NSNotification.Name("FocusNicknameTextField"), object: nil)
+                }
+            }
         }
     }
     

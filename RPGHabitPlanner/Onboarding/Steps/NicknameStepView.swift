@@ -10,6 +10,7 @@ import SwiftUI
 struct NicknameStepView: View {
     @ObservedObject var coordinator: OnboardingCoordinator
     let theme: Theme
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         VStack(spacing: 40) {
@@ -43,6 +44,7 @@ struct NicknameStepView: View {
                             )
                     )
                     .textFieldStyle(PlainTextFieldStyle())
+                    .focused($isTextFieldFocused)
                     .onChange(of: coordinator.nickname) { newValue in
                         // Limit to 20 characters
                         if newValue.count > 20 {
@@ -62,5 +64,19 @@ struct NicknameStepView: View {
             Spacer()
         }
         .padding(.horizontal, 20)
+        .onAppear {
+            // Listen for focus notification from coordinator
+            NotificationCenter.default.addObserver(
+                forName: NSNotification.Name("FocusNicknameTextField"),
+                object: nil,
+                queue: .main
+            ) { _ in
+                isTextFieldFocused = true
+            }
+        }
+        .onDisappear {
+            // Remove observer when view disappears
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name("FocusNicknameTextField"), object: nil)
+        }
     }
 }
