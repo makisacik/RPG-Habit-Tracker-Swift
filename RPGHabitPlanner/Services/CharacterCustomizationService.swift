@@ -66,6 +66,16 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
         saveContext()
     }
 
+    func updateCustomization(for user: UserEntity, customization: CharacterCustomization) -> CharacterCustomizationEntity? {
+        if let entity = fetchCustomization(for: user) {
+            entity.updateFrom(customization)
+            entity.updatedAt = Date()
+            saveContext()
+            return entity
+        }
+        return nil
+    }
+
     func deleteCustomization(_ entity: CharacterCustomizationEntity) {
         context.delete(entity)
         saveContext()

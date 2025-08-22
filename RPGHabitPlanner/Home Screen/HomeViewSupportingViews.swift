@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - Supporting Views
 
-struct StatCard: View {
+struct HomeStatCard: View {
     let icon: String
     let title: String
     let value: String

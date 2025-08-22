@@ -11,6 +11,7 @@ import Combine
 
 class HomeViewModel: ObservableObject {
     @Published var user: UserEntity?
+    @Published var characterCustomization: CharacterCustomization?
     @Published var activeQuestsCount: Int = 0
     @Published var completedQuestsCount: Int = 0
     @Published var achievementsCount: Int = 0
@@ -20,6 +21,7 @@ class HomeViewModel: ObservableObject {
     let userManager: UserManager
     let questDataService: QuestDataServiceProtocol
     private let achievementManager = AchievementManager.shared
+    private let customizationService = CharacterCustomizationService()
     let streakManager = StreakManager.shared
 
     private var cancellables = Set<AnyCancellable>()
@@ -87,9 +89,41 @@ class HomeViewModel: ObservableObject {
                     print("Failed to fetch user data: \(error)")
                 } else {
                     self?.user = user
+
+                    // Fetch character customization if user exists
+                    if let user = user {
+                        self?.fetchCharacterCustomization(for: user)
+                    }
                 }
             }
         }
+    }
+
+    private func fetchCharacterCustomization(for user: UserEntity) {
+        if let customizationEntity = customizationService.fetchCustomization(for: user) {
+            self.characterCustomization = customizationEntity.toCharacterCustomization()
+        } else {
+            // Create default customization if none exists
+            let defaultCustomization = CharacterCustomization()
+            self.characterCustomization = defaultCustomization
+
+            // Save the default customization
+            if let _ = customizationService.createCustomization(for: user, customization: defaultCustomization) {
+                print("✅ HomeViewModel: Created default character customization")
+            } else {
+                print("❌ HomeViewModel: Failed to create default character customization")
+            }
+        }
+    }
+
+    /// Refreshes character customization data for the current user
+    func refreshCharacterCustomization() {
+        guard let user = user else {
+            print("⚠️ HomeViewModel: No user available for character customization refresh")
+            return
+        }
+
+        fetchCharacterCustomization(for: user)
     }
 
     func fetchDashboardData() {

@@ -45,12 +45,12 @@ extension HomeView {
                                 .frame(width: 62, height: 62)
                                 .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
 
-                            // Character icon - using customization image
-                            Image("char_body_male_1") // Default character body image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 45, height: 45)
-                                .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
+                            // Character customization image
+                            CharacterDisplayView(
+                                customization: viewModel.characterCustomization,
+                                size: 45,
+                                showShadow: false
+                            )
                         }
 
                         // Character details

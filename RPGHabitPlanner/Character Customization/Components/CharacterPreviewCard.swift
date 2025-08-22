@@ -7,6 +7,35 @@
 
 import SwiftUI
 
+// MARK: - Reusable Character Display Component
+
+struct CharacterDisplayView: View {
+    let customization: CharacterCustomization?
+    let size: CGFloat
+    let showShadow: Bool
+
+    init(customization: CharacterCustomization?, size: CGFloat, showShadow: Bool = true) {
+        self.customization = customization
+        self.size = size
+        self.showShadow = showShadow
+    }
+
+    var body: some View {
+        if let customization = customization {
+            CharacterFullPreview(customization: customization, size: size)
+                .environmentObject(ThemeManager.shared)
+                .shadow(radius: showShadow ? 8 : 0)
+        } else {
+            // Fallback to default character body image
+            Image("char_body_tan")
+                .resizable()
+                .scaledToFit()
+                .frame(width: size, height: size)
+                .shadow(radius: showShadow ? 8 : 0)
+        }
+    }
+}
+
 struct CharacterPreviewCard: View {
     let customization: CharacterCustomization
     let theme: Theme

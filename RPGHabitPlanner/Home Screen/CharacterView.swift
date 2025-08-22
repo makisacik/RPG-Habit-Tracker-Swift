@@ -15,7 +15,11 @@ struct CharacterView: View {
     @State private var showBoosterInfo = false
     @State private var refreshTrigger = false
     @State private var showShop = false
+    @State private var showCustomizationModal = false
+    @State private var characterCustomization: CharacterCustomization?
     let user: UserEntity
+
+    private let customizationService = CharacterCustomizationService()
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -26,42 +30,11 @@ struct CharacterView: View {
 
             ScrollView {
                 VStack(spacing: 20) {
-                    ZStack {
-                        ParticleBackground(
-                            color: Color.blue.opacity(0.2),
-                            count: 15,
-                            sizeRange: 8...16,
-                            speedRange: 12...20
-                        )
-
-                        ParticleBackground(
-                            color: Color.blue.opacity(0.3),
-                            count: 20,
-                            sizeRange: 5...10,
-                            speedRange: 6...12
-                        )
-
-                        VStack(spacing: 12) {
-                            // Use character customization image instead of class icon
-                            Image("char_body_male_1") // Default character body image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 150, height: 150)
-                                .shadow(radius: 8)
-
-                            Text(user.nickname ?? "Unknown")
-                                .font(.appFont(size: 28, weight: .black))
-                                .foregroundColor(theme.textColor)
-
-                            Text("Custom Character")
-                                .font(.appFont(size: 18))
-                                .foregroundColor(theme.textColor)
-                        }
-                        .padding(.top, 20)
-                        .padding(.bottom, 20)
-                    }
-                    .frame(height: 250)
-                    .clipped()
+                    CharacterSectionView(
+                        user: user,
+                        characterCustomization: characterCustomization,
+                        showCustomizationModal: $showCustomizationModal
+                    )
 
                     VStack(spacing: 12) {
                         // Health Bar
@@ -69,119 +42,28 @@ struct CharacterView: View {
                             .padding(.horizontal)
 
                         // Level and Experience
-                        VStack(spacing: 8) {
-                            HStack {
-                                Image("icon_star_fill")
-                                    .resizable()
-                                    .frame(width: 18, height: 18)
-                                Text("\(String.level.localized) \(user.level)")
-                                    .font(.appFont(size: 18))
-                                    .foregroundColor(theme.textColor)
-                                Spacer()
-                            }
+                        LevelExperienceView(user: user, theme: theme)
 
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(theme.backgroundColor.opacity(0.7))
-                                    .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
-                                    .frame(height: 22)
+                        // Inventory Section
+                        InventorySectionView(
+                            inventoryManager: inventoryManager,
+                            theme: theme
+                        )
 
-                                GeometryReader { geometry in
-                                    let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
-                                    if expRatio > 0 {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(
-                                                LinearGradient(
-                                                    gradient: Gradient(colors: [
-                                                        Color.green.opacity(0.9),
-                                                        Color.green.opacity(0.7),
-                                                        Color.green.opacity(0.9)
-                                                    ]),
-                                                    startPoint: .leading,
-                                                    endPoint: .trailing
-                                                )
-                                            )
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                                            )
-                                            .frame(width: geometry.size.width * expRatio, height: 22)
-                                            .animation(.easeOut(duration: 0.3), value: expRatio)
-                                    }
-                                }
-                                .frame(height: 22)
+                        // Boosters Section
+                        BoostersSectionView(
+                            boosterManager: boosterManager,
+                            showBoosterInfo: $showBoosterInfo,
+                            theme: theme
+                        )
 
-                                Text("\(user.exp) / 100")
-                                    .font(.appFont(size: 12, weight: .black))
-                                    .foregroundColor(theme.textColor)
-                                    .shadow(radius: 1)
-                            }
-                            .frame(height: 22)
-                        }
+                        // Shop Button
+                        ShopButtonView(showShop: $showShop, theme: theme)
                     }
                     .padding(.horizontal)
-
-                    Divider()
-                        .padding(.horizontal)
-
-                    // Collectible Items Display
-                    CollectibleDisplayView()
-                        .environmentObject(inventoryManager)
-                        .environmentObject(themeManager)
-
-                    Divider()
-                        .padding(.horizontal)
-
-                    InventoryView()
-
-                    Spacer()
                 }
+                .padding(.vertical)
             }
-        }
-        .navigationTitle(String.character.localized)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            // LEFT: Active booster indicator
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    showBoosterInfo = true
-                }) {
-                    HStack(spacing: 6) {
-                        Image("icon_lightning")
-                            .resizable()
-                            .frame(width: 18, height: 18)
-                            .foregroundColor(.yellow)
-
-                        if !boosterManager.activeBoosters.filter({ $0.isActive && !$0.isExpired }).isEmpty {
-                            Text("\(boosterManager.activeBoosters.filter { $0.isActive && !$0.isExpired }.count)")
-                                .font(.appFont(size: 12, weight: .bold))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(
-                                    Circle()
-                                        .fill(Color.yellow)
-                                )
-                        }
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
-
-            // RIGHT: Shop button
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    showShop = true
-                }) {
-                    Image(systemName: "cart.fill")
-                        .font(.title2)
-                        .foregroundColor(theme.textColor)
-                }
-            }
-        }
-        .sheet(isPresented: $showBoosterInfo) {
-            BoosterInfoModalView()
-                .environmentObject(themeManager)
         }
         .sheet(isPresented: $showShop) {
             NavigationStack {
@@ -189,10 +71,360 @@ struct CharacterView: View {
                     .environmentObject(themeManager)
             }
         }
+        .sheet(isPresented: $showCustomizationModal) {
+            NavigationStack {
+                CharacterCustomizationView(isCustomizationCompleted: .constant(false))
+                    .environmentObject(themeManager)
+            }
+        }
+        .onAppear {
+            fetchCharacterCustomization()
+        }
         .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
             print("🔄 CharacterView: Received boostersUpdated notification")
             refreshTrigger.toggle()
         }
+    }
+
+    private func fetchCharacterCustomization() {
+        if let customizationEntity = customizationService.fetchCustomization(for: user) {
+            self.characterCustomization = customizationEntity.toCharacterCustomization()
+            print("✅ CharacterView: Loaded character customization")
+        } else {
+            // Create default customization if none exists
+            let defaultCustomization = CharacterCustomization()
+            self.characterCustomization = defaultCustomization
+
+            // Save the default customization
+            if let _ = customizationService.createCustomization(for: user, customization: defaultCustomization) {
+                print("✅ CharacterView: Created default character customization")
+            } else {
+                print("❌ CharacterView: Failed to create default character customization")
+            }
+        }
+    }
+
+    /// Refreshes character customization data
+    private func refreshCharacterCustomization() {
+        fetchCharacterCustomization()
+    }
+}
+
+// MARK: - Character Section View
+struct CharacterSectionView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let user: UserEntity
+    let characterCustomization: CharacterCustomization?
+    @Binding var showCustomizationModal: Bool
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+
+        ZStack {
+            ParticleBackground(
+                color: Color.blue.opacity(0.2),
+                count: 15,
+                sizeRange: 8...16,
+                speedRange: 12...20
+            )
+
+            ParticleBackground(
+                color: Color.blue.opacity(0.3),
+                count: 20,
+                sizeRange: 5...10,
+                speedRange: 6...12
+            )
+
+            VStack(spacing: 16) {
+                // Use reusable character display component with larger size
+                CharacterDisplayView(
+                    customization: characterCustomization,
+                    size: 200,
+                    showShadow: true
+                )
+
+                VStack(spacing: 8) {
+                    Text(user.nickname ?? "Unknown")
+                        .font(.appFont(size: 28, weight: .black))
+                        .foregroundColor(theme.textColor)
+
+                    Text("Custom Character")
+                        .font(.appFont(size: 18))
+                        .foregroundColor(theme.textColor)
+
+                    // Customize Button
+                    Button(action: {
+                        showCustomizationModal = true
+                    }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "pencil.circle.fill")
+                                .font(.system(size: 16))
+                            Text("Customize")
+                                .font(.appFont(size: 14, weight: .medium))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(theme.primaryColor)
+                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .padding(.top, 20)
+            .padding(.bottom, 20)
+        }
+        .frame(height: 320)
+        .clipped()
+    }
+}
+
+// MARK: - Level Experience View
+struct LevelExperienceView: View {
+    let user: UserEntity
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Image("icon_star_fill")
+                    .resizable()
+                    .frame(width: 18, height: 18)
+                Text("\(String.level.localized) \(user.level)")
+                    .font(.appFont(size: 18))
+                    .foregroundColor(theme.textColor)
+                Spacer()
+            }
+
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(theme.backgroundColor.opacity(0.7))
+                    .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
+                    .frame(height: 22)
+
+                GeometryReader { geometry in
+                    let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
+                    if expRatio > 0 {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(LinearGradient(
+                                colors: [theme.primaryColor, theme.primaryColor.opacity(0.8)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ))
+                            .frame(width: geometry.size.width * expRatio, height: 22)
+                            .animation(.easeInOut(duration: 0.5), value: expRatio)
+                    }
+                }
+                .frame(height: 22)
+
+                HStack {
+                    Text("\(user.exp)/100")
+                        .font(.appFont(size: 12, weight: .medium))
+                        .foregroundColor(.white)
+                        .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)
+                    Spacer()
+                }
+                .padding(.horizontal, 8)
+            }
+        }
+    }
+}
+
+
+// MARK: - Inventory Section View
+struct InventorySectionView: View {
+    @ObservedObject var inventoryManager: InventoryManager
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text("Inventory")
+                    .font(.appFont(size: 20, weight: .bold))
+                    .foregroundColor(theme.textColor)
+                Spacer()
+                Text("\(inventoryManager.inventoryItems.count) items")
+                    .font(.appFont(size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+            }
+
+            if inventoryManager.inventoryItems.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "bag")
+                        .font(.system(size: 32))
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                    Text("No items yet")
+                        .font(.appFont(size: 16))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.backgroundColor.opacity(0.7))
+                )
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(inventoryManager.inventoryItems.prefix(5), id: \.id) { item in
+                            ItemCard(item: item, theme: theme)
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Item Card
+struct ItemCard: View {
+    let item: ItemEntity
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 8) {
+            if let iconName = item.iconName {
+                Image(iconName)
+                    .resizable()
+                    .frame(width: 32, height: 32)
+            } else {
+                Image(systemName: "questionmark.circle")
+                    .font(.system(size: 32))
+                    .foregroundColor(theme.textColor.opacity(0.5))
+            }
+
+            Text(item.name ?? "Unknown")
+                .font(.appFont(size: 12, weight: .medium))
+                .foregroundColor(theme.textColor)
+                .multilineTextAlignment(.center)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(theme.backgroundColor.opacity(0.7))
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
+        .frame(width: 80)
+    }
+}
+
+// MARK: - Boosters Section View
+struct BoostersSectionView: View {
+    @ObservedObject var boosterManager: BoosterManager
+    @Binding var showBoosterInfo: Bool
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text("Active Boosters")
+                    .font(.appFont(size: 20, weight: .bold))
+                    .foregroundColor(theme.textColor)
+                Spacer()
+                Button(action: {
+                    showBoosterInfo = true
+                }) {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 16))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+            }
+
+            if boosterManager.activeBoosters.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "bolt.slash")
+                        .font(.system(size: 32))
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                    Text("No active boosters")
+                        .font(.appFont(size: 16))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.backgroundColor.opacity(0.7))
+                )
+            } else {
+                VStack(spacing: 8) {
+                    ForEach(boosterManager.activeBoosters, id: \.id) { booster in
+                        BoosterCard(booster: booster, theme: theme)
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showBoosterInfo) {
+            BoosterInfoModalView()
+                .environmentObject(ThemeManager.shared)
+        }
+    }
+}
+
+// MARK: - Booster Card
+struct BoosterCard: View {
+    let booster: BoosterEffect
+    let theme: Theme
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "bolt.fill")
+                .font(.system(size: 20))
+                .foregroundColor(.yellow)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(booster.sourceName)
+                    .font(.appFont(size: 14, weight: .medium))
+                    .foregroundColor(theme.textColor)
+
+                Text(booster.type.description)
+                    .font(.appFont(size: 12))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+            }
+
+            Spacer()
+
+            if let remainingTime = booster.remainingTime {
+                Text("\(Int(remainingTime))s")
+                    .font(.appFont(size: 12, weight: .medium))
+                    .foregroundColor(theme.textColor.opacity(0.8))
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(theme.backgroundColor.opacity(0.7))
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+        )
+    }
+}
+
+// MARK: - Shop Button View
+struct ShopButtonView: View {
+    @Binding var showShop: Bool
+    let theme: Theme
+
+    var body: some View {
+        Button(action: {
+            showShop = true
+        }) {
+            HStack(spacing: 8) {
+                Image(systemName: "cart.fill")
+                    .font(.system(size: 16))
+                Text("Visit Shop")
+                    .font(.appFont(size: 16, weight: .medium))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(theme.primaryColor)
+                    .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

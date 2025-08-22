@@ -18,7 +18,7 @@ extension HomeView {
             GridItem(.flexible()),
             GridItem(.flexible())
         ], spacing: 12) {
-            StatCard(
+            HomeStatCard(
                 icon: "list.bullet.clipboard",
                 title: String.active.localized,
                 value: "\(viewModel.activeQuestsCount)",
@@ -28,7 +28,7 @@ extension HomeView {
                     selectedTab = .tracking
             }
 
-            StatCard(
+            HomeStatCard(
                 icon: "checkmark.seal.fill",
                 title: String.completed.localized,
                 value: "\(viewModel.completedQuestsCount)",
@@ -38,7 +38,7 @@ extension HomeView {
                     isCompletedQuestsPresented.wrappedValue = true
             }
 
-            StatCard(
+            HomeStatCard(
                 icon: "trophy.fill",
                 title: String.achievements.localized,
                 value: "\(viewModel.achievementsCount)",
