@@ -258,19 +258,13 @@ struct HairstyleSectionView: View {
     }
 
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: true) {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
                 ForEach(defaultHairStyles, id: \.self) { hairStyle in
                     let isSelected = viewModel.currentCustomization.hairStyle.hairType == hairStyle.hairType
 
-                    CustomizationOptionCard(
-                        option: CustomizationOption(
-                            id: hairStyle.rawValue,
-                            name: hairStyle.displayName,
-                            imageName: hairStyle.previewImageName,
-                            isPremium: hairStyle.isPremium,
-                            isUnlocked: true
-                        ),
+                    HairStyleCard(
+                        hairStyle: hairStyle,
                         isSelected: isSelected,
                         onTap: {
                             viewModel.updateHairStyleAndColor(hairStyle)
@@ -281,6 +275,59 @@ struct HairstyleSectionView: View {
             }
             .padding(.horizontal, 12)
         }
+    }
+}
+
+// MARK: - Hair Style Card
+struct HairStyleCard: View {
+    let hairStyle: HairStyle
+    let isSelected: Bool
+    let onTap: () -> Void
+    let theme: Theme
+
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 8) {
+                // Hair style image
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.cardBackgroundColor)
+                        .frame(width: 80, height: 80)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)
+                        )
+                        .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
+
+                    if !hairStyle.previewImageName.isEmpty {
+                        Image(hairStyle.previewImageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                    } else {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(theme.textColor.opacity(0.5))
+                    }
+
+                    // Premium indicator
+                    if hairStyle.isPremium {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.yellow)
+                                    .padding(4)
+                                    .background(Circle().fill(.black.opacity(0.7)))
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
