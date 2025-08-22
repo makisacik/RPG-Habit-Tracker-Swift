@@ -201,7 +201,7 @@ struct CharacterSectionView: View {
                             customization: characterCustomization,
                             size: 200,
                             showShadow: true
-                        )
+                        ).offset(y: 70)
                     }
                     .frame(width: 200, height: 270)
 
