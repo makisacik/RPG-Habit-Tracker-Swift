@@ -26,11 +26,10 @@ struct NicknamePopupView: View {
             VStack(spacing: 16) {
                 // Character preview
                 if let customization = customization {
-                    CharacterPreviewCard(
+                    CharacterFullPreview(
                         customization: customization,
-                        theme: theme
+                        size: 120
                     )
-                    .frame(width: 120, height: 120)
                     .padding(.bottom, 8)
                 }
                 

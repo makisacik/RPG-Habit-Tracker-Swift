@@ -36,10 +36,21 @@ struct FinalStepView: View {
                 // Hero preview with animations
                 VStack(spacing: 20) {
                     ZStack {
-                        CharacterPreviewCard(
+                        // Character background matching customization page
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(
+                                LinearGradient(
+                                    colors: [theme.primaryColor, theme.secondaryColor],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .shadow(color: theme.shadowColor, radius: 8, x: 0, y: 4)
+                            .frame(width: 180, height: 180)
+                        
+                        CharacterFullPreview(
                             customization: coordinator.characterCustomization,
-                            theme: theme,
-                            size: CGSize(width: 150, height: 150)
+                            size: 150
                         )
                         .scaleEffect(heroScale)
                         .rotationEffect(.degrees(heroRotation))
@@ -67,6 +78,8 @@ struct FinalStepView: View {
                         Text(coordinator.nickname.isEmpty ? "Hero" : coordinator.nickname)
                             .font(.appFont(size: 28, weight: .bold))
                             .foregroundColor(theme.textColor)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                             .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
                             .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
                         

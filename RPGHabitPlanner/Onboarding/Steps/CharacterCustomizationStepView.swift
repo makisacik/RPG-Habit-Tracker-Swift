@@ -20,6 +20,8 @@ struct CharacterCustomizationStepView: View {
                 isCharacterCreated: .constant(false)
             )
             .environmentObject(ThemeManager.shared)
+            .padding(.top, 16) // Add padding between progress dots and content
+            .padding(.bottom, 16) // Add padding between content and navigation buttons
             .onChange(of: characterCreationViewModel.currentCustomization) { customization in
                 coordinator.updateCharacterCustomization(customization)
             }

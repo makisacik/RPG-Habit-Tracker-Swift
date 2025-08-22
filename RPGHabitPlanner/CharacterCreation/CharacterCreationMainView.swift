@@ -11,8 +11,7 @@ struct CharacterCreationView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: CharacterCreationViewModel
     @Binding var isCharacterCreated: Bool
-    @State private var showNicknamePopup = false
-    @State private var tempNickname = ""
+
     @State private var currentSectionIndex = 0
     
     private let sections = CustomizationStep.allCases
@@ -21,9 +20,16 @@ struct CharacterCreationView: View {
         let theme = themeManager.activeTheme
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .fill(theme.backgroundColor)
+                .fill(
+                    LinearGradient(
+                        colors: [theme.primaryColor, theme.secondaryColor],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .shadow(color: theme.shadowColor, radius: 8, x: 0, y: 4)
             
-            VStack(spacing: 20) {
+            VStack(spacing: 12) {
                 // Header
                 CharacterCreationHeaderView(theme: theme)
                 
@@ -47,30 +53,11 @@ struct CharacterCreationView: View {
                     theme: theme
                 )
                 
-                // Confirm Button
-                ConfirmButtonView(
-                    viewModel: viewModel,
-                    isCharacterCreated: $isCharacterCreated,
-                    showNicknamePopup: $showNicknamePopup,
-                    theme: theme
-                )
+                Spacer(minLength: 0)
             }
-            .padding(20)
-        }
-        .sheet(isPresented: $showNicknamePopup) {
-            NicknamePopupView(
-                nickname: $tempNickname,
-                onConfirm: {
-                    viewModel.nickname = tempNickname
-                    viewModel.confirmSelection()
-                    isCharacterCreated = true
-                },
-                onCancel: {
-                    showNicknamePopup = false
-                },
-                customization: viewModel.currentCustomization
-            )
-            .environmentObject(themeManager)
+            .padding(.horizontal, 12)
+            .padding(.top, 12)
+            .padding(.bottom, 20)
         }
     }
 }
@@ -98,12 +85,13 @@ struct CharacterPreviewSectionView: View {
     let theme: Theme
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 0) {
             Text("preview".localized)
                 .font(.custom("Quicksand-Bold", size: 18))
                 .foregroundColor(theme.textColor)
+                .padding(.bottom, 4)
             
-            CharacterFullPreview(customization: customization, size: 200)
+            CharacterFullPreview(customization: customization, size: 280)
                 .environmentObject(ThemeManager.shared)
         }
     }
@@ -163,7 +151,7 @@ struct CurrentSectionContentView: View {
     var body: some View {
         let currentSection = CustomizationStep.allCases[currentIndex]
         
-        VStack(spacing: 16) {
+        VStack(spacing: 12) {
             switch currentSection {
             case .skinColor:
                 SkinColorSectionView(viewModel: viewModel, theme: theme)
@@ -179,7 +167,7 @@ struct CurrentSectionContentView: View {
                 AccessoriesSectionView(viewModel: viewModel, theme: theme)
             }
         }
-        .frame(maxHeight: 300)
+        .frame(maxHeight: 200)
     }
 }
 
@@ -314,10 +302,15 @@ struct EyeColorSectionView: View {
 struct AccessoriesSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
+    // Filter to only show glasses accessories
+    private var availableAccessories: [Accessory] {
+        return [.eyeglassRed, .eyeglassBlue, .eyeglassGray]
+    }
+
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-            ForEach(Accessory.allCases, id: \.self) { accessory in
+            ForEach(availableAccessories, id: \.self) { accessory in
                 CustomizationOptionCard(
                     option: CustomizationOption(
                         id: accessory.rawValue,
@@ -337,43 +330,20 @@ struct AccessoriesSectionView: View {
     }
 }
 
-// MARK: - Confirm Button
-struct ConfirmButtonView: View {
-    @ObservedObject var viewModel: CharacterCreationViewModel
-    @Binding var isCharacterCreated: Bool
-    @Binding var showNicknamePopup: Bool
-    let theme: Theme
-    
-    var body: some View {
-        Button(action: {
-            if viewModel.nickname.isEmpty {
-                showNicknamePopup = true
-            } else {
-                viewModel.confirmSelection()
-                isCharacterCreated = true
-            }
-        }) {
-            Text("confirmSelection".localized)
-                .font(.custom("Quicksand-Bold", size: 18))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(theme.accentColor)
-                .cornerRadius(12)
-        }
-        .disabled(!viewModel.isCustomizationComplete)
-        .opacity(viewModel.isCustomizationComplete ? 1.0 : 0.5)
-    }
-}
 
 // MARK: - Additional Section Views
 struct OutfitSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
     
+    // Filter to only show simple and hoodie outfits
+    private var availableOutfits: [Outfit] {
+        return [.simple, .hoodie]
+    }
+    
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-            ForEach(Outfit.allCases, id: \.self) { outfit in
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
+            ForEach(availableOutfits, id: \.self) { outfit in
                 CustomizationOptionCard(
                     option: CustomizationOption(
                         id: outfit.rawValue,
@@ -396,10 +366,15 @@ struct OutfitSectionView: View {
 struct WeaponSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
-    
+
+    // Filter to only show wooden and steel daggers
+    private var availableWeapons: [CharacterWeapon] {
+        return [.swordDaggerWood, .swordDagger]
+    }
+
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-            ForEach(CharacterWeapon.allCases, id: \.self) { weapon in
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
+            ForEach(availableWeapons, id: \.self) { weapon in
                 CustomizationOptionCard(
                     option: CustomizationOption(
                         id: weapon.rawValue,

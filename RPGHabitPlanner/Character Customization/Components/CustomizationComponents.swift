@@ -61,9 +61,9 @@ struct CustomizationStepView: View {
                 .multilineTextAlignment(.center)
             
             // Character preview
-            CharacterPreviewCard(
+            CharacterFullPreview(
                 customization: selectedCustomization,
-                theme: theme
+                size: 150
             )
             
             // Options grid
@@ -200,8 +200,9 @@ struct CustomizationOptionCard: View {
                         .frame(width: 80, height: 80)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .stroke(isSelected ? theme.accentColor : Color.clear, lineWidth: 2)
+                                .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)
                         )
+                        .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
                     
                     if !option.imageName.isEmpty {
                         Image(option.imageName)

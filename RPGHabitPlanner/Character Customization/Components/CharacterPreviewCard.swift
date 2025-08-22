@@ -74,64 +74,57 @@ struct CharacterFullPreview: View {
     var body: some View {
         let theme = themeManager.activeTheme
         
+        // Character layers (proper layering) - removed background for cleaner look
         ZStack {
-            // Background
-            RoundedRectangle(cornerRadius: 16)
-                .fill(theme.primaryColor)
-                .frame(width: size, height: size)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
-            // Character layers (proper layering)
-            ZStack {
-                // Wings (Accessory) - Draw first so it appears behind everything
-                if let accessory = customization.accessory {
-                    Image(accessory.rawValue)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: size * 0.8)
-                }
-                
-                // Body
-                Image(customization.bodyType.rawValue)
+            // Wings (Accessory) - Draw first so it appears behind everything
+            if let accessory = customization.accessory {
+                Image(accessory.rawValue)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: size * 0.8)
-                    .colorMultiply(customization.skinColor.color)
-                
-                // Hair
-                Image(customization.hairStyle.rawValue)
+                    .frame(height: size * 0.95)
+            }
+
+            // Body
+            Image(customization.bodyType.rawValue)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: size * 0.95)
+                .colorMultiply(customization.skinColor.color)
+
+            // Hair
+            Image(customization.hairStyle.rawValue)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: size * 0.95)
+                .colorMultiply(customization.hairColor.color)
+
+            // Eyes
+            Image(customization.eyeColor.rawValue)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: size * 0.95)
+
+            // Outfit
+            Image(customization.outfit.rawValue)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: size * 0.95)
+
+            // Weapon
+            Image(customization.weapon.rawValue)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: size * 0.95)
+
+            // Other Accessories (non-wings) - Draw last so they appear on top
+            if let accessory = customization.accessory,
+               accessory != .wingsWhite {
+                Image(accessory.rawValue)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: size * 0.8)
-                    .colorMultiply(customization.hairColor.color)
-                
-                // Eyes
-                Image(customization.eyeColor.rawValue)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: size * 0.8)
-                
-                // Outfit
-                Image(customization.outfit.rawValue)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: size * 0.8)
-                
-                // Weapon
-                Image(customization.weapon.rawValue)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: size * 0.8)
-                
-                // Other Accessories (non-wings) - Draw last so they appear on top
-                if let accessory = customization.accessory,
-                   accessory != .wingsWhite {
-                    Image(accessory.rawValue)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: size * 0.8)
-                }
+                    .frame(height: size * 0.95)
             }
         }
+        .frame(width: size, height: size)
     }
 }

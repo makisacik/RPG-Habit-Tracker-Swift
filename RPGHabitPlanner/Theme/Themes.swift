@@ -49,10 +49,10 @@ struct Theme {
             return Theme(
                 backgroundColor: Color(hex: "#F0F0F0"), // Warm cream background
                 textColor: Color(hex: "#2D3748"), // Dark charcoal for text
-                primaryColor: Color(hex: "#F9F6F7"), // Light gray-blue for cards
-                secondaryColor: Color(hex: "#FFFFFF"), // Medium gray-blue for secondary elements
+                primaryColor: Color(hex: "#FFFFFF"), // Pure white for main background
+                secondaryColor: Color(hex: "#F8FAFC"), // Light gray for secondary elements
                 buttonTextColor: Color.white,
-                cardBackgroundColor: Color.white, // Clean white cards
+                cardBackgroundColor: Color(hex: "#F8FAFC"), // Light gray cards for better contrast
                 accentColor: Color(hex: "#D69E2E"), // Warm gold for accents
                 gradientStart: Color(hex: "#F7FAFC"), // Light gray-blue gradient start
                 gradientEnd: Color(hex: "#E2E8F0"), // Medium gray-blue gradient end
@@ -60,8 +60,8 @@ struct Theme {
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_bronze",
                 surfaceColor: Color(hex: "#F7FAFC"), // Light gray-blue for surfaces
-                borderColor: Color(hex: "#E2E8F0"), // Medium gray-blue for borders
-                shadowColor: Color.black.opacity(0.1), // Subtle shadow
+                borderColor: Color(hex: "#CBD5E0"), // Darker gray for borders
+                shadowColor: Color.black.opacity(0.15), // More visible shadow
                 successColor: Color(hex: "#38A169"), // Green for success
                 warningColor: Color(hex: "#D69E2E"), // Gold for warnings
                 errorColor: Color(hex: "#E53E3E"), // Red for errors
@@ -72,9 +72,9 @@ struct Theme {
                 backgroundColor: Color(red: 21 / 255, green: 34 / 255, blue: 49 / 255),
                 textColor: Color.white,
                 primaryColor: Color(red: 29 / 255, green: 44 / 255, blue: 66 / 255),
-                secondaryColor: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
+                secondaryColor: Color(red: 45 / 255, green: 60 / 255, blue: 82 / 255),
                 buttonTextColor: Color.white,
-                cardBackgroundColor: Color(red: 40 / 255, green: 55 / 255, blue: 77 / 255),
+                cardBackgroundColor: Color(red: 45 / 255, green: 60 / 255, blue: 82 / 255),
                 accentColor: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
                 gradientStart: Color(red: 29 / 255, green: 44 / 255, blue: 66 / 255),
                 gradientEnd: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
@@ -82,8 +82,8 @@ struct Theme {
                 paperSimple: "icon_paper_simple",
                 sword: "cursorSword_gold",
                 surfaceColor: Color(red: 29 / 255, green: 44 / 255, blue: 66 / 255),
-                borderColor: Color(red: 65 / 255, green: 81 / 255, blue: 107 / 255),
-                shadowColor: Color.black.opacity(0.3),
+                borderColor: Color(red: 75 / 255, green: 91 / 255, blue: 117 / 255),
+                shadowColor: Color.black.opacity(0.4),
                 successColor: Color(hex: "#48BB78"),
                 warningColor: Color(hex: "#ED8936"),
                 errorColor: Color(hex: "#F56565"),
