@@ -78,9 +78,19 @@ struct CharacterView: View {
         .onAppear {
             fetchCharacterCustomization()
         }
+        .onChange(of: showCustomizationModal) { isPresented in
+            // Refresh character customization when modal is dismissed
+            if !isPresented {
+                fetchCharacterCustomization()
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
             print("🔄 CharacterView: Received boostersUpdated notification")
             refreshTrigger.toggle()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .characterCustomizationUpdated)) { _ in
+            print("🔄 CharacterView: Received characterCustomizationUpdated notification")
+            fetchCharacterCustomization()
         }
     }
 
@@ -426,6 +436,40 @@ struct ShopButtonView: View {
     }
 }
 
+// MARK: - Color Option Card
+struct ColorOptionCard: View {
+    let color: Color
+    let isSelected: Bool
+    let onTap: () -> Void
+    let theme: Theme
+
+    var body: some View {
+        Button(action: onTap) {
+            ZStack {
+                // Color circle
+                Circle()
+                    .fill(color)
+                    .frame(width: 60, height: 60)
+                    .overlay(
+                        Circle()
+                            .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)
+                    )
+                    .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
+                
+                // Selection indicator
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 1)
+                }
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+
 // MARK: - Particle Background
 
 struct ParticleBackground: View {
@@ -486,6 +530,7 @@ struct CharacterTabCustomizationView: View {
     @State private var selectedCategory: CustomizationCategory = .bodyType
     @State private var originalCustomization: CharacterCustomization?
     @State private var hasChanges = false
+    @State private var selectedHairType: String = "hair1" // Track selected hair type for color filtering
     let user: UserEntity
     
     // Only include allowed categories for character tab customization
@@ -574,19 +619,19 @@ struct CharacterTabCustomizationView: View {
                     Image(customizationManager.currentCustomization.bodyType.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
+                        .frame(height: 240) // 2x bigger (was 120)
 
-                    // Hair
+                    // Hair - Use the actual hair style image (not tinted)
                     Image(customizationManager.currentCustomization.hairStyle.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
+                        .frame(height: 240) // 2x bigger (was 120)
 
                     // Eyes
                     Image(customizationManager.currentCustomization.eyeColor.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
+                        .frame(height: 240) // 2x bigger (was 120)
                 }
 
                 Text("Preview")
@@ -595,7 +640,7 @@ struct CharacterTabCustomizationView: View {
             }
             .padding()
         }
-        .frame(height: 180)
+        .frame(height: 300) // Increased container height to accommodate larger character
     }
 
     // MARK: - Category Selector View
@@ -632,14 +677,8 @@ struct CharacterTabCustomizationView: View {
                 switch selectedCategory {
                 case .bodyType:
                     ForEach(BodyType.allCases, id: \.self) { bodyType in
-                        CustomizationOptionCard(
-                            option: CustomizationOption(
-                                id: bodyType.rawValue,
-                                name: bodyType.displayName,
-                                imageName: bodyType.previewImageName,
-                                isPremium: bodyType.isPremium,
-                                isUnlocked: true
-                            ),
+                        ColorOptionCard(
+                            color: bodyType.color,
                             isSelected: customizationManager.currentCustomization.bodyType == bodyType,
                             onTap: {
                                 customizationManager.updateBodyType(bodyType)
@@ -649,40 +688,47 @@ struct CharacterTabCustomizationView: View {
                         )
                     }
                 case .hairStyle:
-                    ForEach(HairStyle.allCases, id: \.self) { hairStyle in
+                    // Show unique hair types (not individual color variants) - ordered from 1 to 13
+                    ForEach(HairStyle.uniqueHairTypes.sorted { hairType1, hairType2 in
+                        let num1 = Int(hairType1.replacingOccurrences(of: "hair", with: "")) ?? 0
+                        let num2 = Int(hairType2.replacingOccurrences(of: "hair", with: "")) ?? 0
+                        return num1 < num2
+                    }, id: \.self) { hairType in
+                        let defaultStyle = HairStyle.getDefaultStyle(for: hairType)
                         CustomizationOptionCard(
                             option: CustomizationOption(
-                                id: hairStyle.rawValue,
-                                name: hairStyle.displayName,
-                                imageName: hairStyle.previewImageName,
-                                isPremium: hairStyle.isPremium,
+                                id: hairType,
+                                name: "", // Empty name to hide text
+                                imageName: defaultStyle.previewImageName,
+                                isPremium: false,
                                 isUnlocked: true
                             ),
-                            isSelected: customizationManager.currentCustomization.hairStyle == hairStyle,
+                            isSelected: selectedHairType == hairType,
                             onTap: {
-                                customizationManager.updateHairStyle(hairStyle)
+                                selectedHairType = hairType
+                                // Update to the default style for this hair type
+                                let newStyle = HairStyle.getDefaultStyle(for: hairType)
+                                customizationManager.updateHairStyle(newStyle)
                                 checkForChanges()
                             },
                             theme: theme
                         )
                     }
                 case .hairColor:
-                    ForEach(HairColor.allCases, id: \.self) { hairColor in
-                        CustomizationOptionCard(
-                            option: CustomizationOption(
-                                id: hairColor.rawValue,
-                                name: hairColor.displayName,
-                                imageName: hairColor.previewImageName,
-                                isPremium: hairColor.isPremium,
-                                isUnlocked: true
-                            ),
-                            isSelected: customizationManager.currentCustomization.hairColor == hairColor,
-                            onTap: {
-                                customizationManager.updateHairColor(hairColor)
-                                checkForChanges()
-                            },
-                            theme: theme
-                        )
+                    // Show available colors for the selected hair type
+                    ForEach(HairStyle.getAvailableColorsForType(selectedHairType), id: \.self) { hairColor in
+                        // Find the hair style for this type and color
+                        if let hairStyle = HairStyle.getStyle(for: selectedHairType, color: hairColor) {
+                            ColorOptionCard(
+                                color: hairColor.color,
+                                isSelected: customizationManager.currentCustomization.hairStyle == hairStyle,
+                                onTap: {
+                                    customizationManager.updateHairStyle(hairStyle)
+                                    checkForChanges()
+                                },
+                                theme: theme
+                            )
+                        }
                     }
                 case .eyeColor:
                     ForEach(EyeColor.allCases, id: \.self) { eyeColor in
@@ -744,6 +790,18 @@ struct CharacterTabCustomizationView: View {
             let currentCustomization = entity.toCharacterCustomization()
             customizationManager.currentCustomization = currentCustomization
             originalCustomization = currentCustomization
+            
+            // Set the selected hair type based on current hair style
+            selectedHairType = currentCustomization.hairStyle.hairType
+        } else {
+            // If no customization exists, create a default one and save it
+            let defaultCustomization = CharacterCustomization()
+            customizationManager.currentCustomization = defaultCustomization
+            originalCustomization = defaultCustomization
+            selectedHairType = defaultCustomization.hairStyle.hairType
+            
+            // Save the default customization
+            _ = customizationService.createCustomization(for: user, customization: defaultCustomization)
         }
     }
 
@@ -777,7 +835,15 @@ struct CharacterTabCustomizationView: View {
         let customizationService = CharacterCustomizationService()
         _ = customizationService.updateCustomization(for: user, customization: updatedCustomization)
         
+        // Post notification to refresh character view
+        NotificationCenter.default.post(name: .characterCustomizationUpdated, object: nil)
+        
         // Dismiss the view
         dismiss()
     }
+}
+
+// MARK: - Notification Names
+extension Notification.Name {
+    static let characterCustomizationUpdated = Notification.Name("characterCustomizationUpdated")
 }
