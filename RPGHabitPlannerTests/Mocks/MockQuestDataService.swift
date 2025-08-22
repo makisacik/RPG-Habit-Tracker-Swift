@@ -95,6 +95,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
         tasks: [String]?,
         tags: [Tag]?,
         showProgress: Bool?,
+        scheduledDays: Set<Int>?,
         completion: @escaping (Error?) -> Void
     ) {
         if let error = mockError {
@@ -116,6 +117,7 @@ class MockQuestDataService: QuestDataServiceProtocol {
         if let progress = progress { mockQuests[index].progress = max(0, min(100, progress)) } // Ensure progress stays between 0 and 100
         if let showProgress = showProgress { mockQuests[index].showProgress = showProgress }
         if let tags = tags { mockQuests[index].tags = Set(tags) }
+        if let scheduledDays = scheduledDays { mockQuests[index].scheduledDays = scheduledDays }
 
         completion(nil)
     }

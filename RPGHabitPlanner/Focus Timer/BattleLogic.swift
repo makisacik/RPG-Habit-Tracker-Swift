@@ -179,16 +179,25 @@ class BattleLogic {
 
         switch enemyType {
         case .sleepyCat, .funnyZombie:
-            // Easy enemies give common items
-            return itemDatabase.getItems(of: .common).randomElement() ?? itemDatabase.getRandomItem()
+            // Easy enemies give common gear items or basic items
+            let commonGear = itemDatabase.getItems(of: .common)
+            let basicItems = itemDatabase.getItems(of: .consumable) + itemDatabase.getItems(of: .collectible)
+            let allItems = commonGear + basicItems
+            return allItems.randomElement() ?? itemDatabase.getRandomItem()
 
         case .funkyMonster, .booMonster:
-            // Medium enemies give uncommon items
-            return itemDatabase.getItems(of: .uncommon).randomElement() ?? itemDatabase.getRandomItem()
+            // Medium enemies give uncommon gear items or better items
+            let uncommonGear = itemDatabase.getItems(of: .uncommon)
+            let betterItems = itemDatabase.getItems(of: .booster) + itemDatabase.getItems(of: .accessory)
+            let allItems = uncommonGear + betterItems
+            return allItems.randomElement() ?? itemDatabase.getRandomItem()
 
         case .flyingDragon:
-            // Hard enemies give rare items
-            return itemDatabase.getItems(of: .rare).randomElement() ?? itemDatabase.getRandomItem()
+            // Hard enemies give rare gear items or premium items
+            let rareGear = itemDatabase.getItems(of: .rare)
+            let epicGear = itemDatabase.getItems(of: .epic)
+            let allItems = rareGear + epicGear
+            return allItems.randomElement() ?? itemDatabase.getRandomItem()
         }
     }
 

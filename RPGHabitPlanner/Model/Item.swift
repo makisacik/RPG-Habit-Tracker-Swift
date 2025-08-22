@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// MARK: - Item Rarity
+// MARK: - Item Rarity (Only for Gear items)
 
 enum ItemRarity: String, CaseIterable, Codable {
     case common = "Common"
@@ -61,21 +61,49 @@ enum ItemRarity: String, CaseIterable, Codable {
 // MARK: - Item Types
 
 enum ItemType: String, CaseIterable, Codable {
-    case collectible = "Collectible"
     case consumable = "Consumable"
-    case equipable = "Equipable"
+    case accessory = "Accessory"
+    case gear = "Gear"
     case booster = "Booster"
+    case collectible = "Collectible"
 
     var description: String {
         switch self {
-        case .collectible:
-            return "Visual items for display and collection"
         case .consumable:
             return "Used once and consumed"
-        case .equipable:
-            return "Persistent until changed"
+        case .accessory:
+            return "Cosmetic accessories for character customization"
+        case .gear:
+            return "Equippable items with stats and rarities"
         case .booster:
             return "Provides temporary bonuses"
+        case .collectible:
+            return "Visual items for display and collection"
+        }
+    }
+}
+
+// MARK: - Gear Categories
+
+enum GearCategory: String, CaseIterable, Codable {
+    case head = "Head"
+    case outfit = "Outfit"
+    case wings = "Wings"
+    case weapon = "Weapon"
+    case pet = "Pet"
+
+    var description: String {
+        switch self {
+        case .head:
+            return "Headgear and helmets"
+        case .outfit:
+            return "Body armor and clothing"
+        case .wings:
+            return "Wing accessories"
+        case .weapon:
+            return "Weapons and tools"
+        case .pet:
+            return "Pet companions"
         }
     }
 }
@@ -87,7 +115,6 @@ protocol GameItem: Identifiable, Equatable, Codable {
     var name: String { get }
     var description: String { get }
     var iconName: String { get }
-    var rarity: ItemRarity { get }
     var itemType: ItemType { get }
     var value: Int { get }
     var collectionCategory: String? { get }
@@ -101,7 +128,6 @@ struct Item: GameItem {
     let name: String
     let description: String
     let iconName: String
-    let rarity: ItemRarity
     let itemType: ItemType
     let value: Int
     let collectionCategory: String?
@@ -109,30 +135,41 @@ struct Item: GameItem {
     let effects: [ItemEffect]?
     let usageData: ItemUsageData?
 
+    // Gear-specific properties
+    let gearCategory: GearCategory?
+    let rarity: ItemRarity?
+
     init(
         id: UUID = UUID(),
         name: String,
         description: String,
         iconName: String,
-        rarity: ItemRarity = .common,
         itemType: ItemType = .collectible,
         value: Int = 0,
         collectionCategory: String? = nil,
         isRare: Bool = false,
         effects: [ItemEffect]? = nil,
-        usageData: ItemUsageData? = nil
+        usageData: ItemUsageData? = nil,
+        gearCategory: GearCategory? = nil,
+        rarity: ItemRarity? = nil
     ) {
         self.id = id
         self.name = name
         self.description = description
         self.iconName = iconName
-        self.rarity = rarity
         self.itemType = itemType
         self.value = value
         self.collectionCategory = collectionCategory
         self.isRare = isRare
         self.effects = effects
         self.usageData = usageData
+        self.gearCategory = gearCategory
+        self.rarity = rarity
+        
+        // Validate that only gear items have rarity
+        if itemType != .gear && rarity != nil {
+            print("⚠️ Warning: Non-gear item '\(name)' has rarity set. Rarity will be ignored.")
+        }
     }
 
     // MARK: - Convenience Initializers
@@ -141,14 +178,12 @@ struct Item: GameItem {
         name: String,
         description: String,
         healAmount: Int16,
-        rarity: ItemRarity = .common,
         value: Int = 0
     ) -> Item {
         return Item(
             name: name,
             description: description,
             iconName: "icon_flask_red",
-            rarity: rarity,
             itemType: .consumable,
             value: value,
             usageData: .healthPotion(healAmount: healAmount)
@@ -160,14 +195,12 @@ struct Item: GameItem {
         description: String,
         multiplier: Double,
         duration: TimeInterval,
-        rarity: ItemRarity = .common,
         value: Int = 0
     ) -> Item {
         return Item(
             name: name,
             description: description,
             iconName: "icon_lightning",
-            rarity: rarity,
             itemType: .booster,
             value: value,
             usageData: .xpBoost(multiplier: multiplier, duration: duration)
@@ -179,17 +212,51 @@ struct Item: GameItem {
         description: String,
         multiplier: Double,
         duration: TimeInterval,
-        rarity: ItemRarity = .common,
         value: Int = 0
     ) -> Item {
         return Item(
             name: name,
             description: description,
             iconName: "icon_flask_purple",
-            rarity: rarity,
             itemType: .booster,
             value: value,
             usageData: .coinBoost(multiplier: multiplier, duration: duration)
+        )
+    }
+
+    static func accessory(
+        name: String,
+        description: String,
+        iconName: String,
+        value: Int = 0
+    ) -> Item {
+        return Item(
+            name: name,
+            description: description,
+            iconName: iconName,
+            itemType: .accessory,
+            value: value
+        )
+    }
+
+    static func gear(
+        name: String,
+        description: String,
+        iconName: String,
+        category: GearCategory,
+        rarity: ItemRarity,
+        value: Int = 0,
+        effects: [ItemEffect]? = nil
+    ) -> Item {
+        return Item(
+            name: name,
+            description: description,
+            iconName: iconName,
+            itemType: .gear,
+            value: value,
+            effects: effects,
+            gearCategory: category,
+            rarity: rarity
         )
     }
 
@@ -197,7 +264,6 @@ struct Item: GameItem {
         name: String,
         description: String,
         iconName: String,
-        rarity: ItemRarity = .common,
         collectionCategory: String? = nil,
         isRare: Bool = false
     ) -> Item {
@@ -205,7 +271,6 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: iconName,
-            rarity: rarity,
             itemType: .collectible,
             collectionCategory: collectionCategory,
             isRare: isRare
@@ -360,12 +425,11 @@ struct ItemDatabase {
 
     private init() {}
 
-    // MARK: - Health Potions
+    // MARK: - Health Potions (Consumables)
     static let minorHealthPotion = Item.healthPotion(
         name: "Minor Health Potion",
         description: "Restores 15 HP. A basic healing potion made from common herbs.",
         healAmount: 15,
-        rarity: .common,
         value: 25
     )
 
@@ -373,7 +437,6 @@ struct ItemDatabase {
         name: "Health Potion",
         description: "Restores 30 HP. A reliable healing potion for adventurers.",
         healAmount: 30,
-        rarity: .uncommon,
         value: 50
     )
 
@@ -381,7 +444,6 @@ struct ItemDatabase {
         name: "Greater Health Potion",
         description: "Restores 50 HP. A powerful healing potion that can save your life.",
         healAmount: 50,
-        rarity: .rare,
         value: 100
     )
 
@@ -389,7 +451,6 @@ struct ItemDatabase {
         name: "Superior Health Potion",
         description: "Restores 75 HP. An exceptional healing potion with rare ingredients.",
         healAmount: 75,
-        rarity: .epic,
         value: 200
     )
 
@@ -397,17 +458,15 @@ struct ItemDatabase {
         name: "Legendary Health Potion",
         description: "Fully restores health. A legendary potion that brings you back from the brink of death.",
         healAmount: 999,
-        rarity: .legendary,
         value: 500
     )
 
-    // MARK: - XP Boosts
+    // MARK: - XP Boosts (Boosters)
     static let minorXPBoost = Item.xpBoost(
         name: "Minor XP Boost",
         description: "Increases XP gain by 25% for 30 minutes",
         multiplier: 1.25,
         duration: 30 * 60,
-        rarity: .common,
         value: 50
     )
 
@@ -416,7 +475,6 @@ struct ItemDatabase {
         description: "Increases XP gain by 50% for 1 hour",
         multiplier: 1.5,
         duration: 60 * 60,
-        rarity: .uncommon,
         value: 100
     )
 
@@ -425,7 +483,6 @@ struct ItemDatabase {
         description: "Increases XP gain by 100% for 2 hours",
         multiplier: 2.0,
         duration: 2 * 60 * 60,
-        rarity: .rare,
         value: 250
     )
 
@@ -434,17 +491,15 @@ struct ItemDatabase {
         description: "Increases XP gain by 200% for 4 hours",
         multiplier: 3.0,
         duration: 4 * 60 * 60,
-        rarity: .legendary,
         value: 500
     )
 
-    // MARK: - Coin Boosts
+    // MARK: - Coin Boosts (Boosters)
     static let minorCoinBoost = Item.coinBoost(
         name: "Minor Coin Boost",
         description: "Increases coin gain by 25% for 30 minutes",
         multiplier: 1.25,
         duration: 30 * 60,
-        rarity: .common,
         value: 50
     )
 
@@ -453,7 +508,6 @@ struct ItemDatabase {
         description: "Increases coin gain by 50% for 1 hour",
         multiplier: 1.5,
         duration: 60 * 60,
-        rarity: .uncommon,
         value: 100
     )
 
@@ -462,7 +516,6 @@ struct ItemDatabase {
         description: "Increases coin gain by 100% for 2 hours",
         multiplier: 2.0,
         duration: 2 * 60 * 60,
-        rarity: .rare,
         value: 250
     )
 
@@ -471,9 +524,76 @@ struct ItemDatabase {
         description: "Increases coin gain by 200% for 4 hours",
         multiplier: 3.0,
         duration: 4 * 60 * 60,
-        rarity: .legendary,
         value: 500
     )
+
+    // MARK: - Accessories
+    static let allAccessories: [Item] = [
+        Item.accessory(name: "Blue Flower", description: "A beautiful blue flower accessory", iconName: "char_flower_blue"),
+        Item.accessory(name: "Green Flower", description: "A lovely green flower accessory", iconName: "char_flower_green"),
+        Item.accessory(name: "Purple Flower", description: "An elegant purple flower accessory", iconName: "char_flower_purple"),
+        Item.accessory(name: "Blue Glasses", description: "Stylish blue glasses", iconName: "char_glass_blue"),
+        Item.accessory(name: "Gray Glasses", description: "Classic gray glasses", iconName: "char_glass_gray"),
+        Item.accessory(name: "Red Glasses", description: "Bold red glasses", iconName: "char_glass_red"),
+        Item.accessory(name: "Earring 1", description: "A simple earring", iconName: "char_earring_1"),
+        Item.accessory(name: "Earring 2", description: "An elegant earring", iconName: "char_earring_2"),
+        Item.accessory(name: "Blush", description: "A touch of blush for your cheeks", iconName: "char_blush")
+    ]
+
+    // MARK: - Gear Items
+    static let allGear: [Item] = [
+        // Head Gear
+        Item.gear(name: "Hood", description: "A simple hood for protection", iconName: "char_helmet_hood", category: .head, rarity: .common),
+        Item.gear(name: "Iron Helmet", description: "A sturdy iron helmet", iconName: "char_helmet_iron", category: .head, rarity: .uncommon),
+        Item.gear(name: "Red Helmet", description: "A striking red helmet", iconName: "char_helmet_red", category: .head, rarity: .rare),
+
+        // Outfits
+        Item.gear(name: "Villager Outfit", description: "Simple villager clothing", iconName: "char_outfit_villager", category: .outfit, rarity: .common),
+        Item.gear(name: "Blue Villager Outfit", description: "Blue villager clothing", iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common),
+        Item.gear(name: "Hoodie", description: "A comfortable hoodie", iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon),
+        Item.gear(name: "Dress", description: "An elegant dress", iconName: "char_outfit_dress", category: .outfit, rarity: .uncommon),
+        Item.gear(name: "Iron Armor", description: "Sturdy iron armor", iconName: "char_outfit_iron", category: .outfit, rarity: .rare),
+        Item.gear(name: "Iron Armor 2", description: "Enhanced iron armor", iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare),
+        Item.gear(name: "Red Outfit", description: "A bold red outfit", iconName: "char_outfit_red", category: .outfit, rarity: .epic),
+        Item.gear(name: "Wizard Robe", description: "A magical wizard robe", iconName: "char_outfit_wizard", category: .outfit, rarity: .epic),
+        Item.gear(name: "Bat Outfit", description: "A mysterious bat-themed outfit", iconName: "char_outfit_bat", category: .outfit, rarity: .legendary),
+        Item.gear(name: "Fire Outfit", description: "A blazing fire-themed outfit", iconName: "char_outfit_fire", category: .outfit, rarity: .legendary),
+
+        // Wings
+        Item.gear(name: "White Wings", description: "Pure white angelic wings", iconName: "char_wings_white", category: .wings, rarity: .rare),
+        Item.gear(name: "Red Wings", description: "Fiery red wings", iconName: "char_wings_red", category: .wings, rarity: .epic),
+        Item.gear(name: "Red Wings 2", description: "Enhanced red wings", iconName: "char_wings_red_2", category: .wings, rarity: .epic),
+        Item.gear(name: "Bat Wings", description: "Dark bat wings", iconName: "char_wings_bat", category: .wings, rarity: .legendary),
+        
+        // Weapons
+        Item.gear(name: "Wooden Sword", description: "A basic wooden sword", iconName: "char_sword_wood", category: .weapon, rarity: .common),
+        Item.gear(name: "Copper Sword", description: "A copper sword", iconName: "char_sword_copper", category: .weapon, rarity: .common),
+        Item.gear(name: "Iron Sword", description: "A reliable iron sword", iconName: "char_sword_iron", category: .weapon, rarity: .uncommon),
+        Item.gear(name: "Steel Sword", description: "A sharp steel sword", iconName: "char_sword_steel", category: .weapon, rarity: .rare),
+        Item.gear(name: "Red Sword", description: "A fiery red sword", iconName: "char_sword_red", category: .weapon, rarity: .epic),
+        Item.gear(name: "Red Sword 2", description: "An enhanced red sword", iconName: "char_sword_red_2", category: .weapon, rarity: .epic),
+        Item.gear(name: "Gold Sword", description: "A golden sword", iconName: "char_sword_gold", category: .weapon, rarity: .legendary),
+        Item.gear(name: "Gold Sword 2", description: "An enhanced golden sword", iconName: "char_sword_gold_2", category: .weapon, rarity: .legendary),
+        Item.gear(name: "Axe", description: "A heavy axe", iconName: "char_sword_axe", category: .weapon, rarity: .rare),
+        Item.gear(name: "Small Axe", description: "A smaller axe", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon),
+        Item.gear(name: "Whip", description: "A flexible whip", iconName: "char_sword_whip", category: .weapon, rarity: .epic),
+        Item.gear(name: "Staff", description: "A magical staff", iconName: "char_sword_staff", category: .weapon, rarity: .epic),
+        Item.gear(name: "Mace", description: "A heavy mace", iconName: "char_sword_mace", category: .weapon, rarity: .rare),
+        Item.gear(name: "Deadly Sword", description: "A deadly weapon", iconName: "char_sword_deadly", category: .weapon, rarity: .legendary),
+        Item.gear(name: "Bow Front", description: "A bow for ranged combat", iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare),
+        Item.gear(name: "Bow Back", description: "A bow carried on the back", iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare),
+        
+        // Shields
+        Item.gear(name: "Wooden Shield", description: "A basic wooden shield", iconName: "char_shield_wood", category: .weapon, rarity: .common),
+        Item.gear(name: "Red Shield", description: "A red shield", iconName: "char_shield_red", category: .weapon, rarity: .uncommon),
+        Item.gear(name: "Iron Shield", description: "A sturdy iron shield", iconName: "char_shield_iron", category: .weapon, rarity: .rare),
+        Item.gear(name: "Gold Shield", description: "A golden shield", iconName: "char_shield_gold", category: .weapon, rarity: .epic),
+        
+        // Pets
+        Item.gear(name: "Cat Pet", description: "A friendly cat companion", iconName: "char_pet_cat", category: .pet, rarity: .rare),
+        Item.gear(name: "Cat Pet 2", description: "Another friendly cat companion", iconName: "char_pet_cat_2", category: .pet, rarity: .rare),
+        Item.gear(name: "Chicken Pet", description: "A loyal chicken companion", iconName: "char_pet_chicken", category: .pet, rarity: .epic)
+    ]
 
     // MARK: - Collectible Items
     static let allCollectibles: [Item] = [
@@ -481,35 +601,35 @@ struct ItemDatabase {
         Item.collectible(name: "Arrows", description: "A bundle of arrows for ranged attacks", iconName: "icon_arrows", collectionCategory: "Weapons"),
         Item.collectible(name: "Axe Spear", description: "Dual weapon for melee combat", iconName: "icon_axe_spear", collectionCategory: "Weapons"),
         Item.collectible(name: "Axe", description: "Heavy axe for chopping or battle", iconName: "icon_axe", collectionCategory: "Weapons"),
-        Item.collectible(name: "Crown", description: "Symbol of royalty", iconName: "icon_crown", rarity: .legendary, collectionCategory: "Royalty", isRare: true),
+        Item.collectible(name: "Crown", description: "Symbol of royalty", iconName: "icon_crown", collectionCategory: "Royalty", isRare: true),
         Item.collectible(name: "Egg", description: "Mysterious egg, what's inside?", iconName: "icon_egg", collectionCategory: "General"),
-        Item.collectible(name: "Gold", description: "Precious gold coin", iconName: "icon_gold", rarity: .epic, collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Gold", description: "Precious gold coin", iconName: "icon_gold", collectionCategory: "Treasure", isRare: true),
         Item.collectible(name: "Hammer", description: "Tool or weapon for strong strikes", iconName: "icon_hammer", collectionCategory: "Weapons"),
         Item.collectible(name: "Helmet", description: "Protective headgear", iconName: "icon_helmet", collectionCategory: "Armor"),
         Item.collectible(name: "Helmet Witch", description: "Magical witch's hat", iconName: "icon_helmet_witch", collectionCategory: "Armor"),
-        Item.collectible(name: "Key Gold", description: "Opens golden locks", iconName: "icon_key_gold", rarity: .epic, collectionCategory: "Treasure", isRare: true),
-        Item.collectible(name: "Key Silver", description: "Opens silver locks", iconName: "icon_key_silver", rarity: .rare, collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Key Gold", description: "Opens golden locks", iconName: "icon_key_gold", collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Key Silver", description: "Opens silver locks", iconName: "icon_key_silver", collectionCategory: "Treasure", isRare: true),
         Item.collectible(name: "Meat", description: "Cooked meat to restore health", iconName: "icon_meat", collectionCategory: "General"),
-        Item.collectible(name: "Medal", description: "Award for great achievements", iconName: "icon_medal", rarity: .legendary, collectionCategory: "Royalty", isRare: true),
+        Item.collectible(name: "Medal", description: "Award for great achievements", iconName: "icon_medal", collectionCategory: "Royalty", isRare: true),
         Item.collectible(name: "Pouch", description: "Small pouch for coins or trinkets", iconName: "icon_pouch", collectionCategory: "General"),
         Item.collectible(name: "Pumpkin", description: "Festive pumpkin", iconName: "icon_pumpkin", collectionCategory: "General"),
         Item.collectible(name: "Shield", description: "Protective shield for defense", iconName: "icon_shield", collectionCategory: "Armor"),
-        Item.collectible(name: "Shield Blue", description: "Magical blue shield", iconName: "icon_shield_blue", rarity: .rare, collectionCategory: "Armor", isRare: true),
+        Item.collectible(name: "Shield Blue", description: "Magical blue shield", iconName: "icon_shield_blue", collectionCategory: "Armor", isRare: true),
         Item.collectible(name: "Sword", description: "Sharp sword for combat", iconName: "icon_sword", collectionCategory: "Weapons"),
-        Item.collectible(name: "Sword Double", description: "Dual-wielded swords", iconName: "icon_sword_double", rarity: .epic, collectionCategory: "Weapons", isRare: true),
-        Item.collectible(name: "Ring", description: "Magical ring with special properties", iconName: "icon_ring", rarity: .rare, collectionCategory: "Accessories", isRare: true),
+        Item.collectible(name: "Sword Double", description: "Dual-wielded swords", iconName: "icon_sword_double", collectionCategory: "Weapons", isRare: true),
+        Item.collectible(name: "Ring", description: "Magical ring with special properties", iconName: "icon_ring", collectionCategory: "Accessories", isRare: true),
         Item.collectible(name: "Chest", description: "Treasure chest", iconName: "icon_chest", collectionCategory: "Treasure"),
-        Item.collectible(name: "Chest Blue", description: "Rare blue treasure chest", iconName: "icon_chest_blue", rarity: .rare, collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Chest Blue", description: "Rare blue treasure chest", iconName: "icon_chest_blue", collectionCategory: "Treasure", isRare: true),
         Item.collectible(name: "Chest Open", description: "Opened treasure chest", iconName: "icon_chest_open", collectionCategory: "Treasure"),
         Item.collectible(name: "Trophy Bronze", description: "Bronze trophy for achievements", iconName: "icon_trophy_bronze", collectionCategory: "Trophies"),
-        Item.collectible(name: "Trophy Silver", description: "Silver trophy for achievements", iconName: "icon_trophy_silver", rarity: .rare, collectionCategory: "Trophies", isRare: true),
-        Item.collectible(name: "Trophy Gold", description: "Gold trophy for achievements", iconName: "icon_trophy_gold", rarity: .epic, collectionCategory: "Trophies", isRare: true),
+        Item.collectible(name: "Trophy Silver", description: "Silver trophy for achievements", iconName: "icon_trophy_silver", collectionCategory: "Trophies", isRare: true),
+        Item.collectible(name: "Trophy Gold", description: "Gold trophy for achievements", iconName: "icon_trophy_gold", collectionCategory: "Trophies", isRare: true),
         Item.collectible(name: "Scroll 1", description: "Ancient scroll with knowledge", iconName: "icon_scroll_1", collectionCategory: "Scrolls"),
-        Item.collectible(name: "Scroll 2", description: "Ancient scroll with knowledge", iconName: "icon_scroll_2", rarity: .rare, collectionCategory: "Scrolls", isRare: true),
-        Item.collectible(name: "Scroll 3", description: "Ancient scroll with knowledge", iconName: "icon_scroll_3", rarity: .epic, collectionCategory: "Scrolls", isRare: true),
+        Item.collectible(name: "Scroll 2", description: "Ancient scroll with knowledge", iconName: "icon_scroll_2", collectionCategory: "Scrolls", isRare: true),
+        Item.collectible(name: "Scroll 3", description: "Ancient scroll with knowledge", iconName: "icon_scroll_3", collectionCategory: "Scrolls", isRare: true),
         Item.collectible(name: "Bell", description: "Magical bell", iconName: "icon_bell", collectionCategory: "General"),
         Item.collectible(name: "Calendar", description: "Calendar for tracking time", iconName: "icon_calendar", collectionCategory: "General"),
-        Item.collectible(name: "Clover", description: "Lucky four-leaf clover", iconName: "icon_clover", rarity: .rare, collectionCategory: "General", isRare: true),
+        Item.collectible(name: "Clover", description: "Lucky four-leaf clover", iconName: "icon_clover", collectionCategory: "General", isRare: true),
         Item.collectible(name: "Cross", description: "Holy cross", iconName: "icon_cross", collectionCategory: "General"),
         Item.collectible(name: "Feather", description: "Light as a feather", iconName: "icon_feather", collectionCategory: "General"),
         Item.collectible(name: "Fire", description: "Element of fire", iconName: "icon_fire", collectionCategory: "Elements"),
@@ -518,11 +638,11 @@ struct ItemDatabase {
         Item.collectible(name: "Star Fill", description: "Bright star", iconName: "icon_star_fill", collectionCategory: "General"),
         Item.collectible(name: "Skull", description: "Mysterious skull", iconName: "icon_skull", collectionCategory: "General"),
         Item.collectible(name: "Skull Side", description: "Side view of a skull", iconName: "icon_skull_side", collectionCategory: "General"),
-        Item.collectible(name: "Viking Helmet", description: "Viking warrior helmet", iconName: "icon_viking_helmet", rarity: .epic, collectionCategory: "Armor", isRare: true),
-        Item.collectible(name: "Witch Helmet", description: "Witch's magical hat", iconName: "icon_helmet_witch", rarity: .rare, collectionCategory: "Armor", isRare: true),
-        Item.collectible(name: "Level Wings", description: "Wings of experience", iconName: "icon_level_wings", rarity: .epic, collectionCategory: "General", isRare: true),
+        Item.collectible(name: "Viking Helmet", description: "Viking warrior helmet", iconName: "icon_viking_helmet", collectionCategory: "Armor", isRare: true),
+        Item.collectible(name: "Witch Helmet", description: "Witch's magical hat", iconName: "icon_helmet_witch", collectionCategory: "Armor", isRare: true),
+        Item.collectible(name: "Level Wings", description: "Wings of experience", iconName: "icon_level_wings", collectionCategory: "General", isRare: true),
         Item.collectible(name: "Level", description: "Symbol of leveling up", iconName: "icon_level", collectionCategory: "General"),
-        Item.collectible(name: "Castle", description: "Mighty castle", iconName: "icon_castle", rarity: .legendary, collectionCategory: "General", isRare: true),
+        Item.collectible(name: "Castle", description: "Mighty castle", iconName: "icon_castle", collectionCategory: "General", isRare: true),
         Item.collectible(name: "Gear", description: "Mechanical gear", iconName: "icon_gear", collectionCategory: "General"),
         Item.collectible(name: "Bag", description: "Storage bag", iconName: "icon_bag", collectionCategory: "General"),
         Item.collectible(name: "Item Pouch Green", description: "Green item pouch", iconName: "item_pouch_green", collectionCategory: "General")
@@ -530,7 +650,7 @@ struct ItemDatabase {
 
     // MARK: - All Items
     static var allItems: [Item] {
-        return allHealthPotions + allXPBoosts + allCoinBoosts + allCollectibles
+        return allHealthPotions + allXPBoosts + allCoinBoosts + allAccessories + allGear + allCollectibles
     }
 
     static var allHealthPotions: [Item] {
@@ -560,5 +680,13 @@ struct ItemDatabase {
 
     func getItems(of rarity: ItemRarity) -> [Item] {
         return ItemDatabase.allItems.filter { $0.rarity == rarity }
+    }
+
+    func getGearItems(of category: GearCategory) -> [Item] {
+        return ItemDatabase.allGear.filter { $0.gearCategory == category }
+    }
+
+    func getGearItems(of category: GearCategory, rarity: ItemRarity) -> [Item] {
+        return ItemDatabase.allGear.filter { $0.gearCategory == category && $0.rarity == rarity }
     }
 }

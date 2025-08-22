@@ -170,17 +170,16 @@ final class XPBoostTests: XCTestCase {
     // MARK: - Item Creation Tests
 
     func testHealthPotionCreation() throws {
-        let potion = Item.healthPotion(
+        let potion = Item.consumable(
             name: "Test Health Potion",
             description: "A test health potion",
-            healAmount: 50,
-            rarity: .rare,
-            value: 100
+            iconName: "icon_flask_red",
+            value: 100,
+            usageData: .healthPotion(healAmount: 50)
         )
 
         XCTAssertEqual(potion.name, "Test Health Potion")
         XCTAssertEqual(potion.itemType, .consumable)
-        XCTAssertEqual(potion.rarity, .rare)
         XCTAssertEqual(potion.value, 100)
         XCTAssertEqual(potion.iconName, "icon_flask_red")
 
@@ -192,18 +191,16 @@ final class XPBoostTests: XCTestCase {
     }
 
     func testXPBoostCreation() throws {
-        let boost = Item.xpBoost(
+        let boost = Item.booster(
             name: "Test XP Boost",
             description: "A test XP boost",
-            multiplier: 2.0,
-            duration: 3600,
-            rarity: .epic,
-            value: 200
+            iconName: "icon_flask_blue",
+            value: 200,
+            usageData: .xpBoost(multiplier: 2.0, duration: 3600)
         )
 
         XCTAssertEqual(boost.name, "Test XP Boost")
         XCTAssertEqual(boost.itemType, .booster)
-        XCTAssertEqual(boost.rarity, .epic)
         XCTAssertEqual(boost.value, 200)
         XCTAssertEqual(boost.iconName, "icon_flask_blue")
 
@@ -216,18 +213,16 @@ final class XPBoostTests: XCTestCase {
     }
 
     func testCoinBoostCreation() throws {
-        let boost = Item.coinBoost(
+        let boost = Item.booster(
             name: "Test Coin Boost",
             description: "A test coin boost",
-            multiplier: 1.5,
-            duration: 1800,
-            rarity: .uncommon,
-            value: 150
+            iconName: "icon_flask_purple",
+            value: 150,
+            usageData: .coinBoost(multiplier: 1.5, duration: 1800)
         )
 
         XCTAssertEqual(boost.name, "Test Coin Boost")
         XCTAssertEqual(boost.itemType, .booster)
-        XCTAssertEqual(boost.rarity, .uncommon)
         XCTAssertEqual(boost.value, 150)
         XCTAssertEqual(boost.iconName, "icon_flask_purple")
 
@@ -244,14 +239,13 @@ final class XPBoostTests: XCTestCase {
             name: "Test Sword",
             description: "A test sword",
             iconName: "test_sword",
-            rarity: .rare,
+            value: 50,
             collectionCategory: "Weapons",
             isRare: true
         )
 
         XCTAssertEqual(collectible.name, "Test Sword")
         XCTAssertEqual(collectible.itemType, .collectible)
-        XCTAssertEqual(collectible.rarity, .rare)
         XCTAssertEqual(collectible.collectionCategory, "Weapons")
         XCTAssertTrue(collectible.isRare)
         XCTAssertNil(collectible.usageData) // Collectibles don't have usage data
@@ -267,11 +261,17 @@ class MockInventoryService: InventoryServiceProtocol {
         return items
     }
 
-    func addItem(name: String, info: String, iconName: String) {
+    func addItem(name: String, info: String, iconName: String, itemType: String?, gearCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
         let item = ItemEntity()
         item.name = name
         item.info = info
         item.iconName = iconName
+        item.itemType = itemType
+        item.gearCategory = gearCategory
+        item.rarity = rarity
+        item.value = value
+        item.collectionCategory = collectionCategory
+        item.isRare = isRare
         items.append(item)
     }
 

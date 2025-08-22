@@ -8,7 +8,7 @@
 import XCTest
 @testable import RPGHabitPlanner
 
-final class QuestsViewModelTests: XCTestCase {
+final class QuestTrackingViewModelTests: XCTestCase {
     var viewModel: QuestsViewModel!
     var mockService: MockQuestDataService!
 

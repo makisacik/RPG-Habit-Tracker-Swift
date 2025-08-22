@@ -31,7 +31,7 @@ final class ShopManager: ObservableObject {
                 description: potion.description,
                 iconName: potion.iconName,
                 price: potion.value,
-                rarity: potion.rarity,
+                rarity: potion.rarity ?? .common,
                 category: .potions,
                 effects: potion.effects
             ))
@@ -44,7 +44,7 @@ final class ShopManager: ObservableObject {
                 description: boost.description,
                 iconName: boost.iconName,
                 price: boost.value,
-                rarity: boost.rarity,
+                rarity: boost.rarity ?? .common,
                 category: .boosts,
                 effects: boost.effects
             ))
@@ -57,7 +57,7 @@ final class ShopManager: ObservableObject {
                 description: boost.description,
                 iconName: boost.iconName,
                 price: boost.value,
-                rarity: boost.rarity,
+                rarity: boost.rarity ?? .common,
                 category: .boosts,
                 effects: boost.effects
             ))
@@ -83,7 +83,7 @@ final class ShopManager: ObservableObject {
                     description: item.description,
                     iconName: item.iconName,
                     price: item.value,
-                    rarity: item.rarity,
+                    rarity: item.rarity ?? .common,
                     category: category,
                     effects: item.effects
                 ))
@@ -190,7 +190,7 @@ final class ShopManager: ObservableObject {
         case .boosts:
             return .booster
         case .weapons, .armor:
-            return .equipable
+            return .gear
         case .accessories, .special:
             return .collectible
         }

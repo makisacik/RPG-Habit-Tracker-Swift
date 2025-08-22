@@ -67,7 +67,17 @@ class InventoryManager: ObservableObject {
     /// Adds an item to the inventory
     /// - Parameter item: The item to add
     func addToInventory(_ item: Item) {
-        service.addItem(name: item.name, info: item.description, iconName: item.iconName)
+        service.addItem(
+            name: item.name,
+            info: item.description,
+            iconName: item.iconName,
+            itemType: item.itemType.rawValue,
+            gearCategory: item.gearCategory?.rawValue,
+            rarity: item.rarity?.rawValue,
+            value: Int32(item.value),
+            collectionCategory: item.collectionCategory,
+            isRare: item.isRare
+        )
         refreshInventory()
     }
 
@@ -111,6 +121,12 @@ class InventoryManager: ObservableObject {
     /// - Parameter item: The item to check
     /// - Returns: The item type if found
     func getItemType(_ item: ItemEntity) -> ItemType? {
+        // First try to get from Core Data
+        if let itemTypeString = item.itemType {
+            return ItemType(rawValue: itemTypeString)
+        }
+        
+        // Fallback to database lookup
         guard let name = item.name,
               let itemDefinition = itemDatabase.findItem(by: name) else {
             return nil
@@ -123,6 +139,20 @@ class InventoryManager: ObservableObject {
     /// - Returns: True if the item is consumable
     func isConsumable(_ item: ItemEntity) -> Bool {
         return getItemType(item) == .consumable
+    }
+
+    /// Checks if an item is an accessory
+    /// - Parameter item: The item to check
+    /// - Returns: True if the item is an accessory
+    func isAccessory(_ item: ItemEntity) -> Bool {
+        return getItemType(item) == .accessory
+    }
+
+    /// Checks if an item is gear
+    /// - Parameter item: The item to check
+    /// - Returns: True if the item is gear
+    func isGear(_ item: ItemEntity) -> Bool {
+        return getItemType(item) == .gear
     }
 
     /// Checks if an item is a booster
@@ -225,6 +255,21 @@ class InventoryManager: ObservableObject {
         addToInventory(ItemDatabase.healthPotion)
         addToInventory(ItemDatabase.minorXPBoost)
         addToInventory(ItemDatabase.minorCoinBoost)
+        
+        // Add some starter accessories
+        if let blueFlower = ItemDatabase.allAccessories.first(where: { $0.name == "Blue Flower" }) {
+            addToInventory(blueFlower)
+        }
+        
+        // Add some starter gear
+        if let woodenSword = ItemDatabase.allGear.first(where: { $0.name == "Wooden Sword" }) {
+            addToInventory(woodenSword)
+        }
+        
+        // Add some collectibles
+        if let egg = ItemDatabase.allCollectibles.first(where: { $0.name == "Egg" }) {
+            addToInventory(egg)
+        }
     }
 
     /// Gets all items of a specific type
@@ -234,11 +279,47 @@ class InventoryManager: ObservableObject {
         return itemDatabase.getItems(of: type)
     }
 
-    /// Gets all items of a specific rarity
+    /// Gets all items of a specific rarity (only for gear items)
     /// - Parameter rarity: The item rarity to filter by
     /// - Returns: Array of items of the specified rarity
     func getItems(of rarity: ItemRarity) -> [Item] {
         return itemDatabase.getItems(of: rarity)
+    }
+
+    /// Gets all gear items of a specific category
+    /// - Parameter category: The gear category to filter by
+    /// - Returns: Array of gear items of the specified category
+    func getGearItems(of category: GearCategory) -> [Item] {
+        return itemDatabase.getGearItems(of: category)
+    }
+
+    /// Gets all gear items of a specific category and rarity
+    /// - Parameters:
+    ///   - category: The gear category to filter by
+    ///   - rarity: The item rarity to filter by
+    /// - Returns: Array of gear items of the specified category and rarity
+    func getGearItems(of category: GearCategory, rarity: ItemRarity) -> [Item] {
+        return itemDatabase.getGearItems(of: category, rarity: rarity)
+    }
+
+    /// Gets the gear category of an item
+    /// - Parameter item: The item to check
+    /// - Returns: The gear category if the item is gear
+    func getGearCategory(_ item: ItemEntity) -> GearCategory? {
+        if let gearCategoryString = item.gearCategory {
+            return GearCategory(rawValue: gearCategoryString)
+        }
+        return nil
+    }
+
+    /// Gets the rarity of an item
+    /// - Parameter item: The item to check
+    /// - Returns: The rarity if the item has one
+    func getRarity(_ item: ItemEntity) -> ItemRarity? {
+        if let rarityString = item.rarity {
+            return ItemRarity(rawValue: rarityString)
+        }
+        return nil
     }
 }
 

@@ -83,11 +83,11 @@ final class MyQuestsViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .oneTime,
             tasks: [
-                QuestTask(title: "Task 1", isCompleted: false),
-                QuestTask(title: "Task 2", isCompleted: false)
-            ]
+                QuestTask(id: UUID(), title: "Task 1", isCompleted: false, order: 0),
+                QuestTask(id: UUID(), title: "Task 2", isCompleted: false, order: 1)
+            ],
+            repeatType: .oneTime
         )
 
         // Set up mock data
