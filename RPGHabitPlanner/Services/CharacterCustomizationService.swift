@@ -105,6 +105,7 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
         return createCustomization(for: user, customization: defaultCustomization)
     }
 
+
     private func saveContext() {
         do {
             try context.save()

@@ -72,10 +72,8 @@ struct CharacterView: View {
             }
         }
         .sheet(isPresented: $showCustomizationModal) {
-            NavigationStack {
-                CharacterCustomizationView(isCustomizationCompleted: .constant(false))
-                    .environmentObject(themeManager)
-            }
+            CharacterTabCustomizationView(user: user)
+                .environmentObject(themeManager)
         }
         .onAppear {
             fetchCharacterCustomization()
@@ -477,5 +475,309 @@ struct VerticalFloat: ViewModifier {
                     y = endYPosition
                 }
             }
+    }
+}
+
+// MARK: - Character Tab Customization View
+struct CharacterTabCustomizationView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.dismiss) private var dismiss
+    @StateObject private var customizationManager = CharacterCustomizationManager()
+    @State private var selectedCategory: CustomizationCategory = .bodyType
+    @State private var originalCustomization: CharacterCustomization?
+    @State private var hasChanges = false
+    let user: UserEntity
+    
+    // Only include allowed categories for character tab customization
+    private let allowedCategories: [CustomizationCategory] = [
+        .bodyType, .hairStyle, .hairColor, .eyeColor
+    ]
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+
+        ZStack {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.backgroundColor)
+
+            VStack(spacing: 0) {
+                // Header
+                headerView(theme: theme)
+
+                // Character Preview
+                characterPreviewView(theme: theme)
+
+                // Category Selector
+                categorySelectorView(theme: theme)
+
+                // Options Grid
+                optionsGridView(theme: theme)
+
+                // Save Button
+                saveButtonView(theme: theme)
+            }
+            .padding()
+        }
+        .onAppear {
+            loadCurrentCustomization()
+        }
+    }
+
+    // MARK: - Header View
+    @ViewBuilder
+    private func headerView(theme: Theme) -> some View {
+        VStack(spacing: 16) {
+            HStack {
+                Button("Cancel") {
+                    dismiss()
+                }
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.7))
+                
+                Spacer()
+                
+                Text("Customize Character")
+                    .font(.appFont(size: 18, weight: .bold))
+                    .foregroundColor(theme.textColor)
+                
+                Spacer()
+                
+                Button("Save") {
+                    saveCustomization()
+                }
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(hasChanges ? theme.accentColor : theme.textColor.opacity(0.3))
+                .disabled(!hasChanges)
+            }
+            .padding(.horizontal)
+
+            Text("Customize your character's appearance")
+                .font(.appFont(size: 14))
+                .foregroundColor(theme.textColor.opacity(0.8))
+                .multilineTextAlignment(.center)
+        }
+        .padding(.bottom, 20)
+    }
+
+    // MARK: - Character Preview View
+    @ViewBuilder
+    private func characterPreviewView(theme: Theme) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(theme.cardBackgroundColor)
+                .shadow(color: theme.textColor.opacity(0.1), radius: 8, x: 0, y: 4)
+
+            VStack(spacing: 12) {
+                // Character Image Stack
+                ZStack {
+                    // Body
+                    Image(customizationManager.currentCustomization.bodyType.rawValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 120)
+
+                    // Hair
+                    Image(customizationManager.currentCustomization.hairStyle.rawValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 120)
+
+                    // Eyes
+                    Image(customizationManager.currentCustomization.eyeColor.rawValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 120)
+                }
+
+                Text("Preview")
+                    .font(.appFont(size: 16, weight: .medium))
+                    .foregroundColor(theme.textColor)
+            }
+            .padding()
+        }
+        .frame(height: 180)
+    }
+
+    // MARK: - Category Selector View
+    @ViewBuilder
+    private func categorySelectorView(theme: Theme) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(allowedCategories, id: \.self) { category in
+                    Button(action: {
+                        selectedCategory = category
+                    }) {
+                        Text(category.title)
+                            .font(.appFont(size: 14, weight: .medium))
+                            .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(selectedCategory == category ? theme.accentColor.opacity(0.2) : Color.clear)
+                            )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.vertical, 12)
+    }
+
+    // MARK: - Options Grid View
+    @ViewBuilder
+    private func optionsGridView(theme: Theme) -> some View {
+        ScrollView {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
+                switch selectedCategory {
+                case .bodyType:
+                    ForEach(BodyType.allCases, id: \.self) { bodyType in
+                        CustomizationOptionCard(
+                            option: CustomizationOption(
+                                id: bodyType.rawValue,
+                                name: bodyType.displayName,
+                                imageName: bodyType.previewImageName,
+                                isPremium: bodyType.isPremium,
+                                isUnlocked: true
+                            ),
+                            isSelected: customizationManager.currentCustomization.bodyType == bodyType,
+                            onTap: {
+                                customizationManager.updateBodyType(bodyType)
+                                checkForChanges()
+                            },
+                            theme: theme
+                        )
+                    }
+                case .hairStyle:
+                    ForEach(HairStyle.allCases, id: \.self) { hairStyle in
+                        CustomizationOptionCard(
+                            option: CustomizationOption(
+                                id: hairStyle.rawValue,
+                                name: hairStyle.displayName,
+                                imageName: hairStyle.previewImageName,
+                                isPremium: hairStyle.isPremium,
+                                isUnlocked: true
+                            ),
+                            isSelected: customizationManager.currentCustomization.hairStyle == hairStyle,
+                            onTap: {
+                                customizationManager.updateHairStyle(hairStyle)
+                                checkForChanges()
+                            },
+                            theme: theme
+                        )
+                    }
+                case .hairColor:
+                    ForEach(HairColor.allCases, id: \.self) { hairColor in
+                        CustomizationOptionCard(
+                            option: CustomizationOption(
+                                id: hairColor.rawValue,
+                                name: hairColor.displayName,
+                                imageName: hairColor.previewImageName,
+                                isPremium: hairColor.isPremium,
+                                isUnlocked: true
+                            ),
+                            isSelected: customizationManager.currentCustomization.hairColor == hairColor,
+                            onTap: {
+                                customizationManager.updateHairColor(hairColor)
+                                checkForChanges()
+                            },
+                            theme: theme
+                        )
+                    }
+                case .eyeColor:
+                    ForEach(EyeColor.allCases, id: \.self) { eyeColor in
+                        CustomizationOptionCard(
+                            option: CustomizationOption(
+                                id: eyeColor.rawValue,
+                                name: eyeColor.displayName,
+                                imageName: eyeColor.previewImageName,
+                                isPremium: eyeColor.isPremium,
+                                isUnlocked: true
+                            ),
+                            isSelected: customizationManager.currentCustomization.eyeColor == eyeColor,
+                            onTap: {
+                                customizationManager.updateEyeColor(eyeColor)
+                                checkForChanges()
+                            },
+                            theme: theme
+                        )
+                    }
+                default:
+                    EmptyView()
+                }
+            }
+            .padding(.horizontal)
+        }
+        .frame(maxHeight: 300)
+    }
+
+    // MARK: - Save Button View
+    @ViewBuilder
+    private func saveButtonView(theme: Theme) -> some View {
+        Button(action: {
+            saveCustomization()
+        }) {
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 18))
+                Text("Save Changes")
+                    .font(.appFont(size: 16, weight: .medium))
+            }
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(hasChanges ? theme.accentColor : theme.textColor.opacity(0.3))
+            )
+        }
+        .disabled(!hasChanges)
+        .padding(.horizontal)
+        .padding(.top, 20)
+    }
+
+    // MARK: - Helper Methods
+    private func loadCurrentCustomization() {
+        // Load current customization from service
+        let customizationService = CharacterCustomizationService()
+        if let entity = customizationService.fetchCustomization(for: user) {
+            let currentCustomization = entity.toCharacterCustomization()
+            customizationManager.currentCustomization = currentCustomization
+            originalCustomization = currentCustomization
+        }
+    }
+
+    private func checkForChanges() {
+        guard let original = originalCustomization else { return }
+        let current = customizationManager.currentCustomization
+        
+        hasChanges = original.bodyType != current.bodyType ||
+                    original.hairStyle != current.hairStyle ||
+                    original.hairColor != current.hairColor ||
+                    original.eyeColor != current.eyeColor
+    }
+
+    private func saveCustomization() {
+        guard hasChanges else { return }
+        
+        // Create a new customization that preserves outfit, weapon, accessory
+        var updatedCustomization = customizationManager.currentCustomization
+        
+        // Preserve the original outfit, weapon, and accessory if they exist
+        if let original = originalCustomization {
+            updatedCustomization.outfit = original.outfit
+            updatedCustomization.weapon = original.weapon
+            updatedCustomization.accessory = original.accessory
+            updatedCustomization.mustache = original.mustache
+            updatedCustomization.flower = original.flower
+            updatedCustomization.hairBackStyle = original.hairBackStyle
+        }
+        
+        // Save the updated customization
+        let customizationService = CharacterCustomizationService()
+        _ = customizationService.updateCustomization(for: user, customization: updatedCustomization)
+        
+        // Dismiss the view
+        dismiss()
     }
 }
