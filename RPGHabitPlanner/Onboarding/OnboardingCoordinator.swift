@@ -76,6 +76,7 @@ class OnboardingCoordinator: ObservableObject {
 
     func completeOnboarding() {
         // Save character customization data
+        customizationManager.currentCustomization = characterCustomization
         customizationManager.saveCustomization()
 
         // Save user with new customization system

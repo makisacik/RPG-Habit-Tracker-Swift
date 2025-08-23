@@ -251,11 +251,8 @@ class GearManager: ObservableObject {
     // MARK: - Asset Name Mapping
     
     private func getActualAssetName(from iconName: String) -> String {
-        // Convert preview asset names to actual asset names
-        if iconName.hasSuffix("_preview") {
-            return String(iconName.dropLast(8)) // Remove "_preview" suffix
-        }
-        return iconName
+        // Convert preview asset names to actual asset names using the String extension
+        return iconName.actualAssetName
     }
     
     // MARK: - Item Mapping

@@ -51,6 +51,8 @@ extension HomeView {
                                 size: 45,
                                 showShadow: false
                             )
+                            .scaleEffect(1.5)
+                            .clipped()
                         }
 
                         // Character details
