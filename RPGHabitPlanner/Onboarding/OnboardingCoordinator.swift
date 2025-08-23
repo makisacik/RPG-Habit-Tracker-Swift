@@ -109,11 +109,9 @@ class OnboardingCoordinator: ObservableObject {
                         print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? "Unknown error")")
                     }
 
-                    // Add onboarding completion items to inventory
+                    // Add selected onboarding items to inventory
                     DispatchQueue.main.async {
-                        let inventoryManager = InventoryManager.shared
-                        inventoryManager.addOnboardingCompletionItems()
-                        print("✅ OnboardingCoordinator: Onboarding completion items added to inventory")
+                        self?.addSelectedOnboardingItemsToInventory()
                     }
 
                     DispatchQueue.main.async {
@@ -122,6 +120,76 @@ class OnboardingCoordinator: ObservableObject {
                     }
                 }
             }
+        }
+    }
+
+    private func addSelectedOnboardingItemsToInventory() {
+        let inventoryManager = InventoryManager.shared
+        let itemDatabase = ItemDatabase.shared
+        let gearManager = GearManager.shared
+
+        print("🎒 OnboardingCoordinator: Adding selected onboarding items to inventory")
+
+        // Add selected weapon
+        if let weaponItem = itemDatabase.findItem(byIconName: characterCustomization.weapon.rawValue) {
+            inventoryManager.addToInventory(weaponItem)
+            print("✅ OnboardingCoordinator: Added weapon \(weaponItem.name) to inventory")
+        } else {
+            print("❌ OnboardingCoordinator: Could not find weapon item for \(characterCustomization.weapon.rawValue)")
+        }
+
+        // Add selected outfit
+        if let outfitItem = itemDatabase.findItem(byIconName: characterCustomization.outfit.rawValue) {
+            inventoryManager.addToInventory(outfitItem)
+            print("✅ OnboardingCoordinator: Added outfit \(outfitItem.name) to inventory")
+        } else {
+            print("❌ OnboardingCoordinator: Could not find outfit item for \(characterCustomization.outfit.rawValue)")
+        }
+
+        // Add selected accessory
+        if let accessory = characterCustomization.accessory,
+           let accessoryItem = itemDatabase.findItem(byIconName: accessory.rawValue) {
+            inventoryManager.addToInventory(accessoryItem)
+            print("✅ OnboardingCoordinator: Added accessory \(accessoryItem.name) to inventory")
+        } else {
+            print("❌ OnboardingCoordinator: Could not find accessory item for \(characterCustomization.accessory?.rawValue ?? "nil")")
+        }
+
+        // Equip the selected items after a short delay to ensure inventory is updated
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.equipSelectedOnboardingItems()
+        }
+
+        print("✅ OnboardingCoordinator: Selected onboarding items added to inventory")
+    }
+
+    private func equipSelectedOnboardingItems() {
+        let gearManager = GearManager.shared
+        let inventoryManager = InventoryManager.shared
+
+        print("🔧 OnboardingCoordinator: Equipping selected onboarding items")
+
+        // Fetch user to pass to gear manager
+        userManager.fetchUser { [weak self] user, error in
+            guard let user = user, error == nil else {
+                print("❌ OnboardingCoordinator: Could not fetch user for equipping items")
+                return
+            }
+
+            // Find and equip weapon
+            if let weaponEntity = inventoryManager.inventoryItems.first(where: { $0.iconName == self?.characterCustomization.weapon.rawValue }) {
+                gearManager.equipItem(weaponEntity, to: .weapon, for: user)
+                print("✅ OnboardingCoordinator: Equipped weapon \(weaponEntity.name ?? "Unknown")")
+            }
+
+            // Find and equip outfit
+            if let outfitEntity = inventoryManager.inventoryItems.first(where: { $0.iconName == self?.characterCustomization.outfit.rawValue }) {
+                gearManager.equipItem(outfitEntity, to: .outfit, for: user)
+                print("✅ OnboardingCoordinator: Equipped outfit \(outfitEntity.name ?? "Unknown")")
+            }
+
+            // Find and equip accessory (accessories are handled differently, they update character customization directly)
+            print("✅ OnboardingCoordinator: Onboarding items equipped successfully")
         }
     }
 
