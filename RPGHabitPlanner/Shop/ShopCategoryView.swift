@@ -319,19 +319,31 @@ struct EnhancedShopItemCard: View {
 
                     Spacer()
 
-                    // Purchase button
-                    Button(action: onPurchase) {
-                        Text("Buy")
+                    // Purchase button or Owned status
+                    if item.isOwned {
+                        Text("Owned")
                             .font(.appFont(size: 10, weight: .bold))
                             .foregroundColor(.white)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(canAfford ? .green : .gray)
+                                    .fill(.gray)
                             )
+                    } else {
+                        Button(action: onPurchase) {
+                            Text("Buy")
+                                .font(.appFont(size: 10, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(canAfford ? .green : .gray)
+                                )
+                        }
+                        .disabled(!canAfford)
                     }
-                    .disabled(!canAfford)
                 }
             }
         }
@@ -341,6 +353,7 @@ struct EnhancedShopItemCard: View {
                 .fill(theme.cardBackgroundColor)
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         )
+        .opacity(item.isOwned ? 0.6 : 1.0) // Gray out owned items
         .onHover { hovering in
             isHovered = hovering
         }

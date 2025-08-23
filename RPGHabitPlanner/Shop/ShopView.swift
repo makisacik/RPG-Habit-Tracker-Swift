@@ -11,6 +11,7 @@ struct ShopView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var shopManager = ShopManager.shared
     @StateObject private var currencyManager = CurrencyManager.shared
+    @StateObject private var inventoryManager = InventoryManager.shared
     @State private var selectedCategory: EnhancedShopCategory = .weapons
     @State private var selectedArmorSubcategory: ArmorSubcategory = .helmet
     @State private var selectedConsumableSubcategory: ConsumableSubcategory = .potions
@@ -88,6 +89,8 @@ struct ShopView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadCurrentCoins()
+            // Refresh inventory to get latest ownership status
+            inventoryManager.refreshInventory()
             // Preload images for the current category
             preloadImagesForCategory(selectedCategory)
             // Initialize cache
@@ -97,6 +100,10 @@ struct ShopView: View {
             updateCachedItems()
             // Preload images for the new category
             preloadImagesForCategory(selectedCategory)
+        }
+        .onChange(of: inventoryManager.inventoryItems) { _ in
+            // Update cached items when inventory changes
+            updateCachedItems()
         }
         .onChange(of: selectedRarity) { _ in
             updateCachedItems()
@@ -255,7 +262,8 @@ struct ShopView: View {
                                 asset.rarity == .uncommon ? .uncommon :
                                 asset.rarity == .rare ? .rare :
                                 asset.rarity == .epic ? .epic : .legendary,
-                        category: category
+                        category: category,
+                        isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: category)
                     )
                 }
             }
@@ -279,7 +287,8 @@ struct ShopView: View {
                             asset.rarity == .uncommon ? .uncommon :
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
-                    category: .armor
+                    category: .armor,
+                    isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
                 )
             }
         case .outfit:
@@ -295,7 +304,8 @@ struct ShopView: View {
                             asset.rarity == .uncommon ? .uncommon :
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
-                    category: .armor
+                    category: .armor,
+                    isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
                 )
             }
         case .shield:
@@ -311,7 +321,8 @@ struct ShopView: View {
                             asset.rarity == .uncommon ? .uncommon :
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
-                    category: .armor
+                    category: .armor,
+                    isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
                 )
             }
         }
@@ -327,7 +338,8 @@ struct ShopView: View {
                     iconName: item.iconName,
                     price: item.value,
                     rarity: .common, // Potions are typically common
-                    category: .consumables
+                    category: .consumables,
+                    isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .consumables)
                 )
             }
         case .boosts:
@@ -338,7 +350,8 @@ struct ShopView: View {
                     iconName: item.iconName,
                     price: item.value,
                     rarity: item.isRare ? .rare : .uncommon,
-                    category: .consumables
+                    category: .consumables,
+                    isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .consumables)
                 )
             }
         case .specials:
@@ -349,7 +362,8 @@ struct ShopView: View {
                     iconName: item.iconName,
                     price: item.value,
                     rarity: item.isRare ? .rare : .common,
-                    category: .consumables
+                    category: .consumables,
+                    isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .consumables)
                 )
             }
         }
@@ -364,7 +378,8 @@ struct ShopView: View {
                 iconName: item.iconName,
                 price: item.value,
                 rarity: item.rarity ?? .common,
-                category: .wings
+                category: .wings,
+                isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .wings)
             )
         }
     }
@@ -393,6 +408,18 @@ struct ShopView: View {
         currencyManager.getCurrentCoins { coins, _ in
             DispatchQueue.main.async {
                 currencyManager.currentCoins = coins
+            }
+        }
+    }
+    
+    private func isItemOwned(name: String, iconName: String, category: EnhancedShopCategory) -> Bool {
+        // Check ownership for gear items, accessories, and collectibles, but allow consumables to be purchased multiple times
+        switch category {
+        case .consumables:
+            return false // Consumables can always be purchased
+        default:
+            return inventoryManager.inventoryItems.contains { item in
+                item.name == name || item.iconName == iconName
             }
         }
     }

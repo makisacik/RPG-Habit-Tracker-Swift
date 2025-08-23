@@ -16,8 +16,9 @@ struct ShopItem: Identifiable, Equatable {
     let rarity: ItemRarity
     let category: EnhancedShopCategory
     let effects: [ItemEffect]?
+    let isOwned: Bool
 
-    init(id: UUID = UUID(), name: String, description: String, iconName: String, price: Int, rarity: ItemRarity = .common, category: EnhancedShopCategory, effects: [ItemEffect]? = nil) {
+    init(id: UUID = UUID(), name: String, description: String, iconName: String, price: Int, rarity: ItemRarity = .common, category: EnhancedShopCategory, effects: [ItemEffect]? = nil, isOwned: Bool = false) {
         self.id = id
         self.name = name
         self.description = description
@@ -26,5 +27,6 @@ struct ShopItem: Identifiable, Equatable {
         self.rarity = rarity
         self.category = category
         self.effects = effects
+        self.isOwned = isOwned
     }
 }
