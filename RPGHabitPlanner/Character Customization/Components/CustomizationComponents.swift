@@ -113,7 +113,7 @@ struct CustomizationOptionsGrid: View {
                 id: asset.id,
                 name: asset.name,
                 imageName: asset.imageName,
-                isPremium: asset.rarity != AssetRarity.common,
+                isPremium: asset.category.isGearCategory && asset.rarity != AssetRarity.common,
                 isUnlocked: asset.isUnlocked
             )
         }

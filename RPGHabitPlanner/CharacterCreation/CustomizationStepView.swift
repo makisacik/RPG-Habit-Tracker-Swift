@@ -50,7 +50,10 @@ struct LegacyCustomizationStepView: View {
                         .foregroundColor(theme.textColor)
 
                     HStack {
-                        RarityBadge(rarity: asset.rarity)
+                        // Only show rarity badge for gear items
+                        if asset.category.isGearCategory {
+                            RarityBadge(rarity: asset.rarity)
+                        }
 
                         if asset.price > 0 {
                             HStack(spacing: 4) {
@@ -92,8 +95,8 @@ struct AssetPreviewView: View {
                 .frame(width: size + 20, height: size + 20)
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
 
-            // Rarity glow effect
-            if let asset = asset, asset.rarity != .common {
+            // Rarity glow effect - only for gear items
+            if let asset = asset, asset.category.isGearCategory && asset.rarity != .common {
                 Circle()
                     .stroke(asset.rarity.glowColor, lineWidth: 3)
                     .frame(width: size + 24, height: size + 24)
@@ -143,7 +146,8 @@ struct AssetPreviewView: View {
             break
         }
 
-        return asset.rarity.color.opacity(0.3)
+        // Only use rarity color for gear items
+        return asset.category.isGearCategory ? asset.rarity.color.opacity(0.3) : .gray.opacity(0.3)
     }
 }
 
@@ -200,9 +204,9 @@ struct AssetCarouselCard: View {
 
         VStack(spacing: 8) {
             ZStack {
-                // Selection indicator
+                // Selection indicator - only show rarity border for gear items
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? asset.rarity.borderColor : Color.clear, lineWidth: 3)
+                    .stroke(isSelected ? (asset.category.isGearCategory ? asset.rarity.borderColor : theme.accentColor) : Color.clear, lineWidth: 3)
                     .frame(width: 72, height: 72)
 
                 // Asset preview
@@ -219,7 +223,7 @@ struct AssetCarouselCard: View {
         .padding(8)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(isSelected ? asset.rarity.color.opacity(0.2) : theme.primaryColor.opacity(0.5))
+                .fill(isSelected ? (asset.category.isGearCategory ? asset.rarity.color.opacity(0.2) : theme.accentColor.opacity(0.2)) : theme.primaryColor.opacity(0.5))
                 .animation(.easeInOut(duration: 0.2), value: isSelected)
         )
         .scaleEffect(isSelected ? 1.05 : 1.0)

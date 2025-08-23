@@ -249,7 +249,7 @@ struct EnhancedShopItemCard: View {
                     )
 
                 // Rarity glow effect - only for gear items
-                if (selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories) && item.rarity != .common {
+                if isGearCategory(selectedCategory) && item.rarity != .common {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(item.rarity.glowColor)
                         .frame(height: 60)
@@ -301,7 +301,7 @@ struct EnhancedShopItemCard: View {
                     .multilineTextAlignment(.center)
 
                 // Rarity badge - only show for gear items
-                if selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories {
+                if isGearCategory(selectedCategory) {
                     RarityBadge(rarity: item.rarity.toAssetRarity)
                 }
 
@@ -420,7 +420,7 @@ struct ShopFilterView: View {
             if showFilters {
                 VStack(spacing: 16) {
                     // Rarity filter - only show for gear categories
-                    if selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories {
+                    if isGearCategory(selectedCategory) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Rarity")
                                 .font(.appFont(size: 14, weight: .bold))
@@ -586,7 +586,7 @@ struct ItemPreviewModal: View {
                             .foregroundColor(theme.textColor)
 
                         // Only show rarity badge for gear items
-                        if item.category == .weapons || item.category == .armor || item.category == .accessories {
+                        if isGearCategory(item.category) {
                             RarityBadge(rarity: item.rarity.toAssetRarity)
                         }
 
@@ -764,5 +764,17 @@ struct SubcategoryCard: View {
         .onTapGesture {
             onTap()
         }
+    }
+}
+
+// MARK: - Helper Functions
+
+/// Determines if a shop category is a gear category (should show rarity)
+func isGearCategory(_ category: EnhancedShopCategory) -> Bool {
+    switch category {
+    case .weapons, .armor, .wings, .pets:
+        return true
+    case .accessories, .consumables:
+        return false
     }
 }
