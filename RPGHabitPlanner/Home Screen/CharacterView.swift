@@ -110,15 +110,22 @@ struct CharacterView: View {
             print("✅ CharacterView: Loaded character customization")
             print("🔧 CharacterView: Current outfit: \(characterCustomization?.outfit.rawValue ?? "nil")")
         } else {
-            // Create default customization if none exists
-            let defaultCustomization = CharacterCustomization()
-            self.characterCustomization = defaultCustomization
-
-            // Save the default customization
-            if let _ = customizationService.createCustomization(for: user, customization: defaultCustomization) {
-                print("✅ CharacterView: Created default character customization")
+            // Try to migrate from UserDefaults if no Core Data customization exists
+            let customizationManager = CharacterCustomizationManager()
+            if let migratedEntity = customizationService.migrateFromUserDefaults(for: user, manager: customizationManager) {
+                self.characterCustomization = migratedEntity.toCharacterCustomization()
+                print("✅ CharacterView: Successfully migrated character customization from UserDefaults to Core Data")
             } else {
-                print("❌ CharacterView: Failed to create default character customization")
+                // Create default customization if none exists
+                let defaultCustomization = CharacterCustomization()
+                self.characterCustomization = defaultCustomization
+
+                // Save the default customization
+                if let _ = customizationService.createCustomization(for: user, customization: defaultCustomization) {
+                    print("✅ CharacterView: Created default character customization")
+                } else {
+                    print("❌ CharacterView: Failed to create default character customization")
+                }
             }
         }
     }

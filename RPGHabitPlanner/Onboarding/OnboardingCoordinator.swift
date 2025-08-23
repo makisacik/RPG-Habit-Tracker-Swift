@@ -75,21 +75,44 @@ class OnboardingCoordinator: ObservableObject {
     }
 
     func completeOnboarding() {
-        // Save character customization data
+        print("🚀 OnboardingCoordinator: Starting completeOnboarding")
+        print("🚀 OnboardingCoordinator: Nickname: \(nickname)")
+        print("🚀 OnboardingCoordinator: Character customization: \(characterCustomization)")
+
+        // Save character customization data to UserDefaults (for backward compatibility)
         customizationManager.currentCustomization = characterCustomization
         customizationManager.saveCustomization()
+        print("✅ OnboardingCoordinator: Saved to UserDefaults")
 
         // Save user with new customization system
         userManager.saveUser(
             nickname: nickname,
             characterClass: "Custom",
             weapon: characterCustomization.weapon.rawValue
-        ) { error in
+        ) { [weak self] error in
             if let error = error {
-                print("Failed to save user: \(error.localizedDescription)")
+                print("❌ OnboardingCoordinator: Failed to save user: \(error.localizedDescription)")
             } else {
-                DispatchQueue.main.async {
-                    self.isOnboardingCompleted = true
+                print("✅ OnboardingCoordinator: User saved successfully")
+                // After user is saved, save character customization to Core Data
+                self?.userManager.fetchUser { user, fetchError in
+                    if let user = user, fetchError == nil {
+                        print("✅ OnboardingCoordinator: Fetched user for customization save")
+                        let customizationService = CharacterCustomizationService()
+                        if let customizationEntity = customizationService.createCustomization(for: user, customization: self?.characterCustomization ?? CharacterCustomization()) {
+                            print("✅ OnboardingCoordinator: Character customization saved to Core Data successfully")
+                            print("🔧 OnboardingCoordinator: Created entity with ID: \(customizationEntity.id?.uuidString ?? "nil")")
+                        } else {
+                            print("❌ OnboardingCoordinator: Failed to create character customization in Core Data")
+                        }
+                    } else {
+                        print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? "Unknown error")")
+                    }
+
+                    DispatchQueue.main.async {
+                        print("✅ OnboardingCoordinator: Setting isOnboardingCompleted to true")
+                        self?.isOnboardingCompleted = true
+                    }
                 }
             }
         }

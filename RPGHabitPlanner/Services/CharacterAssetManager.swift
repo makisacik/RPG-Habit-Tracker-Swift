@@ -227,7 +227,8 @@ final class CharacterAssetManager: ObservableObject {
                 !accessory.rawValue.contains("helmet")
             }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .head:
-            return [] // Head gear items will be handled separately
+            // Return helmet assets from HeadGear enum
+            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .headGear:
             return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .shield:
@@ -268,10 +269,8 @@ final class CharacterAssetManager: ObservableObject {
                 !accessory.rawValue.contains("helmet")
             }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .head:
-            // Return helmet assets from Accessory enum
-            return Accessory.allCases.filter { accessory in
-                accessory.rawValue.contains("helmet")
-            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            // Return helmet assets from HeadGear enum
+            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .headGear:
             return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .shield:

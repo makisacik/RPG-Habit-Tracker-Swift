@@ -45,6 +45,9 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
     }
 
     func createCustomization(for user: UserEntity, customization: CharacterCustomization) -> CharacterCustomizationEntity? {
+        print("🔧 CharacterCustomizationService: Creating customization for user: \(user.nickname ?? "Unknown")")
+        print("🔧 CharacterCustomizationService: Customization data: \(customization)")
+
         let entity = CharacterCustomizationEntity(context: context)
         entity.id = UUID()
         entity.userId = user.id
@@ -54,6 +57,9 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
 
         do {
             try context.save()
+            print("✅ CharacterCustomizationService: Successfully created and saved customization entity")
+            print("🔧 CharacterCustomizationService: Entity ID: \(entity.id?.uuidString ?? "nil")")
+            print("🔧 CharacterCustomizationService: Entity outfit: \(entity.outfit ?? "nil")")
             return entity
         } catch {
             print("❌ Error creating character customization: \(error)")
@@ -97,13 +103,25 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
     // MARK: - Migration Support
 
     func migrateFromUserDefaults(for user: UserEntity, manager: CharacterCustomizationManager) -> CharacterCustomizationEntity? {
+        print("🔧 CharacterCustomizationService: Starting migration from UserDefaults")
+
         // Check if customization already exists
         if let existing = fetchCustomization(for: user) {
+            print("✅ CharacterCustomizationService: Found existing customization, skipping migration")
             return existing
         }
 
+        print("🔧 CharacterCustomizationService: No existing customization found, creating from UserDefaults data")
+        print("🔧 CharacterCustomizationService: UserDefaults customization: \(manager.currentCustomization)")
+
         // Create new customization from UserDefaults data
-        return createCustomization(for: user, customization: manager.currentCustomization)
+        let result = createCustomization(for: user, customization: manager.currentCustomization)
+        if result != nil {
+            print("✅ CharacterCustomizationService: Successfully migrated from UserDefaults")
+        } else {
+            print("❌ CharacterCustomizationService: Failed to migrate from UserDefaults")
+        }
+        return result
     }
 
     // MARK: - Utility Methods

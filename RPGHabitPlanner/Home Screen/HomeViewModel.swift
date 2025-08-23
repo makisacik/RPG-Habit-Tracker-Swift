@@ -100,18 +100,32 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchCharacterCustomization(for user: UserEntity) {
+        print("🏠 HomeViewModel: Starting fetchCharacterCustomization for user: \(user.nickname ?? "Unknown")")
+        
         if let customizationEntity = customizationService.fetchCustomization(for: user) {
+            print("✅ HomeViewModel: Found existing character customization in Core Data")
             self.characterCustomization = customizationEntity.toCharacterCustomization()
+            print("🔧 HomeViewModel: Loaded customization with outfit: \(characterCustomization?.outfit.rawValue ?? "nil")")
         } else {
-            // Create default customization if none exists
-            let defaultCustomization = CharacterCustomization()
-            self.characterCustomization = defaultCustomization
-
-            // Save the default customization
-            if let _ = customizationService.createCustomization(for: user, customization: defaultCustomization) {
-                print("✅ HomeViewModel: Created default character customization")
+            print("⚠️ HomeViewModel: No character customization found in Core Data, attempting migration")
+            // Try to migrate from UserDefaults if no Core Data customization exists
+            let customizationManager = CharacterCustomizationManager()
+            if let migratedEntity = customizationService.migrateFromUserDefaults(for: user, manager: customizationManager) {
+                self.characterCustomization = migratedEntity.toCharacterCustomization()
+                print("✅ HomeViewModel: Successfully migrated character customization from UserDefaults to Core Data")
+                print("🔧 HomeViewModel: Migrated customization with outfit: \(characterCustomization?.outfit.rawValue ?? "nil")")
             } else {
-                print("❌ HomeViewModel: Failed to create default character customization")
+                print("⚠️ HomeViewModel: No UserDefaults data found, creating default customization")
+                // Create default customization if none exists
+                let defaultCustomization = CharacterCustomization()
+                self.characterCustomization = defaultCustomization
+
+                // Save the default customization
+                if let _ = customizationService.createCustomization(for: user, customization: defaultCustomization) {
+                    print("✅ HomeViewModel: Created default character customization")
+                } else {
+                    print("❌ HomeViewModel: Failed to create default character customization")
+                }
             }
         }
     }
