@@ -20,6 +20,7 @@ extension CustomizationItemEntity {
     @NSManaged public var rarity: String?
     @NSManaged public var price: Int32
     @NSManaged public var imageName: String?
+    @NSManaged public var previewImage: String?
     @NSManaged public var isUnlocked: Bool
     @NSManaged public var isEquipped: Bool
     @NSManaged public var createdAt: Date?

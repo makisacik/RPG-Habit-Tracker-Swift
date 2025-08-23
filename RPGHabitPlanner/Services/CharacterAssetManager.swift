@@ -206,85 +206,44 @@ final class CharacterAssetManager: ObservableObject {
     func getAvailableAssets(for category: AssetCategory) -> [AssetItem] {
         switch category {
         case .bodyType:
-            return BodyType.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: .common) }
+            return BodyType.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: .common) }
         case .hairStyle:
-            return HairStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return HairStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .hairBackStyle:
-            return HairBackStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return HairBackStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .hairColor:
-            return HairColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
+            return HairColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: .common) }
         case .eyeColor:
-            return EyeColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: .common) }
+            return EyeColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: .common) }
         case .outfit:
-            return Outfit.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return Outfit.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .weapon:
-            return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .accessory:
             // Filter out pets, wings, and helmets from accessories
             return Accessory.allCases.filter { accessory in
                 !accessory.rawValue.contains("pet") &&
                 !accessory.rawValue.contains("wings") &&
                 !accessory.rawValue.contains("helmet")
-            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .head:
             // Return helmet assets from HeadGear enum
-            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .headGear:
-            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .shield:
-            return Shield.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return Shield.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .wings:
             return [] // Wing items will be handled separately
         case .mustache:
-            return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .flower:
-            return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         case .pet:
-            return Pet.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
+            return Pet.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
         }
     }
 
-    /// Gets all available assets for a category with preview images (for shop and onboarding)
-    func getAvailableAssetsWithPreview(for category: AssetCategory) -> [AssetItem] {
-        switch category {
-        case .bodyType:
-            return BodyType.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: .common) }
-        case .hairStyle:
-            return HairStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .hairBackStyle:
-            return HairBackStyle.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .hairColor:
-            return HairColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: "", category: category, rarity: .common) }
-        case .eyeColor:
-            return EyeColor.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: .common) }
-        case .outfit:
-            return Outfit.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .weapon:
-            return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .accessory:
-            // Filter out pets, wings, and helmets from accessories
-            return Accessory.allCases.filter { accessory in
-                !accessory.rawValue.contains("pet") &&
-                !accessory.rawValue.contains("wings") &&
-                !accessory.rawValue.contains("helmet")
-            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .head:
-            // Return helmet assets from HeadGear enum
-            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .headGear:
-            return HeadGear.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .shield:
-            return Shield.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .wings:
-            return [] // Wing items will be handled separately
-        case .mustache:
-            return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .flower:
-            return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        case .pet:
-            return Pet.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue, category: category)) }
-        }
-    }
 
     /// Determines rarity based on asset name - only for gear items
     private func getRarity(for assetName: String, category: AssetCategory) -> AssetRarity {
@@ -379,6 +338,7 @@ struct AssetItem: Identifiable, Hashable {
     let id: String
     let name: String
     let imageName: String
+    let previewImage: String
     let category: AssetCategory
     let rarity: AssetRarity
     var isUnlocked: Bool = false

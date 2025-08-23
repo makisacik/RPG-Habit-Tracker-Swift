@@ -72,6 +72,7 @@ class InventoryManager: ObservableObject {
             name: item.name,
             info: item.description,
             iconName: item.iconName,
+            previewImage: item.previewImage,
             itemType: item.itemType.rawValue,
             gearCategory: item.gearCategory?.rawValue,
             accessoryCategory: item.accessoryCategory?.rawValue,

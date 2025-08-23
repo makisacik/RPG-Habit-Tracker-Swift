@@ -237,7 +237,7 @@ struct GearItemCard: View {
                         )
                     
                     // Item icon
-                    if let iconName = item.iconName {
+                    if let iconName = item.previewImage ?? item.iconName {
                         Image(iconName)
                             .resizable()
                             .scaledToFit()

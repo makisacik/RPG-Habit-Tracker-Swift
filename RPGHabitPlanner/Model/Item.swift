@@ -153,6 +153,7 @@ struct Item: GameItem {
     let name: String
     let description: String
     let iconName: String
+    let previewImage: String
     let itemType: ItemType
     let value: Int
     let collectionCategory: String?
@@ -172,6 +173,7 @@ struct Item: GameItem {
         name: String,
         description: String,
         iconName: String,
+        previewImage: String? = nil,
         itemType: ItemType = .collectible,
         value: Int = 0,
         collectionCategory: String? = nil,
@@ -186,6 +188,7 @@ struct Item: GameItem {
         self.name = name
         self.description = description
         self.iconName = iconName
+        self.previewImage = previewImage ?? "\(iconName)_preview"
         self.itemType = itemType
         self.value = value
         self.collectionCategory = collectionCategory
@@ -218,6 +221,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: "icon_flask_red",
+            previewImage: "icon_flask_red_preview",
             itemType: .consumable,
             value: value,
             usageData: .healthPotion(healAmount: healAmount)
@@ -235,6 +239,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: "icon_lightning",
+            previewImage: "icon_lightning_preview",
             itemType: .booster,
             value: value,
             usageData: .xpBoost(multiplier: multiplier, duration: duration)
@@ -252,6 +257,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: "icon_flask_purple",
+            previewImage: "icon_flask_purple_preview",
             itemType: .booster,
             value: value,
             usageData: .coinBoost(multiplier: multiplier, duration: duration)
@@ -269,6 +275,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: iconName,
+            previewImage: "\(iconName)_preview",
             itemType: .accessory,
             value: value,
             accessoryCategory: category
@@ -288,6 +295,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: iconName,
+            previewImage: "\(iconName)_preview",
             itemType: .gear,
             value: value,
             effects: effects,

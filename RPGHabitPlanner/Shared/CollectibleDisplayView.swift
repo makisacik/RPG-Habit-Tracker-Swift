@@ -133,7 +133,7 @@ struct CollectibleItemCard: View {
                 // Item icon with glow effect
                 ZStack {
                     // Glow
-                    Image(itemEntity.iconName ?? "")
+                    Image(itemEntity.previewImage ?? itemEntity.iconName ?? "")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
@@ -142,7 +142,7 @@ struct CollectibleItemCard: View {
                         .foregroundColor(rarityColor)
 
                     // Main icon
-                    Image(itemEntity.iconName ?? "")
+                    Image(itemEntity.previewImage ?? itemEntity.iconName ?? "")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
@@ -287,10 +287,10 @@ struct AddCollectibleItemView: View {
                                 Button(action: {
                                     selectedItemName = itemEntity.name ?? ""
                                     selectedItemInfo = itemEntity.info ?? ""
-                                    selectedItemIcon = itemEntity.iconName ?? ""
+                                    selectedItemIcon = itemEntity.previewImage ?? itemEntity.iconName ?? ""
                                 }) {
                                     VStack(spacing: 8) {
-                                        Image(itemEntity.iconName ?? "")
+                                        Image(itemEntity.previewImage ?? itemEntity.iconName ?? "")
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 40, height: 40)
@@ -306,10 +306,10 @@ struct AddCollectibleItemView: View {
                                     .padding(8)
                                     .background(
                                         RoundedRectangle(cornerRadius: 12)
-                                            .fill(selectedItemIcon == itemEntity.iconName ? Color.yellow.opacity(0.3) : theme.secondaryColor)
+                                            .fill(selectedItemIcon == (itemEntity.previewImage ?? itemEntity.iconName ?? "") ? Color.yellow.opacity(0.3) : theme.secondaryColor)
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .stroke(selectedItemIcon == itemEntity.iconName ? Color.yellow : Color.yellow.opacity(0.3), lineWidth: selectedItemIcon == itemEntity.iconName ? 2 : 1)
+                                                    .stroke(selectedItemIcon == (itemEntity.previewImage ?? itemEntity.iconName ?? "") ? Color.yellow : Color.yellow.opacity(0.3), lineWidth: selectedItemIcon == (itemEntity.previewImage ?? itemEntity.iconName ?? "") ? 2 : 1)
                                             )
                                     )
                                 }

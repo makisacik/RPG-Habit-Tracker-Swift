@@ -10,7 +10,7 @@ import CoreData
 
 protocol InventoryServiceProtocol {
     func fetchInventory() -> [ItemEntity]
-    func addItem(name: String, info: String, iconName: String, itemType: String?, gearCategory: String?, accessoryCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool)
+    func addItem(name: String, info: String, iconName: String, previewImage: String?, itemType: String?, gearCategory: String?, accessoryCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool)
     func removeItem(_ item: ItemEntity)
     func clearInventory()
 }
@@ -34,11 +34,12 @@ final class InventoryService: InventoryServiceProtocol {
         }
     }
 
-    func addItem(name: String, info: String, iconName: String, itemType: String?, gearCategory: String?, accessoryCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
+    func addItem(name: String, info: String, iconName: String, previewImage: String?, itemType: String?, gearCategory: String?, accessoryCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
         let entity = ItemEntity(context: context)
         entity.name = name
         entity.info = info
         entity.iconName = iconName
+        entity.previewImage = previewImage ?? "\(iconName)_preview"
         entity.itemType = itemType
         entity.gearCategory = gearCategory
         entity.accessoryCategory = accessoryCategory

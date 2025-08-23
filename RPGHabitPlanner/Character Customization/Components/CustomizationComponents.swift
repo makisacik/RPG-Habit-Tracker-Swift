@@ -113,6 +113,7 @@ struct CustomizationOptionsGrid: View {
                 id: asset.id,
                 name: asset.name,
                 imageName: asset.imageName,
+                previewImage: asset.previewImage,
                 isPremium: asset.category.isGearCategory && asset.rarity != AssetRarity.common,
                 isUnlocked: asset.isUnlocked
             )
@@ -160,8 +161,8 @@ struct CustomizationOptionCard: View {
                         )
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
 
-                    if !option.imageName.isEmpty {
-                        Image(option.imageName)
+                    if !option.previewImage.isEmpty {
+                        Image(option.previewImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -259,6 +260,16 @@ struct CustomizationOption {
     let id: String
     let name: String
     let imageName: String
+    let previewImage: String
     let isPremium: Bool
     let isUnlocked: Bool
+
+    init(id: String, name: String, imageName: String, previewImage: String? = nil, isPremium: Bool, isUnlocked: Bool) {
+        self.id = id
+        self.name = name
+        self.imageName = imageName
+        self.previewImage = previewImage ?? "\(imageName)_preview"
+        self.isPremium = isPremium
+        self.isUnlocked = isUnlocked
+    }
 }

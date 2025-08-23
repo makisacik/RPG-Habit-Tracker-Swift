@@ -249,14 +249,14 @@ struct ShopView: View {
         default:
             // Handle other gear/customization items
             if let assetCategory = category.assetCategory {
-                let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
+                let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
                 items = assets.map { asset in
                     let description = getDescriptionForCategory(category)
 
                     return ShopItem(
                         name: asset.name,
                         description: description,
-                        iconName: asset.imageName,
+                        iconName: asset.previewImage, // Use preview image for shop display
                         price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
                         rarity: asset.rarity == .common ? .common :
                                 asset.rarity == .uncommon ? .uncommon :
@@ -276,12 +276,12 @@ struct ShopView: View {
         switch subcategory {
         case .helmet:
             // Get helmet items from CharacterAssetManager with preview images
-            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: .head)
+            let assets = CharacterAssetManager.shared.getAvailableAssets(for: .head)
             return assets.map { asset in
                 ShopItem(
                     name: asset.name,
                     description: "Protective helmet for your adventures",
-                    iconName: asset.imageName,
+                    iconName: asset.previewImage, // Use preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -293,12 +293,12 @@ struct ShopView: View {
             }
         case .outfit:
             // Get outfit items from CharacterAssetManager
-            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: .outfit)
+            let assets = CharacterAssetManager.shared.getAvailableAssets(for: .outfit)
             return assets.map { asset in
                 ShopItem(
                     name: asset.name,
                     description: "Protective outfit for your adventures",
-                    iconName: asset.imageName,
+                    iconName: asset.previewImage, // Use preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -310,12 +310,12 @@ struct ShopView: View {
             }
         case .shield:
             // Get shield items from CharacterAssetManager with preview images
-            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: .shield)
+            let assets = CharacterAssetManager.shared.getAvailableAssets(for: .shield)
             return assets.map { asset in
                 ShopItem(
                     name: asset.name,
                     description: "Protective shield for your adventures",
-                    iconName: asset.imageName,
+                    iconName: asset.previewImage, // Use preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :

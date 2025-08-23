@@ -1004,7 +1004,8 @@ struct CharacterTabCustomizationView: View {
                             option: CustomizationOption(
                                 id: hairType,
                                 name: "", // Empty name to hide text
-                                imageName: defaultStyle.previewImageName,
+                                imageName: defaultStyle.rawValue,
+                                previewImage: defaultStyle.previewImageName,
                                 isPremium: false,
                                 isUnlocked: true
                             ),
@@ -1041,7 +1042,8 @@ struct CharacterTabCustomizationView: View {
                             option: CustomizationOption(
                                 id: eyeColor.rawValue,
                                 name: eyeColor.displayName,
-                                imageName: eyeColor.previewImageName,
+                                imageName: eyeColor.rawValue,
+                                previewImage: eyeColor.previewImageName,
                                 isPremium: eyeColor.isPremium,
                                 isUnlocked: true
                             ),

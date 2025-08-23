@@ -219,17 +219,17 @@ struct CharacterCustomizationView: View {
     // MARK: - Helper Methods
     private func getOptionsForCategory() -> [CustomizationOption] {
         let optionsMap: [CustomizationCategory: [CustomizationOption]] = [
-            .bodyType: BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .bodyType: BodyType.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
 
-            .hairStyle: HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .hairBackStyle: HairBackStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .hairColor: HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: "", isPremium: false, isUnlocked: true) },
-            .eyeColor: EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .outfit: Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .weapon: CharacterWeapon.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .accessory: Accessory.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .mustache: Mustache.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
-            .flower: Flower.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
+            .hairStyle: HairStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .hairBackStyle: HairBackStyle.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .hairColor: HairColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: false, isUnlocked: true) },
+            .eyeColor: EyeColor.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .outfit: Outfit.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .weapon: CharacterWeapon.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .accessory: Accessory.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .mustache: Mustache.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) },
+            .flower: Flower.allCases.map { CustomizationOption(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, previewImage: $0.previewImageName, isPremium: $0.isPremium, isUnlocked: true) }
         ]
         return optionsMap[selectedCategory] ?? []
     }

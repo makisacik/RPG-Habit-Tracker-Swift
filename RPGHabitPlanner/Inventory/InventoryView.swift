@@ -406,12 +406,12 @@ struct InventorySlotView: View {
                     VStack(spacing: 0) {
                         // Item icon container
                         ZStack {
-                            if item.iconName?.contains("potion_health") == true {
+                            if (item.previewImage ?? item.iconName ?? "").contains("potion_health") == true {
                                 // Use custom health potion icon
-                                let rarity = getPotionRarity(from: item.iconName ?? "")
+                                let rarity = getPotionRarity(from: item.previewImage ?? item.iconName ?? "")
                                 HealthPotionIconView(rarity: rarity, size: 36)
                             } else {
-                                Image(item.iconName ?? "")
+                                Image(item.previewImage ?? item.iconName ?? "")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(maxWidth: 40, maxHeight: 40)

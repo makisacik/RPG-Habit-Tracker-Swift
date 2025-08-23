@@ -342,7 +342,8 @@ struct EyeColorSectionView: View {
                     option: CustomizationOption(
                         id: eyeColor.rawValue,
                         name: eyeColor.displayName,
-                        imageName: eyeColor.previewImageName,
+                        imageName: eyeColor.rawValue,
+                        previewImage: eyeColor.previewImageName,
                         isPremium: eyeColor.isPremium,
                         isUnlocked: true
                     ),
@@ -373,7 +374,8 @@ struct AccessoriesSectionView: View {
                     option: CustomizationOption(
                         id: accessory.rawValue,
                         name: accessory.displayName,
-                        imageName: accessory.previewImageName,
+                        imageName: accessory.rawValue,
+                        previewImage: accessory.previewImageName,
                         isPremium: accessory.isPremium,
                         isUnlocked: true
                     ),
@@ -406,7 +408,8 @@ struct OutfitSectionView: View {
                     option: CustomizationOption(
                         id: outfit.rawValue,
                         name: outfit.displayName,
-                        imageName: outfit.previewImageName,
+                        imageName: outfit.rawValue,
+                        previewImage: outfit.previewImageName,
                         isPremium: outfit.isPremium,
                         isUnlocked: true
                     ),
@@ -437,7 +440,8 @@ struct WeaponSectionView: View {
                     option: CustomizationOption(
                         id: weapon.rawValue,
                         name: weapon.displayName,
-                        imageName: weapon.previewImageName,
+                        imageName: weapon.rawValue,
+                        previewImage: weapon.previewImageName,
                         isPremium: weapon.isPremium,
                         isUnlocked: true
                     ),
@@ -565,7 +569,8 @@ struct HairBackStyleSectionView: View {
                     option: CustomizationOption(
                         id: hairBack.rawValue,
                         name: hairBack.displayName,
-                        imageName: hairBack.previewImageName,
+                        imageName: hairBack.rawValue,
+                        previewImage: hairBack.previewImageName,
                         isPremium: hairBack.isPremium,
                         isUnlocked: true
                     ),
@@ -596,7 +601,8 @@ struct MustacheSectionView: View {
                     option: CustomizationOption(
                         id: mustache.rawValue,
                         name: mustache.displayName,
-                        imageName: mustache.previewImageName,
+                        imageName: mustache.rawValue,
+                        previewImage: mustache.previewImageName,
                         isPremium: mustache.isPremium,
                         isUnlocked: true
                     ),
@@ -622,7 +628,8 @@ struct FlowerSectionView: View {
                     option: CustomizationOption(
                         id: flower.rawValue,
                         name: flower.displayName,
-                        imageName: flower.previewImageName,
+                        imageName: flower.rawValue,
+                        previewImage: flower.previewImageName,
                         isPremium: flower.isPremium,
                         isUnlocked: true
                     ),
