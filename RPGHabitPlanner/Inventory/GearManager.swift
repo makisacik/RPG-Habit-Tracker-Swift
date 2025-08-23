@@ -188,20 +188,17 @@ class GearManager: ObservableObject {
             print("🔧 GearManager: Cleared headGear (no head item equipped)")
         }
         
-        // Update wings if equipped (wings take priority over pets)
+        // Update wings if equipped
         if let wingsItem = equippedItems[.wings] {
             print("🔧 GearManager: Attempting to map wings item: \(wingsItem.name ?? "Unknown")")
             if let wings = mapItemToWings(wingsItem) {
-                updatedCustomization.accessory = wings
-                print("✅ GearManager: Successfully mapped wings item to accessory: \(wings.rawValue)")
+                updatedCustomization.wings = wings
+                print("✅ GearManager: Successfully mapped wings item to wings: \(wings.rawValue)")
             }
         } else {
-            // Only clear accessory if it was a wing (don't clear other accessories)
-            if let currentAccessory = updatedCustomization.accessory,
-               [.wingsWhite, .wingsRed, .wingsBat].contains(currentAccessory) {
-                updatedCustomization.accessory = nil
-                print("🔧 GearManager: Cleared wing accessory (no wings equipped)")
-            }
+            // Clear wings if no wings are equipped
+            updatedCustomization.wings = nil
+            print("🔧 GearManager: Cleared wings (no wings equipped)")
         }
         
         // Update pet if equipped
@@ -346,8 +343,8 @@ class GearManager: ObservableObject {
         }
     }
     
-    private func mapItemToWings(_ item: ItemEntity) -> Accessory? {
-        // Map item names to wings accessories based on actual item database
+    private func mapItemToWings(_ item: ItemEntity) -> Wings? {
+        // Map item names to wings based on actual item database
         guard let itemName = item.name else { return nil }
         
         switch itemName {

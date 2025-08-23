@@ -105,10 +105,9 @@ struct CharacterFullPreview: View {
 
         // Character layers (proper layering) - removed background for cleaner look
         ZStack {
-            // Wings (Accessory) - Draw first so it appears behind everything
-            if let accessory = customization.accessory,
-               [.wingsWhite, .wingsRed, .wingsBat].contains(accessory) {
-                Image(accessory.rawValue)
+            // Wings - Draw first so it appears behind everything
+            if let wings = customization.wings {
+                Image(wings.rawValue)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: size * 0.95)
@@ -202,9 +201,9 @@ struct CharacterFullPreview: View {
                     .frame(height: size * 0.95)
             }
 
-            // Other Accessories (non-wings, non-glasses) - Draw last so they appear on top
+            // Other Accessories (non-glasses) - Draw last so they appear on top
             if let accessory = customization.accessory {
-                if ![.wingsWhite, .wingsRed, .wingsBat, .eyeglassRed, .eyeglassBlue, .eyeglassGray].contains(accessory) {
+                if ![.eyeglassRed, .eyeglassBlue, .eyeglassGray].contains(accessory) {
                     Image(accessory.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)

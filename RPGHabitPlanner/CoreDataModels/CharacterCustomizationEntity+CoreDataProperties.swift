@@ -29,6 +29,7 @@ extension CharacterCustomizationEntity {
     @NSManaged public var flower: String?
     @NSManaged public var pet: String?
     @NSManaged public var shield: String?
+    @NSManaged public var wings: String?
     @NSManaged public var createdAt: Date?
     @NSManaged public var updatedAt: Date?
     @NSManaged public var user: UserEntity?
@@ -127,6 +128,11 @@ extension CharacterCustomizationEntity {
             customization.shield = shield
         }
 
+        if let wingsString = wings,
+           let wings = Wings(rawValue: wingsString) {
+            customization.wings = wings
+        }
+
         return customization
     }
 
@@ -144,5 +150,6 @@ extension CharacterCustomizationEntity {
         flower = customization.flower?.rawValue
         pet = customization.pet?.rawValue
         shield = customization.shield?.rawValue
+        wings = customization.wings?.rawValue
     }
 }

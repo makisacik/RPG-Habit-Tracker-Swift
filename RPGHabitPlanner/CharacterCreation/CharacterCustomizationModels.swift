@@ -20,7 +20,8 @@ struct CharacterCustomization: Codable, Equatable {
     var weapon: CharacterWeapon
     var shield: Shield? // New field for shields
     var pet: Pet? // New field for pets
-    var accessory: Accessory?
+    var wings: Wings? // New field for wings (gear items)
+    var accessory: Accessory? // For other accessories (glasses, earrings, etc.)
     var headGear: HeadGear? // New field for head gear items
     var mustache: Mustache? // New field for mustaches
     var flower: Flower? // New field for flowers
@@ -35,6 +36,7 @@ struct CharacterCustomization: Codable, Equatable {
         self.weapon = .swordWood
         self.shield = nil // No shield by default
         self.pet = nil // No pet by default
+        self.wings = nil // No wings by default
         self.accessory = nil
         self.headGear = nil
         self.mustache = nil
@@ -66,9 +68,9 @@ struct CharacterCustomization: Codable, Equatable {
         case .head:
             return headGear?.rawValue // Map head category to headGear field
         case .shield:
-            return nil // Shields are not part of character customization, they're gear items
+            return shield?.rawValue
         case .wings:
-            return nil // Wings are not part of character customization, they're gear items
+            return wings?.rawValue // Wings are gear items with their own field
         case .mustache:
             return mustache?.rawValue
         case .flower:
@@ -110,11 +112,12 @@ struct CharacterCustomization: Codable, Equatable {
             .head: { customization, value in
                 customization.headGear = HeadGear(rawValue: value)
             },
-            .shield: { _, _ in
-                // Shields are not part of character customization, they're gear items
+            .shield: { customization, value in
+                customization.shield = Shield(rawValue: value)
             },
-            .wings: { _, _ in
-                // Wings are not part of character customization, they're gear items
+            .wings: { customization, value in
+                // Wings are gear items with their own field
+                customization.wings = Wings(rawValue: value)
             },
             .mustache: { customization, value in
                 customization.mustache = Mustache(rawValue: value)
@@ -671,9 +674,6 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
     case eyeLashes = "char_eye_lashes"
     case eyelash = "char_eyelash"
     case blush = "char_blush"
-    case wingsWhite = "char_wings_white"
-    case wingsRed = "char_wings_red"
-    case wingsBat = "char_wings_bat"
     case earring1 = "char_earring_1"
     case earring2 = "char_earring_2"
     case petCat2 = "char_pet_cat_2"
@@ -689,9 +689,6 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
         case .eyeLashes: return "Eyelashes"
         case .eyelash: return "Eyelash"
         case .blush: return "Blush"
-        case .wingsWhite: return "White Wings"
-        case .wingsRed: return "Red Wings"
-        case .wingsBat: return "Bat Wings"
         case .earring1: return "Earring 1"
         case .earring2: return "Earring 2"
         case .petCat2: return "Pet Cat"
@@ -707,9 +704,6 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
         case .eyeLashes: return "char_eye_lashes_preview"
         case .eyelash: return "char_eyelash_preview"
         case .blush: return "char_blush_preview"
-        case .wingsWhite: return "char_wings_white_preview"
-        case .wingsRed: return "char_wings_red_preview"
-        case .wingsBat: return "char_wings_bat_preview"
         case .earring1: return "char_earring_1_preview"
         case .earring2: return "char_earring_2_preview"
         case .petCat2: return "char_pet_cat_2_preview"
@@ -847,6 +841,35 @@ enum Shield: String, CaseIterable, Codable, Identifiable {
         case .shieldRed: return "char_shield_red_preview"
         case .shieldIron: return "char_shield_iron_preview"
         case .shieldGold: return "char_shield_gold_preview"
+        }
+    }
+
+    var isPremium: Bool {
+        return false
+    }
+}
+
+// MARK: - Wings (New)
+enum Wings: String, CaseIterable, Codable, Identifiable {
+    case wingsWhite = "char_wings_white"
+    case wingsRed = "char_wings_red"
+    case wingsBat = "char_wings_bat"
+
+    var id: String { self.rawValue }
+
+    var displayName: String {
+        switch self {
+        case .wingsWhite: return "White Wings"
+        case .wingsRed: return "Red Wings"
+        case .wingsBat: return "Bat Wings"
+        }
+    }
+
+    var previewImageName: String {
+        switch self {
+        case .wingsWhite: return "char_wings_white_preview"
+        case .wingsRed: return "char_wings_red_preview"
+        case .wingsBat: return "char_wings_bat_preview"
         }
     }
 

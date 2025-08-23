@@ -119,9 +119,16 @@ struct CharacterCustomizationView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 120)
 
-                    // Other Accessories (non-wings) - Draw last so they appear on top
-                    if let accessory = customizationManager.currentCustomization.accessory,
-                       accessory != .wingsWhite {
+                    // Wings - Draw first so they appear behind everything
+                    if let wings = customizationManager.currentCustomization.wings {
+                        Image(wings.rawValue)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    }
+
+                    // Other Accessories - Draw last so they appear on top
+                    if let accessory = customizationManager.currentCustomization.accessory {
                         Image(accessory.rawValue)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -480,10 +487,10 @@ struct OptimizedCharacterView: View {
         context.fill(CGRect(origin: .zero, size: size))
 
         // Draw wings first (if present) so they appear behind everything
-        if let accessory = customization.accessory, accessory == .wingsWhite {
-            let accessoryImage = ImageCache.shared.getImage(for: accessory.rawValue) ?? UIImage(named: accessory.rawValue)
-            if let accessoryImage = accessoryImage {
-                drawImage(accessoryImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
+        if let wings = customization.wings {
+            let wingsImage = ImageCache.shared.getImage(for: wings.rawValue) ?? UIImage(named: wings.rawValue)
+            if let wingsImage = wingsImage {
+                drawImage(wingsImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
             }
         }
 
@@ -503,8 +510,8 @@ struct OptimizedCharacterView: View {
             }
         }
 
-        // Draw other accessories (non-wings) last so they appear on top
-        if let accessory = customization.accessory, accessory != .wingsWhite {
+        // Draw other accessories last so they appear on top
+        if let accessory = customization.accessory {
             let accessoryImage = ImageCache.shared.getImage(for: accessory.rawValue) ?? UIImage(named: accessory.rawValue)
             if let accessoryImage = accessoryImage {
                 drawImage(accessoryImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
