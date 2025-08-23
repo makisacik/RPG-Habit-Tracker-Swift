@@ -17,7 +17,6 @@ struct ShopView: View {
     @State private var showPurchaseAlert = false
     @State private var purchaseAlertMessage = ""
     @State private var selectedItem: ShopItem?
-    @State private var showItemDetails = false
     @State private var showItemPreview = false
     
     // Cache for shop items to prevent constant recreation
@@ -51,7 +50,8 @@ struct ShopView: View {
                 ShopFilterView(
                     selectedRarity: $selectedRarity,
                     priceRange: .constant(0...1000),
-                    showOnlyAffordable: $showOnlyAffordable
+                    showOnlyAffordable: $showOnlyAffordable,
+                    selectedCategory: selectedCategory
                 ) {
                         // Filter logic handled in itemsGrid
                 }
@@ -85,12 +85,7 @@ struct ShopView: View {
         } message: {
             Text(purchaseAlertMessage)
         }
-        .sheet(isPresented: $showItemDetails) {
-            if let item = selectedItem {
-                ItemDetailView(item: item) { purchaseItem(item) }
-                    .environmentObject(themeManager)
-            }
-        }
+
         .overlay {
             if showItemPreview, let item = selectedItem {
                 ItemPreviewModal(
@@ -157,12 +152,14 @@ struct ShopView: View {
 
         return ScrollView {
             LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 16),
-                GridItem(.flexible(), spacing: 16)
-            ], spacing: 16) {
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
+            ], spacing: 12) {
                 ForEach(filteredItems) { item in
                     EnhancedShopItemCard(
                         item: item,
+                        selectedCategory: selectedCategory,
                         isCustomizationItem: selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil,
                         onPurchase: {
                             purchaseItem(item)
@@ -175,7 +172,8 @@ struct ShopView: View {
                     .environmentObject(themeManager)
                 }
             }
-            .padding()
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
         }
     }
 
@@ -185,16 +183,7 @@ struct ShopView: View {
     }
     
     private func updateCachedItems() {
-        var items: [ShopItem]
-
-        // Get items for category - use character assets for all gear categories
-        if selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil {
-            items = getCustomizationItems(for: selectedCategory)
-        } else {
-            // Use legacy category mapping for non-character asset items (potions, boosts, special)
-            let legacyCategory = mapToLegacyCategory(selectedCategory)
-            items = shopManager.getItemsByCategory(legacyCategory)
-        }
+        var items: [ShopItem] = getCustomizationItems(for: selectedCategory)
 
         // Apply rarity filter
         if let selectedRarity = selectedRarity {
@@ -214,12 +203,13 @@ struct ShopView: View {
     }
 
     private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
-        // For character asset categories (pets, weapons, armor, accessories), use preview images
+        var items: [ShopItem] = []
+        
+        // Handle gear/customization items
         if let assetCategory = category.assetCategory {
             let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
-            return assets.map { asset in
+            items = assets.map { asset in
                 let description = getDescriptionForCategory(category)
-                let shopCategory = mapToLegacyCategory(category)
 
                 return ShopItem(
                     name: asset.name,
@@ -230,14 +220,55 @@ struct ShopView: View {
                             asset.rarity == .uncommon ? .uncommon :
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
-                    category: shopCategory
+                    category: category
                 )
             }
+        } else {
+            // Handle functional items (potions, boosts, special)
+            items = getFunctionalItems(for: category)
         }
-
-        // For other categories (potions, boosts, special), use gear items from the database
-        let legacyCategory = mapToLegacyCategory(category)
-        return shopManager.getItemsByCategory(legacyCategory)
+        
+        return items
+    }
+    
+    private func getFunctionalItems(for category: EnhancedShopCategory) -> [ShopItem] {
+        switch category {
+        case .potions:
+            return ItemDatabase.allHealthPotions.map { item in
+                ShopItem(
+                    name: item.name,
+                    description: item.description,
+                    iconName: item.iconName,
+                    price: item.value,
+                    rarity: .common, // Potions are typically common
+                    category: category
+                )
+            }
+        case .boosts:
+            return (ItemDatabase.allXPBoosts + ItemDatabase.allCoinBoosts).map { item in
+                ShopItem(
+                    name: item.name,
+                    description: item.description,
+                    iconName: item.iconName,
+                    price: item.value,
+                    rarity: item.isRare ? .rare : .uncommon,
+                    category: category
+                )
+            }
+        case .special:
+            return ItemDatabase.allCollectibles.map { item in
+                ShopItem(
+                    name: item.name,
+                    description: item.description,
+                    iconName: item.iconName,
+                    price: item.value,
+                    rarity: item.isRare ? .rare : .common,
+                    category: category
+                )
+            }
+        default:
+            return []
+        }
     }
     
     private func getDescriptionForCategory(_ category: EnhancedShopCategory) -> String {
@@ -250,20 +281,12 @@ struct ShopView: View {
             return "Stylish accessories to enhance your character"
         case .pets:
             return "A loyal companion for your adventures"
-        default:
-            return "A useful item for your journey"
-        }
-    }
-
-    private func mapToLegacyCategory(_ enhancedCategory: EnhancedShopCategory) -> ShopCategory {
-        switch enhancedCategory {
-        case .weapons: return .weapons
-        case .armor: return .armor
-        case .accessories: return .accessories
-        case .pets: return .accessories
-        case .potions: return .potions
-        case .boosts: return .boosts
-        case .special: return .special
+        case .potions:
+            return "Restorative potions for your journey"
+        case .boosts:
+            return "Temporary power boosts"
+        case .special:
+            return "Special and unique items"
         }
     }
 
@@ -301,238 +324,6 @@ struct ShopView: View {
                 if let _ = UIImage(named: item.iconName) {
                     // Image will be cached by the ImageCache when accessed
                     // This just ensures the image is loaded into memory
-                }
-            }
-        }
-    }
-}
-
-// MARK: - Shop Item Card
-
-struct ShopItemCard: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var shopManager: ShopManager
-    let item: ShopItem
-    let canAfford: Bool
-    let onTap: () -> Void
-    let onPurchase: () -> Void
-    @State private var isPressed = false
-
-    var body: some View {
-        let theme = themeManager.activeTheme
-
-        VStack(spacing: 12) {
-            // Item icon
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.secondaryColor)
-                    .frame(height: 80)
-
-                Image(item.iconName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-            }
-
-            // Item info
-            VStack(spacing: 4) {
-                HStack {
-                    Text(item.name)
-                        .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(theme.textColor)
-                        .multilineTextAlignment(.center)
-
-                    // Item type indicator
-                    if shopManager.isFunctionalItem(item) {
-                        Image(systemName: "bolt.fill")
-                            .font(.system(size: 12))
-                            .foregroundColor(.yellow)
-                    } else {
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 12))
-                            .foregroundColor(.white.opacity(0.6))
-                    }
-                }
-
-                Text(item.description)
-                    .font(.appFont(size: 12))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-
-                // Item type label
-                HStack(spacing: 4) {
-                    if shopManager.isFunctionalItem(item) {
-                        Text("Functional")
-                            .font(.appFont(size: 10, weight: .black))
-                            .foregroundColor(.yellow)
-                    } else {
-                        Text("Collectible")
-                            .font(.appFont(size: 10, weight: .medium))
-                            .foregroundColor(theme.textColor.opacity(0.7))
-                    }
-                }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(shopManager.isFunctionalItem(item) ? Color.yellow.opacity(0.2) : Color.white.opacity(0.1))
-                )
-
-                // Price
-                HStack(spacing: 4) {
-                    Image("icon_gold")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-
-                    Text("\(shopManager.getDisplayPrice(for: item))")
-                        .font(.appFont(size: 14, weight: .black))
-                        .foregroundColor(canAfford ? .yellow : .red)
-                }
-                .padding(.top, 4)
-            }
-
-            // Purchase button
-            Button(action: {
-                isPressed = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    isPressed = false
-                    onPurchase()
-                }
-            }) {
-                Text(canAfford ? "Purchase" : "Not Enough Coins")
-                    .font(.appFont(size: 14, weight: .black))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(canAfford ? Color.yellow : Color.gray)
-                    )
-            }
-            .disabled(!canAfford)
-            .scaleEffect(isPressed ? 0.95 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
-        }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(theme.primaryColor)
-                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
-        )
-        .onTapGesture {
-            onTap()
-        }
-    }
-}
-
-// MARK: - Item Detail View
-
-struct ItemDetailView: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    @Environment(\.dismiss) private var dismiss
-    @StateObject private var shopManager = ShopManager.shared
-    let item: ShopItem
-    let onPurchase: () -> Void
-    @State private var isPressed = false
-
-    var body: some View {
-        let theme = themeManager.activeTheme
-
-        NavigationView {
-            VStack(spacing: 24) {
-                // Item icon
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(theme.secondaryColor)
-                        .frame(width: 120, height: 120)
-
-                    Image(item.iconName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                }
-
-                // Item details
-                VStack(spacing: 16) {
-                    Text(item.name)
-                        .font(.appFont(size: 24, weight: .black))
-                        .foregroundColor(theme.textColor)
-
-                    Text(item.description)
-                        .font(.appFont(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.8))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-
-                    // Rarity and category
-                    HStack(spacing: 20) {
-                        VStack {
-                            Text("Rarity")
-                                .font(.appFont(size: 12, weight: .medium))
-                                .foregroundColor(theme.textColor.opacity(0.6))
-                            Text(item.rarity.rawValue)
-                                .font(.appFont(size: 14, weight: .black))
-                                .foregroundColor(theme.textColor)
-                        }
-
-                        VStack {
-                            Text("Category")
-                                .font(.appFont(size: 12, weight: .medium))
-                                .foregroundColor(theme.textColor.opacity(0.6))
-                            Text(item.category.rawValue)
-                                .font(.appFont(size: 14, weight: .black))
-                                .foregroundColor(theme.textColor)
-                        }
-                    }
-
-                    // Price
-                    HStack(spacing: 8) {
-                        Image("icon_gold")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-
-                        Text("\(shopManager.getDisplayPrice(for: item))")
-                            .font(.appFont(size: 20, weight: .black))
-                            .foregroundColor(.yellow)
-                    }
-                    .padding(.top, 8)
-                }
-
-                Spacer()
-
-                // Purchase button
-                Button(action: {
-                    isPressed = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        isPressed = false
-                        onPurchase()
-                        dismiss()
-                    }
-                }) {
-                    Text("Purchase for \(shopManager.getDisplayPrice(for: item)) Coins")
-                        .font(.appFont(size: 18, weight: .black))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.yellow)
-                        )
-                }
-                .scaleEffect(isPressed ? 0.95 : 1.0)
-                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
-                .padding(.horizontal)
-            }
-            .padding()
-            .background(theme.backgroundColor.ignoresSafeArea())
-            .navigationTitle("Item Details")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Close") {
-                        dismiss()
-                    }
                 }
             }
         }

@@ -88,9 +88,9 @@ enum ItemType: String, CaseIterable, Codable {
 enum GearCategory: String, CaseIterable, Codable {
     case head = "Head"
     case outfit = "Outfit"
-    case wings = "Wings"
     case weapon = "Weapon"
     case shield = "Shield"
+    case wings = "Wings"
     case pet = "Pet"
 
     var description: String {
@@ -99,12 +99,12 @@ enum GearCategory: String, CaseIterable, Codable {
             return "Headgear and helmets"
         case .outfit:
             return "Body armor and clothing"
-        case .wings:
-            return "Wing accessories"
         case .weapon:
             return "Weapons and tools"
         case .shield:
             return "Shields and defensive gear"
+        case .wings:
+            return "Wing accessories"
         case .pet:
             return "Pet companions"
         }
@@ -193,12 +193,16 @@ struct Item: GameItem {
         self.effects = effects
         self.usageData = usageData
         self.gearCategory = gearCategory
-        self.rarity = rarity
         self.accessoryCategory = accessoryCategory
         
-        // Validate that only gear items have rarity
-        if itemType != .gear && rarity != nil {
-            print("⚠️ Warning: Non-gear item '\(name)' has rarity set. Rarity will be ignored.")
+        // Only gear items should have rarity
+        if itemType == .gear {
+            self.rarity = rarity
+        } else {
+            self.rarity = nil
+            if rarity != nil {
+                print("⚠️ Warning: Non-gear item '\(name)' has rarity set. Rarity will be ignored.")
+            }
         }
     }
 
@@ -612,7 +616,6 @@ struct ItemDatabase {
         Item.gear(name: "Red Sword", description: "A fiery red sword", iconName: "char_sword_red", category: .weapon, rarity: .epic),
         Item.gear(name: "Red Sword 2", description: "An enhanced red sword", iconName: "char_sword_red_2", category: .weapon, rarity: .epic),
         Item.gear(name: "Gold Sword", description: "A golden sword", iconName: "char_sword_gold", category: .weapon, rarity: .legendary),
-        Item.gear(name: "Gold Sword 2", description: "An enhanced golden sword", iconName: "char_sword_gold_2", category: .weapon, rarity: .legendary),
         Item.gear(name: "Axe", description: "A heavy axe", iconName: "char_sword_axe", category: .weapon, rarity: .rare),
         Item.gear(name: "Small Axe", description: "A smaller axe", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon),
         Item.gear(name: "Whip", description: "A flexible whip", iconName: "char_sword_whip", category: .weapon, rarity: .epic),

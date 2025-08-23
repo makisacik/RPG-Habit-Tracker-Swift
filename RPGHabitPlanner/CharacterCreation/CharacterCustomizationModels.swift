@@ -55,6 +55,10 @@ struct CharacterCustomization: Codable, Equatable {
             return weapon.rawValue
         case .accessory:
             return accessory?.rawValue
+        case .head:
+            return nil // Head gear is not part of character customization, they're gear items
+        case .wings:
+            return nil // Wings are not part of character customization, they're gear items
         case .mustache:
             return mustache?.rawValue
         case .flower:
@@ -90,11 +94,20 @@ struct CharacterCustomization: Codable, Equatable {
             .accessory: { customization, value in
                 customization.accessory = Accessory(rawValue: value)
             },
+            .head: { _, _ in
+                // Head gear is not part of character customization, they're gear items
+            },
+            .wings: { _, _ in
+                // Wings are not part of character customization, they're gear items
+            },
             .mustache: { customization, value in
                 customization.mustache = Mustache(rawValue: value)
             },
             .flower: { customization, value in
                 customization.flower = Flower(rawValue: value)
+            },
+            .pet: { _, _ in
+                // Pets are not part of character customization, they're gear items
             }
         ]
 
@@ -497,8 +510,6 @@ enum EyeColor: String, CaseIterable, Codable, Identifiable {
 
 // MARK: - Outfits
 enum Outfit: String, CaseIterable, Codable, Identifiable {
-    case simple = "char_outfit_simple"
-    case iron = "char_outfit_iron_old"
     case outfitVillager = "char_outfit_villager"
     case outfitVillagerBlue = "char_outfit_villager_blue"
     case outfitIron = "char_outfit_iron"
@@ -514,8 +525,6 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .simple: return "Simple"
-        case .iron: return "Iron"
         case .outfitVillager: return "Villager"
         case .outfitVillagerBlue: return "Blue Villager"
         case .outfitIron: return "Iron Armor"
@@ -531,8 +540,6 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
 
     var previewImageName: String {
         switch self {
-        case .simple: return "char_outfit_simple_preview"
-        case .iron: return "char_outfit_iron_old_preview"
         case .outfitVillager: return "char_outfit_villager_preview"
         case .outfitVillagerBlue: return "char_outfit_villager_blue_preview"
         case .outfitIron: return "char_outfit_iron_preview"
@@ -557,7 +564,6 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
     case swordIron = "char_sword_iron"
     case swordSteel = "char_sword_steel"
     case swordGold = "char_sword_gold"
-    case swordGold2 = "char_sword_gold_2"
     case swordCopper = "char_sword_copper"
     case swordRed = "char_sword_red"
     case swordRed2 = "char_sword_red_2"
@@ -576,7 +582,6 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
         case .swordIron: return "Iron Sword"
         case .swordSteel: return "Steel Sword"
         case .swordGold: return "Gold Sword"
-        case .swordGold2: return "Gold Sword 2"
         case .swordCopper: return "Copper Sword"
         case .swordRed: return "Red Sword"
         case .swordRed2: return "Red Sword 2"
@@ -595,7 +600,6 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
         case .swordIron: return "char_sword_iron_preview"
         case .swordSteel: return "char_sword_steel_preview"
         case .swordGold: return "char_sword_gold_preview"
-        case .swordGold2: return "char_sword_gold_2_preview"
         case .swordCopper: return "char_sword_copper_preview"
         case .swordRed: return "char_sword_red_preview"
         case .swordRed2: return "char_sword_red_2_preview"

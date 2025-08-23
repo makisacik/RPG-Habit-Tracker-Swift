@@ -276,22 +276,6 @@ final class EquipmentManager: ObservableObject {
         }
     }
 
-    // MARK: - Equipment Sets and Combos
-
-    func checkForEquipmentSets(for user: UserEntity) -> [EquipmentSet] {
-        let equippedItems = itemService.fetchEquippedItems(for: user)
-        let itemNames = Set(equippedItems.compactMap { $0.name })
-
-        return EquipmentSet.allSets.filter { set in
-            set.requiredItems.isSubset(of: itemNames)
-        }
-    }
-
-    func getSetBonuses(for user: UserEntity) -> [SetBonus] {
-        let activeSets = checkForEquipmentSets(for: user)
-        return activeSets.compactMap { $0.setBonus }
-    }
-
     private func refreshEquippedItems() {
         // This method will be called when user data changes
         UserManager().fetchUser { [weak self] user, _ in
@@ -299,46 +283,5 @@ final class EquipmentManager: ObservableObject {
                 self?.loadEquippedItems(for: user)
             }
         }
-    }
-}
-
-// MARK: - Equipment Sets
-
-struct EquipmentSet: Identifiable {
-    let id: String
-    let name: String
-    let description: String
-    let requiredItems: Set<String>
-    let setBonus: SetBonus?
-
-    static let allSets: [EquipmentSet] = [
-        EquipmentSet(
-            id: "knight_set",
-            name: "Knight Set",
-            description: "Classic knight appearance",
-            requiredItems: [Outfit.iron.rawValue, CharacterWeapon.swordIron.rawValue],
-            setBonus: SetBonus(name: "Knight's Valor", description: "+10% XP from combat quests", bonusType: .xpMultiplier(1.1))
-        ),
-        EquipmentSet(
-            id: "assassin_set",
-            name: "Assassin Set",
-            description: "A deadly combination for stealth missions",
-            requiredItems: [Outfit.outfitBat.rawValue, CharacterWeapon.swordDeadly.rawValue, HairStyle.hair4Black.rawValue],
-            setBonus: SetBonus(name: "Shadow Strike", description: "+15% completion speed", bonusType: .speedMultiplier(1.15))
-        )
-    ]
-}
-
-struct SetBonus: Identifiable {
-    let id = UUID()
-    let name: String
-    let description: String
-    let bonusType: BonusType
-
-    enum BonusType {
-        case xpMultiplier(Double)
-        case coinMultiplier(Double)
-        case speedMultiplier(Double)
-        case healthBonus(Int)
     }
 }

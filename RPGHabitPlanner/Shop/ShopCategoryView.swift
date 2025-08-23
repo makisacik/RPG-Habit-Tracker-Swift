@@ -141,6 +141,7 @@ struct ShopCategoryCard: View {
 
 struct EnhancedShopItemCard: View {
     let item: ShopItem
+    let selectedCategory: EnhancedShopCategory
     let isCustomizationItem: Bool
     let onPurchase: () -> Void
     let onPreview: (() -> Void)?
@@ -156,20 +157,25 @@ struct EnhancedShopItemCard: View {
         VStack(spacing: 12) {
             // Item preview
             ZStack {
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: 8)
                     .fill(theme.primaryColor)
-                    .frame(height: 120)
+                    .frame(height: 60)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(item.rarity.borderColor, lineWidth: 2)
+                        // Only show rarity border for gear items
+                        Group {
+                            if selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(item.rarity.borderColor, lineWidth: 1)
+                            }
+                        }
                     )
 
-                // Rarity glow effect
-                if item.rarity != .common {
-                    RoundedRectangle(cornerRadius: 12)
+                // Rarity glow effect - only for gear items
+                if (selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories) && item.rarity != .common {
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(item.rarity.glowColor)
-                        .frame(height: 120)
-                        .blur(radius: 4)
+                        .frame(height: 60)
+                        .blur(radius: 2)
                 }
 
                 // Simple image loading with caching
@@ -178,13 +184,13 @@ struct EnhancedShopItemCard: View {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 80, height: 80)
+                            .frame(width: 40, height: 40)
                             .scaleEffect(isHovered ? 1.1 : 1.0)
                             .animation(.easeInOut(duration: 0.3), value: isHovered)
                     } else {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: theme.textColor.opacity(0.6)))
-                            .frame(width: 80, height: 80)
+                            .frame(width: 40, height: 40)
                     }
                 }
 
@@ -208,25 +214,28 @@ struct EnhancedShopItemCard: View {
             }
 
             // Item info
-            VStack(spacing: 6) {
+            VStack(spacing: 4) {
                 // Item name
                 Text(item.name)
-                    .font(.appFont(size: 14, weight: .bold))
+                    .font(.appFont(size: 12, weight: .bold))
                     .foregroundColor(theme.textColor)
-                    .lineLimit(2)
+                    .lineLimit(1)
                     .multilineTextAlignment(.center)
 
-                // Rarity badge
-                RarityBadge(rarity: item.rarity.toAssetRarity)
+                // Rarity badge - only show for gear items
+                if selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories {
+                    RarityBadge(rarity: item.rarity.toAssetRarity)
+                }
 
                 // Price and purchase button
                 HStack {
                     // Price
-                    HStack(spacing: 4) {
+                    HStack(spacing: 2) {
                         Image(systemName: "dollarsign.circle.fill")
+                            .font(.system(size: 10))
                             .foregroundColor(.yellow)
                         Text("\(ShopManager.shared.getDisplayPrice(for: item))")
-                            .font(.appFont(size: 12, weight: .bold))
+                            .font(.appFont(size: 10, weight: .bold))
                             .foregroundColor(canAfford ? theme.textColor : .red)
                     }
 
@@ -235,12 +244,12 @@ struct EnhancedShopItemCard: View {
                     // Purchase button
                     Button(action: onPurchase) {
                         Text("Buy")
-                            .font(.appFont(size: 12, weight: .bold))
+                            .font(.appFont(size: 10, weight: .bold))
                             .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
                             .background(
-                                RoundedRectangle(cornerRadius: 6)
+                                RoundedRectangle(cornerRadius: 4)
                                     .fill(canAfford ? .green : .gray)
                             )
                     }
@@ -248,11 +257,11 @@ struct EnhancedShopItemCard: View {
                 }
             }
         }
-        .padding(12)
+        .padding(8)
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(theme.cardBackgroundColor)
-                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         )
         .onHover { hovering in
             isHovered = hovering
@@ -297,6 +306,7 @@ struct ShopFilterView: View {
     @Binding var selectedRarity: ItemRarity?
     @Binding var priceRange: ClosedRange<Int>
     @Binding var showOnlyAffordable: Bool
+    let selectedCategory: EnhancedShopCategory
     let onFilterChanged: () -> Void
 
     @EnvironmentObject var themeManager: ThemeManager
@@ -331,37 +341,39 @@ struct ShopFilterView: View {
             // Filter options
             if showFilters {
                 VStack(spacing: 16) {
-                    // Rarity filter
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Rarity")
-                            .font(.appFont(size: 14, weight: .bold))
-                            .foregroundColor(theme.textColor)
+                    // Rarity filter - only show for gear categories
+                    if selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Rarity")
+                                .font(.appFont(size: 14, weight: .bold))
+                                .foregroundColor(theme.textColor)
 
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                // All option
-                                FilterChip(
-                                    text: "All",
-                                    isSelected: selectedRarity == nil,
-                                    color: .gray
-                                ) {
-                                        selectedRarity = nil
-                                        onFilterChanged()
-                                }
-
-                                // Rarity options
-                                ForEach(ItemRarity.allCases, id: \.self) { rarity in
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    // All option
                                     FilterChip(
-                                        text: rarity.rawValue,
-                                        isSelected: selectedRarity == rarity,
-                                        color: rarity.uiColor
+                                        text: "All",
+                                        isSelected: selectedRarity == nil,
+                                        color: .gray
                                     ) {
-                                            selectedRarity = selectedRarity == rarity ? nil : rarity
+                                            selectedRarity = nil
                                             onFilterChanged()
                                     }
+
+                                    // Rarity options
+                                    ForEach(ItemRarity.allCases, id: \.self) { rarity in
+                                        FilterChip(
+                                            text: rarity.rawValue,
+                                            isSelected: selectedRarity == rarity,
+                                            color: rarity.uiColor
+                                        ) {
+                                                selectedRarity = selectedRarity == rarity ? nil : rarity
+                                                onFilterChanged()
+                                        }
+                                    }
                                 }
+                                .padding(.horizontal)
                             }
-                            .padding(.horizontal)
                         }
                     }
 
@@ -495,7 +507,10 @@ struct ItemPreviewModal: View {
                             .font(.appFont(size: 18, weight: .bold))
                             .foregroundColor(theme.textColor)
 
-                        RarityBadge(rarity: item.rarity.toAssetRarity)
+                        // Only show rarity badge for gear items
+                        if item.category == .weapons || item.category == .armor || item.category == .accessories {
+                            RarityBadge(rarity: item.rarity.toAssetRarity)
+                        }
 
                         Text(item.description)
                             .font(.appFont(size: 14))

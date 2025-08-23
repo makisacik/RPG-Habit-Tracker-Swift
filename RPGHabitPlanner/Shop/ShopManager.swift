@@ -19,86 +19,9 @@ final class ShopManager: ObservableObject {
     // MARK: - Shop Items
 
     private lazy var shopItems: [ShopItem] = {
-        let itemDatabase = ItemDatabase.shared
-
-        // Convert ItemDatabase items to ShopItems
-        var items: [ShopItem] = []
-
-        // Add all health potions
-        for potion in ItemDatabase.allHealthPotions {
-            items.append(ShopItem(
-                name: potion.name,
-                description: potion.description,
-                iconName: potion.iconName,
-                price: potion.value,
-                rarity: potion.rarity ?? .common,
-                category: .potions,
-                effects: potion.effects
-            ))
-        }
-
-        // Add all XP boosts
-        for boost in ItemDatabase.allXPBoosts {
-            items.append(ShopItem(
-                name: boost.name,
-                description: boost.description,
-                iconName: boost.iconName,
-                price: boost.value,
-                rarity: boost.rarity ?? .common,
-                category: .boosts,
-                effects: boost.effects
-            ))
-        }
-
-        // Add all coin boosts
-        for boost in ItemDatabase.allCoinBoosts {
-            items.append(ShopItem(
-                name: boost.name,
-                description: boost.description,
-                iconName: boost.iconName,
-                price: boost.value,
-                rarity: boost.rarity ?? .common,
-                category: .boosts,
-                effects: boost.effects
-            ))
-        }
-
-        // Add gear items (weapons, armor, accessories)
-        for gear in ItemDatabase.allGear {
-            let category: ShopCategory
-            switch gear.gearCategory {
-            case .weapon: category = .weapons
-            case .shield: category = .armor
-            case .head, .outfit, .wings: category = .armor
-            case .pet: category = .accessories
-            default: category = .special
-            }
-
-            items.append(ShopItem(
-                name: gear.name,
-                description: gear.description,
-                iconName: gear.iconName,
-                price: gear.value,
-                rarity: gear.rarity ?? .common,
-                category: category,
-                effects: gear.effects
-            ))
-        }
-
-        // Add collectible items (specials)
-        for collectible in ItemDatabase.allCollectibles {
-            items.append(ShopItem(
-                name: collectible.name,
-                description: collectible.description,
-                iconName: collectible.iconName,
-                price: collectible.value,
-                rarity: collectible.rarity ?? .common,
-                category: .special,
-                effects: collectible.effects
-            ))
-        }
-
-        return items
+        // Since we're now using CharacterAssetManager for all shop items,
+        // this legacy shopItems array is no longer needed
+        return []
     }()
 
     // MARK: - Public Methods
@@ -107,12 +30,13 @@ final class ShopManager: ObservableObject {
         return shopItems
     }
 
-    func getItemsByCategory(_ category: ShopCategory) -> [ShopItem] {
+    func getItemsByCategory(_ category: EnhancedShopCategory) -> [ShopItem] {
         return shopItems.filter { $0.category == category }
     }
 
     func getItemsByRarity(_ rarity: ItemRarity) -> [ShopItem] {
-        return shopItems.filter { $0.rarity == rarity }
+        // Since we're now using CharacterAssetManager, this method is no longer needed
+        return []
     }
 
     func purchaseItem(_ item: ShopItem, completion: @escaping (Bool, String?) -> Void) {
@@ -158,9 +82,8 @@ final class ShopManager: ObservableObject {
     // MARK: - Daily Deals
 
     func getDailyDeals() -> [ShopItem] {
-        // For now, return 3 random items with 20% discount
-        let shuffledItems = shopItems.shuffled()
-        return Array(shuffledItems.prefix(3))
+        // Since we're now using CharacterAssetManager, this method is no longer needed
+        return []
     }
 
     func getDiscountedPrice(for item: ShopItem, discount: Double = 0.2) -> Int {
@@ -184,27 +107,22 @@ final class ShopManager: ObservableObject {
     // MARK: - Item Type Detection
 
     func isFunctionalItem(_ item: ShopItem) -> Bool {
-        return item.category == .potions || item.category == .boosts
+        // Since we're now using CharacterAssetManager, all items are gear items
+        return false
     }
 
     func isCollectibleItem(_ item: ShopItem) -> Bool {
-        return item.category == .special
+        // Since we're now using CharacterAssetManager, all items are gear items
+        return false
     }
 
     func isGearItem(_ item: ShopItem) -> Bool {
-        return item.category == .weapons || item.category == .armor || item.category == .accessories
+        // Since we're now using CharacterAssetManager, all items are gear items
+        return true
     }
 
     func getItemType(_ item: ShopItem) -> ItemType {
-        switch item.category {
-        case .potions:
-            return .consumable
-        case .boosts:
-            return .booster
-        case .weapons, .armor, .accessories:
-            return .gear
-        case .special:
-            return .collectible
-        }
+        // Since we're now using CharacterAssetManager, all items are gear items
+        return .gear
     }
 }
