@@ -49,8 +49,8 @@ final class ShopManager: ObservableObject {
 
         currencyManager.spendCoins(actualPrice) { success, error in
             if success {
-                // Add item to inventory
-                let inventoryItem = Item(name: item.name, description: item.description, iconName: item.iconName)
+                // Create proper inventory item based on shop item category
+                let inventoryItem = self.createInventoryItem(from: item)
                 self.inventoryManager.addToInventory(inventoryItem)
 
                 DispatchQueue.main.async {
@@ -62,6 +62,167 @@ final class ShopManager: ObservableObject {
                 }
             }
         }
+    }
+    
+    private func createInventoryItem(from shopItem: ShopItem) -> Item {
+        switch shopItem.category {
+        case .weapons, .armor, .wings, .pets:
+            return createGearItem(from: shopItem)
+        case .accessories:
+            return createAccessoryItem(from: shopItem)
+        case .consumables:
+            return createConsumableItem(from: shopItem)
+        }
+    }
+    
+    private func createGearItem(from shopItem: ShopItem) -> Item {
+        let gearCategory = determineGearCategory(from: shopItem)
+        return Item.gear(
+            name: shopItem.name,
+            description: shopItem.description,
+            iconName: shopItem.iconName,
+            category: gearCategory,
+            rarity: shopItem.rarity,
+            value: shopItem.price,
+            effects: shopItem.effects
+        )
+    }
+
+    private func determineGearCategory(from shopItem: ShopItem) -> GearCategory {
+        switch shopItem.category {
+        case .weapons:
+            return .weapon
+        case .armor:
+            return determineArmorCategory(from: shopItem.name)
+        case .wings:
+            return .wings
+        case .pets:
+            return .pet
+        default:
+            return .weapon
+        }
+    }
+
+    private func determineArmorCategory(from name: String) -> GearCategory {
+        let lowercasedName = name.lowercased()
+        if lowercasedName.contains("helmet") || lowercasedName.contains("head") {
+            return .head
+        } else if lowercasedName.contains("shield") {
+            return .shield
+        } else {
+            return .outfit
+        }
+    }
+
+    private func createAccessoryItem(from shopItem: ShopItem) -> Item {
+        let accessoryCategory = determineAccessoryCategory(from: shopItem.name)
+        return Item.accessory(
+            name: shopItem.name,
+            description: shopItem.description,
+            iconName: shopItem.iconName,
+            category: accessoryCategory,
+            value: shopItem.price
+        )
+    }
+
+    private func determineAccessoryCategory(from name: String) -> AccessoryCategory {
+        let lowercasedName = name.lowercased()
+        if lowercasedName.contains("glasses") || lowercasedName.contains("glass") {
+            return .eyeglasses
+        } else if lowercasedName.contains("earring") {
+            return .earrings
+        } else if lowercasedName.contains("lash") || lowercasedName.contains("blush") {
+            return .lashes
+        } else {
+            return .clips
+        }
+    }
+
+    private func createConsumableItem(from shopItem: ShopItem) -> Item {
+        let lowercasedName = shopItem.name.lowercased()
+
+        if lowercasedName.contains("potion") {
+            return createHealthPotion(from: shopItem)
+        } else if lowercasedName.contains("xp") {
+            return createXPBoost(from: shopItem)
+        } else if lowercasedName.contains("coin") {
+            return createCoinBoost(from: shopItem)
+        } else {
+            return createCollectible(from: shopItem)
+        }
+    }
+
+    private func createHealthPotion(from shopItem: ShopItem) -> Item {
+        let healAmount = determineHealAmount(from: shopItem.name)
+
+        return Item.healthPotion(
+            name: shopItem.name,
+            description: shopItem.description,
+            healAmount: healAmount,
+            value: shopItem.price
+        )
+    }
+
+    private func determineHealAmount(from name: String) -> Int16 {
+        let lowercasedName = name.lowercased()
+        if lowercasedName.contains("legendary") {
+            return 999
+        } else if lowercasedName.contains("superior") {
+            return 75
+        } else if lowercasedName.contains("greater") {
+            return 50
+        } else if lowercasedName.contains("minor") {
+            return 15
+        } else {
+            return 30
+        }
+    }
+
+    private func createXPBoost(from shopItem: ShopItem) -> Item {
+        let (multiplier, duration) = determineBoostValues(from: shopItem.name)
+
+        return Item.xpBoost(
+            name: shopItem.name,
+            description: shopItem.description,
+            multiplier: multiplier,
+            duration: duration,
+            value: shopItem.price
+        )
+    }
+
+    private func createCoinBoost(from shopItem: ShopItem) -> Item {
+        let (multiplier, duration) = determineBoostValues(from: shopItem.name)
+
+        return Item.coinBoost(
+            name: shopItem.name,
+            description: shopItem.description,
+            multiplier: multiplier,
+            duration: duration,
+            value: shopItem.price
+        )
+    }
+
+    private func determineBoostValues(from name: String) -> (multiplier: Double, duration: TimeInterval) {
+        let lowercasedName = name.lowercased()
+        if lowercasedName.contains("legendary") {
+            return (3.0, 4 * 60 * 60)
+        } else if lowercasedName.contains("greater") {
+            return (2.0, 2 * 60 * 60)
+        } else if lowercasedName.contains("minor") {
+            return (1.25, 30 * 60)
+        } else {
+            return (1.5, 60 * 60)
+        }
+    }
+
+    private func createCollectible(from shopItem: ShopItem) -> Item {
+        return Item.collectible(
+            name: shopItem.name,
+            description: shopItem.description,
+            iconName: shopItem.iconName,
+            collectionCategory: "Shop",
+            isRare: shopItem.rarity != .common
+        )
     }
 
     func canAffordItem(_ item: ShopItem, completion: @escaping (Bool) -> Void) {

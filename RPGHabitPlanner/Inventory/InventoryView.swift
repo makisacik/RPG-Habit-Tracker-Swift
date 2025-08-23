@@ -13,8 +13,7 @@ struct InventoryView: View {
     @StateObject private var inventoryManager = InventoryManager.shared
     @State private var selectedItem: ItemEntity?
     @State private var showItemDetail = false
-
-    private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 6), count: 6)
+    @State private var selectedCategory: InventoryCategory = .gear
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -39,26 +38,18 @@ struct InventoryView: View {
                     Spacer()
                 }
 
-                LazyVGrid(columns: columns, spacing: 6) {
-                    ForEach(0..<18, id: \.self) { index in
-                        let item = index < inventoryManager.inventoryItems.count ? inventoryManager.inventoryItems[index] : nil
-                        InventorySlotView(
-                            item: item,
-                            isSelected: selectedItem == item
-                        ) {
-                                if let item = item {
-                                    selectedItem = item
-                                    showItemDetail = true
-                                } else {
-                                    selectedItem = nil
-                                }
-                        }
-                        .environmentObject(themeManager)
-                        .environmentObject(inventoryManager)
-                    }
-                }
-                .padding(10)
-                .background(RoundedRectangle(cornerRadius: 10).fill(theme.surfaceColor.opacity(0.6)))
+                // Category Selector
+                CategorySelectorView(selectedCategory: $selectedCategory, theme: theme)
+
+                // Items Grid
+                CategorizedItemsGridView(
+                    category: selectedCategory,
+                    inventoryManager: inventoryManager,
+                    selectedItem: $selectedItem,
+                    showItemDetail: $showItemDetail,
+                    theme: theme
+                )
+                .environmentObject(themeManager)
             }
             .padding()
         }
@@ -84,6 +75,167 @@ struct InventoryView: View {
     }
 }
 
+// MARK: - Inventory Categories
+
+enum InventoryCategory: String, CaseIterable {
+    case gear = "Gear"
+    case consumables = "Consumables"
+    case accessories = "Accessories"
+    case collectibles = "Collectibles"
+
+    var icon: String {
+        switch self {
+        case .gear: return "shield.fill"
+        case .consumables: return "flask.fill"
+        case .accessories: return "sparkles"
+        case .collectibles: return "star.fill"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .gear: return "Equippable items"
+        case .consumables: return "Health potions and boosters"
+        case .accessories: return "Character accessories"
+        case .collectibles: return "Collection items"
+        }
+    }
+}
+
+// MARK: - Category Selector View
+
+struct CategorySelectorView: View {
+    @Binding var selectedCategory: InventoryCategory
+    let theme: Theme
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(InventoryCategory.allCases, id: \.self) { category in
+                    Button(action: {
+                        selectedCategory = category
+                    }) {
+                        VStack(spacing: 4) {
+                            Image(systemName: category.icon)
+                                .font(.system(size: 16))
+                                .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                            
+                            Text(category.rawValue)
+                                .font(.appFont(size: 12, weight: .medium))
+                                .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(selectedCategory == category ? theme.accentColor.opacity(0.2) : Color.clear)
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
+// MARK: - Categorized Items Grid View
+
+struct CategorizedItemsGridView: View {
+    let category: InventoryCategory
+    @ObservedObject var inventoryManager: InventoryManager
+    @Binding var selectedItem: ItemEntity?
+    @Binding var showItemDetail: Bool
+    let theme: Theme
+    @EnvironmentObject var themeManager: ThemeManager
+
+    private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 6), count: 6)
+
+    var filteredItems: [ItemEntity] {
+        switch category {
+        case .gear:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
+        case .consumables:
+            return inventoryManager.inventoryItems.filter {
+                inventoryManager.isConsumable($0) || inventoryManager.isBooster($0)
+            }
+        case .accessories:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isAccessory($0) }
+        case .collectibles:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isCollectible($0) }
+        }
+    }
+
+    var body: some View {
+        VStack(spacing: 10) {
+            // Category Header
+            HStack {
+                Text(category.rawValue)
+                    .font(.appFont(size: 18, weight: .bold))
+                    .foregroundColor(theme.textColor)
+                
+                Spacer()
+                
+                Text("\(filteredItems.count) items")
+                    .font(.appFont(size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+            }
+
+            if filteredItems.isEmpty {
+                EmptyCategoryView(category: category, theme: theme)
+            } else {
+                LazyVGrid(columns: columns, spacing: 6) {
+                    ForEach(0..<18, id: \.self) { index in
+                        let item = index < filteredItems.count ? filteredItems[index] : nil
+                        InventorySlotView(
+                            item: item,
+                            isSelected: selectedItem == item
+                        ) {
+                            if let item = item {
+                                selectedItem = item
+                                showItemDetail = true
+                            } else {
+                                selectedItem = nil
+                            }
+                        }
+                        .environmentObject(themeManager)
+                        .environmentObject(inventoryManager)
+                    }
+                }
+                .padding(10)
+                .background(RoundedRectangle(cornerRadius: 10).fill(theme.surfaceColor.opacity(0.6)))
+            }
+        }
+    }
+}
+
+// MARK: - Empty Category View
+
+struct EmptyCategoryView: View {
+    let category: InventoryCategory
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: category.icon)
+                .font(.system(size: 48))
+                .foregroundColor(theme.textColor.opacity(0.3))
+            
+            Text("No \(category.rawValue.lowercased()) items")
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.7))
+            
+            Text(category.description)
+                .font(.appFont(size: 14))
+                .foregroundColor(theme.textColor.opacity(0.5))
+                .multilineTextAlignment(.center)
+        }
+        .padding(40)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.backgroundColor.opacity(0.7))
+        )
+    }
+}
 
 // MARK: - Inventory Slot View
 
@@ -156,6 +308,20 @@ struct InventorySlotView: View {
                                     Spacer()
                                 }
                             }
+
+                            // Rarity indicator for gear items
+                            if inventoryManager.isGear(item), let rarity = inventoryManager.getRarity(item) {
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        Circle()
+                                            .fill(rarity.uiColor)
+                                            .frame(width: 8, height: 8)
+                                            .offset(x: 2, y: -2)
+                                    }
+                                    Spacer()
+                                }
+                            }
                         }
                         .frame(height: 44)
 
@@ -166,6 +332,14 @@ struct InventorySlotView: View {
                                 Image(systemName: "bolt.fill")
                                     .font(.system(size: 8))
                                     .foregroundColor(.yellow)
+                            } else if inventoryManager.isGear(item) {
+                                Image(systemName: "shield.fill")
+                                    .font(.system(size: 8))
+                                    .foregroundColor(.blue)
+                            } else if inventoryManager.isAccessory(item) {
+                                Image(systemName: "sparkles")
+                                    .font(.system(size: 8))
+                                    .foregroundColor(.purple)
                             } else {
                                 Image(systemName: "star.fill")
                                     .font(.system(size: 8))
@@ -222,45 +396,6 @@ struct InfoBubbleView: View {
                 .fill(theme.primaryColor)
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         )
-    }
-}
-
-
-// MARK: - Legacy Inventory Slot View (for backward compatibility)
-
-struct InventorySlotView_Legacy: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    let item: ItemEntity?
-    let isSelected: Bool
-    let onTap: () -> Void
-
-    var body: some View {
-        let theme = themeManager.activeTheme
-
-        Button(action: onTap) {
-            ZStack {
-                // Slot background
-                RoundedRectangle(cornerRadius: 4)
-                    .strokeBorder(
-                        isSelected ? Color.yellow : Color.white.opacity(0.4),
-                        lineWidth: isSelected ? 2 : 1.5
-                    )
-                    .background(
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(theme.secondaryColor.opacity(0.3))
-                    )
-
-                if let item = item {
-                    Image(item.iconName ?? "")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: 40, maxHeight: 40)
-                        .padding(4)
-                }
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
-        .aspectRatio(1, contentMode: .fit)
     }
 }
 

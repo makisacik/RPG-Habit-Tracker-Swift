@@ -394,6 +394,8 @@ struct LevelExperienceView: View {
 // MARK: - Inventory Section View
 struct InventorySectionView: View {
     @ObservedObject var inventoryManager: InventoryManager
+    @State private var selectedCategory: InventoryCategory = .gear
+    @State private var showFullInventory = false
     let theme: Theme
 
     var body: some View {
@@ -403,68 +405,117 @@ struct InventorySectionView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Text("\(inventoryManager.inventoryItems.count) items")
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.7))
+                Button(action: {
+                    showFullInventory = true
+                }) {
+                    Text("View All")
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(theme.accentColor)
+                }
             }
 
-            if inventoryManager.inventoryItems.isEmpty {
-                VStack(spacing: 8) {
-                    Image(systemName: "bag")
-                        .font(.system(size: 32))
-                        .foregroundColor(theme.textColor.opacity(0.5))
-                    Text("No items yet")
-                        .font(.appFont(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.backgroundColor.opacity(0.7))
-                )
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(inventoryManager.inventoryItems.prefix(5), id: \.id) { item in
-                            ItemCard(item: item, theme: theme)
-                        }
-                    }
-                    .padding(.horizontal)
-                }
+            // Category Selector
+            CategorySelectorView(selectedCategory: $selectedCategory, theme: theme)
+
+            // Items Preview
+            ItemsPreviewView(
+                category: selectedCategory,
+                inventoryManager: inventoryManager,
+                theme: theme
+            )
+        }
+        .sheet(isPresented: $showFullInventory) {
+            NavigationStack {
+                InventoryView()
+                    .environmentObject(ThemeManager.shared)
+                    .environmentObject(InventoryManager.shared)
             }
         }
     }
 }
 
-// MARK: - Item Card
-struct ItemCard: View {
+// MARK: - Items Preview View
+struct ItemsPreviewView: View {
+    let category: InventoryCategory
+    @ObservedObject var inventoryManager: InventoryManager
+    let theme: Theme
+
+    var filteredItems: [ItemEntity] {
+        switch category {
+        case .gear:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
+        case .consumables:
+            return inventoryManager.inventoryItems.filter {
+                inventoryManager.isConsumable($0) || inventoryManager.isBooster($0)
+            }
+        case .accessories:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isAccessory($0) }
+        case .collectibles:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isCollectible($0) }
+        }
+    }
+
+    var body: some View {
+        if filteredItems.isEmpty {
+            VStack(spacing: 8) {
+                Image(systemName: category.icon)
+                    .font(.system(size: 24))
+                    .foregroundColor(theme.textColor.opacity(0.5))
+                Text("No \(category.rawValue.lowercased()) items")
+                    .font(.appFont(size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.backgroundColor.opacity(0.7))
+            )
+        } else {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(filteredItems.prefix(6), id: \.id) { item in
+                        CompactItemCard(item: item, theme: theme)
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+    }
+}
+
+// MARK: - Compact Item Card
+struct CompactItemCard: View {
     let item: ItemEntity
     let theme: Theme
 
     var body: some View {
-        VStack(spacing: 8) {
-            if let iconName = item.iconName {
-                Image(iconName)
-                    .resizable()
-                    .frame(width: 32, height: 32)
-            } else {
-                Image(systemName: "questionmark.circle")
-                    .font(.system(size: 32))
-                    .foregroundColor(theme.textColor.opacity(0.5))
+        VStack(spacing: 6) {
+            ZStack {
+                if let iconName = item.iconName {
+                    Image(iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                } else {
+                    Image(systemName: "questionmark.circle")
+                        .font(.system(size: 32))
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                }
             }
 
             Text(item.name ?? "Unknown")
-                .font(.appFont(size: 12, weight: .medium))
+                .font(.appFont(size: 10, weight: .medium))
                 .foregroundColor(theme.textColor)
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
         }
-        .padding()
+        .padding(8)
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(theme.backgroundColor.opacity(0.7))
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         )
-        .frame(width: 80)
+        .frame(width: 70, height: 70)
     }
 }
 
