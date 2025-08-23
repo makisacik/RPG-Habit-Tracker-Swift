@@ -253,38 +253,6 @@ class InventoryManager: ObservableObject {
     }
 
     /// Adds starter items to the inventory
-    func addStarterItems() {
-        addToInventory(ItemDatabase.minorHealthPotion)
-        addToInventory(ItemDatabase.healthPotion)
-        addToInventory(ItemDatabase.minorXPBoost)
-        addToInventory(ItemDatabase.minorCoinBoost)
-        
-        // Add some starter accessories using icon names
-        if let blueFlower = findItemByIconName("char_flower_blue") {
-            addToInventory(blueFlower)
-        }
-
-        // Add some starter gear for testing using icon names
-        let gearIconNames = [
-            "char_sword_wood", "char_sword_iron", "char_sword_steel",
-            "char_outfit_villager", "char_outfit_iron", "char_outfit_wizard",
-            "char_helmet_iron", "char_helmet_red",
-            "char_shield_wood", "char_shield_iron",
-            "char_wings_white", "char_wings_red",
-            "char_pet_cat"
-        ]
-
-        for iconName in gearIconNames {
-            if let gearItem = findItemByIconName(iconName) {
-                addToInventory(gearItem)
-            }
-        }
-
-        // Add some collectibles using icon names
-        if let egg = findItemByIconName("icon_egg") {
-            addToInventory(egg)
-        }
-    }
 
     /// Adds specific items when onboarding is completed
     func addOnboardingCompletionItems() {

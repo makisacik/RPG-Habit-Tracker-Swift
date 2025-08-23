@@ -57,11 +57,6 @@ struct InventoryView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             inventoryManager.refreshInventory()
-
-            // Add starter items if inventory is empty (for testing)
-            if inventoryManager.inventoryItems.isEmpty {
-                inventoryManager.addStarterItems()
-            }
         }
         .sheet(isPresented: $showItemDetail) {
             if let item = selectedItem {
