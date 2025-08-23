@@ -61,6 +61,9 @@ extension CharacterCustomizationEntity {
     // MARK: - Conversion Methods
 
     func toCharacterCustomization() -> CharacterCustomization {
+        print("🔧 CharacterCustomizationEntity: toCharacterCustomization called")
+        print("🔧 CharacterCustomizationEntity: Raw outfit value in entity: \(outfit ?? "nil")")
+        
         var customization = CharacterCustomization()
 
         if let bodyTypeString = bodyType,
@@ -91,6 +94,9 @@ extension CharacterCustomizationEntity {
         if let outfitString = outfit,
            let outfit = Outfit(rawValue: outfitString) {
             customization.outfit = outfit
+            print("✅ CharacterCustomizationEntity: Successfully loaded outfit: \(outfit.rawValue)")
+        } else {
+            print("❌ CharacterCustomizationEntity: Failed to load outfit from string: \(outfit ?? "nil")")
         }
 
         if let weaponString = weapon,
@@ -133,10 +139,14 @@ extension CharacterCustomizationEntity {
             customization.wings = wings
         }
 
+        print("🔧 CharacterCustomizationEntity: Final customization outfit: \(customization.outfit.rawValue)")
         return customization
     }
 
     func updateFrom(_ customization: CharacterCustomization) {
+        print("🔧 CharacterCustomizationEntity: updateFrom called")
+        print("🔧 CharacterCustomizationEntity: Setting outfit from '\(outfit ?? "nil")' to '\(customization.outfit.rawValue)'")
+        
         bodyType = customization.bodyType.rawValue
         hairStyle = customization.hairStyle.rawValue
         hairBackStyle = customization.hairBackStyle?.rawValue
@@ -151,5 +161,7 @@ extension CharacterCustomizationEntity {
         pet = customization.pet?.rawValue
         shield = customization.shield?.rawValue
         wings = customization.wings?.rawValue
+        
+        print("🔧 CharacterCustomizationEntity: outfit field set to: \(outfit ?? "nil")")
     }
 }

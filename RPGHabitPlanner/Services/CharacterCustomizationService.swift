@@ -67,13 +67,26 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
     }
 
     func updateCustomization(for user: UserEntity, customization: CharacterCustomization) -> CharacterCustomizationEntity? {
+        print("🔧 CharacterCustomizationService: Starting updateCustomization for user: \(user.nickname ?? "Unknown")")
+        print("🔧 CharacterCustomizationService: New outfit value: \(customization.outfit.rawValue)")
+        
         if let entity = fetchCustomization(for: user) {
+            print("✅ CharacterCustomizationService: Found existing customization entity")
+            print("🔧 CharacterCustomizationService: Old outfit value: \(entity.outfit ?? "nil")")
+            
             entity.updateFrom(customization)
             entity.updatedAt = Date()
+            
+            print("🔧 CharacterCustomizationService: Updated entity outfit to: \(entity.outfit ?? "nil")")
+            
             saveContext()
+            
+            print("✅ CharacterCustomizationService: Successfully saved customization update")
             return entity
+        } else {
+            print("❌ CharacterCustomizationService: No existing customization entity found for user")
+            return nil
         }
-        return nil
     }
 
     func deleteCustomization(_ entity: CharacterCustomizationEntity) {

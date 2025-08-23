@@ -108,6 +108,7 @@ struct CharacterView: View {
         if let customizationEntity = customizationService.fetchCustomization(for: user) {
             self.characterCustomization = customizationEntity.toCharacterCustomization()
             print("✅ CharacterView: Loaded character customization")
+            print("🔧 CharacterView: Current outfit: \(characterCustomization?.outfit.rawValue ?? "nil")")
         } else {
             // Create default customization if none exists
             let defaultCustomization = CharacterCustomization()

@@ -148,7 +148,12 @@ class GearManager: ObservableObject {
             if let outfit = mapItemToOutfit(outfitItem) {
                 updatedCustomization.outfit = outfit
                 print("✅ GearManager: Successfully mapped outfit to: \(outfit.rawValue)")
+                print("🔧 GearManager: Updated customization outfit field to: \(updatedCustomization.outfit.rawValue)")
+            } else {
+                print("❌ GearManager: Failed to map outfit item: \(outfitItem.name ?? "Unknown")")
             }
+        } else {
+            print("🔧 GearManager: No outfit item equipped")
         }
         
         // Update weapon if equipped
@@ -220,10 +225,16 @@ class GearManager: ObservableObject {
         // It would be handled separately in the character display system
         
         // Save the updated customization
-        if let _ = customizationService.updateCustomization(for: user, customization: updatedCustomization) {
+        print("🔧 GearManager: About to save customization with outfit: \(updatedCustomization.outfit.rawValue)")
+        print("🔧 GearManager: Calling customizationService.updateCustomization...")
+        
+        let result = customizationService.updateCustomization(for: user, customization: updatedCustomization)
+        
+        if let _ = result {
             print("✅ GearManager: Successfully saved updated customization")
+            print("🔧 GearManager: Final saved outfit: \(updatedCustomization.outfit.rawValue)")
         } else {
-            print("❌ GearManager: Failed to save updated customization")
+            print("❌ GearManager: Failed to save updated customization - updateCustomization returned nil")
         }
         
         // Post notification to refresh character view
@@ -237,142 +248,176 @@ class GearManager: ObservableObject {
         return nil
     }
     
+    // MARK: - Asset Name Mapping
+    
+    private func getActualAssetName(from iconName: String) -> String {
+        // Convert preview asset names to actual asset names
+        if iconName.hasSuffix("_preview") {
+            return String(iconName.dropLast(8)) // Remove "_preview" suffix
+        }
+        return iconName
+    }
+    
     // MARK: - Item Mapping
     
     private func mapItemToOutfit(_ item: ItemEntity) -> Outfit? {
-        // Map item names to outfit enums based on actual item database
-        guard let itemName = item.name else { return nil }
+        // Map item icon names to outfit enums based on actual asset names
+        guard let iconName = item.iconName else { return nil }
         
-        switch itemName {
-        case "Villager Outfit":
+        let actualAssetName = getActualAssetName(from: iconName)
+        print("🔧 GearManager: Attempting to map outfit item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
+        
+        switch actualAssetName {
+        case "char_outfit_villager":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitVillager")
             return .outfitVillager
-        case "Blue Villager Outfit":
+        case "char_outfit_villager_blue":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitVillagerBlue")
             return .outfitVillagerBlue
-        case "Iron Armor":
+        case "char_outfit_iron":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitIron")
             return .outfitIron
-        case "Iron Armor 2":
+        case "char_outfit_iron_2":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitIron2")
             return .outfitIron2
-        case "Wizard Robe":
+        case "char_outfit_wizard":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitWizard")
             return .outfitWizard
-        case "Dress":
+        case "char_outfit_dress":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitDress")
             return .outfitDress
-        case "Fire Outfit":
+        case "char_outfit_fire":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitFire")
             return .outfitFire
-        case "Bat Outfit":
+        case "char_outfit_bat":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitBat")
             return .outfitBat
-        case "Red Outfit":
+        case "char_outfit_red":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitRed")
             return .outfitRed
-        case "Hoodie":
+        case "char_outfit_hoodie":
+            print("✅ GearManager: Mapped '\(iconName)' to .outfitHoodie")
             return .outfitHoodie
         default:
-            print("⚠️ GearManager: No outfit mapping found for item: \(itemName)")
+            print("❌ GearManager: No outfit mapping found for item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
             return nil
         }
     }
     
     private func mapItemToWeapon(_ item: ItemEntity) -> CharacterWeapon? {
-        // Map item names to weapon enums based on actual item database
-        guard let itemName = item.name else { return nil }
+        // Map item icon names to weapon enums based on actual asset names
+        guard let iconName = item.iconName else { return nil }
         
-        switch itemName {
-        case "Wooden Sword":
+        let actualAssetName = getActualAssetName(from: iconName)
+        print("🔧 GearManager: Attempting to map weapon: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
+        
+        switch actualAssetName {
+        case "char_sword_wood":
             return .swordWood
-        case "Copper Sword":
+        case "char_sword_copper":
             return .swordCopper
-        case "Iron Sword":
+        case "char_sword_iron":
             return .swordIron
-        case "Steel Sword":
+        case "char_sword_steel":
             return .swordSteel
-        case "Gold Sword":
+        case "char_sword_gold":
             return .swordGold
-        case "Red Sword":
+        case "char_sword_red":
             return .swordRed
-        case "Red Sword 2":
+        case "char_sword_red_2":
             return .swordRed2
-        case "Deadly Sword":
+        case "char_sword_deadly":
             return .swordDeadly
-        case "Axe":
+        case "char_sword_axe":
             return .swordAxe
-        case "Small Axe":
+        case "char_sword_axe_small":
             return .swordAxeSmall
-        case "Whip":
+        case "char_sword_whip":
             return .swordWhip
-        case "Staff":
+        case "char_sword_staff":
             return .swordStaff
-        case "Mace":
+        case "char_sword_mace":
             return .swordMace
         default:
-            print("⚠️ GearManager: No weapon mapping found for item: \(itemName)")
+            print("⚠️ GearManager: No weapon mapping found for item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
             return nil
         }
     }
     
     private func mapItemToHeadGear(_ item: ItemEntity) -> HeadGear? {
-        // Map item names to headGear enums based on actual item database
-        guard let itemName = item.name else { return nil }
+        // Map item icon names to headGear enums based on actual asset names
+        guard let iconName = item.iconName else { return nil }
         
-        switch itemName {
-        case "Hood", "Hood Helmet":
+        let actualAssetName = getActualAssetName(from: iconName)
+        
+        switch actualAssetName {
+        case "char_helmet_hood":
             return .helmetHood
-        case "Iron Helmet":
+        case "char_helmet_iron":
             return .helmetIron
-        case "Red Helmet":
+        case "char_helmet_red":
             return .helmetRed
         default:
-            print("⚠️ GearManager: No headGear mapping found for item: \(itemName)")
+            print("⚠️ GearManager: No headGear mapping found for item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
             return nil
         }
     }
     
     private func mapItemToShield(_ item: ItemEntity) -> Shield? {
-        // Map item names to shield enums based on actual item database
-        guard let itemName = item.name else { return nil }
+        // Map item icon names to shield enums based on actual asset names
+        guard let iconName = item.iconName else { return nil }
         
-        switch itemName {
-        case "Wooden Shield":
+        let actualAssetName = getActualAssetName(from: iconName)
+        
+        switch actualAssetName {
+        case "char_shield_wood":
             return .shieldWood
-        case "Red Shield":
+        case "char_shield_red":
             return .shieldRed
-        case "Iron Shield":
+        case "char_shield_iron":
             return .shieldIron
-        case "Gold Shield":
+        case "char_shield_gold":
             return .shieldGold
         default:
-            print("⚠️ GearManager: No shield mapping found for item: \(itemName)")
+            print("⚠️ GearManager: No shield mapping found for item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
             return nil
         }
     }
     
     private func mapItemToWings(_ item: ItemEntity) -> Wings? {
-        // Map item names to wings based on actual item database
-        guard let itemName = item.name else { return nil }
+        // Map item icon names to wings based on actual asset names
+        guard let iconName = item.iconName else { return nil }
         
-        switch itemName {
-        case "White Wings":
+        let actualAssetName = getActualAssetName(from: iconName)
+        
+        switch actualAssetName {
+        case "char_wings_white":
             return .wingsWhite
-        case "Red Wings", "Red Wings 2":
+        case "char_wings_red", "char_wings_red_2":
             return .wingsRed
-        case "Bat Wings":
+        case "char_wings_bat":
             return .wingsBat
         default:
-            print("⚠️ GearManager: No wings mapping found for item: \(itemName)")
+            print("⚠️ GearManager: No wings mapping found for item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
             return nil
         }
     }
     
     private func mapItemToPet(_ item: ItemEntity) -> Pet? {
-        // Map item names to pet enums based on actual item database
-        guard let itemName = item.name else { return nil }
+        // Map item icon names to pet enums based on actual asset names
+        guard let iconName = item.iconName else { return nil }
         
-        switch itemName {
-        case "Cat Pet":
+        let actualAssetName = getActualAssetName(from: iconName)
+        
+        switch actualAssetName {
+        case "char_pet_cat":
             return .petCat
-        case "Cat Pet 2":
+        case "char_pet_cat_2":
             return .petCat2
-        case "Chicken Pet":
+        case "char_pet_chicken":
             return .petChicken
         default:
-            print("⚠️ GearManager: No pet mapping found for item: \(itemName)")
+            print("⚠️ GearManager: No pet mapping found for item: \(item.name ?? "unknown") with icon: \(iconName) -> actual: \(actualAssetName)")
             return nil
         }
     }

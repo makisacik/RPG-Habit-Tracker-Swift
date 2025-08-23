@@ -118,6 +118,9 @@ struct CharacterFullPreview: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
+                .onAppear {
+                    print("🎭 CharacterFullPreview: Rendering body: \(customization.bodyType.rawValue)")
+                }
 
             // Hair Back - Draw behind the character
             if let hairBackStyle = customization.hairBackStyle {
@@ -161,6 +164,9 @@ struct CharacterFullPreview: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
+                .onAppear {
+                    print("👕 CharacterFullPreview: Rendering outfit: \(customization.outfit.rawValue)")
+                }
 
             // Weapon
             Image(customization.weapon.rawValue)
