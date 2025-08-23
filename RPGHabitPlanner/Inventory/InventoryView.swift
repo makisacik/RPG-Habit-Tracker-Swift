@@ -58,7 +58,10 @@ struct InventoryView: View {
         .onAppear {
             inventoryManager.refreshInventory()
 
-            // Note: Starter items are now added during onboarding completion
+            // Add starter items if inventory is empty (for testing)
+            if inventoryManager.inventoryItems.isEmpty {
+                inventoryManager.addStarterItems()
+            }
         }
         .sheet(isPresented: $showItemDetail) {
             if let item = selectedItem {

@@ -361,98 +361,62 @@ struct AccessoriesSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
 
-    // Get real accessory items from ItemDatabase
-    private var availableAccessories: [Item] {
-        return ItemDatabase.allAccessories.filter { $0.accessoryCategory == .eyeglasses }
+    // Filter to only show glasses accessories
+    private var availableAccessories: [Accessory] {
+        return [.eyeglassRed, .eyeglassBlue, .eyeglassGray]
     }
 
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
-            ForEach(availableAccessories, id: \.iconName) { accessoryItem in
+            ForEach(availableAccessories, id: \.self) { accessory in
                 CustomizationOptionCard(
                     option: CustomizationOption(
-                        id: accessoryItem.iconName,
-                        name: accessoryItem.name,
-                        imageName: getPreviewImageName(for: accessoryItem),
-                        isPremium: false,
+                        id: accessory.rawValue,
+                        name: accessory.displayName,
+                        imageName: accessory.previewImageName,
+                        isPremium: accessory.isPremium,
                         isUnlocked: true
                     ),
-                    isSelected: viewModel.currentCustomization.accessory?.rawValue == accessoryItem.iconName,
+                    isSelected: viewModel.currentCustomization.accessory == accessory,
                     onTap: {
-                        // Map the item to accessory enum and update
-                        if let accessory = mapItemToAccessory(accessoryItem) {
-                            viewModel.updateAccessory(accessory)
-                        }
+                        viewModel.updateAccessory(accessory)
                     },
                     theme: theme
                 )
             }
         }
     }
-    
-    private func mapItemToAccessory(_ item: Item) -> Accessory? {
-        switch item.iconName {
-        case "char_glass_blue": return .eyeglassBlue
-        case "char_glass_gray": return .eyeglassGray
-        case "char_glass_red": return .eyeglassRed
-        default: return nil
-        }
-    }
 }
 
-// MARK: - Helper function for preview images
-private func getPreviewImageName(for item: Item) -> String {
-    switch item.iconName {
-    case "char_glass_blue": return "char_glass_blue_preview"
-    case "char_glass_gray": return "char_glass_gray_preview"
-    case "char_glass_red": return "char_glass_red_preview"
-    case "char_outfit_villager": return "char_outfit_villager_preview"
-    case "char_outfit_villager_blue": return "char_outfit_villager_blue_preview"
-    case "char_sword_wood": return "char_sword_wood_preview"
-    case "char_sword_iron": return "char_sword_iron_preview"
-    default: return item.iconName
-    }
-}
 
 // MARK: - Additional Section Views
 struct OutfitSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
 
-    // Get real outfit items from ItemDatabase
-    private var availableOutfits: [Item] {
-        return ItemDatabase.allGear.filter { $0.gearCategory == .outfit && ($0.iconName == "char_outfit_villager" || $0.iconName == "char_outfit_villager_blue") }
+    // Filter to only show villager outfits
+    private var availableOutfits: [Outfit] {
+        return [.outfitVillager, .outfitVillagerBlue]
     }
 
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
-            ForEach(availableOutfits, id: \.iconName) { outfitItem in
+            ForEach(availableOutfits, id: \.self) { outfit in
                 CustomizationOptionCard(
                     option: CustomizationOption(
-                        id: outfitItem.iconName,
-                        name: outfitItem.name,
-                        imageName: getPreviewImageName(for: outfitItem),
-                        isPremium: false,
+                        id: outfit.rawValue,
+                        name: outfit.displayName,
+                        imageName: outfit.previewImageName,
+                        isPremium: outfit.isPremium,
                         isUnlocked: true
                     ),
-                    isSelected: viewModel.currentCustomization.outfit.rawValue == outfitItem.iconName,
+                    isSelected: viewModel.currentCustomization.outfit == outfit,
                     onTap: {
-                        // Map the item to outfit enum and update
-                        if let outfit = mapItemToOutfit(outfitItem) {
-                            viewModel.updateOutfit(outfit)
-                        }
+                        viewModel.updateOutfit(outfit)
                     },
                     theme: theme
                 )
             }
-        }
-    }
-    
-    private func mapItemToOutfit(_ item: Item) -> Outfit? {
-        switch item.iconName {
-        case "char_outfit_villager": return .outfitVillager
-        case "char_outfit_villager_blue": return .outfitVillagerBlue
-        default: return nil
         }
     }
 }
@@ -461,40 +425,29 @@ struct WeaponSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
 
-    // Get real weapon items from ItemDatabase
-    private var availableWeapons: [Item] {
-        return ItemDatabase.allGear.filter { $0.gearCategory == .weapon && ($0.iconName == "char_sword_wood" || $0.iconName == "char_sword_iron") }
+    // Filter to only show basic weapons
+    private var availableWeapons: [CharacterWeapon] {
+        return [.swordWood, .swordIron]
     }
 
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
-            ForEach(availableWeapons, id: \.iconName) { weaponItem in
+            ForEach(availableWeapons, id: \.self) { weapon in
                 CustomizationOptionCard(
                     option: CustomizationOption(
-                        id: weaponItem.iconName,
-                        name: weaponItem.name,
-                        imageName: getPreviewImageName(for: weaponItem),
-                        isPremium: false,
+                        id: weapon.rawValue,
+                        name: weapon.displayName,
+                        imageName: weapon.previewImageName,
+                        isPremium: weapon.isPremium,
                         isUnlocked: true
                     ),
-                    isSelected: viewModel.currentCustomization.weapon.rawValue == weaponItem.iconName,
+                    isSelected: viewModel.currentCustomization.weapon == weapon,
                     onTap: {
-                        // Map the item to weapon enum and update
-                        if let weapon = mapItemToWeapon(weaponItem) {
-                            viewModel.updateWeapon(weapon)
-                        }
+                        viewModel.updateWeapon(weapon)
                     },
                     theme: theme
                 )
             }
-        }
-    }
-    
-    private func mapItemToWeapon(_ item: Item) -> CharacterWeapon? {
-        switch item.iconName {
-        case "char_sword_wood": return .swordWood
-        case "char_sword_iron": return .swordIron
-        default: return nil
         }
     }
 }

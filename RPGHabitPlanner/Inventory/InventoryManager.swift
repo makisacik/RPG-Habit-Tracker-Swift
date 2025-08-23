@@ -251,6 +251,68 @@ class InventoryManager: ObservableObject {
         return itemDatabase.getRandomItem()
     }
 
+    /// Adds starter items to the inventory
+    func addStarterItems() {
+        addToInventory(ItemDatabase.minorHealthPotion)
+        addToInventory(ItemDatabase.healthPotion)
+        addToInventory(ItemDatabase.minorXPBoost)
+        addToInventory(ItemDatabase.minorCoinBoost)
+        
+        // Add some starter accessories using icon names
+        if let blueFlower = findItemByIconName("char_flower_blue") {
+            addToInventory(blueFlower)
+        }
+
+        // Add some starter gear for testing using icon names
+        let gearIconNames = [
+            "char_sword_wood", "char_sword_iron", "char_sword_steel",
+            "char_outfit_villager", "char_outfit_iron", "char_outfit_wizard",
+            "char_helmet_iron", "char_helmet_red",
+            "char_shield_wood", "char_shield_iron",
+            "char_wings_white", "char_wings_red",
+            "char_pet_cat"
+        ]
+
+        for iconName in gearIconNames {
+            if let gearItem = findItemByIconName(iconName) {
+                addToInventory(gearItem)
+            }
+        }
+
+        // Add some collectibles using icon names
+        if let egg = findItemByIconName("icon_egg") {
+            addToInventory(egg)
+        }
+    }
+
+    /// Adds specific items when onboarding is completed
+    func addOnboardingCompletionItems() {
+        // Add the requested weapons using icon names as IDs
+        let weaponIconNames = ["char_sword_wood", "char_sword_iron"]
+        for iconName in weaponIconNames {
+            if let weaponItem = findItemByIconName(iconName) {
+                addToInventory(weaponItem)
+            }
+        }
+        
+        // Add the requested outfits using icon names as IDs
+        let outfitIconNames = ["char_outfit_villager", "char_outfit_villager_blue"]
+        for iconName in outfitIconNames {
+            if let outfitItem = findItemByIconName(iconName) {
+                addToInventory(outfitItem)
+            }
+        }
+        
+        // Add the three eyeglasses using icon names as IDs
+        let eyeglassIconNames = ["char_glass_blue", "char_glass_gray", "char_glass_red"]
+        for iconName in eyeglassIconNames {
+            if let eyeglassItem = findItemByIconName(iconName) {
+                addToInventory(eyeglassItem)
+            }
+        }
+        
+        print("✅ Onboarding completion items added to inventory")
+    }
     
     /// Helper method to find an item by its icon name (asset ID)
     /// - Parameter iconName: The icon name to search for
