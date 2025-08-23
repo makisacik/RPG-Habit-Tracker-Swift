@@ -59,6 +59,8 @@ struct CharacterCustomization: Codable, Equatable {
             return mustache?.rawValue
         case .flower:
             return flower?.rawValue
+        case .pet:
+            return nil // Pets are not part of character customization, they're gear items
         }
     }
 
@@ -744,6 +746,35 @@ enum Flower: String, CaseIterable, Codable, Identifiable {
         case .flowerGreen: return "char_flower_green_preview"
         case .flowerBlue: return "char_flower_blue_preview"
         case .flowerPurple: return "char_flower_purple_preview"
+        }
+    }
+
+    var isPremium: Bool {
+        return false
+    }
+}
+
+// MARK: - Pets (New)
+enum Pet: String, CaseIterable, Codable, Identifiable {
+    case petCat = "char_pet_cat"
+    case petCat2 = "char_pet_cat_2"
+    case petChicken = "char_pet_chicken"
+
+    var id: String { self.rawValue }
+
+    var displayName: String {
+        switch self {
+        case .petCat: return "Cat Pet"
+        case .petCat2: return "Cat Pet 2"
+        case .petChicken: return "Chicken Pet"
+        }
+    }
+
+    var previewImageName: String {
+        switch self {
+        case .petCat: return "char_pet_cat_preview"
+        case .petCat2: return "char_pet_cat_2_preview"
+        case .petChicken: return "char_pet_chicken_preview"
         }
     }
 

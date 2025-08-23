@@ -10,7 +10,7 @@ import SwiftUI
 
 // MARK: - Asset Category Enum
 
-enum AssetCategory: String, CaseIterable, Identifiable {
+public enum AssetCategory: String, CaseIterable, Identifiable {
     case bodyType = "BodyType"
     case hairStyle = "HairStyle"
     case hairBackStyle = "HairBackStyle"
@@ -21,8 +21,9 @@ enum AssetCategory: String, CaseIterable, Identifiable {
     case accessory = "Accessory"
     case mustache = "Mustache"
     case flower = "Flower"
+    case pet = "Pet"
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
     var displayName: String {
         switch self {
@@ -36,6 +37,7 @@ enum AssetCategory: String, CaseIterable, Identifiable {
         case .accessory: return "Accessory"
         case .mustache: return "Mustache"
         case .flower: return "Flower"
+        case .pet: return "Pet"
         }
     }
 
@@ -51,20 +53,21 @@ enum AssetCategory: String, CaseIterable, Identifiable {
         case .accessory: return "crown.fill"
         case .mustache: return "mustache"
         case .flower: return "leaf.fill"
+        case .pet: return "pawprint.fill"
         }
     }
 }
 
 // MARK: - Asset Rarity Enum
 
-enum AssetRarity: String, CaseIterable, Identifiable {
+public enum AssetRarity: String, CaseIterable, Identifiable {
     case common = "Common"
     case uncommon = "Uncommon"
     case rare = "Rare"
     case epic = "Epic"
     case legendary = "Legendary"
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
     var color: Color {
         switch self {
@@ -200,6 +203,8 @@ final class CharacterAssetManager: ObservableObject {
             return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .flower:
             return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .pet:
+            return Pet.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         }
     }
 
@@ -226,6 +231,8 @@ final class CharacterAssetManager: ObservableObject {
             return Mustache.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .flower:
             return Flower.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .pet:
+            return Pet.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         }
     }
 
@@ -265,6 +272,7 @@ final class CharacterAssetManager: ObservableObject {
         case .accessory: return ""
         case .mustache: return ""
         case .flower: return ""
+        case .pet: return ""
         }
     }
 
@@ -281,6 +289,7 @@ final class CharacterAssetManager: ObservableObject {
         case .accessory: return ""
         case .mustache: return ""
         case .flower: return ""
+        case .pet: return ""
         }
     }
 

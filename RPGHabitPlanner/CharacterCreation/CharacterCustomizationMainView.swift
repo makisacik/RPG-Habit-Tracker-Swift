@@ -427,103 +427,6 @@ struct OptimizedCustomizationOptionCard: View {
     }
 }
 
-// MARK: - Simple Image Cache
-class ImageCache {
-    static let shared = ImageCache()
-    private var cache: [String: UIImage] = [:]
-    private let queue = DispatchQueue(label: "imageCache", qos: .userInitiated)
-
-    func getImage(_ name: String) -> UIImage? {
-        return queue.sync { cache[name] }
-    }
-
-    func setImage(_ image: UIImage, for name: String) {
-        queue.async {
-            self.cache[name] = image
-        }
-    }
-
-    func clearCache() {
-        queue.async {
-            self.cache.removeAll()
-        }
-    }
-}
-
-// MARK: - Optimized Image Loader
-struct OptimizedImageLoader: View {
-    let imageName: String
-    let height: CGFloat
-    @State private var image: UIImage?
-    @State private var isLoading = true
-
-    var body: some View {
-        Group {
-            if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: height)
-                    .clipped()
-            } else {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(height: height)
-                    .overlay(
-                        Group {
-                            if isLoading {
-                                ProgressView()
-                                    .scaleEffect(0.6)
-                            } else {
-                                Image(systemName: "photo")
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    )
-            }
-        }
-        .onAppear {
-            loadImage()
-        }
-    }
-
-    private func loadImage() {
-        guard image == nil else { return }
-
-        // Check cache first
-        if let cachedImage = ImageCache.shared.getImage(imageName) {
-            self.image = cachedImage
-            self.isLoading = false
-            return
-        }
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            // Load and resize image on background thread
-            if let originalImage = UIImage(named: imageName) {
-                let resizedImage = resizeImage(originalImage, to: CGSize(width: height * 2, height: height * 2))
-
-                // Cache the resized image
-                ImageCache.shared.setImage(resizedImage, for: imageName)
-
-                DispatchQueue.main.async {
-                    self.image = resizedImage
-                    self.isLoading = false
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-
-    private func resizeImage(_ image: UIImage, to size: CGSize) -> UIImage {
-        let renderer = UIGraphicsImageRenderer(size: size)
-        return renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: size))
-        }
-    }
-}
 
 // MARK: - Character Preview (Legacy)
 // Note: CustomizedCharacterPreviewCard is now defined in CustomizedCharacterPreviewCard.swift
@@ -578,7 +481,7 @@ struct OptimizedCharacterView: View {
 
         // Draw wings first (if present) so they appear behind everything
         if let accessory = customization.accessory, accessory == .wingsWhite {
-            let accessoryImage = ImageCache.shared.getImage(accessory.rawValue) ?? UIImage(named: accessory.rawValue)
+            let accessoryImage = ImageCache.shared.getImage(for: accessory.rawValue) ?? UIImage(named: accessory.rawValue)
             if let accessoryImage = accessoryImage {
                 drawImage(accessoryImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
             }
@@ -594,7 +497,7 @@ struct OptimizedCharacterView: View {
 
         for (imageName, tintColor) in layers {
             // Try cache first, then load from bundle
-            let image = ImageCache.shared.getImage(imageName) ?? UIImage(named: imageName)
+            let image = ImageCache.shared.getImage(for: imageName) ?? UIImage(named: imageName)
             if let image = image {
                 drawImage(image, in: CGRect(origin: .zero, size: size), tintColor: tintColor)
             }
@@ -602,7 +505,7 @@ struct OptimizedCharacterView: View {
 
         // Draw other accessories (non-wings) last so they appear on top
         if let accessory = customization.accessory, accessory != .wingsWhite {
-            let accessoryImage = ImageCache.shared.getImage(accessory.rawValue) ?? UIImage(named: accessory.rawValue)
+            let accessoryImage = ImageCache.shared.getImage(for: accessory.rawValue) ?? UIImage(named: accessory.rawValue)
             if let accessoryImage = accessoryImage {
                 drawImage(accessoryImage, in: CGRect(origin: .zero, size: size), tintColor: nil)
             }

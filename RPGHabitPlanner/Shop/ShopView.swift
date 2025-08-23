@@ -11,7 +11,7 @@ struct ShopView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var shopManager = ShopManager.shared
     @StateObject private var currencyManager = CurrencyManager.shared
-    @State private var selectedCategory: EnhancedShopCategory = .weapons
+    @State private var selectedCategory: EnhancedShopCategory = .potions
     @State private var selectedRarity: ItemRarity?
     @State private var showOnlyAffordable = false
     @State private var showPurchaseAlert = false
@@ -19,6 +19,12 @@ struct ShopView: View {
     @State private var selectedItem: ShopItem?
     @State private var showItemDetails = false
     @State private var showItemPreview = false
+    
+    // Cache for shop items to prevent constant recreation
+    @State private var cachedItems: [ShopItem] = []
+    @State private var lastCategory: EnhancedShopCategory?
+    @State private var lastRarity: ItemRarity?
+    @State private var lastShowOnlyAffordable: Bool = false
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -36,6 +42,8 @@ struct ShopView: View {
                     selectedCategory: $selectedCategory
                 ) { category in
                         selectedCategory = category
+                        // Preload images for the new category
+                        preloadImagesForCategory(category)
                 }
                 .padding(.vertical, 8)
 
@@ -56,6 +64,21 @@ struct ShopView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadCurrentCoins()
+            // Preload images for the current category
+            preloadImagesForCategory(selectedCategory)
+            // Initialize cache
+            updateCachedItems()
+        }
+        .onChange(of: selectedCategory) { _ in
+            updateCachedItems()
+            // Preload images for the new category
+            preloadImagesForCategory(selectedCategory)
+        }
+        .onChange(of: selectedRarity) { _ in
+            updateCachedItems()
+        }
+        .onChange(of: showOnlyAffordable) { _ in
+            updateCachedItems()
         }
         .alert("Purchase", isPresented: $showPurchaseAlert) {
             Button("OK") { }
@@ -140,11 +163,11 @@ struct ShopView: View {
                 ForEach(filteredItems) { item in
                     EnhancedShopItemCard(
                         item: item,
-                        isCustomizationItem: selectedCategory.isCustomizationCategory,
+                        isCustomizationItem: selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil,
                         onPurchase: {
                             purchaseItem(item)
                         },
-                        onPreview: selectedCategory.isCustomizationCategory ? {
+                        onPreview: (selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil) ? {
                             selectedItem = item
                             showItemPreview = true
                         } : nil
@@ -157,13 +180,18 @@ struct ShopView: View {
     }
 
     private func getFilteredItems() -> [ShopItem] {
+        // Return cached items - updates will be handled by onChange modifiers
+        return cachedItems
+    }
+    
+    private func updateCachedItems() {
         var items: [ShopItem]
 
-        // Get items for category
-        if selectedCategory.isCustomizationCategory {
+        // Get items for category - use character assets for all gear categories
+        if selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil {
             items = getCustomizationItems(for: selectedCategory)
         } else {
-            // Use legacy category mapping
+            // Use legacy category mapping for non-character asset items (potions, boosts, special)
             let legacyCategory = mapToLegacyCategory(selectedCategory)
             items = shopManager.getItemsByCategory(legacyCategory)
         }
@@ -177,34 +205,62 @@ struct ShopView: View {
         if showOnlyAffordable {
             items = items.filter { currencyManager.currentCoins >= shopManager.getDisplayPrice(for: $0) }
         }
-
-        return items
+        
+        // Update cache
+        cachedItems = items
+        lastCategory = selectedCategory
+        lastRarity = selectedRarity
+        lastShowOnlyAffordable = showOnlyAffordable
     }
 
     private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
-        guard let assetCategory = category.assetCategory else { return [] }
+        // For character asset categories (pets, weapons, armor, accessories), use preview images
+        if let assetCategory = category.assetCategory {
+            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
+            return assets.map { asset in
+                let description = getDescriptionForCategory(category)
+                let shopCategory = mapToLegacyCategory(category)
 
-        let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
-        return assets.map { asset in
-            ShopItem(
-                name: asset.name,
-                description: "Customize your character with this \(assetCategory.displayName.lowercased())",
-                iconName: asset.imageName,
-                price: asset.basePrice,
-                rarity: asset.rarity == .common ? .common :
-                        asset.rarity == .uncommon ? .uncommon :
-                        asset.rarity == .rare ? .rare :
-                        asset.rarity == .epic ? .epic : .legendary,
-                category: mapToLegacyCategory(category)
-            )
+                return ShopItem(
+                    name: asset.name,
+                    description: description,
+                    iconName: asset.imageName,
+                    price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
+                    rarity: asset.rarity == .common ? .common :
+                            asset.rarity == .uncommon ? .uncommon :
+                            asset.rarity == .rare ? .rare :
+                            asset.rarity == .epic ? .epic : .legendary,
+                    category: shopCategory
+                )
+            }
+        }
+
+        // For other categories (potions, boosts, special), use gear items from the database
+        let legacyCategory = mapToLegacyCategory(category)
+        return shopManager.getItemsByCategory(legacyCategory)
+    }
+    
+    private func getDescriptionForCategory(_ category: EnhancedShopCategory) -> String {
+        switch category {
+        case .weapons:
+            return "A powerful weapon for combat"
+        case .armor:
+            return "Protective gear for your adventures"
+        case .accessories:
+            return "Stylish accessories to enhance your character"
+        case .pets:
+            return "A loyal companion for your adventures"
+        default:
+            return "A useful item for your journey"
         }
     }
 
     private func mapToLegacyCategory(_ enhancedCategory: EnhancedShopCategory) -> ShopCategory {
         switch enhancedCategory {
-        case .bodyTypes, .hairStyles, .eyeColors, .outfits: return .armor
         case .weapons: return .weapons
+        case .armor: return .armor
         case .accessories: return .accessories
+        case .pets: return .accessories
         case .potions: return .potions
         case .boosts: return .boosts
         case .special: return .special
@@ -231,6 +287,22 @@ struct ShopView: View {
                 purchaseAlertMessage = errorMessage ?? "Purchase failed"
             }
             showPurchaseAlert = true
+        }
+    }
+
+    // MARK: - Image Preloading
+
+    private func preloadImagesForCategory(_ category: EnhancedShopCategory) {
+        DispatchQueue.global(qos: .utility).async {
+            let items = getCustomizationItems(for: category)
+
+            for item in items {
+                // Preload each image in the background
+                if let _ = UIImage(named: item.iconName) {
+                    // Image will be cached by the ImageCache when accessed
+                    // This just ensures the image is loaded into memory
+                }
+            }
         }
     }
 }

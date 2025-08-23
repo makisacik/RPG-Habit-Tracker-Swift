@@ -10,29 +10,25 @@ import SwiftUI
 // MARK: - Enhanced Shop Categories
 
 enum EnhancedShopCategory: String, CaseIterable, Identifiable {
-    // Customization categories
-    case bodyTypes = "Body Types"
-    case hairStyles = "Hair Styles"
-    case eyeColors = "Eye Colors"
-    case outfits = "Outfits"
+    // Gear categories
     case weapons = "Weapons"
+    case armor = "Armor"
     case accessories = "Accessories"
-
+    case pets = "Pets"
+    
     // Functional categories
     case potions = "Potions"
     case boosts = "Boosts"
-    case special = "Special"
+    case special = "Specials"
 
     var id: String { rawValue }
 
     var icon: String {
         switch self {
-        case .bodyTypes: return "person.fill"
-        case .hairStyles: return "scissors"
-        case .eyeColors: return "eye.fill"
-        case .outfits: return "tshirt.fill"
         case .weapons: return "sword.fill"
+        case .armor: return "shield.fill"
         case .accessories: return "crown.fill"
+        case .pets: return "pawprint.fill"
         case .potions: return "drop.fill"
         case .boosts: return "bolt.fill"
         case .special: return "star.fill"
@@ -41,12 +37,10 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 
     var color: Color {
         switch self {
-        case .bodyTypes: return .blue
-        case .hairStyles: return .brown
-        case .eyeColors: return .green
-        case .outfits: return .purple
         case .weapons: return .red
+        case .armor: return .blue
         case .accessories: return .orange
+        case .pets: return .brown
         case .potions: return .pink
         case .boosts: return .yellow
         case .special: return .indigo
@@ -55,12 +49,10 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 
     var assetCategory: AssetCategory? {
         switch self {
-        case .bodyTypes: return .bodyType
-        case .hairStyles: return .hairStyle
-        case .eyeColors: return .eyeColor
-        case .outfits: return .outfit
         case .weapons: return .weapon
+        case .armor: return .outfit
         case .accessories: return .accessory
+        case .pets: return .pet
         default: return nil
         }
     }
@@ -156,6 +148,7 @@ struct EnhancedShopItemCard: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var canAfford = true
     @State private var isHovered = false
+    @State private var cachedImage: UIImage?
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -179,21 +172,20 @@ struct EnhancedShopItemCard: View {
                         .blur(radius: 4)
                 }
 
-                // Item image
-                if let image = UIImage(named: item.iconName) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                        .scaleEffect(isHovered ? 1.1 : 1.0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
-                } else {
-                    Image(systemName: "photo")
-                        .font(.system(size: 30))
-                        .foregroundColor(theme.textColor.opacity(0.3))
-                        .frame(width: 80, height: 80)
-                        .scaleEffect(isHovered ? 1.1 : 1.0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovered)
+                // Simple image loading with caching
+                Group {
+                    if let image = cachedImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .scaleEffect(isHovered ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.3), value: isHovered)
+                    } else {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: theme.textColor.opacity(0.6)))
+                            .frame(width: 80, height: 80)
+                    }
                 }
 
                 // Preview button for customization items
@@ -267,6 +259,7 @@ struct EnhancedShopItemCard: View {
         }
         .onAppear {
             checkAffordability()
+            loadImage()
         }
     }
 
@@ -275,7 +268,28 @@ struct EnhancedShopItemCard: View {
             self.canAfford = canAfford
         }
     }
+
+    private func loadImage() {
+        // Check cache first
+        if let cachedImage = ImageCache.shared.getImage(for: item.iconName) {
+            self.cachedImage = cachedImage
+            return
+        }
+
+        // Load image asynchronously
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let image = UIImage(named: item.iconName) {
+                // Cache the image
+                ImageCache.shared.setImage(image, for: item.iconName)
+
+                DispatchQueue.main.async {
+                    self.cachedImage = image
+                }
+            }
+        }
+    }
 }
+
 
 // MARK: - Shop Filter View
 

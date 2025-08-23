@@ -63,31 +63,39 @@ final class ShopManager: ObservableObject {
             ))
         }
 
-        // Add some collectible items (weapons, armor, accessories)
-        let collectibleItems = [
-            "Sword", "Axe", "Dagger", "Shield", "Helmet", "Crown", "Medal", "Key Gold", "Egg", "Pumpkin"
-        ]
-
-        for itemName in collectibleItems {
-            if let item = itemDatabase.findItem(by: itemName) {
-                let category: ShopCategory
-                switch item.collectionCategory {
-                case "Weapons": category = .weapons
-                case "Armor": category = .armor
-                case "Accessories", "Royalty": category = .accessories
-                default: category = .special
-                }
-
-                items.append(ShopItem(
-                    name: item.name,
-                    description: item.description,
-                    iconName: item.iconName,
-                    price: item.value,
-                    rarity: item.rarity ?? .common,
-                    category: category,
-                    effects: item.effects
-                ))
+        // Add gear items (weapons, armor, accessories)
+        for gear in ItemDatabase.allGear {
+            let category: ShopCategory
+            switch gear.gearCategory {
+            case .weapon: category = .weapons
+            case .shield: category = .armor
+            case .head, .outfit, .wings: category = .armor
+            case .pet: category = .accessories
+            default: category = .special
             }
+
+            items.append(ShopItem(
+                name: gear.name,
+                description: gear.description,
+                iconName: gear.iconName,
+                price: gear.value,
+                rarity: gear.rarity ?? .common,
+                category: category,
+                effects: gear.effects
+            ))
+        }
+
+        // Add collectible items (specials)
+        for collectible in ItemDatabase.allCollectibles {
+            items.append(ShopItem(
+                name: collectible.name,
+                description: collectible.description,
+                iconName: collectible.iconName,
+                price: collectible.value,
+                rarity: collectible.rarity ?? .common,
+                category: .special,
+                effects: collectible.effects
+            ))
         }
 
         return items
@@ -180,7 +188,11 @@ final class ShopManager: ObservableObject {
     }
 
     func isCollectibleItem(_ item: ShopItem) -> Bool {
-        return item.category == .weapons || item.category == .armor || item.category == .accessories || item.category == .special
+        return item.category == .special
+    }
+
+    func isGearItem(_ item: ShopItem) -> Bool {
+        return item.category == .weapons || item.category == .armor || item.category == .accessories
     }
 
     func getItemType(_ item: ShopItem) -> ItemType {
@@ -189,9 +201,9 @@ final class ShopManager: ObservableObject {
             return .consumable
         case .boosts:
             return .booster
-        case .weapons, .armor:
+        case .weapons, .armor, .accessories:
             return .gear
-        case .accessories, .special:
+        case .special:
             return .collectible
         }
     }

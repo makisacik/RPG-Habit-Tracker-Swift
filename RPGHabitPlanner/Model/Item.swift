@@ -90,6 +90,7 @@ enum GearCategory: String, CaseIterable, Codable {
     case outfit = "Outfit"
     case wings = "Wings"
     case weapon = "Weapon"
+    case shield = "Shield"
     case pet = "Pet"
 
     var description: String {
@@ -102,6 +103,8 @@ enum GearCategory: String, CaseIterable, Codable {
             return "Wing accessories"
         case .weapon:
             return "Weapons and tools"
+        case .shield:
+            return "Shields and defensive gear"
         case .pet:
             return "Pet companions"
         }
@@ -620,10 +623,10 @@ struct ItemDatabase {
         Item.gear(name: "Bow Back", description: "A bow carried on the back", iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare),
         
         // Shields
-        Item.gear(name: "Wooden Shield", description: "A basic wooden shield", iconName: "char_shield_wood", category: .weapon, rarity: .common),
-        Item.gear(name: "Red Shield", description: "A red shield", iconName: "char_shield_red", category: .weapon, rarity: .uncommon),
-        Item.gear(name: "Iron Shield", description: "A sturdy iron shield", iconName: "char_shield_iron", category: .weapon, rarity: .rare),
-        Item.gear(name: "Gold Shield", description: "A golden shield", iconName: "char_shield_gold", category: .weapon, rarity: .epic),
+        Item.gear(name: "Wooden Shield", description: "A basic wooden shield", iconName: "char_shield_wood", category: .shield, rarity: .common),
+        Item.gear(name: "Red Shield", description: "A red shield", iconName: "char_shield_red", category: .shield, rarity: .uncommon),
+        Item.gear(name: "Iron Shield", description: "A sturdy iron shield", iconName: "char_shield_iron", category: .shield, rarity: .rare),
+        Item.gear(name: "Gold Shield", description: "A golden shield", iconName: "char_shield_gold", category: .shield, rarity: .epic),
         
         // Pets
         Item.gear(name: "Cat Pet", description: "A friendly cat companion", iconName: "char_pet_cat", category: .pet, rarity: .rare),
@@ -633,26 +636,13 @@ struct ItemDatabase {
 
     // MARK: - Collectible Items
     static let allCollectibles: [Item] = [
-        Item.collectible(name: "Armor", description: "Protective armor to increase defense", iconName: "icon_armor", collectionCategory: "Armor"),
-        Item.collectible(name: "Arrows", description: "A bundle of arrows for ranged attacks", iconName: "icon_arrows", collectionCategory: "Weapons"),
-        Item.collectible(name: "Axe Spear", description: "Dual weapon for melee combat", iconName: "icon_axe_spear", collectionCategory: "Weapons"),
-        Item.collectible(name: "Axe", description: "Heavy axe for chopping or battle", iconName: "icon_axe", collectionCategory: "Weapons"),
         Item.collectible(name: "Crown", description: "Symbol of royalty", iconName: "icon_crown", collectionCategory: "Royalty", isRare: true),
         Item.collectible(name: "Egg", description: "Mysterious egg, what's inside?", iconName: "icon_egg", collectionCategory: "General"),
-        Item.collectible(name: "Gold", description: "Precious gold coin", iconName: "icon_gold", collectionCategory: "Treasure", isRare: true),
         Item.collectible(name: "Hammer", description: "Tool or weapon for strong strikes", iconName: "icon_hammer", collectionCategory: "Weapons"),
-        Item.collectible(name: "Helmet", description: "Protective headgear", iconName: "icon_helmet", collectionCategory: "Armor"),
-        Item.collectible(name: "Helmet Witch", description: "Magical witch's hat", iconName: "icon_helmet_witch", collectionCategory: "Armor"),
         Item.collectible(name: "Key Gold", description: "Opens golden locks", iconName: "icon_key_gold", collectionCategory: "Treasure", isRare: true),
         Item.collectible(name: "Key Silver", description: "Opens silver locks", iconName: "icon_key_silver", collectionCategory: "Treasure", isRare: true),
-        Item.collectible(name: "Meat", description: "Cooked meat to restore health", iconName: "icon_meat", collectionCategory: "General"),
         Item.collectible(name: "Medal", description: "Award for great achievements", iconName: "icon_medal", collectionCategory: "Royalty", isRare: true),
-        Item.collectible(name: "Pouch", description: "Small pouch for coins or trinkets", iconName: "icon_pouch", collectionCategory: "General"),
         Item.collectible(name: "Pumpkin", description: "Festive pumpkin", iconName: "icon_pumpkin", collectionCategory: "General"),
-        Item.collectible(name: "Shield", description: "Protective shield for defense", iconName: "icon_shield", collectionCategory: "Armor"),
-        Item.collectible(name: "Shield Blue", description: "Magical blue shield", iconName: "icon_shield_blue", collectionCategory: "Armor", isRare: true),
-        Item.collectible(name: "Sword", description: "Sharp sword for combat", iconName: "icon_sword", collectionCategory: "Weapons"),
-        Item.collectible(name: "Sword Double", description: "Dual-wielded swords", iconName: "icon_sword_double", collectionCategory: "Weapons", isRare: true),
         Item.collectible(name: "Ring", description: "Magical ring with special properties", iconName: "icon_ring", collectionCategory: "Accessories", isRare: true),
         Item.collectible(name: "Chest", description: "Treasure chest", iconName: "icon_chest", collectionCategory: "Treasure"),
         Item.collectible(name: "Chest Blue", description: "Rare blue treasure chest", iconName: "icon_chest_blue", collectionCategory: "Treasure", isRare: true),
@@ -673,15 +663,7 @@ struct ItemDatabase {
         Item.collectible(name: "Muscle", description: "Symbol of strength", iconName: "icon_muscle", collectionCategory: "General"),
         Item.collectible(name: "Star Fill", description: "Bright star", iconName: "icon_star_fill", collectionCategory: "General"),
         Item.collectible(name: "Skull", description: "Mysterious skull", iconName: "icon_skull", collectionCategory: "General"),
-        Item.collectible(name: "Skull Side", description: "Side view of a skull", iconName: "icon_skull_side", collectionCategory: "General"),
-        Item.collectible(name: "Viking Helmet", description: "Viking warrior helmet", iconName: "icon_viking_helmet", collectionCategory: "Armor", isRare: true),
-        Item.collectible(name: "Witch Helmet", description: "Witch's magical hat", iconName: "icon_helmet_witch", collectionCategory: "Armor", isRare: true),
-        Item.collectible(name: "Level Wings", description: "Wings of experience", iconName: "icon_level_wings", collectionCategory: "General", isRare: true),
-        Item.collectible(name: "Level", description: "Symbol of leveling up", iconName: "icon_level", collectionCategory: "General"),
-        Item.collectible(name: "Castle", description: "Mighty castle", iconName: "icon_castle", collectionCategory: "General", isRare: true),
-        Item.collectible(name: "Gear", description: "Mechanical gear", iconName: "icon_gear", collectionCategory: "General"),
-        Item.collectible(name: "Bag", description: "Storage bag", iconName: "icon_bag", collectionCategory: "General"),
-        Item.collectible(name: "Item Pouch Green", description: "Green item pouch", iconName: "item_pouch_green", collectionCategory: "General")
+        Item.collectible(name: "Skull Side", description: "Side view of a skull", iconName: "icon_skull_side", collectionCategory: "General")
     ]
 
     // MARK: - All Items

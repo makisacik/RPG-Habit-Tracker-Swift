@@ -229,31 +229,3 @@ struct AssetCarouselCard: View {
         }
     }
 }
-
-// MARK: - Rarity Badge
-
-struct RarityBadge: View {
-    let rarity: AssetRarity
-
-    var body: some View {
-        HStack(spacing: 4) {
-            Circle()
-                .fill(rarity.color)
-                .frame(width: 8, height: 8)
-
-            Text(rarity.rawValue)
-                .font(.appFont(size: 12, weight: .medium))
-                .foregroundColor(rarity.color)
-        }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(
-            Capsule()
-                .fill(rarity.color.opacity(0.2))
-                .overlay(
-                    Capsule()
-                        .stroke(rarity.borderColor, lineWidth: 1)
-                )
-        )
-    }
-}
