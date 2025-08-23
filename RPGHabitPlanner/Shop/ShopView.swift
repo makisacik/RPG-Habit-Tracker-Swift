@@ -11,7 +11,9 @@ struct ShopView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var shopManager = ShopManager.shared
     @StateObject private var currencyManager = CurrencyManager.shared
-    @State private var selectedCategory: EnhancedShopCategory = .potions
+    @State private var selectedCategory: EnhancedShopCategory = .weapons
+    @State private var selectedArmorSubcategory: ArmorSubcategory = .helmet
+    @State private var selectedConsumableSubcategory: ConsumableSubcategory = .potions
     @State private var selectedRarity: ItemRarity?
     @State private var showOnlyAffordable = false
     @State private var showPurchaseAlert = false
@@ -45,6 +47,28 @@ struct ShopView: View {
                         preloadImagesForCategory(category)
                 }
                 .padding(.vertical, 8)
+
+                // Subcategory picker for armor
+                if selectedCategory == .armor {
+                    ArmorSubcategoryView(
+                        selectedSubcategory: $selectedArmorSubcategory
+                    ) { subcategory in
+                        selectedArmorSubcategory = subcategory
+                        updateCachedItems()
+                    }
+                    .padding(.vertical, 4)
+                }
+
+                // Subcategory picker for consumables
+                if selectedCategory == .consumables {
+                    ConsumableSubcategoryView(
+                        selectedSubcategory: $selectedConsumableSubcategory
+                    ) { subcategory in
+                        selectedConsumableSubcategory = subcategory
+                        updateCachedItems()
+                    }
+                    .padding(.vertical, 4)
+                }
 
                 // Filters
                 ShopFilterView(
@@ -205,34 +229,96 @@ struct ShopView: View {
     private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
         var items: [ShopItem] = []
         
-        // Handle gear/customization items
-        if let assetCategory = category.assetCategory {
-            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
-            items = assets.map { asset in
-                let description = getDescriptionForCategory(category)
+        switch category {
+        case .armor:
+            // Handle armor subcategories
+            items = getArmorItems(for: selectedArmorSubcategory)
+        case .consumables:
+            // Handle consumable subcategories
+            items = getConsumableItems(for: selectedConsumableSubcategory)
+        case .wings:
+            // Handle wings specifically
+            items = getWingsItems()
+        default:
+            // Handle other gear/customization items
+            if let assetCategory = category.assetCategory {
+                let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: assetCategory)
+                items = assets.map { asset in
+                    let description = getDescriptionForCategory(category)
 
-                return ShopItem(
+                    return ShopItem(
+                        name: asset.name,
+                        description: description,
+                        iconName: asset.imageName,
+                        price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
+                        rarity: asset.rarity == .common ? .common :
+                                asset.rarity == .uncommon ? .uncommon :
+                                asset.rarity == .rare ? .rare :
+                                asset.rarity == .epic ? .epic : .legendary,
+                        category: category
+                    )
+                }
+            }
+        }
+
+        return items
+    }
+
+    private func getArmorItems(for subcategory: ArmorSubcategory) -> [ShopItem] {
+        switch subcategory {
+        case .helmet:
+            // Get helmet items from CharacterAssetManager with preview images
+            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: .head)
+            return assets.map { asset in
+                ShopItem(
                     name: asset.name,
-                    description: description,
+                    description: "Protective helmet for your adventures",
                     iconName: asset.imageName,
-                    price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
+                    price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
-                    category: category
+                    category: .armor
                 )
             }
-        } else {
-            // Handle functional items (potions, boosts, special)
-            items = getFunctionalItems(for: category)
+        case .outfit:
+            // Get outfit items from CharacterAssetManager
+            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: .outfit)
+            return assets.map { asset in
+                ShopItem(
+                    name: asset.name,
+                    description: "Protective outfit for your adventures",
+                    iconName: asset.imageName,
+                    price: Int(asset.rarity.basePriceMultiplier * 100),
+                    rarity: asset.rarity == .common ? .common :
+                            asset.rarity == .uncommon ? .uncommon :
+                            asset.rarity == .rare ? .rare :
+                            asset.rarity == .epic ? .epic : .legendary,
+                    category: .armor
+                )
+            }
+        case .shield:
+            // Get shield items from CharacterAssetManager with preview images
+            let assets = CharacterAssetManager.shared.getAvailableAssetsWithPreview(for: .shield)
+            return assets.map { asset in
+                ShopItem(
+                    name: asset.name,
+                    description: "Protective shield for your adventures",
+                    iconName: asset.imageName,
+                    price: Int(asset.rarity.basePriceMultiplier * 100),
+                    rarity: asset.rarity == .common ? .common :
+                            asset.rarity == .uncommon ? .uncommon :
+                            asset.rarity == .rare ? .rare :
+                            asset.rarity == .epic ? .epic : .legendary,
+                    category: .armor
+                )
+            }
         }
-        
-        return items
     }
     
-    private func getFunctionalItems(for category: EnhancedShopCategory) -> [ShopItem] {
-        switch category {
+    private func getConsumableItems(for subcategory: ConsumableSubcategory) -> [ShopItem] {
+        switch subcategory {
         case .potions:
             return ItemDatabase.allHealthPotions.map { item in
                 ShopItem(
@@ -241,7 +327,7 @@ struct ShopView: View {
                     iconName: item.iconName,
                     price: item.value,
                     rarity: .common, // Potions are typically common
-                    category: category
+                    category: .consumables
                 )
             }
         case .boosts:
@@ -252,10 +338,10 @@ struct ShopView: View {
                     iconName: item.iconName,
                     price: item.value,
                     rarity: item.isRare ? .rare : .uncommon,
-                    category: category
+                    category: .consumables
                 )
             }
-        case .special:
+        case .specials:
             return ItemDatabase.allCollectibles.map { item in
                 ShopItem(
                     name: item.name,
@@ -263,11 +349,23 @@ struct ShopView: View {
                     iconName: item.iconName,
                     price: item.value,
                     rarity: item.isRare ? .rare : .common,
-                    category: category
+                    category: .consumables
                 )
             }
-        default:
-            return []
+        }
+    }
+
+    private func getWingsItems() -> [ShopItem] {
+        // Get wings items from ItemDatabase
+        return ItemDatabase.allGear.filter { $0.gearCategory == .wings }.map { item in
+            ShopItem(
+                name: item.name,
+                description: item.description,
+                iconName: item.iconName,
+                price: item.value,
+                rarity: item.rarity ?? .common,
+                category: .wings
+            )
         }
     }
     
@@ -279,14 +377,12 @@ struct ShopView: View {
             return "Protective gear for your adventures"
         case .accessories:
             return "Stylish accessories to enhance your character"
+        case .wings:
+            return "Magical wings for your character"
         case .pets:
             return "A loyal companion for your adventures"
-        case .potions:
-            return "Restorative potions for your journey"
-        case .boosts:
-            return "Temporary power boosts"
-        case .special:
-            return "Special and unique items"
+        case .consumables:
+            return "Consumable items for your journey"
         }
     }
 

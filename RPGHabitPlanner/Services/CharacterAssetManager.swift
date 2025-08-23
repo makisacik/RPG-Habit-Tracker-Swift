@@ -20,6 +20,7 @@ public enum AssetCategory: String, CaseIterable, Identifiable {
     case weapon = "Weapon"
     case accessory = "Accessory"
     case head = "Head"
+    case shield = "Shield"
     case wings = "Wings"
     case mustache = "Mustache"
     case flower = "Flower"
@@ -38,6 +39,7 @@ public enum AssetCategory: String, CaseIterable, Identifiable {
         case .weapon: return "Weapon"
         case .accessory: return "Accessory"
         case .head: return "Head"
+        case .shield: return "Shield"
         case .wings: return "Wings"
         case .mustache: return "Mustache"
         case .flower: return "Flower"
@@ -56,6 +58,7 @@ public enum AssetCategory: String, CaseIterable, Identifiable {
         case .weapon: return "sword.fill"
         case .accessory: return "crown.fill"
         case .head: return "helmet"
+        case .shield: return "shield.fill"
         case .wings: return "airplane"
         case .mustache: return "mustache"
         case .flower: return "leaf.fill"
@@ -204,9 +207,16 @@ final class CharacterAssetManager: ObservableObject {
         case .weapon:
             return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .accessory:
-            return Accessory.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
+            // Filter out pets, wings, and helmets from accessories
+            return Accessory.allCases.filter { accessory in
+                !accessory.rawValue.contains("pet") &&
+                !accessory.rawValue.contains("wings") &&
+                !accessory.rawValue.contains("helmet")
+            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .head:
             return [] // Head gear items will be handled separately
+        case .shield:
+            return Shield.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.rawValue, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .wings:
             return [] // Wing items will be handled separately
         case .mustache:
@@ -236,9 +246,19 @@ final class CharacterAssetManager: ObservableObject {
         case .weapon:
             return CharacterWeapon.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .accessory:
-            return Accessory.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+            // Filter out pets, wings, and helmets from accessories
+            return Accessory.allCases.filter { accessory in
+                !accessory.rawValue.contains("pet") &&
+                !accessory.rawValue.contains("wings") &&
+                !accessory.rawValue.contains("helmet")
+            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .head:
-            return [] // Head gear items will be handled separately
+            // Return helmet assets from Accessory enum
+            return Accessory.allCases.filter { accessory in
+                accessory.rawValue.contains("helmet")
+            }.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
+        case .shield:
+            return Shield.allCases.map { AssetItem(id: $0.rawValue, name: $0.displayName, imageName: $0.previewImageName, category: category, rarity: getRarity(for: $0.rawValue)) }
         case .wings:
             return [] // Wing items will be handled separately
         case .mustache:
@@ -285,6 +305,7 @@ final class CharacterAssetManager: ObservableObject {
         case .weapon: return CharacterWeapon.swordWood.rawValue
         case .accessory: return ""
         case .head: return ""
+        case .shield: return ""
         case .wings: return ""
         case .mustache: return ""
         case .flower: return ""
@@ -304,6 +325,7 @@ final class CharacterAssetManager: ObservableObject {
         case .weapon: return CharacterWeapon.swordWood.rawValue
         case .accessory: return ""
         case .head: return ""
+        case .shield: return ""
         case .wings: return ""
         case .mustache: return ""
         case .flower: return ""

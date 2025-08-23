@@ -57,6 +57,8 @@ struct CharacterCustomization: Codable, Equatable {
             return accessory?.rawValue
         case .head:
             return nil // Head gear is not part of character customization, they're gear items
+        case .shield:
+            return nil // Shields are not part of character customization, they're gear items
         case .wings:
             return nil // Wings are not part of character customization, they're gear items
         case .mustache:
@@ -96,6 +98,9 @@ struct CharacterCustomization: Codable, Equatable {
             },
             .head: { _, _ in
                 // Head gear is not part of character customization, they're gear items
+            },
+            .shield: { _, _ in
+                // Shields are not part of character customization, they're gear items
             },
             .wings: { _, _ in
                 // Wings are not part of character customization, they're gear items
@@ -779,6 +784,38 @@ enum Pet: String, CaseIterable, Codable, Identifiable {
         case .petCat: return "char_pet_cat_preview"
         case .petCat2: return "char_pet_cat_2_preview"
         case .petChicken: return "char_pet_chicken_preview"
+        }
+    }
+
+    var isPremium: Bool {
+        return false
+    }
+}
+
+// MARK: - Shields (New)
+enum Shield: String, CaseIterable, Codable, Identifiable {
+    case shieldWood = "char_shield_wood"
+    case shieldRed = "char_shield_red"
+    case shieldIron = "char_shield_iron"
+    case shieldGold = "char_shield_gold"
+
+    var id: String { self.rawValue }
+
+    var displayName: String {
+        switch self {
+        case .shieldWood: return "Wooden Shield"
+        case .shieldRed: return "Red Shield"
+        case .shieldIron: return "Iron Shield"
+        case .shieldGold: return "Gold Shield"
+        }
+    }
+
+    var previewImageName: String {
+        switch self {
+        case .shieldWood: return "char_shield_wood_preview"
+        case .shieldRed: return "char_shield_red_preview"
+        case .shieldIron: return "char_shield_iron_preview"
+        case .shieldGold: return "char_shield_gold_preview"
         }
     }
 

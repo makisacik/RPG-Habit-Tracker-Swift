@@ -14,12 +14,11 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
     case weapons = "Weapons"
     case armor = "Armor"
     case accessories = "Accessories"
+    case wings = "Wings"
     case pets = "Pets"
     
-    // Functional categories
-    case potions = "Potions"
-    case boosts = "Boosts"
-    case special = "Specials"
+    // Functional categories (merged)
+    case consumables = "Consumables"
 
     var id: String { rawValue }
 
@@ -28,10 +27,9 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         case .weapons: return "sword.fill"
         case .armor: return "shield.fill"
         case .accessories: return "crown.fill"
+        case .wings: return "airplane"
         case .pets: return "pawprint.fill"
-        case .potions: return "drop.fill"
-        case .boosts: return "bolt.fill"
-        case .special: return "star.fill"
+        case .consumables: return "drop.fill"
         }
     }
 
@@ -40,10 +38,9 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         case .weapons: return .red
         case .armor: return .blue
         case .accessories: return .orange
+        case .wings: return .purple
         case .pets: return .brown
-        case .potions: return .pink
-        case .boosts: return .yellow
-        case .special: return .indigo
+        case .consumables: return .green
         }
     }
 
@@ -52,6 +49,7 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         case .weapons: return .weapon
         case .armor: return .outfit
         case .accessories: return .accessory
+        case .wings: return .wings
         case .pets: return .pet
         default: return nil
         }
@@ -59,6 +57,86 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 
     var isCustomizationCategory: Bool {
         return assetCategory != nil
+    }
+    
+    // Subcategories for armor
+    var armorSubcategories: [ArmorSubcategory] {
+        switch self {
+        case .armor:
+            return [.helmet, .outfit, .shield]
+        default:
+            return []
+        }
+    }
+    
+    // Subcategories for consumables
+    var consumableSubcategories: [ConsumableSubcategory] {
+        switch self {
+        case .consumables:
+            return [.potions, .boosts, .specials]
+        default:
+            return []
+        }
+    }
+}
+
+// MARK: - Armor Subcategories
+
+enum ArmorSubcategory: String, CaseIterable, Identifiable {
+    case helmet = "Helmet"
+    case outfit = "Outfit"
+    case shield = "Shield"
+    
+    var id: String { rawValue }
+    
+    var icon: String {
+        switch self {
+        case .helmet: return "helmet"
+        case .outfit: return "tshirt.fill"
+        case .shield: return "shield.fill"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .helmet: return .orange
+        case .outfit: return .blue
+        case .shield: return .gray
+        }
+    }
+    
+    var assetCategory: AssetCategory {
+        switch self {
+        case .helmet: return .head
+        case .outfit: return .outfit
+        case .shield: return .accessory // We'll handle shields specially
+        }
+    }
+}
+
+// MARK: - Consumable Subcategories
+
+enum ConsumableSubcategory: String, CaseIterable, Identifiable {
+    case potions = "Potions"
+    case boosts = "Boosts"
+    case specials = "Specials"
+    
+    var id: String { rawValue }
+    
+    var icon: String {
+        switch self {
+        case .potions: return "drop.fill"
+        case .boosts: return "bolt.fill"
+        case .specials: return "star.fill"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .potions: return .pink
+        case .boosts: return .yellow
+        case .specials: return .indigo
+        }
     }
 }
 
@@ -574,6 +652,117 @@ struct ItemPreviewModal: View {
     private func startPreviewAnimation() {
         withAnimation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true)) {
             previewScale = 1.1
+        }
+    }
+}
+
+// MARK: - Armor Subcategory View
+
+struct ArmorSubcategoryView: View {
+    @Binding var selectedSubcategory: ArmorSubcategory
+    let onSubcategorySelected: (ArmorSubcategory) -> Void
+
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(ArmorSubcategory.allCases) { subcategory in
+                    SubcategoryCard(
+                        title: subcategory.rawValue,
+                        icon: subcategory.icon,
+                        color: subcategory.color,
+                        isSelected: selectedSubcategory == subcategory
+                    ) {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            selectedSubcategory = subcategory
+                            onSubcategorySelected(subcategory)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
+// MARK: - Consumable Subcategory View
+
+struct ConsumableSubcategoryView: View {
+    @Binding var selectedSubcategory: ConsumableSubcategory
+    let onSubcategorySelected: (ConsumableSubcategory) -> Void
+
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(ConsumableSubcategory.allCases) { subcategory in
+                    SubcategoryCard(
+                        title: subcategory.rawValue,
+                        icon: subcategory.icon,
+                        color: subcategory.color,
+                        isSelected: selectedSubcategory == subcategory
+                    ) {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            selectedSubcategory = subcategory
+                            onSubcategorySelected(subcategory)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
+// MARK: - Subcategory Card
+
+struct SubcategoryCard: View {
+    let title: String
+    let icon: String
+    let color: Color
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+
+        VStack(spacing: 6) {
+            // Subcategory icon
+            ZStack {
+                Circle()
+                    .fill(isSelected ? color.opacity(0.2) : theme.primaryColor)
+                    .frame(width: 40, height: 40)
+                    .overlay(
+                        Circle()
+                            .stroke(isSelected ? color : Color.clear, lineWidth: 2)
+                    )
+
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(isSelected ? color : theme.textColor)
+            }
+
+            // Subcategory name
+            Text(title)
+                .font(.appFont(size: 10, weight: isSelected ? .bold : .medium))
+                .foregroundColor(isSelected ? color : theme.textColor.opacity(0.7))
+                .lineLimit(1)
+                .multilineTextAlignment(.center)
+                .frame(width: 60)
+        }
+        .padding(.vertical, 6)
+        .scaleEffect(isSelected ? 1.05 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+        .onTapGesture {
+            onTap()
         }
     }
 }
