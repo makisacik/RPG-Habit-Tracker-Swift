@@ -419,7 +419,7 @@ struct InventorySlotView: View {
                             }
 
                             // XP Boost indicator (top-right corner)
-                            if inventoryManager.isBooster(item) && item.name?.contains("XP") == true {
+                            if inventoryManager.isBooster(item) && item.iconName?.contains("xp") == true {
                                 VStack {
                                     HStack {
                                         Spacer()
@@ -434,7 +434,7 @@ struct InventorySlotView: View {
                             }
 
                             // Coin Boost indicator (top-left corner)
-                            if inventoryManager.isBooster(item) && item.name?.contains("Coin") == true {
+                            if inventoryManager.isBooster(item) && item.iconName?.contains("coin") == true {
                                 VStack {
                                     HStack {
                                         Image(systemName: "dollarsign.circle.fill")

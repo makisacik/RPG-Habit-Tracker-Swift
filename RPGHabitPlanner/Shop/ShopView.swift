@@ -419,7 +419,7 @@ struct ShopView: View {
             return false // Consumables can always be purchased
         default:
             return inventoryManager.inventoryItems.contains { item in
-                item.name == name || item.iconName == iconName
+                item.iconName == iconName
             }
         }
     }

@@ -156,7 +156,7 @@ extension CharacterCustomizationEntity {
         let items = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
         return items.contains { item in
             item.category == category.rawValue &&
-            item.name == itemId &&
+            item.imageName == itemId &&
             item.isUnlocked
         }
     }

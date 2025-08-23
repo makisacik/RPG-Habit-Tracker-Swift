@@ -109,6 +109,13 @@ class OnboardingCoordinator: ObservableObject {
                         print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? "Unknown error")")
                     }
 
+                    // Add onboarding completion items to inventory
+                    DispatchQueue.main.async {
+                        let inventoryManager = InventoryManager.shared
+                        inventoryManager.addOnboardingCompletionItems()
+                        print("✅ OnboardingCoordinator: Onboarding completion items added to inventory")
+                    }
+
                     DispatchQueue.main.async {
                         print("✅ OnboardingCoordinator: Setting isOnboardingCompleted to true")
                         self?.isOnboardingCompleted = true

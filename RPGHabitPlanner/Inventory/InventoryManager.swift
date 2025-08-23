@@ -103,8 +103,8 @@ class InventoryManager: ObservableObject {
     ///   - item: The item entity to use
     ///   - completion: Completion handler with success status and error
     func useItem(_ item: ItemEntity, completion: @escaping (Bool, Error?) -> Void) {
-        guard let name = item.name,
-              let itemDefinition = itemDatabase.findItem(by: name) else {
+        guard let iconName = item.iconName,
+              let itemDefinition = itemDatabase.findItem(byIconName: iconName) else {
             completion(false, InventoryError.invalidItem)
             return
         }
@@ -128,9 +128,9 @@ class InventoryManager: ObservableObject {
             return ItemType(rawValue: itemTypeString)
         }
         
-        // Fallback to database lookup
-        guard let name = item.name,
-              let itemDefinition = itemDatabase.findItem(by: name) else {
+        // Fallback to database lookup using icon name
+        guard let iconName = item.iconName,
+              let itemDefinition = itemDatabase.findItem(byIconName: iconName) else {
             return nil
         }
         return itemDefinition.itemType
@@ -258,31 +258,67 @@ class InventoryManager: ObservableObject {
         addToInventory(ItemDatabase.minorXPBoost)
         addToInventory(ItemDatabase.minorCoinBoost)
         
-        // Add some starter accessories
-        if let blueFlower = ItemDatabase.allAccessories.first(where: { $0.name == "Blue Flower" }) {
+        // Add some starter accessories using icon names
+        if let blueFlower = findItemByIconName("char_flower_blue") {
             addToInventory(blueFlower)
         }
-        
-        // Add some starter gear for testing
-        let gearItems = [
-            "Wooden Sword", "Iron Sword", "Steel Sword",
-            "Villager Outfit", "Iron Armor", "Wizard Robe",
-            "Iron Helmet", "Red Helmet",
-            "Wooden Shield", "Iron Shield",
-            "White Wings", "Red Wings",
-            "Cat Pet"
+
+        // Add some starter gear for testing using icon names
+        let gearIconNames = [
+            "char_sword_wood", "char_sword_iron", "char_sword_steel",
+            "char_outfit_villager", "char_outfit_iron", "char_outfit_wizard",
+            "char_helmet_iron", "char_helmet_red",
+            "char_shield_wood", "char_shield_iron",
+            "char_wings_white", "char_wings_red",
+            "char_pet_cat"
         ]
-        
-        for gearName in gearItems {
-            if let gearItem = ItemDatabase.allGear.first(where: { $0.name == gearName }) {
+
+        for iconName in gearIconNames {
+            if let gearItem = findItemByIconName(iconName) {
                 addToInventory(gearItem)
             }
         }
-        
-        // Add some collectibles
-        if let egg = ItemDatabase.allCollectibles.first(where: { $0.name == "Egg" }) {
+
+        // Add some collectibles using icon names
+        if let egg = findItemByIconName("icon_egg") {
             addToInventory(egg)
         }
+    }
+
+    /// Adds specific items when onboarding is completed
+    func addOnboardingCompletionItems() {
+        // Add the requested weapons using icon names as IDs
+        let weaponIconNames = ["char_sword_wood", "char_sword_iron"]
+        for iconName in weaponIconNames {
+            if let weaponItem = findItemByIconName(iconName) {
+                addToInventory(weaponItem)
+            }
+        }
+        
+        // Add the requested outfits using icon names as IDs
+        let outfitIconNames = ["char_outfit_villager", "char_outfit_villager_blue"]
+        for iconName in outfitIconNames {
+            if let outfitItem = findItemByIconName(iconName) {
+                addToInventory(outfitItem)
+            }
+        }
+        
+        // Add the three eyeglasses using icon names as IDs
+        let eyeglassIconNames = ["char_glass_blue", "char_glass_gray", "char_glass_red"]
+        for iconName in eyeglassIconNames {
+            if let eyeglassItem = findItemByIconName(iconName) {
+                addToInventory(eyeglassItem)
+            }
+        }
+        
+        print("✅ Onboarding completion items added to inventory")
+    }
+    
+    /// Helper method to find an item by its icon name (asset ID)
+    /// - Parameter iconName: The icon name to search for
+    /// - Returns: The item if found, nil otherwise
+    private func findItemByIconName(_ iconName: String) -> Item? {
+        return itemDatabase.findItem(byIconName: iconName)
     }
 
     /// Gets all items of a specific type

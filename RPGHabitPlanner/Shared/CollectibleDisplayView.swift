@@ -306,10 +306,10 @@ struct AddCollectibleItemView: View {
                                     .padding(8)
                                     .background(
                                         RoundedRectangle(cornerRadius: 12)
-                                            .fill(selectedItemName == itemEntity.name ? Color.yellow.opacity(0.3) : theme.secondaryColor)
+                                            .fill(selectedItemIcon == itemEntity.iconName ? Color.yellow.opacity(0.3) : theme.secondaryColor)
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .stroke(selectedItemName == itemEntity.name ? Color.yellow : Color.yellow.opacity(0.3), lineWidth: selectedItemName == itemEntity.name ? 2 : 1)
+                                                    .stroke(selectedItemIcon == itemEntity.iconName ? Color.yellow : Color.yellow.opacity(0.3), lineWidth: selectedItemIcon == itemEntity.iconName ? 2 : 1)
                                             )
                                     )
                                 }
@@ -319,7 +319,7 @@ struct AddCollectibleItemView: View {
                         .padding(.horizontal)
 
                         // Select button
-                        if !selectedItemName.isEmpty {
+                        if !selectedItemIcon.isEmpty {
                             Button(action: {
                                 // The item is already in the user's inventory, so we just dismiss
                                 dismiss()

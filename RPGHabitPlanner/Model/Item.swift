@@ -690,6 +690,10 @@ struct ItemDatabase {
     func findItem(by name: String) -> Item? {
         return ItemDatabase.allItems.first { $0.name == name }
     }
+    
+    func findItem(byIconName iconName: String) -> Item? {
+        return ItemDatabase.allItems.first { $0.iconName == iconName }
+    }
 
     func getRandomItem() -> Item {
         return ItemDatabase.allItems.randomElement() ?? ItemDatabase.healthPotion
