@@ -24,8 +24,11 @@ extension CharacterCustomizationEntity {
     @NSManaged public var outfit: String?
     @NSManaged public var weapon: String?
     @NSManaged public var accessory: String?
+    @NSManaged public var headGear: String?
     @NSManaged public var mustache: String?
     @NSManaged public var flower: String?
+    @NSManaged public var pet: String?
+    @NSManaged public var shield: String?
     @NSManaged public var createdAt: Date?
     @NSManaged public var updatedAt: Date?
     @NSManaged public var user: UserEntity?
@@ -99,6 +102,11 @@ extension CharacterCustomizationEntity {
             customization.accessory = accessory
         }
 
+        if let headGearString = headGear,
+           let headGear = HeadGear(rawValue: headGearString) {
+            customization.headGear = headGear
+        }
+
         if let mustacheString = mustache,
            let mustache = Mustache(rawValue: mustacheString) {
             customization.mustache = mustache
@@ -107,6 +115,16 @@ extension CharacterCustomizationEntity {
         if let flowerString = flower,
            let flower = Flower(rawValue: flowerString) {
             customization.flower = flower
+        }
+
+        if let petString = pet,
+           let pet = Pet(rawValue: petString) {
+            customization.pet = pet
+        }
+
+        if let shieldString = shield,
+           let shield = Shield(rawValue: shieldString) {
+            customization.shield = shield
         }
 
         return customization
@@ -121,7 +139,10 @@ extension CharacterCustomizationEntity {
         outfit = customization.outfit.rawValue
         weapon = customization.weapon.rawValue
         accessory = customization.accessory?.rawValue
+        headGear = customization.headGear?.rawValue
         mustache = customization.mustache?.rawValue
         flower = customization.flower?.rawValue
+        pet = customization.pet?.rawValue
+        shield = customization.shield?.rawValue
     }
 }

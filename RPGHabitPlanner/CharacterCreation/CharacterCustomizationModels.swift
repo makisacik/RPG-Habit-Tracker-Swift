@@ -18,7 +18,10 @@ struct CharacterCustomization: Codable, Equatable {
     var eyeColor: EyeColor
     var outfit: Outfit
     var weapon: CharacterWeapon
+    var shield: Shield? // New field for shields
+    var pet: Pet? // New field for pets
     var accessory: Accessory?
+    var headGear: HeadGear? // New field for head gear items
     var mustache: Mustache? // New field for mustaches
     var flower: Flower? // New field for flowers
 
@@ -30,7 +33,10 @@ struct CharacterCustomization: Codable, Equatable {
         self.eyeColor = .eyeBlack
         self.outfit = .outfitVillager
         self.weapon = .swordWood
+        self.shield = nil // No shield by default
+        self.pet = nil // No pet by default
         self.accessory = nil
+        self.headGear = nil
         self.mustache = nil
         self.flower = nil
     }
@@ -55,8 +61,10 @@ struct CharacterCustomization: Codable, Equatable {
             return weapon.rawValue
         case .accessory:
             return accessory?.rawValue
+        case .headGear:
+            return headGear?.rawValue
         case .head:
-            return nil // Head gear is not part of character customization, they're gear items
+            return headGear?.rawValue // Map head category to headGear field
         case .shield:
             return nil // Shields are not part of character customization, they're gear items
         case .wings:
@@ -66,7 +74,7 @@ struct CharacterCustomization: Codable, Equatable {
         case .flower:
             return flower?.rawValue
         case .pet:
-            return nil // Pets are not part of character customization, they're gear items
+            return pet?.rawValue
         }
     }
 
@@ -96,8 +104,11 @@ struct CharacterCustomization: Codable, Equatable {
             .accessory: { customization, value in
                 customization.accessory = Accessory(rawValue: value)
             },
-            .head: { _, _ in
-                // Head gear is not part of character customization, they're gear items
+            .headGear: { customization, value in
+                customization.headGear = HeadGear(rawValue: value)
+            },
+            .head: { customization, value in
+                customization.headGear = HeadGear(rawValue: value)
             },
             .shield: { _, _ in
                 // Shields are not part of character customization, they're gear items
@@ -111,8 +122,8 @@ struct CharacterCustomization: Codable, Equatable {
             .flower: { customization, value in
                 customization.flower = Flower(rawValue: value)
             },
-            .pet: { _, _ in
-                // Pets are not part of character customization, they're gear items
+            .pet: { customization, value in
+                customization.pet = Pet(rawValue: value)
             }
         ]
 
@@ -622,14 +633,40 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
     }
 }
 
+// MARK: - Head Gear
+enum HeadGear: String, CaseIterable, Codable, Identifiable {
+    case helmetRed = "char_helmet_red"
+    case helmetHood = "char_helmet_hood"
+    case helmetIron = "char_helmet_iron"
+
+    var id: String { self.rawValue }
+
+    var displayName: String {
+        switch self {
+        case .helmetRed: return "Red Helmet"
+        case .helmetHood: return "Hood Helmet"
+        case .helmetIron: return "Iron Helmet"
+        }
+    }
+
+    var previewImageName: String {
+        switch self {
+        case .helmetRed: return "char_helmet_red_preview"
+        case .helmetHood: return "char_helmet_hood_preview"
+        case .helmetIron: return "char_helmet_iron_preview"
+        }
+    }
+
+    var isPremium: Bool {
+        return false // Remove premium restriction
+    }
+}
+
 // MARK: - Accessories
 enum Accessory: String, CaseIterable, Codable, Identifiable {
     case eyeglassRed = "char_glass_red"
     case eyeglassBlue = "char_glass_blue"
     case eyeglassGray = "char_glass_gray"
-    case helmetRed = "char_helmet_red"
-    case helmetHood = "char_helmet_hood"
-    case helmetIron = "char_helmet_iron"
     case cheekBlush = "char_cheek_blush"
     case eyeLashes = "char_eye_lashes"
     case eyelash = "char_eyelash"
@@ -648,9 +685,6 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
         case .eyeglassRed: return "Red Glasses"
         case .eyeglassBlue: return "Blue Glasses"
         case .eyeglassGray: return "Gray Glasses"
-        case .helmetRed: return "Red Helmet"
-        case .helmetHood: return "Hood Helmet"
-        case .helmetIron: return "Iron Helmet"
         case .cheekBlush: return "Blush"
         case .eyeLashes: return "Eyelashes"
         case .eyelash: return "Eyelash"
@@ -669,9 +703,6 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
         case .eyeglassRed: return "char_glass_red_preview"
         case .eyeglassBlue: return "char_glass_blue_preview"
         case .eyeglassGray: return "char_glass_gray_preview"
-        case .helmetRed: return "char_helmet_red_preview"
-        case .helmetHood: return "char_helmet_hood_preview"
-        case .helmetIron: return "char_helmet_iron_preview"
         case .cheekBlush: return "char_cheek_blush_preview"
         case .eyeLashes: return "char_eye_lashes_preview"
         case .eyelash: return "char_eyelash_preview"

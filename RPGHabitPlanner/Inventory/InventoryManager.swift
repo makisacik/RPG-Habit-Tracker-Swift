@@ -62,6 +62,7 @@ class InventoryManager: ObservableObject {
     /// Refreshes the inventory from the data service
     func refreshInventory() {
         inventoryItems = service.fetchInventory()
+        NotificationCenter.default.post(name: .inventoryUpdated, object: nil)
     }
 
     /// Adds an item to the inventory
@@ -262,9 +263,20 @@ class InventoryManager: ObservableObject {
             addToInventory(blueFlower)
         }
         
-        // Add some starter gear
-        if let woodenSword = ItemDatabase.allGear.first(where: { $0.name == "Wooden Sword" }) {
-            addToInventory(woodenSword)
+        // Add some starter gear for testing
+        let gearItems = [
+            "Wooden Sword", "Iron Sword", "Steel Sword",
+            "Villager Outfit", "Iron Armor", "Wizard Robe",
+            "Iron Helmet", "Red Helmet",
+            "Wooden Shield", "Iron Shield",
+            "White Wings", "Red Wings",
+            "Cat Pet"
+        ]
+        
+        for gearName in gearItems {
+            if let gearItem = ItemDatabase.allGear.first(where: { $0.name == gearName }) {
+                addToInventory(gearItem)
+            }
         }
         
         // Add some collectibles
@@ -458,4 +470,5 @@ enum InventoryError: LocalizedError {
 
 extension Notification.Name {
     static let activeEffectsChanged = Notification.Name("activeEffectsChanged")
+    static let inventoryUpdated = Notification.Name("inventoryUpdated")
 }

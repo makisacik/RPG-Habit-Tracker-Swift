@@ -79,25 +79,71 @@ struct InventoryView: View {
 
 enum InventoryCategory: String, CaseIterable {
     case gear = "Gear"
-    case consumables = "Consumables"
+    case others = "Others"
     case accessories = "Accessories"
-    case collectibles = "Collectibles"
 
     var icon: String {
         switch self {
         case .gear: return "shield.fill"
-        case .consumables: return "flask.fill"
+        case .others: return "flask.fill"
         case .accessories: return "sparkles"
-        case .collectibles: return "star.fill"
         }
     }
 
     var description: String {
         switch self {
-        case .gear: return "Equippable items"
-        case .consumables: return "Health potions and boosters"
+        case .gear: return "Equippable gear items"
+        case .others: return "Boosters, potions, collectibles"
         case .accessories: return "Character accessories"
-        case .collectibles: return "Collection items"
+        }
+    }
+}
+
+// MARK: - Gear Subcategories
+
+enum GearSubcategory: String, CaseIterable {
+    case head = "Head"
+    case weapon = "Weapon"
+    case shield = "Shield"
+    case outfit = "Outfit"
+    case pet = "Pet"
+    case wings = "Wings"
+
+    var icon: String {
+        switch self {
+        case .head: return "helmet"
+        case .weapon: return "sword.fill"
+        case .shield: return "shield.fill"
+        case .outfit: return "tshirt.fill"
+        case .pet: return "pawprint.fill"
+        case .wings: return "airplane"
+        }
+    }
+
+    var gearCategory: GearCategory {
+        switch self {
+        case .head: return .head
+        case .weapon: return .weapon
+        case .shield: return .shield
+        case .outfit: return .outfit
+        case .pet: return .pet
+        case .wings: return .wings
+        }
+    }
+}
+
+// MARK: - Others Subcategories
+
+enum OthersSubcategory: String, CaseIterable {
+    case boosters = "Boosters"
+    case potions = "Potions"
+    case collectibles = "Collectibles"
+
+    var icon: String {
+        switch self {
+        case .boosters: return "bolt.fill"
+        case .potions: return "drop.fill"
+        case .collectibles: return "star.fill"
         }
     }
 }
@@ -119,7 +165,7 @@ struct CategorySelectorView: View {
                             Image(systemName: category.icon)
                                 .font(.system(size: 16))
                                 .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
-                            
+
                             Text(category.rawValue)
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
@@ -138,6 +184,78 @@ struct CategorySelectorView: View {
     }
 }
 
+// MARK: - Gear Subcategory Selector
+
+struct GearSubcategorySelector: View {
+    @Binding var selectedSubcategory: GearSubcategory
+    let theme: Theme
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(GearSubcategory.allCases, id: \.self) { subcategory in
+                    Button(action: {
+                        selectedSubcategory = subcategory
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: subcategory.icon)
+                                .font(.system(size: 12))
+                                .foregroundColor(selectedSubcategory == subcategory ? theme.accentColor : theme.textColor.opacity(0.7))
+
+                            Text(subcategory.rawValue)
+                                .font(.appFont(size: 11, weight: .medium))
+                                .foregroundColor(selectedSubcategory == subcategory ? theme.accentColor : theme.textColor.opacity(0.7))
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(selectedSubcategory == subcategory ? theme.accentColor.opacity(0.2) : Color.clear)
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
+// MARK: - Others Subcategory Selector
+
+struct OthersSubcategorySelector: View {
+    @Binding var selectedSubcategory: OthersSubcategory
+    let theme: Theme
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(OthersSubcategory.allCases, id: \.self) { subcategory in
+                    Button(action: {
+                        selectedSubcategory = subcategory
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: subcategory.icon)
+                                .font(.system(size: 12))
+                                .foregroundColor(selectedSubcategory == subcategory ? theme.accentColor : theme.textColor.opacity(0.7))
+
+                            Text(subcategory.rawValue)
+                                .font(.appFont(size: 11, weight: .medium))
+                                .foregroundColor(selectedSubcategory == subcategory ? theme.accentColor : theme.textColor.opacity(0.7))
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(selectedSubcategory == subcategory ? theme.accentColor.opacity(0.2) : Color.clear)
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
 // MARK: - Categorized Items Grid View
 
 struct CategorizedItemsGridView: View {
@@ -147,23 +265,10 @@ struct CategorizedItemsGridView: View {
     @Binding var showItemDetail: Bool
     let theme: Theme
     @EnvironmentObject var themeManager: ThemeManager
+    @State private var selectedGearSubcategory: GearSubcategory = .head
+    @State private var selectedOthersSubcategory: OthersSubcategory = .boosters
 
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 6), count: 6)
-
-    var filteredItems: [ItemEntity] {
-        switch category {
-        case .gear:
-            return inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
-        case .consumables:
-            return inventoryManager.inventoryItems.filter {
-                inventoryManager.isConsumable($0) || inventoryManager.isBooster($0)
-            }
-        case .accessories:
-            return inventoryManager.inventoryItems.filter { inventoryManager.isAccessory($0) }
-        case .collectibles:
-            return inventoryManager.inventoryItems.filter { inventoryManager.isCollectible($0) }
-        }
-    }
 
     var body: some View {
         VStack(spacing: 10) {
@@ -172,13 +277,22 @@ struct CategorizedItemsGridView: View {
                 Text(category.rawValue)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
-                Text("\(filteredItems.count) items")
+
+                Text("\(getFilteredItems().count) items")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
+
+            // Subcategory Selector
+            if category == .gear {
+                GearSubcategorySelector(selectedSubcategory: $selectedGearSubcategory, theme: theme)
+            } else if category == .others {
+                OthersSubcategorySelector(selectedSubcategory: $selectedOthersSubcategory, theme: theme)
+            }
+
+            let filteredItems = getFilteredItems()
 
             if filteredItems.isEmpty {
                 EmptyCategoryView(category: category, theme: theme)
@@ -206,6 +320,31 @@ struct CategorizedItemsGridView: View {
             }
         }
     }
+
+    private func getFilteredItems() -> [ItemEntity] {
+        switch category {
+        case .gear:
+            return inventoryManager.inventoryItems.filter { item in
+                guard inventoryManager.isGear(item) else { return false }
+                // Filter by gear subcategory
+                if let gearCategory = inventoryManager.getGearCategory(item) {
+                    return gearCategory == selectedGearSubcategory.gearCategory
+                }
+                return false
+            }
+        case .others:
+            switch selectedOthersSubcategory {
+            case .boosters:
+                return inventoryManager.inventoryItems.filter { inventoryManager.isBooster($0) }
+            case .potions:
+                return inventoryManager.inventoryItems.filter { inventoryManager.isConsumable($0) }
+            case .collectibles:
+                return inventoryManager.inventoryItems.filter { inventoryManager.isCollectible($0) }
+            }
+        case .accessories:
+            return inventoryManager.inventoryItems.filter { inventoryManager.isAccessory($0) }
+        }
+    }
 }
 
 // MARK: - Empty Category View
@@ -219,11 +358,11 @@ struct EmptyCategoryView: View {
             Image(systemName: category.icon)
                 .font(.system(size: 48))
                 .foregroundColor(theme.textColor.opacity(0.3))
-            
+
             Text("No \(category.rawValue.lowercased()) items")
                 .font(.appFont(size: 16, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.7))
-            
+
             Text(category.description)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.5))

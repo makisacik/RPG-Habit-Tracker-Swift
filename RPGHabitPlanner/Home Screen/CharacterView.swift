@@ -77,6 +77,12 @@ struct CharacterView: View {
         }
         .onAppear {
             fetchCharacterCustomization()
+            // Refresh inventory to ensure we have items to test with
+            inventoryManager.refreshInventory()
+            // Ensure GearManager is initialized and refresh character customization
+            let gearManager = GearManager.shared
+            // Force refresh character customization from gear
+            gearManager.refreshCharacterCustomizationFromGear(for: user)
         }
         .onChange(of: showCustomizationModal) { isPresented in
             // Refresh character customization when modal is dismissed
@@ -90,6 +96,10 @@ struct CharacterView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .characterCustomizationUpdated)) { _ in
             print("🔄 CharacterView: Received characterCustomizationUpdated notification")
+            fetchCharacterCustomization()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .gearUpdated)) { _ in
+            print("🔄 CharacterView: Received gearUpdated notification")
             fetchCharacterCustomization()
         }
     }
@@ -124,6 +134,15 @@ struct CharacterSectionView: View {
     let user: UserEntity
     let characterCustomization: CharacterCustomization?
     @Binding var showCustomizationModal: Bool
+    @State private var showGearMenu = false
+    @State private var selectedGearCategory: GearCategory = .head
+    @State private var pendingGearCategory: GearCategory?
+    @StateObject private var gearManager = GearManager.shared
+    
+    // Add a computed property to ensure we always have the correct category
+    private var currentGearCategory: GearCategory {
+        return selectedGearCategory
+    }
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -150,23 +169,44 @@ struct CharacterSectionView: View {
                     EquipmentSlotView(
                         slotType: "HEAD",
                         iconName: "helmet",
-                        isEquipped: false,
+                        isEquipped: gearManager.getEquippedItem(for: .head) != nil,
+                        equippedItem: gearManager.getEquippedItem(for: .head),
                         theme: theme
-                    )
+                    ) {
+                            print("⛑️ Head slot tapped - setting category to .head")
+                            pendingGearCategory = .head
+                            selectedGearCategory = .head
+                            print("🎯 Pending category set to: \(pendingGearCategory?.rawValue ?? "nil")")
+                            showGearMenu = true
+                    }
 
                     EquipmentSlotView(
                         slotType: "OUTFIT",
                         iconName: "tshirt",
-                        isEquipped: false,
+                        isEquipped: gearManager.getEquippedItem(for: .outfit) != nil,
+                        equippedItem: gearManager.getEquippedItem(for: .outfit),
                         theme: theme
-                    )
+                    ) {
+                            print("👕 Outfit slot tapped - setting category to .outfit")
+                            pendingGearCategory = .outfit
+                            selectedGearCategory = .outfit
+                            print("🎯 Pending category set to: \(pendingGearCategory?.rawValue ?? "nil")")
+                            showGearMenu = true
+                    }
 
                     EquipmentSlotView(
                         slotType: "WING",
                         iconName: "wing",
-                        isEquipped: false,
+                        isEquipped: gearManager.getEquippedItem(for: .wings) != nil,
+                        equippedItem: gearManager.getEquippedItem(for: .wings),
                         theme: theme
-                    )
+                    ) {
+                            print("🦅 Wing slot tapped - setting category to .wings")
+                            pendingGearCategory = .wings
+                            selectedGearCategory = .wings
+                            print("🎯 Pending category set to: \(pendingGearCategory?.rawValue ?? "nil")")
+                            showGearMenu = true
+                    }
                 }
 
                 // Center Character Display
@@ -201,7 +241,9 @@ struct CharacterSectionView: View {
                             customization: characterCustomization,
                             size: 200,
                             showShadow: true
-                        ).offset(y: 70)
+                        )
+                        .id("character-display-\(characterCustomization?.shield?.rawValue ?? "nil")-\(characterCustomization?.pet?.rawValue ?? "nil")")
+                        .offset(y: 70)
                     }
                     .frame(width: 200, height: 270)
 
@@ -213,17 +255,17 @@ struct CharacterSectionView: View {
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(.yellow)
                             Spacer()
-                            Text("37")
+                            Text("\(gearManager.characterStats.totalDamage)")
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.yellow)
                         }
-                        
+
                         HStack {
                             Text("ARMOR")
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(.yellow)
                             Spacer()
-                            Text("194")
+                            Text("\(gearManager.characterStats.totalArmor)")
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.yellow)
                         }
@@ -272,23 +314,44 @@ struct CharacterSectionView: View {
                     EquipmentSlotView(
                         slotType: "WEAPON",
                         iconName: "sword",
-                        isEquipped: false,
+                        isEquipped: gearManager.getEquippedItem(for: .weapon) != nil,
+                        equippedItem: gearManager.getEquippedItem(for: .weapon),
                         theme: theme
-                    )
+                    ) {
+                            print("⚔️ Weapon slot tapped - setting category to .weapon")
+                            pendingGearCategory = .weapon
+                            selectedGearCategory = .weapon
+                            print("🎯 Pending category set to: \(pendingGearCategory?.rawValue ?? "nil")")
+                            showGearMenu = true
+                    }
 
                     EquipmentSlotView(
                         slotType: "SHIELD",
                         iconName: "shield",
-                        isEquipped: false,
+                        isEquipped: gearManager.getEquippedItem(for: .shield) != nil,
+                        equippedItem: gearManager.getEquippedItem(for: .shield),
                         theme: theme
-                    )
+                    ) {
+                            print("🛡️ Shield slot tapped - setting category to .shield")
+                            pendingGearCategory = .shield
+                            selectedGearCategory = .shield
+                            print("🎯 Pending category set to: \(pendingGearCategory?.rawValue ?? "nil")")
+                            showGearMenu = true
+                    }
 
                     EquipmentSlotView(
                         slotType: "PET",
                         iconName: "pawprint",
-                        isEquipped: false,
+                        isEquipped: gearManager.getEquippedItem(for: .pet) != nil,
+                        equippedItem: gearManager.getEquippedItem(for: .pet),
                         theme: theme
-                    )
+                    ) {
+                            print("🐾 Pet slot tapped - setting category to .pet")
+                            pendingGearCategory = .pet
+                            selectedGearCategory = .pet
+                            print("🎯 Pending category set to: \(pendingGearCategory?.rawValue ?? "nil")")
+                            showGearMenu = true
+                    }
                 }
             }
             .padding(.horizontal, 20)
@@ -296,6 +359,31 @@ struct CharacterSectionView: View {
         }
         .frame(height: 400)
         .clipped()
+        .sheet(isPresented: $showGearMenu) {
+            GearMenuView(gearCategory: pendingGearCategory ?? selectedGearCategory, user: user)
+                .environmentObject(themeManager)
+                .environmentObject(InventoryManager.shared)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+                .onAppear {
+                    print("🎯 Sheet presented with category: \(pendingGearCategory?.rawValue ?? selectedGearCategory.rawValue)")
+                }
+        }
+        .onChange(of: showGearMenu) { isPresented in
+            if !isPresented {
+                // Reset pending category when sheet is dismissed
+                pendingGearCategory = nil
+                print("🎯 Sheet dismissed, pending category reset")
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .gearUpdated)) { _ in
+            // Refresh equipment display when gear is updated
+            print("🔄 CharacterSectionView: Received gearUpdated notification")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .characterCustomizationUpdated)) { _ in
+            // Refresh character display when customization is updated
+            print("🔄 CharacterSectionView: Received characterCustomizationUpdated notification")
+        }
     }
 }
 
@@ -304,38 +392,49 @@ struct EquipmentSlotView: View {
     let slotType: String
     let iconName: String
     let isEquipped: Bool
+    let equippedItem: ItemEntity?
     let theme: Theme
+    let onTap: () -> Void
 
     var body: some View {
-        VStack(spacing: 8) {
-            ZStack {
-                // Slot background
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(theme.backgroundColor.opacity(0.7))
-                    .frame(width: 60, height: 60)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(theme.borderColor.opacity(0.5), lineWidth: 1)
-                    )
-                
-                // Equipment icon or placeholder
-                if isEquipped {
-                    // TODO: Show actual equipped item icon
-                    Image(systemName: iconName)
-                        .font(.system(size: 24))
-                        .foregroundColor(theme.textColor)
-                } else {
-                    // Placeholder for unequipped slot
-                    Image(systemName: iconName)
-                        .font(.system(size: 20))
-                        .foregroundColor(theme.textColor.opacity(0.3))
+        Button(action: onTap) {
+            VStack(spacing: 8) {
+                ZStack {
+                    // Slot background
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(theme.backgroundColor.opacity(0.7))
+                        .frame(width: 60, height: 60)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(isEquipped ? theme.accentColor : theme.borderColor.opacity(0.5), lineWidth: isEquipped ? 2 : 1)
+                        )
+
+                    // Equipment icon or placeholder
+                    if isEquipped, let equippedItem = equippedItem, let iconName = equippedItem.iconName {
+                        // Show actual equipped item icon
+                        Image(iconName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
+                    } else if isEquipped {
+                        // Fallback to system icon if no custom icon
+                        Image(systemName: iconName)
+                            .font(.system(size: 24))
+                            .foregroundColor(theme.textColor)
+                    } else {
+                        // Placeholder for unequipped slot
+                        Image(systemName: iconName)
+                            .font(.system(size: 20))
+                            .foregroundColor(theme.textColor.opacity(0.3))
+                    }
                 }
+
+                Text(slotType)
+                    .font(.appFont(size: 10, weight: .medium))
+                    .foregroundColor(theme.textColor.opacity(0.8))
             }
-            
-            Text(slotType)
-                .font(.appFont(size: 10, weight: .medium))
-                .foregroundColor(theme.textColor.opacity(0.8))
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -444,14 +543,12 @@ struct ItemsPreviewView: View {
         switch category {
         case .gear:
             return inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
-        case .consumables:
+        case .others:
             return inventoryManager.inventoryItems.filter {
-                inventoryManager.isConsumable($0) || inventoryManager.isBooster($0)
+                inventoryManager.isConsumable($0) || inventoryManager.isBooster($0) || inventoryManager.isCollectible($0)
             }
         case .accessories:
             return inventoryManager.inventoryItems.filter { inventoryManager.isAccessory($0) }
-        case .collectibles:
-            return inventoryManager.inventoryItems.filter { inventoryManager.isCollectible($0) }
         }
     }
 
@@ -655,7 +752,7 @@ struct ColorOptionCard: View {
                             .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)
                     )
                     .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
-                
+
                 // Selection indicator
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
@@ -732,7 +829,7 @@ struct CharacterTabCustomizationView: View {
     @State private var hasChanges = false
     @State private var selectedHairType: String = "hair1" // Track selected hair type for color filtering
     let user: UserEntity
-    
+
     // Only include allowed categories for character tab customization
     private let allowedCategories: [CustomizationCategory] = [
         .bodyType, .hairStyle, .hairColor, .eyeColor
@@ -778,15 +875,15 @@ struct CharacterTabCustomizationView: View {
                 }
                 .font(.appFont(size: 16, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.7))
-                
+
                 Spacer()
-                
+
                 Text("Customize Character")
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+
                 Spacer()
-                
+
                 Button("Save") {
                     saveCustomization()
                 }
@@ -990,7 +1087,7 @@ struct CharacterTabCustomizationView: View {
             let currentCustomization = entity.toCharacterCustomization()
             customizationManager.currentCustomization = currentCustomization
             originalCustomization = currentCustomization
-            
+
             // Set the selected hair type based on current hair style
             selectedHairType = currentCustomization.hairStyle.hairType
         } else {
@@ -999,7 +1096,7 @@ struct CharacterTabCustomizationView: View {
             customizationManager.currentCustomization = defaultCustomization
             originalCustomization = defaultCustomization
             selectedHairType = defaultCustomization.hairStyle.hairType
-            
+
             // Save the default customization
             _ = customizationService.createCustomization(for: user, customization: defaultCustomization)
         }
@@ -1008,7 +1105,7 @@ struct CharacterTabCustomizationView: View {
     private func checkForChanges() {
         guard let original = originalCustomization else { return }
         let current = customizationManager.currentCustomization
-        
+
         hasChanges = original.bodyType != current.bodyType ||
                     original.hairStyle != current.hairStyle ||
                     original.hairColor != current.hairColor ||
@@ -1017,10 +1114,10 @@ struct CharacterTabCustomizationView: View {
 
     private func saveCustomization() {
         guard hasChanges else { return }
-        
+
         // Create a new customization that preserves outfit, weapon, accessory
         var updatedCustomization = customizationManager.currentCustomization
-        
+
         // Preserve the original outfit, weapon, and accessory if they exist
         if let original = originalCustomization {
             updatedCustomization.outfit = original.outfit
@@ -1030,14 +1127,14 @@ struct CharacterTabCustomizationView: View {
             updatedCustomization.flower = original.flower
             updatedCustomization.hairBackStyle = original.hairBackStyle
         }
-        
+
         // Save the updated customization
         let customizationService = CharacterCustomizationService()
         _ = customizationService.updateCustomization(for: user, customization: updatedCustomization)
-        
+
         // Post notification to refresh character view
         NotificationCenter.default.post(name: .characterCustomizationUpdated, object: nil)
-        
+
         // Dismiss the view
         dismiss()
     }

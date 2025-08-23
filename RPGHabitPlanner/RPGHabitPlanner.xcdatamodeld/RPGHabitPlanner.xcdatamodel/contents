@@ -22,9 +22,12 @@
         <attribute name="hairBackStyle" optional="YES" attributeType="String"/>
         <attribute name="hairColor" optional="YES" attributeType="String"/>
         <attribute name="hairStyle" optional="YES" attributeType="String"/>
+        <attribute name="headGear" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="mustache" optional="YES" attributeType="String"/>
         <attribute name="outfit" optional="YES" attributeType="String"/>
+        <attribute name="pet" optional="YES" attributeType="String"/>
+        <attribute name="shield" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="weapon" optional="YES" attributeType="String"/>

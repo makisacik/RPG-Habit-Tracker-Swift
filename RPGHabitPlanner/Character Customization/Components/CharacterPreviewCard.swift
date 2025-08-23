@@ -134,6 +134,14 @@ struct CharacterFullPreview: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
 
+            // Head Gear - Draw after hair but before eyes
+            if let headGear = customization.headGear {
+                Image(headGear.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+            }
+
             // Eyes
             Image(customization.eyeColor.rawValue)
                 .resizable()
@@ -161,6 +169,15 @@ struct CharacterFullPreview: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(height: size * 0.95)
 
+            // Shield
+            if let shield = customization.shield {
+                Image(shield.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+            }
+
+
             // Mustache - Draw after outfit but before other accessories
             if let mustache = customization.mustache {
                 Image(mustache.rawValue)
@@ -177,13 +194,22 @@ struct CharacterFullPreview: View {
                     .frame(height: size * 0.95)
             }
 
-            // Other Accessories (non-wings, non-glasses) - Draw last so they appear on top
-            if let accessory = customization.accessory,
-               ![.wingsWhite, .wingsRed, .wingsBat, .eyeglassRed, .eyeglassBlue, .eyeglassGray].contains(accessory) {
-                Image(accessory.rawValue)
+            // Pet - Draw after other accessories
+            if let pet = customization.pet {
+                Image(pet.rawValue)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: size * 0.95)
+            }
+
+            // Other Accessories (non-wings, non-glasses) - Draw last so they appear on top
+            if let accessory = customization.accessory {
+                if ![.wingsWhite, .wingsRed, .wingsBat, .eyeglassRed, .eyeglassBlue, .eyeglassGray].contains(accessory) {
+                    Image(accessory.rawValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: size * 0.95)
+                }
             }
         }
         .frame(width: size, height: size)
