@@ -67,7 +67,7 @@ struct CharacterView: View {
         }
         .sheet(isPresented: $showShop) {
             NavigationStack {
-                ShopView()
+                ShopView(initialCategory: nil, initialArmorSubcategory: nil)
                     .environmentObject(themeManager)
             }
         }

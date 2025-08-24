@@ -12,9 +12,22 @@ struct ShopView: View {
     @StateObject private var shopManager = ShopManager.shared
     @StateObject private var currencyManager = CurrencyManager.shared
     @StateObject private var inventoryManager = InventoryManager.shared
-    @State private var selectedCategory: EnhancedShopCategory = .weapons
+    @State private var selectedCategory: EnhancedShopCategory
     @State private var selectedArmorSubcategory: ArmorSubcategory = .helmet
     @State private var selectedConsumableSubcategory: ConsumableSubcategory = .potions
+
+    // Initial category parameter
+    let initialCategory: EnhancedShopCategory?
+    let initialArmorSubcategory: ArmorSubcategory?
+    
+    init(initialCategory: EnhancedShopCategory? = nil, initialArmorSubcategory: ArmorSubcategory? = nil) {
+        self.initialCategory = initialCategory
+        self.initialArmorSubcategory = initialArmorSubcategory
+        // Start with default values, will be updated in onAppear
+        self._selectedCategory = State(initialValue: .weapons)
+        self._selectedArmorSubcategory = State(initialValue: .helmet)
+        print("🎯 ShopView: Initialized with default values, will set to: \(initialCategory?.rawValue ?? "weapons"), \(initialArmorSubcategory?.rawValue ?? "helmet")")
+    }
     @State private var selectedRarity: ItemRarity?
     @State private var showOnlyAffordable = false
     @State private var showPurchaseAlert = false
@@ -91,6 +104,26 @@ struct ShopView: View {
             loadCurrentCoins()
             // Refresh inventory to get latest ownership status
             inventoryManager.refreshInventory()
+            
+            print("🎯 ShopView: onAppear - BEFORE setting values")
+            print("🎯 ShopView: selectedCategory: \(selectedCategory.rawValue), selectedArmorSubcategory: \(selectedArmorSubcategory.rawValue)")
+            print("🎯 ShopView: initialCategory parameter: \(initialCategory?.rawValue ?? "nil")")
+            print("🎯 ShopView: initialArmorSubcategory parameter: \(initialArmorSubcategory?.rawValue ?? "nil")")
+            
+            // Set the initial values if provided
+            if let initialCategory = initialCategory {
+                selectedCategory = initialCategory
+                print("🎯 ShopView: Set selectedCategory to: \(initialCategory.rawValue)")
+            }
+            
+            if let initialArmorSubcategory = initialArmorSubcategory {
+                selectedArmorSubcategory = initialArmorSubcategory
+                print("🎯 ShopView: Set selectedArmorSubcategory to: \(initialArmorSubcategory.rawValue)")
+            }
+            
+            print("🎯 ShopView: onAppear - AFTER setting values")
+            print("🎯 ShopView: selectedCategory: \(selectedCategory.rawValue), selectedArmorSubcategory: \(selectedArmorSubcategory.rawValue)")
+            
             // Preload images for the current category
             preloadImagesForCategory(selectedCategory)
             // Initialize cache

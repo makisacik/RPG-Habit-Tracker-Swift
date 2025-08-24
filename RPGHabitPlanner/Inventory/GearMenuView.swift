@@ -42,9 +42,11 @@ struct GearMenuView: View {
         }
         .navigationBarHidden(true)
         .sheet(isPresented: $showShop) {
+            let (category, armorSubcategory) = mapGearCategoryToShopCategory(gearCategory)
             NavigationStack {
-                ShopView()
+                ShopView(initialCategory: category, initialArmorSubcategory: armorSubcategory)
                     .environmentObject(themeManager)
+
             }
         }
     }
@@ -65,9 +67,7 @@ struct GearMenuView: View {
                 Text(gearCategory.rawValue)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-                    .onAppear {
-                        print("🎯 GearMenuView appeared with category: \(gearCategory.rawValue)")
-                    }
+
                 
                 Spacer()
                 
@@ -299,4 +299,30 @@ struct GearItemCard: View {
     GearMenuView(gearCategory: .weapon, user: UserEntity())
         .environmentObject(ThemeManager.shared)
         .environmentObject(InventoryManager.shared)
+}
+
+// MARK: - Helper Functions
+
+/// Maps GearCategory to EnhancedShopCategory and ArmorSubcategory for navigation
+private func mapGearCategoryToShopCategory(_ gearCategory: GearCategory) -> (EnhancedShopCategory, ArmorSubcategory) {
+    print("🎯 GearMenuView: Mapping gear category \(gearCategory.rawValue)")
+    let result: (EnhancedShopCategory, ArmorSubcategory)
+    
+    switch gearCategory {
+    case .head:
+        result = (.armor, .helmet)
+    case .outfit:
+        result = (.armor, .outfit)
+    case .weapon:
+        result = (.weapons, .helmet) // Default armor subcategory, won't be used
+    case .shield:
+        result = (.armor, .shield)
+    case .wings:
+        result = (.wings, .helmet) // Default armor subcategory, won't be used
+    case .pet:
+        result = (.pets, .helmet) // Default armor subcategory, won't be used
+    }
+    
+    print("🎯 GearMenuView: Mapped to shop category: \(result.0.rawValue), armor subcategory: \(result.1.rawValue)")
+    return result
 }
