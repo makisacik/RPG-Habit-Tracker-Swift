@@ -218,7 +218,7 @@ struct CharacterSectionView: View {
                 }
 
                 // Center Character Display
-                VStack(spacing: 16) {
+                VStack(spacing: 8) {
                     // Character Display
                     // Character Display
                     // Character Display (fills perfectly with .scaledToFill)
@@ -255,56 +255,12 @@ struct CharacterSectionView: View {
                     }
                     .frame(width: 200, height: 270)
 
-
-                    // Character Stats
-                    VStack(spacing: 8) {
-                        HStack {
-                            Text("DAMAGE")
-                                .font(.appFont(size: 14, weight: .bold))
-                                .foregroundColor(.yellow)
-                            Spacer()
-                            Text("\(gearManager.characterStats.totalDamage)")
-                                .font(.appFont(size: 16, weight: .bold))
-                                .foregroundColor(.yellow)
-                        }
-
-                        HStack {
-                            Text("ARMOR")
-                                .font(.appFont(size: 14, weight: .bold))
-                                .foregroundColor(.yellow)
-                            Spacer()
-                            Text("\(gearManager.characterStats.totalArmor)")
-                                .font(.appFont(size: 16, weight: .bold))
-                                .foregroundColor(.yellow)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(theme.backgroundColor.opacity(0.7))
-                    )
-
                     // Action Buttons
                     HStack(spacing: 12) {
                         Button(action: {
                             showCustomizationModal = true
                         }) {
-                            Text("SKINS")
-                                .font(.appFont(size: 12, weight: .medium))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(theme.primaryColor)
-                                )
-                        }
-
-                        Button(action: {
-                            // TODO: Show stats
-                        }) {
-                            Text("STATS")
+                            Text("CUSTOMIZATION")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 16)
@@ -365,7 +321,7 @@ struct CharacterSectionView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
         }
-        .frame(height: 400)
+        .frame(height: 320)
         .clipped()
         .sheet(isPresented: $showGearMenu) {
             GearMenuView(gearCategory: pendingGearCategory ?? selectedGearCategory, user: user)
