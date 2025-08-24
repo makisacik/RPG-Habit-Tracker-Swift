@@ -256,7 +256,7 @@ struct ShopView: View {
                     return ShopItem(
                         name: asset.name,
                         description: description,
-                        iconName: asset.previewImage, // Use preview image for shop display
+                        iconName: asset.imageName, // Use the actual image name, not preview
                         price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
                         rarity: asset.rarity == .common ? .common :
                                 asset.rarity == .uncommon ? .uncommon :
@@ -281,7 +281,7 @@ struct ShopView: View {
                 ShopItem(
                     name: asset.name,
                     description: "Protective helmet for your adventures",
-                    iconName: asset.previewImage, // Use preview image for shop display
+                    iconName: asset.imageName, // Use the actual image name, not preview
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -298,7 +298,7 @@ struct ShopView: View {
                 ShopItem(
                     name: asset.name,
                     description: "Protective outfit for your adventures",
-                    iconName: asset.previewImage, // Use preview image for shop display
+                    iconName: asset.imageName, // Use the actual image name, not preview
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -315,7 +315,7 @@ struct ShopView: View {
                 ShopItem(
                     name: asset.name,
                     description: "Protective shield for your adventures",
-                    iconName: asset.previewImage, // Use preview image for shop display
+                    iconName: asset.imageName, // Use the actual image name, not preview
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :

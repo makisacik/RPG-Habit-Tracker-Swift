@@ -532,9 +532,3 @@ struct InfoBubbleView: View {
         )
     }
 }
-
-#Preview {
-    InventoryView()
-        .environmentObject(ThemeManager.shared)
-        .environmentObject(InventoryManager.shared)
-}

@@ -531,13 +531,6 @@ struct InventorySectionView: View {
                 theme: theme
             )
         }
-        .sheet(isPresented: $showFullInventory) {
-            NavigationStack {
-                InventoryView()
-                    .environmentObject(ThemeManager.shared)
-                    .environmentObject(InventoryManager.shared)
-            }
-        }
     }
 }
 
@@ -550,7 +543,9 @@ struct ItemsPreviewView: View {
     var filteredItems: [ItemEntity] {
         switch category {
         case .gear:
-            return inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
+            let abc = inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
+            print(abc)
+            return abc
         case .others:
             return inventoryManager.inventoryItems.filter {
                 inventoryManager.isConsumable($0) || inventoryManager.isBooster($0) || inventoryManager.isCollectible($0)
@@ -596,12 +591,33 @@ struct CompactItemCard: View {
     var body: some View {
         VStack(spacing: 6) {
             ZStack {
-                if let iconName = item.iconName {
+                if let previewImage = item.previewImage, !previewImage.isEmpty {
+                    // Try to load the preview image, fallback to iconName if preview fails
+                    if UIImage(named: previewImage) != nil {
+                        Image(previewImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
+                    } else if let iconName = item.iconName, !iconName.isEmpty, UIImage(named: iconName) != nil {
+                        // Fallback to iconName if preview image doesn't exist
+                        Image(iconName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
+                    } else {
+                        // Final fallback to system icon
+                        Image(systemName: "questionmark.circle")
+                            .font(.system(size: 32))
+                            .foregroundColor(theme.textColor.opacity(0.5))
+                    }
+                } else if let iconName = item.iconName, !iconName.isEmpty, UIImage(named: iconName) != nil {
+                    // Use iconName if previewImage is nil or empty
                     Image(iconName)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 32, height: 32)
                 } else {
+                    // Final fallback to system icon
                     Image(systemName: "questionmark.circle")
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
