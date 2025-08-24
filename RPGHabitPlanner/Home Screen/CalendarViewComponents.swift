@@ -147,13 +147,14 @@ enum CalendarViewComponents {
             days: daysInMonth(for: viewModel.selectedDate),
             selectedDate: viewModel.selectedDate,
             theme: theme,
+            itemsVersion: viewModel.calendarDataVersion,   // 👈 force redraw when data changes
             onSelect: { viewModel.selectedDate = $0 },
-            itemsResolver: { date in
-                return viewModel.items(for: date)
-            }
+            itemsResolver: { date in viewModel.items(for: date) }
         )
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.selectedDate)
+        .animation(Animation.easeInOut(duration: 0.2), value: viewModel.calendarDataVersion) // smooth dot refresh
     }
+
     
     // MARK: - Selected Date Section
     @ViewBuilder
@@ -395,11 +396,12 @@ enum CalendarViewComponents {
     }()
 }
 
-// MARK: - Month Grid (extracted)
+// MARK: - Month Grid (updated)
 struct MonthGrid: View {
     let days: [Date?]
     let selectedDate: Date
     let theme: Theme
+    let itemsVersion: Int                    // 👈 NEW
     let onSelect: (Date) -> Void
     let itemsResolver: (Date) -> [DayQuestItem]
 
@@ -410,14 +412,22 @@ struct MonthGrid: View {
         LazyVGrid(columns: cols, spacing: 8) {
             ForEach(days.indices, id: \.self) { idx in
                 if let date = days[idx] {
+                    // Resolve items fresh on each render so changes are reflected
+                    let items = itemsResolver(date)
+                    // Make each day cell identity depend on the current data-version.
+                    // When version bumps, SwiftUI treats the cell as updated → body re-runs → dots refresh.
+                    let dayKey = cal.startOfDay(for: date).timeIntervalSince1970
+                    let cellId = "day-\(Int(dayKey))-\(itemsVersion)"
+                    
                     CalendarDayView(
                         date: date,
                         isSelected: cal.isDate(date, inSameDayAs: selectedDate),
-                        items: itemsResolver(date),
+                        items: items,
                         theme: theme
                     ) {
                         onSelect(cal.startOfDay(for: date))
                     }
+                    .id(cellId)  // 👈 critical for reactive dot updates
                 } else {
                     Color.clear.frame(height: 40)
                 }
@@ -427,6 +437,7 @@ struct MonthGrid: View {
         .padding(.horizontal, 20)
     }
 }
+
 
 // MARK: - Selected Date Details (extracted)
 struct SelectedDateDetails: View {

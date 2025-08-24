@@ -25,6 +25,9 @@ final class CalendarViewModel: ObservableObject {
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
     
+    // 🔁 Bump this whenever the underlying data that drives the calendar changes
+    @Published var calendarDataVersion: Int = 0
+    
     // Reward system properties
     @Published var questCompleted: Bool = false
     @Published var didLevelUp: Bool = false
@@ -43,6 +46,8 @@ final class CalendarViewModel: ObservableObject {
     lazy var tagFilterViewModel: TagFilterViewModel = {
         TagFilterViewModel { [weak self] tagIds, matchMode in
             self?.handleTagFilterChange(tagIds: tagIds, matchMode: matchMode)
+            // Filtering affects items per day → bump version to redraw dots
+            self?.bumpCalendarVersion()
         }
     }()
     
@@ -53,60 +58,28 @@ final class CalendarViewModel: ObservableObject {
         setupNotificationObservers()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+    deinit { NotificationCenter.default.removeObserver(self) }
     
     private func setupNotificationObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleQuestUpdated),
-            name: .questUpdated,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleQuestDeleted),
-            name: .questDeleted,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleQuestCreated),
-            name: .questCreated,
-            object: nil
-        )
-        
-        // Listen for quest completion from detail view
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleQuestCompletedFromDetail),
-            name: .questCompletedFromDetail,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuestUpdated), name: .questUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuestDeleted), name: .questDeleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuestCreated), name: .questCreated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleQuestCompletedFromDetail), name: .questCompletedFromDetail, object: nil)
     }
     
-        @objc private func handleQuestUpdated(_ notification: Notification) {
+    @objc private func handleQuestUpdated(_ notification: Notification) {
         print("🔄 CalendarViewModel: Received quest updated notification")
-        DispatchQueue.main.async { [weak self] in
-            self?.silentUpdateQuests()
-        }
+        DispatchQueue.main.async { [weak self] in self?.silentUpdateQuests() }
     }
 
     @objc private func handleQuestDeleted(_ notification: Notification) {
         print("🗑️ CalendarViewModel: Received quest deleted notification")
-        DispatchQueue.main.async { [weak self] in
-            self?.silentUpdateQuests()
-        }
+        DispatchQueue.main.async { [weak self] in self?.silentUpdateQuests() }
     }
 
     @objc private func handleQuestCreated(_ notification: Notification) {
         print("➕ CalendarViewModel: Received quest created notification")
-        DispatchQueue.main.async { [weak self] in
-            self?.silentUpdateQuests()
-        }
+        DispatchQueue.main.async { [weak self] in self?.silentUpdateQuests() }
     }
     
     @objc private func handleQuestCompletedFromDetail(_ notification: Notification) {
@@ -117,9 +90,7 @@ final class CalendarViewModel: ObservableObject {
                   let userInfo = notification.userInfo,
                   let questId = userInfo["questId"] as? UUID,
                   let leveledUp = userInfo["leveledUp"] as? Bool,
-                  let newLevel = userInfo["newLevel"] as? Int16 else {
-                return
-            }
+                  let newLevel = userInfo["newLevel"] as? Int16 else { return }
             
             self.lastCompletedQuestId = questId
             self.lastCompletedQuest = quest
@@ -131,68 +102,54 @@ final class CalendarViewModel: ObservableObject {
         }
     }
     
-    var itemsForSelectedDate: [DayQuestItem] {
-        return items(for: selectedDate)
-    }
+    var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }
     
-    var shouldShowLoadingState: Bool {
-        // Only show loading when there's no data
-        return isLoading && allQuests.isEmpty
-    }
+    var shouldShowLoadingState: Bool { isLoading && allQuests.isEmpty }
     
     func fetchQuests() {
         print("📅 CalendarViewModel: Starting fetchQuests()")
         isLoading = true
         
-        // First refresh all quest states to ensure they're up to date
-        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
-            if let error = error {
-                print("❌ CalendarViewModel: Error refreshing quests: \(error)")
-            }
-            
-            // Then fetch the updated quest data
+        questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
+                    self?.bumpCalendarVersion() // 🔁 ensure UI refreshes
                 }
             }
         }
     }
     
-    // New method to refresh quest data without showing loading state
     func refreshQuestData() {
-        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
-            if let error = error {
-                print("❌ CalendarViewModel: Error refreshing quests: \(error)")
-            }
-            
+        questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Refreshed quest data with \(quests.count) quests")
                     self?.allQuests = quests
-                    // Send notification to other views
                     NotificationCenter.default.post(name: .questUpdated, object: nil)
+                    self?.bumpCalendarVersion() // 🔁
                 }
             }
         }
     }
     
-    // Silent update method for quest/task changes that doesn't show loading state
     func silentUpdateQuests() {
-        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
-            if let error = error {
-                print("❌ CalendarViewModel: Error refreshing quests: \(error)")
-            }
-            
+        questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Silently updated quest data with \(quests.count) quests")
                     self?.allQuests = quests
+                    self?.bumpCalendarVersion() // 🔁
                 }
             }
         }
+    }
+    
+    private func bumpCalendarVersion() {
+        // Using wrapping add to avoid overflow crashes in long sessions
+        calendarDataVersion &+= 1
     }
     
     func items(for date: Date) -> [DayQuestItem] {
@@ -200,127 +157,81 @@ final class CalendarViewModel: ObservableObject {
         let filteredQuests = applyTagFiltering(to: allQuests)
         
         let items: [DayQuestItem] = filteredQuests.compactMap { quest in
-            // Don't show finished quests in the calendar
             guard !quest.isFinished else { return nil }
-            
-            // First check if the date is within the quest's valid date range
             let creationDate = calendar.startOfDay(for: quest.creationDate)
             let dueDate = calendar.startOfDay(for: quest.dueDate)
-            
-            // Date must be between creation date and due date (inclusive)
             guard day >= creationDate && day <= dueDate else { return nil }
             
-            // For scheduled quests, check if it's a scheduled day (allow both active and completed quests)
             if quest.repeatType == .scheduled {
                 let weekday = calendar.component(.weekday, from: day)
-                let isScheduledDay = quest.scheduledDays.contains(weekday)
-                guard isScheduledDay else { return nil }
+                guard quest.scheduledDays.contains(weekday) else { return nil }
             }
             
-            let state: DayQuestState
-            if quest.isCompleted(on: day) {
-                state = .done
-            } else {
-                state = .todo
-            }
-            
+            let state: DayQuestState = quest.isCompleted(on: day) ? .done : .todo
             return DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }
         
-        let sortedItems = items.sorted { a, b in
-            return a.quest.creationDate > b.quest.creationDate
-        }
-        
-        return sortedItems
+        return items.sorted { a, b in a.quest.creationDate > b.quest.creationDate }
     }
     
     // MARK: - Tag Filtering
-    
     private func handleTagFilterChange(tagIds: [UUID], matchMode: TagMatchMode) {
-        // This method is called when tag filter changes
-        // The filtering is applied in the items(for:) method
         print("🏷️ Calendar tag filter changed: \(tagIds.count) tags, mode: \(matchMode)")
     }
     
     func applyTagFiltering(to quests: [Quest]) -> [Quest] {
         let selectedTagIds = tagFilterViewModel.selectedTags.map { $0.id }
-        
-        // If no tags are selected, return all quests
-        guard !selectedTagIds.isEmpty else {
-            return quests
-        }
+        guard !selectedTagIds.isEmpty else { return quests }
         
         return quests.filter { quest in
             let questTagIds = quest.tags.map { $0.id }
-            
             switch tagFilterViewModel.matchMode {
-            case .any:
-                // Quest has ANY of the selected tags
-                return !Set(questTagIds).isDisjoint(with: Set(selectedTagIds))
-            case .all:
-                // Quest has ALL of the selected tags
-                return Set(selectedTagIds).isSubset(of: Set(questTagIds))
+            case .any: return !Set(questTagIds).isDisjoint(with: Set(selectedTagIds))
+            case .all: return Set(selectedTagIds).isSubset(of: Set(questTagIds))
             }
         }
     }
     
+    // MARK: - Toggling
     func toggle(item: DayQuestItem) {
         let newState: DayQuestState = item.state == .done ? .todo : .done
         
-        // Determine the correct completion date based on quest type
         let completionDate: Date
         switch item.quest.repeatType {
         case .oneTime:
-            // For one-time quests, always use the due date for completion tracking
             completionDate = item.quest.dueDate
         case .weekly:
-            // For weekly quests, use the week anchor (start of the week)
-            let calendar = Calendar.current
-            let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: item.date)
-            completionDate = calendar.date(from: comps) ?? item.date
-        case .daily:
-            // For daily quests, use the specific date
-            completionDate = item.date
-        case .scheduled:
-            // For scheduled quests, use the specific date
+            let comps = Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: item.date)
+            completionDate = Calendar.current.date(from: comps) ?? item.date
+        case .daily, .scheduled:
             completionDate = item.date
         }
         
         if newState == .done {
-            // Mark as completed
             questDataService.markQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
                     } else {
-                        // Record streak activity when completing a quest
                         self?.streakManager.recordActivity()
-                        
-                        // Handle quest completion rewards
-                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError in
-                            if let rewardError = rewardError {
-                                print("❌ Error handling quest completion rewards: \(rewardError)")
-                            }
+                        self?.rewardService.handleQuestCompletion(quest: item.quest) { err in
+                            if let err = err { print("❌ Reward error: \(err)") }
                         }
-                        
-                        // Check if this quest should show finish confirmation
                         if item.quest.shouldShowFinishConfirmation(on: item.date) {
                             self?.questToFinish = item.quest
                             self?.showFinishConfirmation = true
                         }
-                        
-                        self?.silentUpdateQuests()
+                        self?.silentUpdateQuests() // will bump version
                     }
                 }
             }
         } else {
-            // Mark as incomplete
             questDataService.unmarkQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
                     } else {
-                        self?.silentUpdateQuests()
+                        self?.silentUpdateQuests() // will bump version
                     }
                 }
             }
@@ -328,7 +239,6 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func markQuestAsFinished(questId: UUID) {
-        // Find the quest to get its details for reward calculation
         guard let quest = allQuests.first(where: { $0.id == questId }) else {
             alertMessage = "Quest not found"
             return
@@ -340,55 +250,42 @@ final class CalendarViewModel: ObservableObject {
                 if let error = error {
                     self.alertMessage = error.localizedDescription
                 } else {
-                    // Calculate base rewards
                     let baseExp: Int
                     let baseCoins: Int
-                    
-#if DEBUG
+                    #if DEBUG
                     baseExp = 50 * quest.difficulty
-#else
+                    #else
                     baseExp = 10 * quest.difficulty
-#endif
+                    #endif
                     
-                    // Calculate coin reward using CurrencyManager
-                    baseCoins = CurrencyManager.shared.calculateQuestReward(
+                    let coins = CurrencyManager.shared.calculateQuestReward(
                         difficulty: quest.difficulty,
                         isMainQuest: quest.isMainQuest,
                         taskCount: quest.tasks.count
                     )
                     
-                    // Apply boosters
-                    let boostedRewards = self.boosterManager.calculateBoostedRewards(
+                    let boosted = self.boosterManager.calculateBoostedRewards(
                         baseExperience: baseExp,
-                        baseCoins: baseCoins
+                        baseCoins: coins
                     )
                     
-                    // Award boosted experience
-                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { leveledUp, newLevel, expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(boosted.experience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.alertMessage = expError.localizedDescription
                         } else {
-                            // Award boosted coins
-                            CurrencyManager.shared.addCoins(boostedRewards.coins) { coinError in
-                                if let coinError = coinError {
-                                    print("❌ Error adding coins: \(coinError)")
-                                }
+                            CurrencyManager.shared.addCoins(boosted.coins) { coinError in
+                                if let coinError = coinError { print("❌ Error adding coins: \(coinError)") }
                             }
-                            
-                            // Record streak activity when finishing a quest
                             self.streakManager.recordActivity()
-                            
-                            // Check achievements
                             self.checkAchievements()
                             
-                            // Set reward properties for UI
                             self.lastCompletedQuestId = questId
                             self.lastCompletedQuest = quest
                             self.questCompleted = true
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
                             
-                            self.silentUpdateQuests()
+                            self.silentUpdateQuests() // will bump version
                         }
                     }
                 }
@@ -404,27 +301,19 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
-        questDataService.updateTask(
-            withId: taskId,
-            isCompleted: newValue
-        ) { [weak self] error in
+        questDataService.updateTask(withId: taskId, isCompleted: newValue) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
                 } else {
-                    // Handle task completion rewards if task is being completed
-                    if newValue {
-                        if let quest = self?.allQuests.first(where: { $0.id == questId }),
-                           let task = quest.tasks.first(where: { $0.id == taskId }) {
-                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError in
-                                if let rewardError = rewardError {
-                                    print("❌ Error handling task completion rewards: \(rewardError)")
-                                }
-                            }
+                    if newValue,
+                       let quest = self?.allQuests.first(where: { $0.id == questId }),
+                       let task = quest.tasks.first(where: { $0.id == taskId }) {
+                        self?.rewardService.handleTaskCompletion(task: task, quest: quest) { err in
+                            if let err = err { print("❌ Task reward error: \(err)") }
                         }
                     }
-                    
-                    self?.silentUpdateQuests()
+                    self?.silentUpdateQuests() // will bump version
                 }
             }
         }
