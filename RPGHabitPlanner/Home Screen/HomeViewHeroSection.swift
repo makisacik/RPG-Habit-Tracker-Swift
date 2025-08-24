@@ -57,14 +57,13 @@ extension HomeView {
 
                         // Character details
                         VStack(alignment: .leading, spacing: 6) {
-                            // Name and premium badge
+                            // Name
                             HStack {
                                 Text(user.nickname ?? "Adventurer")
                                     .font(.appFont(size: 20, weight: .black))
                                     .foregroundColor(theme.textColor)
                                     .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
                                 Spacer()
-                                PremiumBadgeView()
                             }
 
                             // Character type

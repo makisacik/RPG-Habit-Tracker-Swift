@@ -307,11 +307,5 @@ struct HomeView: View {
                     .foregroundColor(theme.textColor)
             }
         }
-
-        ToolbarItem(placement: .confirmationAction) {
-            if !premiumManager.isPremium {
-                QuestLimitIndicatorView(currentQuestCount: currentQuestCount)
-            }
-        }
     }
 }
