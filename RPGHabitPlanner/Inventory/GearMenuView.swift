@@ -46,7 +46,6 @@ struct GearMenuView: View {
             NavigationStack {
                 ShopView(initialCategory: category, initialArmorSubcategory: armorSubcategory)
                     .environmentObject(themeManager)
-
             }
         }
     }

@@ -7,6 +7,78 @@
 
 import SwiftUI
 
+// MARK: - Inventory Categories
+
+enum InventoryCategory: String, CaseIterable {
+    case head = "Head"
+    case weapon = "Weapon"
+    case shield = "Shield"
+    case outfit = "Outfit"
+    case pet = "Pet"
+    case wings = "Wings"
+    case others = "Others"
+
+    var icon: String {
+        switch self {
+        case .head: return "helmet"
+        case .weapon: return "sword.fill"
+        case .shield: return "shield.fill"
+        case .outfit: return "tshirt.fill"
+        case .pet: return "pawprint.fill"
+        case .wings: return "airplane"
+        case .others: return "flask.fill"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .head: return "Helmets and headgear"
+        case .weapon: return "Weapons and combat items"
+        case .shield: return "Shields and defensive gear"
+        case .outfit: return "Clothing and armor"
+        case .pet: return "Companion pets"
+        case .wings: return "Wings and flight items"
+        case .others: return "Boosters, potions, collectibles"
+        }
+    }
+}
+
+// MARK: - Category Selector View
+
+struct CategorySelectorView: View {
+    @Binding var selectedCategory: InventoryCategory
+    let theme: Theme
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(InventoryCategory.allCases, id: \.self) { category in
+                    Button(action: {
+                        selectedCategory = category
+                    }) {
+                        VStack(spacing: 4) {
+                            Image(systemName: category.icon)
+                                .font(.system(size: 16))
+                                .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+
+                            Text(category.rawValue)
+                                .font(.appFont(size: 12, weight: .medium))
+                                .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(selectedCategory == category ? theme.accentColor.opacity(0.2) : Color.clear)
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
 struct CharacterView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @StateObject private var healthManager = HealthManager.shared
@@ -501,8 +573,8 @@ struct LevelExperienceView: View {
 // MARK: - Inventory Section View
 struct InventorySectionView: View {
     @ObservedObject var inventoryManager: InventoryManager
-    @State private var selectedCategory: InventoryCategory = .gear
-    @State private var showFullInventory = false
+    @State private var selectedCategory: InventoryCategory = .head
+
     let theme: Theme
 
     var body: some View {
@@ -512,13 +584,6 @@ struct InventorySectionView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Button(action: {
-                    showFullInventory = true
-                }) {
-                    Text("View All")
-                        .font(.appFont(size: 14, weight: .medium))
-                        .foregroundColor(theme.accentColor)
-                }
             }
 
             // Category Selector
@@ -540,18 +605,33 @@ struct ItemsPreviewView: View {
     @ObservedObject var inventoryManager: InventoryManager
     let theme: Theme
 
+    // Define grid columns for inventory layout
+    private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 4), count: 4)
+
     var filteredItems: [ItemEntity] {
         switch category {
-        case .gear:
-            let abc = inventoryManager.inventoryItems.filter { inventoryManager.isGear($0) }
-            print(abc)
-            return abc
+        case .head, .weapon, .shield, .outfit, .pet, .wings:
+            return inventoryManager.inventoryItems.filter { item in
+                guard inventoryManager.isGear(item) else { return false }
+                if let gearCategory = inventoryManager.getGearCategory(item) {
+                    let targetCategory: GearCategory
+                    switch category {
+                    case .head: targetCategory = .head
+                    case .weapon: targetCategory = .weapon
+                    case .shield: targetCategory = .shield
+                    case .outfit: targetCategory = .outfit
+                    case .pet: targetCategory = .pet
+                    case .wings: targetCategory = .wings
+                    case .others: return false
+                    }
+                    return gearCategory == targetCategory
+                }
+                return false
+            }
         case .others:
             return inventoryManager.inventoryItems.filter {
                 inventoryManager.isConsumable($0) || inventoryManager.isBooster($0) || inventoryManager.isCollectible($0)
             }
-        case .accessories:
-            return inventoryManager.inventoryItems.filter { inventoryManager.isAccessory($0) }
         }
     }
 
@@ -571,191 +651,44 @@ struct ItemsPreviewView: View {
                     .fill(theme.backgroundColor.opacity(0.7))
             )
         } else {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(filteredItems.prefix(6), id: \.id) { item in
-                        CompactItemCard(item: item, theme: theme)
+            // Inventory Grid Layout
+            LazyVGrid(columns: columns, spacing: 4) {
+                ForEach(filteredItems.prefix(4), id: \.id) { item in
+                    InventoryGridItemView(item: item, theme: theme)
+                }
+
+                // Add empty slots to complete the first row (4 slots total)
+                ForEach(0..<max(0, 4 - filteredItems.count), id: \.self) { _ in
+                    EmptyInventorySlotView(theme: theme)
+                }
+                
+                // Show additional items if there are more than 4
+                if filteredItems.count > 4 {
+                    ForEach(Array(filteredItems.dropFirst(4).prefix(8)), id: \.id) { item in
+                        InventoryGridItemView(item: item, theme: theme)
                     }
-                }
-                .padding(.horizontal)
-            }
-        }
-    }
-}
-
-// MARK: - Compact Item Card
-struct CompactItemCard: View {
-    let item: ItemEntity
-    let theme: Theme
-
-    var body: some View {
-        VStack(spacing: 6) {
-            ZStack {
-                if let previewImage = item.previewImage, !previewImage.isEmpty {
-                    // Try to load the preview image, fallback to iconName if preview fails
-                    if UIImage(named: previewImage) != nil {
-                        Image(previewImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                    } else if let iconName = item.iconName, !iconName.isEmpty, UIImage(named: iconName) != nil {
-                        // Fallback to iconName if preview image doesn't exist
-                        Image(iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                    } else {
-                        // Final fallback to system icon
-                        Image(systemName: "questionmark.circle")
-                            .font(.system(size: 32))
-                            .foregroundColor(theme.textColor.opacity(0.5))
-                    }
-                } else if let iconName = item.iconName, !iconName.isEmpty, UIImage(named: iconName) != nil {
-                    // Use iconName if previewImage is nil or empty
-                    Image(iconName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 32, height: 32)
-                } else {
-                    // Final fallback to system icon
-                    Image(systemName: "questionmark.circle")
-                        .font(.system(size: 32))
-                        .foregroundColor(theme.textColor.opacity(0.5))
-                }
-            }
-
-            Text(item.name ?? "Unknown")
-                .font(.appFont(size: 10, weight: .medium))
-                .foregroundColor(theme.textColor)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-        }
-        .padding(8)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(theme.backgroundColor.opacity(0.7))
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-        )
-        .frame(width: 70, height: 70)
-    }
-}
-
-// MARK: - Boosters Section View
-struct BoostersSectionView: View {
-    @ObservedObject var boosterManager: BoosterManager
-    @Binding var showBoosterInfo: Bool
-    let theme: Theme
-
-    var body: some View {
-        VStack(spacing: 12) {
-            HStack {
-                Text("Active Boosters")
-                    .font(.appFont(size: 20, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                Spacer()
-                Button(action: {
-                    showBoosterInfo = true
-                }) {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                }
-            }
-
-            if boosterManager.activeBoosters.isEmpty {
-                VStack(spacing: 8) {
-                    Image(systemName: "bolt.slash")
-                        .font(.system(size: 32))
-                        .foregroundColor(theme.textColor.opacity(0.5))
-                    Text("No active boosters")
-                        .font(.appFont(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.backgroundColor.opacity(0.7))
-                )
-            } else {
-                VStack(spacing: 8) {
-                    ForEach(boosterManager.activeBoosters, id: \.id) { booster in
-                        BoosterCard(booster: booster, theme: theme)
+                    
+                    // Add empty slots to complete additional rows if needed
+                    let remainingSlots = max(0, 12 - filteredItems.count)
+                    ForEach(0..<remainingSlots, id: \.self) { _ in
+                        EmptyInventorySlotView(theme: theme)
                     }
                 }
             }
-        }
-        .sheet(isPresented: $showBoosterInfo) {
-            BoosterInfoModalView()
-                .environmentObject(ThemeManager.shared)
-        }
-    }
-}
-
-// MARK: - Booster Card
-struct BoosterCard: View {
-    let booster: BoosterEffect
-    let theme: Theme
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "bolt.fill")
-                .font(.system(size: 20))
-                .foregroundColor(.yellow)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(booster.sourceName)
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(theme.textColor)
-
-                Text(booster.type.description)
-                    .font(.appFont(size: 12))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-
-            Spacer()
-
-            if let remainingTime = booster.remainingTime {
-                Text("\(Int(remainingTime))s")
-                    .font(.appFont(size: 12, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.8))
-            }
-        }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(theme.backgroundColor.opacity(0.7))
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-        )
-    }
-}
-
-// MARK: - Shop Button View
-struct ShopButtonView: View {
-    @Binding var showShop: Bool
-    let theme: Theme
-
-    var body: some View {
-        Button(action: {
-            showShop = true
-        }) {
-            HStack(spacing: 8) {
-                Image(systemName: "cart.fill")
-                    .font(.system(size: 16))
-                Text("Visit Shop")
-                    .font(.appFont(size: 16, weight: .medium))
-            }
-            .foregroundColor(.white)
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 8)
             .background(
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(theme.primaryColor)
-                    .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.surfaceColor.opacity(0.6))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                    )
             )
         }
-        .buttonStyle(PlainButtonStyle())
     }
 }
+
 
 // MARK: - Color Option Card
 struct ColorOptionCard: View {
