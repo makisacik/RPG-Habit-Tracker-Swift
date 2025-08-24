@@ -71,10 +71,7 @@ struct MyQuestsSection: View {
         }
         // Make sure the section refreshes when it appears
         .onAppear {
-            // Only fetch if we don't have data yet, to avoid spam
-            if viewModel.allQuests.isEmpty {
-                viewModel.fetchQuests()
-            }
+            viewModel.refreshQuestData()
         }
     }
 

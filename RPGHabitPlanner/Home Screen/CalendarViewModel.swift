@@ -22,7 +22,6 @@ final class CalendarViewModel: ObservableObject {
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
     @Published var alertMessage: String?
-    @Published var refreshTrigger: Bool = false
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
 
@@ -92,8 +91,6 @@ final class CalendarViewModel: ObservableObject {
         print("🔄 CalendarViewModel: Received quest updated notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            // Force UI refresh
-            self?.refreshTrigger.toggle()
         }
     }
 
@@ -101,8 +98,6 @@ final class CalendarViewModel: ObservableObject {
         print("🗑️ CalendarViewModel: Received quest deleted notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            // Force UI refresh
-            self?.refreshTrigger.toggle()
         }
     }
 
@@ -110,8 +105,6 @@ final class CalendarViewModel: ObservableObject {
         print("➕ CalendarViewModel: Received quest created notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            // Force UI refresh
-            self?.refreshTrigger.toggle()
         }
     }
 
@@ -134,14 +127,10 @@ final class CalendarViewModel: ObservableObject {
             self.newLevel = newLevel
 
             self.fetchQuests()
-            // Force UI refresh
-            self.refreshTrigger.toggle()
         }
     }
 
     var itemsForSelectedDate: [DayQuestItem] {
-        // Force recomputation when refreshTrigger changes
-        _ = refreshTrigger
         return items(for: selectedDate)
     }
 
@@ -161,8 +150,24 @@ final class CalendarViewModel: ObservableObject {
                     print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
-                    // Toggle refresh trigger to force UI update
-                    self?.refreshTrigger.toggle()
+                }
+            }
+        }
+    }
+
+    // New method to refresh quest data without showing loading state
+    func refreshQuestData() {
+        questDataService.refreshAllQuests(on: Date()) { [weak self] error in
+            if let error = error {
+                print("❌ CalendarViewModel: Error refreshing quests: \(error)")
+            }
+
+            self?.questDataService.fetchAllQuests { [weak self] quests, _ in
+                DispatchQueue.main.async {
+                    print("📅 CalendarViewModel: Refreshed quest data with \(quests.count) quests")
+                    self?.allQuests = quests
+                    // Send notification to other views
+                    NotificationCenter.default.post(name: .questUpdated, object: nil)
                 }
             }
         }

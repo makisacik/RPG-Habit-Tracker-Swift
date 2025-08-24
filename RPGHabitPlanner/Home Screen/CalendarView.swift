@@ -36,7 +36,10 @@ struct CalendarView: View {
             .navigationTitle(String.questCalendar.localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
-            .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
+            .onAppear {
+                print("Calendar appear", ObjectIdentifier(viewModel))
+                viewModel.refreshQuestData()
+            }
             .onDisappear { print("Calendar disappear") }
             .sheet(isPresented: $showingQuestCreation, onDismiss: {
                 viewModel.fetchQuests()
@@ -55,7 +58,6 @@ struct CalendarView: View {
             .onChange(of: viewModel.alertMessage) { msg in
                 if msg != nil { showingAlert = true }
             }
-            .onChange(of: viewModel.refreshTrigger) { _ in }
 
             // Listen to CalendarViewModel signals → show overlays
             .onChange(of: viewModel.questCompleted) { completed in

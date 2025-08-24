@@ -13,7 +13,6 @@ final class QuestsViewModel: ObservableObject {
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
     @Published var alertMessage: String?
-    @Published var refreshTrigger: Bool = false
     @Published var questCompleted: Bool = false
     @Published var didLevelUp: Bool = false
     @Published var newLevel: Int16?
@@ -74,7 +73,6 @@ final class QuestsViewModel: ObservableObject {
         print("🔄 QuestsViewModel: Received quest updated notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            self?.refreshTrigger.toggle()
         }
     }
 
@@ -82,7 +80,6 @@ final class QuestsViewModel: ObservableObject {
         print("🗑️ QuestsViewModel: Received quest deleted notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            self?.refreshTrigger.toggle()
         }
     }
 
@@ -90,7 +87,6 @@ final class QuestsViewModel: ObservableObject {
         print("➕ QuestsViewModel: Received quest created notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchQuests()
-            self?.refreshTrigger.toggle()
         }
     }
 
@@ -117,7 +113,6 @@ final class QuestsViewModel: ObservableObject {
     }
 
     var itemsForSelectedDate: [DayQuestItem] {
-        _ = refreshTrigger
         return items(for: selectedDate)
     }
 
@@ -136,13 +131,14 @@ final class QuestsViewModel: ObservableObject {
     }
 
     // New method to refresh quest data without showing loading state
-    private func refreshQuestData() {
+    func refreshQuestData() {
         questDataService.refreshAllQuests(on: Date()) { [weak self] _ in
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
                     print("📅 QuestsViewModel: Refreshed quest data with \(quests.count) quests")
                     self?.allQuests = quests
-                    self?.refreshTrigger.toggle()
+                    // Send notification to other views
+                    NotificationCenter.default.post(name: .questUpdated, object: nil)
                 }
             }
         }
@@ -200,8 +196,8 @@ final class QuestsViewModel: ObservableObject {
                             self?.showFinishConfirmation = true
                         }
 
-                        // Refresh quest data to update the view
-                        self?.refreshQuestData()
+                        // Fetch quests to update the view and notify other views
+                        self?.fetchQuests()
                     }
                 }
             }
@@ -211,8 +207,8 @@ final class QuestsViewModel: ObservableObject {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
                     } else {
-                        // Refresh quest data to update the view
-                        self?.refreshQuestData()
+                        // Fetch quests to update the view and notify other views
+                        self?.fetchQuests()
                     }
                 }
             }
@@ -271,8 +267,8 @@ final class QuestsViewModel: ObservableObject {
                             self.didLevelUp = leveledUp
                             self.newLevel = newLevel
 
-                            // Refresh quest data to update the view
-                            self.refreshQuestData()
+                            // Fetch quests to update the view and notify other views
+                            self.fetchQuests()
                         }
                     }
                 }
@@ -286,8 +282,8 @@ final class QuestsViewModel: ObservableObject {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
                 } else {
-                    // Refresh quest data to update the view
-                    self?.refreshQuestData()
+                    // Fetch quests to update the view and notify other views
+                    self?.fetchQuests()
                 }
             }
         }

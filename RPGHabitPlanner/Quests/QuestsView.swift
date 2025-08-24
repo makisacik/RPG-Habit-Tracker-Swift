@@ -148,9 +148,7 @@ struct QuestsView: View {
             )
         }
         .onAppear {
-            if viewModel.allQuests.isEmpty {
-                viewModel.fetchQuests()
-            }
+            viewModel.refreshQuestData()
         }
     }
 
