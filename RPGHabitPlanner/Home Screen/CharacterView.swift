@@ -775,7 +775,6 @@ struct VerticalFloat: ViewModifier {
             }
     }
 }
-
 // MARK: - Character Tab Customization View
 struct CharacterTabCustomizationView: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -1103,3 +1102,4 @@ struct CharacterTabCustomizationView: View {
 extension Notification.Name {
     static let characterCustomizationUpdated = Notification.Name("characterCustomizationUpdated")
 }
+

@@ -446,9 +446,6 @@ struct SelectedDateDetails: View {
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.textColor)
             Spacer()
-            Text("\(active) active, \(completed) completed")
-                .font(.appFont(size: 14))
-                .foregroundColor(theme.textColor.opacity(0.7))
         }
         .frame(height: 24)
     }

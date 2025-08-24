@@ -108,14 +108,7 @@ struct MyQuestsSection: View {
 
     @ViewBuilder
     private func questCountSummary(theme: Theme) -> some View {
-        let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
-        let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
-
         HStack {
-            Text("\(activeCount) active, \(completedCount) completed")
-                .font(.appFont(size: 14))
-                .foregroundColor(theme.textColor.opacity(0.7))
-
             Spacer()
 
             Button("View All") {

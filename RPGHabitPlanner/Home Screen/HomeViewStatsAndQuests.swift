@@ -21,7 +21,7 @@ extension HomeView {
             HomeStatCard(
                 icon: "list.bullet.clipboard",
                 title: String.active.localized,
-                value: "\(viewModel.activeQuestsCount)",
+                value: "",
                 color: .blue,
                 theme: theme
             ) {
@@ -31,7 +31,7 @@ extension HomeView {
             HomeStatCard(
                 icon: "checkmark.seal.fill",
                 title: String.completed.localized,
-                value: "\(viewModel.completedQuestsCount)",
+                value: "",
                 color: .green,
                 theme: theme
             ) {

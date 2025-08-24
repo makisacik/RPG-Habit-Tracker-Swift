@@ -80,7 +80,7 @@ struct PremiumLockView: View {
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
 
-                Text("You've created \(currentQuestCount) quests. Upgrade to Premium for unlimited quests!")
+                Text("You've reached the quest limit. Upgrade to Premium for unlimited quests!")
                     .font(.appFont(size: 14, weight: .regular))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
@@ -130,7 +130,7 @@ struct QuestLimitIndicatorView: View {
                     .font(.system(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
 
-                Text("\(currentQuestCount)/\(PremiumManager.freeQuestLimit) Quests")
+                Text("Quest Limit")
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
 

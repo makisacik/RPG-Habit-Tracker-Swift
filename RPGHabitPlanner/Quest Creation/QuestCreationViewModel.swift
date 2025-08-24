@@ -20,7 +20,7 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var isSaving = false
     @Published var questTitle: String = ""
     @Published var questDescription: String = ""
-    @Published var questDueDate = Date()
+    @Published var questDueDate = Calendar.current.date(byAdding: .day, value: 15, to: Date()) ?? Date()
     @Published var isMainQuest: Bool = true
     @Published var difficulty: Int = 3
     @Published var isActiveQuest: Bool = true
@@ -104,7 +104,7 @@ final class QuestCreationViewModel: ObservableObject {
     func resetInputs() {
         questTitle = ""
         questDescription = ""
-        questDueDate = Date()
+        questDueDate = Calendar.current.date(byAdding: .day, value: 15, to: Date()) ?? Date()
         isMainQuest = false
         difficulty = 3
         isActiveQuest = false
