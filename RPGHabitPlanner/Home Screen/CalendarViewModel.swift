@@ -159,16 +159,9 @@ final class CalendarViewModel: ObservableObject {
             return DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }
 
-        // Sort items: active quests first, then completed quests
-        return items.sorted { (item1: DayQuestItem, item2: DayQuestItem) in
-            if item1.state == DayQuestState.todo && item2.state == DayQuestState.done {
-                return true // item1 (todo) comes before item2 (done)
-            } else if item1.state == DayQuestState.done && item2.state == DayQuestState.todo {
-                return false // item2 (todo) comes before item1 (done)
-            } else {
-                // If both have the same state, sort by creation date (newer first)
-                return item1.quest.creationDate > item2.quest.creationDate
-            }
+        // Sort by creation date (newer first)
+        return items.sorted { a, b in
+            return a.quest.creationDate > b.quest.creationDate
         }
     }
 

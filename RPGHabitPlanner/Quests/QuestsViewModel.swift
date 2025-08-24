@@ -19,7 +19,6 @@ final class QuestsViewModel: ObservableObject {
     @Published var newLevel: Int16?
     @Published var lastCompletedQuestId: UUID?
     @Published var lastCompletedQuest: Quest?
-    @Published var shouldAnimateReordering: Bool = false
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
 
@@ -143,13 +142,6 @@ final class QuestsViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     print("📅 QuestsViewModel: Refreshed quest data with \(quests.count) quests")
                     self?.allQuests = quests
-
-                    // Check if reordering animation should be enabled
-                    let currentItems = self?.items(for: self?.selectedDate ?? Date()) ?? []
-                    let hasActiveQuests = currentItems.contains { $0.state == .todo }
-                    let hasCompletedQuests = currentItems.contains { $0.state == .done }
-                    self?.shouldAnimateReordering = hasActiveQuests && hasCompletedQuests
-
                     self?.refreshTrigger.toggle()
                 }
             }

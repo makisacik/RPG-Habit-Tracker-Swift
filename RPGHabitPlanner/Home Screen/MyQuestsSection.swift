@@ -202,7 +202,7 @@ struct MyQuestsSection: View {
                 ))
             }
         }
-        .animation(viewModel.shouldAnimateReordering ? .spring(response: 0.6, dampingFraction: 0.8) : nil, value: viewModel.itemsForSelectedDate.map { $0.id })
+        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: viewModel.itemsForSelectedDate.map { $0.id })
     }
 
     @ViewBuilder
