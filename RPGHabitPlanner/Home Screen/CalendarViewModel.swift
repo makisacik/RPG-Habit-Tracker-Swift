@@ -37,6 +37,7 @@ final class CalendarViewModel: ObservableObject {
     private let calendar = Calendar.current
     private let streakManager = StreakManager.shared
     private let boosterManager = BoosterManager.shared
+    private let rewardService = RewardService.shared
 
     // Tag filtering support
     lazy var tagFilterViewModel: TagFilterViewModel = {
@@ -274,13 +275,20 @@ final class CalendarViewModel: ObservableObject {
                         // Record streak activity when completing a quest
                         self?.streakManager.recordActivity()
 
+                        // Handle quest completion rewards
+                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError in
+                            if let rewardError = rewardError {
+                                print("❌ Error handling quest completion rewards: \(rewardError)")
+                            }
+                        }
+
                         // Check if this quest should show finish confirmation
                         if item.quest.shouldShowFinishConfirmation(on: item.date) {
                             self?.questToFinish = item.quest
                             self?.showFinishConfirmation = true
-                        }
+                                            }
 
-                        self?.fetchQuests()
+                    self?.fetchQuests()
                     }
                 }
             }
@@ -383,6 +391,18 @@ final class CalendarViewModel: ObservableObject {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
                 } else {
+                    // Handle task completion rewards if task is being completed
+                    if newValue {
+                        if let quest = self?.allQuests.first(where: { $0.id == questId }),
+                           let task = quest.tasks.first(where: { $0.id == taskId }) {
+                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError in
+                                if let rewardError = rewardError {
+                                    print("❌ Error handling task completion rewards: \(rewardError)")
+                                }
+                            }
+                        }
+                    }
+
                     self?.fetchQuests()
                 }
             }

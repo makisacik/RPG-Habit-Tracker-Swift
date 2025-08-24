@@ -26,6 +26,7 @@ final class MyQuestsViewModel: ObservableObject {
     private let calendar = Calendar.current
     private let streakManager = StreakManager.shared
     private let boosterManager = BoosterManager.shared
+    private let rewardService = RewardService.shared
 
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
@@ -191,14 +192,21 @@ final class MyQuestsViewModel: ObservableObject {
                     } else {
                         self?.streakManager.recordActivity()
 
+                        // Handle quest completion rewards
+                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError in
+                            if let rewardError = rewardError {
+                                print("❌ Error handling quest completion rewards: \(rewardError)")
+                            }
+                        }
+
                         // Check if this quest should show finish confirmation
                         if item.quest.shouldShowFinishConfirmation(on: item.date) {
                             self?.questToFinish = item.quest
                             self?.showFinishConfirmation = true
-                        }
+                                            }
 
-                        // Fetch quests to update the view and notify other views
-                        self?.fetchQuests()
+                    // Fetch quests to update the view and notify other views
+                    self?.fetchQuests()
                     }
                 }
             }
@@ -283,6 +291,18 @@ final class MyQuestsViewModel: ObservableObject {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
                 } else {
+                    // Handle task completion rewards if task is being completed
+                    if newValue {
+                        if let quest = self?.allQuests.first(where: { $0.id == questId }),
+                           let task = quest.tasks.first(where: { $0.id == taskId }) {
+                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError in
+                                if let rewardError = rewardError {
+                                    print("❌ Error handling task completion rewards: \(rewardError)")
+                                }
+                            }
+                        }
+                    }
+
                     // Fetch quests to update the view and notify other views
                     self?.fetchQuests()
                 }

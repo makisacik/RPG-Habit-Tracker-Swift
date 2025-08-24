@@ -121,6 +121,26 @@ final class UserManager {
         }
     }
 
+    func updateUserCoins(additionalCoins: Int32, completion: @escaping (Error?) -> Void) {
+        fetchUser { user, error in
+            guard let user = user, error == nil else {
+                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+
+            let context = self.persistentContainer.viewContext
+            user.coins += additionalCoins
+
+            do {
+                try context.save()
+                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+
     // MARK: - New Customization Methods
 
     func saveUserWithCustomization(

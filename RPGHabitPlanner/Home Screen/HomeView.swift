@@ -111,10 +111,23 @@ struct HomeView: View {
                         )
                         .zIndex(60)
                     }
+
+                    // Reward Toast Container
+                    RewardToastContainerView()
+                        .zIndex(70)
                 }
                 .navigationTitle(String.adventureHub.localized)
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar(content: homeToolbarContent)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Test Toast") {
+                            let rewardService = RewardService.shared
+                            rewardService.showPreviewQuestReward()
+                        }
+                        .font(.caption)
+                    }
+                }
                 .navigationDestination(isPresented: $goToSettings) {
                     SettingsView()
                         .environmentObject(themeManager)

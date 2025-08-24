@@ -126,6 +126,10 @@ struct CalendarView: View {
             }
             LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
                 .zIndex(50)
+
+            // Reward Toast Container
+            RewardToastContainerView()
+                .zIndex(70)
         }
     }
 

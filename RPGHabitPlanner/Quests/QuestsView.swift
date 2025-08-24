@@ -96,6 +96,10 @@ struct QuestsView: View {
                 )
                 .zIndex(60)
             }
+
+            // Reward Toast Container
+            RewardToastContainerView()
+                .zIndex(70)
         }
         .navigationTitle(String.questJournal.localized)
         .navigationBarTitleDisplayMode(.inline)
