@@ -165,7 +165,10 @@ enum CalendarViewComponents {
         onQuestTap: @escaping (DayQuestItem) -> Void
     ) -> some View {
         VStack(spacing: 0) {
-            if !viewModel.itemsForSelectedDate.isEmpty {
+            if viewModel.shouldShowLoadingState {
+                // Show loading state only during the very first load when we have no data
+                loadingSection(theme: theme)
+            } else if !viewModel.itemsForSelectedDate.isEmpty {
                 SelectedDateDetails(
                     date: viewModel.selectedDate,
                     theme: theme,
@@ -196,6 +199,7 @@ enum CalendarViewComponents {
         }
         .frame(minHeight: 280, maxHeight: 320)
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
+        .animation(Animation.easeInOut(duration: 0.3), value: viewModel.shouldShowLoadingState)
     }
     
     // MARK: - Overlay Views
@@ -292,6 +296,30 @@ enum CalendarViewComponents {
         .padding(.bottom, 8)
     }
     
+    // MARK: - Loading Section
+    @ViewBuilder
+    static func loadingSection(theme: Theme) -> some View {
+        VStack(spacing: 16) {
+            Spacer()
+            
+            VStack(spacing: 8) {
+                ProgressView()
+                    .scaleEffect(1.2)
+                    .progressViewStyle(CircularProgressViewStyle(tint: theme.textColor.opacity(0.6)))
+                
+                Text("Loading quests...")
+                    .font(.appFont(size: 14))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+            }
+            .frame(height: 24)
+
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+        .transition(.opacity.combined(with: .scale))
+    }
+    
     // MARK: - Add Quest Section
     @ViewBuilder
     static func addQuestSection(
@@ -323,7 +351,7 @@ enum CalendarViewComponents {
                         .foregroundColor(theme.textColor)
                     Text(String.addQuest.localized)
                         .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(theme.textColor)
+                    .foregroundColor(theme.textColor)
                     Spacer()
                 }
                 .padding()

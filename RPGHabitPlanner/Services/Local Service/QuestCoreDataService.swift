@@ -185,6 +185,12 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 }
 
                 try context.save()
+                
+                // Post notification to update UI
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .questUpdated, object: nil)
+                }
+                
                 completion(nil)
             } else {
                 completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Task not found"]))

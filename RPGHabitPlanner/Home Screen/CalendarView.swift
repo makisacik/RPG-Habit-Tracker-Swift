@@ -38,11 +38,20 @@ struct CalendarView: View {
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
                 print("Calendar appear", ObjectIdentifier(viewModel))
-                viewModel.refreshQuestData()
+                print("📅 Current quest count: \(viewModel.allQuests.count)")
+                // Always refresh data when view appears, but use silent update if we already have data
+                if viewModel.allQuests.isEmpty {
+                    print("📅 No quests loaded, using refreshQuestData")
+                    viewModel.refreshQuestData()
+                } else {
+                    print("📅 Quests already loaded, using silentUpdateQuests")
+                    viewModel.silentUpdateQuests()
+                }
             }
             .onDisappear { print("Calendar disappear") }
             .sheet(isPresented: $showingQuestCreation, onDismiss: {
-                viewModel.fetchQuests()
+                // Use silent update since we're just refreshing after quest creation
+                viewModel.silentUpdateQuests()
             }) {
                 NavigationStack {
                     QuestCreationView(viewModel: makeCreationVM())
