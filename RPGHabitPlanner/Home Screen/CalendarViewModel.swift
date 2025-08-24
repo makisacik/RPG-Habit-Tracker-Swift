@@ -21,8 +21,6 @@ final class CalendarViewModel: ObservableObject {
     @Published var allQuests: [Quest] = []
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
-    @Published var isInitialLoading = false
-    @Published var hasLoadedInitialData = false
     @Published var alertMessage: String?
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
@@ -51,7 +49,6 @@ final class CalendarViewModel: ObservableObject {
     init(questDataService: QuestDataServiceProtocol, userManager: UserManager) {
         self.questDataService = questDataService
         self.userManager = userManager
-        self.isInitialLoading = true
         fetchQuests()
         setupNotificationObservers()
     }
@@ -139,21 +136,13 @@ final class CalendarViewModel: ObservableObject {
     }
     
     var shouldShowLoadingState: Bool {
-        // Only show loading during the very first load when we have no data
-        return isInitialLoading && !hasLoadedInitialData && allQuests.isEmpty
-    }
-    
-    var isUpdatingData: Bool {
-        // Track when we're updating data (either loading or silent update)
-        return isLoading || isInitialLoading
+        // Only show loading when there's no data
+        return isLoading && allQuests.isEmpty
     }
     
     func fetchQuests() {
         print("📅 CalendarViewModel: Starting fetchQuests()")
-        // Only show loading state if we haven't loaded initial data yet
-        if !hasLoadedInitialData {
-            isLoading = true
-        }
+        isLoading = true
         
         // First refresh all quest states to ensure they're up to date
         questDataService.refreshAllQuests(on: Date()) { [weak self] error in
@@ -165,14 +154,8 @@ final class CalendarViewModel: ObservableObject {
             self?.questDataService.fetchAllQuests { [weak self] quests, _ in
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
+                    self?.isLoading = false
                     self?.allQuests = quests
-                    
-                    // Add a small delay to prevent loading state from flashing too quickly
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        self?.isLoading = false
-                        self?.isInitialLoading = false
-                        self?.hasLoadedInitialData = true
-                    }
                 }
             }
         }
@@ -180,10 +163,6 @@ final class CalendarViewModel: ObservableObject {
     
     // New method to refresh quest data without showing loading state
     func refreshQuestData() {
-        // Only show loading state if we haven't loaded initial data yet
-        if !hasLoadedInitialData {
-            isLoading = true
-        }
         questDataService.refreshAllQuests(on: Date()) { [weak self] error in
             if let error = error {
                 print("❌ CalendarViewModel: Error refreshing quests: \(error)")
@@ -195,14 +174,6 @@ final class CalendarViewModel: ObservableObject {
                     self?.allQuests = quests
                     // Send notification to other views
                     NotificationCenter.default.post(name: .questUpdated, object: nil)
-                    
-                    // Add a small delay to prevent loading state from flashing too quickly
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        self?.isLoading = false
-                        if let self = self, !self.hasLoadedInitialData {
-                            self.hasLoadedInitialData = true
-                        }
-                    }
                 }
             }
         }
@@ -210,7 +181,6 @@ final class CalendarViewModel: ObservableObject {
     
     // Silent update method for quest/task changes that doesn't show loading state
     func silentUpdateQuests() {
-        print("📅 CalendarViewModel: Starting silent update")
         questDataService.refreshAllQuests(on: Date()) { [weak self] error in
             if let error = error {
                 print("❌ CalendarViewModel: Error refreshing quests: \(error)")
@@ -220,8 +190,6 @@ final class CalendarViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Silently updated quest data with \(quests.count) quests")
                     self?.allQuests = quests
-                    // Force UI update by triggering objectWillChange
-                    self?.objectWillChange.send()
                 }
             }
         }
