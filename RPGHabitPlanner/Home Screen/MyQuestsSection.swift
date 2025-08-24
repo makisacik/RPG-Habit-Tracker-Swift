@@ -69,24 +69,6 @@ struct MyQuestsSection: View {
                 .environmentObject(themeManager)
             }
         }
-        // Quest finish confirmation popup
-        .overlay {
-            if viewModel.showFinishConfirmation, let quest = viewModel.questToFinish {
-                QuestFinishConfirmationPopup(
-                    quest: quest,
-                    onConfirm: {
-                        viewModel.markQuestAsFinished(questId: quest.id)
-                        viewModel.showFinishConfirmation = false
-                        viewModel.questToFinish = nil
-                    },
-                    onCancel: {
-                        viewModel.showFinishConfirmation = false
-                        viewModel.questToFinish = nil
-                    }
-                )
-                .zIndex(60)
-            }
-        }
         // Make sure the section refreshes when it appears
         .onAppear {
             // Only fetch if we don't have data yet, to avoid spam
