@@ -79,7 +79,7 @@ struct ItemHeaderView: View {
                 if let definition = itemDefinition {
                     Text(definition.itemType.rawValue)
                         .font(.appFont(size: 14, weight: .medium))
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 4)
                         .background(
@@ -178,7 +178,7 @@ struct CompactItemHeaderView: View {
                 if let definition = itemDefinition {
                     Text(definition.itemType.rawValue)
                         .font(.appFont(size: 12, weight: .medium))
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 2)
                         .background(

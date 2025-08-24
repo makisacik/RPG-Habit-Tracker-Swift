@@ -12,7 +12,6 @@ struct CharacterView: View {
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var inventoryManager = InventoryManager.shared
     @StateObject private var boosterManager = BoosterManager.shared
-    @State private var showBoosterInfo = false
     @State private var refreshTrigger = false
     @State private var showShop = false
     @State private var showCustomizationModal = false
@@ -51,9 +50,8 @@ struct CharacterView: View {
                         )
 
                         // Boosters Section
-                        BoostersSectionView(
+                        CompactBoostersSectionView(
                             boosterManager: boosterManager,
-                            showBoosterInfo: $showBoosterInfo,
                             theme: theme
                         )
 

@@ -17,7 +17,6 @@ struct ItemDetailSheet: View {
     @State private var showSuccessMessage = false
     @State private var showErrorMessage = false
     @State private var errorMessage = ""
-
     private var itemDefinition: Item? {
         guard let iconName = item.iconName else { return nil }
         return ItemDatabase.shared.findItem(byIconName: iconName)

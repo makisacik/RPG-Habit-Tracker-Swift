@@ -75,7 +75,7 @@ struct UnifiedItemDetailView: View {
                             .foregroundColor(itemTypeColor)
                         Text(itemTypeText)
                             .font(.appFont(size: 12, weight: .black))
-                            .foregroundColor(itemTypeColor)
+                            .foregroundColor(theme.textColor)
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 4)

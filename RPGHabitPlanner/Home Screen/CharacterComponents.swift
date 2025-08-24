@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-// MARK: - Boosters Section View
-struct BoostersSectionView: View {
+// MARK: - Compact Boosters Section View
+struct CompactBoostersSectionView: View {
     @ObservedObject var boosterManager: BoosterManager
-    @Binding var showBoosterInfo: Bool
     let theme: Theme
+    @State private var refreshTrigger = false
 
     var body: some View {
         VStack(spacing: 12) {
@@ -20,13 +20,6 @@ struct BoostersSectionView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
-                Button(action: {
-                    showBoosterInfo = true
-                }) {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                }
             }
 
             if boosterManager.activeBoosters.isEmpty {
@@ -44,55 +37,167 @@ struct BoostersSectionView: View {
                         .fill(theme.backgroundColor.opacity(0.7))
                 )
             } else {
-                VStack(spacing: 8) {
-                    ForEach(boosterManager.activeBoosters, id: \.id) { booster in
-                        BoosterCard(booster: booster, theme: theme)
-                    }
+                VStack(spacing: 16) {
+                    // Total Boosters Summary
+                    totalBoostersSummary(theme: theme)
+                    
+                    // Individual Boosters List
+                    individualBoostersList(theme: theme)
                 }
             }
         }
-        .sheet(isPresented: $showBoosterInfo) {
-            BoosterInfoModalView()
-                .environmentObject(ThemeManager.shared)
+        .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
+            print("🔄 CompactBoostersSectionView: Received boostersUpdated notification")
+            refreshTrigger.toggle()
         }
     }
-}
+    
+    private func totalBoostersSummary(theme: Theme) -> some View {
+        LazyVGrid(columns: [
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ], spacing: 12) {
+            // Experience Booster
+            VStack(spacing: 6) {
+                HStack {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 14))
+                    Text("Experience")
+                        .font(.appFont(size: 12, weight: .medium))
+                        .foregroundColor(theme.textColor)
+                }
 
-// MARK: - Booster Card
-struct BoosterCard: View {
-    let booster: BoosterEffect
-    let theme: Theme
+                Text("\(Int((boosterManager.totalExperienceMultiplier - 1.0) * 100))%")
+                    .font(.appFont(size: 18, weight: .black))
+                    .foregroundColor(.green)
 
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "bolt.fill")
-                .font(.system(size: 20))
-                .foregroundColor(.yellow)
+                if boosterManager.totalExperienceBonus > 0 {
+                    Text("+\(boosterManager.totalExperienceBonus)")
+                        .font(.appFont(size: 10))
+                        .foregroundColor(.green.opacity(0.8))
+                }
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(theme.primaryColor.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.green.opacity(0.3), lineWidth: 1)
+                    )
+            )
 
-            VStack(alignment: .leading, spacing: 4) {
+            // Coin Booster
+            VStack(spacing: 6) {
+                HStack {
+                    Image("icon_gold")
+                        .resizable()
+                        .frame(width: 14, height: 14)
+                    Text("Coins")
+                        .font(.appFont(size: 12, weight: .medium))
+                        .foregroundColor(theme.textColor)
+                }
+
+                Text("\(Int((boosterManager.totalCoinsMultiplier - 1.0) * 100))%")
+                    .font(.appFont(size: 18, weight: .black))
+                    .foregroundColor(.yellow)
+
+                if boosterManager.totalCoinsBonus > 0 {
+                    Text("+\(boosterManager.totalCoinsBonus)")
+                        .font(.appFont(size: 10))
+                        .foregroundColor(.yellow.opacity(0.8))
+                }
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(theme.primaryColor.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                    )
+            )
+        }
+    }
+    
+    private func individualBoostersList(theme: Theme) -> some View {
+        VStack(spacing: 8) {
+            ForEach(getItemBoosters(), id: \.sourceId) { booster in
+                compactBoosterRow(booster: booster, theme: theme)
+            }
+        }
+    }
+    
+    private func compactBoosterRow(booster: BoosterEffect, theme: Theme) -> some View {
+        HStack(spacing: 10) {
+            // Booster icon
+            if booster.type == .coins {
+                Image("icon_gold")
+                    .resizable()
+                    .frame(width: 14, height: 14)
+            } else {
+                Image(systemName: boosterIconName(for: booster.type))
+                    .foregroundColor(boosterColor(for: booster.type))
+                    .font(.system(size: 14, weight: .bold))
+                    .frame(width: 20, height: 20)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
                 Text(booster.sourceName)
-                    .font(.appFont(size: 14, weight: .medium))
+                    .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(theme.textColor)
 
-                Text(booster.type.description)
-                    .font(.appFont(size: 12))
-                    .foregroundColor(theme.textColor.opacity(0.7))
+                HStack(spacing: 6) {
+                    Text("\(Int((booster.multiplier - 1.0) * 100))%")
+                        .font(.appFont(size: 10, weight: .bold))
+                        .foregroundColor(boosterColor(for: booster.type))
+
+                    if booster.flatBonus > 0 {
+                        Text("+\(booster.flatBonus)")
+                            .font(.appFont(size: 10))
+                            .foregroundColor(boosterColor(for: booster.type).opacity(0.8))
+                    }
+
+                    if let expiresAt = booster.expiresAt {
+                        Spacer()
+                        Text("Expires: \(expiresAt, style: .relative)")
+                            .font(.appFont(size: 9))
+                            .foregroundColor(.red.opacity(0.8))
+                    }
+                }
             }
 
             Spacer()
-
-            if let remainingTime = booster.remainingTime {
-                Text("\(Int(remainingTime))s")
-                    .font(.appFont(size: 12, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.8))
-            }
         }
-        .padding()
+        .padding(.vertical, 6)
+        .padding(.horizontal, 10)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(theme.backgroundColor.opacity(0.7))
-                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+            RoundedRectangle(cornerRadius: 6)
+                .fill(theme.primaryColor.opacity(0.05))
         )
+    }
+    
+    private func getItemBoosters() -> [BoosterEffect] {
+        return boosterManager.activeBoosters.filter { $0.source == .item && $0.isActive && !$0.isExpired }
+    }
+
+    private func boosterIconName(for type: BoosterType) -> String {
+        switch type {
+        case .experience: return "star.fill"
+        case .coins: return "icon_gold"
+        case .both: return "bolt.fill"
+        }
+    }
+
+    private func boosterColor(for type: BoosterType) -> Color {
+        switch type {
+        case .experience: return .green
+        case .coins: return .yellow
+        case .both: return .orange
+        }
     }
 }
 
