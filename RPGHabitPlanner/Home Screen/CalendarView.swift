@@ -15,6 +15,11 @@ struct CalendarView: View {
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showTagFilter = false
 
+    // Reward system state
+    @State private var showReward = false
+    @State private var completedQuest: Quest?
+    @State private var showLevelUp = false
+    @State private var levelUpLevel: Int = 0
 
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
@@ -51,6 +56,30 @@ struct CalendarView: View {
                 if msg != nil { showingAlert = true }
             }
             .onChange(of: viewModel.refreshTrigger) { _ in }
+
+            // Listen to CalendarViewModel signals → show overlays
+            .onChange(of: viewModel.questCompleted) { completed in
+                if completed && !showReward {
+                    if let quest = viewModel.lastCompletedQuest {
+                        completedQuest = quest
+                    } else if let id = viewModel.lastCompletedQuestId,
+                              let quest = viewModel.allQuests.first(where: { $0.id == id }) {
+                        completedQuest = quest
+                    }
+                    showReward = (completedQuest != nil)
+                    // Reset flag so we don't re-trigger when list refreshes
+                    viewModel.questCompleted = false
+                }
+            }
+            .onChange(of: showReward) { visible in
+                if !visible, viewModel.didLevelUp, let lvl = viewModel.newLevel {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        levelUpLevel = Int(lvl)
+                        showLevelUp = true
+                    }
+                }
+            }
+
             .alert(isPresented: $showingAlert) {
                 Alert(
                     title: Text(String.headsUp.localized),
@@ -86,6 +115,15 @@ struct CalendarView: View {
                 theme: theme,
                 viewModel: viewModel
             )
+
+            // Reward overlays
+            if let quest = completedQuest, showReward {
+                RewardView(isVisible: $showReward, quest: quest)
+                    .id("reward-\(quest.id)")
+                    .zIndex(50)
+            }
+            LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
+                .zIndex(50)
         }
     }
 

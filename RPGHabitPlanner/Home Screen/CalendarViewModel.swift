@@ -26,6 +26,13 @@ final class CalendarViewModel: ObservableObject {
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
 
+    // Reward system properties
+    @Published var questCompleted: Bool = false
+    @Published var didLevelUp: Bool = false
+    @Published var newLevel: Int16?
+    @Published var lastCompletedQuestId: UUID?
+    @Published var lastCompletedQuest: Quest?
+
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
     private let calendar = Calendar.current
@@ -111,9 +118,24 @@ final class CalendarViewModel: ObservableObject {
     @objc private func handleQuestCompletedFromDetail(_ notification: Notification) {
         print("🎯 CalendarViewModel: Received quest completed from detail notification")
         DispatchQueue.main.async { [weak self] in
-            self?.fetchQuests()
+            guard let self = self,
+                  let quest = notification.object as? Quest,
+                  let userInfo = notification.userInfo,
+                  let questId = userInfo["questId"] as? UUID,
+                  let leveledUp = userInfo["leveledUp"] as? Bool,
+                  let newLevel = userInfo["newLevel"] as? Int16 else {
+                return
+            }
+
+            self.lastCompletedQuestId = questId
+            self.lastCompletedQuest = quest
+            self.questCompleted = true
+            self.didLevelUp = leveledUp
+            self.newLevel = newLevel
+
+            self.fetchQuests()
             // Force UI refresh
-            self?.refreshTrigger.toggle()
+            self.refreshTrigger.toggle()
         }
     }
 
@@ -308,7 +330,7 @@ final class CalendarViewModel: ObservableObject {
                     )
 
                     // Award boosted experience
-                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { _, _, expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.alertMessage = expError.localizedDescription
                         } else {
@@ -324,6 +346,13 @@ final class CalendarViewModel: ObservableObject {
 
                             // Check achievements
                             self.checkAchievements()
+
+                            // Set reward properties for UI
+                            self.lastCompletedQuestId = questId
+                            self.lastCompletedQuest = quest
+                            self.questCompleted = true
+                            self.didLevelUp = leveledUp
+                            self.newLevel = newLevel
 
                             self.fetchQuests()
                         }
