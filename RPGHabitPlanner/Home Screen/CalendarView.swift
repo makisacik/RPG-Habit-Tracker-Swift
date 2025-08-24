@@ -127,6 +127,23 @@ struct CalendarView: View {
                     }
                 }
             }
+
+            // Quest finish confirmation popup
+            if viewModel.showFinishConfirmation, let quest = viewModel.questToFinish {
+                QuestFinishConfirmationPopup(
+                    quest: quest,
+                    onConfirm: {
+                        viewModel.markQuestAsFinished(questId: quest.id)
+                        viewModel.showFinishConfirmation = false
+                        viewModel.questToFinish = nil
+                    },
+                    onCancel: {
+                        viewModel.showFinishConfirmation = false
+                        viewModel.questToFinish = nil
+                    }
+                )
+                .zIndex(60)
+            }
         }
         .navigationTitle(String.questCalendar.localized)
         .navigationBarTitleDisplayMode(.inline)

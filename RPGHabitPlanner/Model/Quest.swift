@@ -159,4 +159,30 @@ extension Quest {
             return isScheduledDay && !isCompletedToday
         }
     }
+
+    /// Determines if this completion should trigger the finish confirmation popup
+    func shouldShowFinishConfirmation(on date: Date, calendar: Calendar = .current) -> Bool {
+        switch repeatType {
+        case .oneTime:
+            // Always show for one-time quests when completed
+            return true
+        case .daily:
+            // Show if this is the last day of the quest (due date)
+            let today = calendar.startOfDay(for: date)
+            let dueDate = calendar.startOfDay(for: self.dueDate)
+            return today >= dueDate
+        case .weekly:
+            // Show if this is the last week of the quest (due date week)
+            let today = calendar.startOfDay(for: date)
+            let dueDate = calendar.startOfDay(for: self.dueDate)
+            let todayWeek = weekAnchor(for: today, calendar: calendar)
+            let dueDateWeek = weekAnchor(for: dueDate, calendar: calendar)
+            return todayWeek >= dueDateWeek
+        case .scheduled:
+            // Show if this is the last scheduled day of the quest (due date)
+            let today = calendar.startOfDay(for: date)
+            let dueDate = calendar.startOfDay(for: self.dueDate)
+            return today >= dueDate
+        }
+    }
 }

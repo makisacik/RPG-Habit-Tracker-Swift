@@ -20,6 +20,8 @@ final class QuestsViewModel: ObservableObject {
     @Published var lastCompletedQuestId: UUID?
     @Published var lastCompletedQuest: Quest?
     @Published var shouldAnimateReordering: Bool = false
+    @Published var showFinishConfirmation: Bool = false
+    @Published var questToFinish: Quest?
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -199,6 +201,13 @@ final class QuestsViewModel: ObservableObject {
                         self?.alertMessage = error.localizedDescription
                     } else {
                         self?.streakManager.recordActivity()
+
+                        // Check if this quest should show finish confirmation
+                        if item.quest.shouldShowFinishConfirmation(on: item.date) {
+                            self?.questToFinish = item.quest
+                            self?.showFinishConfirmation = true
+                        }
+
                         // Refresh quest data to update the view
                         self?.refreshQuestData()
                     }

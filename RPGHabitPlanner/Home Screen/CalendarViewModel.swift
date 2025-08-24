@@ -23,6 +23,8 @@ final class CalendarViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var alertMessage: String?
     @Published var refreshTrigger: Bool = false
+    @Published var showFinishConfirmation: Bool = false
+    @Published var questToFinish: Quest?
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -231,6 +233,13 @@ final class CalendarViewModel: ObservableObject {
                     } else {
                         // Record streak activity when completing a quest
                         self?.streakManager.recordActivity()
+
+                        // Check if this quest should show finish confirmation
+                        if item.quest.shouldShowFinishConfirmation(on: item.date) {
+                            self?.questToFinish = item.quest
+                            self?.showFinishConfirmation = true
+                        }
+
                         self?.fetchQuests()
                     }
                 }

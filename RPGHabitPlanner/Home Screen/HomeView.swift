@@ -94,6 +94,23 @@ struct HomeView: View {
                     }
                     LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
                         .zIndex(50)
+
+                    // Quest finish confirmation popup
+                    if myQuestsVM.showFinishConfirmation, let quest = myQuestsVM.questToFinish {
+                        QuestFinishConfirmationPopup(
+                            quest: quest,
+                            onConfirm: {
+                                myQuestsVM.markQuestAsFinished(questId: quest.id)
+                                myQuestsVM.showFinishConfirmation = false
+                                myQuestsVM.questToFinish = nil
+                            },
+                            onCancel: {
+                                myQuestsVM.showFinishConfirmation = false
+                                myQuestsVM.questToFinish = nil
+                            }
+                        )
+                        .zIndex(60)
+                    }
                 }
                 .navigationTitle(String.adventureHub.localized)
                 .navigationBarTitleDisplayMode(.large)
