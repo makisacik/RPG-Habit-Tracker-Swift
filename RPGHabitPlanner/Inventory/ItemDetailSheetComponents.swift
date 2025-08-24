@@ -12,7 +12,7 @@ struct ItemHeaderView: View {
     let item: ItemEntity
     let itemDefinition: Item?
     let theme: Theme
-    
+
     var body: some View {
         VStack(spacing: 16) {
             // Item Icon
@@ -21,7 +21,7 @@ struct ItemHeaderView: View {
                     .fill(theme.surfaceColor)
                     .frame(width: 120, height: 120)
                     .shadow(color: theme.shadowColor, radius: 8, x: 0, y: 4)
-                
+
                 if let previewImage = item.previewImage, !previewImage.isEmpty {
                     if UIImage(named: previewImage) != nil {
                         Image(previewImage)
@@ -48,7 +48,7 @@ struct ItemHeaderView: View {
                         .font(.system(size: 60))
                         .foregroundColor(theme.textColor.opacity(0.5))
                 }
-                
+
                 // Rarity indicator
                 if let rarity = getItemRarity() {
                     VStack {
@@ -67,13 +67,13 @@ struct ItemHeaderView: View {
                     }
                 }
             }
-            
+
             // Item Name
             Text(item.name ?? "Unknown Item")
                 .font(.appFont(size: 24, weight: .bold))
                 .foregroundColor(theme.textColor)
                 .multilineTextAlignment(.center)
-            
+
             // Item Type and Rarity
             HStack(spacing: 12) {
                 if let definition = itemDefinition {
@@ -87,7 +87,7 @@ struct ItemHeaderView: View {
                                 .fill(theme.accentColor.opacity(0.2))
                         )
                 }
-                
+
                 if let rarity = getItemRarity() {
                     Text(rarity.rawValue)
                         .font(.appFont(size: 14, weight: .medium))
@@ -102,7 +102,7 @@ struct ItemHeaderView: View {
             }
         }
     }
-    
+
     private func getItemRarity() -> ItemRarity? {
         if let rarityString = item.rarity {
             return ItemRarity(rawValue: rarityString)
@@ -116,7 +116,7 @@ struct CompactItemHeaderView: View {
     let item: ItemEntity
     let itemDefinition: Item?
     let theme: Theme
-    
+
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             // Left side: Image and Type
@@ -127,7 +127,7 @@ struct CompactItemHeaderView: View {
                         .fill(theme.surfaceColor)
                         .frame(width: 80, height: 80)
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
-                    
+
                     if let previewImage = item.previewImage, !previewImage.isEmpty {
                         if UIImage(named: previewImage) != nil {
                             Image(previewImage)
@@ -154,7 +154,7 @@ struct CompactItemHeaderView: View {
                             .font(.system(size: 40))
                             .foregroundColor(theme.textColor.opacity(0.5))
                     }
-                    
+
                     // Rarity indicator
                     if let rarity = getItemRarity() {
                         VStack {
@@ -173,7 +173,7 @@ struct CompactItemHeaderView: View {
                         }
                     }
                 }
-                
+
                 // Item Type
                 if let definition = itemDefinition {
                     Text(definition.itemType.rawValue)
@@ -187,7 +187,7 @@ struct CompactItemHeaderView: View {
                         )
                 }
             }
-            
+
             // Right side: Name, Rarity, and Description
             VStack(alignment: .leading, spacing: 8) {
                 // Item Name
@@ -195,7 +195,7 @@ struct CompactItemHeaderView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.leading)
-                
+
                 // Rarity
                 if let rarity = getItemRarity() {
                     Text(rarity.rawValue)
@@ -208,7 +208,7 @@ struct CompactItemHeaderView: View {
                                 .fill(rarity.uiColor.opacity(0.2))
                         )
                 }
-                
+
                 // Description
                 Text(item.info ?? "No description available.")
                     .font(.appFont(size: 14))
@@ -216,7 +216,7 @@ struct CompactItemHeaderView: View {
                     .multilineTextAlignment(.leading)
                     .lineLimit(nil)
             }
-            
+
             Spacer()
         }
         .padding()
@@ -229,7 +229,7 @@ struct CompactItemHeaderView: View {
                 )
         )
     }
-    
+
     private func getItemRarity() -> ItemRarity? {
         if let rarityString = item.rarity {
             return ItemRarity(rawValue: rarityString)
@@ -242,13 +242,13 @@ struct CompactItemHeaderView: View {
 struct ItemDetailsView: View {
     let item: ItemEntity
     let theme: Theme
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Description")
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             Text(item.info ?? "No description available.")
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.8))
@@ -271,13 +271,13 @@ struct ItemDetailsView: View {
 struct ItemEffectsView: View {
     let effects: [ItemEffect]
     let theme: Theme
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Effects")
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             VStack(spacing: 8) {
                 ForEach(effects, id: \.type) { effect in
                     HStack {
@@ -285,19 +285,19 @@ struct ItemEffectsView: View {
                             .font(.system(size: 16))
                             .foregroundColor(theme.accentColor)
                             .frame(width: 24)
-                        
+
                         VStack(alignment: .leading, spacing: 2) {
                             Text(effect.type.rawValue)
                                 .font(.appFont(size: 14, weight: .medium))
                                 .foregroundColor(theme.textColor)
-                            
+
                             Text(effect.type.description)
                                 .font(.appFont(size: 12))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                         }
-                        
+
                         Spacer()
-                        
+
                         Text(effect.displayValue)
                             .font(.appFont(size: 14, weight: .bold))
                             .foregroundColor(theme.accentColor)
@@ -322,13 +322,13 @@ struct ItemEffectsView: View {
 struct UsageInfoView: View {
     let definition: Item
     let theme: Theme
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Usage Information")
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.textColor)
-            
+
             VStack(alignment: .leading, spacing: 8) {
                 if definition.itemType == .consumable {
                     HStack {
@@ -339,7 +339,7 @@ struct UsageInfoView: View {
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
-                    
+
                     Text("This item will be consumed when used and removed from your inventory.")
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
@@ -352,7 +352,7 @@ struct UsageInfoView: View {
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
-                    
+
                     Text("This item provides temporary bonuses and will be consumed when used.")
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
@@ -365,7 +365,7 @@ struct UsageInfoView: View {
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
-                    
+
                     Text("This item can be equipped to enhance your character's stats.")
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
@@ -378,13 +378,13 @@ struct UsageInfoView: View {
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
-                    
+
                     Text("This is a collectible item for display purposes.")
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
             }
-            
+
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -403,14 +403,20 @@ struct UsageInfoView: View {
 // MARK: - Message Overlay Views
 struct SuccessMessageOverlay: View {
     let theme: Theme
-    
+    let message: String
+
+    init(theme: Theme, message: String = "Item used successfully!") {
+        self.theme = theme
+        self.message = message
+    }
+
     var body: some View {
         VStack {
             Spacer()
             HStack {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(.green)
-                Text("Item used successfully!")
+                Text(message)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
             }
@@ -430,7 +436,7 @@ struct SuccessMessageOverlay: View {
 struct ErrorMessageOverlay: View {
     let errorMessage: String
     let theme: Theme
-    
+
     var body: some View {
         VStack {
             Spacer()

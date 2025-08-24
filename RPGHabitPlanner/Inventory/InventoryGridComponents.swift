@@ -12,6 +12,7 @@ struct InventoryGridItemView: View {
     let item: ItemEntity
     let theme: Theme
     @State private var showItemDetail = false
+    @StateObject private var gearManager = GearManager.shared
 
     var body: some View {
         Button(action: {
@@ -72,6 +73,25 @@ struct InventoryGridItemView: View {
                             Spacer()
                         }
                     }
+
+                    // Equipped indicator for gear items
+                    if isGearItem && gearManager.isItemEquipped(item) {
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.green)
+                                    .background(
+                                        Circle()
+                                            .fill(.white)
+                                            .frame(width: 14, height: 14)
+                                    )
+                                    .offset(x: 2, y: -2)
+                            }
+                        }
+                    }
                 }
                 .frame(width: 52, height: 52)
 
@@ -93,6 +113,12 @@ struct InventoryGridItemView: View {
                 .environmentObject(InventoryManager.shared)
                 .presentationDetents([.medium])
         }
+    }
+
+    private var isGearItem: Bool {
+        guard let iconName = item.iconName else { return false }
+        let itemDefinition = ItemDatabase.shared.findItem(byIconName: iconName)
+        return itemDefinition?.itemType == .gear
     }
 
     private func getItemRarity() -> ItemRarity? {

@@ -119,6 +119,36 @@ class InventoryManager: ObservableObject {
         }
     }
 
+    /// Equips a gear item from the inventory
+    /// - Parameters:
+    ///   - item: The item entity to equip
+    ///   - completion: Completion handler with success status and error
+    func equipItem(_ item: ItemEntity, completion: @escaping (Bool, Error?) -> Void) {
+        guard isGear(item) else {
+            completion(false, InventoryError.itemNotUsable)
+            return
+        }
+        
+        guard let gearCategory = getGearCategory(item) else {
+            completion(false, InventoryError.invalidItem)
+            return
+        }
+        
+        // Get the current user
+        userManager.fetchUser { [weak self] user, error in
+            guard let user = user, error == nil else {
+                completion(false, error ?? InventoryError.invalidItem)
+                return
+            }
+            
+            // Use GearManager to equip the item
+            let gearManager = GearManager.shared
+            gearManager.equipItem(item, to: gearCategory, for: user)
+            
+            completion(true, nil)
+        }
+    }
+
     // MARK: - Item Type Detection
 
     /// Gets the type of an item

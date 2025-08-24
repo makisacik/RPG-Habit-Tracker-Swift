@@ -101,6 +101,7 @@ struct CharacterView: View {
         .onReceive(NotificationCenter.default.publisher(for: .gearUpdated)) { _ in
             print("🔄 CharacterView: Received gearUpdated notification")
             fetchCharacterCustomization()
+            inventoryManager.refreshInventory()
         }
     }
 
