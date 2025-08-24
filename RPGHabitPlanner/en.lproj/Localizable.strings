@@ -456,3 +456,7 @@
 "preparing_quest" = "Preparing your quest...";
 "greetings_adventurer" = "Greetings, brave adventurer! I have a quest that requires your attention. Are you ready to embark on this journey?";
 "continue" = "Continue";
+
+// MARK: - Character Customization
+"mustache" = "Mustache";
+"flower" = "Flower";

@@ -284,3 +284,7 @@
 "preparing_quest" = "Göreviniz hazırlanıyor...";
 "greetings_adventurer" = "Selamlar, cesur maceracı! Dikkatinizi gerektiren bir görevim var. Bu yolculuğa çıkmaya hazır mısınız?";
 "continue" = "Devam Et";
+
+// MARK: - Character Customization
+"mustache" = "Bıyık";
+"flower" = "Çiçek";

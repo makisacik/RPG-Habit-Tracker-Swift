@@ -15,7 +15,7 @@ struct CharacterCreationView: View {
     @State private var currentSectionIndex = 0
 
     private let categories: [CustomizationCategory] = [
-        .bodyType, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory
+        .bodyType, .hairStyle, .hairColor, .eyeColor, .outfit, .weapon, .accessory, .mustache, .flower
     ]
 
     var body: some View {
