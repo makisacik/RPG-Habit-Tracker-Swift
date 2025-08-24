@@ -418,9 +418,9 @@ struct EquipmentSlotView: View {
                         )
 
                     // Equipment icon or placeholder
-                    if isEquipped, let equippedItem = equippedItem, let iconName = equippedItem.iconName {
-                        // Show actual equipped item icon
-                        Image(iconName)
+                    if isEquipped, let equippedItem = equippedItem, let previewImage = equippedItem.previewImage {
+                        // Show preview image for equipped item
+                        Image(previewImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 32, height: 32)
