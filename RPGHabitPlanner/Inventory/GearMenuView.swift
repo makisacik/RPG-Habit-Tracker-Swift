@@ -74,7 +74,7 @@ struct GearMenuView: View {
                     showShop = true
                 }
                 .font(.appFont(size: 16, weight: .medium))
-                .foregroundColor(theme.accentColor)
+                .foregroundColor(theme.textColor)
             }
             
             Text(gearCategory.description)
@@ -199,7 +199,6 @@ struct GearMenuView: View {
     
     private func equipItem(_ item: ItemEntity) {
         gearManager.equipItem(item, to: gearCategory, for: user)
-        dismiss()
     }
     
     private func getCurrentCustomization() -> CharacterCustomization? {
@@ -231,7 +230,7 @@ struct GearItemCard: View {
     
     var body: some View {
         Button(action: {
-            showItemDetail = true
+            onTap()
         }) {
             VStack(spacing: 8) {
                 ZStack {
@@ -275,6 +274,7 @@ struct GearItemCard: View {
                     }
                 }
                 .frame(height: 80)
+                .padding(4)
                 
                 // Item name
                 Text(item.name ?? "Unknown")
@@ -304,6 +304,10 @@ struct GearItemCard: View {
                 .presentationDetents([.medium])
         }
         .contextMenu {
+            Button("View Details") {
+                showItemDetail = true
+            }
+            
             Button("Equip") {
                 onTap()
             }
