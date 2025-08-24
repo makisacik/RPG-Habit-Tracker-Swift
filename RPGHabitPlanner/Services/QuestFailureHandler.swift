@@ -5,6 +5,7 @@ final class QuestFailureHandler: ObservableObject {
     static let shared = QuestFailureHandler()
     private let persistentContainer: NSPersistentContainer
     private let healthManager: HealthManager
+    private let damageTrackingManager: QuestDamageTrackingManager
 
     @Published var showFailureNotification = false
     @Published var failureMessage = ""
@@ -12,6 +13,7 @@ final class QuestFailureHandler: ObservableObject {
     private init(container: NSPersistentContainer = PersistenceController.shared.container) {
         self.persistentContainer = container
         self.healthManager = HealthManager.shared
+        self.damageTrackingManager = QuestDamageTrackingManager.shared
     }
 
     // MARK: - Quest Failure Handling
@@ -43,18 +45,31 @@ final class QuestFailureHandler: ObservableObject {
     }
 
     private func handleQuestFailure(quest: QuestEntity) {
-        let difficulty = Int(quest.difficulty)
+        // Use the new damage tracking system instead of the old difficulty-based system
+        // Convert QuestEntity to Quest model for damage calculation
+        let questModel = mapQuestEntityToQuest(quest)
 
-        // Apply damage based on quest difficulty
-        healthManager.handleQuestFailure(questDifficulty: difficulty) { error in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.showFailureNotification = true
-                    self.failureMessage = "Quest failed: \(quest.title ?? "Unknown Quest") - You took \(difficulty * 2) damage!"
+        damageTrackingManager.calculateDamageForQuest(questModel) { [weak self] damageAmount, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error calculating quest damage: \(error)")
+                    return
+                }
+
+                if damageAmount > 0 {
+                    self?.showFailureNotification = true
+                    self?.failureMessage = "Quest failed: \(quest.title ?? "Unknown Quest") - You took \(damageAmount) damage!"
+
+                    // Post notification for quest failure
+                    NotificationCenter.default.post(
+                        name: .questFailed,
+                        object: nil,
+                        userInfo: ["questId": quest.id as Any, "damage": damageAmount]
+                    )
 
                     // Hide notification after 3 seconds
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.showFailureNotification = false
+                        self?.showFailureNotification = false
                     }
                 }
             }
@@ -69,6 +84,51 @@ final class QuestFailureHandler: ObservableObject {
         } catch {
             print("Error saving failed quest: \(error)")
         }
+    }
+
+    private func mapQuestEntityToQuest(_ entity: QuestEntity) -> Quest {
+        let tasks = (entity.tasks?.array as? [TaskEntity])?.map { taskEntity in
+            QuestTask(
+                id: taskEntity.id ?? UUID(),
+                title: taskEntity.title ?? "",
+                isCompleted: taskEntity.isCompleted,
+                order: Int(taskEntity.order)
+            )
+        } ?? []
+
+        let completions = (entity.completions?.allObjects as? [QuestCompletionEntity])?.compactMap { $0.date } ?? []
+        let tags = (entity.tags?.allObjects as? [TagEntity])?.map { tagEntity in
+            Tag(
+                id: tagEntity.id ?? UUID(),
+                name: tagEntity.name ?? "",
+                icon: tagEntity.icon,
+                color: tagEntity.color
+            )
+        } ?? []
+
+        let scheduledDays = entity.scheduledDays?.components(separatedBy: ",").compactMap { Int($0) } ?? []
+
+        return Quest(
+            id: entity.id ?? UUID(),
+            title: entity.title ?? "",
+            isMainQuest: entity.isMainQuest,
+            info: entity.info ?? "",
+            difficulty: Int(entity.difficulty),
+            creationDate: entity.creationDate ?? Date(),
+            dueDate: entity.dueDate ?? Date(),
+            isActive: entity.isActive,
+            progress: Int(entity.progress),
+            isCompleted: entity.isCompleted,
+            completionDate: entity.completionDate,
+            isFinished: entity.isFinished,
+            isFinishedDate: entity.isFinishedDate,
+            tasks: tasks,
+            repeatType: QuestRepeatType(rawValue: entity.repeatType) ?? .oneTime,
+            completions: Set(completions),
+            tags: Set(tags),
+            showProgress: entity.showProgress,
+            scheduledDays: Set(scheduledDays)
+        )
     }
 
     // MARK: - Daily Quest Check

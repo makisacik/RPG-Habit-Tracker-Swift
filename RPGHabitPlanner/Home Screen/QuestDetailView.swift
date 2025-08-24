@@ -65,6 +65,9 @@ struct QuestDetailView: View {
                     // Completion History
                     QuestDetailCompletionHistorySection(quest: viewModel.quest, theme: theme)
 
+                    // Damage History
+                    QuestDetailDamageHistorySection(quest: viewModel.quest, theme: theme)
+
                     // Action Buttons
                     QuestDetailActionButtonsSection(
                         quest: viewModel.quest,

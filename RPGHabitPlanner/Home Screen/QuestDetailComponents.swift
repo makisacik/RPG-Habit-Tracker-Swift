@@ -315,6 +315,156 @@ struct QuestDetailCompletionHistorySection: View {
     }
 }
 
+// MARK: - Damage History Section Component
+struct QuestDetailDamageHistorySection: View {
+    @StateObject private var damageTrackingManager = QuestDamageTrackingManager.shared
+    let quest: Quest
+    let theme: Theme
+    
+    @State private var damageEvents: [DamageEvent] = []
+    @State private var totalDamage: Int = 0
+    @State private var isLoading = true
+    @State private var showFullDamageHistory = false
+
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                HStack(spacing: 6) {
+                    Image(systemName: "heart.fill")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.red)
+
+                    Text("Damage History")
+                        .font(.appFont(size: 18, weight: .bold))
+                        .foregroundColor(theme.textColor)
+                }
+
+                Spacer()
+
+                if totalDamage > 0 {
+                    Text("\(totalDamage) HP")
+                        .font(.appFont(size: 14, weight: .bold))
+                        .foregroundColor(.red)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.red.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                }
+            }
+
+            if isLoading {
+                HStack {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text("Loading damage history...")
+                        .font(.appFont(size: 14))
+                        .foregroundColor(theme.textColor.opacity(0.6))
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+            } else if damageEvents.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 24, weight: .light))
+                        .foregroundColor(.green)
+
+                    Text("No damage taken")
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+            } else {
+                VStack(spacing: 8) {
+                    // Show recent damage events (up to 3)
+                    ForEach(Array(damageEvents.prefix(3)), id: \.id) { event in
+                        HStack {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                                .font(.system(size: 12))
+
+                            Text("\(event.damageAmount) HP")
+                                .font(.appFont(size: 12, weight: .bold))
+                                .foregroundColor(.red)
+                                .frame(width: 40, alignment: .leading)
+
+                            Text(event.reason)
+                                .font(.appFont(size: 12))
+                                .foregroundColor(theme.textColor.opacity(0.8))
+                                .lineLimit(1)
+
+                            Spacer()
+
+                            Text(event.date.formatted(date: .abbreviated, time: .omitted))
+                                .font(.appFont(size: 10))
+                                .foregroundColor(theme.textColor.opacity(0.5))
+                        }
+                        .padding(.vertical, 2)
+                    }
+
+                    // Show "View More" button if there are more events
+                    if damageEvents.count > 3 {
+                        Button(action: {
+                            showFullDamageHistory = true
+                        }) {
+                            HStack {
+                                Text("View all \(damageEvents.count) damage events")
+                                    .font(.appFont(size: 12, weight: .medium))
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 10))
+                            }
+                            .foregroundColor(theme.accentColor)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.top, 4)
+                    }
+                }
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(theme.primaryColor)
+                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+        )
+        .onAppear {
+            loadDamageHistory()
+        }
+        .sheet(isPresented: $showFullDamageHistory) {
+            DamageHistoryView(
+                questId: quest.id,
+                questTitle: quest.title
+            )
+            .environmentObject(ThemeManager.shared)
+        }
+    }
+    
+    private func loadDamageHistory() {
+        isLoading = true
+        
+        damageTrackingManager.getDamageHistory(for: quest.id) { events, error in
+            DispatchQueue.main.async {
+                isLoading = false
+                
+                if let error = error {
+                    print("Error loading damage history: \(error)")
+                    damageEvents = []
+                    totalDamage = 0
+                } else {
+                    damageEvents = events
+                    totalDamage = events.reduce(0) { $0 + $1.damageAmount }
+                }
+            }
+        }
+    }
+}
+
 // MARK: - Action Buttons Section Component
 struct QuestDetailActionButtonsSection: View {
     let quest: Quest
