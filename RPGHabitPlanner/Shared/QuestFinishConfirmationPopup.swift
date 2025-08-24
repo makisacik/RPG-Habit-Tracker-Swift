@@ -52,7 +52,7 @@ struct QuestFinishConfirmationPopup: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text("Quest Completed!")
+                    Text("Quest Finished!")
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }

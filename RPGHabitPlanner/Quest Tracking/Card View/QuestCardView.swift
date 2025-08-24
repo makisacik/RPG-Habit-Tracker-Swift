@@ -10,6 +10,7 @@ import SwiftUI
 struct QuestCardView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var isExpanded: Bool = false
+    @State private var showFinishConfirmation: Bool = false
 
     let quest: Quest
     let onMarkComplete: (UUID) -> Void
@@ -117,6 +118,16 @@ struct QuestCardView: View {
                                             .strikethrough(task.isCompleted)
 
                                         Spacer()
+
+                                        // Flag button next to task completion toggle
+                                        Button(action: {
+                                            showFinishConfirmation = true
+                                        }) {
+                                            Image(systemName: "flag.fill")
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(.orange)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
                                     }
                                     .contentShape(Rectangle())
                                     .padding(.vertical, 2)
@@ -157,25 +168,14 @@ struct QuestCardView: View {
             .onTapGesture {
                 onQuestTap(quest)
             }
-
-            // Menu button
-            Menu {
-                Button(String.markAsFinished.localized) {
-                    onMarkComplete(quest.id)
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.6))
-                    .padding(8)
-                    .background(
-                        Circle()
-                            .fill(theme.backgroundColor.opacity(0.8))
-                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
-                    )
+        }
+        .alert("Is this quest finished?", isPresented: $showFinishConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Yes, finish it!") {
+                onMarkComplete(quest.id)
             }
-            .padding(.top, 8)
-            .padding(.trailing, 8)
+        } message: {
+            Text("Are you sure you want to mark '\(quest.title)' as finished?")
         }
     }
 }

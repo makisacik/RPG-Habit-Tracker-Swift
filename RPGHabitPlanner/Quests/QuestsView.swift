@@ -228,7 +228,9 @@ struct QuestsView: View {
                         viewModel.toggle(item: item)
                     },
                     onMarkFinished: {
-                        viewModel.markQuestAsFinished(questId: item.quest.id)
+                        // Flag button should always show confirmation dialog
+                        viewModel.questToFinish = item.quest
+                        viewModel.showFinishConfirmation = true
                     },
                     onToggleTaskCompletion: { taskId, isCompleted in
                         viewModel.toggleTaskCompletion(
@@ -333,7 +335,16 @@ struct QuestRow: View {
                             .font(.title3)
                             .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
                     }
-                    .padding(.trailing, 28)
+
+                    // Flag button next to quest completion toggle
+                    Button(action: {
+                        onMarkFinished()
+                    }) {
+                        Image(systemName: "flag.fill")
+                            .font(.title3)
+                            .foregroundColor(.orange)
+                    }
+                    .padding(.trailing, 12)
                 }
                 .padding(12)
                 .contentShape(Rectangle())
@@ -407,18 +418,6 @@ struct QuestRow: View {
             )
             .padding(.horizontal, 4)
             .padding(.vertical, 2)
-
-            Menu {
-                Button("Mark as Finished") {
-                    onMarkFinished()
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
-                    .font(.caption)
-                    .foregroundColor(theme.textColor.opacity(0.6))
-            }
-            .padding(.top, 8)
-            .padding(.trailing, 8)
         }
     }
 

@@ -15,347 +15,107 @@ struct CalendarView: View {
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showTagFilter = false
 
+
     private let calendar = Calendar.current
     private let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM yyyy"
-        return dateFormatter
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        return formatter
     }()
 
+    // MARK: - Body
     var body: some View {
         let theme = themeManager.activeTheme
 
-        var creationVM: QuestCreationViewModel {
-            let creationVM = QuestCreationViewModel(questDataService: viewModel.questDataService)
-            creationVM.questDueDate = viewModel.selectedDate
-            return creationVM
-        }
+        mainContent(theme: theme)
+            .navigationTitle(String.questCalendar.localized)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
+            .onDisappear { print("Calendar disappear") }
+            .sheet(isPresented: $showingQuestCreation, onDismiss: {
+                viewModel.fetchQuests()
+            }) {
+                NavigationStack {
+                    QuestCreationView(viewModel: makeCreationVM())
+                }
+            }
+            .sheet(item: $selectedQuestItem) { questItem in
+                QuestDetailSheet(
+                    questItem: questItem,
+                    themeManager: themeManager,
+                    svc: viewModel.questDataService
+                )
+            }
+            .onChange(of: viewModel.alertMessage) { msg in
+                if msg != nil { showingAlert = true }
+            }
+            .onChange(of: viewModel.refreshTrigger) { _ in }
+            .alert(isPresented: $showingAlert) {
+                Alert(
+                    title: Text(String.headsUp.localized),
+                    message: Text(viewModel.alertMessage ?? ""),
+                    dismissButton: .default(Text(String.okButton.localized)) {
+                        viewModel.alertMessage = nil
+                    }
+                )
+            }
+    }
 
+    // MARK: - Extracted View Components
+    @ViewBuilder
+    private func mainContent(theme: Theme) -> some View {
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                // Fixed header that won't move
-                HStack {
-                    monthHeader(theme: theme)
-
-                    // Tag filter button - hide when filter is active
-                    if !showTagFilter {
-                        Button(action: {
-                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                showTagFilter.toggle()
-                            }
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "tag.fill")
-                                    .font(.system(size: 14, weight: .medium))
-                                Text("Filter")
-                                    .font(.appFont(size: 14, weight: .medium))
-                            }
-                            .foregroundColor(theme.accentColor)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.accentColor.opacity(0.1))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
-                                    )
-                            )
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .transition(.asymmetric(
-                            insertion: .scale.combined(with: .opacity),
-                            removal: .scale.combined(with: .opacity)
-                        ))
-                        .padding(.trailing, 20)
-                    } else {
-                        Button(action: {
-                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                showTagFilter.toggle()
-                            }
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(size: 16, weight: .medium))
-                                Text("Apply Filters")
-                                    .font(.appFont(size: 14, weight: .medium))
-                            }
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.accentColor)
-                                    .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
-                            )
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .transition(.asymmetric(
-                            insertion: .scale.combined(with: .opacity),
-                            removal: .scale.combined(with: .opacity)
-                        ))
-                        .padding(.trailing, 20)
+            CalendarViewComponents.mainContentView(
+                theme: theme,
+                showTagFilter: showTagFilter,
+                viewModel: viewModel,
+                selectedQuestItem: $selectedQuestItem,
+                showingQuestCreation: $showingQuestCreation,
+                onTagFilterToggle: {
+                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                        showTagFilter.toggle()
                     }
+                },
+                onQuestTap: { item in
+                    selectedQuestItem = item
                 }
-
-                // Scrollable content area
-                ScrollView {
-                    VStack(spacing: 0) {
-                        // Tag filter section
-                        if showTagFilter {
-                            TagFilterView(viewModel: viewModel.tagFilterViewModel)
-                                .transition(.asymmetric(
-                                    insertion: .move(edge: .top).combined(with: .opacity),
-                                    removal: .move(edge: .top).combined(with: .opacity)
-                                ))
-                        }
-
-                        dayOfWeekHeaders(theme: theme)
-                        calendarGrid(theme: theme)
-                        VStack(spacing: 0) {
-                            if !viewModel.itemsForSelectedDate.isEmpty {
-                                selectedDateDetails(theme: theme)
-                            } else {
-                                addQuestSection(theme: theme)
-                            }
-                        }
-                        .id(viewModel.refreshTrigger) // Force refresh when quest data changes
-                        .frame(minHeight: 280, maxHeight: 320)
-                        .animation(.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
-                    }
-                }
-            }
-
-            // Quest finish confirmation popup
-            if viewModel.showFinishConfirmation, let quest = viewModel.questToFinish {
-                QuestFinishConfirmationPopup(
-                    quest: quest,
-                    onConfirm: {
-                        viewModel.markQuestAsFinished(questId: quest.id)
-                        viewModel.showFinishConfirmation = false
-                        viewModel.questToFinish = nil
-                    },
-                    onCancel: {
-                        viewModel.showFinishConfirmation = false
-                        viewModel.questToFinish = nil
-                    }
-                )
-                .zIndex(60)
-            }
-        }
-        .navigationTitle(String.questCalendar.localized)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.hidden, for: .navigationBar)
-        .onAppear {
-        }
-        .onAppear { print("Calendar appear", ObjectIdentifier(viewModel)) }
-        .onDisappear { print("Calendar disappear") }
-        .sheet(isPresented: $showingQuestCreation, onDismiss: {
-            viewModel.fetchQuests()
-        }) {
-            NavigationStack {
-                QuestCreationView(viewModel: creationVM)
-            }
-        }
-        .sheet(item: $selectedQuestItem) { questItem in
-            NavigationStack {
-                QuestDetailView(
-                    quest: questItem.quest,
-                    date: questItem.date,
-                    questDataService: viewModel.questDataService
-                )
-                .environmentObject(themeManager)
-            }
-        }
-        .onChange(of: viewModel.alertMessage) { msg in
-            if msg != nil { showingAlert = true }
-        }
-        .onChange(of: viewModel.refreshTrigger) { _ in
-            // Force view refresh when quest data changes
-        }
-        .alert(isPresented: $showingAlert) {
-            Alert(title: Text(String.headsUp.localized),
-                  message: Text(viewModel.alertMessage ?? ""),
-                  dismissButton: .default(Text(String.okButton.localized)) { viewModel.alertMessage = nil })
+            )
+            CalendarViewComponents.overlayViews(
+                theme: theme,
+                viewModel: viewModel
+            )
         }
     }
 
-    private func monthHeader(theme: Theme) -> some View {
-        HStack {
-            Button(action: previousMonth) {
-                Image(systemName: "chevron.left").font(.title2).foregroundColor(theme.textColor)
-            }
-            Spacer()
-            Text(dateFormatter.string(from: viewModel.selectedDate))
-                .font(.appFont(size: 20, weight: .bold))
-                .foregroundColor(theme.textColor)
-                .transition(.asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal: .move(edge: .leading).combined(with: .opacity)
-                ))
-                .id(dateFormatter.string(from: viewModel.selectedDate))
-            Spacer()
-            Button(action: nextMonth) {
-                Image(systemName: "chevron.right").font(.title2).foregroundColor(theme.textColor)
-            }
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 16)
-        .animation(.easeInOut(duration: 0.3), value: viewModel.selectedDate)
-    }
-
-    private func dayOfWeekHeaders(theme: Theme) -> some View {
-        HStack(spacing: 0) {
-            ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
-                Text(day)
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-                    .frame(maxWidth: .infinity)
-            }
-        }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 8)
-    }
-
-    private func calendarGrid(theme: Theme) -> some View {
-        let days = daysInMonth()
-        return LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
-            ForEach(Array(days.enumerated()), id: \.offset) { _, date in
-                if let date = date {
-                    let items = viewModel.items(for: date)
-                    CalendarDayView(
-                        date: date,
-                        isSelected: calendar.isDate(date, inSameDayAs: viewModel.selectedDate),
-                        items: items,
-                        theme: theme
-                    ) {
-                        viewModel.selectedDate = calendar.startOfDay(for: date)
-                    }
-                } else {
-                    Color.clear.frame(height: 40)
-                }
-            }
-        }
-        .frame(minHeight: 280) // Ensure consistent height for 6 weeks max
-        .padding(.horizontal, 20)
-        .animation(.easeInOut(duration: 0.3), value: viewModel.selectedDate)
-        .id(viewModel.refreshTrigger) // Force refresh when quest data changes
-    }
-
-    private func selectedDateDetails(theme: Theme) -> some View {
-        let activeCount = viewModel.itemsForSelectedDate.filter { $0.state == .todo }.count
-        let completedCount = viewModel.itemsForSelectedDate.filter { $0.state == .done }.count
-
-        return VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(viewModel.selectedDate, style: .date)
-                    .font(.appFont(size: 18, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                Spacer()
-                Text("\(activeCount) active, \(completedCount) completed")
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-            .frame(height: 24)
-
-            ScrollView {
-                LazyVStack(spacing: 6) {
-                    ForEach(viewModel.itemsForSelectedDate) { item in
-                        QuestCalendarRow(
-                            item: item,
-                            theme: theme,
-                            onToggle: { viewModel.toggle(item: item) },
-                            onMarkFinished: { viewModel.markQuestAsFinished(questId: item.quest.id) },
-                            onToggleTaskCompletion: { taskId, isCompleted in
-                                viewModel.toggleTaskCompletion(questId: item.quest.id, taskId: taskId, newValue: isCompleted)
-                            },
-                            onQuestTap: { questItem in
-                                selectedQuestItem = questItem
-                            }
-                        )
-                    }
-                }
-                .padding(.bottom, 8)
-            }
-            .frame(maxHeight: 240)
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 8)
-    }
-
-    private func addQuestSection(theme: Theme) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(viewModel.selectedDate, style: .date)
-                    .font(.appFont(size: 18, weight: .bold))
-                    .foregroundColor(theme.textColor)
-                Spacer()
-                Text(String.noQuests.localized)
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-            .frame(height: 24)
-
-            Spacer()
-
-            Button(action: { showingQuestCreation = true }) {
-                HStack {
-                    Spacer()
-                    Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(theme.textColor)
-                    Text(String.addQuest.localized)
-                        .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(theme.textColor)
-                    Spacer()
-                }
-                .padding()
-                .background(
-                    Image(theme.buttonPrimary)
-                        .resizable(
-                            capInsets: EdgeInsets(
-                                top: 20,
-                                leading: 20,
-                                bottom: 20,
-                                trailing: 20
-                            ),
-                            resizingMode: .stretch
-                        )
-                )
-                .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
-            }
-            .buttonStyle(PlainButtonStyle())
-
-            Spacer()
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 8)
-    }
-
-    private func daysInMonth() -> [Date?] {
-        let startOfMonth = calendar.dateInterval(of: .month, for: viewModel.selectedDate)?.start ?? viewModel.selectedDate
-        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
-        let daysInMonth = calendar.range(of: .day, in: .month, for: viewModel.selectedDate)?.count ?? 0
-        var days: [Date?] = []
-        for _ in 1..<firstWeekday { days.append(nil) }
-        for day in 1...daysInMonth {
-            if let date = calendar.date(byAdding: .day, value: day - 1, to: startOfMonth) {
-                days.append(date)
-            }
-        }
-        return days
-    }
-
-    private func previousMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: -1, to: viewModel.selectedDate) { viewModel.selectedDate = newDate }
-    }
-
-    private func nextMonth() {
-        if let newDate = calendar.date(byAdding: .month, value: 1, to: viewModel.selectedDate) { viewModel.selectedDate = newDate }
+    // MARK: - VM factory (moved out of body)
+    private func makeCreationVM() -> QuestCreationViewModel {
+        let creationViewModel = QuestCreationViewModel(questDataService: viewModel.questDataService)
+        creationViewModel.questDueDate = viewModel.selectedDate
+        return creationViewModel
     }
 }
 
+
+// MARK: - Quest Detail Sheet wrapper (reduces generic bloat)
+private struct QuestDetailSheet: View {
+    let questItem: DayQuestItem
+    let themeManager: ThemeManager
+    let svc: QuestDataServiceProtocol
+    var body: some View {
+        NavigationStack {
+            QuestDetailView(
+                quest: questItem.quest,
+                date: questItem.date,
+                questDataService: svc
+            )
+            .environmentObject(themeManager)
+        }
+    }
+}
+
+// MARK: - Day Cell
 struct CalendarDayView: View {
     let date: Date
     let isSelected: Bool
@@ -376,7 +136,11 @@ struct CalendarDayView: View {
                             Circle()
                                 .fill(dotColor(for: item))
                                 .frame(width: 6, height: 6)
-                                .overlay(Text(shortType(item.quest.repeatType)).font(.system(size: 6, weight: .black)).foregroundColor(.white))
+                                .overlay(
+                                    Text(shortType(item.quest.repeatType))
+                                        .font(.system(size: 6, weight: .black))
+                                        .foregroundColor(.white)
+                                )
                         }
                     }
                 }
@@ -392,11 +156,10 @@ struct CalendarDayView: View {
 
     private var selectionTextColor: Color {
         if isSelected {
-            // For light theme, keep text dark when selected
+            // Keep text visible across themes
             if theme.backgroundColor == Color(hex: "#F0F0F0") {
                 return theme.textColor
             } else {
-                // Dark theme - keep white text
                 return .white
             }
         } else {
@@ -406,11 +169,9 @@ struct CalendarDayView: View {
 
     private var selectionBackgroundColor: Color {
         if isSelected {
-            // For light theme, use a subtle border/background
             if theme.backgroundColor == Color(hex: "#F0F0F0") {
-                return Color(hex: "#E2E8F0").opacity(0.8) // Light gray-blue background
+                return Color(hex: "#E2E8F0").opacity(0.8)
             } else {
-                // Dark theme - keep original primary color
                 return theme.primaryColor
             }
         } else {
@@ -442,6 +203,7 @@ struct CalendarDayView: View {
     }
 }
 
+// MARK: - Quest Row
 struct QuestCalendarRow: View {
     @State private var isExpanded: Bool = false
     @State private var showingQuestDetail = false
@@ -477,13 +239,20 @@ struct QuestCalendarRow: View {
                             .font(.title3)
                             .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
                     }
-                    .padding(.trailing, 28)
+
+                    // Flag button next to quest completion toggle
+                    Button(action: {
+                        onMarkFinished()
+                    }) {
+                        Image(systemName: "flag.fill")
+                            .font(.title3)
+                            .foregroundColor(.orange)
+                    }
+                    .padding(.trailing, 12)
                 }
                 .padding(12)
                 .contentShape(Rectangle())
-                .onTapGesture {
-                    onQuestTap(item)
-                }
+                .onTapGesture { onQuestTap(item) }
 
                 // Tasks section
                 let tasks = item.quest.tasks
@@ -551,18 +320,6 @@ struct QuestCalendarRow: View {
             )
             .padding(.horizontal, 4)
             .padding(.vertical, 2)
-
-            Menu {
-                Button("Mark as Finished") {
-                    onMarkFinished()
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
-                    .font(.caption)
-                    .foregroundColor(theme.textColor.opacity(0.6))
-            }
-            .padding(.top, 8)
-            .padding(.trailing, 8)
         }
     }
 
