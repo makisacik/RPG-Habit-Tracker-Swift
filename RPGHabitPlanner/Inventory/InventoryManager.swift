@@ -44,6 +44,7 @@ class InventoryManager: ObservableObject {
     private let service: InventoryServiceProtocol
     private let activeEffectsService: ActiveEffectsServiceProtocol
     private let itemDatabase = ItemDatabase.shared
+    private let userManager = UserManager()
     private lazy var usageHandler: ItemUsageHandler = {
         return DefaultItemUsageHandler(inventoryManager: self)
     }()
@@ -255,7 +256,7 @@ class InventoryManager: ObservableObject {
     /// Adds starter items to the inventory
 
     /// Adds specific items when onboarding is completed
-    func addOnboardingCompletionItems() {
+    func addOnboardingCompletionItems(characterCustomization: CharacterCustomization? = nil) {
         // Add the requested weapons using icon names as IDs
         let weaponIconNames = ["char_sword_wood", "char_sword_iron"]
         for iconName in weaponIconNames {
@@ -280,7 +281,72 @@ class InventoryManager: ObservableObject {
             }
         }
         
+        // Add the selected items from character customization if they're not already in the list
+        if let customization = characterCustomization {
+            // Add selected weapon if not already added
+            let selectedWeaponIcon = customization.weapon.rawValue
+            if !weaponIconNames.contains(selectedWeaponIcon) {
+                if let weaponItem = findItemByIconName(selectedWeaponIcon) {
+                    addToInventory(weaponItem)
+                    print("✅ Added selected weapon to inventory: \(selectedWeaponIcon)")
+                }
+            }
+            
+            // Add selected outfit if not already added
+            let selectedOutfitIcon = customization.outfit.rawValue
+            if !outfitIconNames.contains(selectedOutfitIcon) {
+                if let outfitItem = findItemByIconName(selectedOutfitIcon) {
+                    addToInventory(outfitItem)
+                    print("✅ Added selected outfit to inventory: \(selectedOutfitIcon)")
+                }
+            }
+        }
+        
         print("✅ Onboarding completion items added to inventory")
+        
+        // Auto-equip the selected items from character customization
+        autoEquipDefaultItems(characterCustomization: characterCustomization)
+    }
+    
+    /// Automatically equips the default items selected during character creation
+    private func autoEquipDefaultItems(characterCustomization: CharacterCustomization? = nil) {
+        let gearManager = GearManager.shared
+        
+        // Get the current user
+        userManager.fetchUser { [weak self] user, error in
+            guard let user = user, error == nil else {
+                print("❌ Failed to fetch user for auto-equipping items")
+                return
+            }
+            
+            // Ensure inventory is refreshed before trying to equip items
+            DispatchQueue.main.async {
+                self?.refreshInventory()
+                
+                // Add a small delay to ensure inventory is updated
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    // Use character customization if provided, otherwise use defaults
+                    let weaponIconName = characterCustomization?.weapon.rawValue ?? "char_sword_wood"
+                    let outfitIconName = characterCustomization?.outfit.rawValue ?? "char_outfit_villager"
+                    
+                    // Find and equip the selected weapon
+                    if let weaponEntity = self?.inventoryItems.first(where: { $0.iconName == weaponIconName }) {
+                        gearManager.equipItem(weaponEntity, to: .weapon, for: user)
+                        print("✅ Auto-equipped weapon: \(weaponIconName)")
+                    } else {
+                        print("❌ Could not find weapon \(weaponIconName) in inventory for auto-equipping")
+                    }
+                    
+                    // Find and equip the selected outfit
+                    if let outfitEntity = self?.inventoryItems.first(where: { $0.iconName == outfitIconName }) {
+                        gearManager.equipItem(outfitEntity, to: .outfit, for: user)
+                        print("✅ Auto-equipped outfit: \(outfitIconName)")
+                    } else {
+                        print("❌ Could not find outfit \(outfitIconName) in inventory for auto-equipping")
+                    }
+                }
+            }
+        }
     }
     
     /// Helper method to find an item by its icon name (asset ID)

@@ -370,17 +370,20 @@ struct EnhancedShopItemCard: View {
     }
 
     private func loadImage() {
+        // Use previewImage for display in shop, fallback to iconName
+        let displayImageName = item.previewImage
+        
         // Check cache first
-        if let cachedImage = ImageCache.shared.getImage(for: item.iconName) {
+        if let cachedImage = ImageCache.shared.getImage(for: displayImageName) {
             self.cachedImage = cachedImage
             return
         }
 
         // Load image asynchronously
         DispatchQueue.global(qos: .userInitiated).async {
-            if let image = UIImage(named: item.iconName) {
+            if let image = UIImage(named: displayImageName) {
                 // Cache the image
-                ImageCache.shared.setImage(image, for: item.iconName)
+                ImageCache.shared.setImage(image, for: displayImageName)
 
                 DispatchQueue.main.async {
                     self.cachedImage = image
@@ -574,7 +577,7 @@ struct ItemPreviewModal: View {
 
                         // Character with item preview
                         VStack {
-                            if let image = UIImage(named: item.iconName) {
+                            if let image = UIImage(named: item.previewImage) {
                                 Image(uiImage: image)
                                     .resizable()
                                     .scaledToFit()

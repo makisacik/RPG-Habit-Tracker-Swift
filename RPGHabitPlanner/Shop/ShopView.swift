@@ -256,7 +256,8 @@ struct ShopView: View {
                     return ShopItem(
                         name: asset.name,
                         description: description,
-                        iconName: asset.imageName, // Use the actual image name, not preview
+                        iconName: asset.imageName, // The actual image name for inventory storage
+                        previewImage: asset.previewImage, // The preview image for shop display
                         price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
                         rarity: asset.rarity == .common ? .common :
                                 asset.rarity == .uncommon ? .uncommon :
@@ -281,7 +282,8 @@ struct ShopView: View {
                 ShopItem(
                     name: asset.name,
                     description: "Protective helmet for your adventures",
-                    iconName: asset.imageName, // Use the actual image name, not preview
+                    iconName: asset.imageName, // The actual image name for inventory storage
+                    previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -298,7 +300,8 @@ struct ShopView: View {
                 ShopItem(
                     name: asset.name,
                     description: "Protective outfit for your adventures",
-                    iconName: asset.imageName, // Use the actual image name, not preview
+                    iconName: asset.imageName, // The actual image name for inventory storage
+                    previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -315,7 +318,8 @@ struct ShopView: View {
                 ShopItem(
                     name: asset.name,
                     description: "Protective shield for your adventures",
-                    iconName: asset.imageName, // Use the actual image name, not preview
+                    iconName: asset.imageName, // The actual image name for inventory storage
+                    previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
                     rarity: asset.rarity == .common ? .common :
                             asset.rarity == .uncommon ? .uncommon :
@@ -443,8 +447,8 @@ struct ShopView: View {
             let items = getCustomizationItems(for: category)
 
             for item in items {
-                // Preload each image in the background
-                if let _ = UIImage(named: item.iconName) {
+                // Preload each preview image in the background
+                if let _ = UIImage(named: item.previewImage) {
                     // Image will be cached by the ImageCache when accessed
                     // This just ensures the image is loaded into memory
                 }

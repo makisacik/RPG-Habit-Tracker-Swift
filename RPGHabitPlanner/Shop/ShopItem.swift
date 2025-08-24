@@ -11,18 +11,20 @@ struct ShopItem: Identifiable, Equatable {
     let id: UUID
     let name: String
     let description: String
-    let iconName: String
+    let iconName: String // The actual image name for inventory storage
+    let previewImage: String // The preview image for shop display
     let price: Int
     let rarity: ItemRarity
     let category: EnhancedShopCategory
     let effects: [ItemEffect]?
     let isOwned: Bool
 
-    init(id: UUID = UUID(), name: String, description: String, iconName: String, price: Int, rarity: ItemRarity = .common, category: EnhancedShopCategory, effects: [ItemEffect]? = nil, isOwned: Bool = false) {
+    init(id: UUID = UUID(), name: String, description: String, iconName: String, previewImage: String? = nil, price: Int, rarity: ItemRarity = .common, category: EnhancedShopCategory, effects: [ItemEffect]? = nil, isOwned: Bool = false) {
         self.id = id
         self.name = name
         self.description = description
         self.iconName = iconName
+        self.previewImage = previewImage ?? iconName // Use iconName as fallback
         self.price = price
         self.rarity = rarity
         self.category = category

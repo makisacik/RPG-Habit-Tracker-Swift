@@ -112,7 +112,7 @@ class OnboardingCoordinator: ObservableObject {
                     // Add onboarding completion items to inventory
                     DispatchQueue.main.async {
                         let inventoryManager = InventoryManager.shared
-                        inventoryManager.addOnboardingCompletionItems()
+                        inventoryManager.addOnboardingCompletionItems(characterCustomization: self?.characterCustomization)
                         print("✅ OnboardingCoordinator: Onboarding completion items added to inventory")
                     }
 
