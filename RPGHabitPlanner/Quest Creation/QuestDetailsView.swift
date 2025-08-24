@@ -14,19 +14,11 @@ struct QuestDetailsView: View {
         let theme = themeManager.activeTheme
         ScrollView {
             VStack(spacing: 24) {
-                // Parchment Header
-                VStack(spacing: 16) {
-                    Image(systemName: "doc.text.fill")
-                        .font(.system(size: 40))
-                        .foregroundColor(.yellow)
-                        .scaleEffect(animate ? 1.05 : 1.0)
-                        .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: animate)
+                // Removed quest details header
 
-                    Text("QUEST DETAILS")
-                        .font(.appFont(size: 24, weight: .black))
-                        .foregroundColor(theme.textColor)
-                }
-                .padding(.top, 8)
+                // Add top padding for better spacing
+                Spacer()
+                    .frame(height: 16)
 
                 // Quest Title
                 GamifiedInputField(
