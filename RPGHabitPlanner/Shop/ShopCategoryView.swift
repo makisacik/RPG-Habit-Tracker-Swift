@@ -321,9 +321,17 @@ struct EnhancedShopItemCard: View {
                 HStack {
                     // Price
                     HStack(spacing: 2) {
-                        Image(systemName: "dollarsign.circle.fill")
-                            .font(.system(size: 10))
-                            .foregroundColor(.yellow)
+                        if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
+                            Image("icon_gem")
+                                .resizable()
+                                .frame(width: 12, height: 12)
+                                .foregroundColor(.purple)
+                        } else {
+                            Image("icon_gold")
+                                .resizable()
+                                .frame(width: 12, height: 12)
+                                .foregroundColor(.yellow)
+                        }
                         Text("\(ShopManager.shared.getDisplayPrice(for: item))")
                             .font(.appFont(size: 10, weight: .bold))
                             .foregroundColor(canAfford ? theme.textColor : .red)

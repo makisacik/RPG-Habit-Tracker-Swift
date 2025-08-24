@@ -23,6 +23,7 @@ final class UserManager {
         level: Int16 = 1,
         exp: Int16 = 0,
         coins: Int32 = 100,
+        gems: Int32 = 0,
         health: Int16 = 50,
         maxHealth: Int16 = 50,
         completion: @escaping (Error?) -> Void
@@ -36,6 +37,7 @@ final class UserManager {
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins
+        userEntity.gems = gems
         userEntity.health = health
         userEntity.maxHealth = maxHealth
 
@@ -143,6 +145,26 @@ final class UserManager {
         }
     }
 
+    func updateUserGems(additionalGems: Int32, completion: @escaping (Error?) -> Void) {
+        fetchUser { user, error in
+            guard let user = user, error == nil else {
+                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+
+            let context = self.persistentContainer.viewContext
+            user.gems += additionalGems
+
+            do {
+                try context.save()
+                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+
     // MARK: - New Customization Methods
 
     func saveUserWithCustomization(
@@ -152,6 +174,7 @@ final class UserManager {
         level: Int16 = 1,
         exp: Int16 = 0,
         coins: Int32 = 100,
+        gems: Int32 = 0,
         health: Int16 = 50,
         maxHealth: Int16 = 50,
         completion: @escaping (UserEntity?, Error?) -> Void
@@ -165,6 +188,7 @@ final class UserManager {
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins
+        userEntity.gems = gems
         userEntity.health = health
         userEntity.maxHealth = maxHealth
         do {

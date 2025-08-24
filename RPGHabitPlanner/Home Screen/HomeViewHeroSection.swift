@@ -179,7 +179,7 @@ extension HomeView {
                             .frame(height: 12)
                         }
 
-                        // Coins and Experience Bar
+                        // Coins and Gems display
                         HStack(spacing: 12) {
                             // Coins display
                             HStack(spacing: 4) {
@@ -200,6 +200,28 @@ extension HomeView {
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 6)
                                             .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+
+                            // Gems display
+                            HStack(spacing: 4) {
+                                Image("icon_gem")
+                                    .resizable()
+                                    .frame(width: 14, height: 14)
+                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                                Text("\(user.gems)")
+                                    .font(.appFont(size: 14, weight: .black))
+                                    .foregroundColor(.purple)
+                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(Color.purple.opacity(0.2))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(Color.purple.opacity(0.3), lineWidth: 1)
                                     )
                             )
 

@@ -41,10 +41,15 @@ class ShopViewModel: ObservableObject {
     
     // MARK: - Public Methods
     
-    func loadCurrentCoins() {
+    func loadCurrentCurrency() {
         currencyManager.getCurrentCoins { coins, _ in
             DispatchQueue.main.async {
                 self.currencyManager.currentCoins = coins
+            }
+        }
+        currencyManager.getCurrentGems { gems, _ in
+            DispatchQueue.main.async {
+                self.currencyManager.currentGems = gems
             }
         }
     }
@@ -63,7 +68,13 @@ class ShopViewModel: ObservableObject {
 
         // Apply affordability filter
         if showOnlyAffordable {
-            items = items.filter { currencyManager.currentCoins >= shopManager.getDisplayPrice(for: $0) }
+            items = items.filter { item in
+                if let gemPrice = item.gemPrice, item.rarity == .epic || item.rarity == .legendary {
+                    return currencyManager.currentGems >= gemPrice
+                } else {
+                    return currencyManager.currentCoins >= shopManager.getDisplayPrice(for: item)
+                }
+            }
         }
         
         // Update cache
@@ -77,7 +88,7 @@ class ShopViewModel: ObservableObject {
         shopManager.purchaseItem(item) { success, errorMessage in
             if success {
                 self.purchaseAlertMessage = "Successfully purchased \(item.name)!"
-                self.loadCurrentCoins()
+                self.loadCurrentCurrency()
                 // Refresh inventory and update cached items to reflect new ownership
                 self.refreshInventory()
                 self.updateCachedItems()
@@ -117,12 +128,16 @@ class ShopViewModel: ObservableObject {
         case .wings:
             // Handle wings specifically
             items = getWingsItems()
-        default:
-            // Handle other gear/customization items
+        case .weapons:
+            // Handle weapons specifically
             if let assetCategory = category.assetCategory {
                 let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
                 items = assets.map { asset in
                     let description = getItemDescription(for: asset.name, category: category)
+                    let rarity = asset.rarity.toItemRarity
+                    
+                    // Set gem prices for epic and legendary items based on category
+                    let gemPrice = getGemPrice(for: rarity, category: assetCategory)
 
                     return ShopItem(
                         name: asset.name,
@@ -130,10 +145,33 @@ class ShopViewModel: ObservableObject {
                         iconName: asset.imageName, // The actual image name for inventory storage
                         previewImage: asset.previewImage, // The preview image for shop display
                         price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
-                        rarity: asset.rarity == .common ? .common :
-                                asset.rarity == .uncommon ? .uncommon :
-                                asset.rarity == .rare ? .rare :
-                                asset.rarity == .epic ? .epic : .legendary,
+                        gemPrice: gemPrice,
+                        rarity: rarity,
+                        category: category,
+                        assetCategory: assetCategory, // Pass the asset category for proper gear categorization
+                        isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: category)
+                    )
+                }
+            }
+        default:
+            // Handle other gear/customization items
+            if let assetCategory = category.assetCategory {
+                let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
+                items = assets.map { asset in
+                    let description = getItemDescription(for: asset.name, category: category)
+                    let rarity = asset.rarity.toItemRarity
+                    
+                    // Set gem prices for epic and legendary items based on category
+                    let gemPrice = getGemPrice(for: rarity, category: assetCategory)
+
+                    return ShopItem(
+                        name: asset.name,
+                        description: description,
+                        iconName: asset.imageName, // The actual image name for inventory storage
+                        previewImage: asset.previewImage, // The preview image for shop display
+                        price: Int(asset.rarity.basePriceMultiplier * 100), // Base price of 100
+                        gemPrice: gemPrice,
+                        rarity: rarity,
                         category: category,
                         assetCategory: assetCategory, // Pass the asset category for proper gear categorization
                         isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: category)
@@ -160,16 +198,17 @@ class ShopViewModel: ObservableObject {
             // Get helmet items from CharacterAssetManager with preview images
             let assets = CharacterAssetManager.shared.getAvailableAssets(for: .head)
             items = assets.map { asset in
-                ShopItem(
+                let rarity = asset.rarity.toItemRarity
+                let gemPrice = getGemPrice(for: rarity, category: .head)
+                
+                return ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
                     iconName: asset.imageName, // The actual image name for inventory storage
                     previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
-                    rarity: asset.rarity == .common ? .common :
-                            asset.rarity == .uncommon ? .uncommon :
-                            asset.rarity == .rare ? .rare :
-                            asset.rarity == .epic ? .epic : .legendary,
+                    gemPrice: gemPrice,
+                    rarity: rarity,
                     category: .armor,
                     assetCategory: .head, // Specify the asset category for proper gear categorization
                     isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
@@ -179,16 +218,17 @@ class ShopViewModel: ObservableObject {
             // Get outfit items from CharacterAssetManager
             let assets = CharacterAssetManager.shared.getAvailableAssets(for: .outfit)
             items = assets.map { asset in
-                ShopItem(
+                let rarity = asset.rarity.toItemRarity
+                let gemPrice = getGemPrice(for: rarity, category: .outfit)
+                
+                return ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
                     iconName: asset.imageName, // The actual image name for inventory storage
                     previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
-                    rarity: asset.rarity == .common ? .common :
-                            asset.rarity == .uncommon ? .uncommon :
-                            asset.rarity == .rare ? .rare :
-                            asset.rarity == .epic ? .epic : .legendary,
+                    gemPrice: gemPrice,
+                    rarity: rarity,
                     category: .armor,
                     assetCategory: .outfit, // Specify the asset category for proper gear categorization
                     isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
@@ -198,16 +238,17 @@ class ShopViewModel: ObservableObject {
             // Get shield items from CharacterAssetManager with preview images
             let assets = CharacterAssetManager.shared.getAvailableAssets(for: .shield)
             items = assets.map { asset in
-                ShopItem(
+                let rarity = asset.rarity.toItemRarity
+                let gemPrice = getGemPrice(for: rarity, category: .shield)
+                
+                return ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
                     iconName: asset.imageName, // The actual image name for inventory storage
                     previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
-                    rarity: asset.rarity == .common ? .common :
-                            asset.rarity == .uncommon ? .uncommon :
-                            asset.rarity == .rare ? .rare :
-                            asset.rarity == .epic ? .epic : .legendary,
+                    gemPrice: gemPrice,
+                    rarity: rarity,
                     category: .armor,
                     assetCategory: .shield, // Specify the asset category for proper gear categorization
                     isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
@@ -242,7 +283,7 @@ class ShopViewModel: ObservableObject {
                     description: item.description,
                     iconName: item.iconName,
                     price: item.value,
-                    rarity: item.isRare ? .rare : .uncommon,
+                    rarity: item.isRare ? .rare : .common,
                     category: .consumables,
                     isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .consumables)
                 )
@@ -268,12 +309,16 @@ class ShopViewModel: ObservableObject {
     private func getWingsItems() -> [ShopItem] {
         // Get wings items from ItemDatabase
         let items = ItemDatabase.allGear.filter { $0.gearCategory == .wings }.map { item in
-            ShopItem(
+            let rarity = item.rarity ?? .common
+            let gemPrice = getGemPrice(for: rarity, category: .wings)
+            
+            return ShopItem(
                 name: item.name,
                 description: item.description,
                 iconName: item.iconName,
                 price: item.value,
-                rarity: item.rarity ?? .common,
+                gemPrice: gemPrice,
+                rarity: rarity,
                 category: .wings,
                 isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .wings)
             )
@@ -322,6 +367,28 @@ class ShopViewModel: ObservableObject {
             return inventoryManager.inventoryItems.contains { item in
                 item.iconName == iconName
             }
+        }
+    }
+    
+    private func getGemPrice(for rarity: ItemRarity, category: AssetCategory) -> Int? {
+        // Only epic and legendary items require gems
+        guard rarity == .epic || rarity == .legendary else {
+            return nil
+        }
+        
+        switch category {
+        case .head, .headGear:
+            return rarity == .epic ? 30 : 50 // Epic helmets 30 gems, legendary 50 gems
+        case .outfit:
+            return rarity == .epic ? 60 : 100 // Epic outfits 60 gems, legendary 100 gems
+        case .wings:
+            return rarity == .epic ? 80 : 150 // Epic wings 80 gems, legendary 150 gems
+        case .shield:
+            return rarity == .epic ? 30 : 50 // Epic shields 30 gems, legendary 50 gems
+        case .weapon:
+            return rarity == .epic ? 60 : 100 // Epic weapons 60 gems, legendary 100 gems
+        default:
+            return nil // Other categories don't use gems
         }
     }
 }

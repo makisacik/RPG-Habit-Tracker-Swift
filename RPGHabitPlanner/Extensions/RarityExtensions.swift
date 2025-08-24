@@ -21,3 +21,15 @@ extension ItemRarity {
         }
     }
 }
+
+extension AssetRarity {
+    var toItemRarity: ItemRarity {
+        switch self {
+        case .common: return .common
+        case .uncommon: return .uncommon
+        case .rare: return .rare
+        case .epic: return .epic
+        case .legendary: return .legendary
+        }
+    }
+}

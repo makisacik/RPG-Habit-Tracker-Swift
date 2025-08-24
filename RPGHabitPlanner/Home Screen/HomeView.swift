@@ -121,12 +121,19 @@ struct HomeView: View {
                 .toolbar(content: homeToolbarContent)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Add Coin") {
+                        Button("Add Currency") {
                             CurrencyManager.shared.addCoins(5000) { error in
                                 if let error = error {
                                     print("❌ Failed to add coins: \(error.localizedDescription)")
                                 } else {
                                     print("✅ Successfully added 5000 coins")
+                                }
+                            }
+                            CurrencyManager.shared.addGems(500) { error in
+                                if let error = error {
+                                    print("❌ Failed to add gems: \(error.localizedDescription)")
+                                } else {
+                                    print("✅ Successfully added 500 gems")
                                 }
                             }
                         }

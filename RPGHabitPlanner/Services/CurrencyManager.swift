@@ -12,11 +12,12 @@ import SwiftUI
 final class CurrencyManager: ObservableObject {
     static let shared = CurrencyManager()
     @Published var currentCoins: Int = 0
+    @Published var currentGems: Int = 0
     private let persistentContainer: NSPersistentContainer
 
     private init(container: NSPersistentContainer = PersistenceController.shared.container) {
         self.persistentContainer = container
-        loadInitialCoins()
+        loadInitialCurrency()
     }
 
     // MARK: - Coin Operations
@@ -36,6 +37,30 @@ final class CurrencyManager: ObservableObject {
                 DispatchQueue.main.async {
                     self?.currentCoins = Int(user.coins)
                     print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after adding coins")
+                }
+                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+
+    func addGems(_ amount: Int, completion: @escaping (Error?) -> Void) {
+        fetchUser { [weak self] user, error in
+            guard let user = user, error == nil else {
+                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+
+            let context = self?.persistentContainer.viewContext
+            user.gems += Int32(amount)
+
+            do {
+                try context?.save()
+                DispatchQueue.main.async {
+                    self?.currentGems = Int(user.gems)
+                    print("💎 CurrencyManager: Updated currentGems to \(Int(user.gems)) after adding gems")
                 }
                 NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(nil)
@@ -74,6 +99,35 @@ final class CurrencyManager: ObservableObject {
         }
     }
 
+    func spendGems(_ amount: Int, completion: @escaping (Bool, Error?) -> Void) {
+        fetchUser { [weak self] user, error in
+            guard let user = user, error == nil else {
+                completion(false, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+
+            guard user.gems >= Int32(amount) else {
+                completion(false, NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "Insufficient gems"]))
+                return
+            }
+
+            let context = self?.persistentContainer.viewContext
+            user.gems -= Int32(amount)
+
+            do {
+                try context?.save()
+                DispatchQueue.main.async {
+                    self?.currentGems = Int(user.gems)
+                    print("💎 CurrencyManager: Updated currentGems to \(Int(user.gems)) after spending gems")
+                }
+                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
+                completion(true, nil)
+            } catch {
+                completion(false, error)
+            }
+        }
+    }
+
     func getCurrentCoins(completion: @escaping (Int, Error?) -> Void) {
         fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
@@ -90,14 +144,36 @@ final class CurrencyManager: ObservableObject {
         }
     }
 
-    private func loadInitialCoins() {
+    func getCurrentGems(completion: @escaping (Int, Error?) -> Void) {
+        fetchUser { [weak self] user, error in
+            guard let user = user, error == nil else {
+                completion(0, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
+                return
+            }
+
+            let gems = Int(user.gems)
+            DispatchQueue.main.async {
+                self?.currentGems = gems
+                print("💎 CurrencyManager: Updated currentGems to \(gems) from getCurrentGems")
+            }
+            completion(gems, nil)
+        }
+    }
+
+    private func loadInitialCurrency() {
         getCurrentCoins { _, _ in
+            // This will update the published property automatically
+        }
+        getCurrentGems { _, _ in
             // This will update the published property automatically
         }
     }
 
-    func refreshCoins() {
+    func refreshCurrency() {
         getCurrentCoins { _, _ in
+            // This will update the published property automatically
+        }
+        getCurrentGems { _, _ in
             // This will update the published property automatically
         }
     }

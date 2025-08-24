@@ -40,25 +40,51 @@ final class ShopManager: ObservableObject {
     }
 
     func purchaseItem(_ item: ShopItem, completion: @escaping (Bool, String?) -> Void) {
-        // In debug mode, all items cost 1 coin
-        #if DEBUG
-        let actualPrice = 1
-        #else
-        let actualPrice = item.price
-        #endif
+        // Check if item requires gems (epic/legendary items)
+        if let gemPrice = item.gemPrice, item.rarity == .epic || item.rarity == .legendary {
+            // Purchase with gems
+            #if DEBUG
+            let actualGemPrice = 1
+            #else
+            let actualGemPrice = gemPrice
+            #endif
 
-        currencyManager.spendCoins(actualPrice) { success, error in
-            if success {
-                // Create proper inventory item based on shop item category
-                let inventoryItem = self.createInventoryItem(from: item)
-                self.inventoryManager.addToInventory(inventoryItem)
+            currencyManager.spendGems(actualGemPrice) { success, error in
+                if success {
+                    // Create proper inventory item based on shop item category
+                    let inventoryItem = self.createInventoryItem(from: item)
+                    self.inventoryManager.addToInventory(inventoryItem)
 
-                DispatchQueue.main.async {
-                    completion(true, nil)
+                    DispatchQueue.main.async {
+                        completion(true, nil)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(false, error?.localizedDescription ?? "Insufficient gems")
+                    }
                 }
-            } else {
-                DispatchQueue.main.async {
-                    completion(false, error?.localizedDescription ?? "Purchase failed")
+            }
+        } else {
+            // Purchase with coins
+            #if DEBUG
+            let actualPrice = 1
+            #else
+            let actualPrice = item.price
+            #endif
+
+            currencyManager.spendCoins(actualPrice) { success, error in
+                if success {
+                    // Create proper inventory item based on shop item category
+                    let inventoryItem = self.createInventoryItem(from: item)
+                    self.inventoryManager.addToInventory(inventoryItem)
+
+                    DispatchQueue.main.async {
+                        completion(true, nil)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(false, error?.localizedDescription ?? "Purchase failed")
+                    }
                 }
             }
         }
@@ -258,16 +284,32 @@ final class ShopManager: ObservableObject {
     }
 
     func canAffordItem(_ item: ShopItem, completion: @escaping (Bool) -> Void) {
-        // In debug mode, all items cost 1 coin
-        #if DEBUG
-        let actualPrice = 1
-        #else
-        let actualPrice = item.price
-        #endif
+        // Check if item requires gems (epic/legendary items)
+        if let gemPrice = item.gemPrice, item.rarity == .epic || item.rarity == .legendary {
+            // Check gems
+            #if DEBUG
+            let actualGemPrice = 1
+            #else
+            let actualGemPrice = gemPrice
+            #endif
 
-        currencyManager.getCurrentCoins { coins, _ in
-            DispatchQueue.main.async {
-                completion(coins >= actualPrice)
+            currencyManager.getCurrentGems { gems, _ in
+                DispatchQueue.main.async {
+                    completion(gems >= actualGemPrice)
+                }
+            }
+        } else {
+            // Check coins
+            #if DEBUG
+            let actualPrice = 1
+            #else
+            let actualPrice = item.price
+            #endif
+
+            currencyManager.getCurrentCoins { coins, _ in
+                DispatchQueue.main.async {
+                    completion(coins >= actualPrice)
+                }
             }
         }
     }
@@ -289,12 +331,29 @@ final class ShopManager: ObservableObject {
     }
 
     func getDisplayPrice(for item: ShopItem) -> Int {
-        // In debug mode, all items cost 1 coin
-        #if DEBUG
-        return 1
-        #else
-        return item.price
-        #endif
+        // Check if item requires gems (epic/legendary items)
+        if let gemPrice = item.gemPrice, item.rarity == .epic || item.rarity == .legendary {
+            #if DEBUG
+            return 1
+            #else
+            return gemPrice
+            #endif
+        } else {
+            #if DEBUG
+            return 1
+            #else
+            return item.price
+            #endif
+        }
+    }
+
+    func getDisplayCurrency(for item: ShopItem) -> String {
+        // Check if item requires gems (epic/legendary items)
+        if let gemPrice = item.gemPrice, item.rarity == .epic || item.rarity == .legendary {
+            return "gems"
+        } else {
+            return "coins"
+        }
     }
 
     // MARK: - Item Type Detection

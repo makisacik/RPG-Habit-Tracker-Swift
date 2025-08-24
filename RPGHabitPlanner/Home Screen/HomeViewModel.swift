@@ -94,6 +94,9 @@ class HomeViewModel: ObservableObject {
                     if let user = user {
                         self?.fetchCharacterCustomization(for: user)
                     }
+                    
+                    // Refresh currency display
+                    CurrencyManager.shared.refreshCurrency()
                 }
             }
         }

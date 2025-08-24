@@ -26,10 +26,11 @@ struct ShopView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Header with coins
+                // Header with currency
                 ShopHeaderView(
                     theme: theme,
-                    currentCoins: CurrencyManager.shared.currentCoins
+                    currentCoins: CurrencyManager.shared.currentCoins,
+                    currentGems: CurrencyManager.shared.currentGems
                 )
 
                 // Enhanced category picker
@@ -93,6 +94,7 @@ struct ShopView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             setupInitialState()
+            viewModel.loadCurrentCurrency()
         }
         .onChange(of: viewModel.selectedCategory) { _ in
             viewModel.updateCachedItems()
@@ -125,7 +127,7 @@ struct ShopView: View {
     // MARK: - Private Methods
     
     private func setupInitialState() {
-        viewModel.loadCurrentCoins()
+        viewModel.loadCurrentCurrency()
         viewModel.refreshInventory()
         
         // Set the initial values if provided

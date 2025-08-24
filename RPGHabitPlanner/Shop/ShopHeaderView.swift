@@ -10,6 +10,7 @@ import SwiftUI
 struct ShopHeaderView: View {
     let theme: Theme
     let currentCoins: Int
+    let currentGems: Int
     
     var body: some View {
         HStack {
@@ -18,33 +19,57 @@ struct ShopHeaderView: View {
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
 
-                Text("Trade your coins for powerful items")
+                Text("Trade your coins and gems for powerful items")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
 
             Spacer()
 
-            // Coin display
+            // Currency display
             HStack(spacing: 8) {
-                Image("icon_gold")
-                    .resizable()
-                    .frame(width: 24, height: 24)
+                // Coins
+                HStack(spacing: 4) {
+                    Image("icon_gold")
+                        .resizable()
+                        .frame(width: 20, height: 20)
 
-                Text("\(currentCoins)")
-                    .font(.appFont(size: 18, weight: .black))
-                    .foregroundColor(.yellow)
+                    Text("\(currentCoins)")
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(.yellow)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.yellow.opacity(0.2))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.yellow.opacity(0.5), lineWidth: 1)
+                        )
+                )
+
+                // Gems
+                HStack(spacing: 4) {
+                    Image("icon_gem")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+
+                    Text("\(currentGems)")
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(.purple)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.purple.opacity(0.2))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.purple.opacity(0.5), lineWidth: 1)
+                        )
+                )
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.yellow.opacity(0.2))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.yellow.opacity(0.5), lineWidth: 1)
-                    )
-            )
         }
         .padding()
         .background(
