@@ -13,6 +13,7 @@ class RewardService {
     private let rewardSystem = RewardSystem.shared
     private let toastManager = RewardToastManager.shared
     private let userManager: UserManager
+    private let completionTracker = CompletionTracker.shared
     
     private init() {
         self.userManager = UserManager()
@@ -21,6 +22,16 @@ class RewardService {
     // MARK: - Quest Completion
     
     func handleQuestCompletion(quest: Quest, completion: @escaping (Error?) -> Void) {
+        // Check for abuse - prevent rapid toggling
+        guard completionTracker.canCompleteQuest(quest.id) else {
+            print("⚠️ Quest completion blocked due to cooldown: \(quest.title)")
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "Quest completion is on cooldown"]))
+            return
+        }
+
+        // Record the completion to prevent abuse
+        completionTracker.recordQuestCompletion(quest.id)
+        
         // Calculate rewards
         let reward = rewardSystem.calculateQuestReward(quest: quest)
         
@@ -51,6 +62,16 @@ class RewardService {
     // MARK: - Task Completion
     
     func handleTaskCompletion(task: QuestTask, quest: Quest, completion: @escaping (Error?) -> Void) {
+        // Check for abuse - prevent rapid toggling
+        guard completionTracker.canCompleteTask(task.id, questId: quest.id) else {
+            print("⚠️ Task completion blocked due to cooldown: \(task.title)")
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "Task completion is on cooldown"]))
+            return
+        }
+        
+        // Record the completion to prevent abuse
+        completionTracker.recordTaskCompletion(task.id, questId: quest.id)
+        
         // Calculate rewards
         let reward = rewardSystem.calculateTaskReward(task: task, quest: quest)
         
@@ -117,5 +138,11 @@ class RewardService {
         
         let reward = rewardSystem.calculateTaskReward(task: sampleTask, quest: sampleQuest)
         toastManager.showTaskReward(task: sampleTask, quest: sampleQuest, reward: reward)
+    }
+    
+    // MARK: - Cleanup
+    
+    func cleanupOldRecords() {
+        completionTracker.cleanupOldRecords()
     }
 }
