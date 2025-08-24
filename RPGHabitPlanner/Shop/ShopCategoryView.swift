@@ -24,10 +24,10 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
-        case .weapons: return "sword.fill"
-        case .armor: return "shield.fill"
+        case .weapons: return "icon_sword"
+        case .armor: return "icon_shield"
         case .accessories: return "crown.fill"
-        case .wings: return "airplane"
+        case .wings: return "icon_wing"
         case .pets: return "pawprint.fill"
         case .consumables: return "drop.fill"
         }
@@ -91,9 +91,9 @@ enum ArmorSubcategory: String, CaseIterable, Identifiable {
     
     var icon: String {
         switch self {
-        case .helmet: return "helmet"
-        case .outfit: return "tshirt.fill"
-        case .shield: return "shield.fill"
+        case .helmet: return "icon_helmet"
+        case .outfit: return "icon_armor"
+        case .shield: return "icon_shield"
         }
     }
     
@@ -193,9 +193,17 @@ struct ShopCategoryCard: View {
                             .stroke(isSelected ? category.color : Color.clear, lineWidth: 2)
                     )
 
-                Image(systemName: category.icon)
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(isSelected ? category.color : theme.textColor)
+                if category.icon.hasPrefix("icon_") {
+                    Image(category.icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(isSelected ? category.color : theme.textColor)
+                } else {
+                    Image(systemName: category.icon)
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(isSelected ? category.color : theme.textColor)
+                }
             }
 
             // Category name
@@ -769,9 +777,17 @@ struct SubcategoryCard: View {
                             .stroke(isSelected ? color : Color.clear, lineWidth: 2)
                     )
 
-                Image(systemName: icon)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(isSelected ? color : theme.textColor)
+                if icon.hasPrefix("icon_") {
+                    Image(icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(isSelected ? color : theme.textColor)
+                } else {
+                    Image(systemName: icon)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(isSelected ? color : theme.textColor)
+                }
             }
 
             // Subcategory name

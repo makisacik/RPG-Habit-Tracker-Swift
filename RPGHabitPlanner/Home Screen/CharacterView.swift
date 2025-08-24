@@ -176,7 +176,7 @@ struct CharacterSectionView: View {
                 VStack(spacing: 16) {
                     EquipmentSlotView(
                         slotType: "HEAD",
-                        iconName: "helmet",
+                        iconName: "icon_helmet",
                         isEquipped: gearManager.getEquippedItem(for: .head) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .head),
                         theme: theme
@@ -190,7 +190,7 @@ struct CharacterSectionView: View {
 
                     EquipmentSlotView(
                         slotType: "OUTFIT",
-                        iconName: "tshirt",
+                        iconName: "icon_armor",
                         isEquipped: gearManager.getEquippedItem(for: .outfit) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .outfit),
                         theme: theme
@@ -204,7 +204,7 @@ struct CharacterSectionView: View {
 
                     EquipmentSlotView(
                         slotType: "WING",
-                        iconName: "wing",
+                        iconName: "icon_wing",
                         isEquipped: gearManager.getEquippedItem(for: .wings) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .wings),
                         theme: theme

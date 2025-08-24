@@ -109,7 +109,7 @@ struct FinalStepView: View {
                         .animation(.easeInOut(duration: 1.2), value: showCompletionAnimation)
 
                     VStack(spacing: 12) {
-                        AdventureFeatureRow(icon: "sword.fill", text: "Create quests and complete tasks", theme: theme)
+                        AdventureFeatureRow(icon: "icon_sword", text: "Create quests and complete tasks", theme: theme)
                             .opacity(showCompletionAnimation ? 1.0 : 0.6)
                             .animation(.easeInOut(duration: 0.8).delay(0.2), value: showCompletionAnimation)
                         AdventureFeatureRow(icon: "trophy.fill", text: "Earn experience and level up", theme: theme)
@@ -207,9 +207,17 @@ struct AdventureFeatureRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 16))
-                .foregroundColor(theme.textColor)
+            if icon.hasPrefix("icon_") {
+                Image(icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
+                    .foregroundColor(theme.textColor)
+            } else {
+                Image(systemName: icon)
+                    .font(.system(size: 16))
+                    .foregroundColor(theme.textColor)
+            }
 
             Text(text)
                 .font(.appFont(size: 14))

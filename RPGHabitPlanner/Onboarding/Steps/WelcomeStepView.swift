@@ -38,7 +38,7 @@ struct WelcomeStepView: View {
 
             // Feature highlights
             VStack(spacing: 16) {
-                FeatureRow(icon: "sword.fill", text: "Create quests and complete tasks", theme: theme)
+                FeatureRow(icon: "icon_sword", text: "Create quests and complete tasks", theme: theme)
                 FeatureRow(icon: "trophy.fill", text: "Earn experience and level up", theme: theme)
                 FeatureRow(icon: "star.fill", text: "Unlock achievements and rewards", theme: theme)
                 FeatureRow(icon: "person.fill", text: "Customize your character", theme: theme)
@@ -58,10 +58,19 @@ struct FeatureRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 18))
-                .foregroundColor(theme.accentColor)
-                .frame(width: 24)
+            if icon.hasPrefix("icon_") {
+                Image(icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
+                    .foregroundColor(theme.accentColor)
+                    .frame(width: 24)
+            } else {
+                Image(systemName: icon)
+                    .font(.system(size: 18))
+                    .foregroundColor(theme.accentColor)
+                    .frame(width: 24)
+            }
 
             Text(text)
                 .font(.appFont(size: 16))

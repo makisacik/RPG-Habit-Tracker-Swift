@@ -118,9 +118,17 @@ struct GearMenuView: View {
     @ViewBuilder
     private func emptyStateView(theme: Theme) -> some View {
         VStack(spacing: 16) {
-            Image(systemName: getEmptyStateIcon())
-                .font(.system(size: 48))
-                .foregroundColor(theme.textColor.opacity(0.3))
+            if getEmptyStateIcon().hasPrefix("icon_") {
+                Image(getEmptyStateIcon())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 48, height: 48)
+                    .foregroundColor(theme.textColor.opacity(0.3))
+            } else {
+                Image(systemName: getEmptyStateIcon())
+                    .font(.system(size: 48))
+                    .foregroundColor(theme.textColor.opacity(0.3))
+            }
             
             Text("No \(gearCategory.rawValue.lowercased()) items")
                 .font(.appFont(size: 18, weight: .medium))
@@ -203,11 +211,11 @@ struct GearMenuView: View {
     
     private func getEmptyStateIcon() -> String {
         switch gearCategory {
-        case .head: return "helmet"
-        case .outfit: return "tshirt"
-        case .weapon: return "sword"
-        case .shield: return "shield"
-        case .wings: return "airplane"
+        case .head: return "icon_helmet"
+        case .outfit: return "icon_armor"
+        case .weapon: return "icon_sword"
+        case .shield: return "icon_shield"
+        case .wings: return "icon_wing"
         case .pet: return "pawprint"
         }
     }

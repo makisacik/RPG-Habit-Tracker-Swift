@@ -41,8 +41,10 @@ struct QuestBoardView: View {
                 }
             }) {
                 HStack(spacing: 12) {
-                    Image(systemName: "sword.fill")
-                        .font(.title2)
+                    Image("icon_sword")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
                     Text("ACCEPT NEW QUEST")
                         .font(.appFont(size: 18, weight: .black))
                 }

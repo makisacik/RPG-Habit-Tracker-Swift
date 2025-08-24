@@ -352,8 +352,8 @@ enum CustomizationCategory: String, CaseIterable {
         case .hairBackStyle: return "scissors"
         case .hairColor: return "paintbrush.fill"
         case .eyeColor: return "eye.fill"
-        case .outfit: return "tshirt.fill"
-        case .weapon: return "sword.fill"
+        case .outfit: return "icon_armor"
+        case .weapon: return "icon_sword"
         case .accessory: return "crown.fill"
         case .mustache: return "mustache"
         case .flower: return "leaf.fill"
@@ -371,9 +371,17 @@ struct CategoryButton: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 8) {
-                Image(systemName: category.icon)
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
+                if category.icon.hasPrefix("icon_") {
+                    Image(category.icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
+                } else {
+                    Image(systemName: category.icon)
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
+                }
 
                 Text(category.rawValue)
                     .font(.appFont(size: 12, weight: .medium))

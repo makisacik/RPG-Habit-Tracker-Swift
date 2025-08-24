@@ -380,8 +380,8 @@ struct ItemEffect: Equatable, Codable {
 
         var icon: String {
             switch self {
-            case .attack: return "sword.fill"
-            case .defense: return "shield.fill"
+            case .attack: return "icon_sword"
+            case .defense: return "icon_shield"
             case .health: return "heart.fill"
             case .focus: return "brain.head.profile"
             case .experience: return "star.fill"

@@ -20,12 +20,12 @@ enum InventoryCategory: String, CaseIterable {
 
     var icon: String {
         switch self {
-        case .head: return "helmet"
-        case .weapon: return "sword.fill"
-        case .shield: return "shield.fill"
-        case .outfit: return "tshirt.fill"
+        case .head: return "icon_helmet"
+        case .weapon: return "icon_sword"
+        case .shield: return "icon_shield"
+        case .outfit: return "icon_armor"
         case .pet: return "pawprint.fill"
-        case .wings: return "airplane"
+        case .wings: return "icon_wing"
         case .others: return "flask.fill"
         }
     }
@@ -57,9 +57,17 @@ struct CategorySelectorView: View {
                         selectedCategory = category
                     }) {
                         VStack(spacing: 4) {
-                            Image(systemName: category.icon)
-                                .font(.system(size: 16))
-                                .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                            if category.icon.hasPrefix("icon_") {
+                                Image(category.icon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 16, height: 16)
+                                    .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                            } else {
+                                Image(systemName: category.icon)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
+                            }
 
                             Text(category.rawValue)
                                 .font(.appFont(size: 12, weight: .medium))
@@ -110,14 +118,30 @@ struct EquipmentSlotView: View {
                             .frame(width: 32, height: 32)
                     } else if isEquipped {
                         // Fallback to system icon if no custom icon
-                        Image(systemName: iconName)
-                            .font(.system(size: 24))
-                            .foregroundColor(theme.textColor)
+                        if iconName.hasPrefix("icon_") {
+                            Image(iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(theme.textColor)
+                        } else {
+                            Image(systemName: iconName)
+                                .font(.system(size: 24))
+                                .foregroundColor(theme.textColor)
+                        }
                     } else {
                         // Placeholder for unequipped slot
-                        Image(systemName: iconName)
-                            .font(.system(size: 20))
-                            .foregroundColor(theme.textColor.opacity(0.3))
+                        if iconName.hasPrefix("icon_") {
+                            Image(iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(theme.textColor.opacity(0.3))
+                        } else {
+                            Image(systemName: iconName)
+                                .font(.system(size: 20))
+                                .foregroundColor(theme.textColor.opacity(0.3))
+                        }
                     }
                 }
 
@@ -249,9 +273,17 @@ struct ItemsPreviewView: View {
     var body: some View {
         if filteredItems.isEmpty {
             VStack(spacing: 8) {
-                Image(systemName: category.icon)
-                    .font(.system(size: 24))
-                    .foregroundColor(theme.textColor.opacity(0.5))
+                if category.icon.hasPrefix("icon_") {
+                    Image(category.icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                } else {
+                    Image(systemName: category.icon)
+                        .font(.system(size: 24))
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                }
                 Text("No \(category.rawValue.lowercased()) items")
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
