@@ -253,7 +253,59 @@ final class CharacterAssetManager: ObservableObject {
         }
         
         let name = assetName.lowercased()
+        
+        // Define rarity mappings for specific items
+        let rarityMappings: [String: AssetRarity] = [
+            // Head items
+            "helmet_red": .epic, // Crimson Crest
+            "helmet_iron": .epic, // Ironclad Crown
+            "helmet_hood": .rare, // Shadow Veil
 
+            // Outfits
+            "outfit_villager_blue": .common, // Azure Tunic
+            "outfit_wizard": .rare, // Arcane Robes
+            "outfit_dress": .rare, // Silken Grace
+            "outfit_fire": .legendary, // Inferno Mantle
+            "outfit_red": .legendary, // Crimson Raiment
+            "outfit_bat": .epic, // Nightwing Shroud
+            "outfit_hoodie": .uncommon, // Comfort Cloak
+
+            // Shields
+            "shield_wood": .uncommon, // Oakheart Ward
+            "shield_red": .rare, // Crimson Ward
+            "shield_gold": .epic, // Golden Aegis
+
+            // Weapons
+            "sword_wood": .common, // Oakheart Blade
+            "sword_iron": .common, // Ironclad Edge
+            "sword_steel": .uncommon, // Steel Serpent
+            "sword_copper": .uncommon, // Copper Fang
+            "sword_axe_small": .uncommon, // Storm Hatchet
+            "sword_gold": .rare, // Golden Dawn
+            "sword_red": .epic, // Crimson Fang
+            "sword_red_2": .legendary, // Blazing Fang
+            "sword_axe": .epic, // Thunder Axe
+            "sword_mace": .epic, // Iron Maiden
+            "sword_whip": .epic, // Viper's Lash
+            "sword_staff": .legendary, // Arcane Staff
+
+            // Pets
+            "pet_chicken": .uncommon, // Golden Cluck
+            "pet_cat": .epic, // Shadowpaw and Whiskerwind
+
+            // Wings
+            "wings_white": .epic, // Celestial Wings
+            "wings_red": .legendary // Phoenix Wings and Blazing Phoenix
+        ]
+        
+        // Check for exact matches first
+        for (key, rarity) in rarityMappings {
+            if name.contains(key) {
+                return rarity
+            }
+        }
+        
+        // Fallback to old logic for other items
         if name.contains("legendary") || name.contains("firelord") || name.contains("deadly") {
             return .legendary
         } else if name.contains("epic") || name.contains("fire") || name.contains("iron") || name.contains("assassin") {
@@ -263,6 +315,7 @@ final class CharacterAssetManager: ObservableObject {
         } else if name.contains("uncommon") || name.contains("hoodie") || name.contains("punk") || name.contains("blue") || name.contains("green") {
             return .uncommon
         }
+        
         return .common
     }
 

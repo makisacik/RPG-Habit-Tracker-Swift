@@ -66,20 +66,36 @@ extension HomeView {
                                 Spacer()
                             }
 
-                            // Character type
-                            Text("Custom Character")
-                                .font(.appFont(size: 14, weight: .medium))
-                                .foregroundColor(theme.textColor.opacity(0.8))
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 3)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .fill(Color.yellow.opacity(0.2))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 6)
-                                                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                                        )
-                                )
+                            // Character title
+                            if let title = user.title, !title.isEmpty {
+                                Text(title)
+                                    .font(.appFont(size: 14, weight: .medium))
+                                    .foregroundColor(theme.textColor.opacity(0.8))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(Color.yellow.opacity(0.2))
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                                            )
+                                    )
+                            } else {
+                                Text("The Brave")
+                                    .font(.appFont(size: 14, weight: .medium))
+                                    .foregroundColor(theme.textColor.opacity(0.8))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(Color.yellow.opacity(0.2))
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                                            )
+                                    )
+                            }
 
                             // Level and XP
                             HStack {

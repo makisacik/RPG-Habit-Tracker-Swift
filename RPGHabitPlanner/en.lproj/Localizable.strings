@@ -98,6 +98,13 @@
 "continueButton" = "Continue";
 "yourCharacter" = "Your Character";
 "customized" = "Customized";
+
+// MARK: - Character Titles
+"chooseYourTitle" = "Choose Your Title";
+"selectTitleDescription" = "Select a title that reflects your character's destiny";
+"selectDifferentTitle" = "Select Different Title";
+"randomTitle" = "Random Title";
+"chooseFromAvailableTitles" = "Select from the available titles";
 "hair_style" = "Hair Style";
 "eye_style" = "Eye Style";
 "outfit" = "Outfit";

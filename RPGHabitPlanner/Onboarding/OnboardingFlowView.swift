@@ -41,6 +41,9 @@ struct OnboardingFlowView: View {
                     NicknameStepView(coordinator: coordinator, theme: theme)
                         .tag(OnboardingStep.nickname)
 
+                    TitleSelectionStepView(coordinator: coordinator, theme: theme)
+                        .tag(OnboardingStep.titleSelection)
+
                     FinalStepView(coordinator: coordinator, theme: theme)
                         .tag(OnboardingStep.final)
                 }

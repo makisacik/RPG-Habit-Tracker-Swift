@@ -15,6 +15,7 @@ class OnboardingCoordinator: ObservableObject {
 
     // Character customization data
     @Published var nickname: String = ""
+    @Published var selectedTitle: CharacterTitle = .theBrave
     @Published var characterCustomization = CharacterCustomization()
     @Published var isCharacterCustomizationComplete: Bool = false
 
@@ -30,6 +31,8 @@ class OnboardingCoordinator: ObservableObject {
             return isCharacterCustomizationComplete
         case .nickname:
             return !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .titleSelection:
+            return true
         case .final:
             return true
         }
@@ -87,6 +90,7 @@ class OnboardingCoordinator: ObservableObject {
         // Save user with new customization system
         userManager.saveUser(
             nickname: nickname,
+            title: selectedTitle.rawValue,
             characterClass: "Custom",
             weapon: characterCustomization.weapon.rawValue
         ) { [weak self] error in
@@ -140,13 +144,15 @@ enum OnboardingStep: Int, CaseIterable {
     case welcome = 0
     case characterCustomization = 1
     case nickname = 2
-    case final = 3
+    case titleSelection = 3
+    case final = 4
 
     var title: String {
         switch self {
         case .welcome: return "Welcome"
         case .characterCustomization: return "Customize Character"
         case .nickname: return "Choose Name"
+        case .titleSelection: return "Choose Title"
         case .final: return "Ready"
         }
     }

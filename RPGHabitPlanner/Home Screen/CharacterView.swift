@@ -262,7 +262,7 @@ struct CharacterSectionView: View {
                         }) {
                             Text("CUSTOMIZATION")
                                 .font(.appFont(size: 12, weight: .medium))
-                                .foregroundColor(.white)
+                                .foregroundColor(theme.textColor)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
                                 .background(

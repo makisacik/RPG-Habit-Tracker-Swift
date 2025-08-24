@@ -83,7 +83,7 @@ struct FinalStepView: View {
                             .scaleEffect(showCompletionAnimation ? 1.05 : 1.0)
                             .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showCompletionAnimation)
 
-                        Text("Custom Character")
+                        Text(coordinator.selectedTitle.displayName)
                             .font(.appFont(size: 18, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
                             .opacity(showCompletionAnimation ? 1.0 : 0.7)

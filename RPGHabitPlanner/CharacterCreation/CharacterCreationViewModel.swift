@@ -126,6 +126,7 @@ class CharacterCreationViewModel: ObservableObject {
         // First create the user
         userManager.saveUserWithCustomization(
             nickname: nickname,
+            title: "The Brave", // Default title for character creation
             customization: currentCustomization
         ) { [weak self] user, error in
             if let error = error {

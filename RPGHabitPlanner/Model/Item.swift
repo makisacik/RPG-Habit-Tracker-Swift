@@ -17,6 +17,16 @@ enum ItemRarity: String, CaseIterable, Codable {
     case epic = "Epic"
     case legendary = "Legendary"
 
+    var sortOrder: Int {
+        switch self {
+        case .common: return 0
+        case .uncommon: return 1
+        case .rare: return 2
+        case .epic: return 3
+        case .legendary: return 4
+        }
+    }
+
     var color: String {
         switch self {
         case .common: return "gray"
@@ -594,55 +604,55 @@ struct ItemDatabase {
     // MARK: - Gear Items
     static let allGear: [Item] = [
         // Head Gear
-        Item.gear(name: "Shadow Veil", description: "A mysterious hood woven from shadow essence. Conceals your identity while offering basic protection from the elements.", iconName: "char_helmet_hood", category: .head, rarity: .common),
-        Item.gear(name: "Ironclad Crown", description: "Forged from the finest iron, this crown provides excellent protection while maintaining a regal appearance. Worn by many aspiring knights.", iconName: "char_helmet_iron", category: .head, rarity: .uncommon),
-        Item.gear(name: "Crimson Crest", description: "A striking helmet adorned with crimson gems. The metal seems to pulse with inner fire, granting its wearer an intimidating presence.", iconName: "char_helmet_red", category: .head, rarity: .rare),
+        Item.gear(name: "Shadow Veil", description: "A mysterious hood woven from shadow essence. Conceals your identity while offering basic protection from the elements.", iconName: "char_helmet_hood", category: .head, rarity: .rare, value: 250),
+        Item.gear(name: "Ironclad Crown", description: "Forged from the finest iron, this crown provides excellent protection while maintaining a regal appearance. Worn by many aspiring knights.", iconName: "char_helmet_iron", category: .head, rarity: .epic, value: 500),
+        Item.gear(name: "Crimson Crest", description: "A striking helmet adorned with crimson gems. The metal seems to pulse with inner fire, granting its wearer an intimidating presence.", iconName: "char_helmet_red", category: .head, rarity: .epic, value: 500),
 
         // Outfits
-        Item.gear(name: "Peasant's Garb", description: "Simple but durable clothing worn by villagers. Though humble in appearance, it has served countless adventurers on their first steps into the unknown.", iconName: "char_outfit_villager", category: .outfit, rarity: .common),
-        Item.gear(name: "Azure Tunic", description: "A beautiful blue tunic that catches the light like morning dew. The fabric is surprisingly resilient, offering both style and protection.", iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common),
-        Item.gear(name: "Comfort Cloak", description: "A warm, comfortable hoodie that feels like a gentle embrace. Perfect for those long nights of study or quiet contemplation.", iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon),
-        Item.gear(name: "Silken Grace", description: "An elegant dress woven from the finest silk. The fabric flows like water, and the intricate embroidery tells stories of ancient courts.", iconName: "char_outfit_dress", category: .outfit, rarity: .uncommon),
-        Item.gear(name: "Ironclad Plate", description: "Heavy iron armor that clanks with authority. Each plate has been carefully crafted and fitted, offering superior protection against physical attacks.", iconName: "char_outfit_iron", category: .outfit, rarity: .rare),
-        Item.gear(name: "Reinforced Ironclad", description: "Enhanced iron armor with additional reinforcements. The metal has been treated with ancient techniques, making it nearly impervious to common weapons.", iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare),
-        Item.gear(name: "Crimson Raiment", description: "Bold red armor that burns with inner fire. The metal seems alive, pulsing with heat that intimidates enemies and inspires allies.", iconName: "char_outfit_red", category: .outfit, rarity: .epic),
-        Item.gear(name: "Arcane Robes", description: "Mystical robes that shimmer with magical energy. Woven with enchanted threads, they enhance magical abilities and protect against arcane attacks.", iconName: "char_outfit_wizard", category: .outfit, rarity: .epic),
-        Item.gear(name: "Nightwing Shroud", description: "A mysterious outfit that seems to absorb light itself. Worn by those who walk in shadows, it grants the wearer an otherworldly presence.", iconName: "char_outfit_bat", category: .outfit, rarity: .legendary),
-        Item.gear(name: "Inferno Mantle", description: "A blazing outfit that radiates pure fire energy. The flames dance around the wearer, creating an aura of destruction and power.", iconName: "char_outfit_fire", category: .outfit, rarity: .legendary),
+        Item.gear(name: "Peasant's Garb", description: "Simple but durable clothing worn by villagers. Though humble in appearance, it has served countless adventurers on their first steps into the unknown.", iconName: "char_outfit_villager", category: .outfit, rarity: .common, value: 50),
+        Item.gear(name: "Azure Tunic", description: "A beautiful blue tunic that catches the light like morning dew. The fabric is surprisingly resilient, offering both style and protection.", iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common, value: 50),
+        Item.gear(name: "Comfort Cloak", description: "A warm, comfortable hoodie that feels like a gentle embrace. Perfect for those long nights of study or quiet contemplation.", iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon, value: 100),
+        Item.gear(name: "Silken Grace", description: "An elegant dress woven from the finest silk. The fabric flows like water, and the intricate embroidery tells stories of ancient courts.", iconName: "char_outfit_dress", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "Ironclad Plate", description: "Heavy iron armor that clanks with authority. Each plate has been carefully crafted and fitted, offering superior protection against physical attacks.", iconName: "char_outfit_iron", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "Reinforced Ironclad", description: "Enhanced iron armor with additional reinforcements. The metal has been treated with ancient techniques, making it nearly impervious to common weapons.", iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "Crimson Raiment", description: "Bold red armor that burns with inner fire. The metal seems alive, pulsing with heat that intimidates enemies and inspires allies.", iconName: "char_outfit_red", category: .outfit, rarity: .legendary, value: 1250),
+        Item.gear(name: "Arcane Robes", description: "Mystical robes that shimmer with magical energy. Woven with enchanted threads, they enhance magical abilities and protect against arcane attacks.", iconName: "char_outfit_wizard", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "Nightwing Shroud", description: "A mysterious outfit that seems to absorb light itself. Worn by those who walk in shadows, it grants the wearer an otherworldly presence.", iconName: "char_outfit_bat", category: .outfit, rarity: .epic, value: 500),
+        Item.gear(name: "Inferno Mantle", description: "A blazing outfit that radiates pure fire energy. The flames dance around the wearer, creating an aura of destruction and power.", iconName: "char_outfit_fire", category: .outfit, rarity: .legendary, value: 1250),
 
         // Wings
-        Item.gear(name: "Celestial Wings", description: "Pure white wings that glow with divine light. They seem to be made of pure energy, allowing the bearer to soar through the heavens with grace.", iconName: "char_wings_white", category: .wings, rarity: .rare),
-        Item.gear(name: "Phoenix Wings", description: "Fiery wings that burn with eternal flame. Each feather crackles with heat, and the wings seem to regenerate even from the ashes of destruction.", iconName: "char_wings_red", category: .wings, rarity: .epic),
-        Item.gear(name: "Blazing Phoenix", description: "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.", iconName: "char_wings_red_2", category: .wings, rarity: .epic),
-        Item.gear(name: "Shadow Wings", description: "Dark wings that seem to absorb all light around them. They allow silent flight through the night, perfect for those who prefer to remain unseen.", iconName: "char_wings_bat", category: .wings, rarity: .legendary),
+        Item.gear(name: "Celestial Wings", description: "Pure white wings that glow with divine light. They seem to be made of pure energy, allowing the bearer to soar through the heavens with grace.", iconName: "char_wings_white", category: .wings, rarity: .epic, value: 500),
+        Item.gear(name: "Phoenix Wings", description: "Fiery wings that burn with eternal flame. Each feather crackles with heat, and the wings seem to regenerate even from the ashes of destruction.", iconName: "char_wings_red", category: .wings, rarity: .legendary, value: 1250),
+        Item.gear(name: "Blazing Phoenix", description: "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.", iconName: "char_wings_red_2", category: .wings, rarity: .legendary, value: 1250),
+        Item.gear(name: "Shadow Wings", description: "Dark wings that seem to absorb all light around them. They allow silent flight through the night, perfect for those who prefer to remain unseen.", iconName: "char_wings_bat", category: .wings, rarity: .legendary, value: 1250),
         
         // Weapons
-        Item.gear(name: "Oakheart Blade", description: "A sword carved from ancient oak, its blade hardened through years of seasoning. Though simple, it has a natural balance that makes it surprisingly effective in skilled hands.", iconName: "char_sword_wood", category: .weapon, rarity: .common),
-        Item.gear(name: "Copper Fang", description: "A copper sword with a distinctive reddish hue. The metal has been carefully forged to create a sharp edge that gleams in the sunlight.", iconName: "char_sword_copper", category: .weapon, rarity: .common),
-        Item.gear(name: "Ironclad Edge", description: "A reliable iron sword that has been the weapon of choice for countless warriors. Its balance and durability make it a trusted companion in battle.", iconName: "char_sword_iron", category: .weapon, rarity: .uncommon),
-        Item.gear(name: "Steel Serpent", description: "A sharp steel sword that moves like a striking snake. The blade is so finely crafted that it can cut through lesser armor with ease.", iconName: "char_sword_steel", category: .weapon, rarity: .rare),
-        Item.gear(name: "Crimson Fang", description: "A fiery red sword that burns with inner heat. The blade seems to thirst for battle, growing hotter with each strike against enemies.", iconName: "char_sword_red", category: .weapon, rarity: .epic),
-        Item.gear(name: "Blazing Fang", description: "An enhanced version of the Crimson Fang, this sword burns with such intensity that it can ignite enemies with a single strike.", iconName: "char_sword_red_2", category: .weapon, rarity: .epic),
-        Item.gear(name: "Golden Dawn", description: "A legendary golden sword that seems to capture the first light of dawn. Its blade radiates warmth and hope, inspiring allies while striking fear into enemies.", iconName: "char_sword_gold", category: .weapon, rarity: .legendary),
-        Item.gear(name: "Thunder Axe", description: "A heavy axe that crackles with electrical energy. Each swing creates a thunderous boom, and the blade can channel lightning through its strikes.", iconName: "char_sword_axe", category: .weapon, rarity: .rare),
-        Item.gear(name: "Storm Hatchet", description: "A smaller axe that hums with storm energy. Though lighter than its larger cousin, it can still channel the power of thunder and lightning.", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon),
-        Item.gear(name: "Viper's Lash", description: "A flexible whip that strikes like a venomous snake. The leather has been treated with special oils, making it both deadly and silent.", iconName: "char_sword_whip", category: .weapon, rarity: .epic),
-        Item.gear(name: "Arcane Staff", description: "A magical staff that pulses with arcane energy. Carved from ancient wood and set with mystical crystals, it enhances magical abilities and channels powerful spells.", iconName: "char_sword_staff", category: .weapon, rarity: .epic),
-        Item.gear(name: "Iron Maiden", description: "A heavy mace that strikes with devastating force. The spiked head can crush armor and bone alike, making it feared by all who face it.", iconName: "char_sword_mace", category: .weapon, rarity: .rare),
-        Item.gear(name: "Soul Reaper", description: "A deadly weapon that seems to drain the life from its victims. The blade is dark as night and cold as death, feared by all who know its name.", iconName: "char_sword_deadly", category: .weapon, rarity: .legendary),
-        Item.gear(name: "Windseeker Bow", description: "A bow that seems to be guided by the wind itself. Arrows fired from this bow fly with uncanny accuracy, finding their targets even in the strongest gales.", iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare),
-        Item.gear(name: "Stormcaller Bow", description: "A bow that can summon storms with its arrows. Each shot crackles with lightning, and the bow itself hums with the power of thunder.", iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare),
+        Item.gear(name: "Oakheart Blade", description: "A sword carved from ancient oak, its blade hardened through years of seasoning. Though simple, it has a natural balance that makes it surprisingly effective in skilled hands.", iconName: "char_sword_wood", category: .weapon, rarity: .common, value: 50),
+        Item.gear(name: "Copper Fang", description: "A copper sword with a distinctive reddish hue. The metal has been carefully forged to create a sharp edge that gleams in the sunlight.", iconName: "char_sword_copper", category: .weapon, rarity: .uncommon, value: 100),
+        Item.gear(name: "Ironclad Edge", description: "A reliable iron sword that has been the weapon of choice for countless warriors. Its balance and durability make it a trusted companion in battle.", iconName: "char_sword_iron", category: .weapon, rarity: .common, value: 50),
+        Item.gear(name: "Steel Serpent", description: "A sharp steel sword that moves like a striking snake. The blade is so finely crafted that it can cut through lesser armor with ease.", iconName: "char_sword_steel", category: .weapon, rarity: .uncommon, value: 100),
+        Item.gear(name: "Crimson Fang", description: "A fiery red sword that burns with inner heat. The blade seems to thirst for battle, growing hotter with each strike against enemies.", iconName: "char_sword_red", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "Blazing Fang", description: "An enhanced version of the Crimson Fang, this sword burns with such intensity that it can ignite enemies with a single strike.", iconName: "char_sword_red_2", category: .weapon, rarity: .legendary, value: 1250),
+        Item.gear(name: "Golden Dawn", description: "A legendary golden sword that seems to capture the first light of dawn. Its blade radiates warmth and hope, inspiring allies while striking fear into enemies.", iconName: "char_sword_gold", category: .weapon, rarity: .rare, value: 250),
+        Item.gear(name: "Thunder Axe", description: "A heavy axe that crackles with electrical energy. Each swing creates a thunderous boom, and the blade can channel lightning through its strikes.", iconName: "char_sword_axe", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "Storm Hatchet", description: "A smaller axe that hums with storm energy. Though lighter than its larger cousin, it can still channel the power of thunder and lightning.", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon, value: 100),
+        Item.gear(name: "Viper's Lash", description: "A flexible whip that strikes like a venomous snake. The leather has been treated with special oils, making it both deadly and silent.", iconName: "char_sword_whip", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "Arcane Staff", description: "A magical staff that pulses with arcane energy. Carved from ancient wood and set with mystical crystals, it enhances magical abilities and channels powerful spells.", iconName: "char_sword_staff", category: .weapon, rarity: .legendary, value: 1250),
+        Item.gear(name: "Iron Maiden", description: "A heavy mace that strikes with devastating force. The spiked head can crush armor and bone alike, making it feared by all who face it.", iconName: "char_sword_mace", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "Soul Reaper", description: "A deadly weapon that seems to drain the life from its victims. The blade is dark as night and cold as death, feared by all who know its name.", iconName: "char_sword_deadly", category: .weapon, rarity: .legendary, value: 1250),
+        Item.gear(name: "Windseeker Bow", description: "A bow that seems to be guided by the wind itself. Arrows fired from this bow fly with uncanny accuracy, finding their targets even in the strongest gales.", iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare, value: 250),
+        Item.gear(name: "Stormcaller Bow", description: "A bow that can summon storms with its arrows. Each shot crackles with lightning, and the bow itself hums with the power of thunder.", iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare, value: 250),
         
         // Shields
-        Item.gear(name: "Oakheart Ward", description: "A shield carved from ancient oak, its surface weathered but strong. The wood has absorbed countless blows, making it a reliable defense for any warrior.", iconName: "char_shield_wood", category: .shield, rarity: .common),
-        Item.gear(name: "Crimson Ward", description: "A red shield that burns with defensive fire. The metal seems to absorb attacks and reflect them back as heat, making enemies think twice before striking.", iconName: "char_shield_red", category: .shield, rarity: .uncommon),
-        Item.gear(name: "Ironclad Bulwark", description: "A sturdy iron shield that has withstood the test of time. Its surface is covered in battle scars, each one a testament to its protective power.", iconName: "char_shield_iron", category: .shield, rarity: .rare),
-        Item.gear(name: "Golden Aegis", description: "A golden shield that radiates divine protection. The metal gleams with holy light, and enemies find their attacks weakened when facing its brilliance.", iconName: "char_shield_gold", category: .shield, rarity: .epic),
+        Item.gear(name: "Oakheart Ward", description: "A shield carved from ancient oak, its surface weathered but strong. The wood has absorbed countless blows, making it a reliable defense for any warrior.", iconName: "char_shield_wood", category: .shield, rarity: .uncommon, value: 100),
+        Item.gear(name: "Crimson Ward", description: "A red shield that burns with defensive fire. The metal seems to absorb attacks and reflect them back as heat, making enemies think twice before striking.", iconName: "char_shield_red", category: .shield, rarity: .rare, value: 250),
+        Item.gear(name: "Ironclad Bulwark", description: "A sturdy iron shield that has withstood the test of time. Its surface is covered in battle scars, each one a testament to its protective power.", iconName: "char_shield_iron", category: .shield, rarity: .rare, value: 250),
+        Item.gear(name: "Golden Aegis", description: "A golden shield that radiates divine protection. The metal gleams with holy light, and enemies find their attacks weakened when facing its brilliance.", iconName: "char_shield_gold", category: .shield, rarity: .epic, value: 500),
         
         // Pets
-        Item.gear(name: "Shadowpaw", description: "A mysterious cat companion with fur as dark as midnight. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.", iconName: "char_pet_cat", category: .pet, rarity: .rare),
-        Item.gear(name: "Whiskerwind", description: "A graceful cat with fur that shimmers like starlight. It has an uncanny ability to sense danger and will warn you of approaching threats.", iconName: "char_pet_cat_2", category: .pet, rarity: .rare),
-        Item.gear(name: "Golden Cluck", description: "A loyal chicken companion with golden feathers that gleam in the sunlight. Despite its humble appearance, it has a heart of gold and will follow you anywhere.", iconName: "char_pet_chicken", category: .pet, rarity: .epic)
+        Item.gear(name: "Shadowpaw", description: "A mysterious cat companion with fur as dark as midnight. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.", iconName: "char_pet_cat", category: .pet, rarity: .epic, value: 500),
+        Item.gear(name: "Whiskerwind", description: "A graceful cat with fur that shimmers like starlight. It has an uncanny ability to sense danger and will warn you of approaching threats.", iconName: "char_pet_cat_2", category: .pet, rarity: .epic, value: 500),
+        Item.gear(name: "Golden Cluck", description: "A loyal chicken companion with golden feathers that gleam in the sunlight. Despite its humble appearance, it has a heart of gold and will follow you anywhere.", iconName: "char_pet_chicken", category: .pet, rarity: .uncommon, value: 100)
     ]
 
     // MARK: - Collectible Items

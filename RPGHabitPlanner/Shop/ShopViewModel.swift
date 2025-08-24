@@ -142,15 +142,24 @@ class ShopViewModel: ObservableObject {
             }
         }
 
-        return items
+        // Sort items by rarity from common to legendary
+        return sortItemsByRarity(items)
+    }
+
+    private func sortItemsByRarity(_ items: [ShopItem]) -> [ShopItem] {
+        return items.sorted { item1, item2 in
+            item1.rarity.sortOrder < item2.rarity.sortOrder
+        }
     }
 
     private func getArmorItems(for subcategory: ArmorSubcategory) -> [ShopItem] {
+        var items: [ShopItem] = []
+        
         switch subcategory {
         case .helmet:
             // Get helmet items from CharacterAssetManager with preview images
             let assets = CharacterAssetManager.shared.getAvailableAssets(for: .head)
-            return assets.map { asset in
+            items = assets.map { asset in
                 ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
@@ -169,7 +178,7 @@ class ShopViewModel: ObservableObject {
         case .outfit:
             // Get outfit items from CharacterAssetManager
             let assets = CharacterAssetManager.shared.getAvailableAssets(for: .outfit)
-            return assets.map { asset in
+            items = assets.map { asset in
                 ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
@@ -188,7 +197,7 @@ class ShopViewModel: ObservableObject {
         case .shield:
             // Get shield items from CharacterAssetManager with preview images
             let assets = CharacterAssetManager.shared.getAvailableAssets(for: .shield)
-            return assets.map { asset in
+            items = assets.map { asset in
                 ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
@@ -205,12 +214,17 @@ class ShopViewModel: ObservableObject {
                 )
             }
         }
+        
+        // Sort items by rarity from common to legendary
+        return sortItemsByRarity(items)
     }
     
     private func getConsumableItems(for subcategory: ConsumableSubcategory) -> [ShopItem] {
+        var items: [ShopItem] = []
+        
         switch subcategory {
         case .potions:
-            return ItemDatabase.allHealthPotions.map { item in
+            items = ItemDatabase.allHealthPotions.map { item in
                 ShopItem(
                     name: item.name,
                     description: item.description,
@@ -222,7 +236,7 @@ class ShopViewModel: ObservableObject {
                 )
             }
         case .boosts:
-            return (ItemDatabase.allXPBoosts + ItemDatabase.allCoinBoosts).map { item in
+            items = (ItemDatabase.allXPBoosts + ItemDatabase.allCoinBoosts).map { item in
                 ShopItem(
                     name: item.name,
                     description: item.description,
@@ -234,7 +248,7 @@ class ShopViewModel: ObservableObject {
                 )
             }
         case .specials:
-            return ItemDatabase.allCollectibles.map { item in
+            items = ItemDatabase.allCollectibles.map { item in
                 ShopItem(
                     name: item.name,
                     description: item.description,
@@ -246,11 +260,14 @@ class ShopViewModel: ObservableObject {
                 )
             }
         }
+        
+        // Sort items by rarity from common to legendary
+        return sortItemsByRarity(items)
     }
 
     private func getWingsItems() -> [ShopItem] {
         // Get wings items from ItemDatabase
-        return ItemDatabase.allGear.filter { $0.gearCategory == .wings }.map { item in
+        let items = ItemDatabase.allGear.filter { $0.gearCategory == .wings }.map { item in
             ShopItem(
                 name: item.name,
                 description: item.description,
@@ -261,6 +278,9 @@ class ShopViewModel: ObservableObject {
                 isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .wings)
             )
         }
+        
+        // Sort items by rarity from common to legendary
+        return sortItemsByRarity(items)
     }
     
     private func getItemDescription(for assetName: String, category: EnhancedShopCategory) -> String {

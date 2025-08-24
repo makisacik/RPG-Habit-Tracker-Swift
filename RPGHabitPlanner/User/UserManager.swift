@@ -17,6 +17,7 @@ final class UserManager {
 
     func saveUser(
         nickname: String,
+        title: String,
         characterClass: String,
         weapon: String,
         level: Int16 = 1,
@@ -31,6 +32,7 @@ final class UserManager {
 
         userEntity.id = UUID()
         userEntity.nickname = nickname
+        userEntity.title = title
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins
@@ -145,6 +147,7 @@ final class UserManager {
 
     func saveUserWithCustomization(
         nickname: String,
+        title: String,
         customization: CharacterCustomization,
         level: Int16 = 1,
         exp: Int16 = 0,
@@ -158,6 +161,7 @@ final class UserManager {
 
         userEntity.id = UUID()
         userEntity.nickname = nickname
+        userEntity.title = title
         userEntity.level = level
         userEntity.exp = exp
         userEntity.coins = coins

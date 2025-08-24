@@ -86,6 +86,13 @@
 "continueButton" = "Devam Et";
 "yourCharacter" = "Karakteriniz";
 "customized" = "Özelleştirilmiş";
+
+// MARK: - Character Titles
+"chooseYourTitle" = "Unvanınızı Seçin";
+"selectTitleDescription" = "Karakterinizin kaderini yansıtan bir unvan seçin";
+"selectDifferentTitle" = "Farklı Unvan Seç";
+"randomTitle" = "Rastgele Unvan";
+"chooseFromAvailableTitles" = "Mevcut unvanlardan seçin";
 "hair_style" = "Saç Stili";
 "eye_style" = "Göz Stili";
 "outfit" = "Kıyafet";

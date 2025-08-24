@@ -39,6 +39,7 @@ final class UserManagerTests: XCTestCase {
 
         userManager.saveUser(
             nickname: "TestUser",
+            title: "The Brave",
             characterClass: "Custom",
             weapon: "char_sword_dagger_wood",
             level: 1,
@@ -54,6 +55,7 @@ final class UserManagerTests: XCTestCase {
             XCTAssertNil(error)
             XCTAssertNotNil(user)
             XCTAssertEqual(user?.nickname, "TestUser")
+            XCTAssertEqual(user?.title, "The Brave")
             XCTAssertEqual(user?.characterClass, "Custom")
             XCTAssertEqual(user?.weapon, "char_sword_dagger_wood")
             XCTAssertEqual(user?.level, 1)
