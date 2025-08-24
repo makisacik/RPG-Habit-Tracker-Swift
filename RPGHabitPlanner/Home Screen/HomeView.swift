@@ -121,9 +121,14 @@ struct HomeView: View {
                 .toolbar(content: homeToolbarContent)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Test Toast") {
-                            let rewardService = RewardService.shared
-                            rewardService.showPreviewQuestReward()
+                        Button("Add Coin") {
+                            CurrencyManager.shared.addCoins(5000) { error in
+                                if let error = error {
+                                    print("❌ Failed to add coins: \(error.localizedDescription)")
+                                } else {
+                                    print("✅ Successfully added 5000 coins")
+                                }
+                            }
                         }
                         .font(.caption)
                     }

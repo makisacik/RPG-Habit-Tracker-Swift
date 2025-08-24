@@ -227,9 +227,12 @@ struct GearItemCard: View {
     let isEquipped: Bool
     let onTap: () -> Void
     let theme: Theme
+    @State private var showItemDetail = false
     
     var body: some View {
-        Button(action: onTap) {
+        Button(action: {
+            showItemDetail = true
+        }) {
             VStack(spacing: 8) {
                 ZStack {
                     // Item background
@@ -294,6 +297,18 @@ struct GearItemCard: View {
             }
         }
         .buttonStyle(PlainButtonStyle())
+        .sheet(isPresented: $showItemDetail) {
+            ItemDetailSheet(item: item)
+                .environmentObject(ThemeManager.shared)
+                .environmentObject(InventoryManager.shared)
+                .presentationDetents([.medium])
+        }
+        .contextMenu {
+            Button("Equip") {
+                onTap()
+            }
+            .disabled(isEquipped)
+        }
     }
     
     private func getRarity() -> ItemRarity? {
