@@ -148,9 +148,13 @@ enum CalendarViewComponents {
             selectedDate: viewModel.selectedDate,
             theme: theme,
             onSelect: { viewModel.selectedDate = $0 },
-            itemsResolver: { date in viewModel.items(for: date) }
+            itemsResolver: { date in
+                // Force refresh by accessing refreshTrigger
+                _ = viewModel.refreshTrigger
+                return viewModel.items(for: date)
+            }
         )
-        .id(viewModel.refreshTrigger)
+        .id("\(viewModel.refreshTrigger)-\(viewModel.selectedDate)")
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.selectedDate)
     }
     

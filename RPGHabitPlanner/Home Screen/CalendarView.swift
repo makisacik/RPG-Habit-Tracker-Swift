@@ -131,14 +131,14 @@ struct CalendarDayView: View {
                     .font(.appFont(size: 16, weight: isSelected ? .bold : .medium))
                     .foregroundColor(selectionTextColor)
                 if !items.isEmpty {
-                    HStack(spacing: 3) {
+                    HStack(spacing: 2) {
                         ForEach(items.prefix(3)) { item in
                             Circle()
                                 .fill(dotColor(for: item))
-                                .frame(width: 6, height: 6)
+                                .frame(width: 8, height: 8)
                                 .overlay(
                                     Text(shortType(item.quest.repeatType))
-                                        .font(.system(size: 6, weight: .black))
+                                        .font(.system(size: 7, weight: .black))
                                         .foregroundColor(.white)
                                 )
                         }

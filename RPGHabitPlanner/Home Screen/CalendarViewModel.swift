@@ -71,6 +71,14 @@ final class CalendarViewModel: ObservableObject {
             name: .questCreated,
             object: nil
         )
+
+        // Listen for quest completion from detail view
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleQuestCompletedFromDetail),
+            name: .questCompletedFromDetail,
+            object: nil
+        )
     }
 
     @objc private func handleQuestUpdated(_ notification: Notification) {
@@ -100,6 +108,15 @@ final class CalendarViewModel: ObservableObject {
         }
     }
 
+    @objc private func handleQuestCompletedFromDetail(_ notification: Notification) {
+        print("🎯 CalendarViewModel: Received quest completed from detail notification")
+        DispatchQueue.main.async { [weak self] in
+            self?.fetchQuests()
+            // Force UI refresh
+            self?.refreshTrigger.toggle()
+        }
+    }
+
     var itemsForSelectedDate: [DayQuestItem] {
         // Force recomputation when refreshTrigger changes
         _ = refreshTrigger
@@ -122,6 +139,8 @@ final class CalendarViewModel: ObservableObject {
                     print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
+                    // Toggle refresh trigger to force UI update
+                    self?.refreshTrigger.toggle()
                 }
             }
         }
@@ -159,10 +178,11 @@ final class CalendarViewModel: ObservableObject {
             return DayQuestItem(id: quest.id, quest: quest, date: day, state: state)
         }
 
-        // Sort by creation date (newer first)
-        return items.sorted { a, b in
+        let sortedItems = items.sorted { a, b in
             return a.quest.creationDate > b.quest.creationDate
         }
+
+        return sortedItems
     }
 
     // MARK: - Tag Filtering
