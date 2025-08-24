@@ -30,7 +30,7 @@ final class XPBoostTests: XCTestCase {
 
     func testHealthPotionDetection() throws {
         let healthPotion = ItemEntity()
-        healthPotion.name = "Health Potion"
+        healthPotion.name = "Vitality Draught"
         healthPotion.info = "Restores health"
         healthPotion.iconName = "potion_health"
 
@@ -41,7 +41,7 @@ final class XPBoostTests: XCTestCase {
 
     func testXPBoostDetection() throws {
         let xpBoost = ItemEntity()
-        xpBoost.name = "XP Boost"
+        xpBoost.name = "Scholar's Insight"
         xpBoost.info = "Increases XP gain"
         xpBoost.iconName = "potion_xp"
 
@@ -77,11 +77,11 @@ final class XPBoostTests: XCTestCase {
         XCTAssertEqual(healthPotions.count, 5)
 
         let potionNames = healthPotions.map { $0.name }
-        XCTAssertTrue(potionNames.contains("Minor Health Potion"))
-        XCTAssertTrue(potionNames.contains("Health Potion"))
-        XCTAssertTrue(potionNames.contains("Greater Health Potion"))
-        XCTAssertTrue(potionNames.contains("Superior Health Potion"))
-        XCTAssertTrue(potionNames.contains("Legendary Health Potion"))
+        XCTAssertTrue(potionNames.contains("Lesser Healing Elixir"))
+        XCTAssertTrue(potionNames.contains("Vitality Draught"))
+        XCTAssertTrue(potionNames.contains("Greater Restoration Tonic"))
+        XCTAssertTrue(potionNames.contains("Supreme Life Essence"))
+        XCTAssertTrue(potionNames.contains("Phoenix Tears"))
     }
 
     func testItemDatabaseXPBoosts() throws {
@@ -89,10 +89,10 @@ final class XPBoostTests: XCTestCase {
         XCTAssertEqual(xpBoosts.count, 4)
 
         let boostNames = xpBoosts.map { $0.name }
-        XCTAssertTrue(boostNames.contains("Minor XP Boost"))
-        XCTAssertTrue(boostNames.contains("XP Boost"))
-        XCTAssertTrue(boostNames.contains("Greater XP Boost"))
-        XCTAssertTrue(boostNames.contains("Legendary XP Boost"))
+        XCTAssertTrue(boostNames.contains("Wisdom's Breath"))
+        XCTAssertTrue(boostNames.contains("Scholar's Insight"))
+        XCTAssertTrue(boostNames.contains("Master's Enlightenment"))
+        XCTAssertTrue(boostNames.contains("Ancient Knowledge Essence"))
     }
 
     func testItemDatabaseCoinBoosts() throws {
@@ -100,10 +100,10 @@ final class XPBoostTests: XCTestCase {
         XCTAssertEqual(coinBoosts.count, 4)
 
         let boostNames = coinBoosts.map { $0.name }
-        XCTAssertTrue(boostNames.contains("Minor Coin Boost"))
-        XCTAssertTrue(boostNames.contains("Coin Boost"))
-        XCTAssertTrue(boostNames.contains("Greater Coin Boost"))
-        XCTAssertTrue(boostNames.contains("Legendary Coin Boost"))
+        XCTAssertTrue(boostNames.contains("Merchant's Blessing"))
+        XCTAssertTrue(boostNames.contains("Wealth Attractor"))
+        XCTAssertTrue(boostNames.contains("Golden Fortune"))
+        XCTAssertTrue(boostNames.contains("Dragon's Hoard Essence"))
     }
 
     func testItemDatabaseCollectibles() throws {
@@ -120,9 +120,9 @@ final class XPBoostTests: XCTestCase {
         let itemDatabase = ItemDatabase.shared
 
         // Test finding existing item
-        let foundItem = itemDatabase.findItem(by: "Health Potion")
+        let foundItem = itemDatabase.findItem(by: "Vitality Draught")
         XCTAssertNotNil(foundItem)
-        XCTAssertEqual(foundItem?.name, "Health Potion")
+        XCTAssertEqual(foundItem?.name, "Vitality Draught")
 
         // Test finding non-existing item
         let notFoundItem = itemDatabase.findItem(by: "Non Existent Item")

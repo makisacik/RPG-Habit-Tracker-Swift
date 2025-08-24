@@ -471,35 +471,35 @@ struct ItemDatabase {
 
     // MARK: - Health Potions (Consumables)
     static let minorHealthPotion = Item.healthPotion(
-        name: "Minor Health Potion",
+        name: "Lesser Healing Elixir",
         description: "Restores 15 HP. A basic healing potion made from common herbs.",
         healAmount: 15,
         value: 25
     )
 
     static let healthPotion = Item.healthPotion(
-        name: "Health Potion",
+        name: "Vitality Draught",
         description: "Restores 30 HP. A reliable healing potion for adventurers.",
         healAmount: 30,
         value: 50
     )
 
     static let greaterHealthPotion = Item.healthPotion(
-        name: "Greater Health Potion",
+        name: "Greater Restoration Tonic",
         description: "Restores 50 HP. A powerful healing potion that can save your life.",
         healAmount: 50,
         value: 100
     )
 
     static let superiorHealthPotion = Item.healthPotion(
-        name: "Superior Health Potion",
+        name: "Supreme Life Essence",
         description: "Restores 75 HP. An exceptional healing potion with rare ingredients.",
         healAmount: 75,
         value: 200
     )
 
     static let legendaryHealthPotion = Item.healthPotion(
-        name: "Legendary Health Potion",
+        name: "Phoenix Tears",
         description: "Fully restores health. A legendary potion that brings you back from the brink of death.",
         healAmount: 999,
         value: 500
@@ -507,7 +507,7 @@ struct ItemDatabase {
 
     // MARK: - XP Boosts (Boosters)
     static let minorXPBoost = Item.xpBoost(
-        name: "Minor XP Boost",
+        name: "Wisdom's Breath",
         description: "Increases XP gain by 25% for 30 minutes",
         multiplier: 1.25,
         duration: 30 * 60,
@@ -515,7 +515,7 @@ struct ItemDatabase {
     )
 
     static let xpBoost = Item.xpBoost(
-        name: "XP Boost",
+        name: "Scholar's Insight",
         description: "Increases XP gain by 50% for 1 hour",
         multiplier: 1.5,
         duration: 60 * 60,
@@ -523,7 +523,7 @@ struct ItemDatabase {
     )
 
     static let greaterXPBoost = Item.xpBoost(
-        name: "Greater XP Boost",
+        name: "Master's Enlightenment",
         description: "Increases XP gain by 100% for 2 hours",
         multiplier: 2.0,
         duration: 2 * 60 * 60,
@@ -531,7 +531,7 @@ struct ItemDatabase {
     )
 
     static let legendaryXPBoost = Item.xpBoost(
-        name: "Legendary XP Boost",
+        name: "Ancient Knowledge Essence",
         description: "Increases XP gain by 200% for 4 hours",
         multiplier: 3.0,
         duration: 4 * 60 * 60,
@@ -540,7 +540,7 @@ struct ItemDatabase {
 
     // MARK: - Coin Boosts (Boosters)
     static let minorCoinBoost = Item.coinBoost(
-        name: "Minor Coin Boost",
+        name: "Merchant's Blessing",
         description: "Increases coin gain by 25% for 30 minutes",
         multiplier: 1.25,
         duration: 30 * 60,
@@ -548,7 +548,7 @@ struct ItemDatabase {
     )
 
     static let coinBoost = Item.coinBoost(
-        name: "Coin Boost",
+        name: "Wealth Attractor",
         description: "Increases coin gain by 50% for 1 hour",
         multiplier: 1.5,
         duration: 60 * 60,
@@ -556,7 +556,7 @@ struct ItemDatabase {
     )
 
     static let greaterCoinBoost = Item.coinBoost(
-        name: "Greater Coin Boost",
+        name: "Golden Fortune",
         description: "Increases coin gain by 100% for 2 hours",
         multiplier: 2.0,
         duration: 2 * 60 * 60,
@@ -564,7 +564,7 @@ struct ItemDatabase {
     )
 
     static let legendaryCoinBoost = Item.coinBoost(
-        name: "Legendary Coin Boost",
+        name: "Dragon's Hoard Essence",
         description: "Increases coin gain by 200% for 4 hours",
         multiplier: 3.0,
         duration: 4 * 60 * 60,
@@ -574,107 +574,107 @@ struct ItemDatabase {
     // MARK: - Accessories
     static let allAccessories: [Item] = [
         // Clips (Flowers)
-        Item.accessory(name: "Blue Flower", description: "A beautiful blue flower accessory", iconName: "char_flower_blue", category: .clips),
-        Item.accessory(name: "Green Flower", description: "A lovely green flower accessory", iconName: "char_flower_green", category: .clips),
-        Item.accessory(name: "Purple Flower", description: "An elegant purple flower accessory", iconName: "char_flower_purple", category: .clips),
+        Item.accessory(name: "Azure Bloom", description: "A beautiful blue flower that seems to capture the essence of a clear summer sky. Its petals shimmer with an inner light that brings peace to those who wear it.", iconName: "char_flower_blue", category: .clips),
+        Item.accessory(name: "Emerald Petal", description: "A lovely green flower with leaves that sparkle like morning dew. It radiates natural energy and seems to enhance the wearer's connection to nature.", iconName: "char_flower_green", category: .clips),
+        Item.accessory(name: "Amethyst Blossom", description: "An elegant purple flower with petals that seem to glow with mystical energy. Wearing it grants a sense of wisdom and inner strength.", iconName: "char_flower_purple", category: .clips),
         
         // Eyeglasses
-        Item.accessory(name: "Blue Glasses", description: "Stylish blue glasses", iconName: "char_glass_blue", category: .eyeglasses),
-        Item.accessory(name: "Gray Glasses", description: "Classic gray glasses", iconName: "char_glass_gray", category: .eyeglasses),
-        Item.accessory(name: "Red Glasses", description: "Bold red glasses", iconName: "char_glass_red", category: .eyeglasses),
+        Item.accessory(name: "Sapphire Spectacles", description: "Stylish blue glasses with lenses that seem to enhance vision beyond normal human capabilities. The frames are crafted from precious metals and set with tiny sapphire gems.", iconName: "char_glass_blue", category: .eyeglasses),
+        Item.accessory(name: "Shadow Lenses", description: "Classic gray glasses that seem to absorb light rather than reflect it. They grant the wearer an air of mystery and help them blend into shadows.", iconName: "char_glass_gray", category: .eyeglasses),
+        Item.accessory(name: "Ruby Frames", description: "Bold red glasses that burn with inner fire. The lenses seem to glow with heat, and wearing them grants an intimidating presence.", iconName: "char_glass_red", category: .eyeglasses),
         
         // Earrings
-        Item.accessory(name: "Earring 1", description: "A simple earring", iconName: "char_earring_1", category: .earrings),
-        Item.accessory(name: "Earring 2", description: "An elegant earring", iconName: "char_earring_2", category: .earrings),
+        Item.accessory(name: "Moonstone Stud", description: "A simple earring crafted from pure moonstone. It catches the light like moonlight on water and seems to pulse with gentle energy.", iconName: "char_earring_1", category: .earrings),
+        Item.accessory(name: "Starlight Hoop", description: "An elegant earring that sparkles like starlight. The metal seems to contain tiny stars that twinkle and dance in the light.", iconName: "char_earring_2", category: .earrings),
         
         // Lashes
-        Item.accessory(name: "Blush", description: "A touch of blush for your cheeks", iconName: "char_blush", category: .lashes)
+        Item.accessory(name: "Rose Blush", description: "A touch of blush that gives the wearer a natural, healthy glow. The color seems to enhance beauty and confidence, making the wearer radiate charm.", iconName: "char_blush", category: .lashes)
     ]
 
     // MARK: - Gear Items
     static let allGear: [Item] = [
         // Head Gear
-        Item.gear(name: "Hood", description: "A simple hood for protection", iconName: "char_helmet_hood", category: .head, rarity: .common),
-        Item.gear(name: "Iron Helmet", description: "A sturdy iron helmet", iconName: "char_helmet_iron", category: .head, rarity: .uncommon),
-        Item.gear(name: "Red Helmet", description: "A striking red helmet", iconName: "char_helmet_red", category: .head, rarity: .rare),
+        Item.gear(name: "Shadow Veil", description: "A mysterious hood woven from shadow essence. Conceals your identity while offering basic protection from the elements.", iconName: "char_helmet_hood", category: .head, rarity: .common),
+        Item.gear(name: "Ironclad Crown", description: "Forged from the finest iron, this crown provides excellent protection while maintaining a regal appearance. Worn by many aspiring knights.", iconName: "char_helmet_iron", category: .head, rarity: .uncommon),
+        Item.gear(name: "Crimson Crest", description: "A striking helmet adorned with crimson gems. The metal seems to pulse with inner fire, granting its wearer an intimidating presence.", iconName: "char_helmet_red", category: .head, rarity: .rare),
 
         // Outfits
-        Item.gear(name: "Villager Outfit", description: "Simple villager clothing", iconName: "char_outfit_villager", category: .outfit, rarity: .common),
-        Item.gear(name: "Blue Villager Outfit", description: "Blue villager clothing", iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common),
-        Item.gear(name: "Hoodie", description: "A comfortable hoodie", iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon),
-        Item.gear(name: "Dress", description: "An elegant dress", iconName: "char_outfit_dress", category: .outfit, rarity: .uncommon),
-        Item.gear(name: "Iron Armor", description: "Sturdy iron armor", iconName: "char_outfit_iron", category: .outfit, rarity: .rare),
-        Item.gear(name: "Iron Armor 2", description: "Enhanced iron armor", iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare),
-        Item.gear(name: "Red Outfit", description: "A bold red outfit", iconName: "char_outfit_red", category: .outfit, rarity: .epic),
-        Item.gear(name: "Wizard Robe", description: "A magical wizard robe", iconName: "char_outfit_wizard", category: .outfit, rarity: .epic),
-        Item.gear(name: "Bat Outfit", description: "A mysterious bat-themed outfit", iconName: "char_outfit_bat", category: .outfit, rarity: .legendary),
-        Item.gear(name: "Fire Outfit", description: "A blazing fire-themed outfit", iconName: "char_outfit_fire", category: .outfit, rarity: .legendary),
+        Item.gear(name: "Peasant's Garb", description: "Simple but durable clothing worn by villagers. Though humble in appearance, it has served countless adventurers on their first steps into the unknown.", iconName: "char_outfit_villager", category: .outfit, rarity: .common),
+        Item.gear(name: "Azure Tunic", description: "A beautiful blue tunic that catches the light like morning dew. The fabric is surprisingly resilient, offering both style and protection.", iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common),
+        Item.gear(name: "Comfort Cloak", description: "A warm, comfortable hoodie that feels like a gentle embrace. Perfect for those long nights of study or quiet contemplation.", iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon),
+        Item.gear(name: "Silken Grace", description: "An elegant dress woven from the finest silk. The fabric flows like water, and the intricate embroidery tells stories of ancient courts.", iconName: "char_outfit_dress", category: .outfit, rarity: .uncommon),
+        Item.gear(name: "Ironclad Plate", description: "Heavy iron armor that clanks with authority. Each plate has been carefully crafted and fitted, offering superior protection against physical attacks.", iconName: "char_outfit_iron", category: .outfit, rarity: .rare),
+        Item.gear(name: "Reinforced Ironclad", description: "Enhanced iron armor with additional reinforcements. The metal has been treated with ancient techniques, making it nearly impervious to common weapons.", iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare),
+        Item.gear(name: "Crimson Raiment", description: "Bold red armor that burns with inner fire. The metal seems alive, pulsing with heat that intimidates enemies and inspires allies.", iconName: "char_outfit_red", category: .outfit, rarity: .epic),
+        Item.gear(name: "Arcane Robes", description: "Mystical robes that shimmer with magical energy. Woven with enchanted threads, they enhance magical abilities and protect against arcane attacks.", iconName: "char_outfit_wizard", category: .outfit, rarity: .epic),
+        Item.gear(name: "Nightwing Shroud", description: "A mysterious outfit that seems to absorb light itself. Worn by those who walk in shadows, it grants the wearer an otherworldly presence.", iconName: "char_outfit_bat", category: .outfit, rarity: .legendary),
+        Item.gear(name: "Inferno Mantle", description: "A blazing outfit that radiates pure fire energy. The flames dance around the wearer, creating an aura of destruction and power.", iconName: "char_outfit_fire", category: .outfit, rarity: .legendary),
 
         // Wings
-        Item.gear(name: "White Wings", description: "Pure white angelic wings", iconName: "char_wings_white", category: .wings, rarity: .rare),
-        Item.gear(name: "Red Wings", description: "Fiery red wings", iconName: "char_wings_red", category: .wings, rarity: .epic),
-        Item.gear(name: "Red Wings 2", description: "Enhanced red wings", iconName: "char_wings_red_2", category: .wings, rarity: .epic),
-        Item.gear(name: "Bat Wings", description: "Dark bat wings", iconName: "char_wings_bat", category: .wings, rarity: .legendary),
+        Item.gear(name: "Celestial Wings", description: "Pure white wings that glow with divine light. They seem to be made of pure energy, allowing the bearer to soar through the heavens with grace.", iconName: "char_wings_white", category: .wings, rarity: .rare),
+        Item.gear(name: "Phoenix Wings", description: "Fiery wings that burn with eternal flame. Each feather crackles with heat, and the wings seem to regenerate even from the ashes of destruction.", iconName: "char_wings_red", category: .wings, rarity: .epic),
+        Item.gear(name: "Blazing Phoenix", description: "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.", iconName: "char_wings_red_2", category: .wings, rarity: .epic),
+        Item.gear(name: "Shadow Wings", description: "Dark wings that seem to absorb all light around them. They allow silent flight through the night, perfect for those who prefer to remain unseen.", iconName: "char_wings_bat", category: .wings, rarity: .legendary),
         
         // Weapons
-        Item.gear(name: "Wooden Sword", description: "A basic wooden sword", iconName: "char_sword_wood", category: .weapon, rarity: .common),
-        Item.gear(name: "Copper Sword", description: "A copper sword", iconName: "char_sword_copper", category: .weapon, rarity: .common),
-        Item.gear(name: "Iron Sword", description: "A reliable iron sword", iconName: "char_sword_iron", category: .weapon, rarity: .uncommon),
-        Item.gear(name: "Steel Sword", description: "A sharp steel sword", iconName: "char_sword_steel", category: .weapon, rarity: .rare),
-        Item.gear(name: "Red Sword", description: "A fiery red sword", iconName: "char_sword_red", category: .weapon, rarity: .epic),
-        Item.gear(name: "Red Sword 2", description: "An enhanced red sword", iconName: "char_sword_red_2", category: .weapon, rarity: .epic),
-        Item.gear(name: "Gold Sword", description: "A golden sword", iconName: "char_sword_gold", category: .weapon, rarity: .legendary),
-        Item.gear(name: "Axe", description: "A heavy axe", iconName: "char_sword_axe", category: .weapon, rarity: .rare),
-        Item.gear(name: "Small Axe", description: "A smaller axe", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon),
-        Item.gear(name: "Whip", description: "A flexible whip", iconName: "char_sword_whip", category: .weapon, rarity: .epic),
-        Item.gear(name: "Staff", description: "A magical staff", iconName: "char_sword_staff", category: .weapon, rarity: .epic),
-        Item.gear(name: "Mace", description: "A heavy mace", iconName: "char_sword_mace", category: .weapon, rarity: .rare),
-        Item.gear(name: "Deadly Sword", description: "A deadly weapon", iconName: "char_sword_deadly", category: .weapon, rarity: .legendary),
-        Item.gear(name: "Bow Front", description: "A bow for ranged combat", iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare),
-        Item.gear(name: "Bow Back", description: "A bow carried on the back", iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare),
+        Item.gear(name: "Oakheart Blade", description: "A sword carved from ancient oak, its blade hardened through years of seasoning. Though simple, it has a natural balance that makes it surprisingly effective in skilled hands.", iconName: "char_sword_wood", category: .weapon, rarity: .common),
+        Item.gear(name: "Copper Fang", description: "A copper sword with a distinctive reddish hue. The metal has been carefully forged to create a sharp edge that gleams in the sunlight.", iconName: "char_sword_copper", category: .weapon, rarity: .common),
+        Item.gear(name: "Ironclad Edge", description: "A reliable iron sword that has been the weapon of choice for countless warriors. Its balance and durability make it a trusted companion in battle.", iconName: "char_sword_iron", category: .weapon, rarity: .uncommon),
+        Item.gear(name: "Steel Serpent", description: "A sharp steel sword that moves like a striking snake. The blade is so finely crafted that it can cut through lesser armor with ease.", iconName: "char_sword_steel", category: .weapon, rarity: .rare),
+        Item.gear(name: "Crimson Fang", description: "A fiery red sword that burns with inner heat. The blade seems to thirst for battle, growing hotter with each strike against enemies.", iconName: "char_sword_red", category: .weapon, rarity: .epic),
+        Item.gear(name: "Blazing Fang", description: "An enhanced version of the Crimson Fang, this sword burns with such intensity that it can ignite enemies with a single strike.", iconName: "char_sword_red_2", category: .weapon, rarity: .epic),
+        Item.gear(name: "Golden Dawn", description: "A legendary golden sword that seems to capture the first light of dawn. Its blade radiates warmth and hope, inspiring allies while striking fear into enemies.", iconName: "char_sword_gold", category: .weapon, rarity: .legendary),
+        Item.gear(name: "Thunder Axe", description: "A heavy axe that crackles with electrical energy. Each swing creates a thunderous boom, and the blade can channel lightning through its strikes.", iconName: "char_sword_axe", category: .weapon, rarity: .rare),
+        Item.gear(name: "Storm Hatchet", description: "A smaller axe that hums with storm energy. Though lighter than its larger cousin, it can still channel the power of thunder and lightning.", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon),
+        Item.gear(name: "Viper's Lash", description: "A flexible whip that strikes like a venomous snake. The leather has been treated with special oils, making it both deadly and silent.", iconName: "char_sword_whip", category: .weapon, rarity: .epic),
+        Item.gear(name: "Arcane Staff", description: "A magical staff that pulses with arcane energy. Carved from ancient wood and set with mystical crystals, it enhances magical abilities and channels powerful spells.", iconName: "char_sword_staff", category: .weapon, rarity: .epic),
+        Item.gear(name: "Iron Maiden", description: "A heavy mace that strikes with devastating force. The spiked head can crush armor and bone alike, making it feared by all who face it.", iconName: "char_sword_mace", category: .weapon, rarity: .rare),
+        Item.gear(name: "Soul Reaper", description: "A deadly weapon that seems to drain the life from its victims. The blade is dark as night and cold as death, feared by all who know its name.", iconName: "char_sword_deadly", category: .weapon, rarity: .legendary),
+        Item.gear(name: "Windseeker Bow", description: "A bow that seems to be guided by the wind itself. Arrows fired from this bow fly with uncanny accuracy, finding their targets even in the strongest gales.", iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare),
+        Item.gear(name: "Stormcaller Bow", description: "A bow that can summon storms with its arrows. Each shot crackles with lightning, and the bow itself hums with the power of thunder.", iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare),
         
         // Shields
-        Item.gear(name: "Wooden Shield", description: "A basic wooden shield", iconName: "char_shield_wood", category: .shield, rarity: .common),
-        Item.gear(name: "Red Shield", description: "A red shield", iconName: "char_shield_red", category: .shield, rarity: .uncommon),
-        Item.gear(name: "Iron Shield", description: "A sturdy iron shield", iconName: "char_shield_iron", category: .shield, rarity: .rare),
-        Item.gear(name: "Gold Shield", description: "A golden shield", iconName: "char_shield_gold", category: .shield, rarity: .epic),
+        Item.gear(name: "Oakheart Ward", description: "A shield carved from ancient oak, its surface weathered but strong. The wood has absorbed countless blows, making it a reliable defense for any warrior.", iconName: "char_shield_wood", category: .shield, rarity: .common),
+        Item.gear(name: "Crimson Ward", description: "A red shield that burns with defensive fire. The metal seems to absorb attacks and reflect them back as heat, making enemies think twice before striking.", iconName: "char_shield_red", category: .shield, rarity: .uncommon),
+        Item.gear(name: "Ironclad Bulwark", description: "A sturdy iron shield that has withstood the test of time. Its surface is covered in battle scars, each one a testament to its protective power.", iconName: "char_shield_iron", category: .shield, rarity: .rare),
+        Item.gear(name: "Golden Aegis", description: "A golden shield that radiates divine protection. The metal gleams with holy light, and enemies find their attacks weakened when facing its brilliance.", iconName: "char_shield_gold", category: .shield, rarity: .epic),
         
         // Pets
-        Item.gear(name: "Cat Pet", description: "A friendly cat companion", iconName: "char_pet_cat", category: .pet, rarity: .rare),
-        Item.gear(name: "Cat Pet 2", description: "Another friendly cat companion", iconName: "char_pet_cat_2", category: .pet, rarity: .rare),
-        Item.gear(name: "Chicken Pet", description: "A loyal chicken companion", iconName: "char_pet_chicken", category: .pet, rarity: .epic)
+        Item.gear(name: "Shadowpaw", description: "A mysterious cat companion with fur as dark as midnight. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.", iconName: "char_pet_cat", category: .pet, rarity: .rare),
+        Item.gear(name: "Whiskerwind", description: "A graceful cat with fur that shimmers like starlight. It has an uncanny ability to sense danger and will warn you of approaching threats.", iconName: "char_pet_cat_2", category: .pet, rarity: .rare),
+        Item.gear(name: "Golden Cluck", description: "A loyal chicken companion with golden feathers that gleam in the sunlight. Despite its humble appearance, it has a heart of gold and will follow you anywhere.", iconName: "char_pet_chicken", category: .pet, rarity: .epic)
     ]
 
     // MARK: - Collectible Items
     static let allCollectibles: [Item] = [
-        Item.collectible(name: "Crown", description: "Symbol of royalty", iconName: "icon_crown", collectionCategory: "Royalty", isRare: true),
-        Item.collectible(name: "Egg", description: "Mysterious egg, what's inside?", iconName: "icon_egg", collectionCategory: "General"),
-        Item.collectible(name: "Hammer", description: "Tool or weapon for strong strikes", iconName: "icon_hammer", collectionCategory: "Weapons"),
-        Item.collectible(name: "Key Gold", description: "Opens golden locks", iconName: "icon_key_gold", collectionCategory: "Treasure", isRare: true),
-        Item.collectible(name: "Key Silver", description: "Opens silver locks", iconName: "icon_key_silver", collectionCategory: "Treasure", isRare: true),
-        Item.collectible(name: "Medal", description: "Award for great achievements", iconName: "icon_medal", collectionCategory: "Royalty", isRare: true),
-        Item.collectible(name: "Pumpkin", description: "Festive pumpkin", iconName: "icon_pumpkin", collectionCategory: "General"),
-        Item.collectible(name: "Ring", description: "Magical ring with special properties", iconName: "icon_ring", collectionCategory: "Accessories", isRare: true),
-        Item.collectible(name: "Chest", description: "Treasure chest", iconName: "icon_chest", collectionCategory: "Treasure"),
-        Item.collectible(name: "Chest Blue", description: "Rare blue treasure chest", iconName: "icon_chest_blue", collectionCategory: "Treasure", isRare: true),
-        Item.collectible(name: "Chest Open", description: "Opened treasure chest", iconName: "icon_chest_open", collectionCategory: "Treasure"),
-        Item.collectible(name: "Trophy Bronze", description: "Bronze trophy for achievements", iconName: "icon_trophy_bronze", collectionCategory: "Trophies"),
-        Item.collectible(name: "Trophy Silver", description: "Silver trophy for achievements", iconName: "icon_trophy_silver", collectionCategory: "Trophies", isRare: true),
-        Item.collectible(name: "Trophy Gold", description: "Gold trophy for achievements", iconName: "icon_trophy_gold", collectionCategory: "Trophies", isRare: true),
-        Item.collectible(name: "Scroll 1", description: "Ancient scroll with knowledge", iconName: "icon_scroll_1", collectionCategory: "Scrolls"),
-        Item.collectible(name: "Scroll 2", description: "Ancient scroll with knowledge", iconName: "icon_scroll_2", collectionCategory: "Scrolls", isRare: true),
-        Item.collectible(name: "Scroll 3", description: "Ancient scroll with knowledge", iconName: "icon_scroll_3", collectionCategory: "Scrolls", isRare: true),
-        Item.collectible(name: "Bell", description: "Magical bell", iconName: "icon_bell", collectionCategory: "General"),
-        Item.collectible(name: "Calendar", description: "Calendar for tracking time", iconName: "icon_calendar", collectionCategory: "General"),
-        Item.collectible(name: "Clover", description: "Lucky four-leaf clover", iconName: "icon_clover", collectionCategory: "General", isRare: true),
-        Item.collectible(name: "Cross", description: "Holy cross", iconName: "icon_cross", collectionCategory: "General"),
-        Item.collectible(name: "Feather", description: "Light as a feather", iconName: "icon_feather", collectionCategory: "General"),
-        Item.collectible(name: "Fire", description: "Element of fire", iconName: "icon_fire", collectionCategory: "Elements"),
-        Item.collectible(name: "Lightning", description: "Element of lightning", iconName: "icon_lightning", collectionCategory: "Elements"),
-        Item.collectible(name: "Muscle", description: "Symbol of strength", iconName: "icon_muscle", collectionCategory: "General"),
-        Item.collectible(name: "Star Fill", description: "Bright star", iconName: "icon_star_fill", collectionCategory: "General"),
-        Item.collectible(name: "Skull", description: "Mysterious skull", iconName: "icon_skull", collectionCategory: "General"),
-        Item.collectible(name: "Skull Side", description: "Side view of a skull", iconName: "icon_skull_side", collectionCategory: "General")
+        Item.collectible(name: "Crown of Kings", description: "A magnificent crown that has adorned the heads of countless rulers throughout history. Its jewels seem to hold the wisdom of ages past, and wearing it grants an aura of authority.", iconName: "icon_crown", collectionCategory: "Royalty", isRare: true),
+        Item.collectible(name: "Mystic Egg", description: "A mysterious egg that pulses with unknown energy. Ancient legends speak of creatures that hatch from such eggs, but none have ever witnessed the transformation.", iconName: "icon_egg", collectionCategory: "General"),
+        Item.collectible(name: "Thunder Hammer", description: "A mighty hammer that crackles with electrical energy. Each strike creates a thunderous boom, and the weapon seems to channel the power of storms themselves.", iconName: "icon_hammer", collectionCategory: "Weapons"),
+        Item.collectible(name: "Golden Key of Ages", description: "A golden key that seems to unlock more than just physical doors. Ancient inscriptions suggest it can open portals to forgotten realms and hidden knowledge.", iconName: "icon_key_gold", collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Silver Key of Secrets", description: "A silver key that whispers secrets to those who hold it. The metal seems to remember every lock it has ever opened, and every secret it has ever revealed.", iconName: "icon_key_silver", collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Medal of Honor", description: "A prestigious medal awarded for acts of great courage and valor. The metal gleams with the light of honor, and wearing it inspires respect from all who see it.", iconName: "icon_medal", collectionCategory: "Royalty", isRare: true),
+        Item.collectible(name: "Harvest Pumpkin", description: "A festive pumpkin that seems to glow with inner light. Carved with care and decorated with mystical symbols, it brings joy and celebration wherever it appears.", iconName: "icon_pumpkin", collectionCategory: "General"),
+        Item.collectible(name: "Ring of Power", description: "A magical ring that pulses with arcane energy. Ancient runes are etched into its surface, and wearing it grants access to forgotten magical abilities.", iconName: "icon_ring", collectionCategory: "Accessories", isRare: true),
+        Item.collectible(name: "Treasure Chest", description: "A sturdy treasure chest that has held countless fortunes throughout the ages. Its wood is weathered but strong, and the lock mechanism is a marvel of ancient engineering.", iconName: "icon_chest", collectionCategory: "Treasure"),
+        Item.collectible(name: "Azure Treasure Chest", description: "A rare blue treasure chest that seems to glow with inner light. The metal is unlike any known alloy, and the chest itself seems to hum with magical energy.", iconName: "icon_chest_blue", collectionCategory: "Treasure", isRare: true),
+        Item.collectible(name: "Opened Treasure Chest", description: "An opened treasure chest that has already revealed its secrets. Though empty now, it still holds the promise of adventure and discovery.", iconName: "icon_chest_open", collectionCategory: "Treasure"),
+        Item.collectible(name: "Bronze Trophy of Valor", description: "A bronze trophy awarded for acts of bravery and courage. The metal has been polished to a shine, and the craftsmanship speaks of great skill and dedication.", iconName: "icon_trophy_bronze", collectionCategory: "Trophies"),
+        Item.collectible(name: "Silver Trophy of Glory", description: "A silver trophy that gleams with the light of achievement. The metal seems to capture and reflect the glory of past victories, inspiring future triumphs.", iconName: "icon_trophy_silver", collectionCategory: "Trophies", isRare: true),
+        Item.collectible(name: "Golden Trophy of Legends", description: "A golden trophy that radiates with the power of legend. The metal seems to hold the essence of greatness itself, and those who possess it are destined for fame.", iconName: "icon_trophy_gold", collectionCategory: "Trophies", isRare: true),
+        Item.collectible(name: "Scroll of Ancient Wisdom", description: "An ancient scroll covered in mystical runes and forgotten knowledge. The parchment seems to whisper secrets to those who study it carefully.", iconName: "icon_scroll_1", collectionCategory: "Scrolls"),
+        Item.collectible(name: "Scroll of Lost Secrets", description: "A scroll that contains secrets so powerful they were hidden away for centuries. The ink seems to glow with forbidden knowledge, and reading it grants insights into forgotten magic.", iconName: "icon_scroll_2", collectionCategory: "Scrolls", isRare: true),
+        Item.collectible(name: "Scroll of Forbidden Knowledge", description: "A scroll that pulses with dangerous energy. The knowledge contained within is so powerful that it was sealed away by ancient sages to protect the world.", iconName: "icon_scroll_3", collectionCategory: "Scrolls", isRare: true),
+        Item.collectible(name: "Bell of Awakening", description: "A magical bell that rings with a sound that seems to awaken the soul. The metal resonates with pure energy, and its chime can break enchantments and dispel illusions.", iconName: "icon_bell", collectionCategory: "General"),
+        Item.collectible(name: "Chronometer", description: "A mystical timepiece that seems to track more than just hours and minutes. The gears move with impossible precision, and the device can measure the flow of time itself.", iconName: "icon_calendar", collectionCategory: "General"),
+        Item.collectible(name: "Lucky Four-Leaf Clover", description: "A rare four-leaf clover that seems to radiate good fortune. The leaves shimmer with an inner light, and carrying it brings luck and protection to its owner.", iconName: "icon_clover", collectionCategory: "General", isRare: true),
+        Item.collectible(name: "Holy Cross", description: "A sacred cross that glows with divine light. The metal seems to be blessed, and it offers protection against dark forces and evil magic.", iconName: "icon_cross", collectionCategory: "General"),
+        Item.collectible(name: "Phoenix Feather", description: "A feather that burns with eternal flame. Though it should be consumed by fire, it remains intact and radiates warmth and renewal.", iconName: "icon_feather", collectionCategory: "General"),
+        Item.collectible(name: "Essence of Fire", description: "A crystal that contains pure fire energy. The flames dance within the gem, and it radiates heat that can warm even the coldest heart.", iconName: "icon_fire", collectionCategory: "Elements"),
+        Item.collectible(name: "Lightning Bolt", description: "A bolt of lightning captured in crystal form. The energy crackles within, and the crystal hums with the power of storms.", iconName: "icon_lightning", collectionCategory: "Elements"),
+        Item.collectible(name: "Strength Totem", description: "A totem that radiates with the power of physical might. Carved with symbols of strength, it enhances the bearer's physical abilities and grants courage in battle.", iconName: "icon_muscle", collectionCategory: "General"),
+        Item.collectible(name: "Starlight Fragment", description: "A fragment of starlight captured in crystal form. It glows with the light of distant stars, and holding it brings clarity and inspiration.", iconName: "icon_star_fill", collectionCategory: "General"),
+        Item.collectible(name: "Skull of the Fallen", description: "A mysterious skull that seems to hold the memories of its former owner. Though unsettling, it can reveal secrets about the past and warn of future dangers.", iconName: "icon_skull", collectionCategory: "General"),
+        Item.collectible(name: "Skull of the Ancient", description: "A skull so old that it has become fossilized. Ancient wisdom seems to emanate from it, and those who study it can learn forgotten knowledge.", iconName: "icon_skull_side", collectionCategory: "General")
     ]
 
     // MARK: - All Items

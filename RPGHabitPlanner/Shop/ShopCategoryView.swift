@@ -236,7 +236,11 @@ struct EnhancedShopItemCard: View {
             // Item preview
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(theme.primaryColor)
+                    .fill(theme.secondaryColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(theme.borderColor.opacity(0.6), lineWidth: 1.5)
+                    )
                     .frame(height: 60)
                     .overlay(
                         // Only show rarity border for gear items
@@ -350,7 +354,11 @@ struct EnhancedShopItemCard: View {
         .padding(8)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(theme.cardBackgroundColor)
+                .fill(theme.secondaryColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(theme.borderColor.opacity(0.6), lineWidth: 1.5)
+                )
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         )
         .opacity(item.isOwned ? 0.6 : 1.0) // Gray out owned items

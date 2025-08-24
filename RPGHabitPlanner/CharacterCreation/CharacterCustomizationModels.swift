@@ -544,16 +544,16 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .outfitVillager: return "Villager"
-        case .outfitVillagerBlue: return "Blue Villager"
-        case .outfitIron: return "Iron Armor"
-        case .outfitIron2: return "Iron Armor 2"
-        case .outfitWizard: return "Wizard Robe"
-        case .outfitDress: return "Dress"
-        case .outfitFire: return "Fire Armor"
-        case .outfitBat: return "Bat Armor"
-        case .outfitRed: return "Red Armor"
-        case .outfitHoodie: return "Hoodie"
+        case .outfitVillager: return "Peasant's Garb"
+        case .outfitVillagerBlue: return "Azure Tunic"
+        case .outfitIron: return "Ironclad Plate"
+        case .outfitIron2: return "Reinforced Ironclad"
+        case .outfitWizard: return "Arcane Robes"
+        case .outfitDress: return "Silken Grace"
+        case .outfitFire: return "Inferno Mantle"
+        case .outfitBat: return "Nightwing Shroud"
+        case .outfitRed: return "Crimson Raiment"
+        case .outfitHoodie: return "Comfort Cloak"
         }
     }
 
@@ -597,19 +597,19 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .swordWood: return "Wood Sword"
-        case .swordIron: return "Iron Sword"
-        case .swordSteel: return "Steel Sword"
-        case .swordGold: return "Gold Sword"
-        case .swordCopper: return "Copper Sword"
-        case .swordRed: return "Red Sword"
-        case .swordRed2: return "Red Sword 2"
-        case .swordDeadly: return "Deadly Sword"
-        case .swordAxe: return "Axe"
-        case .swordAxeSmall: return "Small Axe"
-        case .swordMace: return "Mace"
-        case .swordStaff: return "Staff"
-        case .swordWhip: return "Whip"
+        case .swordWood: return "Oakheart Blade"
+        case .swordIron: return "Ironclad Edge"
+        case .swordSteel: return "Steel Serpent"
+        case .swordGold: return "Golden Dawn"
+        case .swordCopper: return "Copper Fang"
+        case .swordRed: return "Crimson Fang"
+        case .swordRed2: return "Blazing Fang"
+        case .swordDeadly: return "Soul Reaper"
+        case .swordAxe: return "Thunder Axe"
+        case .swordAxeSmall: return "Storm Hatchet"
+        case .swordMace: return "Iron Maiden"
+        case .swordStaff: return "Arcane Staff"
+        case .swordWhip: return "Viper's Lash"
         }
     }
 
@@ -646,9 +646,9 @@ enum HeadGear: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .helmetRed: return "Red Helmet"
-        case .helmetHood: return "Hood Helmet"
-        case .helmetIron: return "Iron Helmet"
+        case .helmetRed: return "Crimson Crest"
+        case .helmetHood: return "Shadow Veil"
+        case .helmetIron: return "Ironclad Crown"
         }
     }
 
@@ -682,16 +682,16 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .eyeglassRed: return "Red Glasses"
-        case .eyeglassBlue: return "Blue Glasses"
-        case .eyeglassGray: return "Gray Glasses"
-        case .cheekBlush: return "Blush"
+        case .eyeglassRed: return "Ruby Frames"
+        case .eyeglassBlue: return "Sapphire Spectacles"
+        case .eyeglassGray: return "Shadow Lenses"
+        case .cheekBlush: return "Rose Blush"
         case .eyeLashes: return "Eyelashes"
         case .eyelash: return "Eyelash"
-        case .blush: return "Blush"
-        case .earring1: return "Earring 1"
-        case .earring2: return "Earring 2"
-        case .petCat2: return "Pet Cat"
+        case .blush: return "Rose Blush"
+        case .earring1: return "Moonstone Stud"
+        case .earring2: return "Starlight Hoop"
+        case .petCat2: return "Whiskerwind"
         }
     }
 
@@ -769,9 +769,9 @@ enum Flower: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .flowerGreen: return "Green Flower"
-        case .flowerBlue: return "Blue Flower"
-        case .flowerPurple: return "Purple Flower"
+        case .flowerGreen: return "Emerald Petal"
+        case .flowerBlue: return "Azure Bloom"
+        case .flowerPurple: return "Amethyst Blossom"
         }
     }
 
@@ -798,9 +798,9 @@ enum Pet: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .petCat: return "Cat Pet"
-        case .petCat2: return "Cat Pet 2"
-        case .petChicken: return "Chicken Pet"
+        case .petCat: return "Shadowpaw"
+        case .petCat2: return "Whiskerwind"
+        case .petChicken: return "Golden Cluck"
         }
     }
 
@@ -828,10 +828,10 @@ enum Shield: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .shieldWood: return "Wooden Shield"
-        case .shieldRed: return "Red Shield"
-        case .shieldIron: return "Iron Shield"
-        case .shieldGold: return "Gold Shield"
+        case .shieldWood: return "Oakheart Ward"
+        case .shieldRed: return "Crimson Ward"
+        case .shieldIron: return "Ironclad Bulwark"
+        case .shieldGold: return "Golden Aegis"
         }
     }
 
@@ -859,9 +859,9 @@ enum Wings: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .wingsWhite: return "White Wings"
-        case .wingsRed: return "Red Wings"
-        case .wingsBat: return "Bat Wings"
+        case .wingsWhite: return "Celestial Wings"
+        case .wingsRed: return "Phoenix Wings"
+        case .wingsBat: return "Shadow Wings"
         }
     }
 
