@@ -76,6 +76,14 @@ final class ShopManager: ObservableObject {
     }
     
     private func createGearItem(from shopItem: ShopItem) -> Item {
+        // Try to find the item in ItemDatabase first to get the correct gear category
+        let itemDatabase = ItemDatabase.shared
+        if let existingItem = itemDatabase.findItem(byIconName: shopItem.iconName) {
+            // Use the existing item definition from ItemDatabase
+            return existingItem
+        }
+
+        // Fallback to determining gear category if item not found in database
         let gearCategory = determineGearCategory(from: shopItem)
         return Item.gear(
             name: shopItem.name,
@@ -89,6 +97,27 @@ final class ShopManager: ObservableObject {
     }
 
     private func determineGearCategory(from shopItem: ShopItem) -> GearCategory {
+        // If we have asset category information, use it directly
+        if let assetCategory = shopItem.assetCategory {
+            switch assetCategory {
+            case .head, .headGear:
+                return .head
+            case .outfit:
+                return .outfit
+            case .weapon:
+                return .weapon
+            case .shield:
+                return .shield
+            case .wings:
+                return .wings
+            case .pet:
+                return .pet
+            default:
+                break
+            }
+        }
+        
+        // Fallback to category-based determination
         switch shopItem.category {
         case .weapons:
             return .weapon
@@ -105,11 +134,14 @@ final class ShopManager: ObservableObject {
 
     private func determineArmorCategory(from name: String) -> GearCategory {
         let lowercasedName = name.lowercased()
-        if lowercasedName.contains("helmet") || lowercasedName.contains("head") {
+
+        // Check for head gear items first
+        if lowercasedName.contains("helmet") || lowercasedName.contains("head") || lowercasedName.contains("hood") {
             return .head
         } else if lowercasedName.contains("shield") {
             return .shield
         } else {
+            // Default to outfit for other armor items
             return .outfit
         }
     }

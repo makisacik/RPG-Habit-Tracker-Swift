@@ -78,6 +78,9 @@ class ShopViewModel: ObservableObject {
             if success {
                 self.purchaseAlertMessage = "Successfully purchased \(item.name)!"
                 self.loadCurrentCoins()
+                // Refresh inventory and update cached items to reflect new ownership
+                self.refreshInventory()
+                self.updateCachedItems()
             } else {
                 self.purchaseAlertMessage = errorMessage ?? "Purchase failed"
             }
@@ -132,6 +135,7 @@ class ShopViewModel: ObservableObject {
                                 asset.rarity == .rare ? .rare :
                                 asset.rarity == .epic ? .epic : .legendary,
                         category: category,
+                        assetCategory: assetCategory, // Pass the asset category for proper gear categorization
                         isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: category)
                     )
                 }
@@ -158,6 +162,7 @@ class ShopViewModel: ObservableObject {
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
                     category: .armor,
+                    assetCategory: .head, // Specify the asset category for proper gear categorization
                     isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
                 )
             }
@@ -176,6 +181,7 @@ class ShopViewModel: ObservableObject {
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
                     category: .armor,
+                    assetCategory: .outfit, // Specify the asset category for proper gear categorization
                     isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
                 )
             }
@@ -194,6 +200,7 @@ class ShopViewModel: ObservableObject {
                             asset.rarity == .rare ? .rare :
                             asset.rarity == .epic ? .epic : .legendary,
                     category: .armor,
+                    assetCategory: .shield, // Specify the asset category for proper gear categorization
                     isOwned: isItemOwned(name: asset.name, iconName: asset.imageName, category: .armor)
                 )
             }

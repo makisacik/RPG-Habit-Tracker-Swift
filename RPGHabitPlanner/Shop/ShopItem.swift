@@ -16,10 +16,11 @@ struct ShopItem: Identifiable, Equatable {
     let price: Int
     let rarity: ItemRarity
     let category: EnhancedShopCategory
+    let assetCategory: AssetCategory? // The specific asset category for gear items
     let effects: [ItemEffect]?
     let isOwned: Bool
 
-    init(id: UUID = UUID(), name: String, description: String, iconName: String, previewImage: String? = nil, price: Int, rarity: ItemRarity = .common, category: EnhancedShopCategory, effects: [ItemEffect]? = nil, isOwned: Bool = false) {
+    init(id: UUID = UUID(), name: String, description: String, iconName: String, previewImage: String? = nil, price: Int, rarity: ItemRarity = .common, category: EnhancedShopCategory, assetCategory: AssetCategory? = nil, effects: [ItemEffect]? = nil, isOwned: Bool = false) {
         self.id = id
         self.name = name
         self.description = description
@@ -28,6 +29,7 @@ struct ShopItem: Identifiable, Equatable {
         self.price = price
         self.rarity = rarity
         self.category = category
+        self.assetCategory = assetCategory
         self.effects = effects
         self.isOwned = isOwned
     }
