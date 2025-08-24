@@ -205,6 +205,7 @@ struct CharacterFullPreview: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: size * 0.95)
+                    .offset(x: 30, y: -25)
             }
 
             // Other Accessories (non-glasses) - Draw last so they appear on top
