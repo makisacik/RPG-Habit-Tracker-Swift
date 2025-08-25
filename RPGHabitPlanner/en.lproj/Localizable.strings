@@ -1936,3 +1936,48 @@
 "coin_boost" = "Coin Boost";
 "health_regeneration" = "Health Regeneration";
 "focus_regeneration" = "Focus Regeneration";
+
+// MARK: - Hair Colors
+"hair_color_brown" = "Brown";
+"hair_color_black" = "Black";
+"hair_color_blonde" = "Blonde";
+"hair_color_red" = "Red";
+"hair_color_dark_brown" = "Dark Brown";
+
+// MARK: - Eye Colors
+"eye_color_black" = "Black";
+"eye_color_blue" = "Blue";
+"eye_color_green" = "Green";
+
+// MARK: - Body Types (Skin Colors)
+"body_white" = "Fair";
+"body_blue" = "Blue";
+"body_tan" = "Tan";
+"body_tan_2" = "Medium Tan";
+"body_tan_3" = "Dark Tan";
+"body_purple" = "Purple";
+"body_dark_1" = "Dark";
+"body_dark_2" = "Very Dark";
+"body_green" = "Green";
+
+// MARK: - Outfits
+"outfit_villager" = "Villager";
+"outfit_villager_blue" = "Blue Villager";
+"outfit_iron" = "Iron Armor";
+"outfit_iron_2" = "Iron Armor II";
+"outfit_wizard" = "Wizard Robe";
+"outfit_dress" = "Elegant Dress";
+"outfit_fire" = "Fire Armor";
+"outfit_bat" = "Bat Armor";
+"outfit_red" = "Red Armor";
+"outfit_hoodie" = "Hoodie";
+
+// MARK: - Mustaches
+"mustache_1_brown" = "Classic Brown";
+"mustache_1_black" = "Classic Black";
+"mustache_1_blonde" = "Classic Blonde";
+"mustache_1_dark_brown" = "Classic Dark Brown";
+"mustache_2_brown" = "Handlebar Brown";
+"mustache_2_black" = "Handlebar Black";
+"mustache_2_blonde" = "Handlebar Blonde";
+"mustache_2_dark_brown" = "Handlebar Dark Brown";

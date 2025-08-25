@@ -161,7 +161,7 @@ struct CharacterTabCustomizationView: View {
                     Button(action: {
                         selectedCategory = category
                     }) {
-                        Text(category.title)
+                        Text(category.displayName)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
                             .padding(.horizontal, 16)

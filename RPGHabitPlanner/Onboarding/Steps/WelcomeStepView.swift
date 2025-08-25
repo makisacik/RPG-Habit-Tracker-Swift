@@ -17,11 +17,11 @@ struct WelcomeStepView: View {
 
             // App logo and title
             VStack(spacing: 20) {
-                Image("AppIcon") // Replace with your actual app icon
+                Image("icon_sword_hd")
                     .resizable()
-                    .frame(width: 120, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 24))
-                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(theme.textColor)
 
                 VStack(spacing: 8) {
                     Text(String(localized: "rpg_habit_planner"))

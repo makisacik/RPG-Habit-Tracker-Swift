@@ -102,7 +102,7 @@ struct NicknameStepView: View {
                         Text(String(localized: "random_name"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(

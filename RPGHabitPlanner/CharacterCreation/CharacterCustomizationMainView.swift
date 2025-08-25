@@ -383,7 +383,7 @@ struct CategoryButton: View {
                         .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
                 }
 
-                Text(category.rawValue.localized)
+                Text(category.displayName)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
             }

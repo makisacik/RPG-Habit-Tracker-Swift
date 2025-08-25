@@ -323,3 +323,58 @@
 // MARK: - Character Customization
 "mustache" = "Bıyık";
 "flower" = "Çiçek";
+
+// MARK: - Character Customization Categories
+"body_type" = "Vücut Tipi";
+"hair_style" = "Saç Stili";
+"hair_back_style" = "Arka Saç Stili";
+"hair_color" = "Saç Rengi";
+"eye_color" = "Göz Rengi";
+"outfit" = "Kıyafet";
+"weapon" = "Silah";
+"accessory" = "Aksesuar";
+
+// MARK: - Hair Colors
+"hair_color_brown" = "Kahverengi";
+"hair_color_black" = "Siyah";
+"hair_color_blonde" = "Sarı";
+"hair_color_red" = "Kızıl";
+"hair_color_dark_brown" = "Koyu Kahverengi";
+
+// MARK: - Eye Colors
+"eye_color_black" = "Siyah";
+"eye_color_blue" = "Mavi";
+"eye_color_green" = "Yeşil";
+
+// MARK: - Body Types (Skin Colors)
+"body_white" = "Açık";
+"body_blue" = "Mavi";
+"body_tan" = "Esmer";
+"body_tan_2" = "Orta Esmer";
+"body_tan_3" = "Koyu Esmer";
+"body_purple" = "Mor";
+"body_dark_1" = "Koyu";
+"body_dark_2" = "Çok Koyu";
+"body_green" = "Yeşil";
+
+// MARK: - Outfits
+"outfit_villager" = "Köylü";
+"outfit_villager_blue" = "Mavi Köylü";
+"outfit_iron" = "Demir Zırh";
+"outfit_iron_2" = "Demir Zırh II";
+"outfit_wizard" = "Büyücü Cübbesi";
+"outfit_dress" = "Zarif Elbise";
+"outfit_fire" = "Ateş Zırhı";
+"outfit_bat" = "Yarasa Zırhı";
+"outfit_red" = "Kırmızı Zırh";
+"outfit_hoodie" = "Kapüşonlu";
+
+// MARK: - Mustaches
+"mustache_1_brown" = "Klasik Kahverengi";
+"mustache_1_black" = "Klasik Siyah";
+"mustache_1_blonde" = "Klasik Sarı";
+"mustache_1_dark_brown" = "Klasik Koyu Kahverengi";
+"mustache_2_brown" = "Kulp Kahverengi";
+"mustache_2_black" = "Kulp Siyah";
+"mustache_2_blonde" = "Kulp Sarı";
+"mustache_2_dark_brown" = "Kulp Koyu Kahverengi";

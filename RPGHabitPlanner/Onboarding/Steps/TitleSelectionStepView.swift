@@ -70,7 +70,7 @@ struct TitleSelectionStepView: View {
                         Text(String(localized: "selectDifferentTitle"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
                     .background(
@@ -93,7 +93,7 @@ struct TitleSelectionStepView: View {
                         Text(String(localized: "randomTitle"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
                     .background(
