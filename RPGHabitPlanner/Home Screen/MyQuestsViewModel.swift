@@ -187,10 +187,15 @@ final class MyQuestsViewModel: ObservableObject {
         }
 
         if newState == .done {
+            // Provide haptic feedback immediately when user taps
+            HapticFeedbackManager.shared.questCompleted()
+
             questDataService.markQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
+                        // Provide error haptic feedback
+                        HapticFeedbackManager.shared.errorOccurred()
                     } else {
                         self?.streakManager.recordActivity()
 
@@ -213,10 +218,15 @@ final class MyQuestsViewModel: ObservableObject {
                 }
             }
         } else {
+            // Provide haptic feedback immediately when user taps
+            HapticFeedbackManager.shared.questUncompleted()
+
             questDataService.unmarkQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
+                        // Provide error haptic feedback
+                        HapticFeedbackManager.shared.errorOccurred()
                     } else {
                         // Fetch quests to update the view and notify other views
                         self?.fetchQuests()
@@ -237,6 +247,7 @@ final class MyQuestsViewModel: ObservableObject {
     func markQuestAsFinished(questId: UUID) {
         guard let quest = allQuests.first(where: { $0.id == questId }) else {
             alertMessage = "Quest not found"
+            HapticFeedbackManager.shared.errorOccurred()
             return
         }
 
@@ -245,7 +256,10 @@ final class MyQuestsViewModel: ObservableObject {
                 guard let self = self else { return }
                 if let error = error {
                     self.alertMessage = error.localizedDescription
+                    HapticFeedbackManager.shared.errorOccurred()
                 } else {
+                    // Provide success haptic feedback for quest finished
+                    HapticFeedbackManager.shared.questFinished()
                     let baseExp: Int
                     let baseCoins: Int
 
@@ -296,10 +310,19 @@ final class MyQuestsViewModel: ObservableObject {
     }
 
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
+        // Provide haptic feedback immediately when user taps
+        if newValue {
+            HapticFeedbackManager.shared.taskCompleted()
+        } else {
+            HapticFeedbackManager.shared.taskUncompleted()
+        }
+
         questDataService.updateTask(withId: taskId, isCompleted: newValue) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
+                    // Provide error haptic feedback
+                    HapticFeedbackManager.shared.errorOccurred()
                 } else {
                     // Handle task completion rewards if task is being completed
                     if newValue {

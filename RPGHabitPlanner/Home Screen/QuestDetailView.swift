@@ -151,6 +151,8 @@ struct QuestDetailView: View {
     }
 
     private func deleteQuest() {
+        // Provide haptic feedback for delete action
+        HapticFeedbackManager.shared.errorOccurred()
         viewModel.deleteQuest()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             dismiss()

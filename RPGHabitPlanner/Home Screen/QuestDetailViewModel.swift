@@ -86,14 +86,19 @@ final class QuestDetailViewModel: ObservableObject {
         case .daily:
             guard calendar.isDate(date, inSameDayAs: today) else {
                 alertMessage = String(localized: "daily_quests_can_only_be_toggled_for_today")
+                HapticFeedbackManager.shared.errorOccurred()
                 return
             }
             let dayAnchor = calendar.startOfDay(for: date)
             if isCompleted {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questUncompleted()
                 questDataService.unmarkQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
                     self?.refreshQuest()
                 }
             } else {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questCompleted()
                 questDataService.markQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
                     // Record streak activity when completing a quest
                     self?.streakManager.recordActivity()
@@ -103,14 +108,19 @@ final class QuestDetailViewModel: ObservableObject {
         case .weekly:
             guard isSameWeek(date, today) else {
                 alertMessage = String(localized: "weekly_quests_can_only_be_toggled_in_current_week")
+                HapticFeedbackManager.shared.errorOccurred()
                 return
             }
             let anchor = weekAnchor(for: date)
             if isCompleted {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questUncompleted()
                 questDataService.unmarkQuestCompleted(forId: quest.id, on: anchor) { [weak self] _ in
                     self?.refreshQuest()
                 }
             } else {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questCompleted()
                 questDataService.markQuestCompleted(forId: quest.id, on: anchor) { [weak self] _ in
                     // Record streak activity when completing a quest
                     self?.streakManager.recordActivity()
@@ -121,15 +131,20 @@ final class QuestDetailViewModel: ObservableObject {
             guard date >= calendar.startOfDay(for: quest.creationDate) &&
                   date <= calendar.startOfDay(for: quest.dueDate) else {
                 alertMessage = String(localized: "quest_can_only_be_completed_between_creation_and_due_date")
+                HapticFeedbackManager.shared.errorOccurred()
                 return
             }
             // For one-time quests, always store completion at the due date
             let dueDateAnchor = calendar.startOfDay(for: quest.dueDate)
             if isCompleted {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questUncompleted()
                 questDataService.unmarkQuestCompleted(forId: quest.id, on: dueDateAnchor) { [weak self] _ in
                     self?.refreshQuest()
                 }
             } else {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questCompleted()
                 questDataService.markQuestCompleted(forId: quest.id, on: dueDateAnchor) { [weak self] _ in
                     // Record streak activity when completing a quest
                     self?.streakManager.recordActivity()
@@ -142,14 +157,19 @@ final class QuestDetailViewModel: ObservableObject {
             let isScheduledDay = quest.scheduledDays.contains(weekday)
             guard isScheduledDay else {
                 alertMessage = String(localized: "quest_can_only_be_completed_on_scheduled_days")
+                HapticFeedbackManager.shared.errorOccurred()
                 return
             }
             let dayAnchor = calendar.startOfDay(for: date)
             if isCompleted {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questUncompleted()
                 questDataService.unmarkQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
                     self?.refreshQuest()
                 }
             } else {
+                // Provide haptic feedback immediately when user taps
+                HapticFeedbackManager.shared.questCompleted()
                 questDataService.markQuestCompleted(forId: quest.id, on: dayAnchor) { [weak self] _ in
                     // Record streak activity when completing a quest
                     self?.streakManager.recordActivity()
@@ -172,9 +192,13 @@ final class QuestDetailViewModel: ObservableObject {
                 guard let self = self else { return }
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error marking quest as finished: \(error)")
+                    // Provide error haptic feedback
+                    HapticFeedbackManager.shared.errorOccurred()
                     // Revert the optimistic update on error
                     self.refreshQuest()
                 } else {
+                    // Provide success haptic feedback for quest finished
+                    HapticFeedbackManager.shared.questFinished()
                     print("✅ QuestDetailViewModel: Successfully marked quest as finished on server")
 
                     // Calculate and award rewards (same logic as QuestsViewModel)
@@ -247,6 +271,13 @@ final class QuestDetailViewModel: ObservableObject {
     func toggleTaskCompletion(taskId: UUID, newValue: Bool) {
         print("🔄 QuestDetailViewModel: Toggling task \(taskId) completion to \(newValue)")
 
+        // Provide haptic feedback immediately when user taps
+        if newValue {
+            HapticFeedbackManager.shared.taskCompleted()
+        } else {
+            HapticFeedbackManager.shared.taskUncompleted()
+        }
+
         // Optimistically update the local quest
         if let taskIndex = quest.tasks.firstIndex(where: { $0.id == taskId }) {
             quest.tasks[taskIndex].isCompleted = newValue
@@ -257,6 +288,8 @@ final class QuestDetailViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error updating task completion: \(error)")
+                    // Provide error haptic feedback
+                    HapticFeedbackManager.shared.errorOccurred()
                     // Revert the optimistic update on error
                     self?.refreshQuest()
                 } else {
@@ -274,6 +307,8 @@ final class QuestDetailViewModel: ObservableObject {
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error deleting quest: \(error)")
                     self?.alertMessage = String(localized: "failed_to_delete_quest") + ": \(error.localizedDescription)"
+                    // Provide error haptic feedback
+                    HapticFeedbackManager.shared.errorOccurred()
                 } else {
                     print("✅ QuestDetailViewModel: Successfully deleted quest")
                     // Notify other views that quest was deleted

@@ -210,10 +210,15 @@ final class CalendarViewModel: ObservableObject {
         }
         
         if newState == .done {
+            // Provide haptic feedback immediately when user taps
+            HapticFeedbackManager.shared.questCompleted()
+
             questDataService.markQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
+                        // Provide error haptic feedback
+                        HapticFeedbackManager.shared.errorOccurred()
                     } else {
                         self?.streakManager.recordActivity()
                         self?.rewardService.handleQuestCompletion(quest: item.quest) { err in
@@ -228,10 +233,15 @@ final class CalendarViewModel: ObservableObject {
                 }
             }
         } else {
+            // Provide haptic feedback immediately when user taps
+            HapticFeedbackManager.shared.questUncompleted()
+
             questDataService.unmarkQuestCompleted(forId: item.quest.id, on: completionDate) { [weak self] error in
                 DispatchQueue.main.async {
                     if let error = error {
                         self?.alertMessage = error.localizedDescription
+                        // Provide error haptic feedback
+                        HapticFeedbackManager.shared.errorOccurred()
                     } else {
                         self?.silentUpdateQuests() // will bump version
                     }
@@ -251,6 +261,7 @@ final class CalendarViewModel: ObservableObject {
     func markQuestAsFinished(questId: UUID) {
         guard let quest = allQuests.first(where: { $0.id == questId }) else {
             alertMessage = "Quest not found"
+            HapticFeedbackManager.shared.errorOccurred()
             return
         }
         
@@ -259,7 +270,10 @@ final class CalendarViewModel: ObservableObject {
                 guard let self = self else { return }
                 if let error = error {
                     self.alertMessage = error.localizedDescription
+                    HapticFeedbackManager.shared.errorOccurred()
                 } else {
+                    // Provide success haptic feedback for quest finished
+                    HapticFeedbackManager.shared.questFinished()
                     let baseExp: Int
                     let baseCoins: Int
                     #if DEBUG
@@ -311,10 +325,19 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func toggleTaskCompletion(questId: UUID, taskId: UUID, newValue: Bool) {
+        // Provide haptic feedback immediately when user taps
+        if newValue {
+            HapticFeedbackManager.shared.taskCompleted()
+        } else {
+            HapticFeedbackManager.shared.taskUncompleted()
+        }
+
         questDataService.updateTask(withId: taskId, isCompleted: newValue) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.alertMessage = error.localizedDescription
+                    // Provide error haptic feedback
+                    HapticFeedbackManager.shared.errorOccurred()
                 } else {
                     if newValue,
                        let quest = self?.allQuests.first(where: { $0.id == questId }),

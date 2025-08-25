@@ -78,7 +78,11 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                             )
                     }
                     
-                    Button(action: onConfirm) {
+                    Button(action: {
+                        // Provide success haptic feedback when user confirms quest is finished
+                        HapticFeedbackManager.shared.questFinished()
+                        onConfirm()
+                    }) {
                         HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.white)

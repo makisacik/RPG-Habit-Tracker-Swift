@@ -255,7 +255,15 @@ struct MyQuestRow: View {
 
                     Spacer()
 
-                    Button(action: onToggle) {
+                    Button(action: {
+                        // Provide haptic feedback for quest toggle
+                        if item.state == .done {
+                            HapticFeedbackManager.shared.questUncompleted()
+                        } else {
+                            HapticFeedbackManager.shared.questCompleted()
+                        }
+                        onToggle()
+                    }) {
                         Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
                             .font(.title3)
                             .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
@@ -263,6 +271,8 @@ struct MyQuestRow: View {
 
                     // Flag button next to quest completion toggle
                     Button(action: {
+                        // Provide haptic feedback for mark as finished action
+                        HapticFeedbackManager.shared.questFinished()
                         onMarkFinished()
                     }) {
                         Image(systemName: "flag.fill")
@@ -310,6 +320,12 @@ struct MyQuestRow: View {
                             ForEach(tasks, id: \.id) { task in
                                 HStack(spacing: 8) {
                                     Button(action: {
+                                        // Provide haptic feedback for task toggle
+                                        if task.isCompleted {
+                                            HapticFeedbackManager.shared.taskUncompleted()
+                                        } else {
+                                            HapticFeedbackManager.shared.taskCompleted()
+                                        }
                                         onToggleTaskCompletion(task.id, !task.isCompleted)
                                     }) {
                                         Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle.fill")

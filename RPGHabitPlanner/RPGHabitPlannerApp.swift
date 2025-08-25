@@ -38,6 +38,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // Initialize booster system
         let boosterManager = BoosterManager.shared
 
+        // Prepare haptic feedback generators for immediate use
+        HapticFeedbackManager.shared.prepareFeedbackGenerators()
+
         // Delay booster loading to ensure proper initialization
         DispatchQueue.main.async {
             // Clean up expired effects on app launch
@@ -61,6 +64,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Ensure background tasks are properly managed when app enters foreground
         BackgroundTimerManager.shared.handleAppWillEnterForeground()
+
+        // Prepare haptic feedback generators when app becomes active
+        HapticFeedbackManager.shared.prepareFeedbackGenerators()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

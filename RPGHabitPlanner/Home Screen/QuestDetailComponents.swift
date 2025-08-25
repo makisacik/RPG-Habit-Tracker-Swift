@@ -237,6 +237,12 @@ struct QuestDetailTasksSection: View {
     private func taskRow(task: QuestTask, theme: Theme) -> some View {
         HStack(spacing: 12) {
             Button(action: {
+                // Provide haptic feedback for task toggle
+                if task.isCompleted {
+                    HapticFeedbackManager.shared.taskUncompleted()
+                } else {
+                    HapticFeedbackManager.shared.taskCompleted()
+                }
                 onToggleTask(task)
             }) {
                 Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
@@ -491,7 +497,15 @@ struct QuestDetailActionButtonsSection: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Button(action: onToggleCompletion) {
+            Button(action: {
+                // Provide haptic feedback for toggle completion action
+                if isCompleted {
+                    HapticFeedbackManager.shared.questUncompleted()
+                } else {
+                    HapticFeedbackManager.shared.questCompleted()
+                }
+                onToggleCompletion()
+            }) {
                 HStack {
                     Image(systemName: isCompleted ? "xmark.circle.fill" : "checkmark.circle.fill")
                         .font(.system(size: 18))
@@ -509,7 +523,11 @@ struct QuestDetailActionButtonsSection: View {
             .buttonStyle(PlainButtonStyle())
 
             if !quest.isFinished {
-                Button(action: onMarkAsFinished) {
+                Button(action: {
+                    // Provide haptic feedback for mark as finished action
+                    HapticFeedbackManager.shared.questFinished()
+                    onMarkAsFinished()
+                }) {
                     HStack {
                         Image(systemName: "flag.fill")
                             .font(.system(size: 18))
