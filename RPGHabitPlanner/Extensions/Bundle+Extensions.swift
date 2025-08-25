@@ -5,7 +5,26 @@ extension Bundle {
         #if DEBUG
         return false
         #else
-        return appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+        // Check if this is a TestFlight build by looking for the sandbox receipt
+        // or if running in a development environment (like release build from Xcode)
+        if let receiptURL = appStoreReceiptURL {
+            return receiptURL.lastPathComponent == "sandboxReceipt"
+        } else {
+            // If no receipt URL exists, we're likely running a development build
+            // (release build from Xcode, simulator, etc.)
+            return false
+        }
+        #endif
+    }
+    
+    /// Returns true if the app is running in a development environment
+    /// (DEBUG builds, release builds from Xcode, simulator, etc.)
+    var isDevelopmentBuild: Bool {
+        #if DEBUG
+        return true
+        #else
+        // Check if we're running in simulator or have no receipt (development environment)
+        return TARGET_OS_SIMULATOR != 0 || appStoreReceiptURL == nil
         #endif
     }
 }

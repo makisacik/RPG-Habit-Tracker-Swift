@@ -72,8 +72,8 @@ struct SettingsView: View {
                 NavigationLink(String(localized: "data_and_storage")) { Text(String(localized: "data_and_storage_settings")) }
             }
 
-            // TestFlight-only section for development features
-            if Bundle.main.isTestFlight {
+            // Development features section (visible in DEBUG, release builds from Xcode, and TestFlight)
+            if Bundle.main.isDevelopmentBuild {
                 Section("Development") {
                     Button {
                         addTestCurrency()
