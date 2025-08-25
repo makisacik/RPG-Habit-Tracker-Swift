@@ -110,7 +110,7 @@ class OnboardingCoordinator: ObservableObject {
                             print("❌ OnboardingCoordinator: Failed to create character customization in Core Data")
                         }
                     } else {
-                        print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? "Unknown error")")
+                        print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? String(localized: "unknown_error"))")
                     }
 
                     // Add onboarding completion items to inventory

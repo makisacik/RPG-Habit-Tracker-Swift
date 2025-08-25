@@ -22,7 +22,7 @@ struct TagFilterView: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(theme.accentColor)
 
-                    Text("Filter by Tags")
+                    Text(String(localized: "filter_by_tags"))
                         .font(.appFont(size: 16, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -36,7 +36,7 @@ struct TagFilterView: View {
                             viewModel.matchMode = .any
                         }
                     }) {
-                        Text("Any")
+                        Text(String(localized: "any"))
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(viewModel.matchMode == .any ? .white : theme.textColor.opacity(0.7))
                             .padding(.horizontal, 12)
@@ -54,7 +54,7 @@ struct TagFilterView: View {
                             viewModel.matchMode = .all
                         }
                     }) {
-                        Text("All")
+                        Text(String(localized: "all"))
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(viewModel.matchMode == .all ? .white : theme.textColor.opacity(0.7))
                             .padding(.horizontal, 12)
@@ -89,7 +89,7 @@ struct TagFilterView: View {
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(theme.accentColor)
 
-                            Text("Selected (\(viewModel.selectedTags.count))")
+                            Text(String(format: String(localized: "selected_tags_count"), viewModel.selectedTags.count))
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(theme.textColor)
                         }
@@ -104,7 +104,7 @@ struct TagFilterView: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.system(size: 12, weight: .medium))
-                                Text("Clear All")
+                                Text(String(localized: "clear_all"))
                                     .font(.appFont(size: 12, weight: .medium))
                             }
                             .foregroundColor(theme.accentColor)
@@ -163,7 +163,7 @@ struct TagFilterView: View {
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
 
-                        Text("Available Tags")
+                        Text(String(localized: "available_tags"))
                             .font(.appFont(size: 14, weight: .bold))
                             .foregroundColor(theme.textColor)
                     }
@@ -210,11 +210,11 @@ struct TagFilterView: View {
                             .scaleEffect(1.2)
 
                         VStack(spacing: 4) {
-                            Text("No tags available")
+                            Text(String(localized: "no_tags_available"))
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
-                            Text("Create your first tag to get started")
+                            Text(String(localized: "create_first_tag_to_get_started"))
                                 .font(.appFont(size: 14, weight: .regular))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                                 .multilineTextAlignment(.center)
@@ -228,7 +228,7 @@ struct TagFilterView: View {
                             HStack(spacing: 6) {
                                 Image(systemName: "plus.circle.fill")
                                     .font(.system(size: 14, weight: .medium))
-                                Text("Create New Tag")
+                                Text(String(localized: "create_new_tag"))
                                     .font(.appFont(size: 14, weight: .medium))
                             }
                             .foregroundColor(.white)

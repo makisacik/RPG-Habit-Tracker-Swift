@@ -55,13 +55,13 @@ struct CharacterCustomizationView: View {
                 .resizable()
                 .frame(height: 60)
                 .overlay(
-                    Text(String(localized: "customizeYourHero"))
+                    Text("customizeYourHero".localized)
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
                         .padding(.top, 10)
                 )
 
-            Text(String(localized: "createYourUniqueCharacter"))
+            Text("createYourUniqueCharacter".localized)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .multilineTextAlignment(.center)
@@ -136,7 +136,7 @@ struct CharacterCustomizationView: View {
                     }
                 }
 
-                Text(String(localized: "preview"))
+                Text("preview".localized)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -196,7 +196,7 @@ struct CharacterCustomizationView: View {
                 isCustomizationCompleted = true
             }
         }) {
-            Text(String(localized: "continueButton"))
+            Text("continueButton".localized)
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.buttonTextColor)
                 .frame(maxWidth: .infinity)
@@ -332,16 +332,16 @@ enum CustomizationCategory: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .bodyType: return String(localized: "body_type")
-        case .hairStyle: return String(localized: "hair_style")
-        case .hairBackStyle: return String(localized: "hair_back_style")
-        case .hairColor: return String(localized: "hair_color")
-        case .eyeColor: return String(localized: "eye_color")
-        case .outfit: return String(localized: "outfit")
-        case .weapon: return String(localized: "weapon")
-        case .accessory: return String(localized: "accessory")
-        case .mustache: return String(localized: "mustache")
-        case .flower: return String(localized: "flower")
+        case .bodyType: return "body_type".localized
+        case .hairStyle: return "hair_style".localized
+        case .hairBackStyle: return "hair_back_style".localized
+        case .hairColor: return "hair_color".localized
+        case .eyeColor: return "eye_color".localized
+        case .outfit: return "outfit".localized
+        case .weapon: return "weapon".localized
+        case .accessory: return "accessory".localized
+        case .mustache: return "mustache".localized
+        case .flower: return "flower".localized
         }
     }
 
@@ -383,7 +383,7 @@ struct CategoryButton: View {
                         .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
                 }
 
-                Text(category.rawValue)
+                Text(category.rawValue.localized)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(isSelected ? theme.buttonTextColor : theme.textColor)
             }

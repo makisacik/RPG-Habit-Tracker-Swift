@@ -523,6 +523,343 @@
 // MARK: - Calendar & Streak Views
 "filter" = "Filter";
 "apply" = "Apply";
+"filter_by_tags" = "Filter by Tags";
+"any" = "Any";
+"all" = "All";
+"clear_all" = "Clear All";
+"available_tags" = "Available Tags";
+"no_tags_available" = "No tags available";
+"create_first_tag_to_get_started" = "Create your first tag to get started";
+"create_new_tag" = "Create New Tag";
+"selected_tags" = "Selected Tags";
+"no_tags_found" = "No tags found";
+"try_adjusting_search_or_create_new_tag" = "Try adjusting your search or create a new tag";
+"create_your_first_tag" = "Create Your First Tag";
+"select_tags" = "Select Tags";
+"loading_tags" = "Loading tags...";
+"no_tags_available_for_selection" = "No tags available";
+"create_first_tag_to_get_started_selection" = "Create your first tag to get started";
+"work" = "Work";
+"personal" = "Personal";
+"urgent" = "Urgent";
+"study" = "Study";
+"not_yet" = "Not Yet";
+"finish_quest" = "Finish Quest";
+"quest_finish_confirmation_popup_examples" = "Quest Finish Confirmation Popup Examples";
+"tags" = "Tags";
+"add_tags" = "Add Tags";
+"no_tags_assigned" = "No tags assigned";
+"customize_your_character_appearance" = "Customize your character's appearance";
+"save_changes" = "Save Changes";
+"customization" = "CUSTOMIZATION";
+"quest_not_found" = "Quest not found";
+"failed_to_create_user" = "Failed to create user";
+"user_not_found" = "User not found";
+"total_damage_taken" = "Total Damage Taken";
+"error_loading_damage_history" = "Error Loading Damage History";
+"no_damage_history" = "No Damage History";
+"retry" = "Retry";
+
+// MARK: - Achievement Names
+"achievement_first_steps" = "First Steps";
+"achievement_first_steps_description" = "Complete your first quest";
+"achievement_quest_master" = "Quest Master";
+"achievement_quest_master_description" = "Complete 50 quests";
+"achievement_speed_runner" = "Speed Runner";
+"achievement_speed_runner_description" = "Complete 3 quests in one day";
+"achievement_consistency" = "Consistency";
+"achievement_consistency_description" = "Complete quests for 7 days in a row";
+"achievement_level_up" = "Level Up!";
+"achievement_level_up_description" = "Reach level 5";
+"achievement_veteran" = "Veteran";
+"achievement_veteran_description" = "Reach level 20";
+"achievement_legend" = "Legend";
+"achievement_legend_description" = "Reach level 50";
+"achievement_experience_hunter" = "Experience Hunter";
+"achievement_experience_hunter_description" = "Gain 1000 experience points";
+"achievement_early_bird" = "Early Bird";
+"achievement_early_bird_description" = "Complete a quest before 8 AM";
+"achievement_night_owl" = "Night Owl";
+"achievement_night_owl_description" = "Complete a quest after 10 PM";
+"achievement_weekend_warrior" = "Weekend Warrior";
+"achievement_weekend_warrior_description" = "Complete 5 quests on a weekend";
+"achievement_perfect_day" = "Perfect Day";
+"achievement_perfect_day_description" = "Complete all daily quests";
+
+// MARK: - Achievement Types
+"achievement_type_quest" = "Quest";
+"achievement_type_leveling" = "Leveling";
+"achievement_type_focus" = "Focus";
+"achievement_type_battle" = "Battle";
+"achievement_type_special" = "Special";
+
+// MARK: - Achievement Categories
+"achievement_category_all" = "All";
+"achievement_category_quests" = "Quests";
+"achievement_category_leveling" = "Leveling";
+"achievement_category_special" = "Special";
+
+// MARK: - Quick Quest Names
+"quick_quest_hydration_hero" = "Hydration Hero";
+"quick_quest_hydration_hero_description" = "Drink 8 glasses of water throughout the day";
+"quick_quest_hydration_hero_task_1" = "Drink 2 glasses of water in the morning";
+"quick_quest_hydration_hero_task_2" = "Drink 2 glasses of water at lunch";
+"quick_quest_hydration_hero_task_3" = "Drink 2 glasses of water in the afternoon";
+"quick_quest_hydration_hero_task_4" = "Drink 2 glasses of water in the evening";
+
+"quick_quest_morning_exercise" = "Morning Exercise";
+"quick_quest_morning_exercise_description" = "Complete a 15-minute morning workout routine";
+"quick_quest_morning_exercise_task_1" = "Do 10 push-ups";
+"quick_quest_morning_exercise_task_2" = "Do 20 jumping jacks";
+"quick_quest_morning_exercise_task_3" = "Do 15 squats";
+"quick_quest_morning_exercise_task_4" = "Stretch for 5 minutes";
+
+"quick_quest_mindful_reading" = "Mindful Reading";
+"quick_quest_mindful_reading_description" = "Read for 20 minutes with full attention";
+"quick_quest_mindful_reading_task_1" = "Find a quiet reading spot";
+"quick_quest_mindful_reading_task_2" = "Read for 20 minutes";
+"quick_quest_mindful_reading_task_3" = "Take notes on key points";
+
+"quick_quest_gratitude_practice" = "Gratitude Practice";
+"quick_quest_gratitude_practice_description" = "Write down 3 things you're grateful for today";
+"quick_quest_gratitude_practice_task_1" = "Reflect on your day";
+"quick_quest_gratitude_practice_task_2" = "Write 3 gratitude items";
+"quick_quest_gratitude_practice_task_3" = "Feel the positive emotions";
+
+"quick_quest_weekly_planning" = "Weekly Planning";
+"quick_quest_weekly_planning_description" = "Plan your week ahead with clear goals and priorities";
+"quick_quest_weekly_planning_task_1" = "Review last week's achievements";
+"quick_quest_weekly_planning_task_2" = "Set 3 main goals for the week";
+"quick_quest_weekly_planning_task_3" = "Schedule important tasks";
+"quick_quest_weekly_planning_task_4" = "Plan self-care activities";
+
+"quick_quest_skill_development" = "Skill Development";
+"quick_quest_skill_development_description" = "Dedicate time to learning a new skill or improving existing ones";
+"quick_quest_skill_development_task_1" = "Choose a skill to focus on";
+"quick_quest_skill_development_task_2" = "Research learning resources";
+"quick_quest_skill_development_task_3" = "Practice for 30 minutes daily";
+"quick_quest_skill_development_task_4" = "Track your progress";
+
+"quick_quest_social_connection" = "Social Connection";
+"quick_quest_social_connection_description" = "Reach out to friends and family to maintain relationships";
+"quick_quest_social_connection_task_1" = "Call a family member";
+"quick_quest_social_connection_task_2" = "Message an old friend";
+"quick_quest_social_connection_task_3" = "Plan a meetup";
+"quick_quest_social_connection_task_4" = "Show appreciation";
+
+"quick_quest_home_organization" = "Home Organization";
+"quick_quest_home_organization_description" = "Declutter and organize one area of your home";
+"quick_quest_home_organization_task_1" = "Choose an area to organize";
+"quick_quest_home_organization_task_2" = "Sort items into keep/donate/trash";
+"quick_quest_home_organization_task_3" = "Clean the space thoroughly";
+"quick_quest_home_organization_task_4" = "Organize remaining items";
+
+"quick_quest_bucket_list_adventure" = "Bucket List Adventure";
+"quick_quest_bucket_list_adventure_description" = "Complete one item from your bucket list or try something completely new";
+"quick_quest_bucket_list_adventure_task_1" = "Identify a bucket list item";
+"quick_quest_bucket_list_adventure_task_2" = "Research and plan the adventure";
+"quick_quest_bucket_list_adventure_task_3" = "Make necessary arrangements";
+"quick_quest_bucket_list_adventure_task_4" = "Execute the adventure";
+"quick_quest_bucket_list_adventure_task_5" = "Document the experience";
+
+"quick_quest_digital_detox" = "Digital Detox";
+"quick_quest_digital_detox_description" = "Take a complete break from social media and digital devices for a set period";
+"quick_quest_digital_detox_task_1" = "Set detox duration and rules";
+"quick_quest_digital_detox_task_2" = "Inform friends and family";
+"quick_quest_digital_detox_task_3" = "Find alternative activities";
+"quick_quest_digital_detox_task_4" = "Complete the detox period";
+"quick_quest_digital_detox_task_5" = "Reflect on the experience";
+
+"quick_quest_creative_project" = "Creative Project";
+"quick_quest_creative_project_description" = "Start and complete a creative project that you've been wanting to do";
+"quick_quest_creative_project_task_1" = "Choose your creative project";
+"quick_quest_creative_project_task_2" = "Gather materials and resources";
+"quick_quest_creative_project_task_3" = "Set milestones and timeline";
+"quick_quest_creative_project_task_4" = "Work on the project regularly";
+"quick_quest_creative_project_task_5" = "Complete and showcase the project";
+
+"quick_quest_fitness_challenge" = "Fitness Challenge";
+"quick_quest_fitness_challenge_description" = "Complete a 30-day fitness challenge to build healthy habits";
+"quick_quest_fitness_challenge_task_1" = "Choose a fitness challenge";
+"quick_quest_fitness_challenge_task_2" = "Set up tracking system";
+"quick_quest_fitness_challenge_task_3" = "Complete daily workouts";
+"quick_quest_fitness_challenge_task_4" = "Track progress and adjust";
+"quick_quest_fitness_challenge_task_5" = "Complete the 30-day challenge";
+
+// MARK: - Edit Quest Components
+"scheduled" = "Scheduled";
+
+// MARK: - Damage Tracking
+"damage_calculator" = "Damage Calculator";
+
+// MARK: - Premium Features
+"premium_unlimited_quests" = "Unlimited Quests";
+"premium_unlimited_quests_description" = "Create as many quests as you want";
+"premium_advanced_analytics" = "Advanced Analytics";
+"premium_advanced_analytics_description" = "Track your progress with detailed insights";
+"premium_custom_themes" = "Custom Themes";
+"premium_custom_themes_description" = "Personalize your app appearance";
+"premium_cloud_sync" = "Cloud Sync";
+"premium_cloud_sync_description" = "Sync your data across all devices";
+"premium_advanced_notifications" = "Advanced Notifications";
+"premium_advanced_notifications_description" = "Smart reminders and notifications";
+"premium_exclusive_achievements" = "Exclusive Achievements";
+"premium_exclusive_achievements_description" = "Unlock special achievements and rewards";
+
+// MARK: - Premium Plans
+"monthly" = "Monthly";
+"lifetime" = "Lifetime";
+"per_month" = "per month";
+"one_time_payment" = "one-time payment";
+
+// MARK: - Error Messages
+"error" = "Error";
+"warning" = "Warning";
+"failed_to_update_quest" = "Failed to update quest";
+"failed_to_delete_quest" = "Failed to delete quest";
+"please_check_your_input" = "Please check your input";
+
+// MARK: - Equipment Categories
+"equipment_body_type" = "Body Type";
+"equipment_hair_style" = "Hair Style";
+"equipment_hair_color" = "Hair Color";
+"equipment_eye_color" = "Eye Color";
+"equipment_outfit" = "Outfit";
+"equipment_weapon" = "Weapon";
+"equipment_accessory" = "Accessory";
+
+// MARK: - Health Status
+"health_status_dead" = "Dead";
+"health_status_critical" = "Critical";
+"health_status_injured" = "Injured";
+"health_status_wounded" = "Wounded";
+"health_status_healthy" = "Healthy";
+"health_status_full_health" = "Full Health";
+
+// MARK: - Item Types
+"item_type_consumable_description" = "Used once and consumed";
+"item_type_accessory_description" = "Cosmetic accessories for character customization";
+"item_type_gear_description" = "Equippable items with stats and rarities";
+"item_type_booster_description" = "Provides temporary bonuses";
+"item_type_collectible_description" = "Visual items for display and collection";
+
+// MARK: - Gear Categories
+"gear_category_head_description" = "Headgear and helmets";
+"gear_category_outfit_description" = "Body armor and clothing";
+"gear_category_weapon_description" = "Weapons and tools";
+"gear_category_shield_description" = "Shields and defensive gear";
+"gear_category_wings_description" = "Wing accessories";
+"gear_category_pet_description" = "Pet companions";
+
+// MARK: - Accessory Categories
+"accessory_category_earrings_description" = "Ear accessories";
+"accessory_category_eyeglasses_description" = "Eye accessories";
+"accessory_category_lashes_description" = "Eyelash accessories";
+"accessory_category_clips_description" = "Hair clips and flowers";
+
+// MARK: - Item Effects
+"item_effect_attack_description" = "Increases attack power";
+"item_effect_defense_description" = "Increases defense";
+"item_effect_health_description" = "Restores or increases health";
+"item_effect_focus_description" = "Restores or increases focus";
+"item_effect_experience_description" = "Grants experience points";
+"item_effect_luck_description" = "Increases luck";
+"item_effect_speed_description" = "Increases movement/action speed";
+"item_effect_critical_chance_description" = "Increases critical hit chance";
+"item_effect_critical_damage_description" = "Increases critical hit damage";
+"item_effect_xp_boost_description" = "Multiplies experience gain";
+"item_effect_coin_boost_description" = "Multiplies coin gain";
+"item_effect_health_regeneration_description" = "Regenerates health over time";
+"item_effect_focus_regeneration_description" = "Regenerates focus over time";
+
+// MARK: - Health Status (Additional)
+"health_status_low" = "Low";
+"health_status_moderate" = "Moderate";
+"health_status_full" = "Full";
+"health_status_unknown" = "Unknown";
+
+// MARK: - Health Errors
+"health_error_user_not_found" = "User not found";
+"health_error_invalid_damage_amount" = "Invalid damage amount";
+"health_error_invalid_heal_amount" = "Invalid heal amount";
+"health_error_invalid_max_health_amount" = "Invalid max health amount";
+"health_error_invalid_health_amount" = "Invalid health amount";
+"health_error_invalid_quest_difficulty" = "Invalid quest difficulty";
+"health_error_health_at_maximum" = "Health is already at maximum";
+"health_error_health_at_minimum" = "Health is already at minimum";
+
+// MARK: - Character Asset Categories
+"character_asset_body_type" = "Body Type";
+"character_asset_hair_style" = "Hair Style";
+"character_asset_hair_back_style" = "Hair Back Style";
+"character_asset_hair_color" = "Hair Color";
+"character_asset_eye_color" = "Eye Color";
+"character_asset_outfit" = "Outfit";
+"character_asset_weapon" = "Weapon";
+"character_asset_accessory" = "Accessory";
+"character_asset_head" = "Head";
+"character_asset_head_gear" = "Head Gear";
+"character_asset_shield" = "Shield";
+"character_asset_wings" = "Wings";
+"character_asset_mustache" = "Mustache";
+"character_asset_flower" = "Flower";
+"character_asset_pet" = "Pet";
+
+// MARK: - Inventory Errors
+"inventory_error_invalid_item" = "Invalid item";
+"inventory_error_item_not_found" = "Item not found in inventory";
+"inventory_error_insufficient_quantity" = "Not enough items";
+"inventory_error_item_not_usable" = "This item cannot be used";
+
+// MARK: - Inventory Categories
+"inventory_category_head_description" = "Helmets and headgear";
+"inventory_category_weapon_description" = "Weapons and combat items";
+"inventory_category_shield_description" = "Shields and defensive gear";
+"inventory_category_outfit_description" = "Clothing and armor";
+"inventory_category_pet_description" = "Companion pets";
+"inventory_category_wings_description" = "Wings and flight items";
+"inventory_category_others_description" = "Boosters, potions, collectibles";
+
+// MARK: - General
+"unknown_item" = "Unknown Item";
+
+// MARK: - Premium Errors
+"premium_error_product_not_found" = "Product not found";
+"premium_error_user_cancelled" = "Purchase was cancelled";
+"premium_error_purchase_pending" = "Purchase is pending approval";
+"premium_error_unknown" = "An unknown error occurred";
+
+// MARK: - Languages
+"language_english" = "English";
+"language_turkish" = "Türkçe";
+
+// MARK: - Shop Categories
+"shop_category_weapons_description" = "A powerful weapon for combat";
+"shop_category_armor_description" = "Protective gear for your adventures";
+"shop_category_accessories_description" = "Stylish accessories to enhance your character";
+"shop_category_wings_description" = "Magical wings for your character";
+"shop_category_pets_description" = "A loyal companion for your adventures";
+"shop_category_consumables_description" = "Consumable items for your journey";
+
+// MARK: - Currency
+"currency_gems" = "gems";
+"currency_coins" = "coins";
+
+// MARK: - Damage Calculation
+"due_today" = "Due today";
+
+// MARK: - Sample Data
+"sample_quest_title" = "Sample Quest";
+"sample_quest_description" = "A sample quest for testing";
+"sample_task_title" = "Sample Task";
+"sample_one_time_quest_title" = "Sample One-Time Quest";
+"sample_one_time_quest_description" = "This is a sample one-time quest description.";
+"sample_daily_quest_title" = "Sample Daily Quest";
+"sample_daily_quest_description" = "This is a sample daily quest description.";
+"sample_task_1" = "Task 1";
+"sample_task_2" = "Task 2";
+"sample_task_3" = "Task 3";
+
 "loading_quests" = "Loading quests…";
 "no_quests" = "No Quests";
 "add_quest" = "Add Quest";
@@ -591,6 +928,8 @@
 "no_damage_taken" = "No damage taken";
 "damage_amount" = "%@ HP";
 "view_all_damage_events" = "View all %d damage events";
+"damage_info_title" = "How Damage Works";
+"damage_info_message" = "You take damage when you miss quest deadlines. Daily quests deal 3 HP per missed day, weekly quests deal 8 HP, and one-time quests deal 10 HP. Complete quests on time to avoid damage!";
 
 // MARK: - Item Names and Descriptions
 
@@ -1452,3 +1791,126 @@
 "earrings_accessory_description" = "Decorative earrings";
 "necklace_accessory_description" = "An elegant necklace";
 "hat_accessory_description" = "A fashionable hat";
+
+// MARK: - Additional Hardcoded Strings Found
+"quest_finished" = "Quest Finished!";
+"choose_icon" = "Choose Icon";
+"damage_calculator" = "Damage Calculator";
+"quest_finish_confirmation" = "Is this quest finished?";
+"yes_finish_it" = "Yes, finish it!";
+"quest_finish_confirmation_message" = "Are you sure you want to mark '%@' as finished?";
+"no_damage_yet_message" = "This quest hasn't caused any damage yet. Keep up the good work!";
+"purchase_error" = "Purchase Error";
+"an_error_occurred" = "An error occurred";
+"an_error_occurred_during_purchase" = "An error occurred during purchase";
+"close" = "Close";
+"restore_purchases" = "Restore Purchases";
+"terms_of_service" = "Terms of Service";
+"privacy_policy" = "Privacy Policy";
+"ok_button" = "OK";
+"done_button" = "Done";
+"work_phase" = "Work";
+"short_break_phase" = "Short Break";
+"long_break_phase" = "Long Break";
+"battle_phase" = "Battle";
+"victory_phase" = "Victory!";
+"defeat_phase" = "Defeat";
+"idle_phase" = "Idle";
+
+// MARK: - Icon Categories
+"icon_category_general" = "General";
+"icon_category_work" = "Work";
+"icon_category_personal" = "Personal";
+"icon_category_health" = "Health";
+"icon_category_study" = "Study";
+"icon_category_travel" = "Travel";
+"icon_category_food" = "Food";
+"icon_category_nature" = "Nature";
+"icon_category_objects" = "Objects";
+"icon_category_emotions" = "Emotions";
+
+// MARK: - Tag Filter
+"selected_tags_count" = "Selected (%d)";
+
+// MARK: - Damage History
+"quest_label" = "Quest:";
+
+// MARK: - Shop
+"purchase" = "Purchase";
+
+// MARK: - Inventory
+"unknown_item" = "Unknown";
+
+// MARK: - Weekdays
+"weekday_sun" = "Sun";
+"weekday_mon" = "Mon";
+"weekday_tue" = "Tue";
+"weekday_wed" = "Wed";
+"weekday_thu" = "Thu";
+"weekday_fri" = "Fri";
+"weekday_sat" = "Sat";
+
+// MARK: - Shop Messages
+"purchase_failed" = "Purchase failed";
+"successfully_purchased" = "Successfully purchased %@!";
+"insufficient_gems" = "Insufficient gems";
+
+// MARK: - Item Details
+"no_description_available" = "No description available";
+"unknown_error" = "Unknown error";
+
+// MARK: - App Title
+"app_title" = "RPG Your Life";
+
+// MARK: - Equipment Validation Messages
+"item_not_unlocked" = "Item is not unlocked";
+"item_not_owned" = "Item is not owned by this user";
+"item_category_mismatch" = "Item category doesn't match equipment slot";
+"max_accessories_exceeded" = "Maximum of 3 accessories can be equipped";
+
+// MARK: - Alert Titles
+"damage_calculation_result" = "Damage Calculation Result";
+
+// MARK: - Damage Calculation
+"calculating" = "Calculating...";
+"calculate_damage" = "Calculate Damage";
+"unknown_result" = "Unknown result";
+"error_prefix" = "Error: ";
+"damage_applied_message" = "Applied %d damage to your health for missed quests.";
+"no_damage_calculated_message" = "No damage calculated. All quests are up to date!";
+"days_overdue" = "%d day(s) overdue";
+"days_left" = "%d day(s) left";
+
+// MARK: - Focus Timer Notifications
+"focus_timer_complete" = "Focus Timer Complete!";
+"session_finished" = "Your %@ session has finished.";
+
+// MARK: - Item Details
+"no_description_available" = "No description available";
+"item_used_successfully" = "Item used successfully!";
+
+// MARK: - Quest Validation
+"quest_title_cannot_be_empty" = "Quest title cannot be empty.";
+"difficulty_must_be_between_1_and_5" = "Difficulty must be between 1 and 5.";
+"due_date_cannot_be_earlier_than_creation" = "Due date cannot be earlier than the creation date.";
+
+// MARK: - Quest Notifications
+"quest_reminder_title" = "Traveller, don't forget your quest!";
+
+// MARK: - Additional Gear Categories
+"others" = "Others";
+
+// MARK: - Item Effect Types
+"attack" = "Attack";
+"defense" = "Defense";
+"health" = "Health";
+"focus" = "Focus";
+"experience" = "Experience";
+"luck" = "Luck";
+"speed" = "Speed";
+"critical_chance" = "Critical Chance";
+"critical_damage" = "Critical Damage";
+"xp_boost" = "XP Boost";
+"coin_boost" = "Coin Boost";
+"health_regeneration" = "Health Regeneration";
+"focus_regeneration" = "Focus Regeneration";

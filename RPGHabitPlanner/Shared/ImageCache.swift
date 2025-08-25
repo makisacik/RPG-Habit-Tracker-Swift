@@ -71,7 +71,7 @@ public struct RarityBadge: View {
                 .fill(rarity.color)
                 .frame(width: 8, height: 8)
 
-            Text(rarity.rawValue)
+            Text(rarity.rawValue.localized)
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(rarity.color)
         }

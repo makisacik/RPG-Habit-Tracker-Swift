@@ -341,7 +341,7 @@ struct EnhancedShopItemCard: View {
 
                     // Purchase button or Owned status
                     if item.isOwned {
-                        Text(String(localized: "owned"))
+                        Text("owned".localized)
                             .font(.appFont(size: 10, weight: .bold))
                             .foregroundColor(.white)
                             .padding(.horizontal, 8)
@@ -352,7 +352,7 @@ struct EnhancedShopItemCard: View {
                             )
                     } else {
                         Button(action: onPurchase) {
-                            Text(String(localized: "buy"))
+                            Text("buy".localized)
                                 .font(.appFont(size: 10, weight: .bold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 8)
@@ -481,7 +481,7 @@ struct ShopFilterView: View {
                                     // Rarity options
                                     ForEach(ItemRarity.allCases, id: \.self) { rarity in
                                         FilterChip(
-                                            text: rarity.rawValue,
+                                            text: rarity.rawValue.localized,
                                             isSelected: selectedRarity == rarity,
                                             color: rarity.uiColor
                                         ) {
@@ -711,7 +711,7 @@ struct ArmorSubcategoryView: View {
             HStack(spacing: 12) {
                 ForEach(ArmorSubcategory.allCases) { subcategory in
                     SubcategoryCard(
-                        title: subcategory.rawValue,
+                        title: subcategory.rawValue.localized,
                         icon: subcategory.icon,
                         color: subcategory.color,
                         isSelected: selectedSubcategory == subcategory
@@ -743,7 +743,7 @@ struct ConsumableSubcategoryView: View {
             HStack(spacing: 12) {
                 ForEach(ConsumableSubcategory.allCases) { subcategory in
                     SubcategoryCard(
-                        title: subcategory.rawValue,
+                        title: subcategory.rawValue.localized,
                         icon: subcategory.icon,
                         color: subcategory.color,
                         isSelected: selectedSubcategory == subcategory

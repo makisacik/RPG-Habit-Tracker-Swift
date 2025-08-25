@@ -41,9 +41,9 @@ class LocalizationManager: ObservableObject {
         var displayName: String {
             switch self {
             case .english:
-                return "English"
+                return String(localized: "language_english")
             case .turkish:
-                return "Türkçe"
+                return String(localized: "language_turkish")
             }
         }
 

@@ -40,7 +40,7 @@ struct PaywallView: View {
                 // Header with close button
                 HStack {
                     Spacer()
-                    Button("Close") {
+                    Button(String(localized: "close")) {
                         dismiss()
                     }
                     .font(.appFont(size: 16, weight: .medium))
@@ -71,10 +71,10 @@ struct PaywallView: View {
                 }
             }
         }
-        .alert("Purchase Error", isPresented: $showingError) {
-            Button("OK") { }
+        .alert(String(localized: "purchase_error"), isPresented: $showingError) {
+            Button(String(localized: "ok_button")) { }
         } message: {
-            Text(premiumManager.errorMessage ?? "An error occurred during purchase")
+            Text(premiumManager.errorMessage ?? String(localized: "an_error_occurred_during_purchase"))
         }
         .onReceive(premiumManager.$errorMessage) { errorMessage in
             showingError = errorMessage != nil
@@ -120,12 +120,12 @@ struct PaywallView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(spacing: 12) {
-                PremiumFeatureRow(icon: "infinity", title: "Unlimited Quests", description: "Create as many quests as you want")
-                PremiumFeatureRow(icon: "chart.bar.fill", title: "Advanced Analytics", description: "Track your progress with detailed insights")
-                PremiumFeatureRow(icon: "paintbrush.fill", title: "Custom Themes", description: "Personalize your app appearance")
-                PremiumFeatureRow(icon: "icloud.fill", title: "Cloud Sync", description: "Sync your data across all devices")
-                PremiumFeatureRow(icon: "bell.badge.fill", title: "Advanced Notifications", description: "Smart reminders and notifications")
-                PremiumFeatureRow(icon: "trophy.fill", title: "Exclusive Achievements", description: "Unlock special achievements and rewards")
+                PremiumFeatureRow(icon: "infinity", title: String(localized: "premium_unlimited_quests"), description: String(localized: "premium_unlimited_quests_description"))
+                PremiumFeatureRow(icon: "chart.bar.fill", title: String(localized: "premium_advanced_analytics"), description: String(localized: "premium_advanced_analytics_description"))
+                PremiumFeatureRow(icon: "paintbrush.fill", title: String(localized: "premium_custom_themes"), description: String(localized: "premium_custom_themes_description"))
+                PremiumFeatureRow(icon: "icloud.fill", title: String(localized: "premium_cloud_sync"), description: String(localized: "premium_cloud_sync_description"))
+                PremiumFeatureRow(icon: "bell.badge.fill", title: String(localized: "premium_advanced_notifications"), description: String(localized: "premium_advanced_notifications_description"))
+                PremiumFeatureRow(icon: "trophy.fill", title: String(localized: "premium_exclusive_achievements"), description: String(localized: "premium_exclusive_achievements_description"))
             }
         }
         .padding(20)
@@ -203,7 +203,7 @@ struct PaywallView: View {
             }
             .disabled(premiumManager.isLoading)
 
-            Button("Restore Purchases") {
+            Button(String(localized: "restore_purchases")) {
                 Task {
                     do {
                         try await premiumManager.restorePurchases()
@@ -224,13 +224,13 @@ struct PaywallView: View {
     private var footerSection: some View {
         VStack(spacing: 12) {
             HStack(spacing: 20) {
-                Button("Terms of Service") {
+                Button(String(localized: "terms_of_service")) {
                     // Handle terms of service
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.6))
 
-                Button("Privacy Policy") {
+                Button(String(localized: "privacy_policy")) {
                     // Handle privacy policy
                 }
                 .font(.appFont(size: 14, weight: .medium))
@@ -347,9 +347,9 @@ enum PremiumPlan {
     var title: String {
         switch self {
         case .monthly:
-            return "Monthly"
+            return String(localized: "monthly")
         case .lifetime:
-            return "Lifetime"
+            return String(localized: "lifetime")
         }
     }
 
@@ -365,9 +365,9 @@ enum PremiumPlan {
     var description: String {
         switch self {
         case .monthly:
-            return "per month"
+            return String(localized: "per_month")
         case .lifetime:
-            return "one-time payment"
+            return String(localized: "one_time_payment")
         }
     }
 

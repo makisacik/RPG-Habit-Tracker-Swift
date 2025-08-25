@@ -77,7 +77,7 @@ struct ItemHeaderView: View {
             // Item Type and Rarity
             HStack(spacing: 12) {
                 if let definition = itemDefinition {
-                    Text(definition.itemType.rawValue)
+                    Text(definition.itemType.localizedName)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                         .padding(.horizontal, 12)
@@ -89,7 +89,7 @@ struct ItemHeaderView: View {
                 }
 
                 if let rarity = getItemRarity() {
-                    Text(rarity.rawValue)
+                    Text(rarity.rawValue.localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(rarity.uiColor)
                         .padding(.horizontal, 12)
@@ -163,7 +163,7 @@ struct CompactItemHeaderView: View {
                 }
 
                 // Item Type
-                Text(item.itemType.rawValue)
+                Text(item.itemType.localizedName)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .padding(.horizontal, 8)
@@ -184,7 +184,7 @@ struct CompactItemHeaderView: View {
 
                 // Rarity
                 if let rarity = item.rarity {
-                    Text(rarity.rawValue)
+                    Text(rarity.rawValue.localized)
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(rarity.uiColor)
                         .padding(.horizontal, 8)
@@ -224,11 +224,11 @@ struct ItemDetailsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: "description"))
+            Text("description".localized)
                 .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
-            Text(item.info ?? "No description available.")
+            Text(item.info ?? "no_description_available".localized)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .multilineTextAlignment(.leading)
@@ -253,7 +253,7 @@ struct ItemEffectsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: "effects"))
+            Text("effects".localized)
                 .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
@@ -266,7 +266,7 @@ struct ItemEffectsView: View {
                             .frame(width: 24)
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(effect.type.rawValue)
+                            Text(effect.type.localizedName)
                                 .font(.appFont(size: 14, weight: .medium))
                                 .foregroundColor(theme.textColor)
 
@@ -304,7 +304,7 @@ struct UsageInfoView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: "usage_information"))
+            Text("usage_information".localized)
                 .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
@@ -313,52 +313,52 @@ struct UsageInfoView: View {
                     HStack {
                         Image(systemName: "drop.fill")
                             .foregroundColor(.red)
-                        Text(String(localized: "consumable_item"))
+                        Text("consumable_item".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text(String(localized: "consumable_item_description"))
+                    Text("consumable_item_description".localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else if definition.itemType == .booster {
                     HStack {
                         Image(systemName: "bolt.fill")
                             .foregroundColor(.yellow)
-                        Text(String(localized: "booster_item"))
+                        Text("booster_item".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text(String(localized: "booster_item_description"))
+                    Text("booster_item_description".localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else if definition.itemType == .gear {
                     HStack {
                         Image("icon_shield")
                             .foregroundColor(.blue)
-                        Text(String(localized: "equipment_item"))
+                        Text("equipment_item".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text(String(localized: "equipment_item_description"))
+                    Text("equipment_item_description".localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else {
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundColor(.purple)
-                        Text(String(localized: "collectible_item"))
+                        Text("collectible_item".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text(String(localized: "collectible_item_description"))
+                    Text("collectible_item_description".localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -384,7 +384,7 @@ struct SuccessMessageOverlay: View {
     let theme: Theme
     let message: String
 
-    init(theme: Theme, message: String = "Item used successfully!") {
+    init(theme: Theme, message: String = "item_used_successfully".localized) {
         self.theme = theme
         self.message = message
     }

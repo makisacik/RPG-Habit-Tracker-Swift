@@ -46,7 +46,7 @@ struct QuestCardView: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.6))
 
-                            Text("Tags")
+                            Text(String(localized: "tags"))
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.6))
 
@@ -169,13 +169,13 @@ struct QuestCardView: View {
                 onQuestTap(quest)
             }
         }
-        .alert("Is this quest finished?", isPresented: $showFinishConfirmation) {
-            Button("Cancel", role: .cancel) { }
-            Button("Yes, finish it!") {
+        .alert(String(localized: "quest_finish_confirmation"), isPresented: $showFinishConfirmation) {
+            Button(String(localized: "cancel"), role: .cancel) { }
+            Button(String(localized: "yes_finish_it")) {
                 onMarkComplete(quest.id)
             }
         } message: {
-            Text("Are you sure you want to mark '\(quest.title)' as finished?")
+            Text(String(format: String(localized: "quest_finish_confirmation_message"), quest.title))
         }
     }
 }

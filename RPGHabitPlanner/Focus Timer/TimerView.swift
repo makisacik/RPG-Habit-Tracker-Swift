@@ -14,7 +14,7 @@ class FocusTimerViewModel: ObservableObject {
     @Published var isRunning: Bool = false
     @Published var timeString: String = "25:00"
     @Published var progress: Double = 0.0
-    @Published var currentPhase: String = "Work"
+    @Published var currentPhase = String(localized: "work_phase")
     @Published var showMonsterDefeated: Bool = false
     @Published var isMonsterShaking: Bool = false
 
@@ -361,19 +361,19 @@ class FocusTimerViewModel: ObservableObject {
     private func updatePhaseDisplay() {
         switch session.currentState {
         case .working:
-            currentPhase = "Work"
+            currentPhase = String(localized: "work_phase")
         case .shortBreak:
-            currentPhase = "Short Break"
+            currentPhase = String(localized: "short_break_phase")
         case .longBreak:
-            currentPhase = "Long Break"
+            currentPhase = String(localized: "long_break_phase")
         case .battle:
-            currentPhase = "Battle"
+            currentPhase = String(localized: "battle_phase")
         case .victory:
-            currentPhase = "Victory!"
+            currentPhase = String(localized: "victory_phase")
         case .defeat:
-            currentPhase = "Defeat"
+            currentPhase = String(localized: "defeat_phase")
         default:
-            currentPhase = "Idle"
+            currentPhase = String(localized: "idle_phase")
         }
     }
 
@@ -423,7 +423,7 @@ class FocusTimerViewModel: ObservableObject {
         // This would fetch the current user and create a BattleEntity
         // For now, returning a placeholder
         return BattleEntity(
-            name: "Adventurer",
+            name: String(localized: "adventurer"),
             maxHealth: 100,
             attackPower: 20,
             defense: 10,

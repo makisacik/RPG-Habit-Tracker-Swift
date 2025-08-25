@@ -108,16 +108,16 @@ struct TagChipRow: View {
 #Preview {
     VStack(spacing: 20) {
         TagChip(
-            tag: Tag(name: "Work", icon: "briefcase", color: "#FF6B6B")
+            tag: Tag(name: String(localized: "work"), icon: "briefcase", color: "#FF6B6B")
         ) {}
 
         TagChip(
-            tag: Tag(name: "Personal", icon: "heart", color: "#4ECDC4"),
+            tag: Tag(name: String(localized: "personal"), icon: "heart", color: "#4ECDC4"),
             isSelected: true
         ) {}
 
         TagChip(
-            tag: Tag(name: "Urgent", icon: "exclamationmark.triangle", color: "#FFB347"),
+            tag: Tag(name: String(localized: "urgent"), icon: "exclamationmark.triangle", color: "#FFB347"),
             isRemovable: true,
             onTap: {},
             onRemove: {}
@@ -125,13 +125,13 @@ struct TagChipRow: View {
 
         TagChipRow(
             tags: [
-                Tag(name: "Work", icon: "briefcase", color: "#FF6B6B"),
-                Tag(name: "Personal", icon: "heart", color: "#4ECDC4"),
-                Tag(name: "Urgent", icon: "exclamationmark.triangle", color: "#FFB347"),
-                Tag(name: "Study", icon: "book", color: "#96CEB4")
+                Tag(name: String(localized: "work"), icon: "briefcase", color: "#FF6B6B"),
+                Tag(name: String(localized: "personal"), icon: "heart", color: "#4ECDC4"),
+                Tag(name: String(localized: "urgent"), icon: "exclamationmark.triangle", color: "#FFB347"),
+                Tag(name: String(localized: "study"), icon: "book", color: "#96CEB4")
             ],
             isSelectable: true,
-            selectedTags: [Tag(name: "Work", icon: "briefcase", color: "#FF6B6B")],
+            selectedTags: [Tag(name: String(localized: "work"), icon: "briefcase", color: "#FF6B6B")],
             onTagTap: { _ in },
             onTagRemove: { _ in }
         )

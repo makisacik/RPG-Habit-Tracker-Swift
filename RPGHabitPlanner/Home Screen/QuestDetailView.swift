@@ -136,7 +136,7 @@ struct QuestDetailView: View {
         } message: {
             Text(String.deleteQuestWarning.localized)
         }
-        .alert("Error", isPresented: .constant(viewModel.alertMessage != nil)) {
+        .alert(String(localized: "error"), isPresented: .constant(viewModel.alertMessage != nil)) {
             Button(String.okButton.localized) { viewModel.alertMessage = nil }
         } message: {
             if let alertMessage = viewModel.alertMessage {
@@ -203,7 +203,7 @@ struct QuestDetailTagsSection: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(theme.accentColor)
 
-                    Text("Tags")
+                    Text(String(localized: "tags"))
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -218,7 +218,7 @@ struct QuestDetailTagsSection: View {
                     HStack(spacing: 4) {
                         Image(systemName: quest.tags.isEmpty ? "plus.circle.fill" : "pencil.circle.fill")
                             .font(.system(size: 14, weight: .medium))
-                        Text(quest.tags.isEmpty ? "Add Tags" : "Edit")
+                        Text(quest.tags.isEmpty ? String(localized: "add_tags") : String(localized: "edit"))
                             .font(.appFont(size: 14, weight: .medium))
                     }
                     .foregroundColor(theme.accentColor)
@@ -243,7 +243,7 @@ struct QuestDetailTagsSection: View {
                         .font(.system(size: 24, weight: .light))
                         .foregroundColor(theme.textColor.opacity(0.3))
 
-                    Text("No tags assigned")
+                    Text(String(localized: "no_tags_assigned"))
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -288,25 +288,25 @@ struct QuestDetailTagsSection: View {
 #Preview {
     QuestDetailView(
         quest: Quest(
-            title: "Sample Quest",
+            title: String(localized: "sample_quest_title"),
             isMainQuest: true,
-            info: "This is a sample quest description that shows how the detail view looks with some content.",
+            info: String(localized: "sample_quest_description"),
             difficulty: 4,
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400 * 7),
             isActive: true,
             progress: 75,
             tasks: [
-                QuestTask(id: UUID(), title: "Task 1", isCompleted: true, order: 0),
-                QuestTask(id: UUID(), title: "Task 2", isCompleted: false, order: 1),
-                QuestTask(id: UUID(), title: "Task 3", isCompleted: true, order: 2)
+                QuestTask(id: UUID(), title: String(localized: "sample_task_1"), isCompleted: true, order: 0),
+                QuestTask(id: UUID(), title: String(localized: "sample_task_2"), isCompleted: false, order: 1),
+                QuestTask(id: UUID(), title: String(localized: "sample_task_3"), isCompleted: true, order: 2)
             ],
             repeatType: .weekly,
             completions: [Date(), Date().addingTimeInterval(-86400 * 7)],
             tags: [
-                Tag(name: "Work", icon: "briefcase", color: "#FF6B6B"),
-                Tag(name: "Personal", icon: "heart", color: "#4ECDC4"),
-                Tag(name: "Urgent", icon: "exclamationmark.triangle", color: "#FFB347")
+                Tag(name: String(localized: "work"), icon: "briefcase", color: "#FF6B6B"),
+                Tag(name: String(localized: "personal"), icon: "heart", color: "#4ECDC4"),
+                Tag(name: String(localized: "urgent"), icon: "exclamationmark.triangle", color: "#FFB347")
             ]
         ),
         date: Date(),

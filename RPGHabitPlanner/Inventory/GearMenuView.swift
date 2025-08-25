@@ -55,7 +55,7 @@ struct GearMenuView: View {
     private func headerView(theme: Theme) -> some View {
         VStack(spacing: 12) {
             HStack {
-                Button(String(localized: "close")) {
+                Button("close".localized) {
                     dismiss()
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -63,14 +63,14 @@ struct GearMenuView: View {
                 
                 Spacer()
                 
-                Text(gearCategory.rawValue)
+                Text(gearCategory.rawValue.localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
                 
                 Spacer()
                 
-                Button(String(localized: "shop")) {
+                Button("shop".localized) {
                     showShop = true
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -130,11 +130,11 @@ struct GearMenuView: View {
                     .foregroundColor(theme.textColor.opacity(0.3))
             }
             
-            Text(String(localized: "no_items_for_category").localized(with: gearCategory.rawValue.lowercased()))
+                            Text("no_items_for_category".localized.localized(with: gearCategory.rawValue.lowercased()))
                 .font(.appFont(size: 16, weight: .medium))
                 .foregroundColor(theme.textColor)
             
-            Text(String(localized: "visit_shop_to_get_items").localized(with: gearCategory.rawValue.lowercased()))
+                            Text("visit_shop_to_get_items".localized.localized(with: gearCategory.rawValue.lowercased()))
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -145,7 +145,7 @@ struct GearMenuView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "cart.fill")
                         .font(.system(size: 16))
-                    Text(String(localized: "go_to_shop"))
+                    Text("go_to_shop".localized)
                         .font(.appFont(size: 16, weight: .medium))
                 }
                 .foregroundColor(.white)
@@ -277,7 +277,7 @@ struct GearItemCard: View {
                 .padding(4)
                 
                 // Item name
-                Text(item.name ?? String(localized: "unknown"))
+                Text(item.name ?? "unknown".localized)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)
@@ -289,7 +289,7 @@ struct GearItemCard: View {
                         Circle()
                             .fill(rarity.uiColor)
                             .frame(width: 8, height: 8)
-                        Text(rarity.rawValue)
+                        Text(rarity.rawValue.localized)
                             .font(.appFont(size: 10))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
@@ -306,13 +306,13 @@ struct GearItemCard: View {
             }
         }
         .contextMenu {
-            Button(String(localized: "view_details")) {
+                                Button("view_details".localized) {
                 showItemDetail = true
-            }
+                                }
             
-            Button(String(localized: "equip")) {
+                            Button("equip".localized) {
                 onTap()
-            }
+                            }
             .disabled(isEquipped)
         }
     }

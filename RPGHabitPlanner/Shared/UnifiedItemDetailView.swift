@@ -58,12 +58,12 @@ struct UnifiedItemDetailView: View {
 
                 // Item details
                 VStack(spacing: 12) {
-                    Text(item.name ?? "Unknown")
+                    Text(item.name ?? String(localized: "unknown_item"))
                         .font(.appFont(size: 20, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
 
-                    Text(item.info ?? "No description available")
+                    Text(item.info ?? String(localized: "no_description_available"))
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .multilineTextAlignment(.center)
@@ -158,7 +158,7 @@ struct UnifiedItemDetailView: View {
                     dismiss()
                 } else {
                     // Handle error - could show an alert here
-                    print("Failed to use item: \(error?.localizedDescription ?? "Unknown error")")
+                    print("Failed to use item: \(error?.localizedDescription ?? String(localized: "unknown_error"))")
                 }
             }
         }

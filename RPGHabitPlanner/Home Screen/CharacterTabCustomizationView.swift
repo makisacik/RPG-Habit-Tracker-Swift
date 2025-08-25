@@ -58,7 +58,7 @@ struct CharacterTabCustomizationView: View {
     private func headerView(theme: Theme) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Button("Cancel") {
+                Button(String(localized: "cancel")) {
                     dismiss()
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -66,13 +66,13 @@ struct CharacterTabCustomizationView: View {
 
                 Spacer()
 
-                Text("Customize Character")
+                Text(String(localized: "customize_character"))
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                Button("Save") {
+                Button(String(localized: "save")) {
                     saveCustomization()
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -81,7 +81,7 @@ struct CharacterTabCustomizationView: View {
             }
             .padding(.horizontal)
 
-            Text("Customize your character's appearance")
+            Text(String(localized: "customize_your_character_appearance"))
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .multilineTextAlignment(.center)
@@ -143,7 +143,7 @@ struct CharacterTabCustomizationView: View {
                     }
                 }
 
-                Text("Preview")
+                Text(String(localized: "preview"))
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
             }
@@ -350,7 +350,7 @@ struct CharacterTabCustomizationView: View {
             HStack {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 18))
-                Text("Save Changes")
+                Text(String(localized: "save_changes"))
                     .font(.appFont(size: 16, weight: .medium))
             }
             .foregroundColor(.white)

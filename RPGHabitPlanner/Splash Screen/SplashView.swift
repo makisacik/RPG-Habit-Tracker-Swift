@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @State var show = false
-    let title = "RPG Your Life"
+    let title = String(localized: "app_title")
 
     private let colorsTuple: [(color: Color, delay: Double)] = [
         (Color(hex: "#E9EED9"), 0.0),

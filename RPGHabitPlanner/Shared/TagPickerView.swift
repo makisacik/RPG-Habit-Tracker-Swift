@@ -91,7 +91,7 @@ struct TagPickerView: View {
                     if !viewModel.selectedTags.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Selected Tags")
+                                Text(String(localized: "selected_tags"))
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
 
@@ -112,7 +112,7 @@ struct TagPickerView: View {
                                         viewModel.clearAllTags()
                                     }
                                 }) {
-                                    Text("Clear All")
+                                    Text(String(localized: "clear_all"))
                                         .font(.appFont(size: 14, weight: .medium))
                                         .foregroundColor(theme.accentColor)
                                 }
@@ -160,7 +160,7 @@ struct TagPickerView: View {
                     // Available tags section
                     VStack(alignment: .leading, spacing: 16) {
                         HStack {
-                            Text("Available Tags")
+                            Text(String(localized: "available_tags"))
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -188,11 +188,11 @@ struct TagPickerView: View {
                                     .scaleEffect(1.2)
 
                                 VStack(spacing: 8) {
-                                    Text("No tags found")
+                                    Text(String(localized: "no_tags_found"))
                                         .font(.appFont(size: 20, weight: .bold))
                                         .foregroundColor(theme.textColor)
 
-                                    Text("Try adjusting your search or create a new tag")
+                                    Text(String(localized: "try_adjusting_search_or_create_new_tag"))
                                         .font(.appFont(size: 16, weight: .regular))
                                         .foregroundColor(theme.textColor.opacity(0.7))
                                         .multilineTextAlignment(.center)
@@ -206,7 +206,7 @@ struct TagPickerView: View {
                                     HStack(spacing: 8) {
                                         Image(systemName: "plus.circle.fill")
                                             .font(.system(size: 16, weight: .medium))
-                                        Text("Create New Tag")
+                                        Text(String(localized: "create_new_tag"))
                                             .font(.appFont(size: 16, weight: .medium))
                                     }
                                     .foregroundColor(.white)
@@ -229,7 +229,7 @@ struct TagPickerView: View {
                                 ProgressView()
                                     .scaleEffect(1.5)
                                     .padding(.bottom, 10)
-                                Text("Loading tags...")
+                                Text(String(localized: "loading_tags"))
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
                             }
@@ -244,11 +244,11 @@ struct TagPickerView: View {
                                     .scaleEffect(1.2)
 
                                 VStack(spacing: 8) {
-                                    Text("No tags available")
+                                    Text(String(localized: "no_tags_available"))
                                         .font(.appFont(size: 20, weight: .bold))
                                         .foregroundColor(theme.textColor)
 
-                                    Text("Create your first tag to get started")
+                                    Text(String(localized: "create_first_tag_to_get_started"))
                                         .font(.appFont(size: 16, weight: .regular))
                                         .foregroundColor(theme.textColor.opacity(0.7))
                                         .multilineTextAlignment(.center)
@@ -262,7 +262,7 @@ struct TagPickerView: View {
                                     HStack(spacing: 8) {
                                         Image(systemName: "plus.circle.fill")
                                             .font(.system(size: 16, weight: .medium))
-                                        Text("Create Your First Tag")
+                                        Text(String(localized: "create_your_first_tag"))
                                             .font(.appFont(size: 16, weight: .medium))
                                     }
                                     .foregroundColor(.white)
@@ -310,7 +310,7 @@ struct TagPickerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Select Tags")
+                    Text(String(localized: "select_tags"))
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -324,7 +324,7 @@ struct TagPickerView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 16, weight: .medium))
-                            Text("Cancel")
+                            Text(String(localized: "cancel"))
                                 .font(.appFont(size: 16, weight: .medium))
                         }
                         .foregroundColor(theme.accentColor)
@@ -338,7 +338,7 @@ struct TagPickerView: View {
                             dismiss()
                         }
                     }) {
-                        Text("Done")
+                        Text(String(localized: "done"))
                             .font(.appFont(size: 16, weight: .bold))
                             .foregroundColor(viewModel.selectedTags.isEmpty ? theme.textColor.opacity(0.5) : theme.accentColor)
                     }

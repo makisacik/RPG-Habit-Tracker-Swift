@@ -10,13 +10,13 @@ import SwiftUI
 // MARK: - Inventory Categories
 
 enum InventoryCategory: String, CaseIterable {
-    case head = "Head"
-    case weapon = "Weapon"
-    case shield = "Shield"
-    case outfit = "Outfit"
-    case pet = "Pet"
-    case wings = "Wings"
-    case others = "Others"
+    case head = "head"
+    case weapon = "weapon"
+    case shield = "shield"
+    case outfit = "outfit"
+    case pet = "pet"
+    case wings = "wings"
+    case others = "others"
 
     var icon: String {
         switch self {
@@ -32,13 +32,13 @@ enum InventoryCategory: String, CaseIterable {
 
     var description: String {
         switch self {
-        case .head: return "Helmets and headgear"
-        case .weapon: return "Weapons and combat items"
-        case .shield: return "Shields and defensive gear"
-        case .outfit: return "Clothing and armor"
-        case .pet: return "Companion pets"
-        case .wings: return "Wings and flight items"
-        case .others: return "Boosters, potions, collectibles"
+        case .head: return String(localized: "inventory_category_head_description")
+        case .weapon: return String(localized: "inventory_category_weapon_description")
+        case .shield: return String(localized: "inventory_category_shield_description")
+        case .outfit: return String(localized: "inventory_category_outfit_description")
+        case .pet: return String(localized: "inventory_category_pet_description")
+        case .wings: return String(localized: "inventory_category_wings_description")
+        case .others: return String(localized: "inventory_category_others_description")
         }
     }
 }
@@ -69,7 +69,7 @@ struct CategorySelectorView: View {
                                     .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
                             }
 
-                            Text(category.rawValue)
+                            Text(category.rawValue.localized)
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
                         }
@@ -215,7 +215,7 @@ struct InventorySectionView: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                Text("Inventory")
+                Text(String(localized: "inventory"))
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -284,7 +284,7 @@ struct ItemsPreviewView: View {
                         .font(.system(size: 24))
                         .foregroundColor(theme.textColor.opacity(0.5))
                 }
-                Text("No \(category.rawValue.lowercased()) items")
+                Text(String(localized: "no_items_for_category").localized(with: category.rawValue.lowercased()))
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }

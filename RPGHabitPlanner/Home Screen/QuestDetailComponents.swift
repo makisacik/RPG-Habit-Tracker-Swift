@@ -194,7 +194,7 @@ struct QuestDetailDetailsSection: View {
         case .daily: return String.daily.localized
         case .weekly: return String.weekly.localized
         case .oneTime: return String.oneTime.localized
-        case .scheduled: return "Scheduled"
+        case .scheduled: return String(localized: "scheduled")
         }
     }
 
@@ -325,6 +325,7 @@ struct QuestDetailDamageHistorySection: View {
     @State private var totalDamage: Int = 0
     @State private var isLoading = true
     @State private var showFullDamageHistory = false
+    @State private var showDamageInfo = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -337,6 +338,15 @@ struct QuestDetailDamageHistorySection: View {
                     Text(String(localized: "damage_history"))
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
+                    
+                    Button(action: {
+                        showDamageInfo = true
+                    }) {
+                        Image(systemName: "info.circle")
+                            .font(.system(size: 16))
+                            .foregroundColor(theme.accentColor)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
 
                 Spacer()
@@ -442,6 +452,11 @@ struct QuestDetailDamageHistorySection: View {
                 questTitle: quest.title
             )
             .environmentObject(ThemeManager.shared)
+        }
+        .alert(String(localized: "damage_info_title"), isPresented: $showDamageInfo) {
+            Button("OK") { }
+        } message: {
+            Text(String(localized: "damage_info_message"))
         }
     }
     

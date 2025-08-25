@@ -149,7 +149,7 @@ struct EditQuestBasicInfoSection: View {
                 // Tags Field
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("Tags")
+                        Text(String(localized: "tags"))
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
 
@@ -184,7 +184,7 @@ struct EditQuestBasicInfoSection: View {
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.4))
 
-                            Text("No tags assigned")
+                            Text(String(localized: "no_tags_assigned"))
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor.opacity(0.6))
 
@@ -299,7 +299,7 @@ struct EditQuestSettingsSection: View {
                         Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
                         Text(String.daily.localized).tag(QuestRepeatType.daily)
                         Text(String.weekly.localized).tag(QuestRepeatType.weekly)
-                        Text("Scheduled").tag(QuestRepeatType.scheduled)
+                        Text(String(localized: "scheduled")).tag(QuestRepeatType.scheduled)
                     }
                     .pickerStyle(.segmented)
                     .padding(12)

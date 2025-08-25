@@ -72,7 +72,7 @@ extension CustomizationItemEntity {
 
     /// Gets the localized name for this customization item
     func getLocalizedName() -> String {
-        guard let assetName = self.assetName else { return "Unknown Item" }
+        guard let assetName = self.assetName else { return String(localized: "unknown_item") }
 
         // Try to find the asset in the CharacterAssetManager to get the current localized name
         if let asset = CharacterAssetManager.shared.getAsset(byName: assetName) {

@@ -96,7 +96,7 @@ struct DamageCalculationView: View {
                                 .font(.title3)
                         }
                         
-                        Text(isLoading ? "Calculating..." : "Calculate Damage")
+                        Text(isLoading ? String(localized: "calculating") : String(localized: "calculate_damage"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(.white)
@@ -148,16 +148,16 @@ struct DamageCalculationView: View {
                 
                 Spacer()
             }
-            .navigationTitle("Damage Calculator")
+            .navigationTitle(String(localized: "damage_calculator"))
             .navigationBarTitleDisplayMode(.inline)
             .background(theme.backgroundColor)
             .onAppear {
                 loadQuests()
             }
-            .alert("Damage Calculation Result", isPresented: $showResult) {
-                Button("OK") { }
+            .alert(String(localized: "damage_calculation_result"), isPresented: $showResult) {
+                Button(String(localized: "ok_button")) { }
             } message: {
-                Text(calculationResult ?? "Unknown result")
+                Text(calculationResult ?? String(localized: "unknown_result"))
             }
         }
     }
@@ -183,11 +183,11 @@ struct DamageCalculationView: View {
                 isLoading = false
                 
                 if let error = error {
-                    calculationResult = "Error: \(error.localizedDescription)"
+                    calculationResult = String(localized: "error_prefix") + error.localizedDescription
                 } else if totalDamage > 0 {
-                    calculationResult = "Applied \(totalDamage) damage to your health for missed quests."
+                    calculationResult = String(localized: "damage_applied_message").localized(with: totalDamage)
                 } else {
-                    calculationResult = "No damage calculated. All quests are up to date!"
+                    calculationResult = String(localized: "no_damage_calculated_message")
                 }
                 
                 showResult = true
@@ -275,12 +275,12 @@ struct QuestDamagePreviewRow: View {
         
         if dueDate < today {
             let days = calendar.dateComponents([.day], from: dueDate, to: today).day ?? 0
-            return "\(days) day(s) overdue"
+            return String(localized: "days_overdue").localized(with: days)
         } else if dueDate == today {
-            return "Due today"
+            return String(localized: "due_today")
         } else {
             let days = calendar.dateComponents([.day], from: today, to: dueDate).day ?? 0
-            return "\(days) day(s) left"
+            return String(localized: "days_left").localized(with: days)
         }
     }
     

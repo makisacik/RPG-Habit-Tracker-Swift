@@ -261,10 +261,10 @@ struct CreateTagView: View {
                     .disabled(viewModel.tagName.isEmpty || viewModel.isCreating)
                 }
             }
-            .alert("Error", isPresented: $viewModel.showError) {
-                Button("OK") { }
+            .alert(String(localized: "error"), isPresented: $viewModel.showError) {
+                Button(String(localized: "ok_button")) { }
             } message: {
-                Text(viewModel.errorMessage ?? "An error occurred")
+                Text(viewModel.errorMessage ?? String(localized: "an_error_occurred"))
             }
             .onAppear {
                 viewModel.reset()
@@ -283,16 +283,16 @@ struct IconPickerView: View {
     @Binding var selectedIcon: String
 
     private let iconCategories = [
-        ("General", ["tag", "bookmark", "star", "heart", "flag", "pin"]),
-        ("Work", ["briefcase", "folder", "doc.text", "calendar", "clock", "checkmark.circle"]),
-        ("Personal", ["person", "house", "car", "gamecontroller", "tv", "music.note"]),
-        ("Health", ["heart.fill", "cross", "pills", "bed.double", "figure.walk", "dumbbell"]),
-        ("Study", ["book", "pencil", "graduationcap", "brain", "lightbulb", "magnifyingglass"]),
-        ("Travel", ["airplane", "car.fill", "map", "location", "camera", "globe"]),
-        ("Food", ["fork.knife", "cup.and.saucer", "wineglass", "birthday.cake", "leaf", "drop"]),
-        ("Nature", ["leaf", "tree", "sun.max", "moon", "cloud", "snowflake"]),
-        ("Objects", ["gift", "shoppingbag", "creditcard", "key", "lock", "gear"]),
-        ("Emotions", ["face.smiling", "hand.thumbsup", "hand.thumbsdown", "exclamationmark.triangle", "questionmark.circle", "info.circle"])
+        (String(localized: "icon_category_general"), ["tag", "bookmark", "star", "heart", "flag", "pin"]),
+        (String(localized: "icon_category_work"), ["briefcase", "folder", "doc.text", "calendar", "clock", "checkmark.circle"]),
+        (String(localized: "icon_category_personal"), ["person", "house", "car", "gamecontroller", "tv", "music.note"]),
+        (String(localized: "icon_category_health"), ["heart.fill", "cross", "pills", "bed.double", "figure.walk", "dumbbell"]),
+        (String(localized: "icon_category_study"), ["book", "pencil", "graduationcap", "brain", "lightbulb", "magnifyingglass"]),
+        (String(localized: "icon_category_travel"), ["airplane", "car.fill", "map", "location", "camera", "globe"]),
+        (String(localized: "icon_category_food"), ["fork.knife", "cup.and.saucer", "wineglass", "birthday.cake", "leaf", "drop"]),
+        (String(localized: "icon_category_nature"), ["leaf", "tree", "sun.max", "moon", "cloud", "snowflake"]),
+        (String(localized: "icon_category_objects"), ["gift", "shoppingbag", "creditcard", "key", "lock", "gear"]),
+        (String(localized: "icon_category_emotions"), ["face.smiling", "hand.thumbsup", "hand.thumbsdown", "exclamationmark.triangle", "questionmark.circle", "info.circle"])
     ]
 
     var body: some View {
@@ -342,11 +342,11 @@ struct IconPickerView: View {
                     .padding(.vertical, 20)
                 }
             }
-            .navigationTitle("Choose Icon")
+            .navigationTitle(String(localized: "choose_icon"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(String(localized: "done_button")) {
                         dismiss()
                     }
                     .foregroundColor(theme.accentColor)

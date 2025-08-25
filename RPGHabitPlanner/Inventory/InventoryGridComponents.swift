@@ -96,7 +96,7 @@ struct InventoryGridItemView: View {
                 .frame(width: 52, height: 52)
 
                 // Item Name
-                Text(item.name ?? "Unknown")
+                Text(item.name ?? String(localized: "unknown_item"))
                     .font(.appFont(size: 10, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)

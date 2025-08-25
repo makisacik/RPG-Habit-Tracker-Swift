@@ -553,13 +553,13 @@ enum InventoryError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidItem:
-            return "Invalid item"
+            return String(localized: "inventory_error_invalid_item")
         case .itemNotFound:
-            return "Item not found in inventory"
+            return String(localized: "inventory_error_item_not_found")
         case .insufficientQuantity:
-            return "Not enough items"
+            return String(localized: "inventory_error_insufficient_quantity")
         case .itemNotUsable:
-            return "This item cannot be used"
+            return String(localized: "inventory_error_item_not_usable")
         }
     }
 }

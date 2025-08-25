@@ -14,7 +14,7 @@ final class NotificationManager {
 
     func scheduleQuestNotification(for quest: Quest) {
         let content = UNMutableNotificationContent()
-        content.title = "Traveller, don't forget your quest!"
+        content.title = String(localized: "quest_reminder_title")
         content.body = quest.title
         content.sound = .default
 

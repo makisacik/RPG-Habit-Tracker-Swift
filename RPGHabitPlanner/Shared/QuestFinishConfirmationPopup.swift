@@ -52,7 +52,7 @@ struct QuestFinishConfirmationPopup: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text("Quest Finished!")
+                    Text(String(localized: "quest_finished"))
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -83,7 +83,7 @@ struct QuestFinishConfirmationPopup: View {
                 // Action buttons
                 HStack(spacing: 16) {
                     Button(action: onCancel) {
-                        Text("Not Yet")
+                        Text(String(localized: "not_yet"))
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 24)
@@ -98,7 +98,7 @@ struct QuestFinishConfirmationPopup: View {
                         HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.white)
-                            Text("Finish Quest")
+                            Text(String(localized: "finish_quest"))
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         }
@@ -124,16 +124,16 @@ struct QuestFinishConfirmationPopup: View {
 
 #Preview {
     VStack(spacing: 20) {
-        Text("Quest Finish Confirmation Popup Examples")
+        Text(String(localized: "quest_finish_confirmation_popup_examples"))
             .font(.title2)
             .padding()
         
         // One-time quest example
         QuestFinishConfirmationPopup(
             quest: Quest(
-                title: "Sample One-Time Quest",
+                title: String(localized: "sample_one_time_quest_title"),
                 isMainQuest: true,
-                info: "This is a sample one-time quest description.",
+                info: String(localized: "sample_one_time_quest_description"),
                 difficulty: 3,
                 creationDate: Date(),
                 dueDate: Date().addingTimeInterval(86400),
@@ -149,9 +149,9 @@ struct QuestFinishConfirmationPopup: View {
         // Daily quest example
         QuestFinishConfirmationPopup(
             quest: Quest(
-                title: "Sample Daily Quest",
+                title: String(localized: "sample_daily_quest_title"),
                 isMainQuest: false,
-                info: "This is a sample daily quest description.",
+                info: String(localized: "sample_daily_quest_description"),
                 difficulty: 2,
                 creationDate: Date(),
                 dueDate: Date().addingTimeInterval(7 * 86400), // 7 days from now

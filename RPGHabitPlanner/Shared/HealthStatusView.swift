@@ -26,7 +26,7 @@ struct HealthStatusView: View {
                         value: healthManager.isLowHealth
                     )
 
-                Text("Health")
+                Text(String(localized: "health"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
 
@@ -136,17 +136,17 @@ struct HealthStatusView: View {
 
         switch percentage {
         case 0.0:
-            return "Dead"
+            return String(localized: "health_status_dead")
         case 0.0..<0.25:
-            return "Critical"
+            return String(localized: "health_status_critical")
         case 0.25..<0.5:
-            return "Injured"
+            return String(localized: "health_status_injured")
         case 0.5..<0.75:
-            return "Wounded"
+            return String(localized: "health_status_wounded")
         case 0.75..<1.0:
-            return "Healthy"
+            return String(localized: "health_status_healthy")
         default:
-            return "Full Health"
+            return String(localized: "health_status_full_health")
         }
     }
 }

@@ -32,8 +32,8 @@ struct AchievementDefinition: Identifiable, Codable {
         // Quest Achievements
         AchievementDefinition(
             id: "first_quest",
-            title: "First Steps",
-            description: "Complete your first quest",
+            title: String(localized: "achievement_first_steps"),
+            description: String(localized: "achievement_first_steps_description"),
             iconName: "flag.fill",
             category: .quests,
             requirement: .questCount(1),
@@ -41,8 +41,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "quest_master",
-            title: "Quest Master",
-            description: "Complete 50 quests",
+            title: String(localized: "achievement_quest_master"),
+            description: String(localized: "achievement_quest_master_description"),
             iconName: "crown.fill",
             category: .quests,
             requirement: .questCount(50),
@@ -50,8 +50,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "speed_runner",
-            title: "Speed Runner",
-            description: "Complete 3 quests in one day",
+            title: String(localized: "achievement_speed_runner"),
+            description: String(localized: "achievement_speed_runner_description"),
             iconName: "bolt.fill",
             category: .quests,
             requirement: .questsInDay(3),
@@ -59,8 +59,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "consistency",
-            title: "Consistency",
-            description: "Complete quests for 7 days in a row",
+            title: String(localized: "achievement_consistency"),
+            description: String(localized: "achievement_consistency_description"),
             iconName: "calendar.badge.clock",
             category: .quests,
             requirement: .consecutiveDays(7),
@@ -70,8 +70,8 @@ struct AchievementDefinition: Identifiable, Codable {
         // Level Achievements
         AchievementDefinition(
             id: "level_5",
-            title: "Level Up!",
-            description: "Reach level 5",
+            title: String(localized: "achievement_level_up"),
+            description: String(localized: "achievement_level_up_description"),
             iconName: "star.fill",
             category: .leveling,
             requirement: .level(5),
@@ -79,8 +79,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "level_20",
-            title: "Veteran",
-            description: "Reach level 20",
+            title: String(localized: "achievement_veteran"),
+            description: String(localized: "achievement_veteran_description"),
             iconName: "star.circle.fill",
             category: .leveling,
             requirement: .level(20),
@@ -88,8 +88,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "level_50",
-            title: "Legend",
-            description: "Reach level 50",
+            title: String(localized: "achievement_legend"),
+            description: String(localized: "achievement_legend_description"),
             iconName: "star.square.fill",
             category: .leveling,
             requirement: .level(50),
@@ -97,8 +97,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "exp_1000",
-            title: "Experience Hunter",
-            description: "Gain 1000 experience points",
+            title: String(localized: "achievement_experience_hunter"),
+            description: String(localized: "achievement_experience_hunter_description"),
             iconName: "sparkles",
             category: .leveling,
             requirement: .totalExperience(1000),
@@ -109,8 +109,8 @@ struct AchievementDefinition: Identifiable, Codable {
         // Special Achievements
         AchievementDefinition(
             id: "early_bird",
-            title: "Early Bird",
-            description: "Complete a quest before 8 AM",
+            title: String(localized: "achievement_early_bird"),
+            description: String(localized: "achievement_early_bird_description"),
             iconName: "sunrise.fill",
             category: .special,
             requirement: .questBeforeTime(8),
@@ -118,8 +118,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "night_owl",
-            title: "Night Owl",
-            description: "Complete a quest after 10 PM",
+            title: String(localized: "achievement_night_owl"),
+            description: String(localized: "achievement_night_owl_description"),
             iconName: "moon.fill",
             category: .special,
             requirement: .questAfterTime(22),
@@ -127,8 +127,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "weekend_warrior",
-            title: "Weekend Warrior",
-            description: "Complete 5 quests on a weekend",
+            title: String(localized: "achievement_weekend_warrior"),
+            description: String(localized: "achievement_weekend_warrior_description"),
             iconName: "calendar.badge.plus",
             category: .special,
             requirement: .weekendQuests(5),
@@ -136,8 +136,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "perfect_day",
-            title: "Perfect Day",
-            description: "Complete all daily quests",
+            title: String(localized: "achievement_perfect_day"),
+            description: String(localized: "achievement_perfect_day_description"),
             iconName: "checkmark.circle.fill",
             category: .special,
             requirement: .allDailyQuests,
@@ -171,11 +171,11 @@ enum AchievementType: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .quest: return "Quest"
-        case .leveling: return "Leveling"
-        case .focus: return "Focus"
-        case .battle: return "Battle"
-        case .special: return "Special"
+        case .quest: return String(localized: "achievement_type_quest")
+        case .leveling: return String(localized: "achievement_type_leveling")
+        case .focus: return String(localized: "achievement_type_focus")
+        case .battle: return String(localized: "achievement_type_battle")
+        case .special: return String(localized: "achievement_type_special")
         }
     }
 }
@@ -190,10 +190,10 @@ enum AchievementCategory: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .all: return "All"
-        case .quests: return "Quests"
-        case .leveling: return "Leveling"
-        case .special: return "Special"
+        case .all: return String(localized: "achievement_category_all")
+        case .quests: return String(localized: "achievement_category_quests")
+        case .leveling: return String(localized: "achievement_category_leveling")
+        case .special: return String(localized: "achievement_category_special")
         }
     }
 }

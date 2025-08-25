@@ -112,11 +112,11 @@ struct EditQuestView: View {
                     onSaveSuccess?()     // 🔧 let parent refresh
                     dismiss()            // close sheet
                 } else {
-                    showAlert(title: "Error", message: viewModel.errorMessage ?? "Failed to update quest.")
+                    showAlert(title: String(localized: "error"), message: viewModel.errorMessage ?? String(localized: "failed_to_update_quest"))
                 }
             }
         } else {
-            showAlert(title: "Warning", message: viewModel.errorMessage ?? "Please check your input.")
+            showAlert(title: String(localized: "warning"), message: viewModel.errorMessage ?? String(localized: "please_check_your_input"))
         }
     }
 
@@ -127,7 +127,7 @@ struct EditQuestView: View {
                 onDeleteSuccess?()  // tell parent to refresh
                 dismiss()
             } else {
-                showAlert(title: "Error", message: viewModel.errorMessage ?? "Failed to delete quest.")
+                showAlert(title: String(localized: "error"), message: viewModel.errorMessage ?? String(localized: "failed_to_delete_quest"))
             }
         }
     }

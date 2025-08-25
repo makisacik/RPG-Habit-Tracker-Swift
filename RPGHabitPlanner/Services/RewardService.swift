@@ -103,9 +103,9 @@ class RewardService {
     
     func showPreviewQuestReward() {
         let sampleQuest = Quest(
-            title: "Sample Quest",
+            title: String(localized: "sample_quest_title"),
             isMainQuest: true,
-            info: "A sample quest for testing",
+            info: String(localized: "sample_quest_description"),
             difficulty: 3,
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400),
@@ -119,9 +119,9 @@ class RewardService {
     
     func showPreviewTaskReward() {
         let sampleQuest = Quest(
-            title: "Sample Quest",
+            title: String(localized: "sample_quest_title"),
             isMainQuest: false,
-            info: "A sample quest for testing",
+            info: String(localized: "sample_quest_description"),
             difficulty: 2,
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400),
@@ -131,7 +131,7 @@ class RewardService {
         
         let sampleTask = QuestTask(
             id: UUID(),
-            title: "Sample Task",
+            title: String(localized: "sample_task_title"),
             isCompleted: true,
             order: 0
         )

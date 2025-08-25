@@ -84,15 +84,15 @@ enum ItemType: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .consumable:
-            return "Used once and consumed"
+            return String(localized: "item_type_consumable_description")
         case .accessory:
-            return "Cosmetic accessories for character customization"
+            return String(localized: "item_type_accessory_description")
         case .gear:
-            return "Equippable items with stats and rarities"
+            return String(localized: "item_type_gear_description")
         case .booster:
-            return "Provides temporary bonuses"
+            return String(localized: "item_type_booster_description")
         case .collectible:
-            return "Visual items for display and collection"
+            return String(localized: "item_type_collectible_description")
         }
     }
     
@@ -114,17 +114,17 @@ enum GearCategory: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .head:
-            return "Headgear and helmets"
+            return String(localized: "gear_category_head_description")
         case .outfit:
-            return "Body armor and clothing"
+            return String(localized: "gear_category_outfit_description")
         case .weapon:
-            return "Weapons and tools"
+            return String(localized: "gear_category_weapon_description")
         case .shield:
-            return "Shields and defensive gear"
+            return String(localized: "gear_category_shield_description")
         case .wings:
-            return "Wing accessories"
+            return String(localized: "gear_category_wings_description")
         case .pet:
-            return "Pet companions"
+            return String(localized: "gear_category_pet_description")
         }
     }
     
@@ -144,13 +144,13 @@ enum AccessoryCategory: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .earrings:
-            return "Ear accessories"
+            return String(localized: "accessory_category_earrings_description")
         case .eyeglasses:
-            return "Eye accessories"
+            return String(localized: "accessory_category_eyeglasses_description")
         case .lashes:
-            return "Eyelash accessories"
+            return String(localized: "accessory_category_lashes_description")
         case .clips:
-            return "Hair clips and flowers"
+            return String(localized: "accessory_category_clips_description")
         }
     }
     
@@ -372,35 +372,39 @@ struct ItemEffect: Equatable, Codable {
     let isPercentage: Bool
 
     enum EffectType: String, CaseIterable, Codable {
-        case attack = "Attack"
-        case defense = "Defense"
-        case health = "Health"
-        case focus = "Focus"
-        case experience = "Experience"
-        case luck = "Luck"
-        case speed = "Speed"
-        case criticalChance = "Critical Chance"
-        case criticalDamage = "Critical Damage"
-        case xpBoost = "XP Boost"
-        case coinBoost = "Coin Boost"
-        case healthRegeneration = "Health Regeneration"
-        case focusRegeneration = "Focus Regeneration"
+        case attack = "attack"
+        case defense = "defense"
+        case health = "health"
+        case focus = "focus"
+        case experience = "experience"
+        case luck = "luck"
+        case speed = "speed"
+        case criticalChance = "critical_chance"
+        case criticalDamage = "critical_damage"
+        case xpBoost = "xp_boost"
+        case coinBoost = "coin_boost"
+        case healthRegeneration = "health_regeneration"
+        case focusRegeneration = "focus_regeneration"
+
+        var localizedName: String {
+            return String(localized: String.LocalizationValue(self.rawValue))
+        }
 
         var description: String {
             switch self {
-            case .attack: return "Increases attack power"
-            case .defense: return "Increases defense"
-            case .health: return "Restores or increases health"
-            case .focus: return "Restores or increases focus"
-            case .experience: return "Grants experience points"
-            case .luck: return "Increases luck"
-            case .speed: return "Increases movement/action speed"
-            case .criticalChance: return "Increases critical hit chance"
-            case .criticalDamage: return "Increases critical hit damage"
-            case .xpBoost: return "Multiplies experience gain"
-            case .coinBoost: return "Multiplies coin gain"
-            case .healthRegeneration: return "Regenerates health over time"
-            case .focusRegeneration: return "Regenerates focus over time"
+            case .attack: return String(localized: "item_effect_attack_description")
+            case .defense: return String(localized: "item_effect_defense_description")
+            case .health: return String(localized: "item_effect_health_description")
+            case .focus: return String(localized: "item_effect_focus_description")
+            case .experience: return String(localized: "item_effect_experience_description")
+            case .luck: return String(localized: "item_effect_luck_description")
+            case .speed: return String(localized: "item_effect_speed_description")
+            case .criticalChance: return String(localized: "item_effect_critical_chance_description")
+            case .criticalDamage: return String(localized: "item_effect_critical_damage_description")
+            case .xpBoost: return String(localized: "item_effect_xp_boost_description")
+            case .coinBoost: return String(localized: "item_effect_coin_boost_description")
+            case .healthRegeneration: return String(localized: "item_effect_health_regeneration_description")
+            case .focusRegeneration: return String(localized: "item_effect_focus_regeneration_description")
             }
         }
 

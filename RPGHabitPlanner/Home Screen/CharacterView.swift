@@ -259,7 +259,7 @@ struct CharacterSectionView: View {
                         Button(action: {
                             showCustomizationModal = true
                         }) {
-                            Text("CUSTOMIZATION")
+                            Text(String(localized: "customization"))
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor)
                                 .padding(.horizontal, 16)

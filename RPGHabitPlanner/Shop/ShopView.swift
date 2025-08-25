@@ -90,7 +90,7 @@ struct ShopView: View {
                 )
             }
         }
-        .navigationTitle(String(localized: "shop"))
+        .navigationTitle("shop".localized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             setupInitialState()
@@ -107,8 +107,8 @@ struct ShopView: View {
         .onChange(of: viewModel.showOnlyAffordable) { _ in
             viewModel.updateCachedItems()
         }
-        .alert("Purchase", isPresented: $viewModel.showPurchaseAlert) {
-            Button("OK") { }
+        .alert("purchase".localized, isPresented: $viewModel.showPurchaseAlert) {
+            Button("ok_button".localized) { }
         } message: {
             Text(viewModel.purchaseAlertMessage)
         }

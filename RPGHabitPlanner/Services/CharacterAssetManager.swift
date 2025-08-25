@@ -31,21 +31,21 @@ public enum AssetCategory: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .bodyType: return "Body Type"
-        case .hairStyle: return "Hair Style"
-        case .hairBackStyle: return "Hair Back Style"
-        case .hairColor: return "Hair Color"
-        case .eyeColor: return "Eye Color"
-        case .outfit: return "Outfit"
-        case .weapon: return "Weapon"
-        case .accessory: return "Accessory"
-        case .head: return "Head"
-        case .headGear: return "Head Gear"
-        case .shield: return "Shield"
-        case .wings: return "Wings"
-        case .mustache: return "Mustache"
-        case .flower: return "Flower"
-        case .pet: return "Pet"
+        case .bodyType: return String(localized: "character_asset_body_type")
+        case .hairStyle: return String(localized: "character_asset_hair_style")
+        case .hairBackStyle: return String(localized: "character_asset_hair_back_style")
+        case .hairColor: return String(localized: "character_asset_hair_color")
+        case .eyeColor: return String(localized: "character_asset_eye_color")
+        case .outfit: return String(localized: "character_asset_outfit")
+        case .weapon: return String(localized: "character_asset_weapon")
+        case .accessory: return String(localized: "character_asset_accessory")
+        case .head: return String(localized: "character_asset_head")
+        case .headGear: return String(localized: "character_asset_head_gear")
+        case .shield: return String(localized: "character_asset_shield")
+        case .wings: return String(localized: "character_asset_wings")
+        case .mustache: return String(localized: "character_asset_mustache")
+        case .flower: return String(localized: "character_asset_flower")
+        case .pet: return String(localized: "character_asset_pet")
         }
     }
 
@@ -83,11 +83,11 @@ public enum AssetCategory: String, CaseIterable, Identifiable {
 // MARK: - Asset Rarity Enum
 
 public enum AssetRarity: String, CaseIterable, Identifiable {
-    case common = "Common"
-    case uncommon = "Uncommon"
-    case rare = "Rare"
-    case epic = "Epic"
-    case legendary = "Legendary"
+    case common = "common"
+    case uncommon = "uncommon"
+    case rare = "rare"
+    case epic = "epic"
+    case legendary = "legendary"
 
     public var id: String { rawValue }
 
