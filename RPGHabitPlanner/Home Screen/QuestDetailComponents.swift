@@ -143,15 +143,6 @@ struct QuestDetailDetailsSection: View {
                     theme: theme
                 )
 
-                if quest.isMainQuest {
-                    detailRow(
-                        icon: "crown.fill",
-                                        title: String.mainQuestLabel.localized,
-                value: String.yes.localized,
-                        theme: theme
-                    )
-                }
-
                 if let completionDate = quest.completionDate {
                     detailRow(
                         icon: "checkmark.circle.fill",

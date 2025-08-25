@@ -71,6 +71,21 @@ struct SettingsView: View {
                 NavigationLink(String(localized: "notifications")) { Text(String(localized: "notifications_settings")) }
                 NavigationLink(String(localized: "data_and_storage")) { Text(String(localized: "data_and_storage_settings")) }
             }
+
+            // TestFlight-only section for development features
+            if Bundle.main.isTestFlight {
+                Section("Development") {
+                    Button {
+                        addTestCurrency()
+                    } label: {
+                        HStack {
+                            Label("Add Test Currency", systemImage: "plus.circle.fill")
+                            Spacer()
+                        }
+                    }
+                    .foregroundColor(.orange)
+                }
+            }
         }
         .navigationTitle(String(localized: "settings"))
         .navigationBarTitleDisplayMode(.inline)
@@ -98,6 +113,23 @@ struct SettingsView: View {
     private func requestAppReview() {
         if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
             SKStoreReviewController.requestReview(in: scene)
+        }
+    }
+
+    private func addTestCurrency() {
+        CurrencyManager.shared.addCoins(5000) { error in
+            if let error = error {
+                print("❌ Failed to add coins: \(error.localizedDescription)")
+            } else {
+                print("✅ Successfully added 5000 coins")
+            }
+        }
+        CurrencyManager.shared.addGems(500) { error in
+            if let error = error {
+                print("❌ Failed to add gems: \(error.localizedDescription)")
+            } else {
+                print("✅ Successfully added 500 gems")
+            }
         }
     }
 }

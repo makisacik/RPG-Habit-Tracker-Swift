@@ -61,6 +61,12 @@
 "mark_as_finished" = "Mark as Finished";
 "finished" = "Finished";
 
+// MARK: - First Time Quest
+"first_quest_title" = "The First Step";
+"first_quest_description" = "Every hero's journey begins with a single step.";
+"first_quest_task_1" = "Add your first quest";
+"first_quest_task_2" = "Explore your character";
+
 // MARK: - Quest Filters
 "active_today" = "Active Today";
 "inactive_today" = "Inactive Today";
@@ -915,6 +921,7 @@
 "collectible_item_description" = "This is a collectible item for display purposes.";
 "item_details" = "Item Details";
 "use" = "Use";
+"equip" = "Equip";
 "failed_to_use_item" = "Failed to use item";
 "item_not_found_in_inventory" = "Item not found in inventory";
 "failed_to_equip_item" = "Failed to equip item";
@@ -1830,10 +1837,10 @@
 "quest_completion_is_finished_check_popup_examples" = "Quest Completion Is Finished Check Popup Examples";
 
 // MARK: - Quest Completion Messages
-"quest_completion_one_time_message" = "Is this quest finished? This one-time quest will be marked as completed for today.";
-"quest_completion_daily_message" = "Is this quest finished? This daily quest will be marked as completed for today.";
-"quest_completion_weekly_message" = "Is this quest finished? This weekly quest will be marked as completed for this week.";
-"quest_completion_scheduled_message" = "Is this quest finished? This scheduled quest will be marked as completed for today.";
+"quest_completion_one_time_message" = "Are you done with this quest? This one-time quest will be marked as finished.";
+"quest_completion_daily_message" = "Are you done with this quest? This daily quest will be marked as finished.";
+"quest_completion_weekly_message" = "Are you done with this quest? This weekly quest will be marked as finished.";
+"quest_completion_scheduled_message" = "Are you done with this quest? This scheduled quest will be marked as finished.";
 
 // MARK: - Quest Finish Messages
 "quest_finish_one_time_message" = "This is a one-time quest. Would you like to mark it as finished and receive your rewards?";

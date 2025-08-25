@@ -260,27 +260,47 @@ struct QuestsView: View {
 
     @ViewBuilder
     private func emptyStateView(theme: Theme) -> some View {
-        VStack(spacing: 8) {
-            Image(systemName: "list.bullet.clipboard")
-                .font(.system(size: 32))
-                .foregroundColor(theme.textColor.opacity(0.5))
+        VStack(spacing: 16) {
+            Spacer()
 
-            Text(String(localized: "no_quests_for_date").localized(with: dateFormatter.string(from: viewModel.selectedDate)))
-                .font(.appFont(size: 16))
-                .foregroundColor(theme.textColor.opacity(0.7))
+            VStack(spacing: 8) {
+                Image(systemName: "list.bullet.clipboard")
+                    .font(.system(size: 48))
+                    .foregroundColor(theme.textColor.opacity(0.3))
 
-            Button(String(localized: "create_quest")) {
-                showingQuestCreation = true
+                Text(String(localized: "no_quests_for_date").localized(with: dateFormatter.string(from: viewModel.selectedDate)))
+                    .font(.appFont(size: 16))
+                    .foregroundColor(theme.textColor.opacity(0.7))
             }
-            .font(.appFont(size: 14, weight: .medium))
-            .foregroundColor(.blue)
+
+            Spacer()
+
+            Button(action: { showingQuestCreation = true }) {
+                HStack {
+                    Spacer()
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(theme.textColor)
+                    Text(String(localized: "create_quest"))
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(theme.textColor)
+                    Spacer()
+                }
+                .padding()
+                .background(
+                    Image(theme.buttonPrimary)
+                        .resizable(
+                            capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                            resizingMode: .stretch
+                        )
+                )
+                .frame(maxWidth: .infinity, minHeight: 44, maxHeight: 44)
+            }
+            .buttonStyle(PlainButtonStyle())
+
+            Spacer()
         }
-        .frame(height: 100)
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(theme.primaryColor.opacity(0.5))
-        )
+        .padding(.top, 8)
     }
 
     // MARK: - Helper Methods

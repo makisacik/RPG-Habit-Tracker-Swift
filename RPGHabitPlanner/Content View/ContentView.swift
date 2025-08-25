@@ -55,6 +55,17 @@ struct ContentView: View {
             userManager.fetchUser { user, _ in
                 DispatchQueue.main.async {
                     self.isCharacterCreated = (user != nil)
+
+                    // If user exists but first quest hasn't been created, create it
+                    if user != nil && !FirstTimeQuestService.shared.hasFirstQuestBeenCreated {
+                        FirstTimeQuestService.shared.createFirstQuest(questDataService: questDataService) { error in
+                            if let error = error {
+                                print("❌ Error creating first quest: \(error)")
+                            } else {
+                                print("✅ First quest created successfully for existing user")
+                            }
+                        }
+                    }
                 }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -65,6 +76,18 @@ struct ContentView: View {
         }
         .onChange(of: colorScheme) { newScheme in
             themeManager.applyTheme(using: newScheme)
+        }
+        .onChange(of: isCharacterCreated) { characterCreated in
+            if characterCreated {
+                // Create first quest for new users
+                FirstTimeQuestService.shared.createFirstQuest(questDataService: questDataService) { error in
+                    if let error = error {
+                        print("❌ Error creating first quest: \(error)")
+                    } else {
+                        print("✅ First quest created successfully")
+                    }
+                }
+            }
         }
     }
 }

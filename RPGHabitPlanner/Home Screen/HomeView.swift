@@ -135,27 +135,7 @@ struct HomeView: View {
                 .navigationTitle(String(localized: "adventure_hub"))
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar(content: homeToolbarContent)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(String(localized: "add_currency")) {
-                            CurrencyManager.shared.addCoins(5000) { error in
-                                if let error = error {
-                                    print("❌ Failed to add coins: \(error.localizedDescription)")
-                                } else {
-                                    print("✅ Successfully added 5000 coins")
-                                }
-                            }
-                            CurrencyManager.shared.addGems(500) { error in
-                                if let error = error {
-                                    print("❌ Failed to add gems: \(error.localizedDescription)")
-                                } else {
-                                    print("✅ Successfully added 500 gems")
-                                }
-                            }
-                        }
-                        .font(.caption)
-                    }
-                }
+
                 .navigationDestination(isPresented: $goToSettings) {
                     SettingsView()
                         .environmentObject(themeManager)
