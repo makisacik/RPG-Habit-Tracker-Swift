@@ -68,6 +68,10 @@ final class ThemeManager: ObservableObject {
             currentTheme = saved
             // Apply the saved theme immediately
             setTheme(saved)
+        } else {
+            // Default to dark mode for new users
+            currentTheme = .dark
+            setTheme(.dark)
         }
     }
 }

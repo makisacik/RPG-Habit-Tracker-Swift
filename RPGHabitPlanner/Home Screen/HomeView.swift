@@ -1,5 +1,6 @@
 import SwiftUI
 import WidgetKit
+import StoreKit
 
 struct HomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -256,6 +257,14 @@ struct HomeView: View {
                             .tabItem { Label(String(localized: "quests"), systemImage: "list.bullet.clipboard.fill") }
             .tag(HomeTab.tracking)
 
+            // MARK: Calendar
+            NavigationStack {
+                CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
+                    .environmentObject(themeManager)
+            }
+                            .tabItem { Label(String(localized: "calendar"), systemImage: "calendar") }
+            .tag(HomeTab.calendar)
+
             // MARK: Character
             NavigationStack {
                 if let user = viewModel.user {
@@ -276,14 +285,6 @@ struct HomeView: View {
             }
                             .tabItem { Label(String(localized: "shop"), systemImage: "cart.fill") }
             .tag(HomeTab.shop)
-
-            // MARK: Calendar
-            NavigationStack {
-                CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
-                    .environmentObject(themeManager)
-            }
-                            .tabItem { Label(String(localized: "calendar"), systemImage: "calendar") }
-            .tag(HomeTab.calendar)
         }
         .accentColor(.red)
         .sheet(isPresented: $showAchievements) {
@@ -316,24 +317,13 @@ struct HomeView: View {
     private func homeToolbarContent() -> some ToolbarContent {
         let theme = themeManager.activeTheme
 
-        ToolbarItem(placement: .primaryAction) {
-            Button { selectedTab = .calendar } label: {
-                Image(systemName: "calendar")
-                    .font(.title2)
-                    .foregroundColor(theme.textColor)
-            }
-        }
-
         ToolbarItem(placement: .cancellationAction) {
             Menu {
-                Button { showFocusTimer = true } label: {
-                    Label(String(localized: "focus_timer"), systemImage: "timer")
-                }
                 Button { goToSettings = true } label: {
                     Label(String(localized: "settings"), systemImage: "gearshape.fill")
                 }
-                Button { /* TODO: About */ } label: {
-                    Label(String(localized: "about"), systemImage: "info.circle.fill")
+                Button { requestAppReview() } label: {
+                    Label(String(localized: "add_a_review"), systemImage: "star.fill")
                 }
             } label: {
                 Image(systemName: "line.3.horizontal")
@@ -354,6 +344,12 @@ struct HomeView: View {
                     .font(.title2)
                     .foregroundColor(theme.textColor)
             }
+        }
+    }
+    
+    private func requestAppReview() {
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: scene)
         }
     }
 }

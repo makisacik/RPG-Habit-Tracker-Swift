@@ -185,6 +185,8 @@
 "version" = "Sürüm";
 "privacy_policy" = "Gizlilik Politikası";
 "terms_of_service" = "Kullanım Koşulları";
+"support" = "Destek";
+"add_a_review" = "Değerlendirme Ekle";
 
 // MARK: - Themes
 "theme_classic" = "Klasik";

@@ -34,7 +34,7 @@ class LocalizationManager: ObservableObject {
     // MARK: - Available Languages
     enum Language: String, CaseIterable, Identifiable {
         case english = "en"
-        case turkish = "tr"
+        // case turkish = "tr"  // Temporarily disabled
 
         var id: String { rawValue }
 
@@ -42,8 +42,8 @@ class LocalizationManager: ObservableObject {
             switch self {
             case .english:
                 return String(localized: "language_english")
-            case .turkish:
-                return String(localized: "language_turkish")
+            // case .turkish:
+            //     return String(localized: "language_turkish")
             }
         }
 
@@ -51,8 +51,8 @@ class LocalizationManager: ObservableObject {
             switch self {
             case .english:
                 return "🇺🇸"
-            case .turkish:
-                return "🇹🇷"
+            // case .turkish:
+            //     return "🇹🇷"
             }
         }
 
@@ -60,29 +60,16 @@ class LocalizationManager: ObservableObject {
             switch self {
             case .english:
                 return Locale(identifier: "en_US")
-            case .turkish:
-                return Locale(identifier: "tr_TR")
+            // case .turkish:
+            //     return Locale(identifier: "tr_TR")
             }
         }
     }
 
     // MARK: - Initialization
     private init() {
-        // Determine the initial language
-        let initialLanguage: Language
-        if let savedLanguage = UserDefaults.standard.string(forKey: "selectedLanguage"),
-           let language = Language(rawValue: savedLanguage) {
-            // User has previously selected a language
-            initialLanguage = language
-        } else {
-            // First time: use phone's language if supported, otherwise English
-            let systemLanguage = Locale.current.language.languageCode?.identifier ?? "en"
-            if let supportedLanguage = Language(rawValue: systemLanguage) {
-                initialLanguage = supportedLanguage
-            } else {
-                initialLanguage = .english
-            }
-        }
+        // Always default to English for now
+        let initialLanguage: Language = .english
 
         // Initialize stored properties
         self.currentLanguage = initialLanguage

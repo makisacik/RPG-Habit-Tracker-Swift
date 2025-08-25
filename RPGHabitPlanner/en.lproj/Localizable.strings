@@ -186,6 +186,8 @@
 "version" = "Version";
 "privacy_policy" = "Privacy Policy";
 "terms_of_service" = "Terms of Service";
+"support" = "Support";
+"add_a_review" = "Add a Review";
 
 // MARK: - Themes
 "theme_classic" = "Classic";

@@ -133,16 +133,6 @@ extension HomeView {
                 }
 
                 QuickActionCard(
-                    icon: "timer",
-                    title: String(localized: "focus_timer"),
-                    subtitle: String(localized: "battle_distractions"),
-                    color: .red,
-                    theme: theme
-                ) {
-                    selectedTab = .focusTimer
-                }
-
-                QuickActionCard(
                     icon: "cart.fill",
                     title: String(localized: "shop"),
                     subtitle: String(localized: "buy_items_with_coins"),

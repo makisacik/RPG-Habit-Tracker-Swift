@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct SettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var localizationManager: LocalizationManager
+    // @EnvironmentObject var localizationManager: LocalizationManager  // Temporarily disabled
     @Environment(\.colorScheme) private var systemScheme
 
     @State private var isDark = false
-    @State private var showLanguageSettings = false
+    // @State private var showLanguageSettings = false  // Temporarily disabled
 
     var body: some View {
         List {
@@ -49,32 +50,26 @@ struct SettingsView: View {
             }
 
             Section(String(localized: "general")) {
-                // Language Setting
-                Button {
-                    showLanguageSettings = true
-                } label: {
-                    HStack {
-                        Label(String(localized: "language"), systemImage: "globe")
-                        Spacer()
-                        HStack(spacing: 4) {
-                            Text(localizationManager.currentLanguage.flag)
-                            Text(localizationManager.currentLanguage.displayName)
-                                .foregroundStyle(.secondary)
-                        }
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-
+                // Language Setting - Temporarily disabled
+                // Button {
+                //     showLanguageSettings = true
+                // } label: {
+                //     HStack {
+                //         Label(String(localized: "language"), systemImage: "globe")
+                //         Spacer()
+                //         HStack(spacing: 4) {
+                //             Text(localizationManager.currentLanguage.flag)
+                //             Text(localizationManager.currentLanguage.displayName)
+                //                 .foregroundStyle(.secondary)
+                //         }
+                //         Image(systemName: "chevron.right")
+                //             .font(.caption)
+                //             .foregroundStyle(.secondary)
+                //     }
+                // }
 
                 NavigationLink(String(localized: "notifications")) { Text(String(localized: "notifications_settings")) }
                 NavigationLink(String(localized: "data_and_storage")) { Text(String(localized: "data_and_storage_settings")) }
-            }
-
-
-            Section(String(localized: "about")) {
-                NavigationLink(String(localized: "about_app")) { Text(String(localized: "version_info")) }
             }
         }
         .navigationTitle(String(localized: "settings"))
@@ -92,10 +87,17 @@ struct SettingsView: View {
                 isDark = (systemScheme == .dark)
             }
         }
-        .sheet(isPresented: $showLanguageSettings) {
-            LanguageSettingsView()
-                .environmentObject(themeManager)
-                .environmentObject(localizationManager)
+        // Language settings sheet - Temporarily disabled
+        // .sheet(isPresented: $showLanguageSettings) {
+        //     LanguageSettingsView()
+        //         .environmentObject(themeManager)
+        //         .environmentObject(localizationManager)
+        // }
+    }
+
+    private func requestAppReview() {
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: scene)
         }
     }
 }
