@@ -13,7 +13,6 @@ struct CharacterView: View {
     @StateObject private var inventoryManager = InventoryManager.shared
     @StateObject private var boosterManager = BoosterManager.shared
     @State private var refreshTrigger = false
-    @State private var showShop = false
     @State private var showCustomizationModal = false
     @State private var characterCustomization: CharacterCustomization?
     let user: UserEntity
@@ -54,19 +53,10 @@ struct CharacterView: View {
                             boosterManager: boosterManager,
                             theme: theme
                         )
-
-                        // Shop Button
-                        ShopButtonView(showShop: $showShop, theme: theme)
                     }
                     .padding(.horizontal)
                 }
                 .padding(.vertical)
-            }
-        }
-        .sheet(isPresented: $showShop) {
-            NavigationStack {
-                ShopView(initialCategory: nil, initialArmorSubcategory: nil)
-                    .environmentObject(themeManager)
             }
         }
         .sheet(isPresented: $showCustomizationModal) {
@@ -276,7 +266,7 @@ struct CharacterSectionView: View {
                 VStack(spacing: 16) {
                     EquipmentSlotView(
                         slotType: "WEAPON",
-                        iconName: "sword",
+                        iconName: "icon_sword",
                         isEquipped: gearManager.getEquippedItem(for: .weapon) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .weapon),
                         theme: theme
@@ -290,7 +280,7 @@ struct CharacterSectionView: View {
 
                     EquipmentSlotView(
                         slotType: "SHIELD",
-                        iconName: "shield",
+                        iconName: "icon_shield",
                         isEquipped: gearManager.getEquippedItem(for: .shield) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .shield),
                         theme: theme
@@ -354,4 +344,5 @@ struct CharacterSectionView: View {
 // MARK: - Notification Names
 extension Notification.Name {
     static let characterCustomizationUpdated = Notification.Name("characterCustomizationUpdated")
+    static let navigateToShopTab = Notification.Name("navigateToShopTab")
 }

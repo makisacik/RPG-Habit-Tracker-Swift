@@ -67,14 +67,7 @@ struct GearMenuView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
-                
                 Spacer()
-                
-                Button("shop".localized) {
-                    showShop = true
-                }
-                .font(.appFont(size: 16, weight: .medium))
-                .foregroundColor(theme.textColor)
             }
             
             Text(gearCategory.description)

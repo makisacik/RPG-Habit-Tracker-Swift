@@ -200,32 +200,3 @@ struct CompactBoostersSectionView: View {
         }
     }
 }
-
-// MARK: - Shop Button View
-struct ShopButtonView: View {
-    @Binding var showShop: Bool
-    let theme: Theme
-
-    var body: some View {
-        Button(action: {
-            showShop = true
-        }) {
-            HStack(spacing: 8) {
-                Image(systemName: "cart.fill")
-                    .font(.system(size: 16))
-                Text(String(localized: "visit_shop"))
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(theme.accentColor)
-            }
-            .foregroundColor(.white)
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(theme.primaryColor)
-                    .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}

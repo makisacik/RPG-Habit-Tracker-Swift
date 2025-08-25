@@ -55,7 +55,7 @@ struct ItemDetailSheet: View {
                     .padding()
                 }
             }
-            .navigationTitle(String(localized: "item_details"))
+            .navigationTitle("item_details".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -67,7 +67,7 @@ struct ItemDetailSheet: View {
 
                 if canUseItem {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(String(localized: "use")) {
+                        Button("use".localized) {
                             Task {
                                 await useItem()
                             }
@@ -79,7 +79,7 @@ struct ItemDetailSheet: View {
 
                 if canEquipItem {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(String(localized: "equip")) {
+                        Button("equip".localized) {
                             Task {
                                 await equipItem()
                             }

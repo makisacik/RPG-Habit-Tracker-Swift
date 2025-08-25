@@ -149,7 +149,7 @@ extension HomeView {
                     color: .yellow,
                     theme: theme
                 ) {
-                    selectedTab = .character
+                    selectedTab = .shop
                 }
             }
         }

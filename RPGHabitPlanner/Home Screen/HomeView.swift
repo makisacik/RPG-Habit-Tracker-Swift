@@ -254,6 +254,14 @@ struct HomeView: View {
                             .tabItem { Label(String(localized: "character"), systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
+            // MARK: Shop
+            NavigationStack {
+                ShopView()
+                    .environmentObject(themeManager)
+            }
+                            .tabItem { Label(String(localized: "shop"), systemImage: "cart.fill") }
+            .tag(HomeTab.shop)
+
             // MARK: Calendar
             NavigationStack {
                 CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))

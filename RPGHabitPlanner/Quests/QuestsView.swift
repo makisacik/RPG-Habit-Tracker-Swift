@@ -31,131 +31,130 @@ struct QuestsView: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-
+        
+        mainContent(theme: theme)
+            .navigationTitle(String.questJournal.localized)
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showingQuestCreation, onDismiss: {
+                viewModel.fetchQuests()
+            }) {
+                NavigationStack {
+                    QuestCreationView(viewModel: createQuestCreationViewModel())
+                }
+            }
+            .sheet(item: $selectedQuestItem) { questItem in
+                NavigationStack {
+                    QuestDetailView(
+                        quest: questItem.quest,
+                        date: questItem.date,
+                        questDataService: questDataService
+                    )
+                    .environmentObject(themeManager)
+                }
+            }
+            .onChange(of: viewModel.alertMessage) { alertMessage in
+                showAlert = alertMessage != nil
+            }
+            .onChange(of: viewModel.questCompleted) { completed in
+                handleQuestCompletion(completed)
+            }
+            .onChange(of: showReward) { visible in
+                handleRewardVisibilityChange(visible)
+            }
+            .alert(isPresented: $showAlert) {
+                createAlert()
+            }
+            .onAppear {
+                viewModel.refreshQuestData()
+            }
+    }
+    
+    // MARK: - Main Content
+    
+    @ViewBuilder
+    private func mainContent(theme: Theme) -> some View {
         ZStack {
             theme.backgroundColor.ignoresSafeArea()
-
+            
             VStack(spacing: 0) {
-                // Header with date selection
-                VStack(spacing: 16) {
-                    HStack {
-                        Text(String(localized: "my_quests"))
-                            .font(.appFont(size: 24, weight: .bold))
-                            .foregroundColor(theme.textColor)
-
-                        Spacer()
-
-                        // Date navigation
-                        dateNavigationView(theme: theme)
-                    }
-
-                    // Quest count summary
-                    questCountSummary(theme: theme)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-
-                // Quests list
-                ScrollView {
-                    VStack(spacing: 0) {
-                        if viewModel.isLoading && viewModel.allQuests.isEmpty {
-                            loadingView(theme: theme)
-                        } else if !viewModel.itemsForSelectedDate.isEmpty {
-                            questsListContent(theme: theme)
-                        } else {
-                            emptyStateView(theme: theme)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-                }
+                headerSection(theme: theme)
+                questsListSection(theme: theme)
             }
-
-            // Reward and level-up overlays
-            if let quest = completedQuest, showReward {
-                RewardView(isVisible: $showReward, quest: quest)
-                    .id("reward-\(quest.id)")
-                    .zIndex(50)
-            }
-            LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
-                .zIndex(50)
-
-            // Quest finish confirmation popup
-            if viewModel.showFinishConfirmation, let quest = viewModel.questToFinish {
-                QuestFinishConfirmationPopup(
-                    quest: quest,
-                    onConfirm: {
-                        viewModel.markQuestAsFinished(questId: quest.id)
-                        viewModel.showFinishConfirmation = false
-                        viewModel.questToFinish = nil
-                    },
-                    onCancel: {
-                        viewModel.showFinishConfirmation = false
-                        viewModel.questToFinish = nil
-                    }
-                )
-                .zIndex(60)
-            }
-
-            // Reward Toast Container
-            RewardToastContainerView()
-                .zIndex(70)
-        }
-        .navigationTitle(String.questJournal.localized)
-        .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showingQuestCreation, onDismiss: {
-            viewModel.fetchQuests()
-        }) {
-            NavigationStack {
-                QuestCreationView(viewModel: createQuestCreationViewModel())
-            }
-        }
-        .sheet(item: $selectedQuestItem) { questItem in
-            NavigationStack {
-                QuestDetailView(
-                    quest: questItem.quest,
-                    date: questItem.date,
-                    questDataService: questDataService
-                )
-                .environmentObject(themeManager)
-            }
-        }
-        .onChange(of: viewModel.alertMessage) { alertMessage in
-            showAlert = alertMessage != nil
-        }
-        .onChange(of: viewModel.questCompleted) { completed in
-            if completed && !showReward {
-                if let quest = viewModel.lastCompletedQuest {
-                    completedQuest = quest
-                } else if let id = viewModel.lastCompletedQuestId,
-                          let quest = viewModel.allQuests.first(where: { $0.id == id }) {
-                    completedQuest = quest
-                }
-                showReward = (completedQuest != nil)
-                // Reset flag so we don't re-trigger when list refreshes
-                viewModel.questCompleted = false
-            }
-        }
-        .onChange(of: showReward) { visible in
-            if !visible, viewModel.didLevelUp, let lvl = viewModel.newLevel {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    levelUpLevel = Int(lvl)
-                    showLevelUp = true
-                }
-            }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text(String.errorTitle.localized).font(.appFont(size: 16, weight: .black)),
-                message: Text(viewModel.alertMessage ?? String.unknownError.localized).font(.appFont(size: 14)),
-                dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black))) { viewModel.alertMessage = nil }
-            )
-        }
-        .onAppear {
-            viewModel.refreshQuestData()
+            
+            overlaysSection(theme: theme)
         }
     }
+    
+    @ViewBuilder
+    private func headerSection(theme: Theme) -> some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("my_quests".localized)
+                    .font(.appFont(size: 24, weight: .bold))
+                    .foregroundColor(theme.textColor)
 
+                Spacer()
+
+                dateNavigationView(theme: theme)
+            }
+
+            questCountSummary(theme: theme)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 10)
+    }
+    
+    @ViewBuilder
+    private func questsListSection(theme: Theme) -> some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                if viewModel.isLoading && viewModel.allQuests.isEmpty {
+                    loadingView(theme: theme)
+                } else if !viewModel.itemsForSelectedDate.isEmpty {
+                    questsListContent(theme: theme)
+                } else {
+                    emptyStateView(theme: theme)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+        }
+    }
+    
+    @ViewBuilder
+    private func overlaysSection(theme: Theme) -> some View {
+        // Reward and level-up overlays
+        if let quest = completedQuest, showReward {
+            RewardView(isVisible: $showReward, quest: quest)
+                .id("reward-\(quest.id)")
+                .zIndex(50)
+        }
+        
+        LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
+            .zIndex(50)
+
+        // Quest finish confirmation popup
+        if viewModel.showFinishConfirmation, let quest = viewModel.questToFinish {
+            QuestFinishConfirmationPopup(
+                quest: quest,
+                onConfirm: {
+                    viewModel.markQuestAsFinished(questId: quest.id)
+                    viewModel.showFinishConfirmation = false
+                    viewModel.questToFinish = nil
+                },
+                onCancel: {
+                    viewModel.showFinishConfirmation = false
+                    viewModel.questToFinish = nil
+                }
+            )
+            .zIndex(60)
+        }
+
+        // Reward Toast Container
+        RewardToastContainerView()
+            .zIndex(70)
+    }
+    
     // MARK: - Helper Views
 
     @ViewBuilder
@@ -276,6 +275,39 @@ struct QuestsView: View {
     }
 
     // MARK: - Helper Methods
+    
+    private func handleQuestCompletion(_ completed: Bool) {
+        if completed && !showReward {
+            if let quest = viewModel.lastCompletedQuest {
+                completedQuest = quest
+            } else if let id = viewModel.lastCompletedQuestId,
+                      let quest = viewModel.allQuests.first(where: { $0.id == id }) {
+                completedQuest = quest
+            }
+            showReward = (completedQuest != nil)
+            // Reset flag so we don't re-trigger when list refreshes
+            viewModel.questCompleted = false
+        }
+    }
+    
+    private func handleRewardVisibilityChange(_ visible: Bool) {
+        if !visible, viewModel.didLevelUp, let lvl = viewModel.newLevel {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                levelUpLevel = Int(lvl)
+                showLevelUp = true
+            }
+        }
+    }
+    
+    private func createAlert() -> Alert {
+        Alert(
+            title: Text(String.errorTitle.localized).font(.appFont(size: 16, weight: .black)),
+            message: Text(viewModel.alertMessage ?? String.unknownError.localized).font(.appFont(size: 14)),
+            dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black))) {
+                viewModel.alertMessage = nil
+            }
+        )
+    }
 
     private func createQuestCreationViewModel() -> QuestCreationViewModel {
         let creationVM = QuestCreationViewModel(questDataService: questDataService)
