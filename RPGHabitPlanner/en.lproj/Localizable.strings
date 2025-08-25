@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   RPGHabitPlanner
   
@@ -836,7 +836,7 @@
 // MARK: - Shop Categories
 "shop_category_weapons_description" = "A powerful weapon for combat";
 "shop_category_armor_description" = "Protective gear for your adventures";
-
+"shop_category_accessories_description" = "Stylish accessories to enhance your character";
 "shop_category_wings_description" = "Magical wings for your character";
 "shop_category_pets_description" = "A loyal companion for your adventures";
 "shop_category_consumables_description" = "Consumable items for your journey";
@@ -913,7 +913,6 @@
 "collectible_item_description" = "This is a collectible item for display purposes.";
 "item_details" = "Item Details";
 "use" = "Use";
-"equip" = "Equip";
 "failed_to_use_item" = "Failed to use item";
 "item_not_found_in_inventory" = "Item not found in inventory";
 "failed_to_equip_item" = "Failed to equip item";
@@ -1343,6 +1342,7 @@
 "shield" = "Shield";
 "potions" = "Potions";
 "boosts" = "Boosts";
+"specials" = "Specials";
 
 // MARK: - Shop Items
 "icon_gold" = "Gold";
@@ -1408,7 +1408,6 @@
 // MARK: - Character Customization Categories
 "skin_color" = "Skin Color";
 "hairstyle" = "Hairstyle";
-"hair_color" = "Hair Color";
 "hair_back_style" = "Hair Back Style";
 "eye_color" = "Eye Color";
 "outfit" = "Outfit";
