@@ -1,5 +1,5 @@
 //
-//  QuestCompletionCheckPopup.swift
+//  QuestCompletionIsFinishedCheckPopup.swift
 //  RPGHabitPlanner
 //
 //  Created by Mehmet Ali Kısacık on 7.01.2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct QuestCompletionCheckPopup: View {
+struct QuestCompletionIsFinishedCheckPopup: View {
     let quest: Quest
     let onConfirm: () -> Void
     let onCancel: () -> Void
@@ -55,22 +55,6 @@ struct QuestCompletionCheckPopup: View {
                     Text("Is this quest finished?")
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
-                }
-                
-                // Quest details
-                VStack(spacing: 8) {
-                    Text(quest.title)
-                        .font(.appFont(size: 16, weight: .medium))
-                        .foregroundColor(theme.textColor)
-                        .multilineTextAlignment(.center)
-                    
-                    if !quest.info.isEmpty {
-                        Text(quest.info)
-                            .font(.appFont(size: 14))
-                            .foregroundColor(theme.textColor.opacity(0.7))
-                            .multilineTextAlignment(.center)
-                            .lineLimit(3)
-                    }
                 }
                 
                 // Completion check message
@@ -124,12 +108,12 @@ struct QuestCompletionCheckPopup: View {
 
 #Preview {
     VStack(spacing: 20) {
-        Text("Quest Completion Check Popup Examples")
+        Text("Quest Completion Is Finished Check Popup Examples")
             .font(.title2)
             .padding()
         
         // One-time quest example
-        QuestCompletionCheckPopup(
+        QuestCompletionIsFinishedCheckPopup(
             quest: Quest(
                 title: "Sample One-Time Quest",
                 isMainQuest: true,
@@ -147,7 +131,7 @@ struct QuestCompletionCheckPopup: View {
         .environmentObject(ThemeManager.shared)
         
         // Daily quest example
-        QuestCompletionCheckPopup(
+        QuestCompletionIsFinishedCheckPopup(
             quest: Quest(
                 title: "Sample Daily Quest",
                 isMainQuest: false,

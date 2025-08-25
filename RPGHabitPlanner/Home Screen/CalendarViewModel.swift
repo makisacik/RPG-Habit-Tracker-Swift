@@ -24,6 +24,8 @@ final class CalendarViewModel: ObservableObject {
     @Published var alertMessage: String?
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
+    @Published var showCompletionIsFinishedCheck: Bool = false
+    @Published var questToCheckCompletion: Quest?
     
     // 🔁 Bump this whenever the underlying data that drives the calendar changes
     @Published var calendarDataVersion: Int = 0
@@ -218,8 +220,8 @@ final class CalendarViewModel: ObservableObject {
                             if let err = err { print("❌ Reward error: \(err)") }
                         }
                         if item.quest.shouldShowFinishConfirmation(on: item.date) {
-                            self?.questToFinish = item.quest
-                            self?.showFinishConfirmation = true
+                            self?.questToCheckCompletion = item.quest
+                            self?.showCompletionIsFinishedCheck = true
                         }
                         self?.silentUpdateQuests() // will bump version
                     }
@@ -238,6 +240,14 @@ final class CalendarViewModel: ObservableObject {
         }
     }
     
+    func handleCompletionIsFinishedCheck(questId: UUID) {
+        // Mark the quest as finished when user confirms from completion check
+        markQuestAsFinished(questId: questId)
+        // Reset the completion check state
+        showCompletionIsFinishedCheck = false
+        questToCheckCompletion = nil
+    }
+
     func markQuestAsFinished(questId: UUID) {
         guard let quest = allQuests.first(where: { $0.id == questId }) else {
             alertMessage = "Quest not found"

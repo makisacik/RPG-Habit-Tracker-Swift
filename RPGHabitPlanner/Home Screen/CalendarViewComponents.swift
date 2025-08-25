@@ -215,6 +215,22 @@ enum CalendarViewComponents {
     // MARK: - Quest Finish Confirmation Overlay
     @ViewBuilder
     private static func questFinishConfirmationOverlay(viewModel: CalendarViewModel) -> some View {
+        // Quest completion is finished check popup (when completion is toggled)
+        if viewModel.showCompletionIsFinishedCheck, let quest = viewModel.questToCheckCompletion {
+            QuestCompletionIsFinishedCheckPopup(
+                quest: quest,
+                onConfirm: {
+                    viewModel.handleCompletionIsFinishedCheck(questId: quest.id)
+                },
+                onCancel: {
+                    viewModel.showCompletionIsFinishedCheck = false
+                    viewModel.questToCheckCompletion = nil
+                }
+            )
+            .zIndex(60)
+        }
+
+        // Quest finish confirmation popup (when finished button is tapped)
         if viewModel.showFinishConfirmation, let quest = viewModel.questToFinish {
             QuestFinishConfirmationPopup(
                 quest: quest,

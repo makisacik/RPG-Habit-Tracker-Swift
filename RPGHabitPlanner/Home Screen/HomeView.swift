@@ -95,7 +95,22 @@ struct HomeView: View {
                     LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
                         .zIndex(50)
 
-                    // Quest finish confirmation popup
+                    // Quest completion is finished check popup (when completion is toggled)
+                    if myQuestsVM.showCompletionIsFinishedCheck, let quest = myQuestsVM.questToCheckCompletion {
+                        QuestCompletionIsFinishedCheckPopup(
+                            quest: quest,
+                            onConfirm: {
+                                myQuestsVM.handleCompletionIsFinishedCheck(questId: quest.id)
+                            },
+                            onCancel: {
+                                myQuestsVM.showCompletionIsFinishedCheck = false
+                                myQuestsVM.questToCheckCompletion = nil
+                            }
+                        )
+                        .zIndex(60)
+                    }
+
+                    // Quest finish confirmation popup (when finished button is tapped)
                     if myQuestsVM.showFinishConfirmation, let quest = myQuestsVM.questToFinish {
                         QuestFinishConfirmationPopup(
                             quest: quest,

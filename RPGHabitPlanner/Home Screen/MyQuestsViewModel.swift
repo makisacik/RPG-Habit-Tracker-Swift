@@ -20,6 +20,8 @@ final class MyQuestsViewModel: ObservableObject {
     @Published var lastCompletedQuest: Quest?
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
+    @Published var showCompletionIsFinishedCheck: Bool = false
+    @Published var questToCheckCompletion: Quest?
 
     let questDataService: QuestDataServiceProtocol
     private let userManager: UserManager
@@ -199,11 +201,11 @@ final class MyQuestsViewModel: ObservableObject {
                             }
                         }
 
-                        // Check if this quest should show finish confirmation
+                        // Check if this quest should show completion is finished check
                         if item.quest.shouldShowFinishConfirmation(on: item.date) {
-                            self?.questToFinish = item.quest
-                            self?.showFinishConfirmation = true
-                                            }
+                            self?.questToCheckCompletion = item.quest
+                            self?.showCompletionIsFinishedCheck = true
+                        }
 
                     // Fetch quests to update the view and notify other views
                     self?.fetchQuests()
@@ -222,6 +224,14 @@ final class MyQuestsViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    func handleCompletionIsFinishedCheck(questId: UUID) {
+        // Mark the quest as finished when user confirms from completion check
+        markQuestAsFinished(questId: questId)
+        // Reset the completion check state
+        showCompletionIsFinishedCheck = false
+        questToCheckCompletion = nil
     }
 
     func markQuestAsFinished(questId: UUID) {
