@@ -173,7 +173,7 @@ struct LevelExperienceView: View {
 
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(theme.backgroundColor.opacity(0.7))
+                    .fill(theme.secondaryColor.opacity(0.7))
                     .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
                     .frame(height: 22)
 

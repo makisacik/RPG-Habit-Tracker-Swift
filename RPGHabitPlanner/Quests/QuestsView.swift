@@ -205,12 +205,6 @@ struct QuestsView: View {
     private func questCountSummary(theme: Theme) -> some View {
         HStack {
             Spacer()
-
-            Button(String(localized: "create_quest")) {
-                showingQuestCreation = true
-            }
-            .font(.appFont(size: 14, weight: .medium))
-            .foregroundColor(.blue)
         }
     }
 

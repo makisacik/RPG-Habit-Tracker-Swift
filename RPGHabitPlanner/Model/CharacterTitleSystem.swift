@@ -77,7 +77,7 @@ enum CharacterTitle: String, CaseIterable {
         case .theWhimsical:
             return "sparkles"
         case .theStormborn:
-            return "bolt.rainbow"
+            return "bolt.fill"
         case .theDreamweaver:
             return "moon.stars.fill"
         case .theStarlight:

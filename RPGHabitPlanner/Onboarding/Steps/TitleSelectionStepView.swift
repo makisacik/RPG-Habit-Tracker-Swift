@@ -34,9 +34,19 @@ struct TitleSelectionStepView: View {
                 // Current title display
                 VStack(spacing: 8) {
                     HStack {
-                        Image(systemName: coordinator.selectedTitle.icon)
-                            .font(.system(size: 20))
-                            .foregroundColor(theme.accentColor)
+                        Group {
+                            if coordinator.selectedTitle.icon.hasPrefix("icon_") {
+                                Image(coordinator.selectedTitle.icon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(theme.accentColor)
+                            } else {
+                                Image(systemName: coordinator.selectedTitle.icon)
+                                    .font(.system(size: 20))
+                                    .foregroundColor(theme.accentColor)
+                            }
+                        }
                         
                         Text(coordinator.selectedTitle.displayName)
                             .font(.appFont(size: 20, weight: .bold))
@@ -185,14 +195,24 @@ struct TitleCardView: View {
         Button(action: onTap) {
             VStack(spacing: 12) {
                 // Icon
-                Image(systemName: title.icon)
-                    .font(.system(size: 24))
-                    .foregroundColor(isSelected ? .white : theme.accentColor)
-                    .frame(width: 50, height: 50)
-                    .background(
-                        Circle()
-                            .fill(isSelected ? theme.accentColor : theme.accentColor.opacity(0.1))
-                    )
+                Group {
+                    if title.icon.hasPrefix("icon_") {
+                        Image(title.icon)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(isSelected ? .white : theme.accentColor)
+                    } else {
+                        Image(systemName: title.icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(isSelected ? .white : theme.accentColor)
+                    }
+                }
+                .frame(width: 50, height: 50)
+                .background(
+                    Circle()
+                        .fill(isSelected ? theme.accentColor : theme.accentColor.opacity(0.1))
+                )
 
                 // Title name
                 Text(title.displayName)
