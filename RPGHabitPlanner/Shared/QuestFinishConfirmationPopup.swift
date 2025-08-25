@@ -17,13 +17,13 @@ struct QuestFinishConfirmationPopup: View {
     private var confirmationMessage: String {
         switch quest.repeatType {
         case .oneTime:
-            return "This is a one-time quest. Would you like to mark it as finished and receive your rewards?"
+            return String(localized: "quest_finish_one_time_message")
         case .daily:
-            return "This daily quest has reached its final day. Would you like to mark it as finished and receive your rewards?"
+            return String(localized: "quest_finish_daily_message")
         case .weekly:
-            return "This weekly quest has reached its final week. Would you like to mark it as finished and receive your rewards?"
+            return String(localized: "quest_finish_weekly_message")
         case .scheduled:
-            return "This scheduled quest has reached its final day. Would you like to mark it as finished and receive your rewards?"
+            return String(localized: "quest_finish_scheduled_message")
         }
     }
     

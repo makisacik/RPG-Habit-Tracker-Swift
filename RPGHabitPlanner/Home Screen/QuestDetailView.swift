@@ -67,14 +67,6 @@ struct QuestDetailView: View {
 
                     // Damage History
                     QuestDetailDamageHistorySection(quest: viewModel.quest, theme: theme)
-
-                    // Action Buttons
-                    QuestDetailActionButtonsSection(
-                        quest: viewModel.quest,
-                        isCompleted: uiIsCompleted,                  // use optimistic state
-                        onToggleCompletion: toggleQuestCompletion,
-                        onMarkAsFinished: markAsFinished
-                    )
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
@@ -153,29 +145,9 @@ struct QuestDetailView: View {
         uiIsCompleted = viewModel.isCompleted
     }
 
-    private func toggleQuestCompletion() {
-        uiIsCompleted.toggle()
-        viewModel.toggleQuestCompletion()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            refreshCurrentQuestFromStore()
-        }
-    }
-
     private func toggleTaskCompletion(_ task: QuestTask) {
         viewModel.toggleTaskCompletion(taskId: task.id, newValue: !task.isCompleted)
         refreshCurrentQuestFromStore()
-    }
-
-    private func markAsFinished() {
-        // Optimistic → completed
-        uiIsCompleted = true
-        viewModel.markQuestAsFinished()
-        refreshCurrentQuestFromStore()
-
-        // Automatically dismiss the detail view since quest is now finished
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            dismiss()
-        }
     }
 
     private func deleteQuest() {

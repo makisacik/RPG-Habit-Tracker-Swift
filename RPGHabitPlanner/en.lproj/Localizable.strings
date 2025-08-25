@@ -1817,6 +1817,28 @@
 "defeat_phase" = "Defeat";
 "idle_phase" = "Idle";
 
+// MARK: - Quest Confirmation Popups
+"not_yet" = "Not yet";
+"finish_quest" = "Yes, mark as done";
+"quest_finish_confirmation_popup_examples" = "Quest Finish Confirmation Popup Examples";
+"sample_one_time_quest_title" = "Sample One-Time Quest";
+"sample_one_time_quest_description" = "This is a sample one-time quest description";
+"sample_daily_quest_title" = "Sample Daily Quest";
+"sample_daily_quest_description" = "This is a sample daily quest description";
+"quest_completion_is_finished_check_popup_examples" = "Quest Completion Is Finished Check Popup Examples";
+
+// MARK: - Quest Completion Messages
+"quest_completion_one_time_message" = "Is this quest finished? This one-time quest will be marked as completed for today.";
+"quest_completion_daily_message" = "Is this quest finished? This daily quest will be marked as completed for today.";
+"quest_completion_weekly_message" = "Is this quest finished? This weekly quest will be marked as completed for this week.";
+"quest_completion_scheduled_message" = "Is this quest finished? This scheduled quest will be marked as completed for today.";
+
+// MARK: - Quest Finish Messages
+"quest_finish_one_time_message" = "This is a one-time quest. Would you like to mark it as finished and receive your rewards?";
+"quest_finish_daily_message" = "This daily quest has reached its final day. Would you like to mark it as finished and receive your rewards?";
+"quest_finish_weekly_message" = "This weekly quest has reached its final week. Would you like to mark it as finished and receive your rewards?";
+"quest_finish_scheduled_message" = "This scheduled quest has reached its final day. Would you like to mark it as finished and receive your rewards?";
+
 // MARK: - Icon Categories
 "icon_category_general" = "General";
 "icon_category_work" = "Work";

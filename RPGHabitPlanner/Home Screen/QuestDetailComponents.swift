@@ -338,6 +338,26 @@ struct QuestDetailDamageHistorySection: View {
                     Text(String(localized: "damage_history"))
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
+                }
+
+                Spacer()
+
+                HStack(spacing: 12) {
+                    if totalDamage > 0 {
+                        Text(String(localized: "total_damage").localized(with: String(totalDamage)))
+                            .font(.appFont(size: 16, weight: .medium))
+                            .foregroundColor(theme.textColor)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.red.opacity(0.1))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                    }
                     
                     Button(action: {
                         showDamageInfo = true
@@ -347,24 +367,6 @@ struct QuestDetailDamageHistorySection: View {
                             .foregroundColor(theme.accentColor)
                     }
                     .buttonStyle(PlainButtonStyle())
-                }
-
-                Spacer()
-
-                if totalDamage > 0 {
-                    Text(String(localized: "total_damage").localized(with: String(totalDamage)))
-                        .font(.appFont(size: 16, weight: .medium))
-                        .foregroundColor(theme.textColor)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.red.opacity(0.1))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.red.opacity(0.3), lineWidth: 1)
-                                )
-                        )
                 }
             }
 
