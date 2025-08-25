@@ -288,18 +288,6 @@ class ShopViewModel: ObservableObject {
                     isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .consumables)
                 )
             }
-        case .specials:
-            items = ItemDatabase.allCollectibles.map { item in
-                ShopItem(
-                    name: item.name,
-                    description: item.description,
-                    iconName: item.iconName,
-                    price: item.value,
-                    rarity: item.isRare ? .rare : .common,
-                    category: .consumables,
-                    isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .consumables)
-                )
-            }
         }
         
         // Sort items by rarity from common to legendary
@@ -347,8 +335,6 @@ class ShopViewModel: ObservableObject {
             return String(localized: "shop_category_weapons_description")
         case .armor:
             return String(localized: "shop_category_armor_description")
-        case .accessories:
-            return String(localized: "shop_category_accessories_description")
         case .wings:
             return String(localized: "shop_category_wings_description")
         case .pets:
@@ -359,7 +345,7 @@ class ShopViewModel: ObservableObject {
     }
     
     private func isItemOwned(name: String, iconName: String, category: EnhancedShopCategory) -> Bool {
-        // Check ownership for gear items, accessories, and collectibles, but allow consumables to be purchased multiple times
+        // Check ownership for gear items and collectibles, but allow consumables to be purchased multiple times
         switch category {
         case .consumables:
             return false // Consumables can always be purchased

@@ -467,7 +467,6 @@ extension String {
     // MARK: - Shop Categories
     static let weapons = "weapons"
     static let armor = "armor"
-    static let accessories = "accessories"
     static let wings = "wings"
     static let pets = "pets"
     static let consumables = "consumables"
@@ -475,7 +474,6 @@ extension String {
     static let shield = "shield"
     static let potions = "potions"
     static let boosts = "boosts"
-    static let specials = "specials"
 
     // MARK: - Shop Items
     static let shop = "shop"

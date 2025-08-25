@@ -94,8 +94,6 @@ final class ShopManager: ObservableObject {
         switch shopItem.category {
         case .weapons, .armor, .wings, .pets:
             return createGearItem(from: shopItem)
-        case .accessories:
-            return createAccessoryItem(from: shopItem)
         case .consumables:
             return createConsumableItem(from: shopItem)
         }

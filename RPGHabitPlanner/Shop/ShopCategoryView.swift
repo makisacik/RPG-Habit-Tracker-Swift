@@ -13,7 +13,6 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
     // Gear categories
     case weapons = "weapons"
     case armor = "armor"
-    case accessories = "accessories"
     case wings = "wings"
     case pets = "pets"
     
@@ -26,7 +25,6 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         switch self {
         case .weapons: return "icon_sword"
         case .armor: return "icon_shield"
-        case .accessories: return "crown.fill"
         case .wings: return "icon_wing"
         case .pets: return "pawprint.fill"
         case .consumables: return "drop.fill"
@@ -37,7 +35,6 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         switch self {
         case .weapons: return .red
         case .armor: return .blue
-        case .accessories: return .orange
         case .wings: return .purple
         case .pets: return .brown
         case .consumables: return .green
@@ -48,7 +45,6 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
         switch self {
         case .weapons: return .weapon
         case .armor: return .outfit
-        case .accessories: return .accessory
         case .wings: return .wings
         case .pets: return .pet
         default: return nil
@@ -73,7 +69,7 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
     var consumableSubcategories: [ConsumableSubcategory] {
         switch self {
         case .consumables:
-            return [.potions, .boosts, .specials]
+            return [.potions, .boosts]
         default:
             return []
         }
@@ -119,7 +115,6 @@ enum ArmorSubcategory: String, CaseIterable, Identifiable {
 enum ConsumableSubcategory: String, CaseIterable, Identifiable {
     case potions = "potions"
     case boosts = "boosts"
-    case specials = "specials"
     
     var id: String { rawValue }
     
@@ -127,7 +122,6 @@ enum ConsumableSubcategory: String, CaseIterable, Identifiable {
         switch self {
         case .potions: return "drop.fill"
         case .boosts: return "bolt.fill"
-        case .specials: return "star.fill"
         }
     }
     
@@ -135,7 +129,6 @@ enum ConsumableSubcategory: String, CaseIterable, Identifiable {
         switch self {
         case .potions: return .pink
         case .boosts: return .yellow
-        case .specials: return .indigo
         }
     }
 }
@@ -251,13 +244,13 @@ struct EnhancedShopItemCard: View {
                     )
                     .frame(height: 60)
                     .overlay(
-                        // Only show rarity border for gear items
-                        Group {
-                            if selectedCategory == .weapons || selectedCategory == .armor || selectedCategory == .accessories {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(item.rarity.borderColor, lineWidth: 1)
-                            }
-                        }
+                                        // Only show rarity border for gear items
+                Group {
+                    if selectedCategory == .weapons || selectedCategory == .armor {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(item.rarity.borderColor, lineWidth: 1)
+                    }
+                }
                     )
 
                 // Rarity glow effect - only for gear items
@@ -822,7 +815,7 @@ func isGearCategory(_ category: EnhancedShopCategory) -> Bool {
     switch category {
     case .weapons, .armor, .wings, .pets:
         return true
-    case .accessories, .consumables:
+    case .consumables:
         return false
     }
 }
