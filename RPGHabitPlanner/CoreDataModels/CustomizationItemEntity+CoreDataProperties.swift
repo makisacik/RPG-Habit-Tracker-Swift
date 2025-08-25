@@ -15,7 +15,7 @@ extension CustomizationItemEntity {
     }
 
     @NSManaged public var id: UUID?
-    @NSManaged public var name: String?
+    @NSManaged public var assetName: String?
     @NSManaged public var category: String?
     @NSManaged public var rarity: String?
     @NSManaged public var price: Int32
@@ -68,6 +68,19 @@ extension CustomizationItemEntity {
            let jsonString = String(data: jsonData, encoding: .utf8) {
             self.itemData = jsonString
         }
+    }
+
+    /// Gets the localized name for this customization item
+    func getLocalizedName() -> String {
+        guard let assetName = self.assetName else { return "Unknown Item" }
+
+        // Try to find the asset in the CharacterAssetManager to get the current localized name
+        if let asset = CharacterAssetManager.shared.getAsset(byName: assetName) {
+            return asset.name
+        }
+
+        // Fallback to asset name if not found
+        return assetName
     }
 }
 

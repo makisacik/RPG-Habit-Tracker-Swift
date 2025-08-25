@@ -405,18 +405,8 @@ struct CharacterTabCustomizationView: View {
     private func saveCustomization() {
         guard hasChanges else { return }
 
-        // Create a new customization that preserves outfit, weapon, accessory
-        var updatedCustomization = customizationManager.currentCustomization
-
-        // Preserve the original outfit, weapon, and accessory if they exist
-        if let original = originalCustomization {
-            updatedCustomization.outfit = original.outfit
-            updatedCustomization.weapon = original.weapon
-            updatedCustomization.accessory = original.accessory
-            updatedCustomization.mustache = original.mustache
-            updatedCustomization.flower = original.flower
-            updatedCustomization.hairBackStyle = original.hairBackStyle
-        }
+        // Use the current customization from the manager
+        let updatedCustomization = customizationManager.currentCustomization
 
         // Save the updated customization
         let customizationService = CharacterCustomizationService()

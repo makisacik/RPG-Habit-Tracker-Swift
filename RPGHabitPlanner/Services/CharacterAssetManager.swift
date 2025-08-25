@@ -202,6 +202,18 @@ final class CharacterAssetManager: ObservableObject {
 
     // MARK: - Asset Information
 
+    /// Gets a single asset by name
+    func getAsset(byName assetName: String) -> AssetItem? {
+        // Try to find the asset in any category
+        for category in AssetCategory.allCases {
+            let assets = getAvailableAssets(for: category)
+            if let asset = assets.first(where: { $0.id == assetName || $0.imageName == assetName }) {
+                return asset
+            }
+        }
+        return nil
+    }
+
     /// Gets all available assets for a category
     func getAvailableAssets(for category: AssetCategory) -> [AssetItem] {
         switch category {

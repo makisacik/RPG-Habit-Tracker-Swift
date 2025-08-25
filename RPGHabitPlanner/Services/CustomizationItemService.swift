@@ -14,7 +14,7 @@ protocol CustomizationItemServiceProtocol {
     func fetchItems(for user: UserEntity) -> [CustomizationItemEntity]
     func fetchItems(for user: UserEntity, category: CustomizationCategory) -> [CustomizationItemEntity]
     func fetchEquippedItems(for user: UserEntity) -> [CustomizationItemEntity]
-    func addItem(to user: UserEntity, name: String, category: CustomizationCategory, rarity: ItemRarity, imageName: String, price: Int32) -> CustomizationItemEntity?
+    func addItem(to user: UserEntity, assetName: String, category: CustomizationCategory, rarity: ItemRarity, imageName: String, price: Int32) -> CustomizationItemEntity?
     func unlockItem(_ item: CustomizationItemEntity)
     func equipItem(_ item: CustomizationItemEntity)
     func unequipItem(_ item: CustomizationItemEntity)
@@ -42,7 +42,7 @@ final class CustomizationItemService: CustomizationItemServiceProtocol {
         request.sortDescriptors = [
             NSSortDescriptor(keyPath: \CustomizationItemEntity.category, ascending: true),
             NSSortDescriptor(keyPath: \CustomizationItemEntity.rarity, ascending: false),
-            NSSortDescriptor(keyPath: \CustomizationItemEntity.name, ascending: true)
+            NSSortDescriptor(keyPath: \CustomizationItemEntity.assetName, ascending: true)
         ]
 
         do {
@@ -58,7 +58,7 @@ final class CustomizationItemService: CustomizationItemServiceProtocol {
         request.predicate = NSPredicate(format: "owner == %@ AND category == %@", user, category.rawValue)
         request.sortDescriptors = [
             NSSortDescriptor(keyPath: \CustomizationItemEntity.rarity, ascending: false),
-            NSSortDescriptor(keyPath: \CustomizationItemEntity.name, ascending: true)
+            NSSortDescriptor(keyPath: \CustomizationItemEntity.assetName, ascending: true)
         ]
 
         do {
@@ -83,10 +83,10 @@ final class CustomizationItemService: CustomizationItemServiceProtocol {
 
     // MARK: - Item Management
 
-    func addItem(to user: UserEntity, name: String, category: CustomizationCategory, rarity: ItemRarity, imageName: String, price: Int32 = 0) -> CustomizationItemEntity? {
+    func addItem(to user: UserEntity, assetName: String, category: CustomizationCategory, rarity: ItemRarity, imageName: String, price: Int32 = 0) -> CustomizationItemEntity? {
         let item = CustomizationItemEntity(context: context)
         item.id = UUID()
-        item.name = name
+        item.assetName = assetName
         item.setCategory(category)
         item.setRarity(rarity)
         item.imageName = imageName
@@ -153,7 +153,7 @@ final class CustomizationItemService: CustomizationItemServiceProtocol {
                 let rarity = determineRarity(for: itemId)
                 _ = addItem(
                     to: user,
-                    name: itemId,
+                    assetName: itemId,
                     category: category,
                     rarity: rarity,
                     imageName: itemId
@@ -236,7 +236,7 @@ extension CustomizationItemService {
         for (itemName, category, rarity) in defaultItems {
             _ = addItem(
                 to: user,
-                name: itemName,
+                assetName: itemName,
                 category: category,
                 rarity: rarity,
                 imageName: itemName,

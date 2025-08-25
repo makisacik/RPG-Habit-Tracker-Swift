@@ -242,7 +242,7 @@ final class EquipmentManager: ObservableObject {
     }
 
     private func applyItemToCustomization(_ customization: inout CharacterCustomization, item: CustomizationItemEntity, slot: EquipmentSlot) {
-        guard let itemName = item.name else { return }
+        guard let itemName = item.assetName else { return }
 
         switch slot {
         case .bodyType:
