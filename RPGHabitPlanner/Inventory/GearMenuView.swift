@@ -298,10 +298,12 @@ struct GearItemCard: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showItemDetail) {
-            ItemDetailSheet(item: item)
-                .environmentObject(ThemeManager.shared)
-                .environmentObject(InventoryManager.shared)
-                .presentationDetents([.medium])
+            if let itemDefinition = getItemDefinition() {
+                ItemDetailSheet(item: itemDefinition)
+                    .environmentObject(ThemeManager.shared)
+                    .environmentObject(InventoryManager.shared)
+                    .presentationDetents([.medium])
+            }
         }
         .contextMenu {
             Button("View Details") {
@@ -318,6 +320,11 @@ struct GearItemCard: View {
     private func getRarity() -> ItemRarity? {
         guard let rarityString = item.rarity else { return nil }
         return ItemRarity(rawValue: rarityString)
+    }
+
+    private func getItemDefinition() -> Item? {
+        guard let iconName = item.iconName else { return nil }
+        return ItemDatabase.shared.findItem(byIconName: iconName)
     }
 }
 

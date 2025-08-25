@@ -113,8 +113,7 @@ struct ItemHeaderView: View {
 
 // MARK: - Compact Item Header View
 struct CompactItemHeaderView: View {
-    let item: ItemEntity
-    let itemDefinition: Item?
+    let item: Item
     let theme: Theme
 
     var body: some View {
@@ -128,24 +127,13 @@ struct CompactItemHeaderView: View {
                         .frame(width: 80, height: 80)
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
 
-                    if let previewImage = item.previewImage, !previewImage.isEmpty {
-                        if UIImage(named: previewImage) != nil {
-                            Image(previewImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                        } else if let iconName = item.iconName, !iconName.isEmpty, UIImage(named: iconName) != nil {
-                            Image(iconName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                        } else {
-                            Image(systemName: "questionmark.circle")
-                                .font(.system(size: 40))
-                                .foregroundColor(theme.textColor.opacity(0.5))
-                        }
-                    } else if let iconName = item.iconName, !iconName.isEmpty, UIImage(named: iconName) != nil {
-                        Image(iconName)
+                    if UIImage(named: item.previewImage) != nil {
+                        Image(item.previewImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                    } else if UIImage(named: item.iconName) != nil {
+                        Image(item.iconName)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -156,7 +144,7 @@ struct CompactItemHeaderView: View {
                     }
 
                     // Rarity indicator
-                    if let rarity = getItemRarity() {
+                    if let rarity = item.rarity {
                         VStack {
                             HStack {
                                 Spacer()
@@ -175,29 +163,27 @@ struct CompactItemHeaderView: View {
                 }
 
                 // Item Type
-                if let definition = itemDefinition {
-                    Text(definition.itemType.rawValue)
-                        .font(.appFont(size: 12, weight: .medium))
-                        .foregroundColor(theme.textColor)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(theme.accentColor.opacity(0.2))
-                        )
-                }
+                Text(item.itemType.rawValue)
+                    .font(.appFont(size: 12, weight: .medium))
+                    .foregroundColor(theme.textColor)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(theme.accentColor.opacity(0.2))
+                    )
             }
 
             // Right side: Name, Rarity, and Description
             VStack(alignment: .leading, spacing: 8) {
                 // Item Name
-                Text(item.name ?? "Unknown Item")
+                Text(item.name)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.leading)
 
                 // Rarity
-                if let rarity = getItemRarity() {
+                if let rarity = item.rarity {
                     Text(rarity.rawValue)
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(rarity.uiColor)
@@ -210,7 +196,7 @@ struct CompactItemHeaderView: View {
                 }
 
                 // Description
-                Text(item.info ?? "No description available.")
+                Text(item.description)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.leading)
@@ -228,13 +214,6 @@ struct CompactItemHeaderView: View {
                         .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
                 )
         )
-    }
-
-    private func getItemRarity() -> ItemRarity? {
-        if let rarityString = item.rarity {
-            return ItemRarity(rawValue: rarityString)
-        }
-        return itemDefinition?.rarity
     }
 }
 

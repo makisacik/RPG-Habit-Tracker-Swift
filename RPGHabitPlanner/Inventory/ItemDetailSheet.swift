@@ -12,24 +12,18 @@ struct ItemDetailSheet: View {
     @EnvironmentObject var inventoryManager: InventoryManager
     @Environment(\.dismiss) private var dismiss
 
-    let item: ItemEntity
+    let item: Item
     @State private var isUsingItem = false
     @State private var showSuccessMessage = false
     @State private var showErrorMessage = false
     @State private var errorMessage = ""
-    private var itemDefinition: Item? {
-        guard let iconName = item.iconName else { return nil }
-        return ItemDatabase.shared.findItem(byIconName: iconName)
-    }
 
     private var canUseItem: Bool {
-        guard let definition = itemDefinition else { return false }
-        return definition.itemType == .consumable || definition.itemType == .booster
+        return item.itemType == .consumable || item.itemType == .booster
     }
 
     private var canEquipItem: Bool {
-        guard let definition = itemDefinition else { return false }
-        return definition.itemType == .gear
+        return item.itemType == .gear
     }
 
     var body: some View {
@@ -45,19 +39,16 @@ struct ItemDetailSheet: View {
                         // Compact Item Header with Image, Type, and Description
                         CompactItemHeaderView(
                             item: item,
-                            itemDefinition: itemDefinition,
                             theme: theme
                         )
 
                         // Item Effects (if any)
-                        if let definition = itemDefinition, let effects = definition.effects, !effects.isEmpty {
+                        if let effects = item.effects, !effects.isEmpty {
                             ItemEffectsView(effects: effects, theme: theme)
                         }
 
                         // Usage Information
-                        if let definition = itemDefinition {
-                            UsageInfoView(definition: definition, theme: theme)
-                        }
+                        UsageInfoView(definition: item, theme: theme)
 
                         Spacer(minLength: 50)
                     }
@@ -121,10 +112,7 @@ struct ItemDetailSheet: View {
     // MARK: - Helper Methods
 
     private func getItemRarity() -> ItemRarity? {
-        if let rarityString = item.rarity {
-            return ItemRarity(rawValue: rarityString)
-        }
-        return itemDefinition?.rarity
+        return item.rarity
     }
 
     private func useItem() {
@@ -132,27 +120,40 @@ struct ItemDetailSheet: View {
 
         isUsingItem = true
 
-        inventoryManager.useItem(item) { success, error in
-            DispatchQueue.main.async {
-                self.isUsingItem = false
+        // Find the corresponding ItemEntity in inventory
+        if let itemEntity = inventoryManager.inventoryItems.first(where: { $0.iconName == item.iconName }) {
+            inventoryManager.useItem(itemEntity) { success, error in
+                DispatchQueue.main.async {
+                    self.isUsingItem = false
 
-                if success {
-                    self.showSuccessMessage = true
+                    if success {
+                        self.showSuccessMessage = true
 
-                    // Auto-dismiss after 2 seconds
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.showSuccessMessage = false
-                        self.dismiss()
-                    }
-                } else {
-                    self.errorMessage = error?.localizedDescription ?? "Failed to use item"
-                    self.showErrorMessage = true
+                        // Auto-dismiss after 2 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            self.showSuccessMessage = false
+                            self.dismiss()
+                        }
+                    } else {
+                        self.errorMessage = error?.localizedDescription ?? "Failed to use item"
+                        self.showErrorMessage = true
 
-                    // Auto-dismiss error after 3 seconds
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                        self.showErrorMessage = false
+                        // Auto-dismiss error after 3 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                            self.showErrorMessage = false
+                        }
                     }
                 }
+            }
+                } else {
+            // Item not found in inventory
+            isUsingItem = false
+            errorMessage = "Item not found in inventory"
+            showErrorMessage = true
+
+            // Auto-dismiss error after 3 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                showErrorMessage = false
             }
         }
     }
@@ -162,34 +163,41 @@ struct ItemDetailSheet: View {
 
         isUsingItem = true
 
-        inventoryManager.equipItem(item) { success, error in
-            DispatchQueue.main.async {
-                self.isUsingItem = false
+        // Find the corresponding ItemEntity in inventory
+        if let itemEntity = inventoryManager.inventoryItems.first(where: { $0.iconName == item.iconName }) {
+            inventoryManager.equipItem(itemEntity) { success, error in
+                DispatchQueue.main.async {
+                    self.isUsingItem = false
 
-                if success {
-                    self.showSuccessMessage = true
+                    if success {
+                        self.showSuccessMessage = true
 
-                    // Auto-dismiss after 2 seconds
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.showSuccessMessage = false
-                        self.dismiss()
-                    }
-                } else {
-                    self.errorMessage = error?.localizedDescription ?? "Failed to equip item"
-                    self.showErrorMessage = true
+                        // Auto-dismiss after 2 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            self.showSuccessMessage = false
+                            self.dismiss()
+                        }
+                    } else {
+                        self.errorMessage = error?.localizedDescription ?? "Failed to equip item"
+                        self.showErrorMessage = true
 
-                    // Auto-dismiss error after 3 seconds
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                        self.showErrorMessage = false
+                        // Auto-dismiss error after 3 seconds
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                            self.showErrorMessage = false
+                        }
                     }
                 }
             }
+        } else {
+            // Item not found in inventory
+            isUsingItem = false
+            errorMessage = "Item not found in inventory"
+            showErrorMessage = true
+
+            // Auto-dismiss error after 3 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                showErrorMessage = false
+            }
         }
     }
-}
-
-#Preview {
-    ItemDetailSheet(item: ItemEntity())
-        .environmentObject(ThemeManager.shared)
-        .environmentObject(InventoryManager.shared)
 }

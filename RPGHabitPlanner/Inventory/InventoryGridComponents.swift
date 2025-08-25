@@ -108,10 +108,12 @@ struct InventoryGridItemView: View {
         }
         .buttonStyle(PlainButtonStyle())
         .sheet(isPresented: $showItemDetail) {
-            ItemDetailSheet(item: item)
-                .environmentObject(ThemeManager.shared)
-                .environmentObject(InventoryManager.shared)
-                .presentationDetents([.medium])
+            if let itemDefinition = getItemDefinition() {
+                ItemDetailSheet(item: itemDefinition)
+                    .environmentObject(ThemeManager.shared)
+                    .environmentObject(InventoryManager.shared)
+                    .presentationDetents([.medium])
+            }
         }
     }
 
@@ -130,6 +132,11 @@ struct InventoryGridItemView: View {
         guard let iconName = item.iconName else { return nil }
         let itemDefinition = ItemDatabase.shared.findItem(byIconName: iconName)
         return itemDefinition?.rarity
+    }
+
+    private func getItemDefinition() -> Item? {
+        guard let iconName = item.iconName else { return nil }
+        return ItemDatabase.shared.findItem(byIconName: iconName)
     }
 }
 
