@@ -24,7 +24,7 @@ struct UnifiedItemDetailView: View {
             VStack(spacing: 20) {
                 // Header with close button
                 HStack {
-                    Text("Item Details")
+                    Text(String(localized: "item_details"))
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
 
@@ -97,7 +97,7 @@ struct UnifiedItemDetailView: View {
                         HStack {
                             Image(systemName: "bolt.fill")
                                 .font(.system(size: 16))
-                            Text("Use")
+                            Text(String(localized: "use"))
                                 .font(.appFont(size: 16, weight: .black))
                         }
                         .foregroundColor(.white)
@@ -139,11 +139,11 @@ struct UnifiedItemDetailView: View {
 
     private var itemTypeText: String {
         if inventoryManager.isConsumable(item) {
-            return "Consumable"
+            return String(localized: "consumable")
         } else if inventoryManager.isBooster(item) {
-            return "Booster"
+            return String(localized: "booster")
         } else {
-            return "Collectible"
+            return String(localized: "collectible")
         }
     }
 

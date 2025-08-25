@@ -30,9 +30,9 @@ struct ScheduledDaysSelectionView: View {
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.6))
 
-                Text("Scheduled Days")
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.6))
+                Text(String(localized: "scheduled_days"))
+                    .font(.appFont(size: 18, weight: .semibold))
+                    .foregroundColor(theme.textColor)
 
                 Spacer()
             }

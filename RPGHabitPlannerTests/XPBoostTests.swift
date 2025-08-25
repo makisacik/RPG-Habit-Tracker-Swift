@@ -30,7 +30,7 @@ final class XPBoostTests: XCTestCase {
 
     func testHealthPotionDetection() throws {
         let healthPotion = ItemEntity()
-        healthPotion.name = "Vitality Draught"
+        healthPotion.name = String(localized: "vitality_draught")
         healthPotion.info = "Restores health"
         healthPotion.iconName = "potion_health"
 
@@ -41,7 +41,7 @@ final class XPBoostTests: XCTestCase {
 
     func testXPBoostDetection() throws {
         let xpBoost = ItemEntity()
-        xpBoost.name = "Scholar's Insight"
+        xpBoost.name = String(localized: "scholars_insight")
         xpBoost.info = "Increases XP gain"
         xpBoost.iconName = "potion_xp"
 
@@ -77,11 +77,11 @@ final class XPBoostTests: XCTestCase {
         XCTAssertEqual(healthPotions.count, 5)
 
         let potionNames = healthPotions.map { $0.name }
-        XCTAssertTrue(potionNames.contains("Lesser Healing Elixir"))
-        XCTAssertTrue(potionNames.contains("Vitality Draught"))
-        XCTAssertTrue(potionNames.contains("Greater Restoration Tonic"))
-        XCTAssertTrue(potionNames.contains("Supreme Life Essence"))
-        XCTAssertTrue(potionNames.contains("Phoenix Tears"))
+        XCTAssertTrue(potionNames.contains(String(localized: "lesser_healing_elixir")))
+        XCTAssertTrue(potionNames.contains(String(localized: "vitality_draught")))
+        XCTAssertTrue(potionNames.contains(String(localized: "greater_restoration_tonic")))
+        XCTAssertTrue(potionNames.contains(String(localized: "supreme_life_essence")))
+        XCTAssertTrue(potionNames.contains(String(localized: "phoenix_tears")))
     }
 
     func testItemDatabaseXPBoosts() throws {
@@ -89,10 +89,10 @@ final class XPBoostTests: XCTestCase {
         XCTAssertEqual(xpBoosts.count, 4)
 
         let boostNames = xpBoosts.map { $0.name }
-        XCTAssertTrue(boostNames.contains("Wisdom's Breath"))
-        XCTAssertTrue(boostNames.contains("Scholar's Insight"))
-        XCTAssertTrue(boostNames.contains("Master's Enlightenment"))
-        XCTAssertTrue(boostNames.contains("Ancient Knowledge Essence"))
+        XCTAssertTrue(boostNames.contains(String(localized: "wisdoms_breath")))
+        XCTAssertTrue(boostNames.contains(String(localized: "scholars_insight")))
+        XCTAssertTrue(boostNames.contains(String(localized: "masters_enlightenment")))
+        XCTAssertTrue(boostNames.contains(String(localized: "ancient_knowledge_essence")))
     }
 
     func testItemDatabaseCoinBoosts() throws {
@@ -100,10 +100,10 @@ final class XPBoostTests: XCTestCase {
         XCTAssertEqual(coinBoosts.count, 4)
 
         let boostNames = coinBoosts.map { $0.name }
-        XCTAssertTrue(boostNames.contains("Merchant's Blessing"))
-        XCTAssertTrue(boostNames.contains("Wealth Attractor"))
-        XCTAssertTrue(boostNames.contains("Golden Fortune"))
-        XCTAssertTrue(boostNames.contains("Dragon's Hoard Essence"))
+        XCTAssertTrue(boostNames.contains(String(localized: "merchants_blessing")))
+        XCTAssertTrue(boostNames.contains(String(localized: "wealth_attractor")))
+        XCTAssertTrue(boostNames.contains(String(localized: "golden_fortune")))
+        XCTAssertTrue(boostNames.contains(String(localized: "dragons_hoard_essence")))
     }
 
     func testItemDatabaseCollectibles() throws {
@@ -120,9 +120,9 @@ final class XPBoostTests: XCTestCase {
         let itemDatabase = ItemDatabase.shared
 
         // Test finding existing item
-        let foundItem = itemDatabase.findItem(by: "Vitality Draught")
+        let foundItem = itemDatabase.findItem(by: String(localized: "vitality_draught"))
         XCTAssertNotNil(foundItem)
-        XCTAssertEqual(foundItem?.name, "Vitality Draught")
+        XCTAssertEqual(foundItem?.name, String(localized: "vitality_draught"))
 
         // Test finding non-existing item
         let notFoundItem = itemDatabase.findItem(by: "Non Existent Item")

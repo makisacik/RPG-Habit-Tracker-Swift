@@ -17,13 +17,13 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            Section("Appearance") {
+            Section(String(localized: "appearance")) {
                 // Light/Dark toggle
                 Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(String.darkMode.localized)
+                        Text(String(localized: "dark_mode"))
                             .font(.headline)
-                                                  Text(String.switchBetweenLightAndDarkThemes.localized)
+                        Text(String(localized: "switch_between_light_and_dark_themes"))
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -40,21 +40,21 @@ struct SettingsView: View {
                     isDark = (systemScheme == .dark)
                 } label: {
                     HStack {
-                        Label(String.useSystemAppearance.localized, systemImage: "circle.lefthalf.filled")
+                        Label(String(localized: "use_system_appearance"), systemImage: "circle.lefthalf.filled")
                         Spacer()
-                                                  Text(themeManager.currentTheme == .system ? String.onLabel.localized : String.offLabel.localized)
+                        Text(themeManager.currentTheme == .system ? String(localized: "on_label") : String(localized: "off_label"))
                             .foregroundStyle(.secondary)
                     }
                 }
             }
 
-            Section("General") {
+            Section(String(localized: "general")) {
                 // Language Setting
                 Button {
                     showLanguageSettings = true
                 } label: {
                     HStack {
-                        Label(String.language.localized, systemImage: "globe")
+                        Label(String(localized: "language"), systemImage: "globe")
                         Spacer()
                         HStack(spacing: 4) {
                             Text(localizationManager.currentLanguage.flag)
@@ -68,16 +68,16 @@ struct SettingsView: View {
                 }
 
 
-                NavigationLink(String.notifications.localized) { Text(String.notificationsSettings.localized) }
-                NavigationLink(String.dataAndStorage.localized) { Text(String.dataAndStorageSettings.localized) }
+                NavigationLink(String(localized: "notifications")) { Text(String(localized: "notifications_settings")) }
+                NavigationLink(String(localized: "data_and_storage")) { Text(String(localized: "data_and_storage_settings")) }
             }
 
 
-            Section("About") {
-                NavigationLink(String.aboutApp.localized) { Text(String.versionInfo.localized) }
+            Section(String(localized: "about")) {
+                NavigationLink(String(localized: "about_app")) { Text(String(localized: "version_info")) }
             }
         }
-        .navigationTitle(String.settings.localized)
+        .navigationTitle(String(localized: "settings"))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             switch themeManager.currentTheme {

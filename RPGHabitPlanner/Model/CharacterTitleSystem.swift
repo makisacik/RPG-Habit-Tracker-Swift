@@ -10,49 +10,49 @@ import Foundation
 // MARK: - Character Title System
 
 enum CharacterTitle: String, CaseIterable {
-    case theBrave = "The Brave"
-    case theWise = "The Wise"
-    case theSwift = "The Swift"
-    case theMighty = "The Mighty"
-    case theShadow = "The Shadow"
-    case theGuardian = "The Guardian"
-    case theWanderer = "The Wanderer"
-    case theLegendary = "The Legendary"
-    case theWhimsical = "The Whimsical"
-    case theStormborn = "The Stormborn"
-    case theDreamweaver = "The Dreamweaver"
-    case theStarlight = "The Starlight"
+    case theBrave = "the_brave"
+    case theWise = "the_wise"
+    case theSwift = "the_swift"
+    case theMighty = "the_mighty"
+    case theShadow = "the_shadow"
+    case theGuardian = "the_guardian"
+    case theWanderer = "the_wanderer"
+    case theLegendary = "the_legendary"
+    case theWhimsical = "the_whimsical"
+    case theStormborn = "the_stormborn"
+    case theDreamweaver = "the_dreamweaver"
+    case theStarlight = "the_starlight"
     
     var displayName: String {
-        return self.rawValue
+        return NSLocalizedString(self.rawValue, comment: "")
     }
     
     var description: String {
         switch self {
         case .theBrave:
-            return "Fearless in the face of danger"
+            return String(localized: "the_brave_description")
         case .theWise:
-            return "Knowledge and wisdom guide their path"
+            return String(localized: "the_wise_description")
         case .theSwift:
-            return "Quick as the wind, agile as a cat"
+            return String(localized: "the_swift_description")
         case .theMighty:
-            return "Strength and power personified"
+            return String(localized: "the_mighty_description")
         case .theShadow:
-            return "Moves unseen, strikes from darkness"
+            return String(localized: "the_shadow_description")
         case .theGuardian:
-            return "Protector of the innocent and weak"
+            return String(localized: "the_guardian_description")
         case .theWanderer:
-            return "Explorer of unknown lands and secrets"
+            return String(localized: "the_wanderer_description")
         case .theLegendary:
-            return "Destined for greatness and fame"
+            return String(localized: "the_legendary_description")
         case .theWhimsical:
-            return "Brings joy and wonder wherever they go"
+            return String(localized: "the_whimsical_description")
         case .theStormborn:
-            return "Born of thunder, master of chaos"
+            return String(localized: "the_stormborn_description")
         case .theDreamweaver:
-            return "Weaves dreams into reality"
+            return String(localized: "the_dreamweaver_description")
         case .theStarlight:
-            return "Illuminates the darkest paths"
+            return String(localized: "the_starlight_description")
         }
     }
     

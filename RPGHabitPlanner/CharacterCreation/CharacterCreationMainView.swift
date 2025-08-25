@@ -71,11 +71,11 @@ struct CharacterCreationHeaderView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            Text("createYourCharacter".localized)
+            Text(String(localized: "createYourCharacter"))
                 .font(.custom("Quicksand-Bold", size: 24))
                 .foregroundColor(theme.textColor)
 
-            Text("createYourUniqueCharacter".localized)
+            Text(String(localized: "createYourUniqueCharacter"))
                 .font(.custom("Quicksand-Regular", size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
         }
@@ -89,7 +89,7 @@ struct CharacterPreviewSectionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("preview".localized)
+            Text(String(localized: "preview"))
                 .font(.custom("Quicksand-Bold", size: 18))
                 .foregroundColor(theme.textColor)
                 .padding(.bottom, 4)
@@ -470,9 +470,10 @@ struct HairColorSectionView: View {
     var body: some View {
         VStack {
             if availableColors.isEmpty {
-                Text("No colors available for this hair style")
+                Text(String(localized: "no_colors_available_for_hair_style"))
                     .font(.custom("Quicksand-Regular", size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
+                    .multilineTextAlignment(.center)
                     .padding()
             } else if availableColors.count == 1 {
                 // If only one color is available, show it as selected

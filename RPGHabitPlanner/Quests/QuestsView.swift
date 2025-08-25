@@ -39,7 +39,7 @@ struct QuestsView: View {
                 // Header with date selection
                 VStack(spacing: 16) {
                     HStack {
-                        Text("My Quests")
+                        Text(String(localized: "my_quests"))
                             .font(.appFont(size: 24, weight: .bold))
                             .foregroundColor(theme.textColor)
 
@@ -192,7 +192,7 @@ struct QuestsView: View {
         HStack {
             Spacer()
 
-            Button("Create Quest") {
+            Button(String(localized: "create_quest")) {
                 showingQuestCreation = true
             }
             .font(.appFont(size: 14, weight: .medium))
@@ -202,12 +202,15 @@ struct QuestsView: View {
 
     @ViewBuilder
     private func loadingView(theme: Theme) -> some View {
-        HStack(spacing: 8) {
+        VStack(spacing: 16) {
             ProgressView()
-                .scaleEffect(0.8)
-            Text("Loading quests…")
-                .font(.appFont(size: 14))
+                .scaleEffect(1.2)
+                .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
+
+            Text(String(localized: "loading_quests"))
+                .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
+                .padding(.top, 8)
         }
         .padding(.vertical, 12)
     }
@@ -254,7 +257,7 @@ struct QuestsView: View {
                 .font(.system(size: 32))
                 .foregroundColor(theme.textColor.opacity(0.5))
 
-            Text("No quests for \(dateFormatter.string(from: viewModel.selectedDate))")
+            Text(String(localized: "no_quests_for_date").localized(with: dateFormatter.string(from: viewModel.selectedDate)))
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -360,7 +363,7 @@ struct QuestRow: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) tasks")
+                            Text("\(tasks.count) \(String(localized: "tasks"))")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
                             Spacer()

@@ -82,7 +82,7 @@ extension HomeView {
                                             )
                                     )
                             } else {
-                                Text("The Brave")
+                                Text(String(localized: "the_brave"))
                                     .font(.appFont(size: 14, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.8))
                                     .padding(.horizontal, 8)
@@ -103,7 +103,7 @@ extension HomeView {
                                     Image("icon_star_fill")
                                         .resizable()
                                         .frame(width: 12, height: 12)
-                                    Text("\(String.level.localized) \(user.level)")
+                                    Text("\(String(localized: "level")) \(user.level)")
                                         .font(.appFont(size: 14, weight: .bold))
                                         .foregroundColor(theme.textColor)
                                 }
@@ -114,7 +114,7 @@ extension HomeView {
                                     Image("icon_lightning")
                                         .resizable()
                                         .frame(width: 10, height: 10)
-                                    Text("\(user.exp)/100 XP")
+                                    Text("\(user.exp)/100 \(String(localized: "xp"))")
                                         .font(.appFont(size: 12, weight: .medium))
                                         .foregroundColor(theme.textColor.opacity(0.8))
                                 }
@@ -147,7 +147,7 @@ extension HomeView {
                                 Image(systemName: "heart.fill")
                                     .font(.system(size: 12))
                                     .foregroundColor(.red)
-                                Text("Health")
+                                Text(String(localized: "health"))
                                     .font(.appFont(size: 12, weight: .bold))
                                     .foregroundColor(theme.textColor)
                                 Spacer()
@@ -229,7 +229,7 @@ extension HomeView {
 
                             // Experience Bar
                             VStack(spacing: 3) {
-                                Text("Experience")
+                                Text(String(localized: "experience"))
                                     .font(.appFont(size: 10, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -276,7 +276,7 @@ extension HomeView {
                     ProgressView()
                         .scaleEffect(1.0)
                         .tint(.yellow)
-                    Text(String.loadingCharacter.localized)
+                    Text(String(localized: "loading_character"))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor)
                 }

@@ -116,12 +116,12 @@ struct HomeView: View {
                     RewardToastContainerView()
                         .zIndex(70)
                 }
-                .navigationTitle(String.adventureHub.localized)
+                .navigationTitle(String(localized: "adventure_hub"))
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar(content: homeToolbarContent)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Add Currency") {
+                        Button(String(localized: "add_currency")) {
                             CurrencyManager.shared.addCoins(5000) { error in
                                 if let error = error {
                                     print("❌ Failed to add coins: \(error.localizedDescription)")
@@ -150,7 +150,7 @@ struct HomeView: View {
                         CompletedQuestsView(
                             viewModel: CompletedQuestsViewModel(questDataService: questDataService)
                         )
-                        .navigationTitle(String.completedQuests.localized)
+                        .navigationTitle(String(localized: "completed_quests"))
                         .navigationBarTitleDisplayMode(.inline)
                     }
                 }
@@ -189,7 +189,7 @@ struct HomeView: View {
                     NavigationStack {
                         TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
                             .environmentObject(themeManager)
-                            .navigationTitle(String.focusTimer.localized)
+                            .navigationTitle(String(localized: "focus_timer"))
                             .navigationBarTitleDisplayMode(.inline)
                     }
                 }
@@ -218,7 +218,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .tabItem { Label(String.home.localized, systemImage: "house.fill") }
+                            .tabItem { Label(String(localized: "home"), systemImage: "house.fill") }
             .tag(HomeTab.home)
 
             // MARK: Quests
@@ -238,7 +238,7 @@ struct HomeView: View {
                     )
                 }
             }
-            .tabItem { Label(String.quests.localized, systemImage: "list.bullet.clipboard.fill") }
+                            .tabItem { Label(String(localized: "quests"), systemImage: "list.bullet.clipboard.fill") }
             .tag(HomeTab.tracking)
 
             // MARK: Character
@@ -246,12 +246,12 @@ struct HomeView: View {
                 if let user = viewModel.user {
                     CharacterView(user: user)
                 } else {
-                    Text(String.loadingCharacter.localized)
+                    Text(String(localized: "loading_character"))
                         .foregroundColor(theme.textColor)
                         .onAppear { viewModel.fetchUserData() }
                 }
             }
-            .tabItem { Label(String.character.localized, systemImage: "person.crop.circle.fill") }
+                            .tabItem { Label(String(localized: "character"), systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
             // MARK: Calendar
@@ -259,7 +259,7 @@ struct HomeView: View {
                 CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
                     .environmentObject(themeManager)
             }
-            .tabItem { Label(String.calendar.localized, systemImage: "calendar") }
+                            .tabItem { Label(String(localized: "calendar"), systemImage: "calendar") }
             .tag(HomeTab.calendar)
         }
         .accentColor(.red)
@@ -267,7 +267,7 @@ struct HomeView: View {
             NavigationStack {
                 AchievementView()
                     .environmentObject(themeManager)
-                    .navigationTitle(String.achievements.localized)
+                    .navigationTitle(String(localized: "achievements"))
                     .navigationBarTitleDisplayMode(.inline)
             }
         }
@@ -304,13 +304,13 @@ struct HomeView: View {
         ToolbarItem(placement: .cancellationAction) {
             Menu {
                 Button { showFocusTimer = true } label: {
-                    Label(String.focusTimer.localized, systemImage: "timer")
+                    Label(String(localized: "focus_timer"), systemImage: "timer")
                 }
                 Button { goToSettings = true } label: {
-                    Label(String.settings.localized, systemImage: "gearshape.fill")
+                    Label(String(localized: "settings"), systemImage: "gearshape.fill")
                 }
                 Button { /* TODO: About */ } label: {
-                    Label(String.about.localized, systemImage: "info.circle.fill")
+                    Label(String(localized: "about"), systemImage: "info.circle.fill")
                 }
             } label: {
                 Image(systemName: "line.3.horizontal")

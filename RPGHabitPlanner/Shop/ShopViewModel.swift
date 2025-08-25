@@ -364,9 +364,15 @@ class ShopViewModel: ObservableObject {
         case .consumables:
             return false // Consumables can always be purchased
         default:
-            return inventoryManager.inventoryItems.contains { item in
+            let isOwned = inventoryManager.inventoryItems.contains { item in
                 item.iconName == iconName
             }
+            print("🔧 ShopViewModel: Checking if item is owned - name: \(name), iconName: \(iconName), category: \(category.rawValue), isOwned: \(isOwned)")
+            print("🔧 ShopViewModel: Current inventory count: \(inventoryManager.inventoryItems.count)")
+            for item in inventoryManager.inventoryItems {
+                print("  - \(item.name ?? "Unknown") (iconName: \(item.iconName ?? "nil"))")
+            }
+            return isOwned
         }
     }
     

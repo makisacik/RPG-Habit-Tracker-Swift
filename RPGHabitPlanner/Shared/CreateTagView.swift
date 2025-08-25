@@ -26,7 +26,7 @@ struct CreateTagView: View {
                     VStack(spacing: 24) {
                         // Large Preview Section
                         VStack(spacing: 16) {
-                            Text("Preview")
+                            Text(String(localized: "preview"))
                                 .font(.appFont(size: 20, weight: .bold))
                                 .foregroundColor(theme.textColor)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,7 +46,7 @@ struct CreateTagView: View {
                                     .fill(theme.cardBackgroundColor)
                                     .frame(height: 60)
                                     .overlay(
-                                        Text("Tag preview will appear here")
+                                        Text(String(localized: "tag_preview_will_appear_here"))
                                             .font(.appFont(size: 16, weight: .medium))
                                             .foregroundColor(theme.textColor.opacity(0.5))
                                     )
@@ -67,7 +67,7 @@ struct CreateTagView: View {
 
                         // Tag name input with modern styling
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("Tag Name")
+                            Text(String(localized: "tag_name"))
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -77,7 +77,7 @@ struct CreateTagView: View {
                                     .foregroundColor(theme.accentColor)
                                     .frame(width: 24)
 
-                                TextField("Enter tag name", text: $viewModel.tagName)
+                                TextField(String(localized: "enter_tag_name"), text: $viewModel.tagName)
                                     .textFieldStyle(PlainTextFieldStyle())
                                     .font(.appFont(size: 16, weight: .regular))
                                     .foregroundColor(theme.textColor)
@@ -104,7 +104,7 @@ struct CreateTagView: View {
                         // Icon selection with modern grid
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
-                                Text("Icon")
+                                Text(String(localized: "icon"))
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
 
@@ -118,7 +118,7 @@ struct CreateTagView: View {
                                     HStack(spacing: 6) {
                                         Image(systemName: "square.grid.2x2")
                                             .font(.system(size: 14, weight: .medium))
-                                        Text("Browse All")
+                                        Text(String(localized: "browse_all"))
                                             .font(.appFont(size: 14, weight: .medium))
                                     }
                                     .foregroundColor(theme.accentColor)
@@ -144,7 +144,7 @@ struct CreateTagView: View {
                                     )
 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Selected Icon")
+                                    Text(String(localized: "selected_icon"))
                                         .font(.appFont(size: 14, weight: .medium))
                                         .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -175,7 +175,7 @@ struct CreateTagView: View {
 
                         // Color selection with modern palette
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("Color")
+                            Text(String(localized: "color"))
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -224,7 +224,7 @@ struct CreateTagView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Create Tag")
+                    Text(String(localized: "create_tag"))
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -238,7 +238,7 @@ struct CreateTagView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 16, weight: .medium))
-                            Text("Cancel")
+                            Text(String(localized: "cancel"))
                                 .font(.appFont(size: 16, weight: .medium))
                         }
                         .foregroundColor(theme.accentColor)
@@ -254,7 +254,7 @@ struct CreateTagView: View {
                             }
                         }
                     }) {
-                        Text("Create")
+                        Text(String(localized: "create"))
                             .font(.appFont(size: 16, weight: .bold))
                             .foregroundColor(viewModel.tagName.isEmpty || viewModel.isCreating ? theme.textColor.opacity(0.5) : theme.accentColor)
                     }

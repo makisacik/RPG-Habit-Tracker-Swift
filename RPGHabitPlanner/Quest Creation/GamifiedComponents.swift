@@ -111,7 +111,7 @@ struct GamifiedTasksSection: View {
             HStack {
                 Image(systemName: "list.bullet.clipboard")
                     .foregroundColor(.yellow)
-                Text("Quest Tasks")
+                                    Text(String(localized: "quest_tasks"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
 
@@ -136,7 +136,7 @@ struct GamifiedTasksSection: View {
                 }
             }) {
                 HStack {
-                    Text("Manage Tasks")
+                    Text(String(localized: "manage_tasks"))
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(theme.textColor)
                     Spacer()
@@ -171,7 +171,7 @@ struct GamifiedDifficultySection: View {
             HStack {
                 Image(systemName: "star.circle.fill")
                     .foregroundColor(.yellow)
-                Text("Quest Difficulty")
+                                    Text(String(localized: "quest_difficulty"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
@@ -212,16 +212,16 @@ struct GamifiedRepeatTypeSection: View {
             HStack {
                 Image(systemName: "repeat.circle.fill")
                     .foregroundColor(.yellow)
-                Text("Repeat Type")
+                                    Text(String(localized: "repeat_type"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
 
             Picker("", selection: $repeatType) {
-                Text("One Time").tag(QuestRepeatType.oneTime)
-                Text("Daily").tag(QuestRepeatType.daily)
-                Text("Weekly").tag(QuestRepeatType.weekly)
-                Text("Scheduled").tag(QuestRepeatType.scheduled)
+                                        Text(String(localized: "one_time")).tag(QuestRepeatType.oneTime)
+                        Text(String(localized: "daily")).tag(QuestRepeatType.daily)
+                        Text(String(localized: "weekly")).tag(QuestRepeatType.weekly)
+                        Text(String(localized: "scheduled")).tag(QuestRepeatType.scheduled)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding()
@@ -266,7 +266,7 @@ struct CoinRewardPreviewSection: View {
                 Image("icon_gold")
                     .resizable()
                     .frame(width: 20, height: 20)
-                Text("Quest Reward")
+                                    Text(String(localized: "quest_reward"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
 
@@ -284,7 +284,7 @@ struct CoinRewardPreviewSection: View {
 
             VStack(spacing: 8) {
                 HStack {
-                    Text("Base Reward:")
+                                            Text(String(localized: "base_reward") + ":")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     Spacer()
@@ -294,7 +294,7 @@ struct CoinRewardPreviewSection: View {
                 }
 
                 HStack {
-                    Text("Task Bonus:")
+                                            Text(String(localized: "task_bonus") + ":")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     Spacer()
@@ -328,19 +328,19 @@ struct GamifiedTagsSection: View {
             HStack {
                 Image(systemName: "tag.circle.fill")
                     .foregroundColor(.yellow)
-                Text("Quest Tags")
+                                    Text(String(localized: "quest_tags"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                Button("Add Tags") {
+                                    Button(String(localized: "add_tags")) {
                     isButtonPressed = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         isButtonPressed = false
                         onAddTags()
                     }
-                }
+                                    }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor)
                 .opacity(isButtonPressed ? 0.7 : 1.0)
@@ -349,7 +349,7 @@ struct GamifiedTagsSection: View {
             }
 
             if selectedTags.isEmpty {
-                Text("No tags selected")
+                                        Text(String(localized: "no_tags_selected"))
                     .font(.appFont(size: 14, weight: .regular))
                     .foregroundColor(theme.textColor.opacity(0.6))
                     .padding()

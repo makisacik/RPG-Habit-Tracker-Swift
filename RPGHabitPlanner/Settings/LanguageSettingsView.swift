@@ -22,11 +22,11 @@ struct LanguageSettingsView: View {
                 VStack(spacing: 20) {
                     // Header
                     VStack(spacing: 8) {
-                        Text(String.language.localized)
+                        Text(String(localized: "language"))
                             .font(.appFont(size: 24, weight: .black))
                             .foregroundColor(theme.textColor)
 
-                        Text(String.chooseYourPreferredLanguage.localized)
+                        Text(String(localized: "choose_your_preferred_language"))
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
@@ -51,12 +51,12 @@ struct LanguageSettingsView: View {
 
                     // Info Text
                     VStack(spacing: 8) {
-                        Text(String.languageChangesWillTakeEffectImmediately.localized)
+                        Text(String(localized: "language_changes_will_take_effect_immediately"))
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.6))
                             .multilineTextAlignment(.center)
 
-                        Text(String.someSystemElementsMayRemainInPreviousLanguage.localized)
+                        Text(String(localized: "some_system_elements_may_remain_in_previous_language"))
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.5))
                             .multilineTextAlignment(.center)
@@ -65,11 +65,11 @@ struct LanguageSettingsView: View {
                     .padding(.bottom, 20)
                 }
             }
-            .navigationTitle(String.language.localized)
+            .navigationTitle(String(localized: "language"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(String.doneButton.localized) {
+                    Button(String(localized: "done")) {
                         dismiss()
                     }
                     .font(.appFont(size: 16, weight: .black))

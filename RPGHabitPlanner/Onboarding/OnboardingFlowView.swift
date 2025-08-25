@@ -108,7 +108,7 @@ struct OnboardingNavigationButtons: View {
                     HStack(spacing: 8) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .medium))
-                        Text("Back")
+                        Text(String(localized: "back"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.textColor)
@@ -132,7 +132,7 @@ struct OnboardingNavigationButtons: View {
                 }
             }) {
                 HStack(spacing: 8) {
-                    Text(coordinator.currentStep == .final ? "Start Adventure" : "Next")
+                    Text(coordinator.currentStep == .final ? String(localized: "start_adventure") : String(localized: "next"))
                         .font(.appFont(size: 16, weight: .medium))
                     Image(systemName: coordinator.currentStep == .final ? "play.fill" : "chevron.right")
                         .font(.system(size: 16, weight: .medium))

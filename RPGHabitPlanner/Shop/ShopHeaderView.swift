@@ -15,11 +15,11 @@ struct ShopHeaderView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Adventure Shop")
+                Text(String(localized: "adventure_shop"))
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
 
-                Text("Trade your coins and gems for powerful items")
+                Text(String(localized: "shop_description"))
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }

@@ -78,7 +78,7 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text("Experience")
+                                            Text(String(localized: "experience"))
                                                 .font(.appFont(size: 14, weight: .medium))
                                                 .foregroundColor(theme.textColor.opacity(0.7))
                                             Spacer()
@@ -89,11 +89,11 @@ struct RewardView: View {
 
                                         if hasBoosters {
                                             HStack {
-                                                Text("Base: \(baseExp)")
+                                                Text("\(String(localized: "base")): \(baseExp)")
                                                     .font(.appFont(size: 12))
                                                     .foregroundColor(theme.textColor.opacity(0.6))
                                                 Spacer()
-                                                Text("+\(boostedExp - baseExp) from boosters")
+                                                Text("+\(boostedExp - baseExp) \(String(localized: "from_boosters"))")
                                                     .font(.appFont(size: 12, weight: .medium))
                                                     .foregroundColor(.green)
                                             }
@@ -113,7 +113,7 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text("Coins")
+                                            Text(String(localized: "coins"))
                                                 .font(.appFont(size: 14, weight: .medium))
                                                 .foregroundColor(theme.textColor.opacity(0.7))
                                             Spacer()
@@ -124,11 +124,11 @@ struct RewardView: View {
 
                                         if hasBoosters {
                                             HStack {
-                                                Text("Base: \(baseCoins)")
+                                                Text("\(String(localized: "base")): \(baseCoins)")
                                                     .font(.appFont(size: 12))
                                                     .foregroundColor(theme.textColor.opacity(0.6))
                                                 Spacer()
-                                                Text("+\(boostedCoins - baseCoins) from boosters")
+                                                Text("+\(boostedCoins - baseCoins) \(String(localized: "from_boosters"))")
                                                     .font(.appFont(size: 12, weight: .medium))
                                                     .foregroundColor(.green)
                                             }
@@ -162,7 +162,7 @@ struct RewardView: View {
                     }) {
                         HStack {
                             Spacer()
-                            Text("Dismiss")
+                            Text(String(localized: "dismiss"))
                                 .font(.appFont(size: 16, weight: .black))
                                 .foregroundColor(theme.buttonTextColor)
                             Spacer()

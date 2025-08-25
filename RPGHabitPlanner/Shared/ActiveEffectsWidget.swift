@@ -25,7 +25,7 @@ struct ActiveEffectsWidget: View {
                             .font(.system(size: 14))
                             .foregroundColor(.yellow)
 
-                        Text("Active Boosters")
+                        Text(String(localized: "active_boosters"))
                             .font(.appFont(size: 14, weight: .black))
                             .foregroundColor(theme.textColor)
 
@@ -168,11 +168,11 @@ struct BoosterWidgetRow: View {
 
         switch booster.type {
         case .experience:
-            return "\(multiplierText) XP\(bonusText)"
+            return "\(multiplierText) \(String(localized: "experience"))\(bonusText)"
         case .coins:
-            return "\(multiplierText) Coins\(bonusText)"
+            return "\(multiplierText) \(String(localized: "coins"))\(bonusText)"
         case .both:
-            return "\(multiplierText) XP & Coins\(bonusText)"
+            return "\(multiplierText) \(String(localized: "experience")) & \(String(localized: "coins"))\(bonusText)"
         }
     }
 
@@ -208,7 +208,7 @@ struct XPBoostIndicator: View {
                     .font(.system(size: 12))
                     .foregroundColor(.green)
 
-                Text("\(Int((totalMultiplier - 1.0) * 100))% XP")
+                Text("\(Int((totalMultiplier - 1.0) * 100))% \(String(localized: "experience"))")
                     .font(.appFont(size: 10, weight: .black))
                     .foregroundColor(.green)
 

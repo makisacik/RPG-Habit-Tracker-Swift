@@ -165,7 +165,7 @@ struct LevelExperienceView: View {
                 Image("icon_star_fill")
                     .resizable()
                     .frame(width: 18, height: 18)
-                Text("\(String.level.localized) \(user.level)")
+                Text("\(String(localized: "level")) \(user.level)")
                     .font(.appFont(size: 18))
                     .foregroundColor(theme.textColor)
                 Spacer()

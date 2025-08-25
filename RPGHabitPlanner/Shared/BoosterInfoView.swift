@@ -38,7 +38,7 @@ struct BoosterInfoView: View {
         HStack {
             boosterIcon(booster: booster)
 
-            Text("Quest Booster")
+            Text(String(localized: "quest_booster"))
                 .font(.appFont(size: 14, weight: .bold))
                 .foregroundColor(themeManager.activeTheme.textColor)
 
@@ -66,7 +66,9 @@ struct BoosterInfoView: View {
                 .font(.appFont(size: 12))
                 .foregroundColor(themeManager.activeTheme.textColor.opacity(0.8))
 
-            Text("Total Boost: +\(Int((boosterManager.totalExperienceMultiplier - 1.0) * 100))% XP, +\(Int((boosterManager.totalCoinsMultiplier - 1.0) * 100))% Coins")
+            let experienceBoost = Int((boosterManager.totalExperienceMultiplier - 1.0) * 100)
+            let coinsBoost = Int((boosterManager.totalCoinsMultiplier - 1.0) * 100)
+            Text(String(localized: "total_boost_format").localized(with: experienceBoost, coinsBoost))
                 .font(.appFont(size: 10))
                 .foregroundColor(.green)
         }

@@ -21,7 +21,7 @@ struct BoosterDisplayView: View {
                             .foregroundColor(.yellow)
                             .font(.system(size: 14, weight: .bold))
 
-                        Text("Active Boosters")
+                        Text(String(localized: "active_boosters"))
                             .font(.appFont(size: 14, weight: .bold))
                             .foregroundColor(themeManager.activeTheme.textColor)
 
@@ -123,7 +123,7 @@ struct BoosterItemView: View {
     private func timeRemainingText(from expiresAt: Date) -> String {
         let timeInterval = expiresAt.timeIntervalSinceNow
         if timeInterval <= 0 {
-            return "Expired"
+            return String(localized: "expired")
         }
 
         let minutes = Int(timeInterval / 60)

@@ -30,7 +30,7 @@ struct MyQuestsSection: View {
         VStack(alignment: .leading, spacing: 12) {
             // Header with date selection
             HStack {
-                Text("My Quests")
+                Text(String(localized: "my_quests"))
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
@@ -111,9 +111,9 @@ struct MyQuestsSection: View {
         HStack {
             Spacer()
 
-            Button("View All") {
-                selectedTab = .tracking
-            }
+                            Button(String(localized: "view_all")) {
+                    selectedTab = .tracking
+                            }
             .font(.appFont(size: 14, weight: .medium))
             .foregroundColor(.blue)
         }
@@ -135,7 +135,7 @@ struct MyQuestsSection: View {
         HStack(spacing: 8) {
             ProgressView()
                 .scaleEffect(0.8)
-            Text("Loading quests…")
+                            Text(String(localized: "loading_quests"))
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
         }
@@ -184,11 +184,11 @@ struct MyQuestsSection: View {
                 .font(.system(size: 32))
                 .foregroundColor(theme.textColor.opacity(0.5))
 
-            Text("No quests for \(dateFormatter.string(from: viewModel.selectedDate))")
+                                Text(String(localized: "no_quests_for_date").localized(with: dateFormatter.string(from: viewModel.selectedDate)))
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
-            Button("Create Quest") {
+            Button(String(localized: "create_quest")) {
                 showingQuestCreation = true
             }
             .font(.appFont(size: 14, weight: .medium))

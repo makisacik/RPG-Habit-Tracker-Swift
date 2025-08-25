@@ -15,13 +15,13 @@ extension HomeView {
 
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(String.recentAchievements.localized)
+                Text(String(localized: "recent_achievements"))
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                Button(String.viewAll.localized) {
+                Button(String(localized: "view_all")) {
                     showAchievements = true
                 }
                 .font(.appFont(size: 14, weight: .medium))
@@ -41,11 +41,11 @@ extension HomeView {
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
 
-                    Text(String.noAchievementsYet.localized)
+                    Text(String(localized: "no_achievements_yet"))
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
 
-                    Text(String.completeQuestsToEarnAchievements.localized)
+                    Text(String(localized: "complete_quests_to_earn_achievements"))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.5))
                         .multilineTextAlignment(.center)
@@ -70,7 +70,7 @@ extension HomeView {
         let theme = themeManager.activeTheme
 
         return VStack(alignment: .leading, spacing: 12) {
-                            Text(String.quickActions.localized)
+                            Text(String(localized: "quick_actions"))
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
 
@@ -83,8 +83,8 @@ extension HomeView {
                 }) {
                     NavigationQuickActionCard(
                         icon: "plus.circle.fill",
-                        title: "New Quest",
-                        subtitle: "Create a new adventure",
+                        title: String(localized: "new_quest"),
+                        subtitle: String(localized: "create_new_adventure"),
                         color: .green,
                         theme: theme
                     )
@@ -95,8 +95,8 @@ extension HomeView {
                 )) {
                     NavigationQuickActionCard(
                         icon: "bolt.fill",
-                        title: "Quick Quests",
-                        subtitle: "Add premade quests",
+                        title: String(localized: "quick_quests"),
+                        subtitle: String(localized: "add_premade_quests"),
                         color: .orange,
                         theme: theme
                     )
@@ -104,8 +104,8 @@ extension HomeView {
 
                 QuickActionCard(
                     icon: "person.crop.circle.fill",
-                    title: "Character",
-                    subtitle: "View your stats",
+                    title: String(localized: "character"),
+                    subtitle: String(localized: "view_your_stats"),
                     color: .blue,
                     theme: theme
                 ) {
@@ -114,8 +114,8 @@ extension HomeView {
 
                 QuickActionCard(
                     icon: "checkmark.seal.fill",
-                    title: "Finished",
-                    subtitle: "View completed quests",
+                    title: String(localized: "finished"),
+                    subtitle: String(localized: "view_completed_quests"),
                     color: .orange,
                     theme: theme
                 ) {
@@ -124,8 +124,8 @@ extension HomeView {
 
                 QuickActionCard(
                     icon: "trophy.fill",
-                    title: "Achievements",
-                    subtitle: "View your trophies",
+                    title: String(localized: "achievements"),
+                    subtitle: String(localized: "view_your_trophies"),
                     color: .purple,
                     theme: theme
                 ) {
@@ -134,8 +134,8 @@ extension HomeView {
 
                 QuickActionCard(
                     icon: "timer",
-                    title: "Focus Timer",
-                    subtitle: "Battle distractions",
+                    title: String(localized: "focus_timer"),
+                    subtitle: String(localized: "battle_distractions"),
                     color: .red,
                     theme: theme
                 ) {
@@ -144,8 +144,8 @@ extension HomeView {
 
                 QuickActionCard(
                     icon: "cart.fill",
-                    title: "Shop",
-                    subtitle: "Buy items with coins",
+                    title: String(localized: "shop"),
+                    subtitle: String(localized: "buy_items_with_coins"),
                     color: .yellow,
                     theme: theme
                 ) {

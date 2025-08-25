@@ -149,11 +149,11 @@ enum OnboardingStep: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .welcome: return "Welcome"
-        case .characterCustomization: return "Customize Character"
-        case .nickname: return "Choose Name"
-        case .titleSelection: return "Choose Title"
-        case .final: return "Ready"
+        case .welcome: return String(localized: "welcome")
+        case .characterCustomization: return String(localized: "customize_your_character")
+        case .nickname: return String(localized: "choose_name")
+        case .titleSelection: return String(localized: "choose_title")
+        case .final: return String(localized: "ready")
         }
     }
 }

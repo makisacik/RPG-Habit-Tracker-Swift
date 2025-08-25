@@ -141,15 +141,15 @@ enum CustomizationStep: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .skinColor: return "Select Skin Color"
-        case .hairstyle: return "Choose Hairstyle"
-        case .hairBackStyle: return "Choose Hair Back Style"
-        case .eyeColor: return "Select Eye Color"
-        case .outfit: return "Choose Outfit"
-        case .weapon: return "Pick Your Weapon"
-        case .mustache: return "Add Mustache"
-        case .flower: return "Add Flower"
-        case .accessory: return "Add Accessories"
+        case .skinColor: return String(localized: "select_skin_color")
+        case .hairstyle: return String(localized: "choose_hairstyle")
+        case .hairBackStyle: return String(localized: "choose_hair_back_style")
+        case .eyeColor: return String(localized: "select_eye_color")
+        case .outfit: return String(localized: "choose_outfit")
+        case .weapon: return String(localized: "pick_your_weapon")
+        case .mustache: return String(localized: "add_mustache")
+        case .flower: return String(localized: "add_flower")
+        case .accessory: return String(localized: "add_accessories")
         }
     }
 

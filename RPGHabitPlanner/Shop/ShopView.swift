@@ -90,7 +90,7 @@ struct ShopView: View {
                 )
             }
         }
-        .navigationTitle("Shop")
+        .navigationTitle(String(localized: "shop"))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             setupInitialState()

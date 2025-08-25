@@ -318,7 +318,6 @@ class InventoryManager: ObservableObject {
             if !weaponIconNames.contains(selectedWeaponIcon) {
                 if let weaponItem = findItemByIconName(selectedWeaponIcon) {
                     addToInventory(weaponItem)
-                    print("✅ Added selected weapon to inventory: \(selectedWeaponIcon)")
                 }
             }
             
@@ -327,12 +326,9 @@ class InventoryManager: ObservableObject {
             if !outfitIconNames.contains(selectedOutfitIcon) {
                 if let outfitItem = findItemByIconName(selectedOutfitIcon) {
                     addToInventory(outfitItem)
-                    print("✅ Added selected outfit to inventory: \(selectedOutfitIcon)")
                 }
             }
         }
-        
-        print("✅ Onboarding completion items added to inventory")
         
         // Auto-equip the selected items from character customization
         autoEquipDefaultItems(characterCustomization: characterCustomization)
@@ -378,6 +374,7 @@ class InventoryManager: ObservableObject {
             }
         }
     }
+    
     
     /// Helper method to find an item by its icon name (asset ID)
     /// - Parameter iconName: The icon name to search for

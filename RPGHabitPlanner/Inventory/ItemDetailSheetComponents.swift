@@ -224,8 +224,8 @@ struct ItemDetailsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Description")
-                .font(.appFont(size: 18, weight: .bold))
+            Text(String(localized: "description"))
+                .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
             Text(item.info ?? "No description available.")
@@ -253,8 +253,8 @@ struct ItemEffectsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Effects")
-                .font(.appFont(size: 18, weight: .bold))
+            Text(String(localized: "effects"))
+                .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
             VStack(spacing: 8) {
@@ -304,8 +304,8 @@ struct UsageInfoView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Usage Information")
-                .font(.appFont(size: 18, weight: .bold))
+            Text(String(localized: "usage_information"))
+                .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
             VStack(alignment: .leading, spacing: 8) {
@@ -313,52 +313,52 @@ struct UsageInfoView: View {
                     HStack {
                         Image(systemName: "drop.fill")
                             .foregroundColor(.red)
-                        Text("Consumable Item")
+                        Text(String(localized: "consumable_item"))
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text("This item will be consumed when used and removed from your inventory.")
+                    Text(String(localized: "consumable_item_description"))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else if definition.itemType == .booster {
                     HStack {
                         Image(systemName: "bolt.fill")
                             .foregroundColor(.yellow)
-                        Text("Booster Item")
+                        Text(String(localized: "booster_item"))
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text("This item provides temporary bonuses and will be consumed when used.")
+                    Text(String(localized: "booster_item_description"))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else if definition.itemType == .gear {
                     HStack {
                         Image(systemName: "shield.fill")
                             .foregroundColor(.blue)
-                        Text("Equipment Item")
+                        Text(String(localized: "equipment_item"))
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text("This item can be equipped to enhance your character's stats.")
+                    Text(String(localized: "equipment_item_description"))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else {
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundColor(.purple)
-                        Text("Collectible Item")
+                        Text(String(localized: "collectible_item"))
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
                     }
 
-                    Text("This is a collectible item for display purposes.")
+                    Text(String(localized: "collectible_item_description"))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }

@@ -16,8 +16,8 @@ struct CompactBoostersSectionView: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                Text("Active Boosters")
-                    .font(.appFont(size: 20, weight: .bold))
+                Text(String(localized: "active_boosters"))
+                    .font(.appFont(size: 16, weight: .semibold))
                     .foregroundColor(theme.textColor)
                 Spacer()
             }
@@ -27,8 +27,8 @@ struct CompactBoostersSectionView: View {
                     Image(systemName: "bolt.slash")
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
-                    Text("No active boosters")
-                        .font(.appFont(size: 16))
+                    Text(String(localized: "no_active_boosters"))
+                        .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
                 .padding()
@@ -63,8 +63,8 @@ struct CompactBoostersSectionView: View {
                     Image(systemName: "star.fill")
                         .foregroundColor(.green)
                         .font(.system(size: 14))
-                    Text("Experience")
-                        .font(.appFont(size: 12, weight: .medium))
+                    Text(String(localized: "experience"))
+                        .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                 }
 
@@ -95,8 +95,8 @@ struct CompactBoostersSectionView: View {
                     Image("icon_gold")
                         .resizable()
                         .frame(width: 14, height: 14)
-                    Text("Coins")
-                        .font(.appFont(size: 12, weight: .medium))
+                    Text(String(localized: "coins"))
+                        .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                 }
 
@@ -163,7 +163,7 @@ struct CompactBoostersSectionView: View {
 
                     if let expiresAt = booster.expiresAt {
                         Spacer()
-                        Text("Expires: \(expiresAt, style: .relative)")
+                        Text("\(String(localized: "expires")): \(expiresAt, style: .relative)")
                             .font(.appFont(size: 9))
                             .foregroundColor(.red.opacity(0.8))
                     }
@@ -213,8 +213,9 @@ struct ShopButtonView: View {
             HStack(spacing: 8) {
                 Image(systemName: "cart.fill")
                     .font(.system(size: 16))
-                Text("Visit Shop")
-                    .font(.appFont(size: 16, weight: .medium))
+                Text(String(localized: "visit_shop"))
+                    .font(.appFont(size: 14, weight: .medium))
+                    .foregroundColor(theme.accentColor)
             }
             .foregroundColor(.white)
             .padding(.horizontal, 24)

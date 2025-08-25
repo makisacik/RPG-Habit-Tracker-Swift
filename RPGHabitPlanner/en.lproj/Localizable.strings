@@ -109,7 +109,6 @@
 "eye_style" = "Eye Style";
 "outfit" = "Outfit";
 "weapon" = "Weapon";
-"current_selection" = "Current Selection";
 "style" = "Style";
 "level" = "Level";
 "experience" = "Experience";
@@ -467,3 +466,990 @@
 // MARK: - Character Customization
 "mustache" = "Mustache";
 "flower" = "Flower";
+
+// MARK: - New Localization Keys
+"my_quests" = "My Quests";
+"loading_quests" = "Loading quests...";
+"no_quests_for_date" = "No quests for %@";
+"create_quest_to_get_started" = "Create a quest to get started!";
+"adventure_shop" = "Adventure Shop";
+"shop_description" = "Trade your coins and gems for powerful items";
+"quest_board" = "Quest Board";
+"adventure_awaits_brave_one" = "Adventure awaits, brave one!";
+"accept_new_quest" = "Accept New Quest";
+"enter_quest_name" = "Enter your quest's name...";
+"describe_quest" = "Describe your quest...";
+"quest_deadline" = "Quest Deadline";
+"creating" = "Creating...";
+"create_quest" = "Create Quest";
+"quest_master" = "Quest Master";
+"rpg_habit_planner" = "RPG Habit Planner";
+"transform_daily_tasks_into_epic_adventures" = "Transform your daily tasks into epic adventures";
+"your_adventure_awaits" = "Your Adventure Awaits!";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"random_name" = "Random Name";
+"maximum_20_characters" = "Maximum 20 characters";
+"custom_hero" = "Custom Hero";
+"scheduled_days" = "Scheduled Days";
+"quest_damage_calculator" = "Quest Damage Calculator";
+"calculate_damage_for_active_quests" = "Calculate damage for all active quests";
+"no_active_quests_found" = "No active quests found";
+"todays_total_damage" = "Today's Total Damage";
+"last_calculated" = "Last calculated: %@";
+"filter" = "Filter";
+"apply" = "Apply";
+"no_active_boosters" = "No active boosters";
+"visit_shop" = "Visit Shop";
+"my_quests" = "My Quests";
+"view_all" = "View All";
+"loading_quests" = "Loading quests…";
+"no_quests_for_date" = "No quests for {date}";
+"create_quest" = "Create Quest";
+"appearance" = "Appearance";
+"general" = "General";
+"about" = "About";
+"daily" = "Daily";
+"weekly" = "Weekly";
+"one_time" = "One-time";
+"scheduled" = "Scheduled";
+"expires" = "Expires";
+"failed_to_update_quest_tags" = "Failed to update quest tags";
+"daily_quests_can_only_be_toggled_for_today" = "Daily quests can only be toggled for today";
+"weekly_quests_can_only_be_toggled_in_current_week" = "Weekly quests can only be toggled in the current week";
+"quest_can_only_be_completed_between_creation_and_due_date" = "This quest can only be completed between creation and due date";
+"quest_can_only_be_completed_on_scheduled_days" = "This quest can only be completed on scheduled days";
+"failed_to_delete_quest" = "Failed to delete quest";
+
+// MARK: - Calendar & Streak Views
+"filter" = "Filter";
+"apply" = "Apply";
+"loading_quests" = "Loading quests…";
+"no_quests" = "No Quests";
+"add_quest" = "Add Quest";
+"streak_calendar" = "Streak Calendar";
+"current_streak" = "Current Streak";
+"longest_streak" = "Longest Streak";
+"streak_day" = "day";
+"streak_days" = "days";
+"best_streak" = "Best Streak";
+"today_status" = "Today";
+"monthly_activity" = "Monthly Activity";
+"active_days" = "Active Days";
+"activity_rate" = "Activity Rate";
+"item_boosters" = "Item Boosters";
+"total_active_boosters" = "Total Active Boosters";
+"collect_items_to_get_boosters" = "Collect items to get boosters!";
+"go_to_shop" = "Go to Shop";
+"view_details" = "View Details";
+"tag_preview_will_appear_here" = "Tag preview will appear here";
+"tag_name" = "Tag Name";
+"enter_tag_name" = "Enter tag name";
+"icon" = "Icon";
+"browse_all" = "Browse All";
+"selected_icon" = "Selected Icon";
+"color" = "Color";
+"create_tag" = "Create Tag";
+"create" = "Create";
+"owned" = "Owned";
+"buy" = "Buy";
+"filters" = "Filters";
+"rarity" = "Rarity";
+"all" = "All";
+"show_only_affordable_items" = "Show only affordable items";
+"item_preview" = "Item Preview";
+"buy_for" = "Buy for %@";
+"unlock_premium" = "Unlock Premium";
+"transform_quest_planning_experience" = "Transform your quest planning experience";
+"premium_features" = "Premium Features";
+"choose_your_plan" = "Choose Your Plan";
+"get_premium" = "Get Premium";
+"subscription_terms" = "Cancel anytime. Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.";
+"most_popular" = "MOST POPULAR";
+"usage_information" = "Usage Information";
+"consumable_item" = "Consumable Item";
+"consumable_item_description" = "This item will be consumed when used and removed from your inventory.";
+"booster_item" = "Booster Item";
+"booster_item_description" = "This item provides temporary bonuses and will be consumed when used.";
+"equipment_item" = "Equipment Item";
+"equipment_item_description" = "This item can be equipped to enhance your character's stats.";
+"collectible_item" = "Collectible Item";
+"collectible_item_description" = "This is a collectible item for display purposes.";
+"item_details" = "Item Details";
+"use" = "Use";
+"failed_to_use_item" = "Failed to use item";
+"item_not_found_in_inventory" = "Item not found in inventory";
+"failed_to_equip_item" = "Failed to equip item";
+"item_equipped_successfully" = "Item equipped successfully!";
+"item_used_successfully" = "Item used successfully!";
+"no_items_for_category" = "No %@ items";
+"visit_shop_to_get_items" = "Visit the shop to get some %@ items!";
+"no_colors_available_for_hair_style" = "No colors available for this hair style";
+"price" = "%@";
+"damage_history" = "Damage History";
+"total_damage" = "%@ HP";
+"loading_damage_history" = "Loading damage history...";
+"no_damage_taken" = "No damage taken";
+"damage_amount" = "%@ HP";
+"view_all_damage_events" = "View all %d damage events";
+
+// MARK: - Item Names and Descriptions
+
+// Health Potions
+"lesser_healing_elixir" = "Lesser Healing Elixir";
+"lesser_healing_elixir_description" = "Restores 15 HP. A basic healing potion made from common herbs.";
+"vitality_draught" = "Vitality Draught";
+"vitality_draught_description" = "Restores 30 HP. A reliable healing potion for adventurers.";
+"greater_restoration_tonic" = "Greater Restoration Tonic";
+"greater_restoration_tonic_description" = "Restores 50 HP. A powerful healing potion that can save your life.";
+"supreme_life_essence" = "Supreme Life Essence";
+"supreme_life_essence_description" = "Restores 75 HP. An exceptional healing potion with rare ingredients.";
+"phoenix_tears" = "Phoenix Tears";
+"phoenix_tears_description" = "Fully restores health. A legendary potion that brings you back from the brink of death.";
+
+// XP Boosts
+"wisdoms_breath" = "Wisdom's Breath";
+"wisdoms_breath_description" = "Increases XP gain by 25% for 30 minutes";
+"scholars_insight" = "Scholar's Insight";
+"scholars_insight_description" = "Increases XP gain by 50% for 1 hour";
+"masters_enlightenment" = "Master's Enlightenment";
+"masters_enlightenment_description" = "Increases XP gain by 100% for 2 hours";
+"ancient_knowledge_essence" = "Ancient Knowledge Essence";
+"ancient_knowledge_essence_description" = "Increases XP gain by 200% for 4 hours";
+
+// Coin Boosts
+"merchants_blessing" = "Merchant's Blessing";
+"merchants_blessing_description" = "Increases coin gain by 25% for 30 minutes";
+"wealth_attractor" = "Wealth Attractor";
+"wealth_attractor_description" = "Increases coin gain by 50% for 1 hour";
+"golden_fortune" = "Golden Fortune";
+"golden_fortune_description" = "Increases coin gain by 100% for 2 hours";
+"dragons_hoard_essence" = "Dragon's Hoard Essence";
+"dragons_hoard_essence_description" = "Increases coin gain by 200% for 4 hours";
+
+// Accessories - Flowers
+"azure_bloom" = "Azure Bloom";
+"azure_bloom_description" = "A beautiful blue flower that seems to capture the essence of a clear summer sky. Its petals shimmer with an inner light that brings peace to those who wear it.";
+"emerald_petal" = "Emerald Petal";
+"emerald_petal_description" = "A lovely green flower with leaves that sparkle like morning dew. It radiates natural energy and seems to enhance the wearer's connection to nature.";
+"amethyst_blossom" = "Amethyst Blossom";
+"amethyst_blossom_description" = "An elegant purple flower with petals that seem to glow with mystical energy. Wearing it grants a sense of wisdom and inner strength.";
+
+// Accessories - Eyeglasses
+"sapphire_spectacles" = "Sapphire Spectacles";
+"sapphire_spectacles_description" = "Stylish blue glasses with lenses that seem to enhance vision beyond normal human capabilities. The frames are crafted from precious metals and set with tiny sapphire gems.";
+"shadow_lenses" = "Shadow Lenses";
+"shadow_lenses_description" = "Classic gray glasses that seem to absorb light rather than reflect it. They grant the wearer an air of mystery and help them blend into shadows.";
+"ruby_frames" = "Ruby Frames";
+"ruby_frames_description" = "Bold red glasses that burn with inner fire. The lenses seem to glow with heat, and wearing them grants an intimidating presence.";
+
+// Accessories - Earrings
+"moonstone_stud" = "Moonstone Stud";
+"moonstone_stud_description" = "A simple earring crafted from pure moonstone. It catches the light like moonlight on water and seems to pulse with gentle energy.";
+"starlight_hoop" = "Starlight Hoop";
+"starlight_hoop_description" = "An elegant earring that sparkles like starlight. The metal seems to contain tiny stars that twinkle and dance in the light.";
+
+// Accessories - Lashes
+"rose_blush" = "Rose Blush";
+"rose_blush_description" = "A touch of blush that gives the wearer a natural, healthy glow. The color seems to enhance beauty and confidence, making the wearer radiate charm.";
+
+// Gear - Head
+"shadow_veil" = "Shadow Veil";
+"shadow_veil_description" = "A mysterious hood woven from shadow essence. Conceals your identity while offering basic protection from the elements.";
+"ironclad_crown" = "Ironclad Crown";
+"ironclad_crown_description" = "Forged from the finest iron, this crown provides excellent protection while maintaining a regal appearance. Worn by many aspiring knights.";
+"crimson_crest" = "Crimson Crest";
+"crimson_crest_description" = "A striking helmet adorned with crimson gems. The metal seems to pulse with inner fire, granting its wearer an intimidating presence.";
+
+// Gear - Outfits
+"peasants_garb" = "Peasant's Garb";
+"peasants_garb_description" = "Simple but durable clothing worn by villagers. Though humble in appearance, it has served countless adventurers on their first steps into the unknown.";
+"azure_tunic" = "Azure Tunic";
+"azure_tunic_description" = "A beautiful blue tunic that catches the light like morning dew. The fabric is surprisingly resilient, offering both style and protection.";
+"comfort_cloak" = "Comfort Cloak";
+"comfort_cloak_description" = "A warm, comfortable hoodie that feels like a gentle embrace. Perfect for those long nights of study or quiet contemplation.";
+"silken_grace" = "Silken Grace";
+"silken_grace_description" = "An elegant dress woven from the finest silk. The fabric flows like water, and the intricate embroidery tells stories of ancient courts.";
+"ironclad_plate" = "Ironclad Plate";
+"ironclad_plate_description" = "Heavy iron armor that clanks with authority. Each plate has been carefully crafted and fitted, offering superior protection against physical attacks.";
+"reinforced_ironclad" = "Reinforced Ironclad";
+"reinforced_ironclad_description" = "Enhanced iron armor with additional reinforcements. The metal has been treated with ancient techniques, making it nearly impervious to common weapons.";
+"crimson_raiment" = "Crimson Raiment";
+"crimson_raiment_description" = "Bold red armor that burns with inner fire. The metal seems alive, pulsing with heat that intimidates enemies and inspires allies.";
+"arcane_robes" = "Arcane Robes";
+"arcane_robes_description" = "Mystical robes that shimmer with magical energy. Woven with enchanted threads, they enhance magical abilities and protect against arcane attacks.";
+"nightwing_shroud" = "Nightwing Shroud";
+"nightwing_shroud_description" = "A mysterious outfit that seems to absorb light itself. Worn by those who walk in shadows, it grants the wearer an otherworldly presence.";
+"inferno_mantle" = "Inferno Mantle";
+"inferno_mantle_description" = "A blazing outfit that radiates pure fire energy. The flames dance around the wearer, creating an aura of destruction and power.";
+
+// Gear - Wings
+"celestial_wings" = "Celestial Wings";
+"celestial_wings_description" = "Pure white wings that glow with divine light. They seem to be made of pure energy, allowing the bearer to soar through the heavens with grace.";
+"phoenix_wings" = "Phoenix Wings";
+"phoenix_wings_description" = "Fiery wings that burn with eternal flame. Each feather crackles with heat, and the wings seem to regenerate even from the ashes of destruction.";
+"blazing_phoenix" = "Blazing Phoenix";
+"blazing_phoenix_description" = "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.";
+"shadow_wings" = "Shadow Wings";
+"shadow_wings_description" = "Dark wings that seem to absorb all light around them. They allow silent flight through the night, perfect for those who prefer to remain unseen.";
+
+// Gear - Weapons
+"oakheart_blade" = "Oakheart Blade";
+"oakheart_blade_description" = "A sword carved from ancient oak, its blade hardened through years of seasoning. Though simple, it has a natural balance that makes it surprisingly effective in skilled hands.";
+"copper_fang" = "Copper Fang";
+"copper_fang_description" = "A copper sword with a distinctive reddish hue. The metal has been carefully forged to create a sharp edge that gleams in the sunlight.";
+"ironclad_edge" = "Ironclad Edge";
+"ironclad_edge_description" = "A reliable iron sword that has been the weapon of choice for countless warriors. Its balance and durability make it a trusted companion in battle.";
+"steel_serpent" = "Steel Serpent";
+"steel_serpent_description" = "A sharp steel sword that moves like a striking snake. The blade is so finely crafted that it can cut through lesser armor with ease.";
+"crimson_fang" = "Crimson Fang";
+"crimson_fang_description" = "A fiery red sword that burns with inner heat. The blade seems to thirst for battle, growing hotter with each strike against enemies.";
+"blazing_fang" = "Blazing Fang";
+"blazing_fang_description" = "An enhanced version of the Crimson Fang, this sword burns with such intensity that it can ignite enemies with a single strike.";
+"golden_dawn" = "Golden Dawn";
+"golden_dawn_description" = "A legendary golden sword that seems to capture the first light of dawn. Its blade radiates warmth and hope, inspiring allies while striking fear into enemies.";
+"thunder_axe" = "Thunder Axe";
+"thunder_axe_description" = "A heavy axe that crackles with electrical energy. Each swing creates a thunderous boom, and the blade can channel lightning through its strikes.";
+"storm_hatchet" = "Storm Hatchet";
+"storm_hatchet_description" = "A smaller axe that hums with storm energy. Though lighter than its larger cousin, it can still channel the power of thunder and lightning.";
+"vipers_lash" = "Viper's Lash";
+"vipers_lash_description" = "A flexible whip that strikes like a venomous snake. The leather has been treated with special oils, making it both deadly and silent.";
+"arcane_staff" = "Arcane Staff";
+"arcane_staff_description" = "A magical staff that pulses with arcane energy. Carved from ancient wood and set with mystical crystals, it enhances magical abilities and channels powerful spells.";
+"iron_maiden" = "Iron Maiden";
+"iron_maiden_description" = "A heavy mace that strikes with devastating force. The spiked head can crush armor and bone alike, making it feared by all who face it.";
+"soul_reaper" = "Soul Reaper";
+"soul_reaper_description" = "A deadly weapon that seems to drain the life from its victims. The blade is dark as night and cold as death, feared by all who know its name.";
+"windseeker_bow" = "Windseeker Bow";
+"windseeker_bow_description" = "A bow that seems to be guided by the wind itself. Arrows fired from this bow fly with uncanny accuracy, finding their targets even in the strongest gales.";
+"stormcaller_bow" = "Stormcaller Bow";
+"stormcaller_bow_description" = "A bow that can summon storms with its arrows. Each shot crackles with lightning, and the bow itself hums with the power of thunder.";
+
+// Gear - Shields
+"oakheart_ward" = "Oakheart Ward";
+"oakheart_ward_description" = "A shield carved from ancient oak, its surface weathered but strong. The wood has absorbed countless blows, making it a reliable defense for any warrior.";
+"crimson_ward" = "Crimson Ward";
+"crimson_ward_description" = "A red shield that burns with defensive fire. The metal seems to absorb attacks and reflect them back as heat, making enemies think twice before striking.";
+"ironclad_bulwark" = "Ironclad Bulwark";
+"ironclad_bulwark_description" = "A sturdy iron shield that has withstood the test of time. Its surface is covered in battle scars, each one a testament to its protective power.";
+"golden_aegis" = "Golden Aegis";
+"golden_aegis_description" = "A golden shield that radiates divine protection. The metal gleams with holy light, and enemies find their attacks weakened when facing its brilliance.";
+
+// Gear - Pets
+"shadowpaw" = "Shadowpaw";
+"shadowpaw_description" = "A mysterious cat companion with fur as dark as midnight. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.";
+"whiskerwind" = "Whiskerwind";
+"whiskerwind_description" = "A graceful cat with fur that shimmers like starlight. It has an uncanny ability to sense danger and will warn you of approaching threats.";
+"golden_cluck" = "Golden Cluck";
+"golden_cluck_description" = "A loyal chicken companion with golden feathers that gleam in the sunlight. Despite its humble appearance, it has a heart of gold and will follow you anywhere.";
+
+// Collectibles
+"crown_of_kings" = "Crown of Kings";
+"crown_of_kings_description" = "A magnificent crown that has adorned the heads of countless rulers throughout history. Its jewels seem to hold the wisdom of ages past, and wearing it grants an aura of authority.";
+"mystic_egg" = "Mystic Egg";
+"mystic_egg_description" = "A mysterious egg that pulses with unknown energy. Ancient legends speak of creatures that hatch from such eggs, but none have ever witnessed the transformation.";
+"thunder_hammer" = "Thunder Hammer";
+"thunder_hammer_description" = "A mighty hammer that crackles with electrical energy. Each strike creates a thunderous boom, and the weapon seems to channel the power of storms themselves.";
+"golden_key_of_ages" = "Golden Key of Ages";
+"golden_key_of_ages_description" = "A golden key that seems to unlock more than just physical doors. Ancient inscriptions suggest it can open portals to forgotten realms and hidden knowledge.";
+"silver_key_of_secrets" = "Silver Key of Secrets";
+"silver_key_of_secrets_description" = "A silver key that whispers secrets to those who hold it. The metal seems to remember every lock it has ever opened, and every secret it has ever revealed.";
+"medal_of_honor" = "Medal of Honor";
+"medal_of_honor_description" = "A prestigious medal awarded for acts of great courage and valor. The metal gleams with the light of honor, and wearing it inspires respect from all who see it.";
+"harvest_pumpkin" = "Harvest Pumpkin";
+"harvest_pumpkin_description" = "A festive pumpkin that seems to glow with inner light. Carved with care and decorated with mystical symbols, it brings joy and celebration wherever it appears.";
+"ring_of_power" = "Ring of Power";
+"ring_of_power_description" = "A magical ring that pulses with arcane energy. Ancient runes are etched into its surface, and wearing it grants access to forgotten magical abilities.";
+"treasure_chest" = "Treasure Chest";
+"treasure_chest_description" = "A sturdy treasure chest that has held countless fortunes throughout the ages. Its wood is weathered but strong, and the lock mechanism is a marvel of ancient engineering.";
+"azure_treasure_chest" = "Azure Treasure Chest";
+"azure_treasure_chest_description" = "A rare blue treasure chest that seems to glow with inner light. The metal is unlike any known alloy, and the chest itself seems to hum with magical energy.";
+"opened_treasure_chest" = "Opened Treasure Chest";
+"opened_treasure_chest_description" = "An opened treasure chest that has already revealed its secrets. Though empty now, it still holds the promise of adventure and discovery.";
+"bronze_trophy_of_valor" = "Bronze Trophy of Valor";
+"bronze_trophy_of_valor_description" = "A bronze trophy awarded for acts of bravery and courage. The metal has been polished to a shine, and the craftsmanship speaks of great skill and dedication.";
+"silver_trophy_of_glory" = "Silver Trophy of Glory";
+"silver_trophy_of_glory_description" = "A silver trophy that gleams with the light of achievement. The metal seems to capture and reflect the glory of past victories, inspiring future triumphs.";
+"golden_trophy_of_legends" = "Golden Trophy of Legends";
+"golden_trophy_of_legends_description" = "A golden trophy that radiates with the power of legend. The metal seems to hold the essence of greatness itself, and those who possess it are destined for fame.";
+"scroll_of_ancient_wisdom" = "Scroll of Ancient Wisdom";
+"scroll_of_ancient_wisdom_description" = "An ancient scroll covered in mystical runes and forgotten knowledge. The parchment seems to whisper secrets to those who study it carefully.";
+"scroll_of_lost_secrets" = "Scroll of Lost Secrets";
+"scroll_of_lost_secrets_description" = "A scroll that contains secrets so powerful they were hidden away for centuries. The ink seems to glow with forbidden knowledge, and reading it grants insights into forgotten magic.";
+"scroll_of_forbidden_knowledge" = "Scroll of Forbidden Knowledge";
+"scroll_of_forbidden_knowledge_description" = "A scroll that pulses with dangerous energy. The knowledge contained within is so powerful that it was sealed away by ancient sages to protect the world.";
+"bell_of_awakening" = "Bell of Awakening";
+"bell_of_awakening_description" = "A magical bell that rings with a sound that seems to awaken the soul. The metal resonates with pure energy, and its chime can break enchantments and dispel illusions.";
+"chronometer" = "Chronometer";
+"chronometer_description" = "A mystical timepiece that seems to track more than just hours and minutes. The gears move with impossible precision, and the device can measure the flow of time itself.";
+"lucky_four_leaf_clover" = "Lucky Four-Leaf Clover";
+"lucky_four_leaf_clover_description" = "A rare four-leaf clover that seems to radiate good fortune. The leaves shimmer with an inner light, and carrying it brings luck and protection to its owner.";
+"holy_cross" = "Holy Cross";
+"holy_cross_description" = "A sacred cross that glows with divine light. The metal seems to be blessed, and it offers protection against dark forces and evil magic.";
+"phoenix_feather" = "Phoenix Feather";
+"phoenix_feather_description" = "A feather that burns with eternal flame. Though it should be consumed by fire, it remains intact and radiates warmth and renewal.";
+"essence_of_fire" = "Essence of Fire";
+"essence_of_fire_description" = "A crystal that contains pure fire energy. The flames dance within the gem, and it radiates heat that can warm even the coldest heart.";
+"lightning_bolt" = "Lightning Bolt";
+"lightning_bolt_description" = "A bolt of lightning captured in crystal form. The energy crackles within, and the crystal hums with the power of storms.";
+"strength_totem" = "Strength Totem";
+"strength_totem_description" = "A totem that radiates with the power of physical might. Carved with symbols of strength, it enhances the bearer's physical abilities and grants courage in battle.";
+"starlight_fragment" = "Starlight Fragment";
+"starlight_fragment_description" = "A fragment of starlight captured in crystal form. It glows with the light of distant stars, and holding it brings clarity and inspiration.";
+"skull_of_the_fallen" = "Skull of the Fallen";
+"skull_of_the_fallen_description" = "A mysterious skull that seems to hold the memories of its former owner. Though unsettling, it can reveal secrets about the past and warn of future dangers.";
+"skull_of_the_ancient" = "Skull of the Ancient";
+"skull_of_the_ancient_description" = "A skull so old that it has become fossilized. Ancient wisdom seems to emanate from it, and those who study it can learn forgotten knowledge.";
+
+// MARK: - Enemy Names and Descriptions
+"sleepy_cat" = "Sleepy Cat";
+"sleepy_cat_description" = "A sleepy cat that makes you want to nap instead of work";
+"funny_zombie" = "Funny Zombie";
+"funny_zombie_description" = "A funny zombie that distracts you with humor";
+"funky_monster" = "Funky Monster";
+"funky_monster_description" = "A funky monster that gets you grooving instead of focusing";
+"boo_monster" = "Boo Monster";
+"boo_monster_description" = "A spooky boo monster that scares away your concentration";
+"flying_dragon" = "Flying Dragon";
+"flying_dragon_description" = "A majestic flying dragon that's hard to defeat";
+
+// MARK: - Item Categories
+"consumable" = "Consumable";
+"booster" = "Booster";
+"collectible" = "Collectible";
+"accessory" = "Accessory";
+"gear" = "Gear";
+
+// MARK: - Gear Categories
+"head" = "Head";
+"outfit" = "Outfit";
+"wings" = "Wings";
+"weapon" = "Weapon";
+"shield" = "Shield";
+"pet" = "Pet";
+
+// MARK: - Accessory Categories
+"clips" = "Clips";
+"eyeglasses" = "Eyeglasses";
+"earrings" = "Earrings";
+"lashes" = "Lashes";
+"eyelashes" = "Eyelashes";
+"eyelash" = "Eyelash";
+
+// MARK: - Collection Categories
+"royalty" = "Royalty";
+"general" = "General";
+"weapons" = "Weapons";
+"treasure" = "Treasure";
+"accessories" = "Accessories";
+"trophies" = "Trophies";
+"scrolls" = "Scrolls";
+"elements" = "Elements";
+
+// MARK: - Item Rarities
+"common" = "Common";
+"uncommon" = "Uncommon";
+"rare" = "Rare";
+"epic" = "Epic";
+"legendary" = "Legendary";
+
+// MARK: - Onboarding Flow
+"next" = "Next";
+"start_adventure" = "Start Adventure";
+"welcome" = "Welcome";
+"customize_character" = "Customize Character";
+"choose_name" = "Choose Name";
+"choose_title" = "Choose Title";
+"ready" = "Ready";
+"create_quests_and_complete_tasks" = "Create quests and complete tasks";
+"earn_experience_and_level_up" = "Earn experience and level up";
+"unlock_achievements_and_rewards" = "Unlock achievements and rewards";
+"customize_your_character" = "Customize your character";
+"enter_hero_name" = "Enter hero name";
+"cancel" = "Cancel";
+
+// MARK: - Character Titles
+"the_brave" = "The Brave";
+"the_brave_description" = "Fearless in the face of danger";
+"the_wise" = "The Wise";
+"the_wise_description" = "Knowledge and wisdom guide their path";
+"the_swift" = "The Swift";
+"the_swift_description" = "Quick as the wind, agile as a cat";
+"the_mighty" = "The Mighty";
+"the_mighty_description" = "Strength and power personified";
+"the_shadow" = "The Shadow";
+"the_shadow_description" = "Moves unseen, strikes from darkness";
+"the_guardian" = "The Guardian";
+"the_guardian_description" = "Protector of the innocent and weak";
+"the_wanderer" = "The Wanderer";
+"the_wanderer_description" = "Explorer of unknown lands and secrets";
+"the_legendary" = "The Legendary";
+"the_legendary_description" = "Destined for greatness and fame";
+"the_whimsical" = "The Whimsical";
+"the_whimsical_description" = "Brings joy and wonder wherever they go";
+"the_stormborn" = "The Stormborn";
+"the_stormborn_description" = "Born of thunder, master of chaos";
+"the_dreamweaver" = "The Dreamweaver";
+"the_dreamweaver_description" = "Weaves dreams into reality";
+"the_starlight" = "The Starlight";
+"the_starlight_description" = "Illuminates the darkest paths";
+"hero" = "Hero";
+"chooseYourTitle" = "Choose Your Title";
+"selectTitleDescription" = "Select a title that represents your character's personality and achievements";
+"selectDifferentTitle" = "Select Different Title";
+"randomTitle" = "Random Title";
+"chooseFromAvailableTitles" = "Choose from available titles";
+"maximum_20_characters" = "Maximum 20 characters";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"random_name" = "Random Name";
+"your_adventure_awaits" = "Your Adventure Awaits";
+
+// MARK: - Home View
+"new_quest" = "New Quest";
+"create_new_adventure" = "Create a new adventure";
+"quick_quests" = "Quick Quests";
+"add_premade_quests" = "Add premade quests";
+"character" = "Character";
+"view_your_stats" = "View your stats";
+"finished" = "Finished";
+"view_completed_quests" = "View completed quests";
+"achievements" = "Achievements";
+"view_your_trophies" = "View your trophies";
+"focus_timer" = "Focus Timer";
+"battle_distractions" = "Battle distractions";
+"shop" = "Shop";
+"buy_items_with_coins" = "Buy items with coins";
+"add_currency" = "Add Currency";
+"active_quests" = "Active Quests";
+"no_active_quests" = "No Active Quests";
+"create_quest" = "Create Quest";
+"active_boosters" = "Active Boosters";
+"no_active_boosters" = "No Active Boosters";
+"experience" = "Experience";
+"coins" = "Coins";
+"visit_shop" = "Visit Shop";
+
+// MARK: - Quest Creation & Details
+"quest_title" = "Quest Title";
+"enter_quest_name" = "Enter quest name";
+"quest_description" = "Quest Description";
+"describe_quest" = "Describe your quest";
+"quest_deadline" = "Quest Deadline";
+"quest_difficulty" = "Quest Difficulty";
+"creating" = "Creating...";
+"error" = "Error";
+"ok" = "OK";
+"unknown_error" = "Unknown error";
+"quest_details" = "Quest Details";
+"quest_due_date" = "Quest Due Date";
+"created" = "Created";
+"type" = "Type";
+"main_quest_label" = "Main Quest";
+"completed_label" = "Completed";
+"mark_as_finished" = "Mark as Finished";
+"mark_incomplete" = "Mark Incomplete";
+"mark_complete" = "Mark Complete";
+"view_all_damage_events" = "View all {count} damage events";
+"damage_history" = "Damage History";
+"total_damage" = "Total Damage";
+"loading_damage_history" = "Loading damage history...";
+"no_damage_taken" = "No damage taken";
+"damage_amount" = "Damage Amount";
+
+// MARK: - Quest Creation Components
+"quest_master" = "Quest Master";
+"continue" = "Continue";
+"quest_board" = "Quest Board";
+"adventure_awaits_brave_one" = "Adventure awaits, brave one!";
+"accept_new_quest" = "Accept New Quest";
+"scheduled_days" = "Scheduled Days";
+"quest_tasks" = "Quest Tasks";
+"manage_tasks" = "Manage Tasks";
+"quest_difficulty" = "Quest Difficulty";
+"repeat_type" = "Repeat Type";
+"one_time" = "One Time";
+"quest_reward" = "Quest Reward";
+"base_reward" = "Base Reward";
+"task_bonus" = "Task Bonus";
+"quest_tags" = "Quest Tags";
+"add_tags" = "Add Tags";
+"no_tags_selected" = "No tags selected";
+"quest_title_cannot_be_empty" = "Quest title cannot be empty.";
+
+// MARK: - Calendar View
+"quest_calendar" = "Quest Calendar";
+"heads_up" = "Heads Up";
+"ok_button" = "OK";
+"no_quests" = "No Quests";
+"add_quest" = "Add Quest";
+"loading_character" = "Loading Character...";
+"recent_achievements" = "Recent Achievements";
+"no_achievements_yet" = "No Achievements Yet";
+"complete_quests_to_earn_achievements" = "Complete quests to earn achievements";
+"quick_actions" = "Quick Actions";
+"health" = "Health";
+"the_brave" = "The Brave";
+"xp" = "XP";
+
+// MARK: - Shop Categories
+"weapons" = "Weapons";
+"armor" = "Armor";
+"accessories" = "Accessories";
+"wings" = "Wings";
+"pets" = "Pets";
+"consumables" = "Consumables";
+"helmet" = "Helmet";
+"outfit" = "Outfit";
+"shield" = "Shield";
+"potions" = "Potions";
+"boosts" = "Boosts";
+"specials" = "Specials";
+
+// MARK: - Shop Items
+"icon_gold" = "Gold";
+"icon_gem" = "Gem";
+
+// MARK: - Character Customization Steps
+"select_skin_color" = "Select Skin Color";
+"choose_hairstyle" = "Choose Hairstyle";
+"choose_hair_back_style" = "Choose Hair Back Style";
+"select_eye_color" = "Select Eye Color";
+"choose_outfit" = "Choose Outfit";
+"pick_your_weapon" = "Pick Your Weapon";
+"add_mustache" = "Add Mustache";
+"add_flower" = "Add Flower";
+"add_accessories" = "Add Accessories";
+
+// MARK: - Character Customization UI
+"step_progress" = "Step %d of %d";
+"current_selection" = "Current Selection";
+"premium_item" = "Premium Item";
+"locked_item" = "Locked Item";
+"unlock_premium_to_access" = "Unlock Premium to access this item";
+
+// MARK: - Character Titles (Additional)
+"the_brave" = "The Brave";
+"the_wise" = "The Wise";
+"the_swift" = "The Swift";
+"the_mighty" = "The Mighty";
+"the_shadow" = "The Shadow";
+"the_guardian" = "The Guardian";
+"the_wanderer" = "The Wanderer";
+"the_legendary" = "The Legendary";
+"the_whimsical" = "The Whimsical";
+"the_stormborn" = "The Stormborn";
+"the_dreamweaver" = "The Dreamweaver";
+"the_starlight" = "The Starlight";
+
+// MARK: - Character Title Descriptions
+"the_brave_description" = "Fearless in the face of danger";
+"the_wise_description" = "Knowledge and wisdom guide their path";
+"the_swift_description" = "Quick as the wind, agile as a cat";
+"the_mighty_description" = "Strength and power personified";
+"the_shadow_description" = "Moves unseen, strikes from darkness";
+"the_guardian_description" = "Protector of the innocent and weak";
+"the_wanderer_description" = "Explorer of unknown lands and secrets";
+"the_legendary_description" = "Destined for greatness and fame";
+"the_whimsical_description" = "Brings joy and wonder wherever they go";
+"the_stormborn_description" = "Born of thunder, master of chaos";
+"the_dreamweaver_description" = "Weaves dreams into reality";
+"the_starlight_description" = "Illuminates the darkest paths";
+
+// MARK: - Onboarding Flow
+"choose_name" = "Choose Name";
+"choose_title" = "Choose Title";
+"ready" = "Ready";
+"create_quests_and_complete_tasks" = "Create quests and complete tasks";
+"earn_experience_and_level_up" = "Earn experience and level up";
+"unlock_achievements_and_rewards" = "Unlock achievements and rewards";
+"customize_your_character" = "Customize your character";
+"enter_hero_name" = "Enter hero name";
+"select_title_description" = "Select a title that represents your character's personality and achievements";
+
+// MARK: - Character Customization Categories
+"skin_color" = "Skin Color";
+"hairstyle" = "Hairstyle";
+"hair_back_style" = "Hair Back Style";
+"eye_color" = "Eye Color";
+"outfit" = "Outfit";
+"weapon" = "Weapon";
+"mustache" = "Mustache";
+"flower" = "Flower";
+"accessory" = "Accessory";
+
+// MARK: - Character Customization Options
+"no_customization_selected" = "No customization selected";
+"default_style" = "Default Style";
+"classic_style" = "Classic Style";
+"modern_style" = "Modern Style";
+"elegant_style" = "Elegant Style";
+"warrior_style" = "Warrior Style";
+"mage_style" = "Mage Style";
+"rogue_style" = "Rogue Style";
+
+// MARK: - Character Preview
+"character_preview" = "Character Preview";
+"preview_your_character" = "Preview your character";
+"character_customization" = "Character Customization";
+"customize_your_hero" = "Customize Your Hero";
+"choose_weapon_and_see_character_come_to_life" = "Choose your weapon and see your character come to life";
+"select_your_weapon" = "Select Your Weapon";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"enter_your_heros_name" = "Enter your hero's name";
+"maximum_20_characters" = "Maximum 20 characters";
+"ready_for_adventure" = "Ready for Adventure!";
+"your_hero_is_ready_to_begin_journey" = "Your hero is ready to begin their journey";
+
+// MARK: - Character Stats
+"character_stats" = "Character Stats";
+"character_level" = "Level";
+"character_experience" = "Experience";
+"character_health" = "Health";
+"character_mana" = "Mana";
+"character_strength" = "Strength";
+"character_intelligence" = "Intelligence";
+"character_agility" = "Agility";
+
+// MARK: - Character Equipment
+"equipped_items" = "Equipped Items";
+"no_items_equipped" = "No items equipped";
+"equip_item" = "Equip Item";
+"unequip_item" = "Unequip Item";
+"item_equipped" = "Item Equipped";
+"item_unequipped" = "Item Unequipped";
+
+// MARK: - Character Customization Flow
+"customization_progress" = "Customization Progress";
+"customization_complete" = "Customization Complete";
+"customization_incomplete" = "Customization Incomplete";
+"please_complete_customization" = "Please complete your character customization";
+"customization_saved" = "Customization saved successfully";
+"customization_failed" = "Failed to save customization";
+
+// MARK: - Character Customization Validation
+"please_select_skin_color" = "Please select a skin color";
+"please_select_hairstyle" = "Please select a hairstyle";
+"please_select_eye_color" = "Please select an eye color";
+"please_select_outfit" = "Please select an outfit";
+"please_select_weapon" = "Please select a weapon";
+
+// MARK: - Character Customization Help
+"customization_help" = "Customization Help";
+"tap_to_select" = "Tap to select";
+"tap_to_preview" = "Tap to preview";
+"swipe_to_browse" = "Swipe to browse options";
+"premium_items_available" = "Premium items available";
+"unlock_premium_for_more_options" = "Unlock premium for more customization options";
+
+// MARK: - Reward & Booster System
+"active_boosters" = "Active Boosters";
+"total_active_boosters" = "Total Active Boosters";
+"item_boosters" = "Item Boosters";
+"no_active_boosters" = "No Active Boosters";
+"collect_items_to_get_boosters" = "Collect items to get boosters!";
+"expired" = "Expired";
+"expires" = "Expires";
+"from_boosters" = "from boosters";
+"base" = "Base";
+"dismiss" = "Dismiss";
+"level_up" = "Level Up!";
+"new_level_reached" = "New Level Reached!";
+"experience_gained" = "Experience Gained";
+"coins_gained" = "Coins Gained";
+"quest_completed" = "Quest Completed!";
+"quest_rewards" = "Quest Rewards";
+"reward_animation" = "Reward Animation";
+"chest_opened" = "Chest Opened";
+"chest_closed" = "Chest Closed";
+"boosted_rewards" = "Boosted Rewards";
+"booster_bonus" = "Booster Bonus";
+"booster_multiplier" = "Booster Multiplier";
+"booster_duration" = "Booster Duration";
+"booster_remaining" = "Booster Remaining";
+"booster_expired" = "Booster Expired";
+"booster_active" = "Booster Active";
+"booster_inactive" = "Booster Inactive";
+"booster_effect" = "Booster Effect";
+"booster_source" = "Booster Source";
+"booster_type" = "Booster Type";
+"booster_value" = "Booster Value";
+"booster_time_left" = "Time Left";
+"booster_minutes" = "minutes";
+"booster_hours" = "hours";
+"booster_days" = "days";
+"booster_permanent" = "Permanent";
+"booster_temporary" = "Temporary";
+"booster_consumable" = "Consumable";
+"booster_equipment" = "Equipment";
+"booster_accessory" = "Accessory";
+"booster_collectible" = "Collectible";
+"booster_rarity" = "Rarity";
+"booster_common" = "Common";
+"booster_uncommon" = "Uncommon";
+"booster_rare" = "Rare";
+"booster_epic" = "Epic";
+"booster_legendary" = "Legendary";
+"booster_description" = "Description";
+"booster_usage" = "Usage";
+"booster_effects" = "Effects";
+"booster_duration_remaining" = "Duration Remaining";
+"booster_time_remaining" = "Time Remaining";
+"booster_expires_in" = "Expires in";
+"booster_expired_on" = "Expired on";
+"booster_activated_on" = "Activated on";
+"booster_deactivated_on" = "Deactivated on";
+"booster_activation_time" = "Activation Time";
+"booster_expiration_time" = "Expiration Time";
+"booster_total_bonus" = "Total Bonus";
+"booster_individual_bonus" = "Individual Bonus";
+"booster_combined_bonus" = "Combined Bonus";
+"booster_stack_limit" = "Stack Limit";
+"booster_max_stacks" = "Max Stacks";
+"booster_current_stacks" = "Current Stacks";
+"booster_stack_bonus" = "Stack Bonus";
+"booster_stack_multiplier" = "Stack Multiplier";
+"booster_stack_duration" = "Stack Duration";
+"booster_stack_remaining" = "Stack Remaining";
+"booster_stack_expired" = "Stack Expired";
+"booster_stack_active" = "Stack Active";
+"booster_stack_inactive" = "Stack Inactive";
+"booster_stack_effect" = "Stack Effect";
+"booster_stack_source" = "Stack Source";
+"booster_stack_type" = "Stack Type";
+"booster_stack_value" = "Stack Value";
+"booster_stack_time_left" = "Stack Time Left";
+"booster_stack_minutes" = "Stack Minutes";
+"booster_stack_hours" = "Stack Hours";
+"booster_stack_days" = "Stack Days";
+"booster_stack_permanent" = "Stack Permanent";
+"booster_stack_temporary" = "Stack Temporary";
+"booster_stack_consumable" = "Stack Consumable";
+"booster_stack_equipment" = "Stack Equipment";
+"booster_stack_accessory" = "Stack Accessory";
+"booster_stack_collectible" = "Stack Collectible";
+"booster_stack_rarity" = "Stack Rarity";
+"booster_stack_common" = "Stack Common";
+"booster_stack_uncommon" = "Stack Uncommon";
+"booster_stack_rare" = "Stack Rare";
+"booster_stack_epic" = "Stack Epic";
+"booster_stack_legendary" = "Stack Legendary";
+"booster_stack_description" = "Stack Description";
+"booster_stack_usage" = "Stack Usage";
+"booster_stack_effects" = "Stack Effects";
+"booster_stack_duration_remaining" = "Stack Duration Remaining";
+"booster_stack_time_remaining" = "Stack Time Remaining";
+"booster_stack_expires_in" = "Stack Expires In";
+"booster_stack_expired_on" = "Stack Expired On";
+"booster_stack_activated_on" = "Stack Activated On";
+"booster_stack_deactivated_on" = "Stack Deactivated On";
+"booster_stack_activation_time" = "Stack Activation Time";
+"booster_stack_expiration_time" = "Stack Expiration Time";
+"booster_stack_total_bonus" = "Stack Total Bonus";
+"booster_stack_individual_bonus" = "Stack Individual Bonus";
+"booster_stack_combined_bonus" = "Stack Combined Bonus";
+
+// MARK: - Additional Booster & Reward Keys
+"quest_booster" = "Quest Booster";
+"total_boost_format" = "Total Boost: +%d%% XP, +%d%% Coins";
+"booster_time_format" = "%dh %dm";
+"booster_minutes_format" = "%dm";
+"booster_hours_format" = "%dh";
+"booster_days_format" = "%dd";
+"booster_permanent_text" = "Permanent";
+"booster_temporary_text" = "Temporary";
+"booster_expired_text" = "Expired";
+"booster_active_text" = "Active";
+"booster_inactive_text" = "Inactive";
+"booster_consumable_text" = "Consumable";
+"booster_equipment_text" = "Equipment";
+"booster_accessory_text" = "Accessory";
+"booster_collectible_text" = "Collectible";
+"booster_common_text" = "Common";
+"booster_uncommon_text" = "Uncommon";
+"booster_rare_text" = "Rare";
+"booster_epic_text" = "Epic";
+"booster_legendary_text" = "Legendary";
+"booster_description_text" = "Description";
+"booster_usage_text" = "Usage";
+"booster_effects_text" = "Effects";
+"booster_duration_remaining_text" = "Duration Remaining";
+"booster_time_remaining_text" = "Time Remaining";
+"booster_expires_in_text" = "Expires in";
+"booster_expired_on_text" = "Expired on";
+"booster_activated_on_text" = "Activated on";
+"booster_deactivated_on_text" = "Deactivated on";
+"booster_activation_time_text" = "Activation Time";
+"booster_expiration_time_text" = "Expiration Time";
+"booster_total_bonus_text" = "Total Bonus";
+"booster_individual_bonus_text" = "Individual Bonus";
+"booster_combined_bonus_text" = "Combined Bonus";
+"booster_stack_limit_text" = "Stack Limit";
+"booster_max_stacks_text" = "Max Stacks";
+"booster_current_stacks_text" = "Current Stacks";
+"booster_stack_bonus_text" = "Stack Bonus";
+"booster_stack_multiplier_text" = "Stack Multiplier";
+"booster_stack_duration_text" = "Stack Duration";
+"booster_stack_remaining_text" = "Stack Remaining";
+"booster_stack_expired_text" = "Stack Expired";
+"booster_stack_active_text" = "Stack Active";
+"booster_stack_inactive_text" = "Stack Inactive";
+"booster_stack_effect_text" = "Stack Effect";
+"booster_stack_source_text" = "Stack Source";
+"booster_stack_type_text" = "Stack Type";
+"booster_stack_value_text" = "Stack Value";
+"booster_stack_time_left_text" = "Stack Time Left";
+"booster_stack_minutes_text" = "Stack Minutes";
+"booster_stack_hours_text" = "Stack Hours";
+"booster_stack_days_text" = "Stack Days";
+"booster_stack_permanent_text" = "Stack Permanent";
+"booster_stack_temporary_text" = "Stack Temporary";
+"booster_stack_consumable_text" = "Stack Consumable";
+"booster_stack_equipment_text" = "Stack Equipment";
+"booster_stack_accessory_text" = "Stack Accessory";
+"booster_stack_collectible_text" = "Stack Collectible";
+"booster_stack_rarity_text" = "Stack Rarity";
+"booster_stack_common_text" = "Stack Common";
+"booster_stack_uncommon_text" = "Stack Uncommon";
+"booster_stack_rare_text" = "Stack Rare";
+"booster_stack_epic_text" = "Stack Epic";
+"booster_stack_legendary_text" = "Stack Legendary";
+"booster_stack_description_text" = "Stack Description";
+"booster_stack_usage_text" = "Stack Usage";
+"booster_stack_effects_text" = "Stack Effects";
+"booster_stack_duration_remaining_text" = "Stack Duration Remaining";
+"booster_stack_time_remaining_text" = "Stack Time Remaining";
+"booster_stack_expires_in_text" = "Stack Expires In";
+"booster_stack_expired_on_text" = "Stack Expired On";
+"booster_stack_activated_on_text" = "Stack Activated On";
+"booster_stack_deactivated_on_text" = "Stack Deactivated On";
+"booster_stack_activation_time_text" = "Stack Activation Time";
+"booster_stack_expiration_time_text" = "Stack Expiration Time";
+"booster_stack_total_bonus_text" = "Stack Total Bonus";
+"booster_stack_individual_bonus_text" = "Stack Individual Bonus";
+"booster_stack_combined_bonus_text" = "Stack Combined Bonus";
+
+// MARK: - Error Messages
+"quest_completion_cooldown" = "Quest completion is on cooldown";
+"task_completion_cooldown" = "Task completion is on cooldown";
+
+// MARK: - Booster Descriptions
+"booster_experience_description" = "Increases experience gained from quests";
+"booster_coins_description" = "Increases coins gained from quests";
+"booster_both_description" = "Increases both experience and coins gained from quests";
+"both" = "Both";
+"temporary" = "Temporary";
+"xp_boost_item" = "XP Boost Item";
+"coin_boost_item" = "Coin Boost Item";
+
+// MARK: - Character Customization Categories (Detailed)
+"body_type" = "Body Type";
+"hair_style" = "Hair Style";
+"hair_back" = "Hair Back";
+"eye_style" = "Eye Style";
+"outfit_style" = "Outfit Style";
+"weapon_style" = "Weapon Style";
+"facial_hair" = "Facial Hair";
+"head_accessory" = "Head Accessory";
+"body_accessory" = "Body Accessory";
+
+// MARK: - Character Customization Options (Detailed)
+"natural_skin" = "Natural Skin";
+"fair_skin" = "Fair Skin";
+"olive_skin" = "Olive Skin";
+"dark_skin" = "Dark Skin";
+"tanned_skin" = "Tanned Skin";
+
+"short_hair" = "Short Hair";
+"long_hair" = "Long Hair";
+"curly_hair" = "Curly Hair";
+"straight_hair" = "Straight Hair";
+"wavy_hair" = "Wavy Hair";
+"spiky_hair" = "Spiky Hair";
+"bald" = "Bald";
+
+"blue_eyes" = "Blue Eyes";
+"green_eyes" = "Green Eyes";
+"brown_eyes" = "Brown Eyes";
+"gray_eyes" = "Gray Eyes";
+"hazel_eyes" = "Hazel Eyes";
+
+"casual_outfit" = "Casual Outfit";
+"formal_outfit" = "Formal Outfit";
+"armor_outfit" = "Armor Outfit";
+"robes_outfit" = "Robes Outfit";
+"adventure_outfit" = "Adventure Outfit";
+
+"sword_weapon" = "Sword";
+"axe_weapon" = "Axe";
+"bow_weapon" = "Bow";
+"staff_weapon" = "Staff";
+"dagger_weapon" = "Dagger";
+
+"no_mustache" = "No Mustache";
+"thin_mustache" = "Thin Mustache";
+"thick_mustache" = "Thick Mustache";
+"handlebar_mustache" = "Handlebar Mustache";
+
+"no_flower" = "No Flower";
+"rose_flower" = "Rose";
+"daisy_flower" = "Daisy";
+"lily_flower" = "Lily";
+"sunflower_flower" = "Sunflower";
+
+"no_accessory" = "No Accessory";
+"glasses_accessory" = "Glasses";
+"earrings_accessory" = "Earrings";
+"necklace_accessory" = "Necklace";
+"hat_accessory" = "Hat";
+
+// MARK: - Character Customization Descriptions
+"natural_skin_description" = "A natural skin tone";
+"fair_skin_description" = "A fair, light skin tone";
+"olive_skin_description" = "A warm, olive skin tone";
+"dark_skin_description" = "A rich, dark skin tone";
+"tanned_skin_description" = "A sun-kissed, tanned skin tone";
+
+"short_hair_description" = "Short, practical hairstyle";
+"long_hair_description" = "Long, flowing hair";
+"curly_hair_description" = "Naturally curly hair";
+"straight_hair_description" = "Smooth, straight hair";
+"wavy_hair_description" = "Gentle waves in the hair";
+"spiky_hair_description" = "Edgy, spiked hairstyle";
+"bald_description" = "Clean-shaven head";
+
+"blue_eyes_description" = "Bright blue eyes";
+"green_eyes_description" = "Emerald green eyes";
+"brown_eyes_description" = "Warm brown eyes";
+"gray_eyes_description" = "Cool gray eyes";
+"hazel_eyes_description" = "Multi-colored hazel eyes";
+
+"casual_outfit_description" = "Comfortable, everyday clothing";
+"formal_outfit_description" = "Elegant, formal attire";
+"armor_outfit_description" = "Protective battle armor";
+"robes_outfit_description" = "Mystical robes";
+"adventure_outfit_description" = "Practical adventure gear";
+
+"sword_weapon_description" = "A reliable sword";
+"axe_weapon_description" = "A powerful axe";
+"bow_weapon_description" = "A precise bow";
+"staff_weapon_description" = "A magical staff";
+"dagger_weapon_description" = "A swift dagger";
+
+"no_mustache_description" = "Clean-shaven face";
+"thin_mustache_description" = "A thin, elegant mustache";
+"thick_mustache_description" = "A thick, bold mustache";
+"handlebar_mustache_description" = "A distinctive handlebar mustache";
+
+"no_flower_description" = "No flower accessory";
+"rose_flower_description" = "A beautiful red rose";
+"daisy_flower_description" = "A cheerful white daisy";
+"lily_flower_description" = "An elegant lily";
+"sunflower_flower_description" = "A bright sunflower";
+
+"no_accessory_description" = "No additional accessories";
+"glasses_accessory_description" = "Stylish glasses";
+"earrings_accessory_description" = "Decorative earrings";
+"necklace_accessory_description" = "An elegant necklace";
+"hat_accessory_description" = "A fashionable hat";

@@ -24,13 +24,14 @@ struct WelcomeStepView: View {
                     .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
 
                 VStack(spacing: 8) {
-                    Text("RPG Habit Planner")
-                        .font(.appFont(size: 32, weight: .bold))
+                    Text(String(localized: "rpg_habit_planner"))
+                        .font(.appFont(size: 32, weight: .black))
                         .foregroundColor(theme.textColor)
+                        .multilineTextAlignment(.center)
 
-                    Text("Transform your daily tasks into epic adventures")
-                        .font(.appFont(size: 16))
-                        .foregroundColor(theme.textColor.opacity(0.7))
+                    Text(String(localized: "transform_daily_tasks_into_epic_adventures"))
+                        .font(.appFont(size: 18))
+                        .foregroundColor(theme.textColor.opacity(0.8))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 20)
                 }
@@ -38,10 +39,10 @@ struct WelcomeStepView: View {
 
             // Feature highlights
             VStack(spacing: 16) {
-                FeatureRow(icon: "icon_sword", text: "Create quests and complete tasks", theme: theme)
-                FeatureRow(icon: "trophy.fill", text: "Earn experience and level up", theme: theme)
-                FeatureRow(icon: "star.fill", text: "Unlock achievements and rewards", theme: theme)
-                FeatureRow(icon: "person.fill", text: "Customize your character", theme: theme)
+                FeatureRow(icon: "icon_sword", text: String(localized: "create_quests_and_complete_tasks"), theme: theme)
+                FeatureRow(icon: "trophy.fill", text: String(localized: "earn_experience_and_level_up"), theme: theme)
+                FeatureRow(icon: "star.fill", text: String(localized: "unlock_achievements_and_rewards"), theme: theme)
+                FeatureRow(icon: "person.fill", text: String(localized: "customize_your_character"), theme: theme)
             }
             .padding(.horizontal, 20)
 

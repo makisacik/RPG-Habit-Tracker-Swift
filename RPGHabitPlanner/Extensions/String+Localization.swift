@@ -460,4 +460,25 @@ extension String {
     static let onLabel = "on_label"
     static let offLabel = "off_label"
     static let widgetDescription = "widget_description"
+
+    // MARK: - Calendar View
+    static let theBrave = "the_brave"
+
+    // MARK: - Shop Categories
+    static let weapons = "weapons"
+    static let armor = "armor"
+    static let accessories = "accessories"
+    static let wings = "wings"
+    static let pets = "pets"
+    static let consumables = "consumables"
+    static let helmet = "helmet"
+    static let shield = "shield"
+    static let potions = "potions"
+    static let boosts = "boosts"
+    static let specials = "specials"
+
+    // MARK: - Shop Items
+    static let shop = "shop"
+    static let iconGold = "icon_gold"
+    static let iconGem = "icon_gem"
 }

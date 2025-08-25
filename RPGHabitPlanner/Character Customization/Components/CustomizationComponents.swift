@@ -15,9 +15,13 @@ struct CustomizationProgressView: View {
     let theme: Theme
 
     var body: some View {
+        let currentStepValue = currentStep + 1
+        let totalStepsValue = totalSteps + 1
+        let currentStepText = String(localized: "step_progress").localized(with: currentStepValue, totalStepsValue)
+
         VStack(spacing: 8) {
             HStack {
-                Text("Step \(currentStep + 1) of \(totalSteps + 1)")
+                Text(currentStepText)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -31,9 +35,10 @@ struct CustomizationProgressView: View {
                         .fill(theme.textColor.opacity(0.2))
                         .frame(height: 8)
 
+                    let progressWidth = geometry.size.width * CGFloat(currentStep + 1) / CGFloat(totalSteps + 1)
                     RoundedRectangle(cornerRadius: 4)
                         .fill(theme.accentColor)
-                        .frame(width: geometry.size.width * CGFloat(currentStep + 1) / CGFloat(totalSteps + 1), height: 8)
+                        .frame(width: progressWidth, height: 8)
                         .animation(.easeInOut(duration: 0.3), value: currentStep)
                 }
             }
@@ -91,7 +96,8 @@ struct CustomizationOptionsGrid: View {
     var body: some View {
         let options = getOptionsForStep()
 
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
+        let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 3)
+        LazyVGrid(columns: columns, spacing: 12) {
             ForEach(options, id: \.id) { option in
                 CustomizationOptionCard(
                     option: option,
@@ -147,6 +153,14 @@ struct CustomizationOptionCard: View {
     let onTap: () -> Void
     let theme: Theme
 
+    private var strokeColor: Color {
+        isSelected ? theme.accentColor : theme.borderColor.opacity(0.3)
+    }
+
+    private var strokeWidth: CGFloat {
+        isSelected ? 3 : 1
+    }
+
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 8) {
@@ -157,7 +171,7 @@ struct CustomizationOptionCard: View {
                         .frame(width: 80, height: 80)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)
+                                .stroke(strokeColor, lineWidth: strokeWidth)
                         )
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
 
@@ -218,7 +232,8 @@ struct CustomizationNavigationButtons: View {
                     HStack(spacing: 8) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .medium))
-                        Text("Back")
+                        let backText = String(localized: "back")
+                        Text(backText)
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.textColor)
@@ -236,7 +251,8 @@ struct CustomizationNavigationButtons: View {
             // Next button
             Button(action: onForward) {
                 HStack(spacing: 8) {
-                    Text("Next")
+                    let nextText = String(localized: "next")
+                    Text(nextText)
                         .font(.appFont(size: 16, weight: .medium))
                     Image(systemName: "chevron.right")
                         .font(.system(size: 16, weight: .medium))

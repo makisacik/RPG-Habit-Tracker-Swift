@@ -12,20 +12,20 @@ struct QuestBoardView: View {
             Spacer()
 
             // Quest Board Title
-            VStack(spacing: 16) {
+            VStack(spacing: 8) {
                 Image(systemName: "scroll.fill")
                     .font(.system(size: 60))
                     .foregroundColor(.yellow)
                     .rotationEffect(.degrees(animate ? 5 : -5))
                     .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: animate)
 
-                Text("QUEST BOARD")
-                    .font(.appFont(size: 32, weight: .black))
+                Text(String(localized: "quest_board"))
+                    .font(.appFont(size: 28, weight: .black))
                     .foregroundColor(theme.textColor)
                     .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 2)
 
-                Text("Adventure awaits, brave one!")
-                    .font(.appFont(size: 18, weight: .medium))
+                Text(String(localized: "adventure_awaits_brave_one"))
+                    .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
             }
@@ -45,7 +45,7 @@ struct QuestBoardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24, height: 24)
-                    Text("ACCEPT NEW QUEST")
+                    Text(String(localized: "accept_new_quest"))
                         .font(.appFont(size: 18, weight: .black))
                 }
                 .foregroundColor(.white)

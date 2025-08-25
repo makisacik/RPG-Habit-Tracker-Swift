@@ -97,13 +97,14 @@ struct PaywallView: View {
             }
 
             VStack(spacing: 8) {
-                Text("Unlock Premium")
-                    .font(.appFont(size: 28, weight: .bold))
+                Text(String(localized: "unlock_premium"))
+                    .font(.appFont(size: 28, weight: .black))
                     .foregroundColor(theme.textColor)
+                    .multilineTextAlignment(.center)
 
-                Text("Transform your quest planning experience")
-                    .font(.appFont(size: 16, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.7))
+                Text(String(localized: "transform_quest_planning_experience"))
+                    .font(.appFont(size: 16))
+                    .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
             }
         }
@@ -113,8 +114,8 @@ struct PaywallView: View {
 
     private var featuresSection: some View {
         VStack(spacing: 16) {
-            Text("Premium Features")
-                .font(.appFont(size: 20, weight: .bold))
+            Text(String(localized: "premium_features"))
+                .font(.appFont(size: 20, weight: .black))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -139,8 +140,8 @@ struct PaywallView: View {
 
     private var pricingSection: some View {
         VStack(spacing: 16) {
-            Text("Choose Your Plan")
-                .font(.appFont(size: 20, weight: .bold))
+            Text(String(localized: "choose_your_plan"))
+                .font(.appFont(size: 20, weight: .black))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -183,8 +184,9 @@ struct PaywallView: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             .scaleEffect(0.8)
                     } else {
-                        Text("Get Premium")
-                            .font(.appFont(size: 18, weight: .bold))
+                        Text(String(localized: "get_premium"))
+                            .font(.appFont(size: 18, weight: .black))
+                            .foregroundColor(.white)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -235,9 +237,9 @@ struct PaywallView: View {
                 .foregroundColor(theme.textColor.opacity(0.6))
             }
 
-            Text("Cancel anytime. Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.")
-                .font(.appFont(size: 12, weight: .medium))
-                .foregroundColor(theme.textColor.opacity(0.5))
+            Text(String(localized: "subscription_terms"))
+                .font(.appFont(size: 12))
+                .foregroundColor(theme.textColor.opacity(0.6))
                 .multilineTextAlignment(.center)
                 .lineLimit(3)
         }
@@ -307,8 +309,8 @@ struct PricingCard: View {
                     .multilineTextAlignment(.center)
 
                 if plan.isPopular {
-                    Text("MOST POPULAR")
-                        .font(.appFont(size: 10, weight: .bold))
+                    Text(String(localized: "most_popular"))
+                        .font(.appFont(size: 12, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)

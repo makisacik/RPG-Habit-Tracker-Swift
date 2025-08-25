@@ -7,7 +7,7 @@
 import SwiftUI
 
 enum AppFontWeight {
-    case regular, medium, italic, black, bold, blackItalic
+    case regular, medium, italic, black, bold, blackItalic, semibold
 }
 
 extension Font {
@@ -25,6 +25,8 @@ extension Font {
             return Font.custom("Quicksand-Bold", size: size)
         case .blackItalic:
             return Font.custom("Quicksand-Bold", size: size).italic()
+        case .semibold:
+            return Font.custom("Quicksand-Medium", size: size)
         }
     }
 }

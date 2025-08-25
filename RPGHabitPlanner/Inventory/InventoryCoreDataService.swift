@@ -35,6 +35,7 @@ final class InventoryService: InventoryServiceProtocol {
     }
 
     func addItem(name: String, info: String, iconName: String, previewImage: String?, itemType: String?, gearCategory: String?, accessoryCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
+        print("🔧 InventoryService: Adding item - name: \(name), iconName: \(iconName)")
         let entity = ItemEntity(context: context)
         entity.name = name
         entity.info = info
@@ -48,6 +49,7 @@ final class InventoryService: InventoryServiceProtocol {
         entity.collectionCategory = collectionCategory
         entity.isRare = isRare
         saveContext()
+        print("✅ InventoryService: Item entity created and saved - name: \(name), iconName: \(iconName)")
     }
 
     func removeItem(_ item: ItemEntity) {
@@ -69,6 +71,7 @@ final class InventoryService: InventoryServiceProtocol {
     private func saveContext() {
         do {
             try context.save()
+            print("✅ InventoryService: Context saved successfully")
         } catch {
             print("❌ Error saving context: \(error)")
         }

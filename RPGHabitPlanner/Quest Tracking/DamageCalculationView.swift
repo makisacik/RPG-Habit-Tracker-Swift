@@ -28,12 +28,12 @@ struct DamageCalculationView: View {
                         .foregroundColor(.orange)
                         .font(.title)
                     
-                    Text("Quest Damage Calculator")
-                        .font(.appFont(size: 20, weight: .bold))
+                    Text(String(localized: "quest_damage_calculator"))
+                        .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
                     
-                    Text("Calculate damage for all active quests")
-                        .font(.appFont(size: 14))
+                    Text(String(localized: "calculate_damage_for_active_quests"))
+                        .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
                         .multilineTextAlignment(.center)
                 }
@@ -46,14 +46,14 @@ struct DamageCalculationView: View {
                             .foregroundColor(theme.accentColor)
                             .font(.title3)
                         
-                        Text("Active Quests")
-                            .font(.appFont(size: 16, weight: .medium))
+                        Text(String(localized: "active_quests"))
+                            .font(.appFont(size: 18, weight: .semibold))
                             .foregroundColor(theme.textColor)
                         
                         Spacer()
                         
                         Text("\(quests.filter { $0.isActive && !$0.isCompleted }.count)")
-                            .font(.appFont(size: 16, weight: .bold))
+                            .font(.appFont(size: 24, weight: .black))
                             .foregroundColor(theme.accentColor)
                     }
                     
@@ -67,9 +67,9 @@ struct DamageCalculationView: View {
                         }
                         .frame(maxHeight: 200)
                     } else {
-                        Text("No active quests found")
-                            .font(.appFont(size: 14))
-                            .foregroundColor(theme.textColor.opacity(0.6))
+                        Text(String(localized: "no_active_quests_found"))
+                            .font(.appFont(size: 16))
+                            .foregroundColor(theme.textColor.opacity(0.7))
                             .padding()
                     }
                 }
@@ -117,20 +117,20 @@ struct DamageCalculationView: View {
                             .foregroundColor(.red)
                             .font(.title3)
                         
-                        Text("Today's Total Damage")
-                            .font(.appFont(size: 16, weight: .medium))
+                        Text(String(localized: "todays_total_damage"))
+                            .font(.appFont(size: 18, weight: .semibold))
                             .foregroundColor(theme.textColor)
                         
                         Spacer()
                         
                         Text("\(damageTrackingManager.totalDamageTakenToday)")
-                            .font(.appFont(size: 18, weight: .bold))
-                            .foregroundColor(.red)
+                            .font(.appFont(size: 24, weight: .black))
+                            .foregroundColor(theme.accentColor)
                     }
                     
                     if let lastCalculation = damageTrackingManager.lastDamageCalculationDate {
-                        Text("Last calculated: \(formatDate(lastCalculation))")
-                            .font(.appFont(size: 12))
+                        Text(String(localized: "last_calculated").localized(with: formatDate(lastCalculation)))
+                            .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.6))
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }

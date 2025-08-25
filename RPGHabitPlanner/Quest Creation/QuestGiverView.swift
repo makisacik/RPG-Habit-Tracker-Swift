@@ -21,7 +21,7 @@ struct QuestGiverView: View {
                     .scaleEffect(animate ? 1.1 : 1.0)
                     .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: animate)
 
-                Text("Quest Master")
+                Text(String(localized: "quest_master"))
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
             }
@@ -41,32 +41,16 @@ struct QuestGiverView: View {
                         )
                         .transition(.scale.combined(with: .opacity))
 
-                    Button(action: {
-                        isButtonPressed = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            isButtonPressed = false
-                            onContinue()
-                        }
-                    }) {
-                        HStack(spacing: 8) {
-                            Text("Continue")
-                                .font(.appFont(size: 16, weight: .black))
-                            Image(systemName: "arrow.right")
-                                .font(.title3)
-                        }
-                        .foregroundColor(.white)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 24)
-                        .background(
-                            Image(theme.buttonPrimary)
-                                .resizable(
-                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
-                                    resizingMode: .stretch
-                                )
-                                .opacity(isButtonPressed ? 0.7 : 1.0)
-                        )
-                        .scaleEffect(isButtonPressed ? 0.95 : 1.0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isButtonPressed)
+                    Button(action: onContinue) {
+                        Text(String(localized: "continue"))
+                            .font(.appFont(size: 18, weight: .black))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(theme.accentColor)
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                 }

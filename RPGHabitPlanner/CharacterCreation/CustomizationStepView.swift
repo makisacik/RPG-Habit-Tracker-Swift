@@ -59,7 +59,7 @@ struct LegacyCustomizationStepView: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "dollarsign.circle.fill")
                                     .foregroundColor(.yellow)
-                                Text("\(asset.price)")
+                                Text(String(localized: "price").localized(with: String(asset.price)))
                                     .font(.appFont(size: 14))
                                     .foregroundColor(theme.textColor)
                             }

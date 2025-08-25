@@ -55,11 +55,11 @@ struct ItemDetailSheet: View {
                     .padding()
                 }
             }
-            .navigationTitle("Item Details")
+            .navigationTitle(String(localized: "item_details"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Close") {
+                    Button(String(localized: "close")) {
                         dismiss()
                     }
                     .foregroundColor(theme.textColor)
@@ -67,8 +67,10 @@ struct ItemDetailSheet: View {
 
                 if canUseItem {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Use") {
-                            useItem()
+                        Button(String(localized: "use")) {
+                            Task {
+                                await useItem()
+                            }
                         }
                         .foregroundColor(theme.textColor)
                         .disabled(isUsingItem)
@@ -77,8 +79,10 @@ struct ItemDetailSheet: View {
 
                 if canEquipItem {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Equip") {
-                            equipItem()
+                        Button(String(localized: "equip")) {
+                            Task {
+                                await equipItem()
+                            }
                         }
                         .foregroundColor(theme.textColor)
                         .disabled(isUsingItem)
@@ -92,7 +96,7 @@ struct ItemDetailSheet: View {
                 if showSuccessMessage {
                     SuccessMessageOverlay(
                         theme: theme,
-                        message: canEquipItem ? "Item equipped successfully!" : "Item used successfully!"
+                        message: canEquipItem ? String(localized: "item_equipped_successfully") : String(localized: "item_used_successfully")
                     )
                 }
             }
@@ -135,7 +139,7 @@ struct ItemDetailSheet: View {
                             self.dismiss()
                         }
                     } else {
-                        self.errorMessage = error?.localizedDescription ?? "Failed to use item"
+                        self.errorMessage = error?.localizedDescription ?? String(localized: "failed_to_use_item")
                         self.showErrorMessage = true
 
                         // Auto-dismiss error after 3 seconds
@@ -148,7 +152,7 @@ struct ItemDetailSheet: View {
                 } else {
             // Item not found in inventory
             isUsingItem = false
-            errorMessage = "Item not found in inventory"
+            errorMessage = String(localized: "item_not_found_in_inventory")
             showErrorMessage = true
 
             // Auto-dismiss error after 3 seconds
@@ -178,7 +182,7 @@ struct ItemDetailSheet: View {
                             self.dismiss()
                         }
                     } else {
-                        self.errorMessage = error?.localizedDescription ?? "Failed to equip item"
+                        self.errorMessage = error?.localizedDescription ?? String(localized: "failed_to_equip_item")
                         self.showErrorMessage = true
 
                         // Auto-dismiss error after 3 seconds
@@ -191,7 +195,7 @@ struct ItemDetailSheet: View {
         } else {
             // Item not found in inventory
             isUsingItem = false
-            errorMessage = "Item not found in inventory"
+            errorMessage = String(localized: "item_not_found_in_inventory")
             showErrorMessage = true
 
             // Auto-dismiss error after 3 seconds

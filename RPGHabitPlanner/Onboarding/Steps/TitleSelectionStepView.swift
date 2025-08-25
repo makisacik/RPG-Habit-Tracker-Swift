@@ -18,11 +18,11 @@ struct TitleSelectionStepView: View {
 
             // Header
             VStack(spacing: 16) {
-                Text("chooseYourTitle".localized)
+                Text(String(localized: "chooseYourTitle"))
                     .font(.appFont(size: 32, weight: .bold))
                     .foregroundColor(theme.textColor)
 
-                Text("selectTitleDescription".localized)
+                Text(String(localized: "selectTitleDescription"))
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
@@ -67,7 +67,7 @@ struct TitleSelectionStepView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "chevron.down")
                             .font(.system(size: 16))
-                        Text("selectDifferentTitle".localized)
+                        Text(String(localized: "selectDifferentTitle"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.accentColor)
@@ -90,7 +90,7 @@ struct TitleSelectionStepView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "dice.fill")
                             .font(.system(size: 16))
-                        Text("randomTitle".localized)
+                        Text(String(localized: "randomTitle"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.accentColor)
@@ -129,11 +129,11 @@ struct TitlePickerView: View {
             VStack(spacing: 0) {
                 // Header
                 VStack(spacing: 12) {
-                    Text("chooseYourTitle".localized)
+                    Text(String(localized: "chooseYourTitle"))
                         .font(.appFont(size: 24, weight: .bold))
                         .foregroundColor(theme.textColor)
                     
-                    Text("chooseFromAvailableTitles".localized)
+                    Text(String(localized: "chooseFromAvailableTitles"))
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -163,7 +163,7 @@ struct TitlePickerView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(String(localized: "cancel")) {
                         dismiss()
                     }
                     .foregroundColor(theme.accentColor)

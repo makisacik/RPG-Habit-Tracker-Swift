@@ -45,7 +45,7 @@ struct NicknameStepView: View {
     ]
 
     func randomName() -> String {
-        characterNames.randomElement() ?? "Hero"
+        characterNames.randomElement() ?? String(localized: "hero")
     }
 
     var body: some View {
@@ -54,20 +54,21 @@ struct NicknameStepView: View {
 
             // Header
             VStack(spacing: 16) {
-                Text("Name Your Hero")
-                    .font(.appFont(size: 32, weight: .bold))
+                Text(String(localized: "name_your_hero"))
+                    .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
+                    .multilineTextAlignment(.center)
 
-                Text("Choose a legendary name for your character")
+                Text(String(localized: "choose_legendary_name_for_character"))
                     .font(.appFont(size: 16))
-                    .foregroundColor(theme.textColor.opacity(0.7))
+                    .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
             }
 
             // Name input
             VStack(spacing: 12) {
-                TextField("Enter hero name", text: $coordinator.nickname)
+                TextField(String(localized: "enter_hero_name"), text: $coordinator.nickname)
                     .font(.appFont(size: 18, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .padding()
@@ -98,7 +99,7 @@ struct NicknameStepView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "dice.fill")
                             .font(.system(size: 16))
-                        Text("Random Name")
+                        Text(String(localized: "random_name"))
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.accentColor)
@@ -114,9 +115,9 @@ struct NicknameStepView: View {
                     )
                 }
 
-                Text("Maximum 20 characters")
+                Text(String(localized: "maximum_20_characters"))
                     .font(.appFont(size: 12))
-                    .foregroundColor(theme.textColor.opacity(0.5))
+                    .foregroundColor(theme.textColor.opacity(0.6))
             }
             .padding(.horizontal, 20)
 

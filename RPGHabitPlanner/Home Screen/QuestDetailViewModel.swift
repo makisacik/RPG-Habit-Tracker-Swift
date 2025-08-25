@@ -66,7 +66,7 @@ final class QuestDetailViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error updating quest tags: \(error)")
-                    self?.alertMessage = "Failed to update quest tags: \(error.localizedDescription)"
+                    self?.alertMessage = String(localized: "failed_to_update_quest_tags") + ": \(error.localizedDescription)"
                     // Revert the optimistic update on error
                     self?.refreshQuest()
                 } else {
@@ -85,7 +85,7 @@ final class QuestDetailViewModel: ObservableObject {
         switch quest.repeatType {
         case .daily:
             guard calendar.isDate(date, inSameDayAs: today) else {
-                alertMessage = "Daily quests can only be toggled for today."
+                alertMessage = String(localized: "daily_quests_can_only_be_toggled_for_today")
                 return
             }
             let dayAnchor = calendar.startOfDay(for: date)
@@ -102,7 +102,7 @@ final class QuestDetailViewModel: ObservableObject {
             }
         case .weekly:
             guard isSameWeek(date, today) else {
-                alertMessage = "Weekly quests can only be toggled in the current week."
+                alertMessage = String(localized: "weekly_quests_can_only_be_toggled_in_current_week")
                 return
             }
             let anchor = weekAnchor(for: date)
@@ -120,7 +120,7 @@ final class QuestDetailViewModel: ObservableObject {
         case .oneTime:
             guard date >= calendar.startOfDay(for: quest.creationDate) &&
                   date <= calendar.startOfDay(for: quest.dueDate) else {
-                alertMessage = "This quest can only be completed between creation and due date."
+                alertMessage = String(localized: "quest_can_only_be_completed_between_creation_and_due_date")
                 return
             }
             // For one-time quests, always store completion at the due date
@@ -141,7 +141,7 @@ final class QuestDetailViewModel: ObservableObject {
             let weekday = calendar.component(.weekday, from: date)
             let isScheduledDay = quest.scheduledDays.contains(weekday)
             guard isScheduledDay else {
-                alertMessage = "This quest can only be completed on scheduled days."
+                alertMessage = String(localized: "quest_can_only_be_completed_on_scheduled_days")
                 return
             }
             let dayAnchor = calendar.startOfDay(for: date)
@@ -273,7 +273,7 @@ final class QuestDetailViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error deleting quest: \(error)")
-                    self?.alertMessage = "Failed to delete quest: \(error.localizedDescription)"
+                    self?.alertMessage = String(localized: "failed_to_delete_quest") + ": \(error.localizedDescription)"
                 } else {
                     print("✅ QuestDetailViewModel: Successfully deleted quest")
                     // Notify other views that quest was deleted

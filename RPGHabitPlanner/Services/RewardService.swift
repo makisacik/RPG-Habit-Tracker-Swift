@@ -25,7 +25,7 @@ class RewardService {
         // Check for abuse - prevent rapid toggling
         guard completionTracker.canCompleteQuest(quest.id) else {
             print("⚠️ Quest completion blocked due to cooldown: \(quest.title)")
-            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "Quest completion is on cooldown"]))
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: String(localized: "quest_completion_cooldown")]))
             return
         }
 
@@ -65,7 +65,7 @@ class RewardService {
         // Check for abuse - prevent rapid toggling
         guard completionTracker.canCompleteTask(task.id, questId: quest.id) else {
             print("⚠️ Task completion blocked due to cooldown: \(task.title)")
-            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "Task completion is on cooldown"]))
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: String(localized: "task_completion_cooldown")]))
             return
         }
         

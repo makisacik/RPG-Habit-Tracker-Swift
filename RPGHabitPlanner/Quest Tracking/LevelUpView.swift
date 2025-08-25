@@ -43,7 +43,7 @@ struct LevelUpView: View {
                         .animation(.easeOut(duration: 0.5).delay(isDismissing ? 0.0 : 0.1), value: showContent)
 
                     VStack(spacing: 2) {
-                        Text(String.level.uppercased())
+                        Text(String(localized: "level").uppercased())
                             .font(.appFont(size: 18, weight: .black))
                             .foregroundColor(theme.textColor)
                             .offset(y: 14)

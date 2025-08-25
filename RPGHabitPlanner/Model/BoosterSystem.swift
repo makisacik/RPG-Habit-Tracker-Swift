@@ -16,17 +16,17 @@ enum BoosterType: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .experience: return "Experience"
-        case .coins: return "Coins"
-        case .both: return "Both"
+        case .experience: return String(localized: "experience")
+        case .coins: return String(localized: "coins")
+        case .both: return String(localized: "both")
         }
     }
 
     var description: String {
         switch self {
-        case .experience: return "Increases experience gained from quests"
-        case .coins: return "Increases coins gained from quests"
-        case .both: return "Increases both experience and coins gained from quests"
+        case .experience: return String(localized: "booster_experience_description")
+        case .coins: return String(localized: "booster_coins_description")
+        case .both: return String(localized: "booster_both_description")
         }
     }
 }
@@ -39,8 +39,8 @@ enum BoosterSource: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .item: return "Item"
-        case .temporary: return "Temporary"
+        case .item: return String(localized: "item")
+        case .temporary: return String(localized: "temporary")
         }
     }
 }
@@ -290,7 +290,7 @@ final class BoosterManager: ObservableObject {
                 multiplier: multiplier,
                 flatBonus: 0,
                 sourceId: effect.sourceItemId.uuidString,
-                sourceName: "XP Boost Item",
+                sourceName: String(localized: "xp_boost_item"),
                 startTime: effect.startTime,
                 expiresAt: effect.endTime
             )
@@ -305,7 +305,7 @@ final class BoosterManager: ObservableObject {
                 multiplier: multiplier,
                 flatBonus: 0,
                 sourceId: effect.sourceItemId.uuidString,
-                sourceName: "Coin Boost Item",
+                sourceName: String(localized: "coin_boost_item"),
                 startTime: effect.startTime,
                 expiresAt: effect.endTime
             )

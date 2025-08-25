@@ -11,14 +11,14 @@ import SwiftUI
 
 enum EnhancedShopCategory: String, CaseIterable, Identifiable {
     // Gear categories
-    case weapons = "Weapons"
-    case armor = "Armor"
-    case accessories = "Accessories"
-    case wings = "Wings"
-    case pets = "Pets"
+    case weapons = "weapons"
+    case armor = "armor"
+    case accessories = "accessories"
+    case wings = "wings"
+    case pets = "pets"
     
     // Functional categories (merged)
-    case consumables = "Consumables"
+    case consumables = "consumables"
 
     var id: String { rawValue }
 
@@ -83,9 +83,9 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 // MARK: - Armor Subcategories
 
 enum ArmorSubcategory: String, CaseIterable, Identifiable {
-    case helmet = "Helmet"
-    case outfit = "Outfit"
-    case shield = "Shield"
+    case helmet = "helmet"
+    case outfit = "outfit"
+    case shield = "shield"
     
     var id: String { rawValue }
     
@@ -117,9 +117,9 @@ enum ArmorSubcategory: String, CaseIterable, Identifiable {
 // MARK: - Consumable Subcategories
 
 enum ConsumableSubcategory: String, CaseIterable, Identifiable {
-    case potions = "Potions"
-    case boosts = "Boosts"
-    case specials = "Specials"
+    case potions = "potions"
+    case boosts = "boosts"
+    case specials = "specials"
     
     var id: String { rawValue }
     
@@ -207,7 +207,7 @@ struct ShopCategoryCard: View {
             }
 
             // Category name
-            Text(category.rawValue)
+            Text(NSLocalizedString(category.rawValue, comment: ""))
                 .font(.appFont(size: 12, weight: isSelected ? .bold : .medium))
                 .foregroundColor(isSelected ? category.color : theme.textColor.opacity(0.7))
                 .lineLimit(2)
@@ -341,7 +341,7 @@ struct EnhancedShopItemCard: View {
 
                     // Purchase button or Owned status
                     if item.isOwned {
-                        Text("Owned")
+                        Text(String(localized: "owned"))
                             .font(.appFont(size: 10, weight: .bold))
                             .foregroundColor(.white)
                             .padding(.horizontal, 8)
@@ -352,7 +352,7 @@ struct EnhancedShopItemCard: View {
                             )
                     } else {
                         Button(action: onPurchase) {
-                            Text("Buy")
+                            Text(String(localized: "buy"))
                                 .font(.appFont(size: 10, weight: .bold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 8)
@@ -442,7 +442,7 @@ struct ShopFilterView: View {
             }) {
                 HStack {
                     Image(systemName: "slider.horizontal.3")
-                    Text("Filters")
+                    Text(String(localized: "filters"))
                     Spacer()
                     Image(systemName: showFilters ? "chevron.up" : "chevron.down")
                 }
@@ -462,7 +462,7 @@ struct ShopFilterView: View {
                     // Rarity filter - only show for gear categories
                     if isGearCategory(selectedCategory) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Rarity")
+                            Text(String(localized: "rarity"))
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -470,7 +470,7 @@ struct ShopFilterView: View {
                                 HStack(spacing: 8) {
                                     // All option
                                     FilterChip(
-                                        text: "All",
+                                        text: String(localized: "all"),
                                         isSelected: selectedRarity == nil,
                                         color: .gray
                                     ) {
@@ -496,7 +496,7 @@ struct ShopFilterView: View {
                     }
 
                     // Affordability filter
-                    Toggle("Show only affordable items", isOn: $showOnlyAffordable)
+                    Toggle(String(localized: "show_only_affordable_items"), isOn: $showOnlyAffordable)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor)
                         .onChange(of: showOnlyAffordable) { _ in
@@ -575,7 +575,7 @@ struct ItemPreviewModal: View {
             VStack(spacing: 20) {
                 // Header
                 HStack {
-                    Text("Item Preview")
+                    Text(String(localized: "item_preview"))
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
 
@@ -641,7 +641,7 @@ struct ItemPreviewModal: View {
                 // Action buttons
                 HStack(spacing: 16) {
                     Button(action: onDismiss) {
-                        Text("Cancel")
+                        Text(String(localized: "cancel"))
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 24)
@@ -659,7 +659,7 @@ struct ItemPreviewModal: View {
                         HStack {
                             Image(systemName: "dollarsign.circle.fill")
                                 .foregroundColor(.white)
-                            Text("Buy for \(ShopManager.shared.getDisplayPrice(for: item))")
+                            Text(String(localized: "buy_for").localized(with: String(ShopManager.shared.getDisplayPrice(for: item))))
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         }

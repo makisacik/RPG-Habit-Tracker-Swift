@@ -33,11 +33,11 @@ struct NicknamePopupView: View {
                     .padding(.bottom, 8)
                 }
 
-                Text(String.enterYourNickname.localized)
+                Text(String(localized: "enter_your_nickname"))
                     .font(.appFont(size: 18, weight: .black))
                     .foregroundColor(theme.textColor)
 
-                TextField(String.nickname.localized, text: $nickname)
+                TextField(String(localized: "nickname"), text: $nickname)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .font(.appFont(size: 18))
@@ -49,7 +49,7 @@ struct NicknamePopupView: View {
                     )
 
                 Button(action: { onConfirm() }) {
-                    Text(String.okButton.localized)
+                    Text(String(localized: "ok"))
                         .font(.appFont(size: 18))
                         .foregroundColor(theme.textColor)
                         .padding(.horizontal)

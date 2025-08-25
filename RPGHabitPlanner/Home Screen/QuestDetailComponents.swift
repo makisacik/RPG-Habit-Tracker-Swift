@@ -334,7 +334,7 @@ struct QuestDetailDamageHistorySection: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.red)
 
-                    Text("Damage History")
+                    Text(String(localized: "damage_history"))
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -342,9 +342,9 @@ struct QuestDetailDamageHistorySection: View {
                 Spacer()
 
                 if totalDamage > 0 {
-                    Text("\(totalDamage) HP")
-                        .font(.appFont(size: 14, weight: .bold))
-                        .foregroundColor(.red)
+                    Text(String(localized: "total_damage").localized(with: String(totalDamage)))
+                        .font(.appFont(size: 16, weight: .medium))
+                        .foregroundColor(theme.textColor)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(
@@ -362,9 +362,9 @@ struct QuestDetailDamageHistorySection: View {
                 HStack {
                     ProgressView()
                         .scaleEffect(0.8)
-                    Text("Loading damage history...")
+                    Text(String(localized: "loading_damage_history"))
                         .font(.appFont(size: 14))
-                        .foregroundColor(theme.textColor.opacity(0.6))
+                        .foregroundColor(theme.textColor.opacity(0.7))
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.vertical, 20)
@@ -374,7 +374,7 @@ struct QuestDetailDamageHistorySection: View {
                         .font(.system(size: 24, weight: .light))
                         .foregroundColor(.green)
 
-                    Text("No damage taken")
+                    Text(String(localized: "no_damage_taken"))
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -389,8 +389,8 @@ struct QuestDetailDamageHistorySection: View {
                                 .foregroundColor(.red)
                                 .font(.system(size: 12))
 
-                            Text("\(event.damageAmount) HP")
-                                .font(.appFont(size: 12, weight: .bold))
+                            Text(String(localized: "damage_amount").localized(with: String(event.damageAmount)))
+                                .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(.red)
                                 .frame(width: 40, alignment: .leading)
 
@@ -414,7 +414,7 @@ struct QuestDetailDamageHistorySection: View {
                             showFullDamageHistory = true
                         }) {
                             HStack {
-                                Text("View all \(damageEvents.count) damage events")
+                                Text(String(localized: "view_all_damage_events").localized(with: damageEvents.count))
                                     .font(.appFont(size: 12, weight: .medium))
                                 Image(systemName: "chevron.right")
                                     .font(.system(size: 10))
