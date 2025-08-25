@@ -59,7 +59,7 @@ enum CharacterTitle: String, CaseIterable {
     var icon: String {
         switch self {
         case .theBrave:
-            return "shield.fill"
+            return "icon_shield"
         case .theWise:
             return "brain.head.profile"
         case .theSwift:
@@ -69,7 +69,7 @@ enum CharacterTitle: String, CaseIterable {
         case .theShadow:
             return "eye.slash.fill"
         case .theGuardian:
-            return "lock.shield.fill"
+            return "icon_shield"
         case .theWanderer:
             return "map.fill"
         case .theLegendary:

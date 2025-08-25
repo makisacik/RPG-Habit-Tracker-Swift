@@ -68,7 +68,9 @@ extension HomeView {
 
                             // Character title
                             if let title = user.title, !title.isEmpty {
-                                Text(title)
+                                // Use localized title from CharacterTitleSystem
+                                let localizedTitle = CharacterTitleManager.shared.getTitleByString(title)?.displayName ?? title
+                                Text(localizedTitle)
                                     .font(.appFont(size: 14, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.8))
                                     .padding(.horizontal, 8)

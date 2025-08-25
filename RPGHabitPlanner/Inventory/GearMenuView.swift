@@ -215,7 +215,7 @@ struct GearMenuView: View {
         case .weapon: return "icon_sword"
         case .shield: return "icon_shield"
         case .wings: return "icon_wing"
-        case .pet: return "pawprint"
+        case .pet: return "pawprint.fill"
         }
     }
 }

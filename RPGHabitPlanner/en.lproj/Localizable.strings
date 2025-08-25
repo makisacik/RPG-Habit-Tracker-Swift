@@ -504,7 +504,6 @@
 "my_quests" = "My Quests";
 "view_all" = "View All";
 "loading_quests" = "Loading quests…";
-"no_quests_for_date" = "No quests for {date}";
 "create_quest" = "Create Quest";
 "appearance" = "Appearance";
 "general" = "General";

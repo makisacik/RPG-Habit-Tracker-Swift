@@ -304,7 +304,7 @@ struct CharacterSectionView: View {
 
                     EquipmentSlotView(
                         slotType: "PET",
-                        iconName: "pawprint",
+                        iconName: "pawprint.fill",
                         isEquipped: gearManager.getEquippedItem(for: .pet) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .pet),
                         theme: theme

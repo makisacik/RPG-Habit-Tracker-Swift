@@ -337,7 +337,7 @@ struct UsageInfoView: View {
                         .foregroundColor(theme.textColor.opacity(0.7))
                 } else if definition.itemType == .gear {
                     HStack {
-                        Image(systemName: "shield.fill")
+                        Image("icon_shield")
                             .foregroundColor(.blue)
                         Text(String(localized: "equipment_item"))
                             .font(.appFont(size: 14, weight: .medium))

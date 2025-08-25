@@ -290,7 +290,7 @@ struct MyQuestRow: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) tasks")
+                            Text("\(tasks.count) \(String(localized: "tasks"))")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
                             Spacer()
@@ -356,10 +356,10 @@ struct MyQuestRow: View {
 
     private var subtitle: String {
         switch item.quest.repeatType {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .oneTime: return "One-time"
-        case .scheduled: return "Scheduled"
+        case .daily: return String(localized: "daily")
+        case .weekly: return String(localized: "weekly")
+        case .oneTime: return String(localized: "one_time")
+        case .scheduled: return String(localized: "scheduled")
         }
     }
 }

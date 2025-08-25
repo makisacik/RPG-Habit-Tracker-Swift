@@ -261,7 +261,7 @@ struct QuestsView: View {
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
-            Button("Create Quest") {
+            Button(String(localized: "create_quest")) {
                 showingQuestCreation = true
             }
             .font(.appFont(size: 14, weight: .medium))
@@ -429,10 +429,10 @@ struct QuestRow: View {
 
     private var subtitle: String {
         switch item.quest.repeatType {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .oneTime: return "One-time"
-        case .scheduled: return "Scheduled"
+        case .daily: return String(localized: "daily")
+        case .weekly: return String(localized: "weekly")
+        case .oneTime: return String(localized: "one_time")
+        case .scheduled: return String(localized: "scheduled")
         }
     }
 }

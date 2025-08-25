@@ -71,6 +71,7 @@
 "daily" = "Günlük";
 "weekly" = "Haftalık";
 "monthly" = "Aylık";
+"scheduled" = "Planlanmış";
 
 // MARK: - Character & Stats
 "character" = "Karakter";
@@ -93,6 +94,32 @@
 "selectDifferentTitle" = "Farklı Unvan Seç";
 "randomTitle" = "Rastgele Unvan";
 "chooseFromAvailableTitles" = "Mevcut unvanlardan seçin";
+
+// Character Title Names
+"the_brave" = "Cesur";
+"the_brave_description" = "Tehlikenin karşısında korkusuz";
+"the_wise" = "Bilge";
+"the_wise_description" = "Bilgelikle dolu";
+"the_swift" = "Hızlı";
+"the_swift_description" = "Rüzgar gibi hızlı";
+"the_mighty" = "Güçlü";
+"the_mighty_description" = "Muazzam güce sahip";
+"the_shadow" = "Gölge";
+"the_shadow_description" = "Gölgeler arasında hareket eden";
+"the_guardian" = "Koruyucu";
+"the_guardian_description" = "Başkalarını koruyan";
+"the_wanderer" = "Gezgin";
+"the_wanderer_description" = "Sürekli yolculukta";
+"the_legendary" = "Efsanevi";
+"the_legendary_description" = "Efsanelerde anılan";
+"the_whimsical" = "Tuhaf";
+"the_whimsical_description" = "Garip ve büyülü";
+"the_stormborn" = "Fırtına Doğumlu";
+"the_stormborn_description" = "Fırtınada doğmuş";
+"the_dreamweaver" = "Rüya Dokuyucu";
+"the_dreamweaver_description" = "Rüyaları dokuyan";
+"the_starlight" = "Yıldız Işığı";
+"the_starlight_description" = "Yıldızlardan gelen ışık";
 "hair_style" = "Saç Stili";
 "eye_style" = "Göz Stili";
 "outfit" = "Kıyafet";
@@ -155,6 +182,7 @@
 "this_month" = "Bu Ay";
 "no_quests_scheduled" = "Planlanmış görev yok";
 "quests_scheduled" = "Görev planlandı";
+"no_quests_for_date" = "%@ için görev yok";
 
 // MARK: - Settings
 "theme" = "Tema";
