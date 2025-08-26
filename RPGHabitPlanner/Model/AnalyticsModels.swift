@@ -142,7 +142,6 @@ enum RecommendationType {
     case achievementGoal
     case customization
     case timing
-    case engagement
 }
 
 enum RecommendationPriority {

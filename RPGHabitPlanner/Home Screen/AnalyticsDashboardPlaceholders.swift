@@ -62,13 +62,6 @@ struct AnalyticsDashboardPlaceholders {
             .cornerRadius(12)
     }
     
-    static func engagementMetricsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Engagement Metrics")
-            .foregroundColor(theme.textColor)
-            .frame(maxWidth: .infinity, maxHeight: 150)
-            .background(theme.cardBackgroundColor)
-            .cornerRadius(12)
-    }
     
     static func customizationPatternsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
         Text("Customization Patterns")

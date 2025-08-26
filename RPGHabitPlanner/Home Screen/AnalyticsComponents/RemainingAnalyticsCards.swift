@@ -129,128 +129,6 @@ struct StreakInsightsCard: View {
     }
 }
 
-// MARK: - Engagement Metrics Card
-
-struct EngagementMetricsCard: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    let engagement: EngagementAnalytics
-    
-    var body: some View {
-        let theme = themeManager.activeTheme
-        
-        VStack(alignment: .leading, spacing: 16) {
-            // Header
-            HStack {
-                Image(systemName: "chart.line.uptrend.xyaxis")
-                    .foregroundColor(theme.textColor)
-                    .font(.title2)
-                
-                Text(String(localized: "analytics_engagement_metrics"))
-                    .font(.headline)
-                    .foregroundColor(theme.textColor)
-                
-                Spacer()
-                
-                Text(String(localized: "analytics_engagement_score"))
-                    .font(.caption)
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-            
-            // Engagement Stats Grid
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 16) {
-                StatItem(
-                    title: String(localized: "analytics_sessions_per_week"),
-                    value: String(format: "%.1f", engagement.sessionFrequency),
-                    icon: "calendar.badge.clock",
-                    color: theme.infoColor
-                )
-                
-                StatItem(
-                    title: String(localized: "analytics_avg_session"),
-                    value: formatTimeInterval(engagement.averageSessionDuration),
-                    icon: "clock.fill",
-                    color: theme.warningColor
-                )
-                
-                StatItem(
-                    title: String(localized: "analytics_app_opens"),
-                    value: String(format: "%.1f", engagement.appOpenFrequency),
-                    icon: "app.badge.fill",
-                    color: theme.successColor
-                )
-            }
-            
-            // Activity Patterns
-            VStack(alignment: .leading, spacing: 12) {
-                Text(String(localized: "analytics_activity_patterns"))
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.textColor)
-                
-                VStack(spacing: 8) {
-                    InsightRow(
-                        icon: "calendar",
-                        title: String(localized: "analytics_most_active_day"),
-                        value: dayOfWeekName(engagement.mostActiveDay),
-                        color: theme.successColor
-                    )
-                    
-                    InsightRow(
-                        icon: "clock",
-                        title: String(localized: "analytics_most_active_hour"),
-                        value: formatHour(engagement.mostActiveHour),
-                        color: theme.warningColor
-                    )
-                }
-            }
-            
-            // Feature Usage (if available)
-            if !engagement.featureUsage.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(String(localized: "analytics_feature_usage"))
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.textColor)
-                    
-                    ForEach(Array(engagement.featureUsage.prefix(3)), id: \.key) { feature in
-                        FeatureUsageRow(
-                            featureName: feature.key,
-                            usageCount: feature.value,
-                            theme: theme
-                        )
-                    }
-                }
-            }
-        }
-        .padding(16)
-        .background(theme.cardBackgroundColor)
-        .cornerRadius(12)
-        .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
-    }
-    
-    private func formatTimeInterval(_ timeInterval: TimeInterval) -> String {
-        let minutes = Int(timeInterval) / 60
-        return "\(minutes)m"
-    }
-    
-    private func formatHour(_ hour: Int) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h a"
-        
-        let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date()) ?? Date()
-        return formatter.string(from: date)
-    }
-    
-    private func dayOfWeekName(_ day: Int) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        return formatter.weekdaySymbols[day - 1]
-    }
-}
 
 // MARK: - Customization Preferences Card
 
@@ -518,21 +396,6 @@ struct RecommendationRow: View {
                 .font(.caption)
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .lineLimit(3)
-            
-            if recommendation.actionable, let actionTitle = recommendation.actionTitle {
-                Button(action: {
-                    handleRecommendationAction(recommendation)
-                }) {
-                    Text(actionTitle)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.buttonTextColor)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(theme.accentColor)
-                        .cornerRadius(6)
-                }
-            }
         }
         .padding(12)
         .background(priorityColor.opacity(0.1))
@@ -553,8 +416,6 @@ struct RecommendationRow: View {
             return "paintbrush.fill"
         case .timing:
             return "clock.fill"
-        case .engagement:
-            return "chart.line.uptrend.xyaxis"
         }
     }
     
@@ -651,6 +512,38 @@ struct AnalyticsFiltersView: View {
     }
 }
 
+// MARK: - Supporting Views
+
+struct InsightRow: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let icon: String
+    let title: String
+    let value: String
+    let color: Color
+    
+    var body: some View {
+        let theme = themeManager.activeTheme
+        
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.subheadline)
+                .foregroundColor(color)
+                .frame(width: 16)
+            
+            Text(title)
+                .font(.subheadline)
+                .foregroundColor(theme.textColor)
+            
+            Spacer()
+            
+            Text(value)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(theme.textColor)
+        }
+    }
+}
+
 // MARK: - Preview
 
 struct RemainingAnalyticsCards_Previews: PreviewProvider {
@@ -664,14 +557,6 @@ struct RemainingAnalyticsCards_Previews: PreviewProvider {
                 bestStreakDay: 2
             ))
             
-            EngagementMetricsCard(engagement: EngagementAnalytics(
-                sessionFrequency: 5.0,
-                averageSessionDuration: 300,
-                mostActiveDay: 2,
-                mostActiveHour: 14,
-                featureUsage: ["Quests": 25, "Calendar": 15, "Character": 8],
-                appOpenFrequency: 7.0
-            ))
             
             CustomizationPreferencesCard(customization: CustomizationAnalytics(
                 mostUsedPreset: "Warrior",

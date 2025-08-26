@@ -216,6 +216,7 @@ struct AchievementRow: View {
     }
 }
 
+
 // MARK: - Preview
 
 struct ProgressionOverviewCard_Previews: PreviewProvider {

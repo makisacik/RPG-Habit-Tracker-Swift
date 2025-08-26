@@ -78,9 +78,6 @@ struct AnalyticsView: View {
                 ProgressionOverviewCard(progression: summary.progression)
                     .environmentObject(themeManager)
                 
-                // Engagement Metrics Card
-                EngagementMetricsCard(engagement: summary.engagement)
-                    .environmentObject(themeManager)
                 
                 // Recommendations Section
                 RecommendationsSection(recommendations: summary.recommendations)
@@ -111,8 +108,10 @@ struct AnalyticsView: View {
                         }) {
                             HStack {
                                 Text(periodDisplayName(period))
+                                    .foregroundColor(theme.textColor)
                                 if selectedTimePeriod == period {
                                     Image(systemName: "checkmark")
+                                        .foregroundColor(theme.textColor)
                                 }
                             }
                         }

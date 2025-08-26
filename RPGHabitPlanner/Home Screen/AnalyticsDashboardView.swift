@@ -217,9 +217,6 @@ struct AnalyticsDashboardView: View {
                 
                 // Time Analysis
                 AnalyticsDashboardPlaceholders.timeAnalysisCard(summary: summary, theme: theme)
-                
-                // Engagement Metrics
-                AnalyticsDashboardPlaceholders.engagementMetricsCard(summary: summary, theme: theme)
             }
             .padding(.horizontal, 16)
             .padding(.top, 10)

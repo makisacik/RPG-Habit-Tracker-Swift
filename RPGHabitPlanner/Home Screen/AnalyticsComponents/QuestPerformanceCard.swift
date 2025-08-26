@@ -47,14 +47,13 @@ struct QuestPerformanceCard: View {
                 StatItem(
                     title: String(localized: "analytics_finished_quests"),
                     value: "\(performance.finishedQuests)",
-                    icon: "checkmark.circle.fill",
-                    color: .orange
+                    icon: "checkmark.seal.fill",
+                    color: .green
                 )
             }
             
-            // Second Row - 3 Stats
+            // Second Row - 2 Stats
             LazyVGrid(columns: [
-                GridItem(.flexible()),
                 GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: 16) {
@@ -65,15 +64,15 @@ struct QuestPerformanceCard: View {
                     color: theme.accentColor
                 )
                 
-                StatItem(
-                    title: String(localized: "analytics_partially_completed_quests"),
-                    value: "\(performance.partiallyCompletedQuests)",
-                    icon: "clock.arrow.circlepath",
-                    color: theme.warningColor
-                )
+                // StatItem(
+                //     title: String(localized: "analytics_partially_completed_quests"),
+                //     value: "\(performance.partiallyCompletedQuests)",
+                //     icon: "clock.arrow.circlepath",
+                //     color: theme.warningColor
+                // )
                 
                 StatItem(
-                    title: "Partial Completion",
+                    title: "Partial Finished",
                     value: "\(Int(performance.partialCompletionRate * 100))%",
                     icon: "chart.line.uptrend.xyaxis",
                     color: theme.infoColor
@@ -100,36 +99,6 @@ struct QuestPerformanceCard: View {
                     .scaleEffect(x: 1, y: 2, anchor: .center)
             }
             
-            // Performance Insights
-            VStack(alignment: .leading, spacing: 12) {
-                Text(String(localized: "analytics_performance_insights"))
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.textColor)
-                
-                VStack(spacing: 8) {
-                    InsightRow(
-                        icon: "clock.fill",
-                        title: String(localized: "analytics_avg_completion_time"),
-                        value: formatTimeInterval(performance.averageCompletionTime),
-                        color: theme.infoColor
-                    )
-                    
-                    InsightRow(
-                        icon: "sun.max.fill",
-                        title: String(localized: "analytics_most_productive_hour"),
-                        value: formatHour(performance.mostProductiveHour),
-                        color: theme.warningColor
-                    )
-                    
-                    InsightRow(
-                        icon: "star.fill",
-                        title: String(localized: "analytics_preferred_difficulty"),
-                        value: "\(performance.preferredDifficulty)/5",
-                        color: theme.accentColor
-                    )
-                }
-            }
             
             // Difficulty Success Rates
             if !performance.difficultySuccessRates.isEmpty {
@@ -164,35 +133,6 @@ struct QuestPerformanceCard: View {
     }
 }
 
-// MARK: - Helper Methods
-
-extension QuestPerformanceCard {
-    private func formatTimeInterval(_ timeInterval: TimeInterval) -> String {
-        if timeInterval == 0 {
-            return String(localized: "analytics_no_data")
-        }
-        
-        let hours = Int(timeInterval) / 3600
-        let minutes = Int(timeInterval) % 3600 / 60
-        
-        if hours > 0 {
-            return String(localized: "analytics_time_hours_minutes")
-                .replacingOccurrences(of: "{hours}", with: "\(hours)")
-                .replacingOccurrences(of: "{minutes}", with: "\(minutes)")
-        } else {
-            return String(localized: "analytics_time_minutes")
-                .replacingOccurrences(of: "{minutes}", with: "\(minutes)")
-        }
-    }
-    
-    private func formatHour(_ hour: Int) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h a"
-        
-        let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date()) ?? Date()
-        return formatter.string(from: date)
-    }
-}
 
 // MARK: - Supporting Views
 
@@ -225,35 +165,6 @@ struct StatItem: View {
     }
 }
 
-struct InsightRow: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    let icon: String
-    let title: String
-    let value: String
-    let color: Color
-    
-    var body: some View {
-        let theme = themeManager.activeTheme
-        
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.subheadline)
-                .foregroundColor(color)
-                .frame(width: 16)
-            
-            Text(title)
-                .font(.subheadline)
-                .foregroundColor(theme.textColor)
-            
-            Spacer()
-            
-            Text(value)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundColor(theme.textColor)
-        }
-    }
-}
 
 struct DifficultySuccessRateView: View {
     let difficulty: Int

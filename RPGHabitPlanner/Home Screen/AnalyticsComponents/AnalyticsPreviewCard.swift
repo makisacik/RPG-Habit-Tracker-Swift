@@ -48,23 +48,18 @@ struct AnalyticsPreviewCard: View {
             // Quick Stats Row
             HStack(spacing: 16) {
                 QuickStatItem(
-                    title: String(localized: "analytics_completion_rate"),
-                    value: "\(Int(summary.questPerformance.completionRate * 100))%",
-                    icon: "percent",
-                    color: theme.successColor
+                    title: String(localized: "total"),
+                    value: "\(summary.questPerformance.totalQuests)",
+                    icon: "list.bullet.clipboard",
+                    color: theme.infoColor
                 )
 
                 QuickStatItem(
-                    title: String(localized: "analytics_current_streak"),
-                    value: "\(summary.questPerformance.streakData.currentStreak)",
-                    icon: "flame.fill",
-                    color: theme.warningColor
+                    title: String(localized: "finished"),
+                    value: "\(summary.questPerformance.finishedQuests)",
+                    icon: "checkmark.seal.fill",
+                    color: theme.successColor
                 )
-            }
-
-            // Top Recommendation
-            if let topRecommendation = summary.recommendations.first {
-                recommendationPreview(recommendation: topRecommendation, theme: theme)
             }
         }
     }
@@ -92,67 +87,6 @@ struct AnalyticsPreviewCard: View {
                 .fill(theme.cardBackgroundColor)
         )
     }
-
-    private func recommendationPreview(recommendation: PersonalizedRecommendation, theme: Theme) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: recommendationIcon(for: recommendation.type))
-                .font(.caption)
-                .foregroundColor(priorityColor(for: recommendation.priority, theme: theme))
-                .frame(width: 12)
-
-            Text(recommendation.title)
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundColor(theme.textColor)
-                .lineLimit(2)
-
-            Spacer()
-
-            if recommendation.priority == .high {
-                Text(String(localized: "analytics_priority_high"))
-                    .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 2)
-                    .background(theme.warningColor)
-                    .cornerRadius(4)
-            }
-        }
-        .padding(8)
-        .background(priorityColor(for: recommendation.priority, theme: theme).opacity(0.1))
-        .cornerRadius(8)
-    }
-
-    private func recommendationIcon(for type: RecommendationType) -> String {
-        switch type {
-        case .questCreation:
-            return "plus.circle.fill"
-        case .difficultyAdjustment:
-            return "slider.horizontal.3"
-        case .streakBuilding:
-            return "flame.fill"
-        case .achievementGoal:
-            return "trophy.fill"
-        case .customization:
-            return "paintbrush.fill"
-        case .timing:
-            return "clock.fill"
-        case .engagement:
-            return "chart.line.uptrend.xyaxis"
-        }
-    }
-
-    private func priorityColor(for priority: RecommendationPriority, theme: Theme) -> Color {
-        switch priority {
-        case .high:
-            return theme.warningColor
-        case .medium:
-            return theme.accentColor
-        case .low:
-            return theme.infoColor
-        }
-    }
 }
 
 // MARK: - Supporting Views
@@ -167,22 +101,23 @@ struct QuickStatItem: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
-        VStack(spacing: 4) {
+        VStack(spacing: 6) {
             Image(systemName: icon)
-                .font(.caption)
+                .font(.title2)
                 .foregroundColor(color)
 
             Text(value)
-                .font(.caption)
+                .font(.headline)
                 .fontWeight(.bold)
                 .foregroundColor(theme.textColor)
 
             Text(title)
-                .font(.caption2)
+                .font(.caption)
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
+        .padding(12)
     }
 }
 
