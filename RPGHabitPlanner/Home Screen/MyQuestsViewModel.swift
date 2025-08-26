@@ -290,6 +290,13 @@ final class MyQuestsViewModel: ObservableObject {
                                 }
                             }
 
+                            // Add gems for quest completion
+                            CurrencyManager.shared.addGems(5) { gemError in
+                                if let gemError = gemError {
+                                    print("❌ Error adding gems: \(gemError)")
+                                }
+                            }
+
                             self.streakManager.recordActivity()
                             self.checkAchievements()
 

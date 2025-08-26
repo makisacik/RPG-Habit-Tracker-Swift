@@ -246,7 +246,7 @@ struct GamifiedRepeatTypeSection: View {
     }
 }
 
-struct CoinRewardPreviewSection: View {
+struct QuestRewardPreviewSection: View {
     @EnvironmentObject var themeManager: ThemeManager
     let difficulty: Int
     let isMainQuest: Bool
@@ -259,6 +259,10 @@ struct CoinRewardPreviewSection: View {
         return baseReward + taskBonus
     }
 
+    private var gemReward: Int {
+        return 5 // Fixed 5 gems for quest completion
+    }
+
     var body: some View {
         let theme = themeManager.activeTheme
         VStack(alignment: .leading, spacing: 8) {
@@ -266,25 +270,36 @@ struct CoinRewardPreviewSection: View {
                 Image("icon_gold")
                     .resizable()
                     .frame(width: 20, height: 20)
-                                    Text(String(localized: "quest_reward"))
+                Text(String(localized: "quest_reward"))
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                HStack(spacing: 4) {
-                    Image("icon_gold")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                    Text("\(coinReward)")
-                        .font(.appFont(size: 16, weight: .black))
-                        .foregroundColor(.yellow)
+                HStack(spacing: 8) {
+                    HStack(spacing: 4) {
+                        Image("icon_gold")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                        Text("\(coinReward)")
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(.yellow)
+                    }
+
+                    HStack(spacing: 4) {
+                        Image("icon_gem")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                        Text("\(gemReward)")
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(.purple)
+                    }
                 }
             }
 
             VStack(spacing: 8) {
                 HStack {
-                                            Text(String(localized: "base_reward") + ":")
+                    Text(String(localized: "base_reward") + ":")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     Spacer()
@@ -294,13 +309,23 @@ struct CoinRewardPreviewSection: View {
                 }
 
                 HStack {
-                                            Text(String(localized: "task_bonus") + ":")
+                    Text(String(localized: "task_bonus") + ":")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     Spacer()
                     Text("+\(taskCount * 5)")
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(.blue)
+                }
+
+                HStack {
+                    Text(String(localized: "gem_reward") + ":")
+                        .font(.appFont(size: 12, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                    Spacer()
+                    Text("\(gemReward)")
+                        .font(.appFont(size: 12, weight: .black))
+                        .foregroundColor(.purple)
                 }
             }
             .padding()

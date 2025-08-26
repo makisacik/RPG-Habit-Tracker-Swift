@@ -21,6 +21,7 @@ struct RewardView: View {
     @State private var boostedCoins: Int = 0
     @State private var hasBoosters: Bool = false
     @State private var viewAppeared: Bool = false
+    @State private var gems: Int = 5
 
     var body: some View {
         if isVisible {
@@ -113,7 +114,7 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text(String(localized: "coins"))
+                                            Text(String(localized: "currency_coins"))
                                                 .font(.appFont(size: 14, weight: .medium))
                                                 .foregroundColor(theme.textColor.opacity(0.7))
                                             Spacer()
@@ -132,6 +133,29 @@ struct RewardView: View {
                                                     .font(.appFont(size: 12, weight: .medium))
                                                     .foregroundColor(.green)
                                             }
+                                        }
+                                    }
+                                }
+
+                                Divider()
+                                    .background(theme.textColor.opacity(0.2))
+
+                                // Gems Section
+                                HStack {
+                                    Image("icon_gem")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        HStack {
+                                            Text(String(localized: "currency_gems"))
+                                                .font(.appFont(size: 14, weight: .medium))
+                                                .foregroundColor(theme.textColor.opacity(0.7))
+                                            Spacer()
+                                            Text("\(gems)")
+                                                .font(.appFont(size: 16, weight: .bold))
+                                                .foregroundColor(theme.textColor)
                                         }
                                     }
                                 }
@@ -240,6 +264,13 @@ struct RewardView: View {
         CurrencyManager.shared.addCoins(boostedCoins) { error in
             if let error = error {
                 print("❌ Error adding coins: \(error)")
+            }
+        }
+
+        // Add gems to user
+        CurrencyManager.shared.addGems(gems) { error in
+            if let error = error {
+                print("❌ Error adding gems: \(error)")
             }
         }
 

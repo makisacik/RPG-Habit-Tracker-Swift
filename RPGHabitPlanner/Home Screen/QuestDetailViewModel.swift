@@ -238,6 +238,13 @@ final class QuestDetailViewModel: ObservableObject {
                                 }
                             }
 
+                            // Add gems for quest completion
+                            CurrencyManager.shared.addGems(5) { gemError in
+                                if let gemError = gemError {
+                                    print("❌ Error adding gems: \(gemError)")
+                                }
+                            }
+
                             // Record streak activity when finishing a quest
                             self.streakManager.recordActivity()
 

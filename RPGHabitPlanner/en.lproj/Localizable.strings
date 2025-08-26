@@ -851,6 +851,7 @@
 
 // MARK: - Currency
 "currency_gems" = "gems";
+"gem_reward" = "Gem Reward";
 "currency_coins" = "coins";
 
 // MARK: - Damage Calculation

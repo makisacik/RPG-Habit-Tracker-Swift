@@ -790,6 +790,7 @@
 
 // MARK: - Currency
 "currency_gems" = "mücevher";
+"gem_reward" = "Mücevher Ödülü";
 "currency_coins" = "altın";
 
 // MARK: - Sample Data

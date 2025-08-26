@@ -300,6 +300,11 @@ final class CalendarViewModel: ObservableObject {
                             CurrencyManager.shared.addCoins(boosted.coins) { coinError in
                                 if let coinError = coinError { print("❌ Error adding coins: \(coinError)") }
                             }
+
+                            // Add gems for quest completion
+                            CurrencyManager.shared.addGems(5) { gemError in
+                                if let gemError = gemError { print("❌ Error adding gems: \(gemError)") }
+                            }
                             self.streakManager.recordActivity()
                             self.checkAchievements()
                             

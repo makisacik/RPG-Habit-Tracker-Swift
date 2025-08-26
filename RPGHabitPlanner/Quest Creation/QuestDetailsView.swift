@@ -81,7 +81,7 @@ struct QuestDetailsView: View {
                 }
 
                 // Quest Reward
-                CoinRewardPreviewSection(
+                QuestRewardPreviewSection(
                     difficulty: viewModel.difficulty,
                     isMainQuest: true,
                     taskCount: viewModel.tasks.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count
