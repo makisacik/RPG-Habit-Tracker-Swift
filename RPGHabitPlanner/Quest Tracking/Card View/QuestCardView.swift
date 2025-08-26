@@ -130,6 +130,11 @@ struct QuestCardView: View {
                                         .buttonStyle(PlainButtonStyle())
                                     }
                                     .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                                            onToggleTaskCompletion(task.id, !task.isCompleted)
+                                        }
+                                    }
                                     .padding(.vertical, 2)
                                 }
                             }

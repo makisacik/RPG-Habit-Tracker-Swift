@@ -348,6 +348,9 @@ struct QuestCalendarRow: View {
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
+                                .onTapGesture {
+                                    onToggleTaskCompletion(task.id, !task.isCompleted)
+                                }
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 4)
                             }

@@ -250,6 +250,16 @@ struct QuestDetailTasksSection: View {
 
             Spacer()
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            // Provide haptic feedback for task toggle
+            if task.isCompleted {
+                HapticFeedbackManager.shared.taskUncompleted()
+            } else {
+                HapticFeedbackManager.shared.taskCompleted()
+            }
+            onToggleTask(task)
+        }
         .padding(.vertical, 4)
     }
 

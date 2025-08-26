@@ -343,6 +343,15 @@ struct MyQuestRow: View {
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
+                                .onTapGesture {
+                                    // Provide haptic feedback for task toggle
+                                    if task.isCompleted {
+                                        HapticFeedbackManager.shared.taskUncompleted()
+                                    } else {
+                                        HapticFeedbackManager.shared.taskCompleted()
+                                    }
+                                    onToggleTaskCompletion(task.id, !task.isCompleted)
+                                }
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 4)
                             }
