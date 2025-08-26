@@ -16,8 +16,8 @@ struct CharacterCustomization: Codable, Equatable {
     var hairBackStyle: HairBackStyle? // New field for hair backs
     var hairColor: HairColor
     var eyeColor: EyeColor
-    var outfit: Outfit
-    var weapon: CharacterWeapon
+    var outfit: Outfit?
+    var weapon: CharacterWeapon?
     var shield: Shield? // New field for shields
     var pet: Pet? // New field for pets
     var wings: Wings? // New field for wings (gear items)
@@ -32,8 +32,8 @@ struct CharacterCustomization: Codable, Equatable {
         self.hairBackStyle = nil
         self.hairColor = .black // Match the default hair color
         self.eyeColor = .eyeBlack
-        self.outfit = .outfitVillager
-        self.weapon = .swordWood
+        self.outfit = nil // No outfit by default
+        self.weapon = nil // No weapon by default
         self.shield = nil // No shield by default
         self.pet = nil // No pet by default
         self.wings = nil // No wings by default
@@ -58,9 +58,9 @@ struct CharacterCustomization: Codable, Equatable {
         case .eyeColor:
             return eyeColor.rawValue
         case .outfit:
-            return outfit.rawValue
+            return outfit?.rawValue
         case .weapon:
-            return weapon.rawValue
+            return weapon?.rawValue
         case .accessory:
             return accessory?.rawValue
         case .headGear:
@@ -98,10 +98,10 @@ struct CharacterCustomization: Codable, Equatable {
                 customization.eyeColor = EyeColor(rawValue: value) ?? customization.eyeColor
             },
             .outfit: { customization, value in
-                customization.outfit = Outfit(rawValue: value) ?? customization.outfit
+                customization.outfit = Outfit(rawValue: value)
             },
             .weapon: { customization, value in
-                customization.weapon = CharacterWeapon(rawValue: value) ?? customization.weapon
+                customization.weapon = CharacterWeapon(rawValue: value)
             },
             .accessory: { customization, value in
                 customization.accessory = Accessory(rawValue: value)
@@ -898,12 +898,12 @@ struct CharacterPreview {
         return customization.eyeColor.rawValue
     }
 
-    var outfitImageName: String {
-        return customization.outfit.rawValue
+    var outfitImageName: String? {
+        return customization.outfit?.rawValue
     }
 
-    var weaponImageName: String {
-        return customization.weapon.rawValue
+    var weaponImageName: String? {
+        return customization.weapon?.rawValue
     }
 
     var accessoryImageName: String? {

@@ -97,7 +97,7 @@ struct CharacterView: View {
         if let customizationEntity = customizationService.fetchCustomization(for: user) {
             self.characterCustomization = customizationEntity.toCharacterCustomization()
             print("✅ CharacterView: Loaded character customization")
-            print("🔧 CharacterView: Current outfit: \(characterCustomization?.outfit.rawValue ?? "nil")")
+            print("🔧 CharacterView: Current outfit: \(characterCustomization?.outfit?.rawValue ?? "nil")")
         } else {
             // Try to migrate from UserDefaults if no Core Data customization exists
             let customizationManager = CharacterCustomizationManager()

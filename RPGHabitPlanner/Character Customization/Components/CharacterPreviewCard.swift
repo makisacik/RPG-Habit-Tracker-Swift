@@ -78,9 +78,11 @@ struct CharacterPreviewCard: View {
                             .foregroundColor(getBodyColor(for: customization.bodyType).opacity(0.8))
 
                         // Outfit indicator
-                        Text(customization.outfit.displayName)
-                            .font(.appFont(size: 8))
-                            .foregroundColor(theme.textColor.opacity(0.6))
+                        if let outfit = customization.outfit {
+                            Text(outfit.displayName)
+                                .font(.appFont(size: 8))
+                                .foregroundColor(theme.textColor.opacity(0.6))
+                        }
                     }
                 }
 
@@ -90,9 +92,11 @@ struct CharacterPreviewCard: View {
                         .font(.appFont(size: 16, weight: .semibold))
                         .foregroundColor(theme.textColor)
 
-                    Text(customization.weapon.displayName)
-                        .font(.appFont(size: 10))
-                        .foregroundColor(theme.textColor.opacity(0.7))
+                    if let weapon = customization.weapon {
+                        Text(weapon.displayName)
+                            .font(.appFont(size: 10))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                    }
                 }
             }
         }
@@ -168,19 +172,23 @@ struct CharacterFullPreview: View {
             }
 
             // Outfit
-            Image(customization.outfit.rawValue)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: size * 0.95)
-                .onAppear {
-                    print("👕 CharacterFullPreview: Rendering outfit: \(customization.outfit.rawValue)")
-                }
+            if let outfit = customization.outfit {
+                Image(outfit.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+                    .onAppear {
+                        print("👕 CharacterFullPreview: Rendering outfit: \(outfit.rawValue)")
+                    }
+            }
 
             // Weapon
-            Image(customization.weapon.rawValue)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: size * 0.95)
+            if let weapon = customization.weapon {
+                Image(weapon.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+            }
 
             // Shield
             if let shield = customization.shield {
@@ -295,20 +303,24 @@ struct CharacterFullPreviewWithGearLogic: View {
                     .frame(height: size * 0.95)
             }
 
-            // Outfit
-            Image(customization.outfit.rawValue)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: size * 0.95)
-                .onAppear {
-                    print("👕 CharacterFullPreviewWithGearLogic: Rendering outfit: \(customization.outfit.rawValue)")
-                }
+            // Outfit - Only show if equipped
+            if let outfit = customization.outfit {
+                Image(outfit.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+                    .onAppear {
+                        print("👕 CharacterFullPreviewWithGearLogic: Rendering outfit: \(outfit.rawValue)")
+                    }
+            }
 
-            // Weapon
-            Image(customization.weapon.rawValue)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: size * 0.95)
+            // Weapon - Only show if equipped
+            if let weapon = customization.weapon {
+                Image(weapon.rawValue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: size * 0.95)
+            }
 
             // Shield
             if let shield = customization.shield {

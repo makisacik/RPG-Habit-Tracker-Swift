@@ -96,12 +96,14 @@ extension CharacterCustomizationEntity {
             customization.outfit = outfit
             print("✅ CharacterCustomizationEntity: Successfully loaded outfit: \(outfit.rawValue)")
         } else {
-            print("❌ CharacterCustomizationEntity: Failed to load outfit from string: \(outfit ?? "nil")")
+            print("🔧 CharacterCustomizationEntity: No outfit loaded (outfit is nil)")
         }
 
         if let weaponString = weapon,
            let weapon = CharacterWeapon(rawValue: weaponString) {
             customization.weapon = weapon
+        } else {
+            print("🔧 CharacterCustomizationEntity: No weapon loaded (weapon is nil)")
         }
 
         if let accessoryString = accessory,
@@ -139,21 +141,21 @@ extension CharacterCustomizationEntity {
             customization.wings = wings
         }
 
-        print("🔧 CharacterCustomizationEntity: Final customization outfit: \(customization.outfit.rawValue)")
+        print("🔧 CharacterCustomizationEntity: Final customization outfit: \(customization.outfit?.rawValue ?? "nil")")
         return customization
     }
 
     func updateFrom(_ customization: CharacterCustomization) {
         print("🔧 CharacterCustomizationEntity: updateFrom called")
-        print("🔧 CharacterCustomizationEntity: Setting outfit from '\(outfit ?? "nil")' to '\(customization.outfit.rawValue)'")
+        print("🔧 CharacterCustomizationEntity: Setting outfit from '\(outfit ?? "nil")' to '\(customization.outfit?.rawValue ?? "nil")'")
         
         bodyType = customization.bodyType.rawValue
         hairStyle = customization.hairStyle.rawValue
         hairBackStyle = customization.hairBackStyle?.rawValue
         hairColor = customization.hairColor.rawValue
         eyeColor = customization.eyeColor.rawValue
-        outfit = customization.outfit.rawValue
-        weapon = customization.weapon.rawValue
+        outfit = customization.outfit?.rawValue
+        weapon = customization.weapon?.rawValue
         accessory = customization.accessory?.rawValue
         headGear = customization.headGear?.rawValue
         mustache = customization.mustache?.rawValue

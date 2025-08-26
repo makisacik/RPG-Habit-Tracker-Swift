@@ -113,9 +113,9 @@ class CharacterCustomizationFlowCoordinator: ObservableObject {
         case .eyeColor:
             return !selectedCustomization.eyeColor.rawValue.isEmpty
         case .outfit:
-            return !selectedCustomization.outfit.rawValue.isEmpty
+            return !(selectedCustomization.outfit?.rawValue ?? "").isEmpty
         case .weapon:
-            return !selectedCustomization.weapon.rawValue.isEmpty
+            return !(selectedCustomization.weapon?.rawValue ?? "").isEmpty
         case .mustache:
             return true // Optional
         case .flower:

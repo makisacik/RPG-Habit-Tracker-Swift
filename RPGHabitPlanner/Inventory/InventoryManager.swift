@@ -314,7 +314,7 @@ class InventoryManager: ObservableObject {
         // Add the selected items from character customization if they're not already in the list
         if let customization = characterCustomization {
             // Add selected weapon if not already added
-            let selectedWeaponIcon = customization.weapon.rawValue
+            let selectedWeaponIcon = customization.weapon?.rawValue ?? ""
             if !weaponIconNames.contains(selectedWeaponIcon) {
                 if let weaponItem = findItemByIconName(selectedWeaponIcon) {
                     addToInventory(weaponItem)
@@ -322,7 +322,7 @@ class InventoryManager: ObservableObject {
             }
             
             // Add selected outfit if not already added
-            let selectedOutfitIcon = customization.outfit.rawValue
+            let selectedOutfitIcon = customization.outfit?.rawValue ?? ""
             if !outfitIconNames.contains(selectedOutfitIcon) {
                 if let outfitItem = findItemByIconName(selectedOutfitIcon) {
                     addToInventory(outfitItem)
@@ -352,8 +352,8 @@ class InventoryManager: ObservableObject {
                 // Add a small delay to ensure inventory is updated
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     // Use character customization if provided, otherwise use defaults
-                    let weaponIconName = characterCustomization?.weapon.rawValue ?? "char_sword_wood"
-                    let outfitIconName = characterCustomization?.outfit.rawValue ?? "char_outfit_villager"
+                    let weaponIconName = characterCustomization?.weapon?.rawValue ?? "char_sword_wood"
+                    let outfitIconName = characterCustomization?.outfit?.rawValue ?? "char_outfit_villager"
                     
                     // Find and equip the selected weapon
                     if let weaponEntity = self?.inventoryItems.first(where: { $0.iconName == weaponIconName }) {

@@ -108,16 +108,20 @@ struct CharacterCustomizationView: View {
                         .frame(height: 120)
 
                     // Outfit
-                    Image(customizationManager.currentCustomization.outfit.rawValue)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
+                    if let outfit = customizationManager.currentCustomization.outfit {
+                        Image(outfit.rawValue)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    }
 
                     // Weapon
-                    Image(customizationManager.currentCustomization.weapon.rawValue)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 120)
+                    if let weapon = customizationManager.currentCustomization.weapon {
+                        Image(weapon.rawValue)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    }
 
                     // Wings - Draw first so they appear behind everything
                     if let wings = customizationManager.currentCustomization.wings {
@@ -242,8 +246,8 @@ struct CharacterCustomizationView: View {
             .hairBackStyle: customizationManager.currentCustomization.hairBackStyle?.rawValue,
             .hairColor: customizationManager.currentCustomization.hairColor.rawValue,
             .eyeColor: customizationManager.currentCustomization.eyeColor.rawValue,
-            .outfit: customizationManager.currentCustomization.outfit.rawValue,
-            .weapon: customizationManager.currentCustomization.weapon.rawValue,
+            .outfit: customizationManager.currentCustomization.outfit?.rawValue,
+            .weapon: customizationManager.currentCustomization.weapon?.rawValue,
             .accessory: customizationManager.currentCustomization.accessory?.rawValue,
             .mustache: customizationManager.currentCustomization.mustache?.rawValue,
             .flower: customizationManager.currentCustomization.flower?.rawValue
@@ -503,12 +507,20 @@ struct OptimizedCharacterView: View {
         }
 
         // Draw character layers in order
-        let layers = [
+        var layers: [(String, Color?)] = [
             (customization.bodyType.rawValue, nil),
-            (customization.hairStyle.rawValue, customization.hairColor.color),
-            (customization.outfit.rawValue, nil),
-            (customization.weapon.rawValue, nil)
+            (customization.hairStyle.rawValue, customization.hairColor.color)
         ]
+        
+        // Add outfit if present
+        if let outfit = customization.outfit {
+            layers.append((outfit.rawValue, nil))
+        }
+        
+        // Add weapon if present
+        if let weapon = customization.weapon {
+            layers.append((weapon.rawValue, nil))
+        }
 
         for (imageName, tintColor) in layers {
             // Try cache first, then load from bundle

@@ -96,7 +96,11 @@ struct GearMenuView: View {
                             item: item,
                             isEquipped: isItemEquipped(item),
                             onTap: {
-                                equipItem(item)
+                                if isItemEquipped(item) {
+                                    unequipItem(item)
+                                } else {
+                                    equipItem(item)
+                                }
                             },
                             theme: theme
                         )
@@ -192,6 +196,10 @@ struct GearMenuView: View {
     
     private func equipItem(_ item: ItemEntity) {
         gearManager.equipItem(item, to: gearCategory, for: user)
+    }
+    
+    private func unequipItem(_ item: ItemEntity) {
+        gearManager.unequipItem(from: gearCategory, for: user)
     }
     
     private func getCurrentCustomization() -> CharacterCustomization? {
@@ -299,14 +307,19 @@ struct GearItemCard: View {
             }
         }
         .contextMenu {
-                                Button("view_details".localized) {
+            Button("view_details".localized) {
                 showItemDetail = true
-                                }
+            }
             
-                            Button("equip".localized) {
-                onTap()
-                            }
-            .disabled(isEquipped)
+            if isEquipped {
+                Button("unequip".localized) {
+                    onTap()
+                }
+            } else {
+                Button("equip".localized) {
+                    onTap()
+                }
+            }
         }
     }
     

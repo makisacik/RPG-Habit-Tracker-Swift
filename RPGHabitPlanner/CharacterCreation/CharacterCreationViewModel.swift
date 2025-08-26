@@ -116,8 +116,8 @@ class CharacterCreationViewModel: ObservableObject {
                         !currentCustomization.hairStyle.rawValue.isEmpty &&
                         !currentCustomization.hairColor.rawValue.isEmpty &&
                         !currentCustomization.eyeColor.rawValue.isEmpty &&
-                        !currentCustomization.outfit.rawValue.isEmpty &&
-                        !currentCustomization.weapon.rawValue.isEmpty
+                        !(currentCustomization.outfit?.rawValue ?? "").isEmpty &&
+                        !(currentCustomization.weapon?.rawValue ?? "").isEmpty
 
         isCustomizationComplete = isComplete
     }
@@ -164,7 +164,7 @@ class CharacterCreationViewModel: ObservableObject {
                !currentCustomization.hairStyle.rawValue.isEmpty &&
                !currentCustomization.hairColor.rawValue.isEmpty &&
                !currentCustomization.eyeColor.rawValue.isEmpty &&
-               !currentCustomization.outfit.rawValue.isEmpty &&
-               !currentCustomization.weapon.rawValue.isEmpty
+               !(currentCustomization.outfit?.rawValue ?? "").isEmpty &&
+               !(currentCustomization.weapon?.rawValue ?? "").isEmpty
     }
 }

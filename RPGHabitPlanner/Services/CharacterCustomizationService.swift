@@ -74,7 +74,7 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
 
     func updateCustomization(for user: UserEntity, customization: CharacterCustomization) -> CharacterCustomizationEntity? {
         print("🔧 CharacterCustomizationService: Starting updateCustomization for user: \(user.nickname ?? "Unknown")")
-        print("🔧 CharacterCustomizationService: New outfit value: \(customization.outfit.rawValue)")
+        print("🔧 CharacterCustomizationService: New outfit value: \(customization.outfit?.rawValue ?? "nil")")
         
         if let entity = fetchCustomization(for: user) {
             print("✅ CharacterCustomizationService: Found existing customization entity")

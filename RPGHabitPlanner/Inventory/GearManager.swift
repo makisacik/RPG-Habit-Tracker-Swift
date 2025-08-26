@@ -37,6 +37,7 @@ class GearManager: ObservableObject {
     private let customizationService = CharacterCustomizationService()
     private let inventoryManager = InventoryManager.shared
     private var cancellables = Set<AnyCancellable>()
+
     
     // MARK: - Initialization
     
@@ -62,6 +63,7 @@ class GearManager: ObservableObject {
     ///   - user: The user entity
     func equipItem(_ item: ItemEntity, to category: GearCategory, for user: UserEntity) {
         print("🔧 GearManager: Attempting to equip \(item.name ?? "Unknown") to \(category.rawValue)")
+        
         
         // Unequip current item if any
         unequipItem(from: category, for: user)
@@ -148,12 +150,14 @@ class GearManager: ObservableObject {
             if let outfit = mapItemToOutfit(outfitItem) {
                 updatedCustomization.outfit = outfit
                 print("✅ GearManager: Successfully mapped outfit to: \(outfit.rawValue)")
-                print("🔧 GearManager: Updated customization outfit field to: \(updatedCustomization.outfit.rawValue)")
+                print("🔧 GearManager: Updated customization outfit field to: \(updatedCustomization.outfit?.rawValue ?? "nil")")
             } else {
                 print("❌ GearManager: Failed to map outfit item: \(outfitItem.name ?? "Unknown")")
             }
         } else {
-            print("🔧 GearManager: No outfit item equipped")
+            // Clear outfit if no outfit is equipped
+            updatedCustomization.outfit = nil
+            print("🔧 GearManager: Cleared outfit (no outfit equipped)")
         }
         
         // Update weapon if equipped
@@ -163,6 +167,10 @@ class GearManager: ObservableObject {
                 updatedCustomization.weapon = weapon
                 print("✅ GearManager: Successfully mapped weapon to: \(weapon.rawValue)")
             }
+        } else {
+            // Clear weapon if no weapon is equipped
+            updatedCustomization.weapon = nil
+            print("🔧 GearManager: Cleared weapon (no weapon equipped)")
         }
         
         // Update shield if equipped
@@ -225,14 +233,14 @@ class GearManager: ObservableObject {
         // It would be handled separately in the character display system
         
         // Save the updated customization
-        print("🔧 GearManager: About to save customization with outfit: \(updatedCustomization.outfit.rawValue)")
+        print("🔧 GearManager: About to save customization with outfit: \(updatedCustomization.outfit?.rawValue ?? "nil")")
         print("🔧 GearManager: Calling customizationService.updateCustomization...")
         
         let result = customizationService.updateCustomization(for: user, customization: updatedCustomization)
         
         if let _ = result {
             print("✅ GearManager: Successfully saved updated customization")
-            print("🔧 GearManager: Final saved outfit: \(updatedCustomization.outfit.rawValue)")
+            print("🔧 GearManager: Final saved outfit: \(updatedCustomization.outfit?.rawValue ?? "nil")")
         } else {
             print("❌ GearManager: Failed to save updated customization - updateCustomization returned nil")
         }
@@ -247,6 +255,7 @@ class GearManager: ObservableObject {
         }
         return nil
     }
+    
     
     // MARK: - Asset Name Mapping
     

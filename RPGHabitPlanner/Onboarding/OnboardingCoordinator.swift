@@ -92,7 +92,7 @@ class OnboardingCoordinator: ObservableObject {
             nickname: nickname,
             title: selectedTitle.rawValue,
             characterClass: "Custom",
-            weapon: characterCustomization.weapon.rawValue
+            weapon: characterCustomization.weapon?.rawValue ?? "char_sword_wood"
         ) { [weak self] error in
             if let error = error {
                 print("❌ OnboardingCoordinator: Failed to save user: \(error.localizedDescription)")
