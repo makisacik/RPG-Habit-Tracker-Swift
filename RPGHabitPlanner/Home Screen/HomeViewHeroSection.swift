@@ -15,281 +15,344 @@ extension HomeView {
 
         return VStack(spacing: 12) {
             if let user = viewModel.user {
-                // Compact Character Card
-                VStack(spacing: 0) {
-                    // Top section with character info
-                    HStack(spacing: 12) {
-                        // Character Avatar with compact styling
-                        ZStack {
-                            // Outer glow effect
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color.yellow.opacity(0.3), Color.orange.opacity(0.1)],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(width: 70, height: 70)
-                                .shadow(color: .yellow.opacity(0.3), radius: 6, x: 0, y: 3)
-
-                            // Main avatar background
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [theme.primaryColor, theme.primaryColor.opacity(0.8)],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(width: 62, height: 62)
-                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
-
-                            // Character customization image
-                            CharacterDisplayView(
-                                customization: viewModel.characterCustomization,
-                                size: 45,
-                                showShadow: false
-                            )
-                            .scaleEffect(1.5)
-                            .clipped()
-                        }
-
-                        // Character details
-                        VStack(alignment: .leading, spacing: 6) {
-                            // Name
-                            HStack {
-                                Text(user.nickname ?? "Adventurer")
-                                    .font(.appFont(size: 20, weight: .black))
-                                    .foregroundColor(theme.textColor)
-                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
-                                Spacer()
-                            }
-
-                            // Character title
-                            if let title = user.title, !title.isEmpty {
-                                // Use localized title from CharacterTitleSystem
-                                let localizedTitle = CharacterTitleManager.shared.getTitleByString(title)?.displayName ?? title
-                                Text(localizedTitle)
-                                    .font(.appFont(size: 14, weight: .medium))
-                                    .foregroundColor(theme.textColor.opacity(0.8))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 3)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .fill(Color.yellow.opacity(0.2))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                                            )
-                                    )
-                            } else {
-                                Text(String(localized: "the_brave"))
-                                    .font(.appFont(size: 14, weight: .medium))
-                                    .foregroundColor(theme.textColor.opacity(0.8))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 3)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .fill(Color.yellow.opacity(0.2))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 6)
-                                                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                                            )
-                                    )
-                            }
-
-                            // Level and XP
-                            HStack {
-                                HStack(spacing: 3) {
-                                    Image("icon_star_fill")
-                                        .resizable()
-                                        .frame(width: 12, height: 12)
-                                    Text("\(String(localized: "level")) \(user.level)")
-                                        .font(.appFont(size: 14, weight: .bold))
-                                        .foregroundColor(theme.textColor)
-                                }
-
-                                Spacer()
-
-                                HStack(spacing: 3) {
-                                    Image("icon_lightning")
-                                        .resizable()
-                                        .frame(width: 10, height: 10)
-                                    Text("\(user.exp)/100 \(String(localized: "xp"))")
-                                        .font(.appFont(size: 12, weight: .medium))
-                                        .foregroundColor(theme.textColor.opacity(0.8))
-                                }
-                            }
-                        }
-
-                        Spacer()
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 16)
-
-                    // Divider
-                    Rectangle()
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.clear, Color.yellow.opacity(0.3), Color.clear],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(height: 1)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-
-                    // Bottom section with stats
-                    VStack(spacing: 10) {
-                        // Health Bar with reddish color
-                        VStack(spacing: 4) {
-                            HStack {
-                                Image(systemName: "heart.fill")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(.red)
-                                Text(String(localized: "health"))
-                                    .font(.appFont(size: 12, weight: .bold))
-                                    .foregroundColor(theme.textColor)
-                                Spacer()
-                                Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
-                                    .font(.appFont(size: 11, weight: .black))
-                                    .foregroundColor(theme.textColor)
-                            }
-
-                            // Reddish health bar
-                            GeometryReader { geometry in
-                                ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .fill(Color.red.opacity(0.2))
-                                        .frame(height: 12)
-
-                                    let healthPercentage = healthManager.getHealthPercentage()
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .fill(
-                                            LinearGradient(
-                                                colors: [Color.red, Color.red.opacity(0.8)],
-                                                startPoint: .leading,
-                                                endPoint: .trailing
-                                            )
-                                        )
-                                        .frame(width: geometry.size.width * healthPercentage, height: 12)
-                                        .animation(.easeOut(duration: 0.5), value: healthPercentage)
-                                }
-                            }
-                            .frame(height: 12)
-                        }
-
-                        // Coins and Gems display
-                        HStack(spacing: 12) {
-                            // Coins display
-                            HStack(spacing: 4) {
-                                Image("icon_gold")
-                                    .resizable()
-                                    .frame(width: 14, height: 14)
-                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
-                                Text("\(user.coins) \(String(localized: "currency_coins"))")
-                                    .font(.appFont(size: 14, weight: .black))
-                                    .foregroundColor(.yellow)
-                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(Color.yellow.opacity(0.2))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                                    )
-                            )
-
-                            // Gems display
-                            HStack(spacing: 4) {
-                                Image("icon_gem")
-                                    .resizable()
-                                    .frame(width: 14, height: 14)
-                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
-                                Text("\(user.gems) \(String(localized: "currency_gems"))")
-                                    .font(.appFont(size: 14, weight: .black))
-                                    .foregroundColor(.purple)
-                                    .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(Color.purple.opacity(0.2))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .stroke(Color.purple.opacity(0.3), lineWidth: 1)
-                                    )
-                            )
-
-                            Spacer()
-
-                            // Experience Bar
-                            VStack(spacing: 3) {
-                                Text(String(localized: "experience"))
-                                    .font(.appFont(size: 10, weight: .medium))
-                                    .foregroundColor(theme.textColor.opacity(0.7))
-
-                                ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(theme.backgroundColor.opacity(0.7))
-                                        .frame(width: 100, height: 8)
-
-                                    let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(
-                                            LinearGradient(
-                                                colors: [Color.green, Color.green.opacity(0.7)],
-                                                startPoint: .leading,
-                                                endPoint: .trailing
-                                            )
-                                        )
-                                        .frame(width: 100 * expRatio, height: 8)
-                                        .animation(.easeInOut(duration: 0.5), value: user.exp)
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 16)
-                }
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    theme.primaryColor,
-                                    theme.primaryColor.opacity(0.95)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
-                )
+                characterCard(user: user, theme: theme, healthManager: healthManager)
             } else {
-                // Loading state
-                HStack {
-                    ProgressView()
-                        .scaleEffect(1.0)
-                        .tint(.yellow)
-                    Text(String(localized: "loading_character"))
-                        .font(.appFont(size: 14))
-                        .foregroundColor(theme.textColor)
-                }
-                .frame(height: 80)
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.primaryColor)
-                        .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
-                )
+                loadingState(theme: theme)
             }
         }
+    }
+
+    @ViewBuilder
+    private func characterCard(user: UserEntity, theme: Theme, healthManager: HealthManager) -> some View {
+        VStack(spacing: 0) {
+            characterInfoSection(user: user, theme: theme)
+            dividerSection(theme: theme)
+            statsSection(user: user, theme: theme, healthManager: healthManager)
+        }
+        .background(characterCardBackground(theme: theme))
+    }
+
+    @ViewBuilder
+    private func characterInfoSection(user: UserEntity, theme: Theme) -> some View {
+        HStack(spacing: 12) {
+            characterAvatar(theme: theme)
+            characterDetails(user: user, theme: theme)
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+    }
+
+    @ViewBuilder
+    private func characterAvatar(theme: Theme) -> some View {
+        ZStack {
+            // Outer glow effect
+            let outerGlowGradient = LinearGradient(
+                colors: [Color.yellow.opacity(0.3), Color.orange.opacity(0.1)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            Circle()
+                .fill(outerGlowGradient)
+                .frame(width: 70, height: 70)
+                .shadow(color: .yellow.opacity(0.3), radius: 6, x: 0, y: 3)
+
+            // Main avatar background
+            let avatarBackgroundGradient = LinearGradient(
+                colors: [theme.primaryColor, theme.primaryColor.opacity(0.8)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            Circle()
+                .fill(avatarBackgroundGradient)
+                .frame(width: 62, height: 62)
+                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+
+            // Character customization image
+            CharacterDisplayView(
+                customization: viewModel.characterCustomization,
+                size: 45,
+                showShadow: false
+            )
+            .scaleEffect(1.5)
+            .clipped()
+        }
+    }
+
+    @ViewBuilder
+    private func characterDetails(user: UserEntity, theme: Theme) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            characterName(user: user, theme: theme)
+            characterTitle(user: user, theme: theme)
+            levelAndXP(user: user, theme: theme)
+        }
+    }
+
+    @ViewBuilder
+    private func characterName(user: UserEntity, theme: Theme) -> some View {
+        HStack {
+            Text(user.nickname ?? "Adventurer")
+                .font(.appFont(size: 20, weight: .black))
+                .foregroundColor(theme.textColor)
+                .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+            Spacer()
+        }
+    }
+
+    @ViewBuilder
+    private func characterTitle(user: UserEntity, theme: Theme) -> some View {
+        if let title = user.title, !title.isEmpty {
+            let localizedTitle = CharacterTitleManager.shared.getTitleByString(title)?.displayName ?? title
+            Text(localizedTitle)
+                .font(.appFont(size: 14, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.8))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(titleBackground)
+        } else {
+            Text(String(localized: "the_brave"))
+                .font(.appFont(size: 14, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.8))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(titleBackground)
+        }
+    }
+
+    @ViewBuilder
+    private var titleBackground: some View {
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.yellow.opacity(0.2))
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+            )
+    }
+
+    @ViewBuilder
+    private func levelAndXP(user: UserEntity, theme: Theme) -> some View {
+        HStack {
+            levelDisplay(user: user, theme: theme)
+            Spacer()
+            xpDisplay(user: user, theme: theme)
+        }
+    }
+
+    @ViewBuilder
+    private func levelDisplay(user: UserEntity, theme: Theme) -> some View {
+        HStack(spacing: 3) {
+            Image("icon_star_fill")
+                .resizable()
+                .frame(width: 12, height: 12)
+            Text("\(String(localized: "level")) \(user.level)")
+                .font(.appFont(size: 14, weight: .bold))
+                .foregroundColor(theme.textColor)
+        }
+    }
+
+    @ViewBuilder
+    private func xpDisplay(user: UserEntity, theme: Theme) -> some View {
+        HStack(spacing: 3) {
+            Image("icon_lightning")
+                .resizable()
+                .frame(width: 10, height: 10)
+            Text("\(user.exp)/100 \(String(localized: "xp"))")
+                .font(.appFont(size: 12, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.8))
+        }
+    }
+
+    @ViewBuilder
+    private func dividerSection(theme: Theme) -> some View {
+        let dividerGradient = LinearGradient(
+            colors: [Color.clear, Color.yellow.opacity(0.3), Color.clear],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+        Rectangle()
+            .fill(dividerGradient)
+            .frame(height: 1)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+    }
+
+    @ViewBuilder
+    private func statsSection(user: UserEntity, theme: Theme, healthManager: HealthManager) -> some View {
+        VStack(spacing: 10) {
+            healthBarSection(healthManager: healthManager, theme: theme)
+            currencyAndExperienceSection(user: user, theme: theme)
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 16)
+    }
+
+    @ViewBuilder
+    private func healthBarSection(healthManager: HealthManager, theme: Theme) -> some View {
+        VStack(spacing: 4) {
+            healthBarHeader(healthManager: healthManager, theme: theme)
+            healthBarVisual(healthManager: healthManager)
+        }
+    }
+
+    @ViewBuilder
+    private func healthBarHeader(healthManager: HealthManager, theme: Theme) -> some View {
+        HStack {
+            Image(systemName: "heart.fill")
+                .font(.system(size: 12))
+                .foregroundColor(.red)
+            Text(String(localized: "health"))
+                .font(.appFont(size: 12, weight: .bold))
+                .foregroundColor(theme.textColor)
+            Spacer()
+            Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
+                .font(.appFont(size: 11, weight: .black))
+                .foregroundColor(theme.textColor)
+        }
+    }
+
+    @ViewBuilder
+    private func healthBarVisual(healthManager: HealthManager) -> some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.red.opacity(0.2))
+                    .frame(height: 12)
+
+                let healthPercentage = healthManager.getHealthPercentage()
+                let healthGradient = LinearGradient(
+                    colors: [Color.red, Color.red.opacity(0.8)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(healthGradient)
+                    .frame(width: geometry.size.width * healthPercentage, height: 12)
+                    .animation(.easeOut(duration: 0.5), value: healthPercentage)
+            }
+        }
+        .frame(height: 12)
+    }
+
+    @ViewBuilder
+    private func currencyAndExperienceSection(user: UserEntity, theme: Theme) -> some View {
+        HStack(spacing: 12) {
+            coinsDisplay(user: user)
+            gemsDisplay(user: user)
+            Spacer()
+            experienceBar(user: user, theme: theme)
+        }
+    }
+
+    @ViewBuilder
+    private func coinsDisplay(user: UserEntity) -> some View {
+        HStack(spacing: 4) {
+            Image("icon_gold")
+                .resizable()
+                .frame(width: 14, height: 14)
+                .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+            Text("\(user.coins)")
+                .font(.appFont(size: 14, weight: .black))
+                .foregroundColor(.yellow)
+                .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(coinsBackground)
+    }
+
+    @ViewBuilder
+    private var coinsBackground: some View {
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.yellow.opacity(0.2))
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+            )
+    }
+
+    @ViewBuilder
+    private func gemsDisplay(user: UserEntity) -> some View {
+        HStack(spacing: 4) {
+            Image("icon_gem")
+                .resizable()
+                .frame(width: 14, height: 14)
+                .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+            Text("\(user.gems)")
+                .font(.appFont(size: 14, weight: .black))
+                .foregroundColor(.purple)
+                .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(gemsBackground)
+    }
+
+    @ViewBuilder
+    private var gemsBackground: some View {
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.purple.opacity(0.2))
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.purple.opacity(0.3), lineWidth: 1)
+            )
+    }
+
+    @ViewBuilder
+    private func experienceBar(user: UserEntity, theme: Theme) -> some View {
+        VStack(spacing: 3) {
+            Text(String(localized: "experience"))
+                .font(.appFont(size: 10, weight: .medium))
+                .foregroundColor(theme.textColor.opacity(0.7))
+
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(theme.backgroundColor.opacity(0.7))
+                    .frame(width: 100, height: 8)
+
+                let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
+                let expGradient = LinearGradient(
+                    colors: [Color.green, Color.green.opacity(0.7)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(expGradient)
+                    .frame(width: 100 * expRatio, height: 8)
+                    .animation(.easeInOut(duration: 0.5), value: user.exp)
+            }
+        }
+    }
+    @ViewBuilder
+    private func characterCardBackground(theme: Theme) -> some View {
+        let cardGradient = LinearGradient(
+            colors: [
+                theme.primaryColor,
+                theme.primaryColor.opacity(0.95)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        RoundedRectangle(cornerRadius: 16)
+            .fill(cardGradient)
+            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+    }
+
+    @ViewBuilder
+    private func loadingState(theme: Theme) -> some View {
+        HStack {
+            ProgressView()
+                .scaleEffect(1.0)
+                .tint(.yellow)
+            Text(String(localized: "loading_character"))
+                .font(.appFont(size: 14))
+                .foregroundColor(theme.textColor)
+        }
+        .frame(height: 80)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.primaryColor)
+                .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
+        )
     }
 }

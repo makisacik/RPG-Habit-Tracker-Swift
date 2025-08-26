@@ -850,9 +850,9 @@
 "shop_category_consumables_description" = "Consumable items for your journey";
 
 // MARK: - Currency
-"currency_gems" = "gems";
+"currency_gems" = "Gems";
 "gem_reward" = "Gem Reward";
-"currency_coins" = "coins";
+"currency_coins" = "Coins";
 
 // MARK: - Damage Calculation
 "due_today" = "Due today";
