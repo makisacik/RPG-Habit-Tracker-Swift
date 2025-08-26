@@ -844,10 +844,13 @@
 "item_details" = "Eşya Detayları";
 "use" = "Kullan";
 "equip" = "Kuşan";
+"unequip" = "Çıkar";
 "failed_to_use_item" = "Eşya kullanılamadı";
 "item_not_found_in_inventory" = "Eşya envanterde bulunamadı";
 "failed_to_equip_item" = "Eşya kuşanılamadı";
+"invalid_gear_category" = "Geçersiz ekipman kategorisi";
 "item_equipped_successfully" = "Eşya başarıyla kuşanıldı!";
+"item_unequipped_successfully" = "Eşya başarıyla çıkarıldı!";
 "item_used_successfully" = "Eşya başarıyla kullanıldı!";
 "no_items_for_category" = "Kategori için %@ eşya yok";
 "visit_shop_to_get_items" = "Bazı %@ eşyalarını almak için dükkana git!";

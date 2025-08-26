@@ -922,10 +922,13 @@
 "item_details" = "Item Details";
 "use" = "Use";
 "equip" = "Equip";
+"unequip" = "Unequip";
 "failed_to_use_item" = "Failed to use item";
 "item_not_found_in_inventory" = "Item not found in inventory";
 "failed_to_equip_item" = "Failed to equip item";
+"invalid_gear_category" = "Invalid gear category";
 "item_equipped_successfully" = "Item equipped successfully!";
+"item_unequipped_successfully" = "Item unequipped successfully!";
 "item_used_successfully" = "Item used successfully!";
 "no_items_for_category" = "No %@ items";
 "visit_shop_to_get_items" = "Visit the shop to get some %@ items!";
