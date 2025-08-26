@@ -115,6 +115,13 @@ final class AnalyticsManager: ObservableObject {
                 self?.refreshAnalytics()
             }
             .store(in: &cancellables)
+        
+        // Listen for user updates (currency changes)
+        NotificationCenter.default.publisher(for: .userDidUpdate)
+            .sink { [weak self] _ in
+                self?.refreshAnalytics()
+            }
+            .store(in: &cancellables)
     }
     
     private func calculateAnalyticsSummary() async -> AnalyticsSummary {
@@ -231,38 +238,41 @@ final class AnalyticsManager: ObservableObject {
                 let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
                 let levelUpRate = self?.calculateLevelUpRate(user: user) ?? 0.0
                 
-                let currencyEarned = self?.calculateCurrencyAnalytics(user: user) ?? CurrencyAnalytics(
-                    totalCoinsEarned: Int(user.coins),
-                    totalGemsEarned: Int(user.gems),
-                    totalCoinsSpent: 0,
-                    totalGemsSpent: 0,
-                    currentCoins: Int(user.coins),
-                    currentGems: Int(user.gems),
-                    averageCoinsPerQuest: 0.0,
-                    averageGemsPerQuest: 0.0,
-                    earningRate: 0.0,
-                    transactions: []
-                )
-                
-                let achievements = self?.calculateAchievementAnalytics() ?? AchievementAnalytics(
-                    totalAchievements: 0,
-                    unlockedAchievements: 0,
-                    unlockRate: 0.0,
-                    recentUnlocks: [],
-                    nextAchievements: []
-                )
-                
-                let progression = ProgressionAnalytics(
-                    currentLevel: currentLevel,
-                    experienceProgress: experienceProgress,
-                    experienceToNextLevel: experienceToNextLevel,
-                    totalExperience: totalExperience,
-                    levelUpRate: levelUpRate,
-                    currencyEarned: currencyEarned,
-                    achievements: achievements
-                )
-                
-                continuation.resume(returning: progression)
+                // Use async call for currency analytics
+                Task {
+                    let currencyEarned = await self?.calculateCurrencyAnalytics(user: user) ?? CurrencyAnalytics(
+                        totalCoinsEarned: Int(user.coins),
+                        totalGemsEarned: Int(user.gems),
+                        totalCoinsSpent: 0,
+                        totalGemsSpent: 0,
+                        currentCoins: Int(user.coins),
+                        currentGems: Int(user.gems),
+                        averageCoinsPerQuest: 0.0,
+                        averageGemsPerQuest: 0.0,
+                        earningRate: 0.0,
+                        transactions: []
+                    )
+
+                    let achievements = self?.calculateAchievementAnalytics() ?? AchievementAnalytics(
+                        totalAchievements: 0,
+                        unlockedAchievements: 0,
+                        unlockRate: 0.0,
+                        recentUnlocks: [],
+                        nextAchievements: []
+                    )
+
+                    let progression = ProgressionAnalytics(
+                        currentLevel: currentLevel,
+                        experienceProgress: experienceProgress,
+                        experienceToNextLevel: experienceToNextLevel,
+                        totalExperience: totalExperience,
+                        levelUpRate: levelUpRate,
+                        currencyEarned: currencyEarned,
+                        achievements: achievements
+                    )
+
+                    continuation.resume(returning: progression)
+                }
             }
         }
     }

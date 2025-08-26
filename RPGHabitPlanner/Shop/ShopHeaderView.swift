@@ -34,7 +34,7 @@ struct ShopHeaderView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
 
-                    Text("\(currentCoins)")
+                    Text("\(currentCoins) \(String(localized: "currency_coins"))")
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.yellow)
                 }
@@ -55,7 +55,7 @@ struct ShopHeaderView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
 
-                    Text("\(currentGems)")
+                    Text("\(currentGems) \(String(localized: "currency_gems"))")
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.purple)
                 }

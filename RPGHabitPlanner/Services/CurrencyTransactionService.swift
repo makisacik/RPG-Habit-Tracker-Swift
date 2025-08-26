@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class CurrencyTransactionService: ObservableObject {
     static let shared = CurrencyTransactionService()
@@ -35,25 +36,66 @@ class CurrencyTransactionService: ObservableObject {
     // MARK: - Analytics Calculations
     
     func calculateTotalEarned(currency: CurrencyType) -> Int {
+        let total: Int
         switch currency {
         case .coins:
-            return userDefaults.integer(forKey: coinsEarnedKey)
+            total = userDefaults.integer(forKey: coinsEarnedKey)
         case .gems:
-            return userDefaults.integer(forKey: gemsEarnedKey)
+            total = userDefaults.integer(forKey: gemsEarnedKey)
+        }
+        print("💰 CurrencyTransactionService: Total earned \(currency.rawValue) from UserDefaults: \(total)")
+        return total
+    }
+    
+    
+    func calculateAveragePerQuest(currency: CurrencyType) async -> Double {
+        let totalEarned = calculateTotalEarned(currency: currency)
+        print("💰 CurrencyTransactionService: Total earned for \(currency.rawValue): \(totalEarned)")
+
+        // Get finished quests count directly from quest data service to avoid circular dependency
+        let questDataService = QuestCoreDataService()
+        let finishedQuestsCount = await withCheckedContinuation { continuation in
+            questDataService.fetchAllQuests { quests, error in
+                if let error = error {
+                    print("❌ CurrencyTransactionService: Error fetching quests: \(error)")
+                    continuation.resume(returning: 0)
+                } else {
+                    let finishedCount = quests.filter { $0.isFinished }.count
+                    print("💰 CurrencyTransactionService: Found \(finishedCount) finished quests")
+                    continuation.resume(returning: finishedCount)
+                }
+            }
+        }
+
+        // Simple division: total earned / finished quests
+        if finishedQuestsCount > 0 {
+            let average = Double(totalEarned) / Double(finishedQuestsCount)
+            print("💰 CurrencyTransactionService: Calculated average \(currency.rawValue) per quest: \(average)")
+            return average
+        } else {
+            print("💰 CurrencyTransactionService: No finished quests found, using default")
+            // If no finished quests, return default
+            switch currency {
+            case .coins:
+                return AnalyticsConfiguration.Currency.defaultAverageCoinsPerQuest
+            case .gems:
+                return AnalyticsConfiguration.Currency.defaultAverageGemsPerQuest
+            }
         }
     }
     
-    
-    func calculateAveragePerQuest(currency: CurrencyType) -> Double {
-        // For simplicity, return a default value
-        // This could be enhanced with more detailed tracking if needed
-        return AnalyticsConfiguration.Currency.defaultAverageCoinsPerQuest
-    }
-    
     func calculateEarningRate(currency: CurrencyType, period: TimeInterval = 7 * 24 * 3600) -> Double {
-        // For simplicity, return a default value
-        // This could be enhanced with time-based tracking if needed
-        return AnalyticsConfiguration.Currency.defaultEarningRate
+        let totalEarned = calculateTotalEarned(currency: currency)
+
+        // Simple calculation: total earned / weeks since first quest
+        // For now, use a reasonable time period (4 weeks) if we don't have specific data
+        let weeksInPeriod = period / (7 * 24 * 3600) // Convert to weeks
+
+        if weeksInPeriod > 0 {
+            return Double(totalEarned) / weeksInPeriod
+        } else {
+            return AnalyticsConfiguration.Currency.defaultEarningRate
+        }
     }
     
     func fetchAllTransactions() -> [CurrencyTransaction] {

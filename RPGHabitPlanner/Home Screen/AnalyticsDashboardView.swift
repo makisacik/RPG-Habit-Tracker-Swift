@@ -96,9 +96,7 @@ struct AnalyticsDashboardView: View {
             }
         }
         .onAppear {
-            if analyticsManager.analyticsSummary == nil {
-                analyticsManager.refreshAnalytics()
-            }
+            analyticsManager.refreshAnalytics()
         }
     }
     

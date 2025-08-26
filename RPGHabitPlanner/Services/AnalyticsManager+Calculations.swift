@@ -223,14 +223,14 @@ extension AnalyticsManager {
         return AnalyticsConfiguration.Progression.defaultLevelUpRate // Default level up rate
     }
     
-    func calculateCurrencyAnalytics(user: UserEntity) -> CurrencyAnalytics {
+    func calculateCurrencyAnalytics(user: UserEntity) async -> CurrencyAnalytics {
         let transactionService = CurrencyTransactionService.shared
 
         let totalCoinsEarned = transactionService.calculateTotalEarned(currency: .coins)
         let totalGemsEarned = transactionService.calculateTotalEarned(currency: .gems)
 
-        let averageCoinsPerQuest = transactionService.calculateAveragePerQuest(currency: .coins)
-        let averageGemsPerQuest = transactionService.calculateAveragePerQuest(currency: .gems)
+        let averageCoinsPerQuest = await transactionService.calculateAveragePerQuest(currency: .coins)
+        let averageGemsPerQuest = await transactionService.calculateAveragePerQuest(currency: .gems)
 
         let earningRate = transactionService.calculateEarningRate(currency: .coins)
 

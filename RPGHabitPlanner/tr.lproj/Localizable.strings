@@ -808,7 +808,7 @@
 "item_boosters" = "Eşya Güçlendiriciler";
 "total_active_boosters" = "Toplam Aktif Güçlendirici";
 "collect_items_to_get_boosters" = "Güçlendiriciler kazanmak için eşyalar topla!";
-"go_to_shop" = "Dükkan’a Git";
+"go_to_shop" = "Dükkan'a Git";
 "view_details" = "Detayları Gör";
 "tag_preview_will_appear_here" = "Etiket önizlemesi burada görünecek";
 "tag_name" = "Etiket Adı";
@@ -826,7 +826,7 @@
 "show_only_affordable_items" = "Yalnızca karşılanabilir eşyaları göster";
 "item_preview" = "Eşya Önizlemesi";
 "buy_for" = "%@ karşılığında satın al";
-"unlock_premium" = "Premium’u Aç";
+"unlock_premium" = "Premium'u Aç";
 "transform_quest_planning_experience" = "Görev planlama deneyimini dönüştür";
 "premium_features" = "Premium Özellikler";
 "choose_your_plan" = "Planını Seç";
@@ -908,7 +908,7 @@
 "current_selection" = "Mevcut Seçim";
 "premium_item" = "Premium Öğe";
 "locked_item" = "Kilitli Öğe";
-"unlock_premium_to_access" = "Bu öğeye erişmek için Premium’u açın";
+"unlock_premium_to_access" = "Bu öğeye erişmek için Premium'u açın";
 
 // MARK: - Karakter Başlıkları (Ek)
 
@@ -977,7 +977,7 @@
 "tap_to_preview" = "Önizlemek için dokunun";
 "swipe_to_browse" = "Seçenekleri gezinmek için kaydırın";
 "premium_items_available" = "Premium eşyalar mevcut";
-"unlock_premium_for_more_options" = "Daha fazla özelleştirme seçeneği için Premium’u açın";
+"unlock_premium_for_more_options" = "Daha fazla özelleştirme seçeneği için Premium'u açın";
 
 // MARK: - Ödül ve Güçlendirici Sistemi
 "expired" = "Süresi Dolmuş";
@@ -1356,7 +1356,7 @@
 "crimson_fang" = "Kızıl Diş";
 "crimson_fang_description" = "İçsel ateşle yanan kızıl bir kılıç. Bıçak savaş için susamış gibi görünür, her vuruşta daha da ısınır.";
 "blazing_fang" = "Alevli Diş";
-"blazing_fang_description" = "Kızıl Diş’in geliştirilmiş hali, öyle yoğun yanar ki tek darbede düşmanları tutuşturabilir.";
+"blazing_fang_description" = "Kızıl Diş'in geliştirilmiş hali, öyle yoğun yanar ki tek darbede düşmanları tutuşturabilir.";
 "golden_dawn" = "Altın Şafak";
 "golden_dawn_description" = "Şafak ışığını yakalayan efsanevi altın kılıç. Bıçağı sıcaklık ve umut yayar, müttefikleri cesaretlendirirken düşmanlara korku salar.";
 "thunder_axe" = "Gök Gürültüsü Baltası";
@@ -1716,3 +1716,7 @@
 "network_error" = "Ağ hatası";
 "retry_connection" = "Bağlantıyı yeniden dene";
 "connection_successful" = "Bağlantı başarılı";
+
+// MARK: - Analytics
+"analytics_total_coins" = "Toplam Altın";
+"analytics_total_gems" = "Toplam Mücevher";

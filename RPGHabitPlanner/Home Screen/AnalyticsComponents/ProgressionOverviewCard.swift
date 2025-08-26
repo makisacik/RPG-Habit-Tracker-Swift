@@ -35,7 +35,7 @@ struct ProgressionOverviewCard: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 CustomStatItem(
-                    title: "Total Coins Collected",
+                    title: String(localized: "analytics_total_coins"),
                     value: "\(progression.currencyEarned.totalCoinsEarned + 100)",
                     assetName: "icon_gold",
                     color: theme.warningColor,
@@ -43,7 +43,7 @@ struct ProgressionOverviewCard: View {
                 )
                 
                 CustomStatItem(
-                    title: "Total Gems Collected",
+                    title: String(localized: "analytics_total_gems"),
                     value: "\(progression.currencyEarned.totalGemsEarned)",
                     assetName: "icon_gem",
                     color: theme.infoColor,
@@ -64,13 +64,6 @@ struct ProgressionOverviewCard: View {
                         title: String(localized: "analytics_avg_coins_per_quest"),
                         value: String(format: "%.1f", progression.currencyEarned.averageCoinsPerQuest),
                         color: theme.warningColor
-                    )
-                    
-                    InsightRow(
-                        icon: "chart.bar.fill",
-                        title: String(localized: "analytics_avg_gems_per_quest"),
-                        value: String(format: "%.1f", progression.currencyEarned.averageGemsPerQuest),
-                        color: theme.infoColor
                     )
                     
                     InsightRow(
