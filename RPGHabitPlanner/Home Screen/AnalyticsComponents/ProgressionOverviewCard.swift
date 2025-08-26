@@ -26,70 +26,28 @@ struct ProgressionOverviewCard: View {
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
-                
-                Text("Level \(progression.currentLevel)")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.textColor)
             }
             
-            // Level Progress
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text(String(localized: "analytics_level_progress"))
-                        .font(.subheadline)
-                        .foregroundColor(theme.textColor)
-                    
-                    Spacer()
-                    
-                    Text("\(Int(progression.experienceProgress * 100))%")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.textColor)
-                }
-                
-                ProgressView(value: progression.experienceProgress)
-                    .progressViewStyle(LinearProgressViewStyle(tint: theme.accentColor))
-                    .scaleEffect(x: 1, y: 2, anchor: .center)
-                
-                HStack {
-                    Text("\(progression.totalExperience) XP")
-                        .font(.caption)
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                    
-                    Spacer()
-                    
-                    Text("\(progression.experienceToNextLevel) XP to next level")
-                        .font(.caption)
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                }
-            }
             
             // Stats Grid
             LazyVGrid(columns: [
                 GridItem(.flexible()),
-                GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: 16) {
-                StatItem(
-                    title: String(localized: "analytics_level_up_rate"),
-                    value: String(format: "%.1f", progression.levelUpRate),
-                    icon: "chart.line.uptrend.xyaxis",
-                    color: theme.successColor
+                CustomStatItem(
+                    title: "Total Coins Collected",
+                    value: "\(progression.currencyEarned.totalCoinsEarned + 100)",
+                    assetName: "icon_gold",
+                    color: theme.warningColor,
+                    iconSize: 24
                 )
                 
-                StatItem(
-                    title: String(localized: "analytics_total_coins"),
-                    value: "\(progression.currencyEarned.totalCoinsEarned)",
-                    icon: "dollarsign.circle.fill",
-                    color: theme.warningColor
-                )
-                
-                StatItem(
-                    title: String(localized: "analytics_total_gems"),
+                CustomStatItem(
+                    title: "Total Gems Collected",
                     value: "\(progression.currencyEarned.totalGemsEarned)",
-                    icon: "diamond.fill",
-                    color: theme.infoColor
+                    assetName: "icon_gem",
+                    color: theme.infoColor,
+                    iconSize: 28
                 )
             }
             
@@ -155,7 +113,7 @@ struct ProgressionOverviewCard: View {
                             .foregroundColor(theme.textColor)
                     }
                     
-                    ProgressView(value: progression.achievements.unlockRate)
+                    ProgressView(value: min(max(progression.achievements.unlockRate, 0.0), 1.0))
                         .progressViewStyle(LinearProgressViewStyle(tint: theme.accentColor))
                         .scaleEffect(x: 1, y: 1.5, anchor: .center)
                 }
@@ -197,6 +155,38 @@ struct ProgressionOverviewCard: View {
 }
 
 // MARK: - Supporting Views
+
+struct CustomStatItem: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let title: String
+    let value: String
+    let assetName: String
+    let color: Color
+    let iconSize: CGFloat
+    
+    var body: some View {
+        let theme = themeManager.activeTheme
+        
+        VStack(spacing: 8) {
+            Image(assetName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: iconSize, height: iconSize)
+                .foregroundColor(color)
+            
+            Text(value)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(theme.textColor)
+            
+            Text(title)
+                .font(.caption)
+                .foregroundColor(theme.textColor.opacity(0.7))
+                .multilineTextAlignment(.center)
+        }
+        .padding(.vertical, 8)
+    }
+}
 
 struct AchievementRow: View {
     let achievement: AchievementDefinition
@@ -246,9 +236,14 @@ struct ProgressionOverviewCard_Previews: PreviewProvider {
             currencyEarned: CurrencyAnalytics(
                 totalCoinsEarned: 1250,
                 totalGemsEarned: 45,
+                totalCoinsSpent: 0,
+                totalGemsSpent: 0,
+                currentCoins: 950,
+                currentGems: 35,
                 averageCoinsPerQuest: 12.5,
                 averageGemsPerQuest: 0.8,
-                earningRate: 75.0
+                earningRate: 75.0,
+                transactions: []
             ),
             achievements: AchievementAnalytics(
                 totalAchievements: 25,

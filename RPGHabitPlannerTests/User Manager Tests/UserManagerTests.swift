@@ -119,7 +119,7 @@ final class UserManagerTests: XCTestCase {
         testSaveUser()
 
         let updateExpectation = expectation(description: "User experience updated successfully with level up")
-        userManager.updateUserExperience(additionalExp: 150) { leveledUp, newLevel, error in
+        userManager.updateUserExperience(additionalExp: 50) { leveledUp, newLevel, error in
             XCTAssertNil(error)
             XCTAssertTrue(leveledUp)
             XCTAssertEqual(newLevel, 2)
@@ -130,7 +130,7 @@ final class UserManagerTests: XCTestCase {
 
         userManager.fetchUser { user, error in
             XCTAssertNil(error)
-            XCTAssertEqual(user?.exp, 50)
+            XCTAssertEqual(user?.exp, 0) // Level 2 requires 50 XP total, so 0 XP in level 2
             XCTAssertEqual(user?.level, 2)
         }
     }
@@ -139,7 +139,7 @@ final class UserManagerTests: XCTestCase {
         testSaveUser()
 
         let updateExpectation = expectation(description: "User experience updated successfully with multiple level ups")
-        userManager.updateUserExperience(additionalExp: 250) { leveledUp, newLevel, error in
+        userManager.updateUserExperience(additionalExp: 110) { leveledUp, newLevel, error in
             XCTAssertNil(error)
             XCTAssertTrue(leveledUp)
             XCTAssertEqual(newLevel, 3)
@@ -150,7 +150,7 @@ final class UserManagerTests: XCTestCase {
 
         userManager.fetchUser { user, error in
             XCTAssertNil(error)
-            XCTAssertEqual(user?.exp, 50)
+            XCTAssertEqual(user?.exp, 0) // Level 3 requires 110 XP total (50 + 60), so 0 XP in level 3
             XCTAssertEqual(user?.level, 3)
         }
     }
@@ -159,7 +159,7 @@ final class UserManagerTests: XCTestCase {
         testSaveUser()
 
         let updateExpectation = expectation(description: "User experience updated successfully without level up")
-        userManager.updateUserExperience(additionalExp: 80) { leveledUp, newLevel, error in
+        userManager.updateUserExperience(additionalExp: 30) { leveledUp, newLevel, error in
             XCTAssertNil(error)
             XCTAssertFalse(leveledUp)
             XCTAssertEqual(newLevel, 1)
@@ -170,7 +170,7 @@ final class UserManagerTests: XCTestCase {
 
         userManager.fetchUser { user, error in
             XCTAssertNil(error)
-            XCTAssertEqual(user?.exp, 80)
+            XCTAssertEqual(user?.exp, 30)
             XCTAssertEqual(user?.level, 1)
         }
     }

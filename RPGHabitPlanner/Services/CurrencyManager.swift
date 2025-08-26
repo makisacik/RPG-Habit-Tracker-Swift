@@ -22,7 +22,7 @@ final class CurrencyManager: ObservableObject {
 
     // MARK: - Coin Operations
 
-    func addCoins(_ amount: Int, completion: @escaping (Error?) -> Void) {
+    func addCoins(_ amount: Int, source: TransactionSource = .other, questId: UUID? = nil, description: String? = nil, completion: @escaping (Error?) -> Void) {
         fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
@@ -34,6 +34,10 @@ final class CurrencyManager: ObservableObject {
 
             do {
                 try context?.save()
+
+                // Record earned coins
+                CurrencyTransactionService.shared.recordEarned(amount: amount, currency: .coins)
+
                 DispatchQueue.main.async {
                     self?.currentCoins = Int(user.coins)
                     print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after adding coins")
@@ -46,7 +50,7 @@ final class CurrencyManager: ObservableObject {
         }
     }
 
-    func addGems(_ amount: Int, completion: @escaping (Error?) -> Void) {
+    func addGems(_ amount: Int, source: TransactionSource = .other, questId: UUID? = nil, description: String? = nil, completion: @escaping (Error?) -> Void) {
         fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
@@ -58,6 +62,10 @@ final class CurrencyManager: ObservableObject {
 
             do {
                 try context?.save()
+
+                // Record earned gems
+                CurrencyTransactionService.shared.recordEarned(amount: amount, currency: .gems)
+
                 DispatchQueue.main.async {
                     self?.currentGems = Int(user.gems)
                     print("💎 CurrencyManager: Updated currentGems to \(Int(user.gems)) after adding gems")
@@ -70,7 +78,7 @@ final class CurrencyManager: ObservableObject {
         }
     }
 
-    func spendCoins(_ amount: Int, completion: @escaping (Bool, Error?) -> Void) {
+    func spendCoins(_ amount: Int, source: TransactionSource = .shop, description: String? = nil, completion: @escaping (Bool, Error?) -> Void) {
         fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(false, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
@@ -87,6 +95,8 @@ final class CurrencyManager: ObservableObject {
 
             do {
                 try context?.save()
+
+
                 DispatchQueue.main.async {
                     self?.currentCoins = Int(user.coins)
                     print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after spending coins")
@@ -99,7 +109,7 @@ final class CurrencyManager: ObservableObject {
         }
     }
 
-    func spendGems(_ amount: Int, completion: @escaping (Bool, Error?) -> Void) {
+    func spendGems(_ amount: Int, source: TransactionSource = .shop, description: String? = nil, completion: @escaping (Bool, Error?) -> Void) {
         fetchUser { [weak self] user, error in
             guard let user = user, error == nil else {
                 completion(false, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"]))
@@ -116,6 +126,8 @@ final class CurrencyManager: ObservableObject {
 
             do {
                 try context?.save()
+
+
                 DispatchQueue.main.async {
                     self?.currentGems = Int(user.gems)
                     print("💎 CurrencyManager: Updated currentGems to \(Int(user.gems)) after spending gems")

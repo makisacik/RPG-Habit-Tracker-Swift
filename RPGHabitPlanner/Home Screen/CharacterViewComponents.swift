@@ -178,7 +178,11 @@ struct LevelExperienceView: View {
                     .frame(height: 22)
 
                 GeometryReader { geometry in
-                    let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
+                    let levelingSystem = LevelingSystem.shared
+                    let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
+                    let progress = levelingSystem.calculateLevelProgress(totalExperience: totalExperience, currentLevel: Int(user.level))
+                    let expRatio = min(CGFloat(progress), 1.0)
+                    
                     if expRatio > 0 {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(LinearGradient(
@@ -193,7 +197,9 @@ struct LevelExperienceView: View {
                 .frame(height: 22)
 
                 HStack {
-                    Text("\(user.exp)/100")
+                    let levelingSystem = LevelingSystem.shared
+                    let experienceToNext = levelingSystem.experienceToNextLevel(totalExperience: levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp)), currentLevel: Int(user.level))
+                    Text("\(user.exp)/\(experienceToNext)")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(.white)
                         .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)

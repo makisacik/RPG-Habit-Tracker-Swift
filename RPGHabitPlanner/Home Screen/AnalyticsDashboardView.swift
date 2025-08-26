@@ -265,7 +265,7 @@ struct AnalyticsDashboardView: View {
             QuickStatCard(
                 title: String(localized: "analytics_completion_rate"),
                 value: String(format: "%.1f%%", summary.questPerformance.completionRate * 100),
-                icon: "checkmark.circle.fill",
+                icon: "checkmark.seal.fill",
                 color: theme.successColor,
                 theme: theme
             )
@@ -275,14 +275,6 @@ struct AnalyticsDashboardView: View {
                 value: "\(summary.questPerformance.streakData.currentStreak)",
                 icon: "flame.fill",
                 color: theme.warningColor,
-                theme: theme
-            )
-            
-            QuickStatCard(
-                title: String(localized: "analytics_level"),
-                value: "\(summary.progression.currentLevel)",
-                icon: "star.fill",
-                color: theme.infoColor,
                 theme: theme
             )
         }
@@ -431,14 +423,6 @@ struct AnalyticsDashboardView: View {
                     title: String(localized: "analytics_new_quest_created"),
                     subtitle: "Yesterday",
                     color: theme.accentColor,
-                    theme: theme
-                )
-                
-                ActivityRow(
-                    icon: "star.fill",
-                    title: String(localized: "analytics_level_up"),
-                    subtitle: "3 days ago",
-                    color: theme.infoColor,
                     theme: theme
                 )
             }

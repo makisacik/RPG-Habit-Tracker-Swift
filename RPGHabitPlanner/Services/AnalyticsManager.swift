@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import Combine
 
+@MainActor
 final class AnalyticsManager: ObservableObject {
     static let shared = AnalyticsManager()
     
@@ -43,12 +44,10 @@ final class AnalyticsManager: ObservableObject {
         Task {
             let summary = await calculateAnalyticsSummary()
             
-            DispatchQueue.main.async { [weak self] in
-                self?.analyticsSummary = summary
-                self?.lastUpdated = Date()
-                self?.isLoading = false
-                completion(summary)
-            }
+            self.analyticsSummary = summary
+            self.lastUpdated = Date()
+            self.isLoading = false
+            completion(summary)
         }
     }
     
@@ -205,9 +204,14 @@ final class AnalyticsManager: ObservableObject {
                         currencyEarned: CurrencyAnalytics(
                             totalCoinsEarned: 0,
                             totalGemsEarned: 0,
+                            totalCoinsSpent: 0,
+                            totalGemsSpent: 0,
+                            currentCoins: 0,
+                            currentGems: 0,
                             averageCoinsPerQuest: 0.0,
                             averageGemsPerQuest: 0.0,
-                            earningRate: 0.0
+                            earningRate: 0.0,
+                            transactions: []
                         ),
                         achievements: AchievementAnalytics(
                             totalAchievements: 0,
@@ -223,15 +227,21 @@ final class AnalyticsManager: ObservableObject {
                 let currentLevel = Int(user.level)
                 let experienceProgress = self?.calculateExperienceProgress(user: user) ?? 0.0
                 let experienceToNextLevel = self?.calculateExperienceToNextLevel(currentLevel: currentLevel) ?? AnalyticsConfiguration.Progression.defaultExperienceToNextLevel
-                let totalExperience = Int(user.exp)
+                let levelingSystem = LevelingSystem.shared
+                let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
                 let levelUpRate = self?.calculateLevelUpRate(user: user) ?? 0.0
                 
                 let currencyEarned = self?.calculateCurrencyAnalytics(user: user) ?? CurrencyAnalytics(
                     totalCoinsEarned: Int(user.coins),
                     totalGemsEarned: Int(user.gems),
+                    totalCoinsSpent: 0,
+                    totalGemsSpent: 0,
+                    currentCoins: Int(user.coins),
+                    currentGems: Int(user.gems),
                     averageCoinsPerQuest: 0.0,
                     averageGemsPerQuest: 0.0,
-                    earningRate: 0.0
+                    earningRate: 0.0,
+                    transactions: []
                 )
                 
                 let achievements = self?.calculateAchievementAnalytics() ?? AchievementAnalytics(

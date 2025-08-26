@@ -66,12 +66,11 @@ struct HomeView: View {
                             StreakDisplayView(streakManager: viewModel.streakManager)
                                 .environmentObject(themeManager)
 
-                            quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
-                            recentAchievementsSection
-                            quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
-                            
                             // Analytics Section
                             analyticsSection
+
+                            recentAchievementsSection
+                            quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 10)

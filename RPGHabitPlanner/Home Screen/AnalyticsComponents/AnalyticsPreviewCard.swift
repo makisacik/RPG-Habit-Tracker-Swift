@@ -60,13 +60,6 @@ struct AnalyticsPreviewCard: View {
                     icon: "flame.fill",
                     color: theme.warningColor
                 )
-
-                QuickStatItem(
-                    title: String(localized: "analytics_level"),
-                    value: "\(summary.progression.currentLevel)",
-                    icon: "star.fill",
-                    color: theme.accentColor
-                )
             }
 
             // Top Recommendation

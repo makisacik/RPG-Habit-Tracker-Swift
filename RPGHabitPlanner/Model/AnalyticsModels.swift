@@ -58,9 +58,46 @@ struct ProgressionAnalytics {
 struct CurrencyAnalytics {
     let totalCoinsEarned: Int
     let totalGemsEarned: Int
+    let totalCoinsSpent: Int
+    let totalGemsSpent: Int
+    let currentCoins: Int
+    let currentGems: Int
     let averageCoinsPerQuest: Double
     let averageGemsPerQuest: Double
     let earningRate: Double // currency per week
+    let transactions: [CurrencyTransaction]
+}
+
+struct CurrencyTransaction {
+    let id: UUID
+    let type: TransactionType
+    let amount: Int
+    let currency: CurrencyType
+    let source: TransactionSource
+    let timestamp: Date
+    let questId: UUID?
+    let description: String?
+}
+
+enum TransactionType {
+    case earned
+    case spent
+}
+
+enum CurrencyType {
+    case coins
+    case gems
+}
+
+enum TransactionSource {
+    case questCompletion
+    case taskCompletion
+    case achievement
+    case shop
+    case booster
+    case dailyReward
+    case levelUp
+    case other
 }
 
 struct AchievementAnalytics {

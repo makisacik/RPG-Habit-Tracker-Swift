@@ -124,7 +124,7 @@ extension HomeView {
                 NavigationLink(destination: AnalyticsView()) {
                     Text(String(localized: "view_all"))
                         .font(.appFont(size: 14, weight: .medium))
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(.blue)
                 }
             }
             

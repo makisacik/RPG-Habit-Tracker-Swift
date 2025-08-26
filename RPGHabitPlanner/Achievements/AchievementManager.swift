@@ -179,8 +179,9 @@ class AchievementManager: ObservableObject {
 
         userManager.fetchUser { user, _ in
             if let user = user {
-                // Calculate total experience: current exp + (level - 1) * 100
-                totalExp = Int(user.exp) + (Int(user.level) - 1) * 100
+                // Calculate total experience using the new leveling system
+                let levelingSystem = LevelingSystem.shared
+                totalExp = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
             }
             semaphore.signal()
         }

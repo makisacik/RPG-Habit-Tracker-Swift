@@ -74,7 +74,9 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
         
         // Track customization update for analytics
         if let userId = entity.userId?.uuidString {
-            AnalyticsManager.shared.incrementCustomizationCount(for: userId)
+            Task { @MainActor in
+                AnalyticsManager.shared.incrementCustomizationCount(for: userId)
+            }
         }
     }
 
@@ -95,7 +97,9 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
             
             // Track customization update for analytics
             if let userId = user.id?.uuidString {
-                AnalyticsManager.shared.incrementCustomizationCount(for: userId)
+                Task { @MainActor in
+                    AnalyticsManager.shared.incrementCustomizationCount(for: userId)
+                }
             }
             
             print("✅ CharacterCustomizationService: Successfully saved customization update")

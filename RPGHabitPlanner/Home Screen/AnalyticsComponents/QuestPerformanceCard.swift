@@ -32,7 +32,7 @@ struct QuestPerformanceCard: View {
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
             
-            // Main Stats Grid
+            // First Row - 2 Stats
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
@@ -50,20 +50,21 @@ struct QuestPerformanceCard: View {
                     icon: "checkmark.circle.fill",
                     color: .orange
                 )
-                
+            }
+            
+            // Second Row - 3 Stats
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 16) {
                 StatItem(
                     title: String(localized: "analytics_completion_rate"),
                     value: "\(Int(performance.completionRate * 100))%",
                     icon: "percent",
                     color: theme.accentColor
                 )
-            }
-            
-            // Additional Stats
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 16) {
+                
                 StatItem(
                     title: String(localized: "analytics_partially_completed_quests"),
                     value: "\(performance.partiallyCompletedQuests)",
@@ -72,7 +73,7 @@ struct QuestPerformanceCard: View {
                 )
                 
                 StatItem(
-                    title: String(localized: "analytics_partial_completion_rate"),
+                    title: "Partial Completion",
                     value: "\(Int(performance.partialCompletionRate * 100))%",
                     icon: "chart.line.uptrend.xyaxis",
                     color: theme.infoColor

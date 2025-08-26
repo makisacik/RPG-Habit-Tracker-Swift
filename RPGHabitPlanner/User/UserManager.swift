@@ -106,14 +106,22 @@ final class UserManager {
             }
 
             let context = self.persistentContainer.viewContext
-            user.exp += additionalExp
 
-            var leveledUp = false
-            while user.exp >= 100 {
-                user.exp -= 100
-                user.level += 1
-                leveledUp = true
-            }
+            // Calculate total experience using the new leveling system
+            let levelingSystem = LevelingSystem.shared
+            let currentTotalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
+            let newTotalExperience = currentTotalExperience + Int(additionalExp)
+
+            // Calculate new level and experience within level
+            let newLevel = levelingSystem.calculateLevel(from: newTotalExperience)
+            let newExperienceInLevel = newTotalExperience - levelingSystem.experienceRequiredForLevel(newLevel)
+
+            // Check if leveled up
+            let leveledUp = newLevel > user.level
+
+            // Update user data
+            user.level = Int16(newLevel)
+            user.exp = Int16(newExperienceInLevel)
 
             do {
                 try context.save()

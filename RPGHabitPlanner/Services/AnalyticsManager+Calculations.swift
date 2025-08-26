@@ -201,25 +201,20 @@ extension AnalyticsManager {
     }
     
     func calculateExperienceProgress(user: UserEntity) -> Double {
-        let currentLevel = Int(user.level)
-        let currentExp = Int(user.exp)
-        let expForCurrentLevel = calculateExperienceForLevel(currentLevel)
-        let expForNextLevel = calculateExperienceForLevel(currentLevel + 1)
-        let expNeeded = expForNextLevel - expForCurrentLevel
-        let expProgress = currentExp - expForCurrentLevel
-        
-        return expNeeded == 0 ? 1.0 : Double(expProgress) / Double(expNeeded)
+        let levelingSystem = LevelingSystem.shared
+        let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
+        return levelingSystem.calculateLevelProgress(totalExperience: totalExperience, currentLevel: Int(user.level))
     }
     
     func calculateExperienceToNextLevel(currentLevel: Int) -> Int {
-        let expForCurrentLevel = calculateExperienceForLevel(currentLevel)
-        let expForNextLevel = calculateExperienceForLevel(currentLevel + 1)
-        return expForNextLevel - expForCurrentLevel
+        let levelingSystem = LevelingSystem.shared
+        let totalExperience = levelingSystem.calculateTotalExperience(level: currentLevel, experienceInLevel: 0)
+        return levelingSystem.experienceToNextLevel(totalExperience: totalExperience, currentLevel: currentLevel)
     }
     
     func calculateExperienceForLevel(_ level: Int) -> Int {
-        // Experience formula using configured multiplier
-        return AnalyticsConfiguration.Progression.experienceFormulaMultiplier * level * level
+        // Use the new leveling system
+        return LevelingSystem.shared.experienceRequiredForLevel(level)
     }
     
     func calculateLevelUpRate(user: UserEntity) -> Double {
@@ -229,12 +224,29 @@ extension AnalyticsManager {
     }
     
     func calculateCurrencyAnalytics(user: UserEntity) -> CurrencyAnalytics {
+        let transactionService = CurrencyTransactionService.shared
+
+        let totalCoinsEarned = transactionService.calculateTotalEarned(currency: .coins)
+        let totalGemsEarned = transactionService.calculateTotalEarned(currency: .gems)
+
+        let averageCoinsPerQuest = transactionService.calculateAveragePerQuest(currency: .coins)
+        let averageGemsPerQuest = transactionService.calculateAveragePerQuest(currency: .gems)
+
+        let earningRate = transactionService.calculateEarningRate(currency: .coins)
+
+        let transactions = transactionService.fetchAllTransactions()
+
         return CurrencyAnalytics(
-            totalCoinsEarned: Int(user.coins),
-            totalGemsEarned: Int(user.gems),
-            averageCoinsPerQuest: AnalyticsConfiguration.Currency.defaultAverageCoinsPerQuest,
-            averageGemsPerQuest: AnalyticsConfiguration.Currency.defaultAverageGemsPerQuest,
-            earningRate: AnalyticsConfiguration.Currency.defaultEarningRate
+            totalCoinsEarned: totalCoinsEarned,
+            totalGemsEarned: totalGemsEarned,
+            totalCoinsSpent: 0,
+            totalGemsSpent: 0,
+            currentCoins: Int(user.coins),
+            currentGems: Int(user.gems),
+            averageCoinsPerQuest: averageCoinsPerQuest,
+            averageGemsPerQuest: averageGemsPerQuest,
+            earningRate: earningRate,
+            transactions: transactions
         )
     }
     
