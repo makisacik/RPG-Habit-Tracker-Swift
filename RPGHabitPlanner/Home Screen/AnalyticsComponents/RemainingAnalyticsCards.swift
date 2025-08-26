@@ -20,7 +20,7 @@ struct StreakInsightsCard: View {
             // Header
             HStack {
                 Image(systemName: "flame.fill")
-                    .foregroundColor(theme.warningColor)
+                    .foregroundColor(theme.textColor)
                     .font(.title2)
                 
                 Text(String(localized: "analytics_streak_insights"))
@@ -142,7 +142,7 @@ struct EngagementMetricsCard: View {
             // Header
             HStack {
                 Image(systemName: "chart.line.uptrend.xyaxis")
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .font(.title2)
                 
                 Text(String(localized: "analytics_engagement_metrics"))
@@ -265,7 +265,7 @@ struct CustomizationPreferencesCard: View {
             // Header
             HStack {
                 Image(systemName: "person.crop.circle.fill")
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .font(.title2)
                 
                 Text(String(localized: "analytics_customization_preferences"))
@@ -368,7 +368,7 @@ struct CustomizationPreferencesCard: View {
     private var customizationTipText: String {
         if customization.customizationFrequency == 0 {
             return String(localized: "analytics_customization_tip_new")
-        } else if customization.customizationFrequency < 3 {
+        } else if customization.customizationFrequency < AnalyticsConfiguration.Customization.occasionalCustomizationThreshold {
             return String(localized: "analytics_customization_tip_occasional")
         } else {
             return String(localized: "analytics_customization_tip_active")
@@ -389,7 +389,7 @@ struct RecommendationsSection: View {
             // Header
             HStack {
                 Image(systemName: "lightbulb.fill")
-                    .foregroundColor(theme.warningColor)
+                    .foregroundColor(theme.textColor)
                     .font(.title2)
                 
                 Text(String(localized: "analytics_recommendations"))

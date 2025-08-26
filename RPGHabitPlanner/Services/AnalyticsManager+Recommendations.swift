@@ -17,7 +17,7 @@ extension AnalyticsManager {
         let preferredDifficulty = summary.questPerformance.preferredDifficulty
         
         // Check if user is struggling with current difficulty
-        if let currentSuccessRate = successRates[preferredDifficulty], currentSuccessRate < 0.5 {
+        if let currentSuccessRate = successRates[preferredDifficulty], currentSuccessRate < AnalyticsConfiguration.QuestPerformance.lowSuccessRateThreshold {
             return PersonalizedRecommendation(
                 type: .difficultyAdjustment,
                 title: String(localized: "analytics_recommendation_difficulty_title"),
@@ -25,12 +25,12 @@ extension AnalyticsManager {
                 priority: .medium,
                 actionable: true,
                 actionTitle: String(localized: "adjust_difficulty"),
-                actionData: ["suggestedDifficulty": max(1, preferredDifficulty - 1)]
+                actionData: ["suggestedDifficulty": max(AnalyticsConfiguration.QuestPerformance.minimumDifficulty, preferredDifficulty - 1)]
             )
         }
         
         // Check if user can handle higher difficulty
-        if let currentSuccessRate = successRates[preferredDifficulty], currentSuccessRate > 0.8 {
+        if let currentSuccessRate = successRates[preferredDifficulty], currentSuccessRate > AnalyticsConfiguration.QuestPerformance.highSuccessRateThreshold {
             return PersonalizedRecommendation(
                 type: .difficultyAdjustment,
                 title: String(localized: "analytics_recommendation_increase_difficulty_title"),
@@ -38,7 +38,7 @@ extension AnalyticsManager {
                 priority: .low,
                 actionable: true,
                 actionTitle: String(localized: "increase_difficulty"),
-                actionData: ["suggestedDifficulty": min(5, preferredDifficulty + 1)]
+                actionData: ["suggestedDifficulty": min(AnalyticsConfiguration.QuestPerformance.maximumDifficulty, preferredDifficulty + 1)]
             )
         }
         
@@ -61,7 +61,7 @@ extension AnalyticsManager {
             )
         }
         
-        if currentStreak > 0 && currentStreak < longestStreak / 2 {
+        if currentStreak > 0 && currentStreak < Int(Double(longestStreak) * AnalyticsConfiguration.Streak.recordStreakThreshold) {
             return PersonalizedRecommendation(
                 type: .streakBuilding,
                 title: String(localized: "analytics_recommendation_streak_continue_title"),
@@ -79,7 +79,7 @@ extension AnalyticsManager {
     func getAchievementRecommendation(summary: AnalyticsSummary) -> PersonalizedRecommendation? {
         let unlockRate = summary.progression.achievements.unlockRate
         
-        if unlockRate < 0.3 {
+        if unlockRate < AnalyticsConfiguration.Achievement.lowUnlockRateThreshold {
             return PersonalizedRecommendation(
                 type: .achievementGoal,
                 title: String(localized: "analytics_recommendation_achievements_title"),
@@ -99,7 +99,7 @@ extension AnalyticsManager {
         let currentHour = calendar.component(.hour, from: Date())
         
         // If it's close to the user's most productive hour, suggest creating a quest
-        if abs(currentHour - mostProductiveHour) <= 1 {
+        if abs(currentHour - mostProductiveHour) <= AnalyticsConfiguration.TimeAnalytics.timingRecommendationWindow {
             return PersonalizedRecommendation(
                 type: .timing,
                 title: String(localized: "analytics_recommendation_timing_title"),

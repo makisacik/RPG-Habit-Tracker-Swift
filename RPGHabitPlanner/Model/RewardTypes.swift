@@ -104,15 +104,17 @@ class CompletionTracker {
         saveCompletionRecords(validRecords)
     }
     
-    // MARK: - Private Methods
+    // MARK: - Public Methods
     
-    private func getCompletionRecords() -> [CompletionRecord] {
+    func getCompletionRecords() -> [CompletionRecord] {
         guard let data = userDefaults.data(forKey: completionRecordsKey),
               let records = try? JSONDecoder().decode([CompletionRecord].self, from: data) else {
             return []
         }
         return records
     }
+    
+    // MARK: - Private Methods
     
     private func saveCompletionRecords(_ records: [CompletionRecord]) {
         if let data = try? JSONEncoder().encode(records) {

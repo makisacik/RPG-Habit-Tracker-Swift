@@ -18,7 +18,7 @@ struct QuestPerformanceCard: View {
             // Header
             HStack {
                 Image(systemName: "chart.bar.fill")
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .font(.title2)
                 
                 Text(String(localized: "analytics_quest_performance"))
@@ -48,7 +48,7 @@ struct QuestPerformanceCard: View {
                     title: String(localized: "analytics_finished_quests"),
                     value: "\(performance.finishedQuests)",
                     icon: "checkmark.circle.fill",
-                    color: theme.successColor
+                    color: .orange
                 )
                 
                 StatItem(
@@ -91,7 +91,7 @@ struct QuestPerformanceCard: View {
                     Text("\(Int(performance.completionRate * 100))%")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                 }
                 
                 ProgressView(value: performance.completionRate)
@@ -196,12 +196,15 @@ extension QuestPerformanceCard {
 // MARK: - Supporting Views
 
 struct StatItem: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let title: String
     let value: String
     let icon: String
     let color: Color
     
     var body: some View {
+        let theme = themeManager.activeTheme
+        
         VStack(spacing: 8) {
             Image(systemName: icon)
                 .font(.title2)
@@ -210,11 +213,11 @@ struct StatItem: View {
             Text(value)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.primary)
+                .foregroundColor(theme.textColor)
             
             Text(title)
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
         .padding(.vertical, 8)
@@ -222,12 +225,15 @@ struct StatItem: View {
 }
 
 struct InsightRow: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let icon: String
     let title: String
     let value: String
     let color: Color
     
     var body: some View {
+        let theme = themeManager.activeTheme
+        
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.subheadline)
@@ -236,14 +242,14 @@ struct InsightRow: View {
             
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(.primary)
+                .foregroundColor(theme.textColor)
             
             Spacer()
             
             Text(value)
                 .font(.subheadline)
                 .fontWeight(.semibold)
-                .foregroundColor(.primary)
+                .foregroundColor(theme.textColor)
         }
     }
 }

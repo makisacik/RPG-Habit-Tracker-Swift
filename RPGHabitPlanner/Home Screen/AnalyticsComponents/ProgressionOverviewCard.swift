@@ -18,7 +18,7 @@ struct ProgressionOverviewCard: View {
             // Header
             HStack {
                 Image(systemName: "arrow.up.circle.fill")
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                     .font(.title2)
                 
                 Text(String(localized: "analytics_progression_overview"))
@@ -30,7 +30,7 @@ struct ProgressionOverviewCard: View {
                 Text("Level \(progression.currentLevel)")
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
             }
             
             // Level Progress
@@ -45,7 +45,7 @@ struct ProgressionOverviewCard: View {
                     Text("\(Int(progression.experienceProgress * 100))%")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                 }
                 
                 ProgressView(value: progression.experienceProgress)
@@ -137,7 +137,7 @@ struct ProgressionOverviewCard: View {
                     Text("\(progression.achievements.unlockedAchievements)/\(progression.achievements.totalAchievements)")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                 }
                 
                 // Achievement Progress Bar
@@ -152,7 +152,7 @@ struct ProgressionOverviewCard: View {
                         Text("\(Int(progression.achievements.unlockRate * 100))%")
                             .font(.caption)
                             .fontWeight(.semibold)
-                            .foregroundColor(theme.accentColor)
+                            .foregroundColor(theme.textColor)
                     }
                     
                     ProgressView(value: progression.achievements.unlockRate)

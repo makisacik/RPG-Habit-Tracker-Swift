@@ -25,28 +25,113 @@ extension AnalyticsManager {
     }
     
     func calculateMostProductiveHour(quests: [Quest]) -> Int {
-        let finishedQuests = quests.filter { $0.isFinished && $0.completionDate != nil }
-        guard !finishedQuests.isEmpty else { return 12 }
-        
         var hourCounts: [Int: Int] = [:]
-        for quest in finishedQuests {
-            guard let completionDate = quest.completionDate else { continue }
-            let hour = calendar.component(.hour, from: completionDate)
-            hourCounts[hour, default: 0] += 1
+        
+        // Count quest creation times
+        for quest in quests {
+            let creationHour = calendar.component(.hour, from: quest.creationDate)
+            hourCounts[creationHour, default: 0] += 1
         }
         
-        return hourCounts.max { $0.value < $1.value }?.key ?? 12
+        // Count quest completion times (both partial and finished)
+        for quest in quests {
+            // Count the main completion date if it exists
+            if let completionDate = quest.completionDate {
+                let completionHour = calendar.component(.hour, from: completionDate)
+                hourCounts[completionHour, default: 0] += 1
+            }
+            
+            // Count all completion history dates
+            for completionDate in quest.completions {
+                let completionHour = calendar.component(.hour, from: completionDate)
+                hourCounts[completionHour, default: 0] += 1
+            }
+        }
+        
+        // Count task completions from CompletionTracker
+        let completionRecords = CompletionTracker.shared.getCompletionRecords()
+        for record in completionRecords {
+            let completionHour = calendar.component(.hour, from: record.completionDate)
+            hourCounts[completionHour, default: 0] += 1
+        }
+        
+        // Return the hour with the most activity, or default to configured value if no data
+        return hourCounts.max { $0.value < $1.value }?.key ?? AnalyticsConfiguration.TimeAnalytics.defaultMostProductiveHour
+    }
+    
+    func calculateMostActiveDay(quests: [Quest]) -> Int {
+        var dayCounts: [Int: Int] = [:]
+        
+        // Count quest creation times
+        for quest in quests {
+            let creationDay = calendar.component(.weekday, from: quest.creationDate)
+            dayCounts[creationDay, default: 0] += 1
+        }
+        
+        // Count quest completion times
+        for quest in quests {
+            if let completionDate = quest.completionDate {
+                let completionDay = calendar.component(.weekday, from: completionDate)
+                dayCounts[completionDay, default: 0] += 1
+            }
+            
+            for completionDate in quest.completions {
+                let completionDay = calendar.component(.weekday, from: completionDate)
+                dayCounts[completionDay, default: 0] += 1
+            }
+        }
+        
+        // Count task completions
+        let completionRecords = CompletionTracker.shared.getCompletionRecords()
+        for record in completionRecords {
+            let completionDay = calendar.component(.weekday, from: record.completionDate)
+            dayCounts[completionDay, default: 0] += 1
+        }
+        
+        return dayCounts.max { $0.value < $1.value }?.key ?? AnalyticsConfiguration.TimeAnalytics.defaultMostActiveDay // Default to Sunday
+    }
+    
+    func calculateSessionFrequency() -> Double {
+        let completionRecords = CompletionTracker.shared.getCompletionRecords()
+        
+        // Group completions by day
+        var dailyCompletions: [Date: Int] = [:]
+        for record in completionRecords {
+            let day = calendar.startOfDay(for: record.completionDate)
+            dailyCompletions[day, default: 0] += 1
+        }
+        
+        // Calculate average sessions per week
+        let totalDays = dailyCompletions.count
+        let weeks = max(1, totalDays / 7)
+        
+        return Double(totalDays) / Double(weeks)
+    }
+    
+    func calculateAppOpenFrequency(quests: [Quest]) -> Double {
+        // Group quest creations by day
+        var dailyCreations: [Date: Int] = [:]
+        for quest in quests {
+            let day = calendar.startOfDay(for: quest.creationDate)
+            dailyCreations[day, default: 0] += 1
+        }
+        
+        // Calculate average app opens per week
+        let totalDays = dailyCreations.count
+        let weeks = max(1, totalDays / 7)
+        
+        return Double(totalDays) / Double(weeks)
     }
     
     func calculatePreferredDifficulty(quests: [Quest]) -> Int {
-        guard !quests.isEmpty else { return 2 }
+        guard !quests.isEmpty else { return AnalyticsConfiguration.QuestPerformance.defaultDifficulty }
         
         var difficultyCounts: [Int: Int] = [:]
         for quest in quests {
             difficultyCounts[quest.difficulty, default: 0] += 1
         }
         
-        return difficultyCounts.max { $0.value < $1.value }?.key ?? 2
+        return difficultyCounts.max { $0.value < $1.value }?.key ?? AnalyticsConfiguration.QuestPerformance.defaultDifficulty
     }
     
     func calculateStreakAnalytics() -> StreakAnalytics {
@@ -65,9 +150,9 @@ extension AnalyticsManager {
     }
     
     func calculateWeeklyTrends(quests: [Quest]) -> [WeeklyTrend] {
-        // Calculate trends for the last 4 weeks
+        // Calculate trends for the configured number of weeks
         let endDate = Date()
-        let startDate = calendar.date(byAdding: .weekOfYear, value: -4, to: endDate) ?? endDate
+        let startDate = calendar.date(byAdding: .weekOfYear, value: -AnalyticsConfiguration.WeeklyTrends.analysisWeeks, to: endDate) ?? endDate
         
         var trends: [WeeklyTrend] = []
         var currentDate = startDate
@@ -129,23 +214,23 @@ extension AnalyticsManager {
     }
     
     func calculateExperienceForLevel(_ level: Int) -> Int {
-        // Simple experience formula: 100 * level^2
-        return 100 * level * level
+        // Experience formula using configured multiplier
+        return AnalyticsConfiguration.Progression.experienceFormulaMultiplier * level * level
     }
     
     func calculateLevelUpRate(user: UserEntity) -> Double {
         // For now, return a default rate
         // This can be enhanced when level history tracking is implemented
-        return 1.0 // 1 level per week
+        return AnalyticsConfiguration.Progression.defaultLevelUpRate // Default level up rate
     }
     
     func calculateCurrencyAnalytics(user: UserEntity) -> CurrencyAnalytics {
         return CurrencyAnalytics(
             totalCoinsEarned: Int(user.coins),
             totalGemsEarned: Int(user.gems),
-            averageCoinsPerQuest: 10.0, // Default value
-            averageGemsPerQuest: 1.0, // Default value
-            earningRate: 50.0 // Default: 50 coins per week
+            averageCoinsPerQuest: AnalyticsConfiguration.Currency.defaultAverageCoinsPerQuest,
+            averageGemsPerQuest: AnalyticsConfiguration.Currency.defaultAverageGemsPerQuest,
+            earningRate: AnalyticsConfiguration.Currency.defaultEarningRate
         )
     }
     
@@ -230,21 +315,21 @@ extension AnalyticsManager {
     
     private func getCustomizationFrequency(for userId: String) -> Int {
         let userDefaults = UserDefaults.standard
-        let key = "customization_frequency_\(userId)"
+        let key = AnalyticsConfiguration.UserDefaultsKeys.customizationFrequencyPrefix + userId
         return userDefaults.integer(forKey: key)
     }
     
     private func getLastCustomizationDate(for userId: String) -> Date? {
         let userDefaults = UserDefaults.standard
-        let key = "last_customization_date_\(userId)"
+        let key = AnalyticsConfiguration.UserDefaultsKeys.lastCustomizationDatePrefix + userId
         let timeInterval = userDefaults.double(forKey: key)
         return timeInterval > 0 ? Date(timeIntervalSince1970: timeInterval) : nil
     }
     
     func incrementCustomizationCount(for userId: String) {
         let userDefaults = UserDefaults.standard
-        let frequencyKey = "customization_frequency_\(userId)"
-        let dateKey = "last_customization_date_\(userId)"
+        let frequencyKey = AnalyticsConfiguration.UserDefaultsKeys.customizationFrequencyPrefix + userId
+        let dateKey = AnalyticsConfiguration.UserDefaultsKeys.lastCustomizationDatePrefix + userId
         
         let currentCount = userDefaults.integer(forKey: frequencyKey)
         userDefaults.set(currentCount + 1, forKey: frequencyKey)

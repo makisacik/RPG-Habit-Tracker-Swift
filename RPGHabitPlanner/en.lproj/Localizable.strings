@@ -2102,6 +2102,34 @@
 "analytics_recommendation_timing_title" = "Perfect Time for Quests";
 "analytics_recommendation_timing_description" = "This is your most productive hour! Create or complete quests now for better results.";
 
+// MARK: - Analytics Dashboard
+"analytics_dashboard" = "Analytics Dashboard";
+"analytics_tab_overview" = "Overview";
+"analytics_tab_performance" = "Performance";
+"analytics_tab_patterns" = "Patterns";
+"analytics_tab_recommendations" = "Recommendations";
+"analytics_performance_overview" = "Performance Overview";
+"analytics_streak_status" = "Streak Status";
+"analytics_recent_activity" = "Recent Activity";
+"analytics_quick_actions" = "Quick Actions";
+"analytics_last_quest_completed" = "Last Quest Completed";
+"analytics_new_quest_created" = "New Quest Created";
+"analytics_level_up" = "Level Up!";
+"analytics_view_details" = "View Details";
+
+// MARK: - Analytics Dashboard Additional
+"analytics_quest_performance_chart" = "Quest Performance Chart";
+"analytics_difficulty_analysis" = "Difficulty Analysis";
+"analytics_completion_trends" = "Completion Trends";
+"analytics_productivity_heatmap" = "Productivity Heatmap";
+"analytics_activity_patterns" = "Activity Patterns";
+"analytics_time_analysis" = "Time Analysis";
+"analytics_engagement_metrics" = "Engagement Metrics";
+"analytics_customization_patterns" = "Customization Patterns";
+"analytics_priority_recommendations" = "Priority Recommendations";
+"analytics_improvement_suggestions" = "Improvement Suggestions";
+"analytics_goal_setting" = "Goal Setting";
+
 // Analytics Actions
 "create_quest" = "Create Quest";
 "adjust_difficulty" = "Adjust Difficulty";

@@ -58,7 +58,7 @@ final class AnalyticsManager: ObservableObject {
         var recommendations: [PersonalizedRecommendation] = []
         
         // Quest creation recommendations
-        if summary.questPerformance.totalQuests < 5 {
+        if summary.questPerformance.totalQuests < AnalyticsConfiguration.QuestPerformance.minimumQuestsForAnalysis {
             recommendations.append(
                 PersonalizedRecommendation(
                     type: .questCreation,
@@ -146,14 +146,14 @@ final class AnalyticsManager: ObservableObject {
                         completionRate: 0.0,
                         partialCompletionRate: 0.0,
                         averageCompletionTime: 0,
-                        mostProductiveHour: 12,
-                        preferredDifficulty: 2,
+                        mostProductiveHour: AnalyticsConfiguration.TimeAnalytics.defaultMostProductiveHour,
+                        preferredDifficulty: AnalyticsConfiguration.QuestPerformance.defaultDifficulty,
                         streakData: self?.getDefaultStreakAnalytics() ?? StreakAnalytics(
                             currentStreak: 0,
                             longestStreak: 0,
                             averageStreakLength: 0.0,
                             streakBreakPatterns: [],
-                            bestStreakDay: 1
+                            bestStreakDay: AnalyticsConfiguration.TimeAnalytics.defaultMostActiveDay
                         ),
                         weeklyTrends: [],
                         difficultySuccessRates: [:]
@@ -197,9 +197,9 @@ final class AnalyticsManager: ObservableObject {
             userManager.fetchUser { [weak self] user, error in
                 guard let user = user, error == nil else {
                     continuation.resume(returning: ProgressionAnalytics(
-                        currentLevel: 1,
-                        experienceProgress: 0.0,
-                        experienceToNextLevel: 100,
+                                            currentLevel: AnalyticsConfiguration.Progression.defaultLevel,
+                    experienceProgress: 0.0,
+                    experienceToNextLevel: AnalyticsConfiguration.Progression.defaultExperienceToNextLevel,
                         totalExperience: 0,
                         levelUpRate: 0.0,
                         currencyEarned: CurrencyAnalytics(
@@ -222,7 +222,7 @@ final class AnalyticsManager: ObservableObject {
                 
                 let currentLevel = Int(user.level)
                 let experienceProgress = self?.calculateExperienceProgress(user: user) ?? 0.0
-                let experienceToNextLevel = self?.calculateExperienceToNextLevel(currentLevel: currentLevel) ?? 100
+                let experienceToNextLevel = self?.calculateExperienceToNextLevel(currentLevel: currentLevel) ?? AnalyticsConfiguration.Progression.defaultExperienceToNextLevel
                 let totalExperience = Int(user.exp)
                 let levelUpRate = self?.calculateLevelUpRate(user: user) ?? 0.0
                 
@@ -286,16 +286,44 @@ final class AnalyticsManager: ObservableObject {
     }
     
     private func calculateEngagementAnalytics() async -> EngagementAnalytics {
-        // For now, return basic engagement data
-        // This can be enhanced when session tracking is implemented
-        return EngagementAnalytics(
-            sessionFrequency: 5.0, // Default: 5 sessions per week
-            averageSessionDuration: 300, // Default: 5 minutes
-            mostActiveDay: calendar.component(.weekday, from: Date()),
-            mostActiveHour: 12,
-            featureUsage: [:],
-            appOpenFrequency: 7.0 // Default: daily
-        )
+        return await withCheckedContinuation { continuation in
+            questDataService.fetchAllQuests { [weak self] quests, error in
+                guard let self = self, error == nil else {
+                    continuation.resume(returning: EngagementAnalytics(
+                                            sessionFrequency: AnalyticsConfiguration.TimeAnalytics.defaultSessionFrequency,
+                    averageSessionDuration: AnalyticsConfiguration.TimeAnalytics.defaultSessionDuration,
+                    mostActiveDay: self?.calendar.component(.weekday, from: Date()) ?? AnalyticsConfiguration.TimeAnalytics.defaultMostActiveDay,
+                    mostActiveHour: AnalyticsConfiguration.TimeAnalytics.defaultMostProductiveHour,
+                        featureUsage: [:],
+                        appOpenFrequency: AnalyticsConfiguration.TimeAnalytics.defaultAppOpenFrequency
+                    ))
+                    return
+                }
+                
+                // Calculate most active hour from quest and task activity
+                let mostActiveHour = self.calculateMostProductiveHour(quests: quests)
+                
+                // Calculate most active day from quest creation and completion dates
+                let mostActiveDay = self.calculateMostActiveDay(quests: quests)
+                
+                // Calculate session frequency based on completion records
+                let sessionFrequency = self.calculateSessionFrequency()
+                
+                // Calculate app open frequency based on quest creation frequency
+                let appOpenFrequency = self.calculateAppOpenFrequency(quests: quests)
+                
+                let engagement = EngagementAnalytics(
+                    sessionFrequency: sessionFrequency,
+                    averageSessionDuration: AnalyticsConfiguration.TimeAnalytics.defaultSessionDuration,
+                    mostActiveDay: mostActiveDay,
+                    mostActiveHour: mostActiveHour,
+                    featureUsage: [:],
+                    appOpenFrequency: appOpenFrequency
+                )
+                
+                continuation.resume(returning: engagement)
+            }
+        }
     }
     
     
@@ -309,8 +337,8 @@ final class AnalyticsManager: ObservableObject {
             completionRate: 0.0,
             partialCompletionRate: 0.0,
             averageCompletionTime: 0,
-            mostProductiveHour: 12,
-            preferredDifficulty: 2,
+            mostProductiveHour: AnalyticsConfiguration.TimeAnalytics.defaultMostProductiveHour,
+            preferredDifficulty: AnalyticsConfiguration.QuestPerformance.defaultDifficulty,
             streakData: getDefaultStreakAnalytics(),
             weeklyTrends: [],
             difficultySuccessRates: [:]
@@ -323,7 +351,7 @@ final class AnalyticsManager: ObservableObject {
             longestStreak: 0,
             averageStreakLength: 0.0,
             streakBreakPatterns: [],
-            bestStreakDay: 1
+            bestStreakDay: AnalyticsConfiguration.TimeAnalytics.defaultMostActiveDay
         )
     }
 }
