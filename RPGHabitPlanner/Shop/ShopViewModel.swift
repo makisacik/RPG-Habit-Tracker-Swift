@@ -17,30 +17,30 @@ class ShopViewModel: ObservableObject {
     @Published var purchaseAlertMessage = ""
     @Published var selectedItem: ShopItem?
     @Published var showItemPreview = false
-    
+
     // Cache for shop items to prevent constant recreation
     @Published var cachedItems: [ShopItem] = []
     private var lastCategory: EnhancedShopCategory?
     private var lastRarity: ItemRarity?
     private var lastShowOnlyAffordable: Bool = false
-    
+
     private let shopManager = ShopManager.shared
     private let currencyManager = CurrencyManager.shared
     private let inventoryManager = InventoryManager.shared
-    
+
     // Initial category parameter
     let initialCategory: EnhancedShopCategory?
     let initialArmorSubcategory: ArmorSubcategory?
-    
+
     init(initialCategory: EnhancedShopCategory? = nil, initialArmorSubcategory: ArmorSubcategory? = nil) {
         self.initialCategory = initialCategory
         self.initialArmorSubcategory = initialArmorSubcategory
         self.selectedCategory = initialCategory ?? .weapons
         print("🎯 ShopViewModel: Initialized with category: \(selectedCategory.rawValue)")
     }
-    
+
     // MARK: - Public Methods
-    
+
     func loadCurrentCurrency() {
         currencyManager.getCurrentCoins { coins, _ in
             DispatchQueue.main.async {
@@ -53,11 +53,11 @@ class ShopViewModel: ObservableObject {
             }
         }
     }
-    
+
     func refreshInventory() {
         inventoryManager.refreshInventory()
     }
-    
+
     func updateCachedItems() {
         var items: [ShopItem] = getCustomizationItems(for: selectedCategory)
 
@@ -76,29 +76,58 @@ class ShopViewModel: ObservableObject {
                 }
             }
         }
-        
+
+        // Preserve existing item IDs to maintain SwiftUI identity
+        let updatedItems = items.map { newItem in
+            // Try to find existing item with same iconName to preserve ID
+            if let existingItem = cachedItems.first(where: { $0.iconName == newItem.iconName }) {
+                print("🔧 ShopViewModel: Preserving ID for existing item: \(newItem.name) - ID: \(existingItem.id)")
+                return ShopItem(
+                    id: existingItem.id, // Preserve the existing ID
+                    name: newItem.name,
+                    description: newItem.description,
+                    iconName: newItem.iconName,
+                    previewImage: newItem.previewImage,
+                    price: newItem.price,
+                    gemPrice: newItem.gemPrice,
+                    rarity: newItem.rarity,
+                    category: newItem.category,
+                    assetCategory: newItem.assetCategory,
+                    effects: newItem.effects,
+                    isOwned: newItem.isOwned
+                )
+            } else {
+                // New item, use the generated ID
+                print("🔧 ShopViewModel: Creating new item with generated ID: \(newItem.name)")
+                return newItem
+            }
+        }
+
         // Update cache
-        cachedItems = items
+        cachedItems = updatedItems
         lastCategory = selectedCategory
         lastRarity = selectedRarity
         lastShowOnlyAffordable = showOnlyAffordable
     }
-    
+
     func purchaseItem(_ item: ShopItem) {
         shopManager.purchaseItem(item) { success, errorMessage in
             if success {
                 self.purchaseAlertMessage = String(format: String(localized: "successfully_purchased"), item.name)
                 self.loadCurrentCurrency()
-                // Refresh inventory and update cached items to reflect new ownership
-                self.refreshInventory()
-                self.updateCachedItems()
+                // Update only the specific item's ownership status instead of regenerating the entire list
+                self.updateItemOwnershipStatus(item)
+                // Refresh inventory after updating the UI to avoid any potential race conditions
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.refreshInventory()
+                }
             } else {
                 self.purchaseAlertMessage = errorMessage ?? String(localized: "purchase_failed")
             }
             self.showPurchaseAlert = true
         }
     }
-    
+
     func preloadImagesForCategory(_ category: EnhancedShopCategory) {
         DispatchQueue.global(qos: .utility).async {
             let items = self.getCustomizationItems(for: category)
@@ -112,12 +141,42 @@ class ShopViewModel: ObservableObject {
             }
         }
     }
-    
+
     // MARK: - Private Methods
-    
+
+    private func updateItemOwnershipStatus(_ purchasedItem: ShopItem) {
+        // Find the item in cachedItems and update only its ownership status
+        if let index = cachedItems.firstIndex(where: { $0.iconName == purchasedItem.iconName }) {
+            print("🔧 ShopViewModel: Updating ownership status for item: \(purchasedItem.name) at index: \(index)")
+            print("🔧 ShopViewModel: Item ID before update: \(cachedItems[index].id)")
+
+            // Create a new ShopItem with updated ownership status but same ID and other properties
+            let updatedItem = ShopItem(
+                id: cachedItems[index].id, // Keep the same ID to prevent SwiftUI from treating it as a new item
+                name: cachedItems[index].name,
+                description: cachedItems[index].description,
+                iconName: cachedItems[index].iconName,
+                previewImage: cachedItems[index].previewImage,
+                price: cachedItems[index].price,
+                gemPrice: cachedItems[index].gemPrice,
+                rarity: cachedItems[index].rarity,
+                category: cachedItems[index].category,
+                assetCategory: cachedItems[index].assetCategory,
+                effects: cachedItems[index].effects,
+                isOwned: true // Update ownership status
+            )
+
+            // Update the item in the cached array
+            cachedItems[index] = updatedItem
+            print("🔧 ShopViewModel: Item ownership updated successfully. New isOwned: \(updatedItem.isOwned)")
+        } else {
+            print("❌ ShopViewModel: Could not find item to update ownership: \(purchasedItem.name) with iconName: \(purchasedItem.iconName)")
+        }
+    }
+
     private func getCustomizationItems(for category: EnhancedShopCategory) -> [ShopItem] {
         var items: [ShopItem] = []
-        
+
         switch category {
         case .armor:
             // Handle armor subcategories
@@ -135,7 +194,7 @@ class ShopViewModel: ObservableObject {
                 items = assets.map { asset in
                     let description = getItemDescription(for: asset.name, category: category)
                     let rarity = asset.rarity.toItemRarity
-                    
+
                     // Set gem prices for epic and legendary items based on category
                     let gemPrice = getGemPrice(for: rarity, category: assetCategory)
 
@@ -160,7 +219,7 @@ class ShopViewModel: ObservableObject {
                 items = assets.map { asset in
                     let description = getItemDescription(for: asset.name, category: category)
                     let rarity = asset.rarity.toItemRarity
-                    
+
                     // Set gem prices for epic and legendary items based on category
                     let gemPrice = getGemPrice(for: rarity, category: assetCategory)
 
@@ -192,7 +251,7 @@ class ShopViewModel: ObservableObject {
 
     private func getArmorItems(for subcategory: ArmorSubcategory) -> [ShopItem] {
         var items: [ShopItem] = []
-        
+
         switch subcategory {
         case .helmet:
             // Get helmet items from CharacterAssetManager with preview images
@@ -200,7 +259,7 @@ class ShopViewModel: ObservableObject {
             items = assets.map { asset in
                 let rarity = asset.rarity.toItemRarity
                 let gemPrice = getGemPrice(for: rarity, category: .head)
-                
+
                 return ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
@@ -220,7 +279,7 @@ class ShopViewModel: ObservableObject {
             items = assets.map { asset in
                 let rarity = asset.rarity.toItemRarity
                 let gemPrice = getGemPrice(for: rarity, category: .outfit)
-                
+
                 return ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
@@ -240,7 +299,7 @@ class ShopViewModel: ObservableObject {
             items = assets.map { asset in
                 let rarity = asset.rarity.toItemRarity
                 let gemPrice = getGemPrice(for: rarity, category: .shield)
-                
+
                 return ShopItem(
                     name: asset.name,
                     description: getItemDescription(for: asset.name, category: .armor),
@@ -255,14 +314,14 @@ class ShopViewModel: ObservableObject {
                 )
             }
         }
-        
+
         // Sort items by rarity from common to legendary
         return sortItemsByRarity(items)
     }
-    
+
     private func getConsumableItems(for subcategory: ConsumableSubcategory) -> [ShopItem] {
         var items: [ShopItem] = []
-        
+
         switch subcategory {
         case .potions:
             items = ItemDatabase.allHealthPotions.map { item in
@@ -289,7 +348,7 @@ class ShopViewModel: ObservableObject {
                 )
             }
         }
-        
+
         // Sort items by rarity from common to legendary
         return sortItemsByRarity(items)
     }
@@ -299,7 +358,7 @@ class ShopViewModel: ObservableObject {
         let items = ItemDatabase.allGear.filter { $0.gearCategory == .wings }.map { item in
             let rarity = item.rarity ?? .common
             let gemPrice = getGemPrice(for: rarity, category: .wings)
-            
+
             return ShopItem(
                 name: item.name,
                 description: item.description,
@@ -311,11 +370,11 @@ class ShopViewModel: ObservableObject {
                 isOwned: isItemOwned(name: item.name, iconName: item.iconName, category: .wings)
             )
         }
-        
+
         // Sort items by rarity from common to legendary
         return sortItemsByRarity(items)
     }
-    
+
     private func getItemDescription(for assetName: String, category: EnhancedShopCategory) -> String {
         // Try to find the item in ItemDatabase first
         let itemDatabase = ItemDatabase.shared
@@ -328,7 +387,7 @@ class ShopViewModel: ObservableObject {
         // If not found, return a generic description based on category
         return getDescriptionForCategory(category)
     }
-    
+
     private func getDescriptionForCategory(_ category: EnhancedShopCategory) -> String {
         switch category {
         case .weapons:
@@ -343,7 +402,7 @@ class ShopViewModel: ObservableObject {
             return String(localized: "shop_category_consumables_description")
         }
     }
-    
+
     private func isItemOwned(name: String, iconName: String, category: EnhancedShopCategory) -> Bool {
         // Check ownership for gear items and collectibles, but allow consumables to be purchased multiple times
         switch category {
@@ -361,13 +420,13 @@ class ShopViewModel: ObservableObject {
             return isOwned
         }
     }
-    
+
     private func getGemPrice(for rarity: ItemRarity, category: AssetCategory) -> Int? {
         // Only epic and legendary items require gems
         guard rarity == .epic || rarity == .legendary else {
             return nil
         }
-        
+
         switch category {
         case .head, .headGear:
             return rarity == .epic ? 30 : 50 // Epic helmets 30 gems, legendary 50 gems
