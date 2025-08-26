@@ -237,7 +237,8 @@ struct CharacterSectionView: View {
                         CharacterDisplayView(
                             customization: characterCustomization,
                             size: 200,
-                            showShadow: true
+                            showShadow: true,
+                            hideHairWithHelmet: true
                         )
                         .id("character-display-\(characterCustomization?.shield?.rawValue ?? "nil")-\(characterCustomization?.pet?.rawValue ?? "nil")")
                         .offset(y: 70)
