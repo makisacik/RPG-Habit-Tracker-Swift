@@ -24,7 +24,11 @@ extension Bundle {
         return true
         #else
         // Check if we're running in simulator or have no receipt (development environment)
-        return TARGET_OS_SIMULATOR != 0 || appStoreReceiptURL == nil
+        #if targetEnvironment(simulator)
+        return true
+        #else
+        return appStoreReceiptURL == nil
+        #endif
         #endif
     }
 }
