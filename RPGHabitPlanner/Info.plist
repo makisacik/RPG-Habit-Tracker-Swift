@@ -13,7 +13,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>background-fetch</string>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 </dict>
