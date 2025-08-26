@@ -404,7 +404,6 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 } else {
                     questEntity.completionDate = nil
                 }
-                NotificationManager.shared.cancelQuestNotifications(questId: id)
                 try context.save()
                 completion(nil)
             } else {
@@ -439,6 +438,7 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 questEntity.isFinished = true
                 questEntity.isFinishedDate = Date()
                 questEntity.isActive = false
+                NotificationManager.shared.cancelQuestNotifications(questId: id)
                 try context.save()
 
                 // Post notification to update UI
