@@ -78,16 +78,8 @@ struct AnalyticsView: View {
                 ProgressionOverviewCard(progression: summary.progression)
                     .environmentObject(themeManager)
                 
-                // Streak Insights Card
-                StreakInsightsCard(streakData: summary.questPerformance.streakData)
-                    .environmentObject(themeManager)
-                
                 // Engagement Metrics Card
                 EngagementMetricsCard(engagement: summary.engagement)
-                    .environmentObject(themeManager)
-                
-                // Customization Preferences Card
-                CustomizationPreferencesCard(customization: summary.customization)
                     .environmentObject(themeManager)
                 
                 // Recommendations Section

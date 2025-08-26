@@ -137,13 +137,17 @@ extension AnalyticsManager {
     func calculateStreakAnalytics() -> StreakAnalytics {
         let currentStreak = streakManager.currentStreak
         let longestStreak = streakManager.longestStreak
+
+        // Ensure currentStreak never exceeds longestStreak to prevent ProgressView issues
+        let safeCurrentStreak = min(currentStreak, longestStreak)
+        let safeLongestStreak = max(1, longestStreak) // Ensure we have a minimum value
         
         // For now, return basic streak data
         // This can be enhanced when more detailed streak tracking is implemented
         return StreakAnalytics(
-            currentStreak: currentStreak,
-            longestStreak: longestStreak,
-            averageStreakLength: Double(longestStreak),
+            currentStreak: safeCurrentStreak,
+            longestStreak: safeLongestStreak,
+            averageStreakLength: Double(safeLongestStreak),
             streakBreakPatterns: [],
             bestStreakDay: calendar.component(.weekday, from: Date())
         )

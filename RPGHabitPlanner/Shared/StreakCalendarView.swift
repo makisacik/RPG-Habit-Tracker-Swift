@@ -166,6 +166,56 @@ struct StreakCalendarView: View {
                 )
             }
 
+            // Average streak and motivation
+            if streakManager.currentStreak > 0 {
+                VStack(spacing: 12) {
+                    // Average streak
+                    HStack {
+                        Image(systemName: "chart.bar.fill")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.8))
+                        Text(String(localized: "analytics_avg_streak"))
+                            .font(.appFont(size: 16, weight: .bold))
+                            .foregroundColor(theme.textColor)
+                        Spacer()
+                        Text(String(format: "%.1f", Double(streakManager.longestStreak)))
+                            .font(.appFont(size: 18, weight: .bold))
+                            .foregroundColor(theme.textColor)
+                    }
+
+                    // Streak motivation
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "lightbulb.fill")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(theme.accentColor)
+                            Text(String(localized: "analytics_streak_motivation"))
+                                .font(.appFont(size: 16, weight: .bold))
+                                .foregroundColor(theme.textColor)
+                            Spacer()
+                        }
+
+                        Text(streakMotivationText)
+                            .font(.appFont(size: 14, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.8))
+                            .padding(12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(theme.accentColor.opacity(0.1))
+                            .cornerRadius(8)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor.opacity(0.05))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(theme.primaryColor.opacity(0.1), lineWidth: 1)
+                        )
+                )
+            }
+
             // Monthly statistics
             VStack(spacing: 16) {
                 HStack {
@@ -267,6 +317,16 @@ struct StreakCalendarView: View {
         print("📅 StreakCalendarView: Activity rate: \(activityRate)%")
 
         return (activeDays: activeDays, totalDays: totalDays, activityRate: activityRate)
+    }
+
+    private var streakMotivationText: String {
+        if streakManager.currentStreak >= streakManager.longestStreak {
+            return String(localized: "analytics_streak_motivation_record")
+        } else if streakManager.currentStreak >= streakManager.longestStreak / 2 {
+            return String(localized: "analytics_streak_motivation_halfway")
+        } else {
+            return String(localized: "analytics_streak_motivation_keep_going")
+        }
     }
 }
 

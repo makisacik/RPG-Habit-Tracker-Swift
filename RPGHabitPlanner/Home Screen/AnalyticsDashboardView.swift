@@ -222,9 +222,6 @@ struct AnalyticsDashboardView: View {
                 
                 // Engagement Metrics
                 AnalyticsDashboardPlaceholders.engagementMetricsCard(summary: summary, theme: theme)
-                
-                // Customization Patterns
-                AnalyticsDashboardPlaceholders.customizationPatternsCard(summary: summary, theme: theme)
             }
             .padding(.horizontal, 16)
             .padding(.top, 10)
@@ -394,7 +391,7 @@ struct AnalyticsDashboardView: View {
                         .foregroundColor(theme.textColor)
                 }
                 
-                ProgressView(value: Double(summary.questPerformance.streakData.currentStreak), total: Double(max(1, summary.questPerformance.streakData.longestStreak)))
+                ProgressView(value: Double(min(summary.questPerformance.streakData.currentStreak, summary.questPerformance.streakData.longestStreak)), total: Double(max(1, summary.questPerformance.streakData.longestStreak)))
                     .progressViewStyle(LinearProgressViewStyle(tint: theme.warningColor))
             }
         }
