@@ -1418,6 +1418,7 @@
 "skin_color" = "Skin Color";
 "hairstyle" = "Hairstyle";
 "hair_back_style" = "Hair Back Style";
+"hair_color" = "Hair Color";
 "eye_color" = "Eye Color";
 "outfit" = "Outfit";
 "weapon" = "Weapon";
@@ -1495,6 +1496,7 @@
 "total_active_boosters" = "Total Active Boosters";
 "item_boosters" = "Item Boosters";
 "no_active_boosters" = "No Active Boosters";
+"visit_shop_to_get_boosters" = "Visit the shop to get boosters!";
 "collect_items_to_get_boosters" = "Collect items to get boosters!";
 "expired" = "Expired";
 "expires" = "Expires";

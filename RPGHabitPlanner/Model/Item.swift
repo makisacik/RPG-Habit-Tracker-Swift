@@ -540,32 +540,32 @@ struct ItemDatabase {
         name: String(localized: "wisdoms_breath"),
         description: String(localized: "wisdoms_breath_description"),
         multiplier: 1.25,
-        duration: 30 * 60,
-        value: 50
+        duration: 12 * 60 * 60, // 12 hours
+        value: 200
     )
 
     static let xpBoost = Item.xpBoost(
         name: String(localized: "scholars_insight"),
         description: String(localized: "scholars_insight_description"),
         multiplier: 1.5,
-        duration: 60 * 60,
-        value: 100
+        duration: 24 * 60 * 60, // 24 hours (1 day)
+        value: 400
     )
 
     static let greaterXPBoost = Item.xpBoost(
         name: String(localized: "masters_enlightenment"),
         description: String(localized: "masters_enlightenment_description"),
         multiplier: 2.0,
-        duration: 2 * 60 * 60,
-        value: 250
+        duration: 3 * 24 * 60 * 60, // 3 days
+        value: 800
     )
 
     static let legendaryXPBoost = Item.xpBoost(
         name: String(localized: "ancient_knowledge_essence"),
         description: String(localized: "ancient_knowledge_essence_description"),
         multiplier: 3.0,
-        duration: 4 * 60 * 60,
-        value: 500
+        duration: 7 * 24 * 60 * 60, // 7 days
+        value: 1500
     )
 
     // MARK: - Coin Boosts (Boosters)
@@ -573,32 +573,32 @@ struct ItemDatabase {
         name: String(localized: "merchants_blessing"),
         description: String(localized: "merchants_blessing_description"),
         multiplier: 1.25,
-        duration: 30 * 60,
-        value: 50
+        duration: 12 * 60 * 60, // 12 hours
+        value: 200
     )
 
     static let coinBoost = Item.coinBoost(
         name: String(localized: "wealth_attractor"),
         description: String(localized: "wealth_attractor_description"),
         multiplier: 1.5,
-        duration: 60 * 60,
-        value: 100
+        duration: 24 * 60 * 60, // 24 hours (1 day)
+        value: 400
     )
 
     static let greaterCoinBoost = Item.coinBoost(
         name: String(localized: "golden_fortune"),
         description: String(localized: "golden_fortune_description"),
         multiplier: 2.0,
-        duration: 2 * 60 * 60,
-        value: 250
+        duration: 3 * 24 * 60 * 60, // 3 days
+        value: 800
     )
 
     static let legendaryCoinBoost = Item.coinBoost(
         name: String(localized: "dragons_hoard_essence"),
         description: String(localized: "dragons_hoard_essence_description"),
         multiplier: 3.0,
-        duration: 4 * 60 * 60,
-        value: 500
+        duration: 7 * 24 * 60 * 60, // 7 days
+        value: 1500
     )
 
     // MARK: - Accessories

@@ -261,13 +261,13 @@ final class ShopManager: ObservableObject {
     private func determineBoostValues(from name: String) -> (multiplier: Double, duration: TimeInterval) {
         let lowercasedName = name.lowercased()
         if lowercasedName.contains("legendary") {
-            return (3.0, 4 * 60 * 60)
+            return (3.0, 7 * 24 * 60 * 60) // 7 days
         } else if lowercasedName.contains("greater") {
-            return (2.0, 2 * 60 * 60)
+            return (2.0, 3 * 24 * 60 * 60) // 3 days
         } else if lowercasedName.contains("minor") {
-            return (1.25, 30 * 60)
+            return (1.25, 12 * 60 * 60) // 12 hours
         } else {
-            return (1.5, 60 * 60)
+            return (1.5, 24 * 60 * 60) // 24 hours (1 day)
         }
     }
 

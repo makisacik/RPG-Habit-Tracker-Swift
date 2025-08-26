@@ -12,13 +12,14 @@ struct CompactBoostersSectionView: View {
     @ObservedObject var boosterManager: BoosterManager
     let theme: Theme
     @State private var refreshTrigger = false
+    @State private var showShop = false
 
     var body: some View {
         VStack(spacing: 12) {
             // Header
             HStack {
                 Text(String(localized: "active_boosters"))
-                    .font(.appFont(size: 16, weight: .semibold))
+                    .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
 
@@ -37,14 +38,41 @@ struct CompactBoostersSectionView: View {
             }
 
             if boosterManager.activeBoosters.isEmpty {
-                // Empty state - modern design
-                HStack(spacing: 12) {
-                    Image(systemName: "bolt.slash")
-                        .font(.system(size: 20))
-                        .foregroundColor(theme.textColor.opacity(0.5))
-                    Text(String(localized: "no_active_boosters"))
-                        .font(.appFont(size: 14))
-                        .foregroundColor(theme.textColor.opacity(0.7))
+                // Empty state - modern design with shop navigation
+                VStack(spacing: 16) {
+                    HStack(spacing: 12) {
+                        Image(systemName: "bolt.slash")
+                            .font(.system(size: 20))
+                            .foregroundColor(theme.textColor.opacity(0.5))
+                        Text(String(localized: "no_active_boosters"))
+                            .font(.appFont(size: 14))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                    }
+                    
+                    Text(String(localized: "visit_shop_to_get_boosters"))
+                        .font(.appFont(size: 12))
+                        .foregroundColor(theme.textColor.opacity(0.6))
+                        .multilineTextAlignment(.center)
+                    
+                    Button(action: {
+                        showShop = true
+                    }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "cart.fill")
+                                .font(.system(size: 14))
+                            Text("go_to_shop".localized)
+                                .font(.appFont(size: 14, weight: .medium))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(theme.accentColor)
+                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
                 .padding(.vertical, 16)
                 .padding(.horizontal, 20)
@@ -68,9 +96,16 @@ struct CompactBoostersSectionView: View {
                 }
             }
         }
+        .padding(16)
         .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
             print("🔄 CompactBoostersSectionView: Received boostersUpdated notification")
             refreshTrigger.toggle()
+        }
+        .sheet(isPresented: $showShop) {
+            NavigationStack {
+                ShopView(initialCategory: .consumables)
+                    .environmentObject(ThemeManager.shared)
+            }
         }
     }
 

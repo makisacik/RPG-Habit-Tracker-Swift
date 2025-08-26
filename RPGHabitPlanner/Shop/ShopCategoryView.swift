@@ -645,14 +645,12 @@ struct ItemPreviewModal: View {
                             )
                     }
 
-                    Button(action: {
-                        onPurchase()
-                        onDismiss()
-                    }) {
+                    if item.isOwned {
+                        // Show "Owned" status instead of purchase button
                         HStack {
-                            Image(systemName: "dollarsign.circle.fill")
+                            Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.white)
-                            Text(String(localized: "buy_for").localized(with: String(ShopManager.shared.getDisplayPrice(for: item))))
+                            Text(String(localized: "owned"))
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         }
@@ -660,8 +658,28 @@ struct ItemPreviewModal: View {
                         .padding(.vertical, 12)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(.green)
+                                .fill(.gray)
                         )
+                    } else {
+                        // Show purchase button only if not owned
+                        Button(action: {
+                            onPurchase()
+                            onDismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "dollarsign.circle.fill")
+                                    .foregroundColor(.white)
+                                Text(String(localized: "buy_for").localized(with: String(ShopManager.shared.getDisplayPrice(for: item))))
+                                    .font(.appFont(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(.green)
+                            )
+                        }
                     }
                 }
             }
