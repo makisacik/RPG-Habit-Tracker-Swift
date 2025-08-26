@@ -310,53 +310,37 @@ struct EnhancedShopItemCard: View {
                     RarityBadge(rarity: item.rarity.toAssetRarity)
                 }
 
-                // Price and purchase button
-                HStack {
-                    // Price
-                    HStack(spacing: 2) {
-                        if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
-                            Image("icon_gem")
-                                .resizable()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.purple)
-                        } else {
-                            Image("icon_gold")
-                                .resizable()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.yellow)
-                        }
-                        Text("\(ShopManager.shared.getDisplayPrice(for: item))")
-                            .font(.appFont(size: 10, weight: .bold))
-                            .foregroundColor(canAfford ? theme.textColor : .red)
-                    }
-
-                    Spacer()
-
-                    // Purchase button or Owned status
-                    if item.isOwned {
-                        Text("owned".localized)
-                            .font(.appFont(size: 10, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(.gray)
-                            )
-                    } else {
-                        Button(action: onPurchase) {
-                            Text("buy".localized)
+                // Price or Owned status - centered at bottom
+                if item.isOwned {
+                    Text("owned".localized)
+                        .font(.appFont(size: 10, weight: .bold))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(.gray)
+                        )
+                } else {
+                    Button(action: onPurchase) {
+                        HStack(spacing: 2) {
+                            if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
+                                Image("icon_gem")
+                                    .resizable()
+                                    .frame(width: 14, height: 14)
+                                    .foregroundColor(.purple)
+                            } else {
+                                Image("icon_gold")
+                                    .resizable()
+                                    .frame(width: 12, height: 12)
+                                    .foregroundColor(.yellow)
+                            }
+                            Text("\(ShopManager.shared.getDisplayPrice(for: item))")
                                 .font(.appFont(size: 10, weight: .bold))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(canAfford ? .green : .gray)
-                                )
+                                .foregroundColor(canAfford ? theme.textColor : .red)
                         }
-                        .disabled(!canAfford)
                     }
+                    .disabled(!canAfford)
                 }
             }
         }

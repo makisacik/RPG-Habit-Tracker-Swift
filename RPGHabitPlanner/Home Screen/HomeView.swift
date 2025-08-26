@@ -141,6 +141,11 @@ struct HomeView: View {
                         .environmentObject(themeManager)
                         .environmentObject(LocalizationManager.shared)
                 }
+                .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
+                    QuestCreationView(
+                        viewModel: QuestCreationViewModel(questDataService: questDataService)
+                    )
+                }
                 .sheet(isPresented: $isCompletedQuestsPresented) {
                     NavigationStack {
                         CompletedQuestsView(
@@ -286,10 +291,17 @@ struct HomeView: View {
     }
 
     func handleCreateQuestTap() {
-        if premiumManager.canCreateQuest(currentQuestCount: currentQuestCount) {
-            shouldNavigateToQuestCreation = true
-        } else {
-            showPaywall = true
+        // Fetch the current quest count first to ensure we have the latest data
+        questDataService.fetchAllQuests { quests, _ in
+            DispatchQueue.main.async {
+                let currentCount = quests.count
+                
+                if self.premiumManager.canCreateQuest(currentQuestCount: currentCount) {
+                    self.shouldNavigateToQuestCreation = true
+                } else {
+                    self.showPaywall = true
+                }
+            }
         }
     }
 
