@@ -109,4 +109,34 @@ extension HomeView {
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
     }
+    
+    var analyticsSection: some View {
+        let theme = themeManager.activeTheme
+        
+        return VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text(String(localized: "analytics"))
+                    .font(.appFont(size: 20, weight: .bold))
+                    .foregroundColor(theme.textColor)
+                
+                Spacer()
+                
+                NavigationLink(destination: AnalyticsView()) {
+                    Text(String(localized: "view_all"))
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(theme.accentColor)
+                }
+            }
+            
+            // Analytics Preview Card
+            AnalyticsPreviewCard()
+                .environmentObject(themeManager)
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(theme.primaryColor)
+                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+        )
+    }
 }

@@ -69,6 +69,9 @@ struct HomeView: View {
                             quickStatsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                             recentAchievementsSection
                             quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
+                            
+                            // Analytics Section
+                            analyticsSection
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 10)

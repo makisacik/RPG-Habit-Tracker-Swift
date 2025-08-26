@@ -1995,3 +1995,118 @@
 "mustache_2_black" = "Handlebar Black";
 "mustache_2_blonde" = "Handlebar Blonde";
 "mustache_2_dark_brown" = "Handlebar Dark Brown";
+
+// MARK: - Analytics
+"analytics" = "Analytics";
+"analytics_time_period" = "Time Period";
+"analytics_period_week" = "Week";
+"analytics_period_month" = "Month";
+"analytics_period_quarter" = "Quarter";
+"analytics_period_year" = "Year";
+"analytics_period_all_time" = "All Time";
+"analytics_loading" = "Loading Analytics";
+"analytics_loading_description" = "Gathering your personalized insights and recommendations...";
+"analytics_empty_title" = "No Analytics Available";
+"analytics_empty_description" = "Complete some quests to see your personalized analytics and insights.";
+"analytics_refresh" = "Refresh";
+"analytics_last_updated" = "Last updated:";
+"analytics_filters" = "Filters";
+"analytics_filters_title" = "Analytics Filters";
+
+// Analytics Cards
+"analytics_quest_performance" = "Quest Performance";
+"analytics_performance_score" = "Performance Score";
+"analytics_total_quests" = "Total Quests";
+"analytics_finished_quests" = "Finished";
+"analytics_partially_completed_quests" = "Partially Completed";
+"analytics_partial_completion_rate" = "Partial Completion Rate";
+"analytics_completion_rate" = "Completion Rate";
+"analytics_completion_progress" = "Completion Progress";
+"analytics_performance_insights" = "Performance Insights";
+"analytics_avg_completion_time" = "Avg. Completion Time";
+"analytics_most_productive_hour" = "Most Productive Hour";
+"analytics_preferred_difficulty" = "Preferred Difficulty";
+"analytics_difficulty_success_rates" = "Difficulty Success Rates";
+"analytics_no_data" = "No data";
+"analytics_time_hours_minutes" = "{hours}h {minutes}m";
+"analytics_time_minutes" = "{minutes}m";
+
+"analytics_progression_overview" = "Progression Overview";
+"analytics_level_progress" = "Level Progress";
+"analytics_level_up_rate" = "Level Up Rate";
+"analytics_total_coins" = "Total Coins";
+"analytics_total_gems" = "Total Gems";
+"analytics_currency_analytics" = "Currency Analytics";
+"analytics_avg_coins_per_quest" = "Avg. Coins/Quest";
+"analytics_avg_gems_per_quest" = "Avg. Gems/Quest";
+"analytics_earning_rate" = "Earning Rate";
+"analytics_achievements" = "Achievements";
+"analytics_achievement_progress" = "Achievement Progress";
+"analytics_recent_achievements" = "Recent Achievements";
+"analytics_next_achievements" = "Next Achievements";
+
+"analytics_streak_insights" = "Streak Insights";
+"analytics_current_streak" = "Current Streak";
+"analytics_longest_streak" = "Longest Streak";
+"analytics_avg_streak" = "Avg. Streak";
+"analytics_streak_insights_details" = "Streak Details";
+"analytics_best_streak_day" = "Best Streak Day";
+"analytics_common_break_day" = "Common Break Day";
+"analytics_streak_motivation" = "Streak Motivation";
+"analytics_streak_motivation_record" = "🔥 You're on fire! This is your longest streak ever. Keep it up!";
+"analytics_streak_motivation_halfway" = "You're halfway to your record! You can do it!";
+"analytics_streak_motivation_keep_going" = "Great start! Keep building your streak momentum.";
+
+"analytics_engagement_metrics" = "Engagement Metrics";
+"analytics_engagement_score" = "Engagement Score";
+"analytics_sessions_per_week" = "Sessions/Week";
+"analytics_avg_session" = "Avg. Session";
+"analytics_app_opens" = "App Opens";
+"analytics_activity_patterns" = "Activity Patterns";
+"analytics_most_active_day" = "Most Active Day";
+"analytics_most_active_hour" = "Most Active Hour";
+"analytics_feature_usage" = "Feature Usage";
+
+"analytics_customization_preferences" = "Customization Preferences";
+"analytics_customization_score" = "Customization Score";
+"analytics_customization_frequency" = "Customization Frequency";
+"analytics_last_customization" = "Last Customization";
+"analytics_preferences" = "Preferences";
+"analytics_most_used_preset" = "Most Used Preset";
+"analytics_preferred_colors" = "Preferred Colors";
+"analytics_preferred_accessories" = "Preferred Accessories";
+"analytics_customization_tips" = "Customization Tips";
+"analytics_customization_tip_new" = "Try customizing your character to make your journey more personal!";
+"analytics_customization_tip_occasional" = "You occasionally customize your character. Try new looks to keep things fresh!";
+"analytics_customization_tip_active" = "You're very active with customization! Your character looks great!";
+"analytics_never" = "Never";
+
+"analytics_recommendations" = "Personalized Recommendations";
+"analytics_no_recommendations_title" = "All Caught Up!";
+"analytics_no_recommendations_description" = "You're doing great! No specific recommendations at this time.";
+"analytics_priority_high" = "HIGH";
+
+// Analytics Recommendations
+"analytics_recommendation_create_more_quests_title" = "Create More Quests";
+"analytics_recommendation_create_more_quests_description" = "You have few quests. Creating more quests will help you build better habits and track your progress.";
+"analytics_recommendation_difficulty_title" = "Adjust Quest Difficulty";
+"analytics_recommendation_difficulty_description" = "You're struggling with your current difficulty level. Try reducing the difficulty to improve your completion rate.";
+"analytics_recommendation_increase_difficulty_title" = "Increase Quest Difficulty";
+"analytics_recommendation_increase_difficulty_description" = "You're doing great with your current difficulty! Consider increasing the challenge to earn more rewards.";
+"analytics_recommendation_streak_title" = "Start a New Streak";
+"analytics_recommendation_streak_description" = "Your streak has ended. Start a new one today to build momentum and maintain consistency.";
+"analytics_recommendation_streak_continue_title" = "Continue Your Streak";
+"analytics_recommendation_streak_continue_description" = "You're building a good streak! Keep going to reach your longest streak record.";
+"analytics_recommendation_achievements_title" = "Unlock More Achievements";
+"analytics_recommendation_achievements_description" = "You have many achievements to unlock. Focus on completing different types of quests to earn more achievements.";
+"analytics_recommendation_timing_title" = "Perfect Time for Quests";
+"analytics_recommendation_timing_description" = "This is your most productive hour! Create or complete quests now for better results.";
+
+// Analytics Actions
+"create_quest" = "Create Quest";
+"adjust_difficulty" = "Adjust Difficulty";
+"increase_difficulty" = "Increase Difficulty";
+"start_streak" = "Start Streak";
+"continue_streak" = "Continue Streak";
+"view_achievements" = "View Achievements";
+"create_quest_now" = "Create Quest Now";
