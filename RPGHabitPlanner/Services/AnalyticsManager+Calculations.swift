@@ -161,4 +161,93 @@ extension AnalyticsManager {
             nextAchievements: Array(allAchievements.filter { !achievementManager.isAchievementUnlocked($0.id) }.prefix(3))
         )
     }
+    
+    func calculateCustomizationAnalytics(for user: UserEntity) -> CustomizationAnalytics {
+        // Get the user's customization entity
+        guard let customizationEntity = customizationService.fetchCustomization(for: user) else {
+            return CustomizationAnalytics(
+                mostUsedPreset: nil,
+                customizationFrequency: 0,
+                preferredColors: [],
+                preferredAccessories: [],
+                lastCustomizationDate: nil
+            )
+        }
+        
+        // Get customization frequency from UserDefaults tracking
+        let customizationFrequency = getCustomizationFrequency(for: user.id?.uuidString ?? "")
+        let lastCustomizationDate = getLastCustomizationDate(for: user.id?.uuidString ?? "")
+        
+        // Analyze preferred colors and accessories from current customization
+        let customization = customizationEntity.toCharacterCustomization()
+        var preferredColors: [String] = []
+        var preferredAccessories: [String] = []
+        
+        // Add hair color
+        preferredColors.append(customization.hairColor.rawValue)
+        
+        // Add eye color
+        preferredColors.append(customization.eyeColor.rawValue)
+        
+        // Add accessories
+        if let accessory = customization.accessory {
+            preferredAccessories.append(accessory.rawValue)
+        }
+        
+        if let headGear = customization.headGear {
+            preferredAccessories.append(headGear.rawValue)
+        }
+        
+        if let mustache = customization.mustache {
+            preferredAccessories.append(mustache.rawValue)
+        }
+        
+        if let flower = customization.flower {
+            preferredAccessories.append(flower.rawValue)
+        }
+        
+        if let pet = customization.pet {
+            preferredAccessories.append(pet.rawValue)
+        }
+        
+        if let wings = customization.wings {
+            preferredAccessories.append(wings.rawValue)
+        }
+        
+        // Get most used preset (for now, return nil as preset tracking would need additional implementation)
+        let mostUsedPreset: String? = nil
+        
+        return CustomizationAnalytics(
+            mostUsedPreset: mostUsedPreset,
+            customizationFrequency: customizationFrequency,
+            preferredColors: preferredColors,
+            preferredAccessories: preferredAccessories,
+            lastCustomizationDate: lastCustomizationDate
+        )
+    }
+    
+    // MARK: - Customization Tracking Helper Methods
+    
+    private func getCustomizationFrequency(for userId: String) -> Int {
+        let userDefaults = UserDefaults.standard
+        let key = "customization_frequency_\(userId)"
+        return userDefaults.integer(forKey: key)
+    }
+    
+    private func getLastCustomizationDate(for userId: String) -> Date? {
+        let userDefaults = UserDefaults.standard
+        let key = "last_customization_date_\(userId)"
+        let timeInterval = userDefaults.double(forKey: key)
+        return timeInterval > 0 ? Date(timeIntervalSince1970: timeInterval) : nil
+    }
+    
+    func incrementCustomizationCount(for userId: String) {
+        let userDefaults = UserDefaults.standard
+        let frequencyKey = "customization_frequency_\(userId)"
+        let dateKey = "last_customization_date_\(userId)"
+        
+        let currentCount = userDefaults.integer(forKey: frequencyKey)
+        userDefaults.set(currentCount + 1, forKey: frequencyKey)
+        userDefaults.set(Date().timeIntervalSince1970, forKey: dateKey)
+    }
 }

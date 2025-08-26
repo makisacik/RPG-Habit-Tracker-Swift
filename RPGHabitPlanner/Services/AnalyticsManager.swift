@@ -20,7 +20,7 @@ final class AnalyticsManager: ObservableObject {
     private let userManager: UserManager
     let achievementManager: AchievementManager // Made accessible to extensions
     let streakManager: StreakManager // Made accessible to extensions
-    private let customizationService: CharacterCustomizationService
+    let customizationService: CharacterCustomizationService // Made accessible to extensions
     
     private var cancellables = Set<AnyCancellable>()
     let calendar = Calendar.current // Made accessible to extensions
@@ -271,9 +271,8 @@ final class AnalyticsManager: ObservableObject {
                     return
                 }
                 
-                // For now, return basic customization data
-                // This can be enhanced when customization tracking is implemented
-                let customization = CustomizationAnalytics(
+                // Use the new calculation method
+                let customization = self?.calculateCustomizationAnalytics(for: user) ?? CustomizationAnalytics(
                     mostUsedPreset: nil,
                     customizationFrequency: 0,
                     preferredColors: [],

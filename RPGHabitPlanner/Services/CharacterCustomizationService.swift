@@ -69,7 +69,13 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
 
     func updateCustomization(_ entity: CharacterCustomizationEntity, with customization: CharacterCustomization) {
         entity.updateFrom(customization)
+        entity.updatedAt = Date()
         saveContext()
+        
+        // Track customization update for analytics
+        if let userId = entity.userId?.uuidString {
+            AnalyticsManager.shared.incrementCustomizationCount(for: userId)
+        }
     }
 
     func updateCustomization(for user: UserEntity, customization: CharacterCustomization) -> CharacterCustomizationEntity? {
@@ -86,6 +92,11 @@ final class CharacterCustomizationService: CharacterCustomizationServiceProtocol
             print("🔧 CharacterCustomizationService: Updated entity outfit to: \(entity.outfit ?? "nil")")
             
             saveContext()
+            
+            // Track customization update for analytics
+            if let userId = user.id?.uuidString {
+                AnalyticsManager.shared.incrementCustomizationCount(for: userId)
+            }
             
             print("✅ CharacterCustomizationService: Successfully saved customization update")
             return entity
