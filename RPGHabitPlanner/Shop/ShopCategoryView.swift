@@ -650,10 +650,19 @@ struct ItemPreviewModal: View {
                             onPurchase()
                             onDismiss()
                         }) {
-                            HStack {
-                                Image(systemName: "dollarsign.circle.fill")
-                                    .foregroundColor(.white)
-                                Text(String(localized: "buy_for").localized(with: String(ShopManager.shared.getDisplayPrice(for: item))))
+                            HStack(spacing: 8) {
+                                if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
+                                    Image("icon_gem")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(.purple)
+                                } else {
+                                    Image("icon_gold")
+                                        .resizable()
+                                        .frame(width: 18, height: 18)
+                                        .foregroundColor(.yellow)
+                                }
+                                Text("\(ShopManager.shared.getDisplayPrice(for: item))")
                                     .font(.appFont(size: 16, weight: .bold))
                                     .foregroundColor(.white)
                             }
@@ -661,7 +670,7 @@ struct ItemPreviewModal: View {
                             .padding(.vertical, 12)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(.green)
+                                    .fill(theme.primaryColor)
                             )
                         }
                     }
