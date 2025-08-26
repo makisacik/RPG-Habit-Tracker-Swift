@@ -305,11 +305,6 @@ struct EnhancedShopItemCard: View {
                     .lineLimit(1)
                     .multilineTextAlignment(.center)
 
-                // Rarity badge - only show for gear items
-                if isGearCategory(selectedCategory) {
-                    RarityBadge(rarity: item.rarity.toAssetRarity)
-                }
-
                 // Price or Owned status - centered at bottom
                 if item.isOwned {
                     Text("owned".localized)
@@ -323,22 +318,32 @@ struct EnhancedShopItemCard: View {
                         )
                 } else {
                     Button(action: onPurchase) {
-                        HStack(spacing: 2) {
+                        HStack(spacing: 4) {
                             if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
                                 Image("icon_gem")
                                     .resizable()
-                                    .frame(width: 14, height: 14)
+                                    .frame(width: 18, height: 18)
                                     .foregroundColor(.purple)
                             } else {
                                 Image("icon_gold")
                                     .resizable()
-                                    .frame(width: 12, height: 12)
+                                    .frame(width: 16, height: 16)
                                     .foregroundColor(.yellow)
                             }
                             Text("\(ShopManager.shared.getDisplayPrice(for: item))")
-                                .font(.appFont(size: 10, weight: .bold))
+                                .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(canAfford ? theme.textColor : .red)
                         }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(theme.secondaryColor)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(theme.borderColor.opacity(0.6), lineWidth: 1)
+                                )
+                        )
                     }
                     .disabled(!canAfford)
                 }
