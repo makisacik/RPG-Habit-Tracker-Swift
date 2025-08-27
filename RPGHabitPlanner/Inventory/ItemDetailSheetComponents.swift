@@ -197,7 +197,7 @@ struct CompactItemHeaderView: View {
                 }
 
                 // Description
-                Text(item.description)
+                Text(item.localizedDescription)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.leading)

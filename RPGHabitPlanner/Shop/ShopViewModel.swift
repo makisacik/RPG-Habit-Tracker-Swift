@@ -326,8 +326,8 @@ class ShopViewModel: ObservableObject {
         case .potions:
             items = ItemDatabase.allHealthPotions.map { item in
                 ShopItem(
-                    name: item.name,
-                    description: item.description,
+                    name: item.localizedName,
+                    description: item.localizedDescription,
                     iconName: item.iconName,
                     price: item.value,
                     rarity: .common, // Potions are typically common
@@ -338,8 +338,8 @@ class ShopViewModel: ObservableObject {
         case .boosts:
             items = (ItemDatabase.allXPBoosts + ItemDatabase.allCoinBoosts).map { item in
                 ShopItem(
-                    name: item.name,
-                    description: item.description,
+                    name: item.localizedName,
+                    description: item.localizedDescription,
                     iconName: item.iconName,
                     price: item.value,
                     rarity: item.isRare ? .rare : .common,
@@ -360,8 +360,8 @@ class ShopViewModel: ObservableObject {
             let gemPrice = getGemPrice(for: rarity, category: .wings)
 
             return ShopItem(
-                name: item.name,
-                description: item.description,
+                name: item.localizedName,
+                description: item.localizedDescription,
                 iconName: item.iconName,
                 price: item.value,
                 gemPrice: gemPrice,
@@ -380,7 +380,7 @@ class ShopViewModel: ObservableObject {
         let itemDatabase = ItemDatabase.shared
 
         // Search in all items
-        if let item = itemDatabase.findItem(by: assetName) {
+        if let item = ItemDatabase.findItem(by: assetName) {
             return item.description
         }
 

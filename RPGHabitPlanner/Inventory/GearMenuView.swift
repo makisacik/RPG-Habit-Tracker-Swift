@@ -17,6 +17,7 @@ struct GearMenuView: View {
     let user: UserEntity
     @State private var selectedItem: ItemEntity?
     @State private var showShop = false
+    @State private var refreshTrigger = false
     
     @StateObject private var gearManager = GearManager.shared
     private let customizationService = CharacterCustomizationService()
@@ -48,6 +49,10 @@ struct GearMenuView: View {
                 ShopView(initialCategory: category, initialArmorSubcategory: armorSubcategory)
                     .environmentObject(themeManager)
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+            // Trigger a refresh when language changes
+            refreshTrigger.toggle()
         }
     }
     
@@ -331,7 +336,7 @@ struct GearItemCard: View {
 
     private func getItemDefinition() -> Item? {
         guard let iconName = item.iconName else { return nil }
-        return ItemDatabase.shared.findItem(byIconName: iconName)
+        return ItemDatabase.findItem(byIconName: iconName)
     }
 }
 

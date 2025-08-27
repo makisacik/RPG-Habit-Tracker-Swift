@@ -193,6 +193,7 @@
 "choose_your_preferred_language" = "Choose your preferred language";
 "language_changes_will_take_effect_immediately" = "Language changes will take effect immediately";
 "some_system_elements_may_remain_in_previous_language" = "Some system elements may remain in the previous language until the app is restarted";
+"updating_language" = "Updating language...";
 "sound_effects" = "Sound Effects";
 "music" = "Music";
 "notifications_enabled" = "Notifications Enabled";
@@ -1087,6 +1088,18 @@
 "windseeker_bow_description" = "A bow that seems to be guided by the wind itself. Arrows fired from this bow fly with uncanny accuracy, finding their targets even in the strongest gales.";
 "stormcaller_bow" = "Stormcaller Bow";
 "stormcaller_bow_description" = "A bow that can summon storms with its arrows. Each shot crackles with lightning, and the bow itself hums with the power of thunder.";
+
+// Additional Weapons
+"deadly_sword" = "Deadly Sword";
+"deadly_sword_description" = "A sword forged for maximum lethality. Its blade is razor-sharp and balanced for swift, deadly strikes that can end battles quickly.";
+"battle_axe" = "Battle Axe";
+"battle_axe_description" = "A heavy axe designed for brutal combat. Its massive blade can cleave through armor and bone alike, making it feared on the battlefield.";
+"small_battle_axe" = "Small Battle Axe";
+"small_battle_axe_description" = "A lighter version of the battle axe, designed for speed and precision. Though smaller, it can still deliver devastating blows with proper technique.";
+"whip_sword" = "Whip Sword";
+"whip_sword_description" = "A flexible sword that combines the reach of a whip with the cutting power of a blade. Its unique design allows for unpredictable attacks that can catch enemies off guard.";
+
+
 
 // Gear - Shields
 "oakheart_ward" = "Oakheart Ward";

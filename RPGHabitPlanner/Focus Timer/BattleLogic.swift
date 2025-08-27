@@ -175,29 +175,27 @@ class BattleLogic {
 
     private static func generateItemForEnemy(enemyType: EnemyType) -> Item {
         // Generate items based on enemy type and difficulty
-        let itemDatabase = ItemDatabase.shared
-
         switch enemyType {
         case .sleepyCat, .funnyZombie:
             // Easy enemies give common gear items or basic items
-            let commonGear = itemDatabase.getItems(of: .common)
-            let basicItems = itemDatabase.getItems(of: .consumable) + itemDatabase.getItems(of: .collectible)
+            let commonGear = ItemDatabase.getItems(of: .common)
+            let basicItems = ItemDatabase.getItems(of: .consumable) + ItemDatabase.getItems(of: .collectible)
             let allItems = commonGear + basicItems
-            return allItems.randomElement() ?? itemDatabase.getRandomItem()
+            return allItems.randomElement() ?? ItemDatabase.getRandomItem()
 
         case .funkyMonster, .booMonster:
             // Medium enemies give uncommon gear items or better items
-            let uncommonGear = itemDatabase.getItems(of: .uncommon)
-            let betterItems = itemDatabase.getItems(of: .booster) + itemDatabase.getItems(of: .accessory)
+            let uncommonGear = ItemDatabase.getItems(of: .uncommon)
+            let betterItems = ItemDatabase.getItems(of: .booster) + ItemDatabase.getItems(of: .accessory)
             let allItems = uncommonGear + betterItems
-            return allItems.randomElement() ?? itemDatabase.getRandomItem()
+            return allItems.randomElement() ?? ItemDatabase.getRandomItem()
 
         case .flyingDragon:
             // Hard enemies give rare gear items or premium items
-            let rareGear = itemDatabase.getItems(of: .rare)
-            let epicGear = itemDatabase.getItems(of: .epic)
+            let rareGear = ItemDatabase.getItems(of: .rare)
+            let epicGear = ItemDatabase.getItems(of: .epic)
             let allItems = rareGear + epicGear
-            return allItems.randomElement() ?? itemDatabase.getRandomItem()
+            return allItems.randomElement() ?? ItemDatabase.getRandomItem()
         }
     }
 

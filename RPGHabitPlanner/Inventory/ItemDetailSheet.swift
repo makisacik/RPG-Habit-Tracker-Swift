@@ -293,7 +293,7 @@ struct ItemDetailSheet: View {
 
         // Fallback to database lookup using icon name
         guard let iconName = item.iconName,
-              let itemDefinition = ItemDatabase.shared.findItem(byIconName: iconName) else {
+              let itemDefinition = ItemDatabase.findItem(byIconName: iconName) else {
             return nil
         }
         return itemDefinition.gearCategory

@@ -28,10 +28,10 @@
         <attribute name="outfit" optional="YES" attributeType="String"/>
         <attribute name="pet" optional="YES" attributeType="String"/>
         <attribute name="shield" optional="YES" attributeType="String"/>
-        <attribute name="wings" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="weapon" optional="YES" attributeType="String"/>
+        <attribute name="wings" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="characterCustomization" inverseEntity="UserEntity"/>
     </entity>
     <entity name="CharacterPresetEntity" representedClassName="CharacterPresetEntity" syncable="YES">
@@ -57,23 +57,38 @@
         <attribute name="rarity" optional="YES" attributeType="String"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="customizationItems" inverseEntity="UserEntity"/>
     </entity>
+    <entity name="DamageEventEntity" representedClassName="DamageEventEntity" syncable="YES">
+        <attribute name="damageAmount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="reason" optional="YES" attributeType="String"/>
+        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuestDamageTrackerEntity" inverseName="damageHistory" inverseEntity="QuestDamageTrackerEntity"/>
+    </entity>
     <entity name="ItemEntity" representedClassName="ItemEntity" syncable="YES">
+        <attribute name="accessoryCategory" optional="YES" attributeType="String"/>
+        <attribute name="collectionCategory" optional="YES" attributeType="String"/>
+        <attribute name="gearCategory" optional="YES" attributeType="String"/>
         <attribute name="iconName" optional="YES" attributeType="String"/>
         <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="isRare" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="itemType" optional="YES" attributeType="String"/>
-        <attribute name="gearCategory" optional="YES" attributeType="String"/>
-        <attribute name="accessoryCategory" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="previewImage" optional="YES" attributeType="String"/>
         <attribute name="rarity" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="collectionCategory" optional="YES" attributeType="String"/>
-        <attribute name="isRare" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <entity name="QuestCompletionEntity" representedClassName="QuestCompletionEntity" syncable="YES">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="quest" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuestEntity" inverseName="completions" inverseEntity="QuestEntity"/>
+    </entity>
+    <entity name="QuestDamageTrackerEntity" representedClassName="QuestDamageTrackerEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastDamageCheckDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="questId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="totalDamageTaken" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="damageHistory" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DamageEventEntity" inverseName="tracker" inverseEntity="DamageEventEntity"/>
     </entity>
     <entity name="QuestEntity" representedClassName="QuestEntity" syncable="YES">
         <attribute name="completionDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -130,20 +145,5 @@
         <relationship name="characterCustomization" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CharacterCustomizationEntity" inverseName="user" inverseEntity="CharacterCustomizationEntity"/>
         <relationship name="characterPresets" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CharacterPresetEntity" inverseName="user" inverseEntity="CharacterPresetEntity"/>
         <relationship name="customizationItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CustomizationItemEntity" inverseName="owner" inverseEntity="CustomizationItemEntity"/>
-    </entity>
-    <entity name="QuestDamageTrackerEntity" representedClassName="QuestDamageTrackerEntity" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="isActive" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="lastDamageCheckDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="questId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="totalDamageTaken" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="damageHistory" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DamageEventEntity" inverseName="tracker" inverseEntity="DamageEventEntity"/>
-    </entity>
-    <entity name="DamageEventEntity" representedClassName="DamageEventEntity" syncable="YES">
-        <attribute name="damageAmount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="reason" optional="YES" attributeType="String"/>
-        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuestDamageTrackerEntity" inverseName="damageHistory" inverseEntity="QuestDamageTrackerEntity"/>
     </entity>
 </model>

@@ -258,6 +258,7 @@ struct ItemsPreviewView: View {
     let category: InventoryCategory
     @ObservedObject var inventoryManager: InventoryManager
     let theme: Theme
+    @State private var refreshTrigger = false
 
     // Define grid columns for inventory layout
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 4), count: 4)
@@ -290,63 +291,70 @@ struct ItemsPreviewView: View {
     }
 
     var body: some View {
-        if filteredItems.isEmpty {
-            VStack(spacing: 8) {
-                if category.icon.hasPrefix("icon_") {
-                    Image(category.icon)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(theme.textColor.opacity(0.5))
-                } else {
-                    Image(systemName: category.icon)
-                        .font(.system(size: 24))
-                        .foregroundColor(theme.textColor.opacity(0.5))
-                }
-                Text("no_items_for_category".localized(with: category.localizedName))
-                    .font(.appFont(size: 14))
-                    .foregroundColor(theme.textColor.opacity(0.7))
-            }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.backgroundColor.opacity(0.7))
-            )
-        } else {
-            // Inventory Grid Layout
-            LazyVGrid(columns: columns, spacing: 4) {
-                ForEach(filteredItems.prefix(4), id: \.id) { item in
-                    InventoryGridItemView(item: item, theme: theme)
-                }
-
-                // Add empty slots to complete the first row (4 slots total)
-                ForEach(0..<max(0, 4 - filteredItems.count), id: \.self) { _ in
-                    EmptyInventorySlotView(theme: theme)
-                }
-                
-                // Show additional items if there are more than 4
-                if filteredItems.count > 4 {
-                    ForEach(Array(filteredItems.dropFirst(4).prefix(8)), id: \.id) { item in
-                        InventoryGridItemView(item: item, theme: theme)
+        Group {
+            if filteredItems.isEmpty {
+                VStack(spacing: 8) {
+                    if category.icon.hasPrefix("icon_") {
+                        Image(category.icon)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(theme.textColor.opacity(0.5))
+                    } else {
+                        Image(systemName: category.icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(theme.textColor.opacity(0.5))
                     }
                     
-                    // Add empty slots to complete additional rows if needed
-                    let remainingSlots = max(0, 12 - filteredItems.count)
-                    ForEach(0..<remainingSlots, id: \.self) { _ in
+                    Text("no_items_for_category".localized(with: category.localizedName))
+                        .font(.appFont(size: 14))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.backgroundColor.opacity(0.7))
+                )
+            } else {
+                // Inventory Grid Layout
+                LazyVGrid(columns: columns, spacing: 4) {
+                    ForEach(filteredItems.prefix(4), id: \.id) { item in
+                        InventoryGridItemView(item: item, theme: theme)
+                    }
+
+                    // Add empty slots to complete the first row (4 slots total)
+                    ForEach(0..<max(0, 4 - filteredItems.count), id: \.self) { _ in
                         EmptyInventorySlotView(theme: theme)
                     }
+                    
+                    // Show additional items if there are more than 4
+                    if filteredItems.count > 4 {
+                        ForEach(Array(filteredItems.dropFirst(4).prefix(8)), id: \.id) { item in
+                            InventoryGridItemView(item: item, theme: theme)
+                        }
+                        
+                        // Add empty slots to complete additional rows if needed
+                        let remainingSlots = max(0, 12 - filteredItems.count)
+                        ForEach(0..<remainingSlots, id: \.self) { _ in
+                            EmptyInventorySlotView(theme: theme)
+                        }
+                    }
                 }
+                .padding(.horizontal, 4)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.surfaceColor.opacity(0.6))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                        )
+                )
             }
-            .padding(.horizontal, 4)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.surfaceColor.opacity(0.6))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
-                    )
-            )
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+            // Trigger a refresh when language changes
+            refreshTrigger.toggle()
         }
     }
 }

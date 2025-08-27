@@ -89,8 +89,7 @@ final class ShopManager: ObservableObject {
     
     private func createGearItem(from shopItem: ShopItem) -> Item {
         // Try to find the item in ItemDatabase first to get the correct gear category
-        let itemDatabase = ItemDatabase.shared
-        if let existingItem = itemDatabase.findItem(byIconName: shopItem.iconName) {
+        if let existingItem = ItemDatabase.findItem(byIconName: shopItem.iconName) {
             // Use the existing item definition from ItemDatabase
             return existingItem
         }

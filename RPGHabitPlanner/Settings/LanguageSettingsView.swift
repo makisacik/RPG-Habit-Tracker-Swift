@@ -12,6 +12,9 @@ struct LanguageSettingsView: View {
     @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.dismiss) private var dismiss
 
+    @State private var isChangingLanguage = false
+    @State private var selectedLanguage: LocalizationManager.Language?
+
     var body: some View {
         let theme = themeManager.activeTheme
 
@@ -41,11 +44,12 @@ struct LanguageSettingsView: View {
                                 isSelected: localizationManager.currentLanguage == language,
                                 theme: theme
                             ) {
-                                localizationManager.changeLanguage(to: language)
+                                changeLanguage(to: language)
                             }
                         }
                     }
                     .padding(.horizontal, 20)
+                    .disabled(isChangingLanguage)
 
                     Spacer()
 
@@ -64,6 +68,25 @@ struct LanguageSettingsView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
                 }
+
+                // Loading overlay
+                if isChangingLanguage {
+                    VStack(spacing: 16) {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                            .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
+
+                        Text("updating_language".localized)
+                            .font(.appFont(size: 16, weight: .medium))
+                            .foregroundColor(theme.textColor)
+                    }
+                    .padding(24)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(theme.surfaceColor)
+                            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    )
+                }
             }
             .navigationTitle("language".localized)
             .navigationBarTitleDisplayMode(.inline)
@@ -74,8 +97,26 @@ struct LanguageSettingsView: View {
                     }
                     .font(.appFont(size: 16, weight: .black))
                     .foregroundColor(theme.textColor)
+                    .disabled(isChangingLanguage)
                 }
             }
+        }
+    }
+
+    private func changeLanguage(to language: LocalizationManager.Language) {
+        guard !isChangingLanguage else { return }
+
+        isChangingLanguage = true
+        selectedLanguage = language
+
+        // Change the language
+        localizationManager.changeLanguage(to: language)
+
+        // Simulate a brief loading time to show the loading state
+        // This gives time for the UI to update with the new language
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            isChangingLanguage = false
+            selectedLanguage = nil
         }
     }
 }

@@ -191,6 +191,7 @@
 "choose_your_preferred_language" = "Tercih ettiğin dili seç";
 "language_changes_will_take_effect_immediately" = "Dil değişiklikleri anında geçerli olacak";
 "some_system_elements_may_remain_in_previous_language" = "Bazı sistem öğeleri uygulama yeniden başlatılana kadar önceki dilde kalabilir";
+"updating_language" = "Dil güncelleniyor...";
 "sound_effects" = "Ses Efektleri";
 "music" = "Müzik";
 "notifications_enabled" = "Bildirimler Açık";
@@ -1386,6 +1387,18 @@
 "windseeker_bow_description" = "Rüzgarın kendisi tarafından yönlendiriliyormuş gibi görünen bir yay. Oklar olağanüstü bir doğrulukla uçar, en sert rüzgarlarda bile hedefini bulur.";
 "stormcaller_bow" = "Fırtına Çağıran Yay";
 "stormcaller_bow_description" = "Oklarıyla fırtınalar çağırabilen bir yay. Her atış yıldırımla çatırdar ve yay gök gürültüsünün gücüyle uğuldar.";
+
+// Additional Weapons
+"deadly_sword" = "Ölümcül Kılıç";
+"deadly_sword_description" = "Maksimum ölümcüllük için dövülmüş bir kılıç. Bıçağı jilet gibi keskin ve hızlı, ölümcül darbeler için dengelenmiş.";
+"battle_axe" = "Savaş Baltası";
+"battle_axe_description" = "Vahşi savaş için tasarlanmış ağır bir balta. Devasa bıçağı zırhı ve kemiği birlikte kesebilir, savaş alanında korku salar.";
+"small_battle_axe" = "Küçük Savaş Baltası";
+"small_battle_axe_description" = "Hız ve hassasiyet için tasarlanmış savaş baltasının daha hafif versiyonu. Daha küçük olsa da, uygun teknikle yıkıcı darbeler verebilir.";
+"whip_sword" = "Kırbaç Kılıç";
+"whip_sword_description" = "Kırbaçın erişimini bıçağın kesme gücüyle birleştiren esnek bir kılıç. Benzersiz tasarımı düşmanları şaşırtabilecek öngörülemeyen saldırılara izin verir.";
+
+
 
 // Gear - Shields
 "oakheart_ward" = "Meşe Kalpli Kalkan";

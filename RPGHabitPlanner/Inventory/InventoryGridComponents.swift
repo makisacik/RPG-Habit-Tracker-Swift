@@ -14,6 +14,7 @@ struct InventoryGridItemView: View {
     let theme: Theme
     @State private var showItemDetail = false
     @StateObject private var gearManager = GearManager.shared
+    @State private var refreshTrigger = false
 
     var body: some View {
         Button(action: {
@@ -116,11 +117,15 @@ struct InventoryGridItemView: View {
                     .presentationDetents([.medium])
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+            // Trigger a refresh when language changes
+            refreshTrigger.toggle()
+        }
     }
 
     private var isGearItem: Bool {
         guard let iconName = item.iconName else { return false }
-        let itemDefinition = ItemDatabase.shared.findItem(byIconName: iconName)
+        let itemDefinition = ItemDatabase.findItem(byIconName: iconName)
         return itemDefinition?.itemType == .gear
     }
 
@@ -131,13 +136,13 @@ struct InventoryGridItemView: View {
 
         // Fallback to database lookup
         guard let iconName = item.iconName else { return nil }
-        let itemDefinition = ItemDatabase.shared.findItem(byIconName: iconName)
+        let itemDefinition = ItemDatabase.findItem(byIconName: iconName)
         return itemDefinition?.rarity
     }
 
     private func getItemDefinition() -> Item? {
         guard let iconName = item.iconName else { return nil }
-        return ItemDatabase.shared.findItem(byIconName: iconName)
+        return ItemDatabase.findItem(byIconName: iconName)
     }
 }
 
