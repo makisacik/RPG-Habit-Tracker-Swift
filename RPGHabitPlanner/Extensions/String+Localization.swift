@@ -11,17 +11,16 @@ extension String {
     /// Localizes a string using the current locale
     /// - Returns: Localized string or the original key if not found
     var localized: String {
-        // Use the LocalizationManager's current locale
-        let locale = LocalizationManager.shared.currentLocale
+        // Force English-only mode - always use English bundle
         let bundle = Bundle.main
 
-        // Try to get the localized string for the specific locale
-        if let languagePath = bundle.path(forResource: locale.language.languageCode?.identifier, ofType: "lproj"),
+        // Try to get the English localized string
+        if let languagePath = bundle.path(forResource: "en", ofType: "lproj"),
            let languageBundle = Bundle(path: languagePath) {
             return languageBundle.localizedString(forKey: self, value: self, table: nil)
         }
 
-        // Fallback to default NSLocalizedString
+        // Fallback to default NSLocalizedString (which will use English)
         return NSLocalizedString(self, comment: "")
     }
 
