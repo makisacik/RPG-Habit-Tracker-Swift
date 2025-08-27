@@ -27,9 +27,18 @@ enum CalendarViewComponents {
                 viewModel: viewModel,
                 onTagFilterToggle: onTagFilterToggle
             )
-            scrollableContent(
+            tagFilterSection(
                 theme: theme,
                 showTagFilter: showTagFilter,
+                viewModel: viewModel
+            )
+            dayOfWeekHeaders(theme: theme)
+            monthGridSection(
+                theme: theme,
+                viewModel: viewModel
+            )
+            selectedDateSection(
+                theme: theme,
                 viewModel: viewModel,
                 selectedQuestItem: selectedQuestItem,
                 showingQuestCreation: showingQuestCreation,
@@ -88,9 +97,9 @@ enum CalendarViewComponents {
         }
     }
     
-    // MARK: - Scrollable Content
+    // MARK: - Content
     @ViewBuilder
-    private static func scrollableContent(
+    private static func content(
         theme: Theme,
         showTagFilter: Bool,
         viewModel: CalendarViewModel,
@@ -98,26 +107,24 @@ enum CalendarViewComponents {
         showingQuestCreation: Binding<Bool>,
         onQuestTap: @escaping (DayQuestItem) -> Void
     ) -> some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                tagFilterSection(
-                    theme: theme,
-                    showTagFilter: showTagFilter,
-                    viewModel: viewModel
-                )
-                dayOfWeekHeaders(theme: theme)
-                monthGridSection(
-                    theme: theme,
-                    viewModel: viewModel
-                )
-                selectedDateSection(
-                    theme: theme,
-                    viewModel: viewModel,
-                    selectedQuestItem: selectedQuestItem,
-                    showingQuestCreation: showingQuestCreation,
-                    onQuestTap: onQuestTap
-                )
-            }
+        VStack(spacing: 0) {
+            tagFilterSection(
+                theme: theme,
+                showTagFilter: showTagFilter,
+                viewModel: viewModel
+            )
+            dayOfWeekHeaders(theme: theme)
+            monthGridSection(
+                theme: theme,
+                viewModel: viewModel
+            )
+            selectedDateSection(
+                theme: theme,
+                viewModel: viewModel,
+                selectedQuestItem: selectedQuestItem,
+                showingQuestCreation: showingQuestCreation,
+                onQuestTap: onQuestTap
+            )
         }
     }
     
@@ -198,7 +205,6 @@ enum CalendarViewComponents {
                 )
             }
         }
-        .frame(minHeight: 280, maxHeight: 320)
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.isLoading && !viewModel.hasInitialData)
     }
@@ -342,7 +348,6 @@ enum CalendarViewComponents {
     static func transparentLoadingSection(theme: Theme) -> some View {
         // Completely transparent empty view
         Color.clear
-            .frame(minHeight: 280, maxHeight: 320)
             .transition(.opacity)
     }
     
@@ -496,12 +501,11 @@ struct SelectedDateDetails: View {
                         )
                     }
                 }
-                .padding(.bottom, 8)
+                .padding(.bottom, 20)
             }
-            .frame(maxHeight: 240)
+            .scrollIndicators(.hidden)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
     }
 
     private func header(active: Int, completed: Int) -> some View {

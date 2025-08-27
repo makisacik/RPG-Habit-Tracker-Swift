@@ -803,9 +803,9 @@
 "shop_category_consumables_description" = "Yolculuğun için tüketilebilir eşyalar";
 
 // MARK: - Currency
-"currency_gems" = "mücevher";
+"currency_gems" = "Mücevher";
 "gem_reward" = "Mücevher Ödülü";
-"currency_coins" = "altın";
+"currency_coins" = "Altın";
 
 // MARK: - Sample Data
 "sample_quest_title" = "Örnek Görev";
