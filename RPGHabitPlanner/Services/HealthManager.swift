@@ -31,7 +31,7 @@ final class HealthManager: ObservableObject {
                     self.updateHealthStatus()
                 }
             } else {
-                print("❌ Error loading health data: \(error?.localizedDescription ?? String(localized: "unknown_error"))")
+                print("❌ Error loading health data: \(error?.localizedDescription ?? "unknown_error".localized)")
             }
         }
     }
@@ -301,17 +301,17 @@ enum HealthStatus {
     var description: String {
         switch self {
         case .dead:
-            return String(localized: "health_status_dead")
+            return "health_status_dead".localized
         case .critical:
-            return String(localized: "health_status_critical")
+            return "health_status_critical".localized
         case .low:
-            return String(localized: "health_status_low")
+            return "health_status_low".localized
         case .moderate:
-            return String(localized: "health_status_moderate")
+            return "health_status_moderate".localized
         case .full:
-            return String(localized: "health_status_full")
+            return "health_status_full".localized
         case .unknown:
-            return String(localized: "health_status_unknown")
+            return "health_status_unknown".localized
         }
     }
 
@@ -348,21 +348,21 @@ enum HealthError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .userNotFound:
-            return String(localized: "health_error_user_not_found")
+            return "health_error_user_not_found".localized
         case .invalidDamageAmount:
-            return String(localized: "health_error_invalid_damage_amount")
+            return "health_error_invalid_damage_amount".localized
         case .invalidHealAmount:
-            return String(localized: "health_error_invalid_heal_amount")
+            return "health_error_invalid_heal_amount".localized
         case .invalidMaxHealthAmount:
-            return String(localized: "health_error_invalid_max_health_amount")
+            return "health_error_invalid_max_health_amount".localized
         case .invalidHealthAmount:
-            return String(localized: "health_error_invalid_health_amount")
+            return "health_error_invalid_health_amount".localized
         case .invalidQuestDifficulty:
-            return String(localized: "health_error_invalid_quest_difficulty")
+            return "health_error_invalid_quest_difficulty".localized
         case .healthAtMaximum:
-            return String(localized: "health_error_health_at_maximum")
+            return "health_error_health_at_maximum".localized
         case .healthAtMinimum:
-            return String(localized: "health_error_health_at_minimum")
+            return "health_error_health_at_minimum".localized
         }
     }
 }

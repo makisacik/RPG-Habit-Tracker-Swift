@@ -19,12 +19,12 @@ struct QuestBoardView: View {
                     .rotationEffect(.degrees(animate ? 5 : -5))
                     .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: animate)
 
-                Text(String(localized: "quest_board"))
+                Text("quest_board".localized)
                     .font(.appFont(size: 28, weight: .black))
                     .foregroundColor(theme.textColor)
                     .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 2)
 
-                Text(String(localized: "adventure_awaits_brave_one"))
+                Text("adventure_awaits_brave_one".localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
@@ -45,7 +45,7 @@ struct QuestBoardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24, height: 24)
-                    Text(String(localized: "accept_new_quest"))
+                    Text("accept_new_quest".localized)
                         .font(.appFont(size: 18, weight: .black))
                 }
                 .foregroundColor(.white)

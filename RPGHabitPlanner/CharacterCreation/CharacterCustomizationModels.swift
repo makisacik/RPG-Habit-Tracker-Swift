@@ -150,15 +150,15 @@ enum BodyType: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .bodyWhite: return String(localized: "body_white")
-        case .bodyBlue: return String(localized: "body_blue")
-        case .bodyTan: return String(localized: "body_tan")
-        case .bodyTan2: return String(localized: "body_tan_2")
-        case .bodyTan3: return String(localized: "body_tan_3")
-        case .bodyPurple: return String(localized: "body_purple")
-        case .bodyDark1: return String(localized: "body_dark_1")
-        case .bodyDark2: return String(localized: "body_dark_2")
-        case .bodyGreen: return String(localized: "body_green")
+        case .bodyWhite: return "body_white".localized
+        case .bodyBlue: return "body_blue".localized
+        case .bodyTan: return "body_tan".localized
+        case .bodyTan2: return "body_tan_2".localized
+        case .bodyTan3: return "body_tan_3".localized
+        case .bodyPurple: return "body_purple".localized
+        case .bodyDark1: return "body_dark_1".localized
+        case .bodyDark2: return "body_dark_2".localized
+        case .bodyGreen: return "body_green".localized
         }
     }
 
@@ -293,7 +293,7 @@ enum HairStyle: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         let hairNumber = hairType.replacingOccurrences(of: "hair", with: "")
-        return String(localized: "hair_style_\(hairNumber)")
+        return "hair_style_\(hairNumber)".localized
     }
 
     var previewImageName: String {
@@ -404,24 +404,24 @@ enum HairBackStyle: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .hair2BackBrown: return String(localized: "back_style_2_brown")
-        case .hair2BackBlack: return String(localized: "back_style_2_black")
-        case .hair2BackBlonde: return String(localized: "back_style_2_blonde")
-        case .hair2BackDarkbrown: return String(localized: "back_style_2_dark_brown")
-        case .hair6BackBrown: return String(localized: "back_style_6_brown")
-        case .hair6BackBlack: return String(localized: "back_style_6_black")
-        case .hair6BackBlonde: return String(localized: "back_style_6_blonde")
-        case .hair6BackDarkbrown: return String(localized: "back_style_6_dark_brown")
-        case .hair7BackBrown: return String(localized: "back_style_7_brown")
-        case .hair7BackBlack: return String(localized: "back_style_7_black")
-        case .hair7BackBlonde: return String(localized: "back_style_7_blonde")
-        case .hair7BackDarkbrown: return String(localized: "back_style_7_dark_brown")
-        case .hair8BackBrown: return String(localized: "back_style_8_brown")
-        case .hair8BackBlack: return String(localized: "back_style_8_black")
-        case .hair8BackBlonde: return String(localized: "back_style_8_blonde")
-        case .hair8BackDarkbrown: return String(localized: "back_style_8_dark_brown")
-        case .hair9BackBrown: return String(localized: "back_style_9_brown")
-        case .hair9BackDarkbrown: return String(localized: "back_style_9_dark_brown")
+        case .hair2BackBrown: return "back_style_2_brown".localized
+        case .hair2BackBlack: return "back_style_2_black".localized
+        case .hair2BackBlonde: return "back_style_2_blonde".localized
+        case .hair2BackDarkbrown: return "back_style_2_dark_brown".localized
+        case .hair6BackBrown: return "back_style_6_brown".localized
+        case .hair6BackBlack: return "back_style_6_black".localized
+        case .hair6BackBlonde: return "back_style_6_blonde".localized
+        case .hair6BackDarkbrown: return "back_style_6_dark_brown".localized
+        case .hair7BackBrown: return "back_style_7_brown".localized
+        case .hair7BackBlack: return "back_style_7_black".localized
+        case .hair7BackBlonde: return "back_style_7_blonde".localized
+        case .hair7BackDarkbrown: return "back_style_7_dark_brown".localized
+        case .hair8BackBrown: return "back_style_8_brown".localized
+        case .hair8BackBlack: return "back_style_8_black".localized
+        case .hair8BackBlonde: return "back_style_8_blonde".localized
+        case .hair8BackDarkbrown: return "back_style_8_dark_brown".localized
+        case .hair9BackBrown: return "back_style_9_brown".localized
+        case .hair9BackDarkbrown: return "back_style_9_dark_brown".localized
         }
     }
 
@@ -465,11 +465,11 @@ enum HairColor: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .brown: return String(localized: "hair_color_brown")
-        case .black: return String(localized: "hair_color_black")
-        case .blonde: return String(localized: "hair_color_blonde")
-        case .red: return String(localized: "hair_color_red")
-        case .darkbrown: return String(localized: "hair_color_dark_brown")
+        case .brown: return "hair_color_brown".localized
+        case .black: return "hair_color_black".localized
+        case .blonde: return "hair_color_blonde".localized
+        case .red: return "hair_color_red".localized
+        case .darkbrown: return "hair_color_dark_brown".localized
         }
     }
 
@@ -508,9 +508,9 @@ enum EyeColor: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .eyeBlack: return String(localized: "eye_color_black")
-        case .eyeBlue: return String(localized: "eye_color_blue")
-        case .eyeGreen: return String(localized: "eye_color_green")
+        case .eyeBlack: return "eye_color_black".localized
+        case .eyeBlue: return "eye_color_blue".localized
+        case .eyeGreen: return "eye_color_green".localized
         }
     }
 
@@ -544,16 +544,16 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .outfitVillager: return String(localized: "outfit_villager")
-        case .outfitVillagerBlue: return String(localized: "outfit_villager_blue")
-        case .outfitIron: return String(localized: "outfit_iron")
-        case .outfitIron2: return String(localized: "outfit_iron_2")
-        case .outfitWizard: return String(localized: "outfit_wizard")
-        case .outfitDress: return String(localized: "outfit_dress")
-        case .outfitFire: return String(localized: "outfit_fire")
-        case .outfitBat: return String(localized: "outfit_bat")
-        case .outfitRed: return String(localized: "outfit_red")
-        case .outfitHoodie: return String(localized: "outfit_hoodie")
+        case .outfitVillager: return "outfit_villager".localized
+        case .outfitVillagerBlue: return "outfit_villager_blue".localized
+        case .outfitIron: return "outfit_iron".localized
+        case .outfitIron2: return "outfit_iron_2".localized
+        case .outfitWizard: return "outfit_wizard".localized
+        case .outfitDress: return "outfit_dress".localized
+        case .outfitFire: return "outfit_fire".localized
+        case .outfitBat: return "outfit_bat".localized
+        case .outfitRed: return "outfit_red".localized
+        case .outfitHoodie: return "outfit_hoodie".localized
         }
     }
 
@@ -597,19 +597,19 @@ enum CharacterWeapon: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .swordWood: return String(localized: "oakheart_blade")
-        case .swordIron: return String(localized: "ironclad_edge")
-        case .swordSteel: return String(localized: "steel_serpent")
-        case .swordGold: return String(localized: "golden_dawn")
-        case .swordCopper: return String(localized: "copper_fang")
-        case .swordRed: return String(localized: "crimson_fang")
-        case .swordRed2: return String(localized: "blazing_fang")
-        case .swordDeadly: return String(localized: "soul_reaper")
-        case .swordAxe: return String(localized: "thunder_axe")
-        case .swordAxeSmall: return String(localized: "storm_hatchet")
-        case .swordMace: return String(localized: "iron_maiden")
-        case .swordStaff: return String(localized: "arcane_staff")
-        case .swordWhip: return String(localized: "vipers_lash")
+        case .swordWood: return "oakheart_blade".localized
+        case .swordIron: return "ironclad_edge".localized
+        case .swordSteel: return "steel_serpent".localized
+        case .swordGold: return "golden_dawn".localized
+        case .swordCopper: return "copper_fang".localized
+        case .swordRed: return "crimson_fang".localized
+        case .swordRed2: return "blazing_fang".localized
+        case .swordDeadly: return "soul_reaper".localized
+        case .swordAxe: return "thunder_axe".localized
+        case .swordAxeSmall: return "storm_hatchet".localized
+        case .swordMace: return "iron_maiden".localized
+        case .swordStaff: return "arcane_staff".localized
+        case .swordWhip: return "vipers_lash".localized
         }
     }
 
@@ -646,9 +646,9 @@ enum HeadGear: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .helmetRed: return String(localized: "crimson_crest")
-        case .helmetHood: return String(localized: "shadow_veil")
-        case .helmetIron: return String(localized: "ironclad_crown")
+        case .helmetRed: return "crimson_crest".localized
+        case .helmetHood: return "shadow_veil".localized
+        case .helmetIron: return "ironclad_crown".localized
         }
     }
 
@@ -682,16 +682,16 @@ enum Accessory: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .eyeglassRed: return String(localized: "ruby_frames")
-        case .eyeglassBlue: return String(localized: "sapphire_spectacles")
-        case .eyeglassGray: return String(localized: "shadow_lenses")
-        case .cheekBlush: return String(localized: "rose_blush")
-        case .eyeLashes: return String(localized: "eyelashes")
-        case .eyelash: return String(localized: "eyelash")
-        case .blush: return String(localized: "rose_blush")
-        case .earring1: return String(localized: "moonstone_stud")
-        case .earring2: return String(localized: "starlight_hoop")
-        case .petCat2: return String(localized: "whiskerwind")
+        case .eyeglassRed: return "ruby_frames".localized
+        case .eyeglassBlue: return "sapphire_spectacles".localized
+        case .eyeglassGray: return "shadow_lenses".localized
+        case .cheekBlush: return "rose_blush".localized
+        case .eyeLashes: return "eyelashes".localized
+        case .eyelash: return "eyelash".localized
+        case .blush: return "rose_blush".localized
+        case .earring1: return "moonstone_stud".localized
+        case .earring2: return "starlight_hoop".localized
+        case .petCat2: return "whiskerwind".localized
         }
     }
 
@@ -730,14 +730,14 @@ enum Mustache: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .mustache1Brown: return String(localized: "mustache_1_brown")
-        case .mustache1Black: return String(localized: "mustache_1_black")
-        case .mustache1Blonde: return String(localized: "mustache_1_blonde")
-        case .mustache1Darkbrown: return String(localized: "mustache_1_dark_brown")
-        case .mustache2Brown: return String(localized: "mustache_2_brown")
-        case .mustache2Black: return String(localized: "mustache_2_black")
-        case .mustache2Blonde: return String(localized: "mustache_2_blonde")
-        case .mustache2Darkbrown: return String(localized: "mustache_2_dark_brown")
+        case .mustache1Brown: return "mustache_1_brown".localized
+        case .mustache1Black: return "mustache_1_black".localized
+        case .mustache1Blonde: return "mustache_1_blonde".localized
+        case .mustache1Darkbrown: return "mustache_1_dark_brown".localized
+        case .mustache2Brown: return "mustache_2_brown".localized
+        case .mustache2Black: return "mustache_2_black".localized
+        case .mustache2Blonde: return "mustache_2_blonde".localized
+        case .mustache2Darkbrown: return "mustache_2_dark_brown".localized
         }
     }
 
@@ -769,9 +769,9 @@ enum Flower: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .flowerGreen: return String(localized: "emerald_petal")
-        case .flowerBlue: return String(localized: "azure_bloom")
-        case .flowerPurple: return String(localized: "amethyst_blossom")
+        case .flowerGreen: return "emerald_petal".localized
+        case .flowerBlue: return "azure_bloom".localized
+        case .flowerPurple: return "amethyst_blossom".localized
         }
     }
 
@@ -798,9 +798,9 @@ enum Pet: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .petCat: return String(localized: "shadowpaw")
-        case .petCat2: return String(localized: "whiskerwind")
-        case .petChicken: return String(localized: "golden_cluck")
+        case .petCat: return "shadowpaw".localized
+        case .petCat2: return "whiskerwind".localized
+        case .petChicken: return "golden_cluck".localized
         }
     }
 
@@ -828,10 +828,10 @@ enum Shield: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .shieldWood: return String(localized: "oakheart_ward")
-        case .shieldRed: return String(localized: "crimson_ward")
-        case .shieldIron: return String(localized: "ironclad_bulwark")
-        case .shieldGold: return String(localized: "golden_aegis")
+        case .shieldWood: return "oakheart_ward".localized
+        case .shieldRed: return "crimson_ward".localized
+        case .shieldIron: return "ironclad_bulwark".localized
+        case .shieldGold: return "golden_aegis".localized
         }
     }
 
@@ -859,9 +859,9 @@ enum Wings: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .wingsWhite: return String(localized: "celestial_wings")
-        case .wingsRed: return String(localized: "phoenix_wings")
-        case .wingsBat: return String(localized: "shadow_wings")
+        case .wingsWhite: return "celestial_wings".localized
+        case .wingsRed: return "phoenix_wings".localized
+        case .wingsBat: return "shadow_wings".localized
         }
     }
 

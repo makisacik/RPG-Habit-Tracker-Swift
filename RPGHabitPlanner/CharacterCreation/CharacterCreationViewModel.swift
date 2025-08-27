@@ -126,7 +126,7 @@ class CharacterCreationViewModel: ObservableObject {
         // First create the user
         userManager.saveUserWithCustomization(
             nickname: nickname,
-            title: String(localized: "the_brave"), // Default title for character creation
+            title: "the_brave".localized, // Default title for character creation
             customization: currentCustomization
         ) { [weak self] user, error in
             if let error = error {
@@ -135,7 +135,7 @@ class CharacterCreationViewModel: ObservableObject {
             }
 
             guard let user = user, let self = self else {
-                completion(NSError(domain: "CharacterCreation", code: -1, userInfo: [NSLocalizedDescriptionKey: String(localized: "failed_to_create_user")]))
+                completion(NSError(domain: "CharacterCreation", code: -1, userInfo: [NSLocalizedDescriptionKey: "failed_to_create_user".localized]))
                 return
             }
 

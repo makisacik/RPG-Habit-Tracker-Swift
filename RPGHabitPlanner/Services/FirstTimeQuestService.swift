@@ -76,9 +76,9 @@ final class FirstTimeQuestService {
             print("📅 FirstTimeQuestService: Days difference: \(daysDifference)")
             
             let firstQuest = Quest(
-                title: String(localized: "first_quest_title"),
+                title: "first_quest_title".localized,
                 isMainQuest: true,
-                info: String(localized: "first_quest_description"),
+                info: "first_quest_description".localized,
                 difficulty: 1,
                 creationDate: today,
                 dueDate: dueDate,
@@ -93,8 +93,8 @@ final class FirstTimeQuestService {
             
             // Create tasks for the first quest
             let taskTitles = [
-                String(localized: "first_quest_task_1"),
-                String(localized: "first_quest_task_2")
+                "first_quest_task_1".localized,
+                "first_quest_task_2".localized
             ]
             
             // Save the quest
@@ -110,7 +110,7 @@ final class FirstTimeQuestService {
                         questDataService.fetchAllQuests { quests, fetchError in
                             if let fetchError = fetchError {
                                 print("❌ FirstTimeQuestService: Error fetching quests after save: \(fetchError)")
-                            } else if let savedQuest = quests.first(where: { $0.title == String(localized: "first_quest_title") }) {
+                            } else if let savedQuest = quests.first(where: { $0.title == "first_quest_title".localized }) {
                                 print("📅 FirstTimeQuestService: Saved quest due date: \(savedQuest.dueDate)")
                                 print("📅 FirstTimeQuestService: Saved quest creation date: \(savedQuest.creationDate)")
                             }

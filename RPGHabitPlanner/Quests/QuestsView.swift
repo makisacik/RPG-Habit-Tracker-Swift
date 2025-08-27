@@ -33,7 +33,7 @@ struct QuestsView: View {
         let theme = themeManager.activeTheme
         
         mainContent(theme: theme)
-            .navigationTitle(String.questJournal.localized)
+            .navigationTitle("quest_journal".localized)
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingQuestCreation, onDismiss: {
                 viewModel.fetchQuests()
@@ -215,7 +215,7 @@ struct QuestsView: View {
                 .scaleEffect(1.2)
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
 
-            Text(String(localized: "loading_quests"))
+            Text("loading_quests".localized)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .padding(.top, 8)
@@ -268,7 +268,7 @@ struct QuestsView: View {
                     .font(.system(size: 48))
                     .foregroundColor(theme.textColor.opacity(0.3))
 
-                Text(String(localized: "no_quests_for_date").localized(with: dateFormatter.string(from: viewModel.selectedDate)))
+                Text("no_quests_for_date".localized.localized(with: dateFormatter.string(from: viewModel.selectedDate)))
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -281,7 +281,7 @@ struct QuestsView: View {
                     Image(systemName: "plus.circle.fill")
                         .font(.title2)
                         .foregroundColor(theme.textColor)
-                    Text(String(localized: "create_quest"))
+                    Text("create_quest".localized)
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(theme.textColor)
                     Spacer()
@@ -330,11 +330,11 @@ struct QuestsView: View {
     
     private func createAlert() -> Alert {
         Alert(
-            title: Text(String.errorTitle.localized).font(.appFont(size: 16, weight: .black)),
-            message: Text(viewModel.alertMessage ?? String.unknownError.localized).font(.appFont(size: 14)),
-            dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black))) {
+                                title: Text("error".localized).font(.appFont(size: 16, weight: .black)),
+                    message: Text(viewModel.alertMessage ?? "unknown_error".localized).font(.appFont(size: 14)),
+                    dismissButton: .default(Text("ok".localized).font(.appFont(size: 14, weight: .black))) {
                 viewModel.alertMessage = nil
-            }
+                    }
         )
     }
 
@@ -434,7 +434,7 @@ struct QuestRow: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) \(String(localized: "tasks"))")
+                            Text("\(tasks.count) \(("tasks".localized))")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
                             Spacer()
@@ -506,10 +506,10 @@ struct QuestRow: View {
 
     private var subtitle: String {
         switch item.quest.repeatType {
-        case .daily: return String(localized: "daily")
-        case .weekly: return String(localized: "weekly")
-        case .oneTime: return String(localized: "one_time")
-        case .scheduled: return String(localized: "scheduled")
+        case .daily: return "daily".localized
+        case .weekly: return "weekly".localized
+        case .oneTime: return "one_time".localized
+        case .scheduled: return "scheduled".localized
         }
     }
 }

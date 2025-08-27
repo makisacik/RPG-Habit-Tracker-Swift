@@ -102,7 +102,8 @@ extension HomeView {
     @ViewBuilder
     private func characterTitle(user: UserEntity, theme: Theme) -> some View {
         if let title = user.title, !title.isEmpty {
-            let localizedTitle = CharacterTitleManager.shared.getTitleByString(title)?.displayName ?? title
+            // Use the same localization approach as the fallback case
+            let localizedTitle = CharacterTitleManager.shared.getTitleByString(title)?.rawValue.localized ?? title.localized
             Text(localizedTitle)
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.8))
@@ -110,7 +111,7 @@ extension HomeView {
                 .padding(.vertical, 3)
                 .background(titleBackground)
         } else {
-            Text(String(localized: "the_brave"))
+            Text("the_brave".localized)
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .padding(.horizontal, 8)
@@ -144,7 +145,7 @@ extension HomeView {
             Image("icon_star_fill")
                 .resizable()
                 .frame(width: 12, height: 12)
-            Text("\(String(localized: "level")) \(user.level)")
+            Text("\("level".localized) \(user.level)")
                 .font(.appFont(size: 14, weight: .bold))
                 .foregroundColor(theme.textColor)
         }
@@ -156,7 +157,7 @@ extension HomeView {
             Image("icon_lightning")
                 .resizable()
                 .frame(width: 10, height: 10)
-            Text("\(user.exp)/100 \(String(localized: "xp"))")
+            Text("\(user.exp)/100 \("xp".localized)")
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.8))
         }
@@ -200,7 +201,7 @@ extension HomeView {
             Image(systemName: "heart.fill")
                 .font(.system(size: 12))
                 .foregroundColor(.red)
-            Text(String(localized: "health"))
+            Text("health".localized)
                 .font(.appFont(size: 12, weight: .bold))
                 .foregroundColor(theme.textColor)
             Spacer()
@@ -300,7 +301,7 @@ extension HomeView {
     @ViewBuilder
     private func experienceBar(user: UserEntity, theme: Theme) -> some View {
         VStack(spacing: 3) {
-            Text(String(localized: "experience"))
+            Text("experience".localized)
                 .font(.appFont(size: 10, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -343,7 +344,7 @@ extension HomeView {
             ProgressView()
                 .scaleEffect(1.0)
                 .tint(.yellow)
-            Text(String(localized: "loading_character"))
+            Text("loading_character".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor)
         }

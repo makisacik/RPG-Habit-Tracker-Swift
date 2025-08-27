@@ -21,7 +21,7 @@ struct QuestGiverView: View {
                     .scaleEffect(animate ? 1.1 : 1.0)
                     .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: animate)
 
-                Text(String(localized: "quest_master"))
+                Text("quest_master".localized)
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
             }
@@ -42,7 +42,7 @@ struct QuestGiverView: View {
                         .transition(.scale.combined(with: .opacity))
 
                     Button(action: onContinue) {
-                        Text(String(localized: "continue"))
+                        Text("continue".localized)
                             .font(.appFont(size: 18, weight: .black))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)

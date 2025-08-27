@@ -176,7 +176,7 @@ struct QuestFailureNotificationView: View {
                         .foregroundColor(.red)
                         .font(.title2)
 
-                    Text(String(localized: "quest_failed"))
+                    Text("quest_failed".localized)
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(.red)
 

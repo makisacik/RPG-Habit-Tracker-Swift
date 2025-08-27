@@ -39,7 +39,7 @@ struct StreakCalendarView: View {
                 }
             }
         }
-        .navigationTitle(String.streakCalendar.localized)
+        .navigationTitle("streak_calendar".localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
         .onAppear {
@@ -127,7 +127,7 @@ struct StreakCalendarView: View {
                     Image(systemName: "flame.fill")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.orange)
-                    Text(String.currentStreak.localized)
+                    Text("current_streak".localized)
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                     Spacer()
@@ -138,7 +138,7 @@ struct StreakCalendarView: View {
                         Text("\(streakManager.currentStreak)")
                             .font(.appFont(size: 32, weight: .black))
                             .foregroundColor(theme.textColor)
-                        Text(streakManager.currentStreak == 1 ? String.streakDay.localized : String.streakDays.localized)
+                        Text(streakManager.currentStreak == 1 ? "streak_day".localized : "streak_days".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
@@ -149,7 +149,7 @@ struct StreakCalendarView: View {
                         Text("\(streakManager.longestStreak)")
                             .font(.appFont(size: 24, weight: .bold))
                             .foregroundColor(theme.textColor.opacity(0.8))
-                        Text(String.longestStreak.localized)
+                        Text("longest_streak".localized)
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.6))
                     }
@@ -174,7 +174,7 @@ struct StreakCalendarView: View {
                         Image(systemName: "chart.bar.fill")
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
-                        Text(String(localized: "analytics_avg_streak"))
+                        Text("analytics_avg_streak".localized)
                             .font(.appFont(size: 16, weight: .bold))
                             .foregroundColor(theme.textColor)
                         Spacer()
@@ -189,7 +189,7 @@ struct StreakCalendarView: View {
                             Image(systemName: "lightbulb.fill")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(theme.accentColor)
-                            Text(String(localized: "analytics_streak_motivation"))
+                            Text("analytics_streak_motivation".localized)
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(theme.textColor)
                             Spacer()
@@ -222,7 +222,7 @@ struct StreakCalendarView: View {
                     Image(systemName: "calendar")
                         .font(.system(size: 18, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
-                    Text(String.monthlyActivity.localized)
+                    Text("monthly_activity".localized)
                         .font(.appFont(size: 16, weight: .bold))
                         .foregroundColor(theme.textColor)
                     Spacer()
@@ -232,14 +232,14 @@ struct StreakCalendarView: View {
 
                 HStack(spacing: 20) {
                     StreakStatCard(
-                        title: String.activeDays.localized,
+                        title: "active_days".localized,
                         value: "\(monthlyStats.activeDays)",
                         total: "\(monthlyStats.totalDays)",
                         theme: theme
                     )
 
                     StreakStatCard(
-                        title: String.activityRate.localized,
+                        title: "activity_rate".localized,
                         value: "\(monthlyStats.activityRate)%",
                         theme: theme
                     )
@@ -321,11 +321,11 @@ struct StreakCalendarView: View {
 
     private var streakMotivationText: String {
         if streakManager.currentStreak >= streakManager.longestStreak {
-            return String(localized: "analytics_streak_motivation_record")
+            return "analytics_streak_motivation_record".localized
         } else if streakManager.currentStreak >= streakManager.longestStreak / 2 {
-            return String(localized: "analytics_streak_motivation_halfway")
+            return "analytics_streak_motivation_halfway".localized
         } else {
-            return String(localized: "analytics_streak_motivation_keep_going")
+            return "analytics_streak_motivation_keep_going".localized
         }
     }
 }

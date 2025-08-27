@@ -45,7 +45,7 @@ struct NicknameStepView: View {
     ]
 
     func randomName() -> String {
-        characterNames.randomElement() ?? String(localized: "hero")
+        characterNames.randomElement() ?? "hero".localized
     }
 
     var body: some View {
@@ -54,12 +54,12 @@ struct NicknameStepView: View {
 
             // Header
             VStack(spacing: 16) {
-                Text(String(localized: "name_your_hero"))
+                Text("name_your_hero".localized)
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)
 
-                Text(String(localized: "choose_legendary_name_for_character"))
+                Text("choose_legendary_name_for_character".localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
@@ -68,7 +68,7 @@ struct NicknameStepView: View {
 
             // Name input
             VStack(spacing: 12) {
-                TextField(String(localized: "enter_hero_name"), text: $coordinator.nickname)
+                TextField("enter_hero_name".localized, text: $coordinator.nickname)
                     .font(.appFont(size: 18, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .padding()
@@ -99,7 +99,7 @@ struct NicknameStepView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "dice.fill")
                             .font(.system(size: 16))
-                        Text(String(localized: "random_name"))
+                        Text("random_name".localized)
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(theme.textColor)
@@ -115,7 +115,7 @@ struct NicknameStepView: View {
                     )
                 }
 
-                Text(String(localized: "maximum_20_characters"))
+                Text("maximum_20_characters".localized)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.6))
             }

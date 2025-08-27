@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 // MARK: - Inventory Grid Item View
 struct InventoryGridItemView: View {
@@ -96,7 +97,7 @@ struct InventoryGridItemView: View {
                 .frame(width: 52, height: 52)
 
                 // Item Name
-                Text(item.name ?? String(localized: "unknown_item"))
+                Text(item.localizedName)
                     .font(.appFont(size: 10, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)

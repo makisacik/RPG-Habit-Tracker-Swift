@@ -166,7 +166,7 @@ struct CharacterSectionView: View {
                 // Left Equipment Slots
                 VStack(spacing: 16) {
                     EquipmentSlotView(
-                        slotType: "HEAD",
+                        slotType: "gear_slot_head".localized,
                         iconName: "icon_helmet",
                         isEquipped: gearManager.getEquippedItem(for: .head) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .head),
@@ -180,7 +180,7 @@ struct CharacterSectionView: View {
                     }
 
                     EquipmentSlotView(
-                        slotType: "OUTFIT",
+                        slotType: "gear_slot_outfit".localized,
                         iconName: "icon_armor",
                         isEquipped: gearManager.getEquippedItem(for: .outfit) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .outfit),
@@ -194,7 +194,7 @@ struct CharacterSectionView: View {
                     }
 
                     EquipmentSlotView(
-                        slotType: "WING",
+                        slotType: "gear_slot_wings".localized,
                         iconName: "icon_wing",
                         isEquipped: gearManager.getEquippedItem(for: .wings) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .wings),
@@ -282,7 +282,7 @@ struct CharacterSectionView: View {
                 // Right Equipment Slots
                 VStack(spacing: 16) {
                     EquipmentSlotView(
-                        slotType: "WEAPON",
+                        slotType: "gear_slot_weapon".localized,
                         iconName: "icon_sword",
                         isEquipped: gearManager.getEquippedItem(for: .weapon) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .weapon),
@@ -296,7 +296,7 @@ struct CharacterSectionView: View {
                     }
 
                     EquipmentSlotView(
-                        slotType: "SHIELD",
+                        slotType: "gear_slot_shield".localized,
                         iconName: "icon_shield",
                         isEquipped: gearManager.getEquippedItem(for: .shield) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .shield),
@@ -310,7 +310,7 @@ struct CharacterSectionView: View {
                     }
 
                     EquipmentSlotView(
-                        slotType: "PET",
+                        slotType: "gear_slot_pet".localized,
                         iconName: "pawprint.fill",
                         isEquipped: gearManager.getEquippedItem(for: .pet) != nil,
                         equippedItem: gearManager.getEquippedItem(for: .pet),

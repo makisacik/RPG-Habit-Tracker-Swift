@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 // MARK: - Inventory Categories
 
@@ -17,6 +18,18 @@ enum InventoryCategory: String, CaseIterable {
     case pet = "pet"
     case wings = "wings"
     case others = "others"
+
+    var localizedName: String {
+        switch self {
+        case .head: return "head".localized
+        case .weapon: return "weapon".localized
+        case .shield: return "shield".localized
+        case .outfit: return "outfit".localized
+        case .pet: return "pet".localized
+        case .wings: return "wings".localized
+        case .others: return "others".localized
+        }
+    }
 
     var icon: String {
         switch self {
@@ -32,13 +45,13 @@ enum InventoryCategory: String, CaseIterable {
 
     var description: String {
         switch self {
-        case .head: return String(localized: "inventory_category_head_description")
-        case .weapon: return String(localized: "inventory_category_weapon_description")
-        case .shield: return String(localized: "inventory_category_shield_description")
-        case .outfit: return String(localized: "inventory_category_outfit_description")
-        case .pet: return String(localized: "inventory_category_pet_description")
-        case .wings: return String(localized: "inventory_category_wings_description")
-        case .others: return String(localized: "inventory_category_others_description")
+        case .head: return "inventory_category_head_description".localized
+        case .weapon: return "inventory_category_weapon_description".localized
+        case .shield: return "inventory_category_shield_description".localized
+        case .outfit: return "inventory_category_outfit_description".localized
+        case .pet: return "inventory_category_pet_description".localized
+        case .wings: return "inventory_category_wings_description".localized
+        case .others: return "inventory_category_others_description".localized
         }
     }
 }
@@ -69,7 +82,7 @@ struct CategorySelectorView: View {
                                     .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
                             }
 
-                            Text(category.rawValue.localized)
+                            Text(category.localizedName)
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(selectedCategory == category ? theme.accentColor : theme.textColor.opacity(0.7))
                         }
@@ -165,7 +178,7 @@ struct LevelExperienceView: View {
                 Image("icon_star_fill")
                     .resizable()
                     .frame(width: 18, height: 18)
-                Text("\(String(localized: "level")) \(user.level)")
+                Text("\("level".localized) \(user.level)")
                     .font(.appFont(size: 18))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -221,7 +234,7 @@ struct InventorySectionView: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                Text(String(localized: "inventory"))
+                Text("inventory".localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -290,7 +303,7 @@ struct ItemsPreviewView: View {
                         .font(.system(size: 24))
                         .foregroundColor(theme.textColor.opacity(0.5))
                 }
-                Text(String(localized: "no_items_for_category").localized(with: category.rawValue.lowercased()))
+                Text("no_items_for_category".localized(with: category.localizedName))
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }

@@ -53,17 +53,17 @@ final class EditQuestViewModel: ObservableObject {
     func validateInputs() -> Bool {
         let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedTitle.isEmpty else {
-            errorMessage = String(localized: "quest_title_cannot_be_empty")
+            errorMessage = "quest_title_cannot_be_empty".localized
             return false
         }
         guard (1...5).contains(difficulty) else {
-            errorMessage = String(localized: "difficulty_must_be_between_1_and_5")
+            errorMessage = "difficulty_must_be_between_1_and_5".localized
             return false
         }
 
         // Don’t let due date be before creation date
         if dueDate < quest.creationDate {
-            errorMessage = String(localized: "due_date_cannot_be_earlier_than_creation")
+            errorMessage = "due_date_cannot_be_earlier_than_creation".localized
             return false
         }
         return true

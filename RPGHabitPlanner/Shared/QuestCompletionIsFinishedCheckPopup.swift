@@ -17,13 +17,13 @@ struct QuestCompletionIsFinishedCheckPopup: View {
     private var completionCheckMessage: String {
         switch quest.repeatType {
         case .oneTime:
-            return String(localized: "quest_completion_one_time_message")
+            return "quest_completion_one_time_message".localized
         case .daily:
-            return String(localized: "quest_completion_daily_message")
+            return "quest_completion_daily_message".localized
         case .weekly:
-            return String(localized: "quest_completion_weekly_message")
+            return "quest_completion_weekly_message".localized
         case .scheduled:
-            return String(localized: "quest_completion_scheduled_message")
+            return "quest_completion_scheduled_message".localized
         }
     }
     
@@ -52,7 +52,7 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text(String(localized: "quest_finish_confirmation"))
+                    Text("quest_finish_confirmation".localized)
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -67,7 +67,7 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                 // Action buttons
                 HStack(spacing: 16) {
                     Button(action: onCancel) {
-                        Text(String(localized: "not_yet"))
+                        Text("not_yet".localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 24)
@@ -86,7 +86,7 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                         HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.white)
-                            Text(String(localized: "finish_quest"))
+                            Text("finish_quest".localized)
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         }
@@ -112,16 +112,16 @@ struct QuestCompletionIsFinishedCheckPopup: View {
 
 #Preview {
     VStack(spacing: 20) {
-        Text(String(localized: "quest_completion_is_finished_check_popup_examples"))
+        Text("quest_completion_is_finished_check_popup_examples".localized)
             .font(.title2)
             .padding()
         
         // One-time quest example
         QuestCompletionIsFinishedCheckPopup(
             quest: Quest(
-                title: String(localized: "sample_one_time_quest_title"),
+                title: "sample_one_time_quest_title".localized,
                 isMainQuest: true,
-                info: String(localized: "sample_one_time_quest_description"),
+                info: "sample_one_time_quest_description".localized,
                 difficulty: 3,
                 creationDate: Date(),
                 dueDate: Date().addingTimeInterval(86400),
@@ -137,9 +137,9 @@ struct QuestCompletionIsFinishedCheckPopup: View {
         // Daily quest example
         QuestCompletionIsFinishedCheckPopup(
             quest: Quest(
-                title: String(localized: "sample_daily_quest_title"),
+                title: "sample_daily_quest_title".localized,
                 isMainQuest: false,
-                info: String(localized: "sample_daily_quest_description"),
+                info: "sample_daily_quest_description".localized,
                 difficulty: 2,
                 creationDate: Date(),
                 dueDate: Date().addingTimeInterval(7 * 86400), // 7 days from now

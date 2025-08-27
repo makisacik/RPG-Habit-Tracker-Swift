@@ -58,7 +58,7 @@ struct CharacterTabCustomizationView: View {
     private func headerView(theme: Theme) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Button(String(localized: "cancel")) {
+                Button("cancel".localized) {
                     dismiss()
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -66,13 +66,13 @@ struct CharacterTabCustomizationView: View {
 
                 Spacer()
 
-                Text(String(localized: "customize_character"))
+                Text("customize_character".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                Button(String(localized: "save")) {
+                Button("save".localized) {
                     saveCustomization()
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -81,7 +81,7 @@ struct CharacterTabCustomizationView: View {
             }
             .padding(.horizontal)
 
-            Text(String(localized: "customize_your_character_appearance"))
+            Text("customize_your_character_appearance".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .multilineTextAlignment(.center)
@@ -143,7 +143,7 @@ struct CharacterTabCustomizationView: View {
                     }
                 }
 
-                Text(String(localized: "preview"))
+                Text("preview".localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
             }
@@ -350,7 +350,7 @@ struct CharacterTabCustomizationView: View {
             HStack {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 18))
-                Text(String(localized: "save_changes"))
+                Text("save_changes".localized)
                     .font(.appFont(size: 16, weight: .medium))
             }
             .foregroundColor(.white)

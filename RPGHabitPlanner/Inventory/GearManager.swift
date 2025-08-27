@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CoreData
 
 // MARK: - Gear Manager
 
@@ -50,6 +51,16 @@ class GearManager: ObservableObject {
             .sink { [weak self] _ in
                 self?.loadEquippedItems()
                 self?.calculateStats()
+            }
+            .store(in: &cancellables)
+        
+        // Listen for language changes to refresh item names
+        NotificationCenter.default.publisher(for: .languageChanged)
+            .sink { [weak self] _ in
+                print("🔄 GearManager: Language changed, refreshing gear display")
+                DispatchQueue.main.async {
+                    self?.objectWillChange.send()
+                }
             }
             .store(in: &cancellables)
     }

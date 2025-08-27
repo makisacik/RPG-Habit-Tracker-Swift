@@ -23,7 +23,7 @@ class BackgroundTimerManager: ObservableObject {
 
     @Published var isTimerRunning = false
     @Published var timeRemaining: TimeInterval = 0
-    @Published var currentPhase = String(localized: "work_phase")
+    @Published var currentPhase = "work_phase".localized
 
     private init() {
         setupNotifications()
@@ -251,8 +251,8 @@ class BackgroundTimerManager: ObservableObject {
 
     private func scheduleCompletionNotification() {
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "focus_timer_complete")
-        content.body = String(localized: "session_finished").localized(with: currentPhase)
+        content.title = "focus_timer_complete".localized
+        content.body = "session_finished".localized.localized(with: currentPhase)
         content.sound = .default
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeRemaining, repeats: false)
@@ -267,8 +267,8 @@ class BackgroundTimerManager: ObservableObject {
 
     private func sendCompletionNotification() {
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "focus_timer_complete")
-        content.body = String(localized: "session_finished").localized(with: currentPhase)
+        content.title = "focus_timer_complete".localized
+        content.body = "session_finished".localized.localized(with: currentPhase)
         content.sound = .default
 
         let request = UNNotificationRequest(identifier: "timer-completion-now", content: content, trigger: nil)

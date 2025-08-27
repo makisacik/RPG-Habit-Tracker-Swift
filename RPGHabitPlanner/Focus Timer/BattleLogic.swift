@@ -206,8 +206,8 @@ class BattleLogic {
         if session.completedPomodoros >= 8 {
             return AchievementDefinition(
                 id: "focus_master",
-                title: String.focusMaster.localized,
-                description: String.focusMasterDescription.localized,
+                title: "focus_master".localized,
+                description: "focus_master_description".localized,
                 iconName: "trophy.fill",
                 category: .special,
                 requirement: .questCount(8),
@@ -218,8 +218,8 @@ class BattleLogic {
         if session.enemyType == .flyingDragon && session.isVictory {
             return AchievementDefinition(
                 id: "dragon_slayer",
-                title: String.dragonSlayer.localized,
-                description: String.dragonSlayerDescription.localized,
+                title: "dragon_slayer".localized,
+                description: "dragon_slayer_description".localized,
                 iconName: "flame.fill",
                 category: .special,
                 requirement: .questCount(1),

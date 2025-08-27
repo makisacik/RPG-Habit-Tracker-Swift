@@ -119,7 +119,7 @@ struct QuestCreationView: View {
                 Alert(
                     title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
                     message: Text(alertMessage).font(.appFont(size: 14)),
-                    dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black)))
+                    dismissButton: .default(Text("ok".localized).font(.appFont(size: 14, weight: .black)))
                 )
             }
             .onChange(of: viewModel.didSaveQuest) { didSave in

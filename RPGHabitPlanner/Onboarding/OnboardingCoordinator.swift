@@ -110,7 +110,7 @@ class OnboardingCoordinator: ObservableObject {
                             print("❌ OnboardingCoordinator: Failed to create character customization in Core Data")
                         }
                     } else {
-                        print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? String(localized: "unknown_error"))")
+                        print("❌ OnboardingCoordinator: Failed to fetch user for customization save: \(fetchError?.localizedDescription ?? "unknown_error".localized)")
                     }
 
                     // Add onboarding completion items to inventory
@@ -149,11 +149,11 @@ enum OnboardingStep: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .welcome: return String(localized: "welcome")
-        case .characterCustomization: return String(localized: "customize_your_character")
-        case .nickname: return String(localized: "choose_name")
-        case .titleSelection: return String(localized: "choose_title")
-        case .final: return String(localized: "ready")
+        case .welcome: return "welcome".localized
+        case .characterCustomization: return "customize_your_character".localized
+        case .nickname: return "choose_name".localized
+        case .titleSelection: return "choose_title".localized
+        case .final: return "ready".localized
         }
     }
 }

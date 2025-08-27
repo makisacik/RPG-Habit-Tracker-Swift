@@ -61,11 +61,11 @@ final class AnalyticsManager: ObservableObject {
             recommendations.append(
                 PersonalizedRecommendation(
                     type: .questCreation,
-                    title: String(localized: "analytics_recommendation_create_more_quests_title"),
-                    description: String(localized: "analytics_recommendation_create_more_quests_description"),
+                    title: "analytics_recommendation_create_more_quests_title".localized,
+                    description: "analytics_recommendation_create_more_quests_description".localized,
                     priority: .high,
                     actionable: true,
-                    actionTitle: String(localized: "create_quest"),
+                    actionTitle: "create_quest".localized,
                     actionData: nil
                 )
             )

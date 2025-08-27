@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CoreData
 
 // MARK: - Item Usage Protocol
 
@@ -56,6 +57,14 @@ class InventoryManager: ObservableObject {
         self.activeEffectsService = ActiveEffectsCoreDataService(container: PersistenceController.shared.container)
         refreshInventory()
         loadActiveEffectsFromPersistence()
+        
+        // Listen for language changes to refresh item names
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleLanguageChanged),
+            name: .languageChanged,
+            object: nil
+        )
     }
 
     // MARK: - Inventory Management
@@ -553,13 +562,13 @@ enum InventoryError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidItem:
-            return String(localized: "inventory_error_invalid_item")
+            return "inventory_error_invalid_item".localized
         case .itemNotFound:
-            return String(localized: "inventory_error_item_not_found")
+            return "inventory_error_item_not_found".localized
         case .insufficientQuantity:
-            return String(localized: "inventory_error_insufficient_quantity")
+            return "inventory_error_insufficient_quantity".localized
         case .itemNotUsable:
-            return String(localized: "inventory_error_item_not_usable")
+            return "inventory_error_item_not_usable".localized
         }
     }
 }
@@ -569,4 +578,16 @@ enum InventoryError: LocalizedError {
 extension Notification.Name {
     static let activeEffectsChanged = Notification.Name("activeEffectsChanged")
     static let inventoryUpdated = Notification.Name("inventoryUpdated")
+}
+
+// MARK: - Language Change Handler
+
+extension InventoryManager {
+    @objc private func handleLanguageChanged(_ notification: Notification) {
+        print("🔄 InventoryManager: Language changed, refreshing inventory display")
+        DispatchQueue.main.async { [weak self] in
+            // Force UI refresh by triggering objectWillChange
+            self?.objectWillChange.send()
+        }
+    }
 }

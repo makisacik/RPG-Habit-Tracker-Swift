@@ -52,7 +52,7 @@ struct CharacterBackgroundSelectionView: View {
     private func headerView(theme: Theme) -> some View {
         VStack(spacing: 16) {
             HStack {
-                Button(String(localized: "cancel")) {
+                Button("cancel".localized) {
                     dismiss()
                 }
                 .font(.appFont(size: 16, weight: .medium))
@@ -60,7 +60,7 @@ struct CharacterBackgroundSelectionView: View {
                 
                 Spacer()
                 
-                Text(String(localized: "select_background"))
+                Text("select_background".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
@@ -68,7 +68,7 @@ struct CharacterBackgroundSelectionView: View {
             }
             .padding(.horizontal)
             
-            Text(String(localized: "choose_character_background"))
+            Text("choose_character_background".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .multilineTextAlignment(.center)
@@ -110,7 +110,7 @@ struct CharacterBackgroundSelectionView: View {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 16))
-                    Text(String(localized: "save_changes"))
+                    Text("save_changes".localized)
                         .font(.appFont(size: 16, weight: .semibold))
                 }
                 .foregroundColor(.white)
@@ -124,7 +124,7 @@ struct CharacterBackgroundSelectionView: View {
             }
             .buttonStyle(PlainButtonStyle())
             
-            Text(String(localized: "tap_to_apply_changes"))
+            Text("tap_to_apply_changes".localized)
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.6))
                 .multilineTextAlignment(.center)

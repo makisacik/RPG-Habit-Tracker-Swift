@@ -113,7 +113,7 @@ class ShopViewModel: ObservableObject {
     func purchaseItem(_ item: ShopItem) {
         shopManager.purchaseItem(item) { success, errorMessage in
             if success {
-                self.purchaseAlertMessage = String(format: String(localized: "successfully_purchased"), item.name)
+                self.purchaseAlertMessage = String(format: "successfully_purchased".localized, item.name)
                 self.loadCurrentCurrency()
                 // Update only the specific item's ownership status instead of regenerating the entire list
                 self.updateItemOwnershipStatus(item)
@@ -122,7 +122,7 @@ class ShopViewModel: ObservableObject {
                     self.refreshInventory()
                 }
             } else {
-                self.purchaseAlertMessage = errorMessage ?? String(localized: "purchase_failed")
+                self.purchaseAlertMessage = errorMessage ?? "purchase_failed".localized
             }
             self.showPurchaseAlert = true
         }
@@ -391,15 +391,15 @@ class ShopViewModel: ObservableObject {
     private func getDescriptionForCategory(_ category: EnhancedShopCategory) -> String {
         switch category {
         case .weapons:
-            return String(localized: "shop_category_weapons_description")
+            return "shop_category_weapons_description".localized
         case .armor:
-            return String(localized: "shop_category_armor_description")
+            return "shop_category_armor_description".localized
         case .wings:
-            return String(localized: "shop_category_wings_description")
+            return "shop_category_wings_description".localized
         case .pets:
-            return String(localized: "shop_category_pets_description")
+            return "shop_category_pets_description".localized
         case .consumables:
-            return String(localized: "shop_category_consumables_description")
+            return "shop_category_consumables_description".localized
         }
     }
 
@@ -415,7 +415,7 @@ class ShopViewModel: ObservableObject {
             print("🔧 ShopViewModel: Checking if item is owned - name: \(name), iconName: \(iconName), category: \(category.rawValue), isOwned: \(isOwned)")
             print("🔧 ShopViewModel: Current inventory count: \(inventoryManager.inventoryItems.count)")
             for item in inventoryManager.inventoryItems {
-                print("  - \(item.name ?? String(localized: "unknown_item")) (iconName: \(item.iconName ?? "nil"))")
+                print("  - \(item.name ?? "unknown_item".localized) (iconName: \(item.iconName ?? "nil"))")
             }
             return isOwned
         }

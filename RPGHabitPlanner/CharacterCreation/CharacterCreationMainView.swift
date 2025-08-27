@@ -71,11 +71,11 @@ struct CharacterCreationHeaderView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            Text(String(localized: "createYourCharacter"))
+            Text("createYourCharacter".localized)
                 .font(.custom("Quicksand-Bold", size: 24))
                 .foregroundColor(theme.textColor)
 
-            Text(String(localized: "createYourUniqueCharacter"))
+            Text("createYourUniqueCharacter".localized)
                 .font(.custom("Quicksand-Regular", size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
         }
@@ -89,7 +89,7 @@ struct CharacterPreviewSectionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text(String(localized: "preview"))
+            Text("preview".localized)
                 .font(.custom("Quicksand-Bold", size: 18))
                 .foregroundColor(theme.textColor)
                 .padding(.bottom, 4)
@@ -470,7 +470,7 @@ struct HairColorSectionView: View {
     var body: some View {
         VStack {
             if availableColors.isEmpty {
-                Text(String(localized: "no_colors_available_for_hair_style"))
+                Text("no_colors_available_for_hair_style".localized)
                     .font(.custom("Quicksand-Regular", size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)

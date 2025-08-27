@@ -54,7 +54,7 @@ final class ShopManager: ObservableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        completion(false, error?.localizedDescription ?? String(localized: "insufficient_gems"))
+                        completion(false, error?.localizedDescription ?? "insufficient_gems".localized)
                     }
                 }
             }
@@ -71,7 +71,7 @@ final class ShopManager: ObservableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        completion(false, error?.localizedDescription ?? String(localized: "purchase_failed"))
+                        completion(false, error?.localizedDescription ?? "purchase_failed".localized)
                     }
                 }
             }
@@ -311,9 +311,9 @@ final class ShopManager: ObservableObject {
     func getDisplayCurrency(for item: ShopItem) -> String {
         // Check if item requires gems (epic/legendary items)
         if let gemPrice = item.gemPrice, item.rarity == .epic || item.rarity == .legendary {
-            return String(localized: "currency_gems")
+            return "currency_gems".localized
         } else {
-            return String(localized: "currency_coins")
+            return "currency_coins".localized
         }
     }
 

@@ -40,7 +40,7 @@ struct PaywallView: View {
                 // Header with close button
                 HStack {
                     Spacer()
-                    Button(String(localized: "close")) {
+                    Button("close".localized) {
                         dismiss()
                     }
                     .font(.appFont(size: 16, weight: .medium))
@@ -71,10 +71,10 @@ struct PaywallView: View {
                 }
             }
         }
-        .alert(String(localized: "purchase_error"), isPresented: $showingError) {
-            Button(String(localized: "ok_button")) { }
+        .alert("purchase_error".localized, isPresented: $showingError) {
+            Button("ok_button".localized) { }
         } message: {
-            Text(premiumManager.errorMessage ?? String(localized: "an_error_occurred_during_purchase"))
+            Text(premiumManager.errorMessage ?? "an_error_occurred_during_purchase".localized)
         }
         .onReceive(premiumManager.$errorMessage) { errorMessage in
             showingError = errorMessage != nil
@@ -97,12 +97,12 @@ struct PaywallView: View {
             }
 
             VStack(spacing: 8) {
-                Text(String(localized: "unlock_premium"))
+                Text("unlock_premium".localized)
                     .font(.appFont(size: 28, weight: .black))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)
 
-                Text(String(localized: "transform_quest_planning_experience"))
+                Text("transform_quest_planning_experience".localized)
                     .font(.appFont(size: 16))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
@@ -114,18 +114,18 @@ struct PaywallView: View {
 
     private var featuresSection: some View {
         VStack(spacing: 16) {
-            Text(String(localized: "premium_features"))
+            Text("premium_features".localized)
                 .font(.appFont(size: 20, weight: .black))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(spacing: 12) {
-                PremiumFeatureRow(icon: "infinity", title: String(localized: "premium_unlimited_quests"), description: String(localized: "premium_unlimited_quests_description"))
-                PremiumFeatureRow(icon: "chart.bar.fill", title: String(localized: "premium_advanced_analytics"), description: String(localized: "premium_advanced_analytics_description"))
-                PremiumFeatureRow(icon: "paintbrush.fill", title: String(localized: "premium_custom_themes"), description: String(localized: "premium_custom_themes_description"))
-                PremiumFeatureRow(icon: "icloud.fill", title: String(localized: "premium_cloud_sync"), description: String(localized: "premium_cloud_sync_description"))
-                PremiumFeatureRow(icon: "bell.badge.fill", title: String(localized: "premium_advanced_notifications"), description: String(localized: "premium_advanced_notifications_description"))
-                PremiumFeatureRow(icon: "trophy.fill", title: String(localized: "premium_exclusive_achievements"), description: String(localized: "premium_exclusive_achievements_description"))
+                PremiumFeatureRow(icon: "infinity", title: "premium_unlimited_quests".localized, description: "premium_unlimited_quests_description".localized)
+                PremiumFeatureRow(icon: "chart.bar.fill", title: "premium_advanced_analytics".localized, description: "premium_advanced_analytics_description".localized)
+                PremiumFeatureRow(icon: "paintbrush.fill", title: "premium_custom_themes".localized, description: "premium_custom_themes_description".localized)
+                PremiumFeatureRow(icon: "icloud.fill", title: "premium_cloud_sync".localized, description: "premium_cloud_sync_description".localized)
+                PremiumFeatureRow(icon: "bell.badge.fill", title: "premium_advanced_notifications".localized, description: "premium_advanced_notifications_description".localized)
+                PremiumFeatureRow(icon: "trophy.fill", title: "premium_exclusive_achievements".localized, description: "premium_exclusive_achievements_description".localized)
             }
         }
         .padding(20)
@@ -140,7 +140,7 @@ struct PaywallView: View {
 
     private var pricingSection: some View {
         VStack(spacing: 16) {
-            Text(String(localized: "choose_your_plan"))
+            Text("choose_your_plan".localized)
                 .font(.appFont(size: 20, weight: .black))
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -184,7 +184,7 @@ struct PaywallView: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             .scaleEffect(0.8)
                     } else {
-                        Text(String(localized: "get_premium"))
+                        Text("get_premium".localized)
                             .font(.appFont(size: 18, weight: .black))
                             .foregroundColor(.white)
                     }
@@ -203,7 +203,7 @@ struct PaywallView: View {
             }
             .disabled(premiumManager.isLoading)
 
-            Button(String(localized: "restore_purchases")) {
+            Button("restore_purchases".localized) {
                 Task {
                     do {
                         try await premiumManager.restorePurchases()
@@ -224,20 +224,20 @@ struct PaywallView: View {
     private var footerSection: some View {
         VStack(spacing: 12) {
             HStack(spacing: 20) {
-                Button(String(localized: "terms_of_service")) {
+                Button("terms_of_service".localized) {
                     // Handle terms of service
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.6))
 
-                Button(String(localized: "privacy_policy")) {
+                Button("privacy_policy".localized) {
                     // Handle privacy policy
                 }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.6))
             }
 
-            Text(String(localized: "subscription_terms"))
+            Text("subscription_terms".localized)
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.6))
                 .multilineTextAlignment(.center)
@@ -309,7 +309,7 @@ struct PricingCard: View {
                     .multilineTextAlignment(.center)
 
                 if plan.isPopular {
-                    Text(String(localized: "most_popular"))
+                    Text("most_popular".localized)
                         .font(.appFont(size: 12, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.horizontal, 8)
@@ -347,9 +347,9 @@ enum PremiumPlan {
     var title: String {
         switch self {
         case .monthly:
-            return String(localized: "monthly")
+            return "monthly".localized
         case .lifetime:
-            return String(localized: "lifetime")
+            return "lifetime".localized
         }
     }
 
@@ -365,9 +365,9 @@ enum PremiumPlan {
     var description: String {
         switch self {
         case .monthly:
-            return String(localized: "per_month")
+            return "per_month".localized
         case .lifetime:
-            return String(localized: "one_time_payment")
+            return "one_time_payment".localized
         }
     }
 

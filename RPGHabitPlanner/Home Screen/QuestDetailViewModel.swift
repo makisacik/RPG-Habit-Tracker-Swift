@@ -66,7 +66,7 @@ final class QuestDetailViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error updating quest tags: \(error)")
-                    self?.alertMessage = String(localized: "failed_to_update_quest_tags") + ": \(error.localizedDescription)"
+                    self?.alertMessage = "failed_to_update_quest_tags".localized + ": \(error.localizedDescription)"
                     // Revert the optimistic update on error
                     self?.refreshQuest()
                 } else {
@@ -85,7 +85,7 @@ final class QuestDetailViewModel: ObservableObject {
         switch quest.repeatType {
         case .daily:
             guard calendar.isDate(date, inSameDayAs: today) else {
-                alertMessage = String(localized: "daily_quests_can_only_be_toggled_for_today")
+                alertMessage = "daily_quests_can_only_be_toggled_for_today".localized
                 HapticFeedbackManager.shared.errorOccurred()
                 return
             }
@@ -107,7 +107,7 @@ final class QuestDetailViewModel: ObservableObject {
             }
         case .weekly:
             guard isSameWeek(date, today) else {
-                alertMessage = String(localized: "weekly_quests_can_only_be_toggled_in_current_week")
+                alertMessage = "weekly_quests_can_only_be_toggled_in_current_week".localized
                 HapticFeedbackManager.shared.errorOccurred()
                 return
             }
@@ -130,7 +130,7 @@ final class QuestDetailViewModel: ObservableObject {
         case .oneTime:
             guard date >= calendar.startOfDay(for: quest.creationDate) &&
                   date <= calendar.startOfDay(for: quest.dueDate) else {
-                alertMessage = String(localized: "quest_can_only_be_completed_between_creation_and_due_date")
+                alertMessage = "quest_can_only_be_completed_between_creation_and_due_date".localized
                 HapticFeedbackManager.shared.errorOccurred()
                 return
             }
@@ -156,7 +156,7 @@ final class QuestDetailViewModel: ObservableObject {
             let weekday = calendar.component(.weekday, from: date)
             let isScheduledDay = quest.scheduledDays.contains(weekday)
             guard isScheduledDay else {
-                alertMessage = String(localized: "quest_can_only_be_completed_on_scheduled_days")
+                alertMessage = "quest_can_only_be_completed_on_scheduled_days".localized
                 HapticFeedbackManager.shared.errorOccurred()
                 return
             }
@@ -313,7 +313,7 @@ final class QuestDetailViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if let error = error {
                     print("❌ QuestDetailViewModel: Error deleting quest: \(error)")
-                    self?.alertMessage = String(localized: "failed_to_delete_quest") + ": \(error.localizedDescription)"
+                    self?.alertMessage = "failed_to_delete_quest".localized + ": \(error.localizedDescription)"
                     // Provide error haptic feedback
                     HapticFeedbackManager.shared.errorOccurred()
                 } else {

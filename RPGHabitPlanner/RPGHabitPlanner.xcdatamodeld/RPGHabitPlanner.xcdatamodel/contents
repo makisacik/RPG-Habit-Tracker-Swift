@@ -57,7 +57,7 @@
         <attribute name="rarity" optional="YES" attributeType="String"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="customizationItems" inverseEntity="UserEntity"/>
     </entity>
-    <entity name="ItemEntity" representedClassName="ItemEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ItemEntity" representedClassName="ItemEntity" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String"/>
         <attribute name="info" optional="YES" attributeType="String"/>
         <attribute name="itemType" optional="YES" attributeType="String"/>

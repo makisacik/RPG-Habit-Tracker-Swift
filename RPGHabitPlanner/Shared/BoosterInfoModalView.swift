@@ -30,7 +30,7 @@ struct BoosterInfoModalView: View {
                         // Item boosters
                         if !getItemBoosters().isEmpty {
                             boosterSection(
-                                title: String(localized: "item_boosters"),
+                                title: "item_boosters".localized,
                                 icon: "bag.fill",
                                 boosters: getItemBoosters(),
                                 theme: theme
@@ -47,11 +47,11 @@ struct BoosterInfoModalView: View {
                     .padding()
                 }
             }
-            .navigationTitle(String(localized: "active_boosters"))
+            .navigationTitle("active_boosters".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(String(localized: "done")) {
+                    Button("done".localized) {
                         dismiss()
                     }
                     .foregroundColor(theme.accentColor)
@@ -72,7 +72,7 @@ struct BoosterInfoModalView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(.yellow)
 
-                Text(String(localized: "total_active_boosters"))
+                Text("total_active_boosters".localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
@@ -88,7 +88,7 @@ struct BoosterInfoModalView: View {
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundColor(.green)
-                        Text(String(localized: "experience"))
+                        Text("experience".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
@@ -119,7 +119,7 @@ struct BoosterInfoModalView: View {
                         Image("icon_gold")
                             .resizable()
                             .frame(width: 16, height: 16)
-                        Text(String(localized: "coins"))
+                        Text("coins".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
@@ -210,7 +210,7 @@ struct BoosterInfoModalView: View {
 
                     if let expiresAt = booster.expiresAt {
                         Spacer()
-                        Text("\(String(localized: "expires")): \(expiresAt, style: .relative)")
+                        Text("\("expires".localized): \(expiresAt, style: .relative)")
                             .font(.appFont(size: 10))
                             .foregroundColor(.red.opacity(0.8))
                     }
@@ -234,11 +234,11 @@ struct BoosterInfoModalView: View {
                 .frame(width: 64, height: 64)
                 .foregroundColor(.gray.opacity(0.5))
 
-            Text(String(localized: "no_active_boosters"))
+            Text("no_active_boosters".localized)
                 .font(.appFont(size: 20, weight: .bold))
                 .foregroundColor(theme.textColor)
 
-            Text(String(localized: "collect_items_to_get_boosters"))
+            Text("collect_items_to_get_boosters".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)

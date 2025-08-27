@@ -32,8 +32,8 @@ struct AchievementDefinition: Identifiable, Codable {
         // Quest Achievements
         AchievementDefinition(
             id: "first_quest",
-            title: String(localized: "achievement_first_steps"),
-            description: String(localized: "achievement_first_steps_description"),
+            title: "achievement_first_steps".localized,
+            description: "achievement_first_steps_description".localized,
             iconName: "flag.fill",
             category: .quests,
             requirement: .questCount(1),
@@ -41,8 +41,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "quest_master",
-            title: String(localized: "achievement_quest_master"),
-            description: String(localized: "achievement_quest_master_description"),
+            title: "achievement_quest_master".localized,
+            description: "achievement_quest_master_description".localized,
             iconName: "crown.fill",
             category: .quests,
             requirement: .questCount(50),
@@ -50,8 +50,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "speed_runner",
-            title: String(localized: "achievement_speed_runner"),
-            description: String(localized: "achievement_speed_runner_description"),
+            title: "achievement_speed_runner".localized,
+            description: "achievement_speed_runner_description".localized,
             iconName: "bolt.fill",
             category: .quests,
             requirement: .questsInDay(3),
@@ -59,8 +59,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "consistency",
-            title: String(localized: "achievement_consistency"),
-            description: String(localized: "achievement_consistency_description"),
+            title: "achievement_consistency".localized,
+            description: "achievement_consistency_description".localized,
             iconName: "calendar.badge.clock",
             category: .quests,
             requirement: .consecutiveDays(7),
@@ -70,8 +70,8 @@ struct AchievementDefinition: Identifiable, Codable {
         // Level Achievements
         AchievementDefinition(
             id: "level_5",
-            title: String(localized: "achievement_level_up"),
-            description: String(localized: "achievement_level_up_description"),
+            title: "achievement_level_up".localized,
+            description: "achievement_level_up_description".localized,
             iconName: "star.fill",
             category: .leveling,
             requirement: .level(5),
@@ -79,8 +79,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "level_20",
-            title: String(localized: "achievement_veteran"),
-            description: String(localized: "achievement_veteran_description"),
+            title: "achievement_veteran".localized,
+            description: "achievement_veteran_description".localized,
             iconName: "star.circle.fill",
             category: .leveling,
             requirement: .level(20),
@@ -88,8 +88,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "level_50",
-            title: String(localized: "achievement_legend"),
-            description: String(localized: "achievement_legend_description"),
+            title: "achievement_legend".localized,
+            description: "achievement_legend_description".localized,
             iconName: "star.square.fill",
             category: .leveling,
             requirement: .level(50),
@@ -97,8 +97,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "exp_1000",
-            title: String(localized: "achievement_experience_hunter"),
-            description: String(localized: "achievement_experience_hunter_description"),
+            title: "achievement_experience_hunter".localized,
+            description: "achievement_experience_hunter_description".localized,
             iconName: "sparkles",
             category: .leveling,
             requirement: .totalExperience(1000),
@@ -109,8 +109,8 @@ struct AchievementDefinition: Identifiable, Codable {
         // Special Achievements
         AchievementDefinition(
             id: "early_bird",
-            title: String(localized: "achievement_early_bird"),
-            description: String(localized: "achievement_early_bird_description"),
+            title: "achievement_early_bird".localized,
+            description: "achievement_early_bird_description".localized,
             iconName: "sunrise.fill",
             category: .special,
             requirement: .questBeforeTime(8),
@@ -118,8 +118,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "night_owl",
-            title: String(localized: "achievement_night_owl"),
-            description: String(localized: "achievement_night_owl_description"),
+            title: "achievement_night_owl".localized,
+            description: "achievement_night_owl_description".localized,
             iconName: "moon.fill",
             category: .special,
             requirement: .questAfterTime(22),
@@ -127,8 +127,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "weekend_warrior",
-            title: String(localized: "achievement_weekend_warrior"),
-            description: String(localized: "achievement_weekend_warrior_description"),
+            title: "achievement_weekend_warrior".localized,
+            description: "achievement_weekend_warrior_description".localized,
             iconName: "calendar.badge.plus",
             category: .special,
             requirement: .weekendQuests(5),
@@ -136,8 +136,8 @@ struct AchievementDefinition: Identifiable, Codable {
         ),
         AchievementDefinition(
             id: "perfect_day",
-            title: String(localized: "achievement_perfect_day"),
-            description: String(localized: "achievement_perfect_day_description"),
+            title: "achievement_perfect_day".localized,
+            description: "achievement_perfect_day_description".localized,
             iconName: "checkmark.circle.fill",
             category: .special,
             requirement: .allDailyQuests,
@@ -171,11 +171,11 @@ enum AchievementType: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .quest: return String(localized: "achievement_type_quest")
-        case .leveling: return String(localized: "achievement_type_leveling")
-        case .focus: return String(localized: "achievement_type_focus")
-        case .battle: return String(localized: "achievement_type_battle")
-        case .special: return String(localized: "achievement_type_special")
+        case .quest: return "achievement_type_quest".localized
+        case .leveling: return "achievement_type_leveling".localized
+        case .focus: return "achievement_type_focus".localized
+        case .battle: return "achievement_type_battle".localized
+        case .special: return "achievement_type_special".localized
         }
     }
 }
@@ -190,10 +190,10 @@ enum AchievementCategory: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .all: return String(localized: "achievement_category_all")
-        case .quests: return String(localized: "achievement_category_quests")
-        case .leveling: return String(localized: "achievement_category_leveling")
-        case .special: return String(localized: "achievement_category_special")
+        case .all: return "achievement_category_all".localized
+        case .quests: return "achievement_category_quests".localized
+        case .leveling: return "achievement_category_leveling".localized
+        case .special: return "achievement_category_special".localized
         }
     }
 }

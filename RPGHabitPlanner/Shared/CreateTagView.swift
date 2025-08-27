@@ -26,7 +26,7 @@ struct CreateTagView: View {
                     VStack(spacing: 24) {
                         // Large Preview Section
                         VStack(spacing: 16) {
-                            Text(String(localized: "preview"))
+                            Text("preview".localized)
                                 .font(.appFont(size: 20, weight: .bold))
                                 .foregroundColor(theme.textColor)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,7 +46,7 @@ struct CreateTagView: View {
                                     .fill(theme.cardBackgroundColor)
                                     .frame(height: 60)
                                     .overlay(
-                                        Text(String(localized: "tag_preview_will_appear_here"))
+                                        Text("tag_preview_will_appear_here".localized)
                                             .font(.appFont(size: 16, weight: .medium))
                                             .foregroundColor(theme.textColor.opacity(0.5))
                                     )
@@ -67,7 +67,7 @@ struct CreateTagView: View {
 
                         // Tag name input with modern styling
                         VStack(alignment: .leading, spacing: 12) {
-                            Text(String(localized: "tag_name"))
+                            Text("tag_name".localized)
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -77,7 +77,7 @@ struct CreateTagView: View {
                                     .foregroundColor(theme.accentColor)
                                     .frame(width: 24)
 
-                                TextField(String(localized: "enter_tag_name"), text: $viewModel.tagName)
+                                TextField("enter_tag_name".localized, text: $viewModel.tagName)
                                     .textFieldStyle(PlainTextFieldStyle())
                                     .font(.appFont(size: 16, weight: .regular))
                                     .foregroundColor(theme.textColor)
@@ -104,7 +104,7 @@ struct CreateTagView: View {
                         // Icon selection with modern grid
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
-                                Text(String(localized: "icon"))
+                                Text("icon".localized)
                                     .font(.appFont(size: 18, weight: .bold))
                                     .foregroundColor(theme.textColor)
 
@@ -118,7 +118,7 @@ struct CreateTagView: View {
                                     HStack(spacing: 6) {
                                         Image(systemName: "square.grid.2x2")
                                             .font(.system(size: 14, weight: .medium))
-                                        Text(String(localized: "browse_all"))
+                                        Text("browse_all".localized)
                                             .font(.appFont(size: 14, weight: .medium))
                                     }
                                     .foregroundColor(theme.accentColor)
@@ -144,7 +144,7 @@ struct CreateTagView: View {
                                     )
 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(String(localized: "selected_icon"))
+                                    Text("selected_icon".localized)
                                         .font(.appFont(size: 14, weight: .medium))
                                         .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -175,7 +175,7 @@ struct CreateTagView: View {
 
                         // Color selection with modern palette
                         VStack(alignment: .leading, spacing: 16) {
-                            Text(String(localized: "color"))
+                            Text("color".localized)
                                 .font(.appFont(size: 18, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -224,7 +224,7 @@ struct CreateTagView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(String(localized: "create_tag"))
+                    Text("create_tag".localized)
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -238,7 +238,7 @@ struct CreateTagView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 16, weight: .medium))
-                            Text(String(localized: "cancel"))
+                            Text("cancel".localized)
                                 .font(.appFont(size: 16, weight: .medium))
                         }
                         .foregroundColor(theme.accentColor)
@@ -254,17 +254,17 @@ struct CreateTagView: View {
                             }
                         }
                     }) {
-                        Text(String(localized: "create"))
+                        Text("create".localized)
                             .font(.appFont(size: 16, weight: .bold))
                             .foregroundColor(viewModel.tagName.isEmpty || viewModel.isCreating ? theme.textColor.opacity(0.5) : theme.accentColor)
                     }
                     .disabled(viewModel.tagName.isEmpty || viewModel.isCreating)
                 }
             }
-            .alert(String(localized: "error"), isPresented: $viewModel.showError) {
-                Button(String(localized: "ok_button")) { }
+            .alert("error".localized, isPresented: $viewModel.showError) {
+                Button("ok_button".localized) { }
             } message: {
-                Text(viewModel.errorMessage ?? String(localized: "an_error_occurred"))
+                Text(viewModel.errorMessage ?? "an_error_occurred".localized)
             }
             .onAppear {
                 viewModel.reset()
@@ -283,16 +283,16 @@ struct IconPickerView: View {
     @Binding var selectedIcon: String
 
     private let iconCategories = [
-        (String(localized: "icon_category_general"), ["tag", "bookmark", "star", "heart", "flag", "pin"]),
-        (String(localized: "icon_category_work"), ["briefcase", "folder", "doc.text", "calendar", "clock", "checkmark.circle"]),
-        (String(localized: "icon_category_personal"), ["person", "house", "car", "gamecontroller", "tv", "music.note"]),
-        (String(localized: "icon_category_health"), ["heart.fill", "cross", "pills", "bed.double", "figure.walk", "dumbbell"]),
-        (String(localized: "icon_category_study"), ["book", "pencil", "graduationcap", "brain", "lightbulb", "magnifyingglass"]),
-        (String(localized: "icon_category_travel"), ["airplane", "car.fill", "map", "location", "camera", "globe"]),
-        (String(localized: "icon_category_food"), ["fork.knife", "cup.and.saucer", "wineglass", "birthday.cake", "leaf", "drop"]),
-        (String(localized: "icon_category_nature"), ["leaf", "tree", "sun.max", "moon", "cloud", "snowflake"]),
-        (String(localized: "icon_category_objects"), ["gift", "shoppingbag", "creditcard", "key", "lock", "gear"]),
-        (String(localized: "icon_category_emotions"), ["face.smiling", "hand.thumbsup", "hand.thumbsdown", "exclamationmark.triangle", "questionmark.circle", "info.circle"])
+        ("icon_category_general".localized, ["tag", "bookmark", "star", "heart", "flag", "pin"]),
+        ("icon_category_work".localized, ["briefcase", "folder", "doc.text", "calendar", "clock", "checkmark.circle"]),
+        ("icon_category_personal".localized, ["person", "house", "car", "gamecontroller", "tv", "music.note"]),
+        ("icon_category_health".localized, ["heart.fill", "cross", "pills", "bed.double", "figure.walk", "dumbbell"]),
+        ("icon_category_study".localized, ["book", "pencil", "graduationcap", "brain", "lightbulb", "magnifyingglass"]),
+        ("icon_category_travel".localized, ["airplane", "car.fill", "map", "location", "camera", "globe"]),
+        ("icon_category_food".localized, ["fork.knife", "cup.and.saucer", "wineglass", "birthday.cake", "leaf", "drop"]),
+        ("icon_category_nature".localized, ["leaf", "tree", "sun.max", "moon", "cloud", "snowflake"]),
+        ("icon_category_objects".localized, ["gift", "shoppingbag", "creditcard", "key", "lock", "gear"]),
+        ("icon_category_emotions".localized, ["face.smiling", "hand.thumbsup", "hand.thumbsdown", "exclamationmark.triangle", "questionmark.circle", "info.circle"])
     ]
 
     var body: some View {
@@ -342,11 +342,11 @@ struct IconPickerView: View {
                     .padding(.vertical, 20)
                 }
             }
-            .navigationTitle(String(localized: "choose_icon"))
+            .navigationTitle("choose_icon".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(String(localized: "done_button")) {
+                    Button("done_button".localized) {
                         dismiss()
                     }
                     .foregroundColor(theme.accentColor)

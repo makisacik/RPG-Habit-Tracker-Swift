@@ -21,13 +21,13 @@ struct QuestPerformanceCard: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_quest_performance"))
+                Text("analytics_quest_performance".localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
-                Text(String(localized: "analytics_performance_score"))
+                Text("analytics_performance_score".localized)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -38,14 +38,14 @@ struct QuestPerformanceCard: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 StatItem(
-                    title: String(localized: "analytics_total_quests"),
+                    title: "analytics_total_quests".localized,
                     value: "\(performance.totalQuests)",
                     icon: "list.bullet",
                     color: theme.infoColor
                 )
                 
                 StatItem(
-                    title: String(localized: "analytics_finished_quests"),
+                    title: "analytics_finished_quests".localized,
                     value: "\(performance.finishedQuests)",
                     icon: "checkmark.seal.fill",
                     color: .green
@@ -58,14 +58,14 @@ struct QuestPerformanceCard: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 StatItem(
-                    title: String(localized: "analytics_completion_rate"),
+                    title: "analytics_completion_rate".localized,
                     value: "\(Int(performance.completionRate * 100))%",
                     icon: "percent",
                     color: theme.accentColor
                 )
                 
                 // StatItem(
-                //     title: String(localized: "analytics_partially_completed_quests"),
+                //     title: "analytics_partially_completed_quests".localized,
                 //     value: "\(performance.partiallyCompletedQuests)",
                 //     icon: "clock.arrow.circlepath",
                 //     color: theme.warningColor
@@ -82,7 +82,7 @@ struct QuestPerformanceCard: View {
             // Completion Rate Progress Bar
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text(String(localized: "analytics_completion_progress"))
+                    Text("analytics_completion_progress".localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor)
                     
@@ -102,7 +102,7 @@ struct QuestPerformanceCard: View {
             // Difficulty Success Rates
             if !performance.difficultySuccessRates.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String(localized: "analytics_difficulty_success_rates"))
+                    Text("analytics_difficulty_success_rates".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                     

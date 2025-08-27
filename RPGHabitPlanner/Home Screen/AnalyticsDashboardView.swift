@@ -26,13 +26,13 @@ struct AnalyticsDashboardView: View {
         var displayName: String {
             switch self {
             case .overview:
-                return String(localized: "analytics_tab_overview")
+                return "analytics_tab_overview".localized
             case .performance:
-                return String(localized: "analytics_tab_performance")
+                return "analytics_tab_performance".localized
             case .patterns:
-                return String(localized: "analytics_tab_patterns")
+                return "analytics_tab_patterns".localized
             case .recommendations:
-                return String(localized: "analytics_tab_recommendations")
+                return "analytics_tab_recommendations".localized
             }
         }
         
@@ -65,7 +65,7 @@ struct AnalyticsDashboardView: View {
                     AnalyticsEmptyStateView(theme: theme, analyticsManager: analyticsManager)
                 }
             }
-            .navigationTitle(String(localized: "analytics_dashboard"))
+            .navigationTitle("analytics_dashboard".localized)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -250,7 +250,7 @@ struct AnalyticsDashboardView: View {
             GridItem(.flexible())
         ], spacing: 16) {
             QuickStatCard(
-                title: String(localized: "analytics_total_quests"),
+                title: "analytics_total_quests".localized,
                 value: "\(summary.questPerformance.totalQuests)",
                 icon: "list.bullet",
                 color: theme.accentColor,
@@ -258,7 +258,7 @@ struct AnalyticsDashboardView: View {
             )
             
             QuickStatCard(
-                title: String(localized: "analytics_completion_rate"),
+                title: "analytics_completion_rate".localized,
                 value: String(format: "%.1f%%", summary.questPerformance.completionRate * 100),
                 icon: "checkmark.seal.fill",
                 color: theme.successColor,
@@ -266,7 +266,7 @@ struct AnalyticsDashboardView: View {
             )
             
             QuickStatCard(
-                title: String(localized: "analytics_current_streak"),
+                title: "analytics_current_streak".localized,
                 value: "\(summary.questPerformance.streakData.currentStreak)",
                 icon: "flame.fill",
                 color: theme.warningColor,
@@ -284,7 +284,7 @@ struct AnalyticsDashboardView: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_performance_overview"))
+                Text("analytics_performance_overview".localized)
                     .font(.headline)
                     .foregroundColor(theme.textColor)
                 
@@ -351,7 +351,7 @@ struct AnalyticsDashboardView: View {
                     .foregroundColor(theme.warningColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_streak_status"))
+                Text("analytics_streak_status".localized)
                     .font(.headline)
                     .foregroundColor(theme.textColor)
                 
@@ -366,7 +366,7 @@ struct AnalyticsDashboardView: View {
             // Streak Progress
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text(String(localized: "analytics_longest_streak"))
+                    Text("analytics_longest_streak".localized)
                         .font(.subheadline)
                         .foregroundColor(theme.textColor.opacity(0.7))
                     
@@ -397,7 +397,7 @@ struct AnalyticsDashboardView: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_recent_activity"))
+                Text("analytics_recent_activity".localized)
                     .font(.headline)
                     .foregroundColor(theme.textColor)
                 
@@ -407,7 +407,7 @@ struct AnalyticsDashboardView: View {
             VStack(spacing: 12) {
                 ActivityRow(
                     icon: "checkmark.circle.fill",
-                    title: String(localized: "analytics_last_quest_completed"),
+                    title: "analytics_last_quest_completed".localized,
                     subtitle: "2 hours ago",
                     color: theme.successColor,
                     theme: theme
@@ -415,7 +415,7 @@ struct AnalyticsDashboardView: View {
                 
                 ActivityRow(
                     icon: "plus.circle.fill",
-                    title: String(localized: "analytics_new_quest_created"),
+                    title: "analytics_new_quest_created".localized,
                     subtitle: "Yesterday",
                     color: theme.accentColor,
                     theme: theme
@@ -432,13 +432,13 @@ struct AnalyticsDashboardView: View {
     
     private func quickActionsCard(theme: Theme) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: "analytics_quick_actions"))
+            Text("analytics_quick_actions".localized)
                 .font(.headline)
                 .foregroundColor(theme.textColor)
             
             HStack(spacing: 12) {
                 QuickActionButton(
-                    title: String(localized: "create_quest"),
+                    title: "create_quest".localized,
                     icon: "plus.circle.fill",
                     color: theme.accentColor,
                     theme: theme
@@ -447,7 +447,7 @@ struct AnalyticsDashboardView: View {
                 }
                 
                 QuickActionButton(
-                    title: String(localized: "view_achievements"),
+                    title: "view_achievements".localized,
                     icon: "trophy.fill",
                     color: theme.warningColor,
                     theme: theme
@@ -456,7 +456,7 @@ struct AnalyticsDashboardView: View {
                 }
                 
                 QuickActionButton(
-                    title: String(localized: "customize_character"),
+                    title: "customize_character".localized,
                     icon: "person.crop.circle.fill",
                     color: theme.infoColor,
                     theme: theme

@@ -29,11 +29,11 @@ struct AddTasksView: View {
                         .foregroundColor(.yellow)
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(String.tasks.localized)
+                        Text("tasks".localized)
                             .font(.appFont(size: 16, weight: .black))
                             .foregroundColor(theme.textColor)
 
-                        Text("\(validTaskCount) \(validTaskCount == 1 ? String.task.localized : String.tasks.localized)")
+                        Text("\(validTaskCount) \(validTaskCount == 1 ? "task".localized : "tasks".localized)")
                             .font(.appFont(size: 12, weight: .regular))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
@@ -92,7 +92,7 @@ struct TaskRow: View {
                 .frame(width: 24, height: 24)
                 .background(Circle().fill(Color.yellow.opacity(0.2)))
 
-            TextField(String.enterTaskDescription.localized, text: $task)
+            TextField("enter_task_description".localized, text: $task)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
                 .font(.appFont(size: 16))
@@ -131,7 +131,7 @@ struct TaskEditorPopup: View {
                         .font(.title2)
                         .foregroundColor(.yellow)
 
-                    Text(String.editTasks.localized)
+                    Text("edit_tasks".localized)
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
@@ -170,7 +170,7 @@ struct TaskEditorPopup: View {
                         HStack(spacing: 8) {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title3)
-                            Text(String.addNewTask.localized)
+                            Text("add_new_task".localized)
                                 .font(.appFont(size: 14, weight: .black))
                         }
                         .foregroundColor(theme.textColor)
@@ -202,7 +202,7 @@ struct TaskEditorPopup: View {
                 cleanupBlankTasks()
                 isPresented = false
             }) {
-                Text(String.doneButton.localized)
+                Text("done".localized)
                     .font(.appFont(size: 16, weight: .black))
                     .foregroundColor(.white)
                     .padding(.vertical, 12)

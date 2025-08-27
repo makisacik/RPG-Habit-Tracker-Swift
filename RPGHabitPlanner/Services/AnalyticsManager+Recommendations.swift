@@ -20,11 +20,11 @@ extension AnalyticsManager {
         if let currentSuccessRate = successRates[preferredDifficulty], currentSuccessRate < AnalyticsConfiguration.QuestPerformance.lowSuccessRateThreshold {
             return PersonalizedRecommendation(
                 type: .difficultyAdjustment,
-                title: String(localized: "analytics_recommendation_difficulty_title"),
-                description: String(localized: "analytics_recommendation_difficulty_description"),
+                title: "analytics_recommendation_difficulty_title".localized,
+                description: "analytics_recommendation_difficulty_description".localized,
                 priority: .medium,
                 actionable: true,
-                actionTitle: String(localized: "adjust_difficulty"),
+                actionTitle: "adjust_difficulty".localized,
                 actionData: ["suggestedDifficulty": max(AnalyticsConfiguration.QuestPerformance.minimumDifficulty, preferredDifficulty - 1)]
             )
         }
@@ -33,11 +33,11 @@ extension AnalyticsManager {
         if let currentSuccessRate = successRates[preferredDifficulty], currentSuccessRate > AnalyticsConfiguration.QuestPerformance.highSuccessRateThreshold {
             return PersonalizedRecommendation(
                 type: .difficultyAdjustment,
-                title: String(localized: "analytics_recommendation_increase_difficulty_title"),
-                description: String(localized: "analytics_recommendation_increase_difficulty_description"),
+                title: "analytics_recommendation_increase_difficulty_title".localized,
+                description: "analytics_recommendation_increase_difficulty_description".localized,
                 priority: .low,
                 actionable: true,
-                actionTitle: String(localized: "increase_difficulty"),
+                actionTitle: "increase_difficulty".localized,
                 actionData: ["suggestedDifficulty": min(AnalyticsConfiguration.QuestPerformance.maximumDifficulty, preferredDifficulty + 1)]
             )
         }
@@ -52,11 +52,11 @@ extension AnalyticsManager {
         if currentStreak == 0 && longestStreak > 0 {
             return PersonalizedRecommendation(
                 type: .streakBuilding,
-                title: String(localized: "analytics_recommendation_streak_title"),
-                description: String(localized: "analytics_recommendation_streak_description"),
+                title: "analytics_recommendation_streak_title".localized,
+                description: "analytics_recommendation_streak_description".localized,
                 priority: .high,
                 actionable: true,
-                actionTitle: String(localized: "start_streak"),
+                actionTitle: "start_streak".localized,
                 actionData: nil
             )
         }
@@ -64,11 +64,11 @@ extension AnalyticsManager {
         if currentStreak > 0 && currentStreak < Int(Double(longestStreak) * AnalyticsConfiguration.Streak.recordStreakThreshold) {
             return PersonalizedRecommendation(
                 type: .streakBuilding,
-                title: String(localized: "analytics_recommendation_streak_continue_title"),
-                description: String(localized: "analytics_recommendation_streak_continue_description"),
+                title: "analytics_recommendation_streak_continue_title".localized,
+                description: "analytics_recommendation_streak_continue_description".localized,
                 priority: .medium,
                 actionable: true,
-                actionTitle: String(localized: "continue_streak"),
+                actionTitle: "continue_streak".localized,
                 actionData: nil
             )
         }
@@ -82,11 +82,11 @@ extension AnalyticsManager {
         if unlockRate < AnalyticsConfiguration.Achievement.lowUnlockRateThreshold {
             return PersonalizedRecommendation(
                 type: .achievementGoal,
-                title: String(localized: "analytics_recommendation_achievements_title"),
-                description: String(localized: "analytics_recommendation_achievements_description"),
+                title: "analytics_recommendation_achievements_title".localized,
+                description: "analytics_recommendation_achievements_description".localized,
                 priority: .medium,
                 actionable: true,
-                actionTitle: String(localized: "view_achievements"),
+                actionTitle: "view_achievements".localized,
                 actionData: nil
             )
         }
@@ -102,11 +102,11 @@ extension AnalyticsManager {
         if abs(currentHour - mostProductiveHour) <= AnalyticsConfiguration.TimeAnalytics.timingRecommendationWindow {
             return PersonalizedRecommendation(
                 type: .timing,
-                title: String(localized: "analytics_recommendation_timing_title"),
-                description: String(localized: "analytics_recommendation_timing_description"),
+                title: "analytics_recommendation_timing_title".localized,
+                description: "analytics_recommendation_timing_description".localized,
                 priority: .medium,
                 actionable: true,
-                actionTitle: String(localized: "create_quest_now"),
+                actionTitle: "create_quest_now".localized,
                 actionData: nil
             )
         }

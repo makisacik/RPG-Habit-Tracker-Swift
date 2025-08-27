@@ -28,11 +28,11 @@ struct DamageCalculationView: View {
                         .foregroundColor(.orange)
                         .font(.title)
                     
-                    Text(String(localized: "quest_damage_calculator"))
+                    Text("quest_damage_calculator".localized)
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
                     
-                    Text(String(localized: "calculate_damage_for_active_quests"))
+                    Text("calculate_damage_for_active_quests".localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
                         .multilineTextAlignment(.center)
@@ -46,7 +46,7 @@ struct DamageCalculationView: View {
                             .foregroundColor(theme.accentColor)
                             .font(.title3)
                         
-                        Text(String(localized: "active_quests"))
+                        Text("active_quests".localized)
                             .font(.appFont(size: 18, weight: .semibold))
                             .foregroundColor(theme.textColor)
                         
@@ -67,7 +67,7 @@ struct DamageCalculationView: View {
                         }
                         .frame(maxHeight: 200)
                     } else {
-                        Text(String(localized: "no_active_quests_found"))
+                        Text("no_active_quests_found".localized)
                             .font(.appFont(size: 16))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .padding()
@@ -96,7 +96,7 @@ struct DamageCalculationView: View {
                                 .font(.title3)
                         }
                         
-                        Text(isLoading ? String(localized: "calculating") : String(localized: "calculate_damage"))
+                        Text(isLoading ? "calculating".localized : "calculate_damage".localized)
                             .font(.appFont(size: 16, weight: .medium))
                     }
                     .foregroundColor(.white)
@@ -117,7 +117,7 @@ struct DamageCalculationView: View {
                             .foregroundColor(.red)
                             .font(.title3)
                         
-                        Text(String(localized: "todays_total_damage"))
+                        Text("todays_total_damage".localized)
                             .font(.appFont(size: 18, weight: .semibold))
                             .foregroundColor(theme.textColor)
                         
@@ -129,7 +129,7 @@ struct DamageCalculationView: View {
                     }
                     
                     if let lastCalculation = damageTrackingManager.lastDamageCalculationDate {
-                        Text(String(localized: "last_calculated").localized(with: formatDate(lastCalculation)))
+                        Text("last_calculated".localized.localized(with: formatDate(lastCalculation)))
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.6))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -148,16 +148,16 @@ struct DamageCalculationView: View {
                 
                 Spacer()
             }
-            .navigationTitle(String(localized: "damage_calculator"))
+            .navigationTitle("damage_calculator".localized)
             .navigationBarTitleDisplayMode(.inline)
             .background(theme.backgroundColor)
             .onAppear {
                 loadQuests()
             }
-            .alert(String(localized: "damage_calculation_result"), isPresented: $showResult) {
-                Button(String(localized: "ok_button")) { }
+            .alert("damage_calculation_result".localized, isPresented: $showResult) {
+                Button("ok_button".localized) { }
             } message: {
-                Text(calculationResult ?? String(localized: "unknown_result"))
+                Text(calculationResult ?? "unknown_result".localized)
             }
         }
     }
@@ -183,11 +183,11 @@ struct DamageCalculationView: View {
                 isLoading = false
                 
                 if let error = error {
-                    calculationResult = String(localized: "error_prefix") + error.localizedDescription
+                    calculationResult = "error_prefix".localized + error.localizedDescription
                 } else if totalDamage > 0 {
-                    calculationResult = String(localized: "damage_applied_message").localized(with: totalDamage)
+                    calculationResult = "damage_applied_message".localized.localized(with: totalDamage)
                 } else {
-                    calculationResult = String(localized: "no_damage_calculated_message")
+                    calculationResult = "no_damage_calculated_message".localized
                 }
                 
                 showResult = true
@@ -275,12 +275,12 @@ struct QuestDamagePreviewRow: View {
         
         if dueDate < today {
             let days = calendar.dateComponents([.day], from: dueDate, to: today).day ?? 0
-            return String(localized: "days_overdue").localized(with: days)
+            return "days_overdue".localized.localized(with: days)
         } else if dueDate == today {
-            return String(localized: "due_today")
+            return "due_today".localized
         } else {
             let days = calendar.dateComponents([.day], from: today, to: dueDate).day ?? 0
-            return String(localized: "days_left").localized(with: days)
+            return "days_left".localized.localized(with: days)
         }
     }
     

@@ -88,7 +88,7 @@ struct CharacterPreviewCard: View {
 
                 // Character info
                 VStack(spacing: 2) {
-                    Text(String(localized: "custom_hero"))
+                    Text("custom_hero".localized)
                         .font(.appFont(size: 16, weight: .semibold))
                         .foregroundColor(theme.textColor)
 

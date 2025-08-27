@@ -39,7 +39,7 @@ struct RewardToastView: View {
                             .font(.caption)
                             .foregroundColor(.yellow)
                         
-                        Text("+\(toast.experience) \(String(localized: "xp"))")
+                        Text("+\(toast.experience) \("xp".localized)")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
@@ -50,7 +50,7 @@ struct RewardToastView: View {
                             .font(.caption)
                             .foregroundColor(.yellow)
                         
-                        Text("+\(toast.coins) \(String(localized: "currency_coins"))")
+                        Text("+\(toast.coins) \("currency_coins".localized)")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }

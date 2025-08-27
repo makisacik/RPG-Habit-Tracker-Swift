@@ -18,7 +18,7 @@ struct CompactBoostersSectionView: View {
         VStack(spacing: 12) {
             // Header
             HStack {
-                Text(String(localized: "active_boosters"))
+                Text("active_boosters".localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -44,12 +44,12 @@ struct CompactBoostersSectionView: View {
                         Image(systemName: "bolt.slash")
                             .font(.system(size: 20))
                             .foregroundColor(theme.textColor.opacity(0.5))
-                        Text(String(localized: "no_active_boosters"))
+                        Text("no_active_boosters".localized)
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
                     
-                    Text(String(localized: "visit_shop_to_get_boosters"))
+                    Text("visit_shop_to_get_boosters".localized)
                         .font(.appFont(size: 12))
                         .foregroundColor(theme.textColor.opacity(0.6))
                         .multilineTextAlignment(.center)
@@ -118,7 +118,7 @@ struct CompactBoostersSectionView: View {
                     .frame(width: 16, height: 16)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(String(localized: "experience"))
+                    Text("experience".localized)
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
@@ -153,7 +153,7 @@ struct CompactBoostersSectionView: View {
                     .frame(width: 16, height: 16)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(String(localized: "coins"))
+                    Text("coins".localized)
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
@@ -230,7 +230,7 @@ struct CompactBoostersSectionView: View {
 
                     if let expiresAt = booster.expiresAt {
                         Spacer()
-                        Text("\(String(localized: "expires")): \(expiresAt, style: .relative)")
+                        Text("\("expires".localized): \(expiresAt, style: .relative)")
                             .font(.appFont(size: 10))
                             .foregroundColor(theme.textColor.opacity(0.6))
                             .lineLimit(1)

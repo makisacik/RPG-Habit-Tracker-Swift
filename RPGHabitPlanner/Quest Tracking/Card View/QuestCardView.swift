@@ -46,7 +46,7 @@ struct QuestCardView: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.6))
 
-                            Text(String(localized: "tags"))
+                            Text("tags".localized)
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.6))
 
@@ -82,7 +82,7 @@ struct QuestCardView: View {
                                     .font(.system(size: 12, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.6))
 
-                                Text("\(tasks.count) \(String.tasks.localized)")
+                                Text("\(tasks.count) \("tasks".localized)")
                                     .font(.appFont(size: 12, weight: .medium))
                                     .foregroundColor(theme.textColor.opacity(0.6))
 
@@ -174,13 +174,13 @@ struct QuestCardView: View {
                 onQuestTap(quest)
             }
         }
-        .alert(String(localized: "quest_finish_confirmation"), isPresented: $showFinishConfirmation) {
-            Button(String(localized: "cancel"), role: .cancel) { }
-            Button(String(localized: "yes_finish_it")) {
+        .alert("quest_finish_confirmation".localized, isPresented: $showFinishConfirmation) {
+            Button("cancel".localized, role: .cancel) { }
+            Button("yes_finish_it".localized) {
                 onMarkComplete(quest.id)
             }
         } message: {
-            Text(String(format: String(localized: "quest_finish_confirmation_message"), quest.title))
+            Text(String(format: "quest_finish_confirmation_message".localized, quest.title))
         }
     }
 }

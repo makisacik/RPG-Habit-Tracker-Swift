@@ -245,7 +245,7 @@ final class QuestsViewModel: ObservableObject {
 
     func markQuestAsFinished(questId: UUID) {
         guard let quest = allQuests.first(where: { $0.id == questId }) else {
-            alertMessage = String(localized: "quest_not_found")
+            alertMessage = "quest_not_found".localized
             HapticFeedbackManager.shared.errorOccurred()
             return
         }

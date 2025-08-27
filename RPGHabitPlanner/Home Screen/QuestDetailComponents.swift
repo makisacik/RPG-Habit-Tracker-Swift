@@ -99,9 +99,9 @@ struct QuestDetailHeaderSection: View {
 
     private var statusInfo: (String, Color) {
         if quest.isFinished {
-            return (String.finished.localized, .gray)
+            return ("finished".localized, .gray)
         } else {
-            return (String.active.localized, .blue)
+            return ("active".localized, .blue)
         }
     }
 }
@@ -115,7 +115,7 @@ struct QuestDetailDetailsSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text(String.questDetails.localized)
+                Text("quest_details".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -124,21 +124,21 @@ struct QuestDetailDetailsSection: View {
             VStack(spacing: 12) {
                 detailRow(
                     icon: "calendar",
-                    title: String.questDueDate.localized,
+                    title: "quest_due_date".localized,
                     value: dateFormatter.string(from: quest.dueDate),
                     theme: theme
                 )
 
                 detailRow(
                     icon: "clock",
-                    title: String.created.localized,
+                    title: "created".localized,
                     value: dateFormatter.string(from: quest.creationDate),
                     theme: theme
                 )
 
                 detailRow(
                     icon: "repeat",
-                    title: String.type.localized,
+                    title: "type".localized,
                     value: repeatTypeText,
                     theme: theme
                 )
@@ -146,7 +146,7 @@ struct QuestDetailDetailsSection: View {
                 if let completionDate = quest.completionDate {
                     detailRow(
                         icon: "checkmark.circle.fill",
-                        title: String.completedLabel.localized,
+                        title: "completed".localized,
                         value: dateFormatter.string(from: completionDate),
                         theme: theme
                     )
@@ -182,10 +182,10 @@ struct QuestDetailDetailsSection: View {
 
     private var repeatTypeText: String {
         switch quest.repeatType {
-        case .daily: return String.daily.localized
-        case .weekly: return String.weekly.localized
-        case .oneTime: return String.oneTime.localized
-        case .scheduled: return String(localized: "scheduled")
+        case .daily: return "daily".localized
+        case .weekly: return "weekly".localized
+        case .oneTime: return "one_time".localized
+        case .scheduled: return "scheduled".localized
         }
     }
 
@@ -205,7 +205,7 @@ struct QuestDetailTasksSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("\(String.tasks.localized) (\(completedTasksCount)/\(quest.tasks.count))")
+                Text("\("tasks".localized) (\(completedTasksCount)/\(quest.tasks.count))")
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -276,14 +276,14 @@ struct QuestDetailCompletionHistorySection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text(String.completionHistory.localized)
+                Text("completion_history".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
             }
 
             if quest.completions.isEmpty {
-                                    Text(String.noCompletionsYet.localized)
+                                    Text("no_completions_yet".localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.6))
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -342,7 +342,7 @@ struct QuestDetailDamageHistorySection: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.red)
 
-                    Text(String(localized: "damage_history"))
+                    Text("damage_history".localized)
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -351,7 +351,7 @@ struct QuestDetailDamageHistorySection: View {
 
                 HStack(spacing: 12) {
                     if totalDamage > 0 {
-                        Text(String(localized: "total_damage").localized(with: String(totalDamage)))
+                        Text("total_damage".localized(with: String(totalDamage)))
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 8)
@@ -381,7 +381,7 @@ struct QuestDetailDamageHistorySection: View {
                 HStack {
                     ProgressView()
                         .scaleEffect(0.8)
-                    Text(String(localized: "loading_damage_history"))
+                    Text("loading_damage_history".localized)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -393,7 +393,7 @@ struct QuestDetailDamageHistorySection: View {
                         .font(.system(size: 24, weight: .light))
                         .foregroundColor(.green)
 
-                    Text(String(localized: "no_damage_taken"))
+                    Text("no_damage_taken".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -408,7 +408,7 @@ struct QuestDetailDamageHistorySection: View {
                                 .foregroundColor(.red)
                                 .font(.system(size: 12))
 
-                            Text(String(localized: "damage_amount").localized(with: String(event.damageAmount)))
+                            Text("damage_amount".localized(with: String(event.damageAmount)))
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(.red)
                                 .frame(width: 40, alignment: .leading)
@@ -433,7 +433,7 @@ struct QuestDetailDamageHistorySection: View {
                             showFullDamageHistory = true
                         }) {
                             HStack {
-                                Text(String(localized: "view_all_damage_events").localized(with: damageEvents.count))
+                                Text("view_all_damage_events".localized(with: damageEvents.count))
                                     .font(.appFont(size: 12, weight: .medium))
                                 Image(systemName: "chevron.right")
                                     .font(.system(size: 10))
@@ -462,10 +462,10 @@ struct QuestDetailDamageHistorySection: View {
             )
             .environmentObject(ThemeManager.shared)
         }
-        .alert(String(localized: "damage_info_title"), isPresented: $showDamageInfo) {
+        .alert("damage_info_title".localized, isPresented: $showDamageInfo) {
             Button("OK") { }
         } message: {
-            Text(String(localized: "damage_info_message"))
+            Text("damage_info_message".localized)
         }
     }
     
@@ -510,7 +510,7 @@ struct QuestDetailActionButtonsSection: View {
                 HStack {
                     Image(systemName: isCompleted ? "xmark.circle.fill" : "checkmark.circle.fill")
                         .font(.system(size: 18))
-                                            Text(isCompleted ? String.markIncomplete.localized : String.markComplete.localized)
+                                            Text(isCompleted ? "mark_incomplete".localized : "mark_complete".localized)
                         .font(.appFont(size: 16, weight: .bold))
                 }
                 .foregroundColor(.white)
@@ -532,7 +532,7 @@ struct QuestDetailActionButtonsSection: View {
                     HStack {
                         Image(systemName: "flag.fill")
                             .font(.system(size: 18))
-                        Text(String.markAsFinished.localized)
+                        Text("mark_as_finished".localized)
                             .font(.appFont(size: 16, weight: .bold))
                     }
                     .foregroundColor(.white)

@@ -21,6 +21,16 @@ enum EnhancedShopCategory: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var localizedName: String {
+        switch self {
+        case .weapons: return "shop_category_weapons".localized
+        case .armor: return "shop_category_armor".localized
+        case .wings: return "shop_category_wings".localized
+        case .pets: return "shop_category_pets".localized
+        case .consumables: return "shop_category_consumables".localized
+        }
+    }
+
     var icon: String {
         switch self {
         case .weapons: return "icon_sword"
@@ -82,8 +92,16 @@ enum ArmorSubcategory: String, CaseIterable, Identifiable {
     case helmet = "helmet"
     case outfit = "outfit"
     case shield = "shield"
-    
+
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .helmet: return "armor_subcategory_helmet".localized
+        case .outfit: return "armor_subcategory_outfit".localized
+        case .shield: return "armor_subcategory_shield".localized
+        }
+    }
     
     var icon: String {
         switch self {
@@ -115,8 +133,15 @@ enum ArmorSubcategory: String, CaseIterable, Identifiable {
 enum ConsumableSubcategory: String, CaseIterable, Identifiable {
     case potions = "potions"
     case boosts = "boosts"
-    
+
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .potions: return "consumable_subcategory_potions".localized
+        case .boosts: return "consumable_subcategory_boosts".localized
+        }
+    }
     
     var icon: String {
         switch self {
@@ -200,7 +225,7 @@ struct ShopCategoryCard: View {
             }
 
             // Category name
-            Text(NSLocalizedString(category.rawValue, comment: ""))
+            Text(category.localizedName)
                 .font(.appFont(size: 12, weight: isSelected ? .bold : .medium))
                 .foregroundColor(isSelected ? category.color : theme.textColor.opacity(0.7))
                 .lineLimit(2)
@@ -319,7 +344,7 @@ struct EnhancedShopItemCard: View {
                 } else {
                     Button(action: onPurchase) {
                         HStack(spacing: 4) {
-                            if ShopManager.shared.getDisplayCurrency(for: item) == String(localized: "currency_gems") {
+                            if ShopManager.shared.getDisplayCurrency(for: item) == "currency_gems".localized {
                                 Image("icon_gem")
                                     .resizable()
                                     .frame(width: 18, height: 18)
@@ -424,7 +449,7 @@ struct ShopFilterView: View {
             }) {
                 HStack {
                     Image(systemName: "slider.horizontal.3")
-                    Text(String(localized: "filters"))
+                    Text("filters".localized)
                     Spacer()
                     Image(systemName: showFilters ? "chevron.up" : "chevron.down")
                 }
@@ -444,7 +469,7 @@ struct ShopFilterView: View {
                     // Rarity filter - only show for gear categories
                     if isGearCategory(selectedCategory) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(String(localized: "rarity"))
+                            Text("rarity".localized)
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(theme.textColor)
 
@@ -452,7 +477,7 @@ struct ShopFilterView: View {
                                 HStack(spacing: 8) {
                                     // All option
                                     FilterChip(
-                                        text: String(localized: "all"),
+                                        text: "all".localized,
                                         isSelected: selectedRarity == nil,
                                         color: .gray
                                     ) {
@@ -478,7 +503,7 @@ struct ShopFilterView: View {
                     }
 
                     // Affordability filter
-                    Toggle(String(localized: "show_only_affordable_items"), isOn: $showOnlyAffordable)
+                    Toggle("show_only_affordable_items".localized, isOn: $showOnlyAffordable)
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor)
                         .onChange(of: showOnlyAffordable) { _ in
@@ -557,7 +582,7 @@ struct ItemPreviewModal: View {
             VStack(spacing: 20) {
                 // Header
                 HStack {
-                    Text(String(localized: "item_preview"))
+                    Text("item_preview".localized)
                         .font(.appFont(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
 
@@ -623,7 +648,7 @@ struct ItemPreviewModal: View {
                 // Action buttons
                 HStack(spacing: 16) {
                     Button(action: onDismiss) {
-                        Text(String(localized: "cancel"))
+                        Text("cancel".localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 24)
@@ -639,7 +664,7 @@ struct ItemPreviewModal: View {
                         HStack {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.white)
-                            Text(String(localized: "owned"))
+                            Text("owned".localized)
                                 .font(.appFont(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                         }
@@ -656,7 +681,7 @@ struct ItemPreviewModal: View {
                             onDismiss()
                         }) {
                             HStack(spacing: 8) {
-                                if ShopManager.shared.getDisplayCurrency(for: item) == String(localized: "currency_gems") {
+                                if ShopManager.shared.getDisplayCurrency(for: item) == "currency_gems".localized {
                                     Image("icon_gem")
                                         .resizable()
                                         .frame(width: 20, height: 20)
@@ -728,7 +753,7 @@ struct ArmorSubcategoryView: View {
             HStack(spacing: 12) {
                 ForEach(ArmorSubcategory.allCases) { subcategory in
                     SubcategoryCard(
-                        title: subcategory.rawValue.localized,
+                        title: subcategory.localizedName,
                         icon: subcategory.icon,
                         color: subcategory.color,
                         isSelected: selectedSubcategory == subcategory
@@ -760,7 +785,7 @@ struct ConsumableSubcategoryView: View {
             HStack(spacing: 12) {
                 ForEach(ConsumableSubcategory.allCases) { subcategory in
                     SubcategoryCard(
-                        title: subcategory.rawValue.localized,
+                        title: subcategory.localizedName,
                         icon: subcategory.icon,
                         color: subcategory.color,
                         isSelected: selectedSubcategory == subcategory

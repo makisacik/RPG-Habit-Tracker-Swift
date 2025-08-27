@@ -30,29 +30,29 @@ enum CharacterTitle: String, CaseIterable {
     var description: String {
         switch self {
         case .theBrave:
-            return String(localized: "the_brave_description")
+            return "the_brave_description".localized
         case .theWise:
-            return String(localized: "the_wise_description")
+            return "the_wise_description".localized
         case .theSwift:
-            return String(localized: "the_swift_description")
+            return "the_swift_description".localized
         case .theMighty:
-            return String(localized: "the_mighty_description")
+            return "the_mighty_description".localized
         case .theShadow:
-            return String(localized: "the_shadow_description")
+            return "the_shadow_description".localized
         case .theGuardian:
-            return String(localized: "the_guardian_description")
+            return "the_guardian_description".localized
         case .theWanderer:
-            return String(localized: "the_wanderer_description")
+            return "the_wanderer_description".localized
         case .theLegendary:
-            return String(localized: "the_legendary_description")
+            return "the_legendary_description".localized
         case .theWhimsical:
-            return String(localized: "the_whimsical_description")
+            return "the_whimsical_description".localized
         case .theStormborn:
-            return String(localized: "the_stormborn_description")
+            return "the_stormborn_description".localized
         case .theDreamweaver:
-            return String(localized: "the_dreamweaver_description")
+            return "the_dreamweaver_description".localized
         case .theStarlight:
-            return String(localized: "the_starlight_description")
+            return "the_starlight_description".localized
         }
     }
     

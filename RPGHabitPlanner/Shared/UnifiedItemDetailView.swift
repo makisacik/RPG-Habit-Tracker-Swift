@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct UnifiedItemDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -24,7 +25,7 @@ struct UnifiedItemDetailView: View {
             VStack(spacing: 20) {
                 // Header with close button
                 HStack {
-                    Text(String(localized: "item_details"))
+                    Text("item_details".localized)
                         .font(.appFont(size: 18, weight: .black))
                         .foregroundColor(theme.textColor)
 
@@ -58,12 +59,12 @@ struct UnifiedItemDetailView: View {
 
                 // Item details
                 VStack(spacing: 12) {
-                    Text(item.name ?? String(localized: "unknown_item"))
+                    Text(item.localizedName)
                         .font(.appFont(size: 20, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
 
-                    Text(item.info ?? String(localized: "no_description_available"))
+                    Text(item.localizedDescription)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                         .multilineTextAlignment(.center)
@@ -97,7 +98,7 @@ struct UnifiedItemDetailView: View {
                         HStack {
                             Image(systemName: "bolt.fill")
                                 .font(.system(size: 16))
-                            Text(String(localized: "use"))
+                            Text("use".localized)
                                 .font(.appFont(size: 16, weight: .black))
                         }
                         .foregroundColor(.white)
@@ -139,11 +140,11 @@ struct UnifiedItemDetailView: View {
 
     private var itemTypeText: String {
         if inventoryManager.isConsumable(item) {
-            return String(localized: "consumable")
+            return "consumable".localized
         } else if inventoryManager.isBooster(item) {
-            return String(localized: "booster")
+            return "booster".localized
         } else {
-            return String(localized: "collectible")
+            return "collectible".localized
         }
     }
 
@@ -158,7 +159,7 @@ struct UnifiedItemDetailView: View {
                     dismiss()
                 } else {
                     // Handle error - could show an alert here
-                    print("Failed to use item: \(error?.localizedDescription ?? String(localized: "unknown_error"))")
+                    print("Failed to use item: \(error?.localizedDescription ?? "unknown_error".localized)")
                 }
             }
         }

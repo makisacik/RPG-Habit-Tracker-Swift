@@ -39,19 +39,19 @@ struct StreakDisplayView: View {
                         .font(.appFont(size: 24, weight: .black))
                         .foregroundColor(theme.textColor)
 
-                    Text(streakManager.currentStreak == 1 ? String.streakDay.localized : String.streakDays.localized)
+                    Text(streakManager.currentStreak == 1 ? "streak_day".localized : "streak_days".localized)
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
                 }
 
                 // Streak label
-                Text(String.streak.localized)
+                Text("streak".localized)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
 
                 // Longest streak (smaller text)
                 if streakManager.longestStreak > 0 {
-                    Text("\(String.bestStreak.localized): \(streakManager.longestStreak) \(streakManager.longestStreak == 1 ? String.streakDay.localized : String.streakDays.localized)")
+                    Text("\("best_streak".localized): \(streakManager.longestStreak) \(streakManager.longestStreak == 1 ? "streak_day".localized : "streak_days".localized)")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.6))
                 }
@@ -70,7 +70,7 @@ struct StreakDisplayView: View {
                     )
                     .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
 
-                Text(String.todayStatus.localized)
+                Text("today_status".localized)
                     .font(.appFont(size: 10, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.6))
             }

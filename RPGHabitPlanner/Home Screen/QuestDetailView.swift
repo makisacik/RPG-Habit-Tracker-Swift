@@ -73,20 +73,20 @@ struct QuestDetailView: View {
                 .padding(.bottom, 40)
             }
         }
-        .navigationTitle(String.questDetails.localized)
+        .navigationTitle("quest_details".localized)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(String.close.localized) { dismiss() }
+                Button("close".localized) { dismiss() }
                     .foregroundColor(theme.textColor)
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
-                    Button(String.editQuest.localized) {
+                    Button("edit_quest".localized) {
                         editingQuest = viewModel.quest // pass a snapshot into the editor
                     }
-                    Button(String.deleteQuest.localized, role: .destructive) {
+                    Button("delete_quest".localized, role: .destructive) {
                         showingDeleteAlert = true
                     }
                 } label: {
@@ -120,16 +120,16 @@ struct QuestDetailView: View {
             )
             .environmentObject(themeManager)
         }
-        .alert(String.deleteQuestConfirmation.localized, isPresented: $showingDeleteAlert) {
-            Button(String.cancelButton.localized, role: .cancel) { }
-            Button(String.deleteButton.localized, role: .destructive) {
+        .alert("delete_quest_confirmation".localized, isPresented: $showingDeleteAlert) {
+            Button("cancel".localized, role: .cancel) { }
+            Button("delete".localized, role: .destructive) {
                 deleteQuest()
             }
         } message: {
-            Text(String.deleteQuestWarning.localized)
+            Text("delete_quest_warning".localized)
         }
-        .alert(String(localized: "error"), isPresented: .constant(viewModel.alertMessage != nil)) {
-            Button(String.okButton.localized) { viewModel.alertMessage = nil }
+        .alert("error".localized, isPresented: .constant(viewModel.alertMessage != nil)) {
+            Button("ok".localized) { viewModel.alertMessage = nil }
         } message: {
             if let alertMessage = viewModel.alertMessage {
                 Text(alertMessage)
@@ -177,7 +177,7 @@ struct QuestDetailTagsSection: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(theme.accentColor)
 
-                    Text(String(localized: "tags"))
+                    Text("tags".localized)
                         .font(.appFont(size: 18, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
@@ -192,7 +192,7 @@ struct QuestDetailTagsSection: View {
                     HStack(spacing: 4) {
                         Image(systemName: quest.tags.isEmpty ? "plus.circle.fill" : "pencil.circle.fill")
                             .font(.system(size: 14, weight: .medium))
-                        Text(quest.tags.isEmpty ? String(localized: "add_tags") : String(localized: "edit"))
+                        Text(quest.tags.isEmpty ? "add_tags".localized : "edit".localized)
                             .font(.appFont(size: 14, weight: .medium))
                     }
                     .foregroundColor(theme.accentColor)
@@ -217,7 +217,7 @@ struct QuestDetailTagsSection: View {
                         .font(.system(size: 24, weight: .light))
                         .foregroundColor(theme.textColor.opacity(0.3))
 
-                    Text(String(localized: "no_tags_assigned"))
+                    Text("no_tags_assigned".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                 }
@@ -262,25 +262,25 @@ struct QuestDetailTagsSection: View {
 #Preview {
     QuestDetailView(
         quest: Quest(
-            title: String(localized: "sample_quest_title"),
+            title: "sample_quest_title".localized,
             isMainQuest: true,
-            info: String(localized: "sample_quest_description"),
+            info: "sample_quest_description".localized,
             difficulty: 4,
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400 * 7),
             isActive: true,
             progress: 75,
             tasks: [
-                QuestTask(id: UUID(), title: String(localized: "sample_task_1"), isCompleted: true, order: 0),
-                QuestTask(id: UUID(), title: String(localized: "sample_task_2"), isCompleted: false, order: 1),
-                QuestTask(id: UUID(), title: String(localized: "sample_task_3"), isCompleted: true, order: 2)
+                QuestTask(id: UUID(), title: "sample_task_1".localized, isCompleted: true, order: 0),
+                QuestTask(id: UUID(), title: "sample_task_2".localized, isCompleted: false, order: 1),
+                QuestTask(id: UUID(), title: "sample_task_3".localized, isCompleted: true, order: 2)
             ],
             repeatType: .weekly,
             completions: [Date(), Date().addingTimeInterval(-86400 * 7)],
             tags: [
-                Tag(name: String(localized: "work"), icon: "briefcase", color: "#FF6B6B"),
-                Tag(name: String(localized: "personal"), icon: "heart", color: "#4ECDC4"),
-                Tag(name: String(localized: "urgent"), icon: "exclamationmark.triangle", color: "#FFB347")
+                Tag(name: "work".localized, icon: "briefcase", color: "#FF6B6B"),
+                Tag(name: "personal".localized, icon: "heart", color: "#4ECDC4"),
+                Tag(name: "urgent".localized, icon: "exclamationmark.triangle", color: "#FFB347")
             ]
         ),
         date: Date(),

@@ -19,11 +19,11 @@ struct AnalyticsLoadingView: View {
                 .scaleEffect(1.5)
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
             
-            Text(String(localized: "analytics_loading"))
+            Text("analytics_loading".localized)
                 .font(.headline)
                 .foregroundColor(theme.textColor)
             
-            Text(String(localized: "analytics_loading_description"))
+            Text("analytics_loading_description".localized)
                 .font(.subheadline)
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -42,12 +42,12 @@ struct AnalyticsEmptyStateView: View {
                 .font(.system(size: 60))
                 .foregroundColor(theme.accentColor.opacity(0.5))
             
-            Text(String(localized: "analytics_empty_title"))
+            Text("analytics_empty_title".localized)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textColor)
             
-            Text(String(localized: "analytics_empty_description"))
+            Text("analytics_empty_description".localized)
                 .font(.body)
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -56,7 +56,7 @@ struct AnalyticsEmptyStateView: View {
             Button(action: {
                 analyticsManager.refreshAnalytics()
             }) {
-                Text(String(localized: "analytics_refresh"))
+                Text("analytics_refresh".localized)
                     .font(.headline)
                     .foregroundColor(theme.buttonTextColor)
                     .padding(.horizontal, 24)

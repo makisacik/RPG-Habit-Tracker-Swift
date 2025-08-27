@@ -241,13 +241,13 @@ enum PremiumError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .productNotFound:
-            return String(localized: "premium_error_product_not_found")
+            return "premium_error_product_not_found".localized
         case .userCancelled:
-            return String(localized: "premium_error_user_cancelled")
+            return "premium_error_user_cancelled".localized
         case .purchasePending:
-            return String(localized: "premium_error_purchase_pending")
+            return "premium_error_purchase_pending".localized
         case .unknown:
-            return String(localized: "premium_error_unknown")
+            return "premium_error_unknown".localized
         }
     }
 }

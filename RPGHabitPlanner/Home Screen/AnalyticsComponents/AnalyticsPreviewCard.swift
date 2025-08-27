@@ -31,7 +31,7 @@ struct AnalyticsPreviewCard: View {
                 .scaleEffect(0.8)
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
 
-            Text(String(localized: "analytics_loading"))
+            Text("analytics_loading".localized)
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
         }
@@ -48,14 +48,14 @@ struct AnalyticsPreviewCard: View {
             // Quick Stats Row
             HStack(spacing: 16) {
                 QuickStatItem(
-                    title: String(localized: "total"),
+                    title: "total".localized,
                     value: "\(summary.questPerformance.totalQuests)",
                     icon: "list.bullet.clipboard",
                     color: theme.infoColor
                 )
 
                 QuickStatItem(
-                    title: String(localized: "finished"),
+                    title: "finished".localized,
                     value: "\(summary.questPerformance.finishedQuests)",
                     icon: "checkmark.seal.fill",
                     color: theme.successColor
@@ -70,11 +70,11 @@ struct AnalyticsPreviewCard: View {
                 .font(.system(size: 24))
                 .foregroundColor(theme.textColor.opacity(0.5))
 
-            Text(String(localized: "analytics_empty_title"))
+            Text("analytics_empty_title".localized)
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
-            Text(String(localized: "analytics_empty_description"))
+            Text("analytics_empty_description".localized)
                 .font(.appFont(size: 10))
                 .foregroundColor(theme.textColor.opacity(0.5))
                 .multilineTextAlignment(.center)

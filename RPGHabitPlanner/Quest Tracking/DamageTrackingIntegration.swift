@@ -135,7 +135,7 @@ struct DamageTrackingIntegration {
             HStack {
                 Image(systemName: "heart.fill")
                     .foregroundColor(.red)
-                Text(String(localized: "damage_history"))
+                Text("damage_history".localized)
                     .font(.appFont(size: 14, weight: .medium))
             }
             .padding(.horizontal, 12)
@@ -157,7 +157,7 @@ struct DamageTrackingIntegration {
             HStack {
                 Image(systemName: "bolt.fill")
                     .foregroundColor(.orange)
-                Text(String(localized: "damage_calculator"))
+                Text("damage_calculator".localized)
                     .font(.appFont(size: 16, weight: .medium))
                 Spacer()
                 Image(systemName: "chevron.right")

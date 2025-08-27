@@ -29,7 +29,7 @@ struct AnalyticsView: View {
                     emptyStateView(theme: theme)
                 }
             }
-            .navigationTitle(String(localized: "analytics"))
+            .navigationTitle("analytics".localized)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -94,7 +94,7 @@ struct AnalyticsView: View {
     private func timePeriodHeader(theme: Theme) -> some View {
         VStack(spacing: 12) {
             HStack {
-                Text(String(localized: "analytics_time_period"))
+                Text("analytics_time_period".localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
@@ -144,11 +144,11 @@ struct AnalyticsView: View {
                 .scaleEffect(1.5)
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
             
-            Text(String(localized: "analytics_loading"))
+            Text("analytics_loading".localized)
                 .font(.appFont(size: 18, weight: .medium))
                 .foregroundColor(theme.textColor)
             
-            Text(String(localized: "analytics_loading_description"))
+            Text("analytics_loading_description".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -162,11 +162,11 @@ struct AnalyticsView: View {
                 .font(.system(size: 60))
                 .foregroundColor(theme.accentColor.opacity(0.5))
             
-            Text(String(localized: "analytics_empty_title"))
+            Text("analytics_empty_title".localized)
                 .font(.appFont(size: 20, weight: .medium))
                 .foregroundColor(theme.textColor)
             
-            Text(String(localized: "analytics_empty_description"))
+            Text("analytics_empty_description".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -175,7 +175,7 @@ struct AnalyticsView: View {
             Button(action: {
                 analyticsManager.refreshAnalytics()
             }) {
-                Text(String(localized: "analytics_refresh"))
+                Text("analytics_refresh".localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.buttonTextColor)
                     .padding(.horizontal, 24)
@@ -190,7 +190,7 @@ struct AnalyticsView: View {
         HStack {
             Spacer()
             
-            Text(String(localized: "analytics_last_updated"))
+            Text("analytics_last_updated".localized)
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.6))
             
@@ -208,15 +208,15 @@ struct AnalyticsView: View {
     private func periodDisplayName(_ period: AnalyticsPeriod) -> String {
         switch period {
         case .week:
-            return String(localized: "analytics_period_week")
+            return "analytics_period_week".localized
         case .month:
-            return String(localized: "analytics_period_month")
+            return "analytics_period_month".localized
         case .quarter:
-            return String(localized: "analytics_period_quarter")
+            return "analytics_period_quarter".localized
         case .year:
-            return String(localized: "analytics_period_year")
+            return "analytics_period_year".localized
         case .allTime:
-            return String(localized: "analytics_period_all_time")
+            return "analytics_period_all_time".localized
         }
     }
 }

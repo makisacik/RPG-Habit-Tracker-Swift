@@ -24,13 +24,13 @@ enum EquipmentSlot: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .bodyType: return String(localized: "equipment_body_type")
-        case .hairStyle: return String(localized: "equipment_hair_style")
-        case .hairColor: return String(localized: "equipment_hair_color")
-        case .eyeColor: return String(localized: "equipment_eye_color")
-        case .outfit: return String(localized: "equipment_outfit")
-        case .weapon: return String(localized: "equipment_weapon")
-        case .accessory: return String(localized: "equipment_accessory")
+        case .bodyType: return "equipment_body_type".localized
+        case .hairStyle: return "equipment_hair_style".localized
+        case .hairColor: return "equipment_hair_color".localized
+        case .eyeColor: return "equipment_eye_color".localized
+        case .outfit: return "equipment_outfit".localized
+        case .weapon: return "equipment_weapon".localized
+        case .accessory: return "equipment_accessory".localized
         }
     }
 
@@ -55,17 +55,17 @@ struct EquipmentValidation {
     static func canEquip(item: CustomizationItemEntity, to slot: EquipmentSlot, for user: UserEntity) -> (canEquip: Bool, reason: String?) {
         // Check if item is unlocked
         guard item.isUnlocked else {
-            return (false, String(localized: "item_not_unlocked"))
+            return (false, "item_not_unlocked".localized)
         }
 
         // Check if item category matches slot
         guard item.category == slot.rawValue else {
-            return (false, String(localized: "item_category_mismatch"))
+            return (false, "item_category_mismatch".localized)
         }
 
         // Check if user owns the item
         guard item.owner == user else {
-            return (false, String(localized: "item_not_owned"))
+            return (false, "item_not_owned".localized)
         }
 
         // Slot-specific validation
@@ -76,7 +76,7 @@ struct EquipmentValidation {
             let accessoryCount = equippedAccessories.filter { $0.category == EquipmentSlot.accessory.rawValue && $0.isEquipped }.count
 
             if accessoryCount >= 3 { // Max 3 accessories
-                return (false, String(localized: "max_accessories_exceeded"))
+                return (false, "max_accessories_exceeded".localized)
             }
         default:
             break
@@ -154,7 +154,7 @@ final class EquipmentManager: ObservableObject {
         // Validate the equipment
         let validation = EquipmentValidation.canEquip(item: item, to: slot, for: user)
         guard validation.canEquip else {
-            print("❌ Cannot equip item: \(validation.reason ?? String(localized: "unknown_error"))")
+            print("❌ Cannot equip item: \(validation.reason ?? "unknown_error".localized)")
             return false
         }
 

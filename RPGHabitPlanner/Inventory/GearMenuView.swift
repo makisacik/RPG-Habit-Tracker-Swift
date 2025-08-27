@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct GearMenuView: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -63,7 +64,7 @@ struct GearMenuView: View {
                 
                 Spacer()
                 
-                Text(gearCategory.rawValue.localized)
+                Text(gearCategory.localizedName)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
@@ -127,11 +128,11 @@ struct GearMenuView: View {
                     .foregroundColor(theme.textColor.opacity(0.3))
             }
             
-                            Text("no_items_for_category".localized.localized(with: gearCategory.rawValue.lowercased()))
+                            Text("no_items_for_category".localized(with: gearCategory.localizedName))
                 .font(.appFont(size: 16, weight: .medium))
                 .foregroundColor(theme.textColor)
             
-                            Text("visit_shop_to_get_items".localized.localized(with: gearCategory.rawValue.lowercased()))
+                            Text("visit_shop_to_get_items".localized(with: gearCategory.localizedName))
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -172,7 +173,7 @@ struct GearMenuView: View {
             }
             
             // Fallback: check item name for category hints
-            let itemName = item.name?.lowercased() ?? ""
+            let itemName = item.localizedName.lowercased()
             switch gearCategory {
             case .head:
                 return itemName.contains("helmet") || itemName.contains("hat") || itemName.contains("crown")
@@ -278,7 +279,7 @@ struct GearItemCard: View {
                 .padding(4)
                 
                 // Item name
-                Text(item.name ?? "unknown".localized)
+                Text(item.localizedName)
                     .font(.appFont(size: 12, weight: .medium))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)

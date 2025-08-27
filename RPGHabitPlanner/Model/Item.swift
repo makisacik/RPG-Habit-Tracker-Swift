@@ -84,15 +84,15 @@ enum ItemType: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .consumable:
-            return String(localized: "item_type_consumable_description")
+            return "item_type_consumable_description".localized
         case .accessory:
-            return String(localized: "item_type_accessory_description")
+            return "item_type_accessory_description".localized
         case .gear:
-            return String(localized: "item_type_gear_description")
+            return "item_type_gear_description".localized
         case .booster:
-            return String(localized: "item_type_booster_description")
+            return "item_type_booster_description".localized
         case .collectible:
-            return String(localized: "item_type_collectible_description")
+            return "item_type_collectible_description".localized
         }
     }
     
@@ -114,17 +114,17 @@ enum GearCategory: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .head:
-            return String(localized: "gear_category_head_description")
+            return "gear_category_head_description".localized
         case .outfit:
-            return String(localized: "gear_category_outfit_description")
+            return "gear_category_outfit_description".localized
         case .weapon:
-            return String(localized: "gear_category_weapon_description")
+            return "gear_category_weapon_description".localized
         case .shield:
-            return String(localized: "gear_category_shield_description")
+            return "gear_category_shield_description".localized
         case .wings:
-            return String(localized: "gear_category_wings_description")
+            return "gear_category_wings_description".localized
         case .pet:
-            return String(localized: "gear_category_pet_description")
+            return "gear_category_pet_description".localized
         }
     }
     
@@ -144,13 +144,13 @@ enum AccessoryCategory: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .earrings:
-            return String(localized: "accessory_category_earrings_description")
+            return "accessory_category_earrings_description".localized
         case .eyeglasses:
-            return String(localized: "accessory_category_eyeglasses_description")
+            return "accessory_category_eyeglasses_description".localized
         case .lashes:
-            return String(localized: "accessory_category_lashes_description")
+            return "accessory_category_lashes_description".localized
         case .clips:
-            return String(localized: "accessory_category_clips_description")
+            return "accessory_category_clips_description".localized
         }
     }
     
@@ -193,6 +193,18 @@ struct Item: GameItem {
 
     // Accessory-specific properties
     let accessoryCategory: AccessoryCategory?
+
+    // MARK: - Computed Properties
+    
+    /// Gets the localized name for this item
+    var localizedName: String {
+        return name
+    }
+    
+    /// Gets the localized description for this item
+    var localizedDescription: String {
+        return description
+    }
 
     init(
         id: UUID = UUID(),
@@ -387,24 +399,24 @@ struct ItemEffect: Equatable, Codable {
         case focusRegeneration = "focus_regeneration"
 
         var localizedName: String {
-            return String(localized: String.LocalizationValue(self.rawValue))
+            return self.rawValue.localized
         }
 
         var description: String {
             switch self {
-            case .attack: return String(localized: "item_effect_attack_description")
-            case .defense: return String(localized: "item_effect_defense_description")
-            case .health: return String(localized: "item_effect_health_description")
-            case .focus: return String(localized: "item_effect_focus_description")
-            case .experience: return String(localized: "item_effect_experience_description")
-            case .luck: return String(localized: "item_effect_luck_description")
-            case .speed: return String(localized: "item_effect_speed_description")
-            case .criticalChance: return String(localized: "item_effect_critical_chance_description")
-            case .criticalDamage: return String(localized: "item_effect_critical_damage_description")
-            case .xpBoost: return String(localized: "item_effect_xp_boost_description")
-            case .coinBoost: return String(localized: "item_effect_coin_boost_description")
-            case .healthRegeneration: return String(localized: "item_effect_health_regeneration_description")
-            case .focusRegeneration: return String(localized: "item_effect_focus_regeneration_description")
+            case .attack: return "item_effect_attack_description".localized
+            case .defense: return "item_effect_defense_description".localized
+            case .health: return "item_effect_health_description".localized
+            case .focus: return "item_effect_focus_description".localized
+            case .experience: return "item_effect_experience_description".localized
+            case .luck: return "item_effect_luck_description".localized
+            case .speed: return "item_effect_speed_description".localized
+            case .criticalChance: return "item_effect_critical_chance_description".localized
+            case .criticalDamage: return "item_effect_critical_damage_description".localized
+            case .xpBoost: return "item_effect_xp_boost_description".localized
+            case .coinBoost: return "item_effect_coin_boost_description".localized
+            case .healthRegeneration: return "item_effect_health_regeneration_description".localized
+            case .focusRegeneration: return "item_effect_focus_regeneration_description".localized
             }
         }
 
@@ -501,68 +513,68 @@ struct ItemDatabase {
 
     // MARK: - Health Potions (Consumables)
     static let minorHealthPotion = Item.healthPotion(
-        name: String(localized: "lesser_healing_elixir"),
-        description: String(localized: "lesser_healing_elixir_description"),
+        name: "lesser_healing_elixir".localized,
+        description: "lesser_healing_elixir_description".localized,
         healAmount: 15,
         value: 25
     )
 
     static let healthPotion = Item.healthPotion(
-        name: String(localized: "vitality_draught"),
-        description: String(localized: "vitality_draught_description"),
+        name: "vitality_draught".localized,
+        description: "vitality_draught_description".localized,
         healAmount: 30,
         value: 50
     )
 
     static let greaterHealthPotion = Item.healthPotion(
-        name: String(localized: "greater_restoration_tonic"),
-        description: String(localized: "greater_restoration_tonic_description"),
+        name: "greater_restoration_tonic".localized,
+        description: "greater_restoration_tonic_description".localized,
         healAmount: 50,
         value: 100
     )
 
     static let superiorHealthPotion = Item.healthPotion(
-        name: String(localized: "supreme_life_essence"),
-        description: String(localized: "supreme_life_essence_description"),
+        name: "supreme_life_essence".localized,
+        description: "supreme_life_essence_description".localized,
         healAmount: 75,
         value: 200
     )
 
     static let legendaryHealthPotion = Item.healthPotion(
-        name: String(localized: "phoenix_tears"),
-        description: String(localized: "phoenix_tears_description"),
+        name: "phoenix_tears".localized,
+        description: "phoenix_tears_description".localized,
         healAmount: 999,
         value: 500
     )
 
     // MARK: - XP Boosts (Boosters)
     static let minorXPBoost = Item.xpBoost(
-        name: String(localized: "wisdoms_breath"),
-        description: String(localized: "wisdoms_breath_description"),
+        name: "wisdoms_breath".localized,
+        description: "wisdoms_breath_description".localized,
         multiplier: 1.25,
         duration: 12 * 60 * 60, // 12 hours
         value: 200
     )
 
     static let xpBoost = Item.xpBoost(
-        name: String(localized: "scholars_insight"),
-        description: String(localized: "scholars_insight_description"),
+        name: "scholars_insight".localized,
+        description: "scholars_insight_description".localized,
         multiplier: 1.5,
         duration: 24 * 60 * 60, // 24 hours (1 day)
         value: 400
     )
 
     static let greaterXPBoost = Item.xpBoost(
-        name: String(localized: "masters_enlightenment"),
-        description: String(localized: "masters_enlightenment_description"),
+        name: "masters_enlightenment".localized,
+        description: "masters_enlightenment_description".localized,
         multiplier: 2.0,
         duration: 3 * 24 * 60 * 60, // 3 days
         value: 800
     )
 
     static let legendaryXPBoost = Item.xpBoost(
-        name: String(localized: "ancient_knowledge_essence"),
-        description: String(localized: "ancient_knowledge_essence_description"),
+        name: "ancient_knowledge_essence".localized,
+        description: "ancient_knowledge_essence_description".localized,
         multiplier: 3.0,
         duration: 7 * 24 * 60 * 60, // 7 days
         value: 1500
@@ -570,32 +582,32 @@ struct ItemDatabase {
 
     // MARK: - Coin Boosts (Boosters)
     static let minorCoinBoost = Item.coinBoost(
-        name: String(localized: "merchants_blessing"),
-        description: String(localized: "merchants_blessing_description"),
+        name: "merchants_blessing".localized,
+        description: "merchants_blessing_description".localized,
         multiplier: 1.25,
         duration: 12 * 60 * 60, // 12 hours
         value: 200
     )
 
     static let coinBoost = Item.coinBoost(
-        name: String(localized: "wealth_attractor"),
-        description: String(localized: "wealth_attractor_description"),
+        name: "wealth_attractor".localized,
+        description: "wealth_attractor_description".localized,
         multiplier: 1.5,
         duration: 24 * 60 * 60, // 24 hours (1 day)
         value: 400
     )
 
     static let greaterCoinBoost = Item.coinBoost(
-        name: String(localized: "golden_fortune"),
-        description: String(localized: "golden_fortune_description"),
+        name: "golden_fortune".localized,
+        description: "golden_fortune_description".localized,
         multiplier: 2.0,
         duration: 3 * 24 * 60 * 60, // 3 days
         value: 800
     )
 
     static let legendaryCoinBoost = Item.coinBoost(
-        name: String(localized: "dragons_hoard_essence"),
-        description: String(localized: "dragons_hoard_essence_description"),
+        name: "dragons_hoard_essence".localized,
+        description: "dragons_hoard_essence_description".localized,
         multiplier: 3.0,
         duration: 7 * 24 * 60 * 60, // 7 days
         value: 1500
@@ -604,107 +616,107 @@ struct ItemDatabase {
     // MARK: - Accessories
     static let allAccessories: [Item] = [
         // Clips (Flowers)
-        Item.accessory(name: String(localized: "azure_bloom"), description: String(localized: "azure_bloom_description"), iconName: "char_flower_blue", category: .clips),
-        Item.accessory(name: String(localized: "emerald_petal"), description: String(localized: "emerald_petal_description"), iconName: "char_flower_green", category: .clips),
-        Item.accessory(name: String(localized: "amethyst_blossom"), description: String(localized: "amethyst_blossom_description"), iconName: "char_flower_purple", category: .clips),
+        Item.accessory(name: "azure_bloom".localized, description: "azure_bloom_description".localized, iconName: "char_flower_blue", category: .clips),
+        Item.accessory(name: "emerald_petal".localized, description: "emerald_petal_description".localized, iconName: "char_flower_green", category: .clips),
+        Item.accessory(name: "amethyst_blossom".localized, description: "amethyst_blossom_description".localized, iconName: "char_flower_purple", category: .clips),
         
         // Eyeglasses
-        Item.accessory(name: String(localized: "sapphire_spectacles"), description: String(localized: "sapphire_spectacles_description"), iconName: "char_glass_blue", category: .eyeglasses),
-        Item.accessory(name: String(localized: "shadow_lenses"), description: String(localized: "shadow_lenses_description"), iconName: "char_glass_gray", category: .eyeglasses),
-        Item.accessory(name: String(localized: "ruby_frames"), description: String(localized: "ruby_frames_description"), iconName: "char_glass_red", category: .eyeglasses),
+        Item.accessory(name: "sapphire_spectacles".localized, description: "sapphire_spectacles_description".localized, iconName: "char_glass_blue", category: .eyeglasses),
+        Item.accessory(name: "shadow_lenses".localized, description: "shadow_lenses_description".localized, iconName: "char_glass_gray", category: .eyeglasses),
+        Item.accessory(name: "ruby_frames".localized, description: "ruby_frames_description".localized, iconName: "char_glass_red", category: .eyeglasses),
         
         // Earrings
-        Item.accessory(name: String(localized: "moonstone_stud"), description: String(localized: "moonstone_stud_description"), iconName: "char_earring_1", category: .earrings),
-        Item.accessory(name: String(localized: "starlight_hoop"), description: String(localized: "starlight_hoop_description"), iconName: "char_earring_2", category: .earrings),
+        Item.accessory(name: "moonstone_stud".localized, description: "moonstone_stud_description".localized, iconName: "char_earring_1", category: .earrings),
+        Item.accessory(name: "starlight_hoop".localized, description: "starlight_hoop_description".localized, iconName: "char_earring_2", category: .earrings),
         
         // Lashes
-        Item.accessory(name: String(localized: "rose_blush"), description: String(localized: "rose_blush_description"), iconName: "char_blush", category: .lashes)
+        Item.accessory(name: "rose_blush".localized, description: "rose_blush_description".localized, iconName: "char_blush", category: .lashes)
     ]
 
     // MARK: - Gear Items
     static let allGear: [Item] = [
         // Head Gear
-        Item.gear(name: String(localized: "shadow_veil"), description: String(localized: "shadow_veil_description"), iconName: "char_helmet_hood", category: .head, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "ironclad_crown"), description: String(localized: "ironclad_crown_description"), iconName: "char_helmet_iron", category: .head, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "crimson_crest"), description: String(localized: "crimson_crest_description"), iconName: "char_helmet_red", category: .head, rarity: .epic, value: 500),
+        Item.gear(name: "shadow_veil".localized, description: "shadow_veil_description".localized, iconName: "char_helmet_hood", category: .head, rarity: .rare, value: 250),
+        Item.gear(name: "ironclad_crown".localized, description: "ironclad_crown_description".localized, iconName: "char_helmet_iron", category: .head, rarity: .epic, value: 500),
+        Item.gear(name: "crimson_crest".localized, description: "crimson_crest_description".localized, iconName: "char_helmet_red", category: .head, rarity: .epic, value: 500),
 
         // Outfits
-        Item.gear(name: String(localized: "peasants_garb"), description: String(localized: "peasants_garb_description"), iconName: "char_outfit_villager", category: .outfit, rarity: .common, value: 50),
-        Item.gear(name: String(localized: "azure_tunic"), description: String(localized: "azure_tunic_description"), iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common, value: 50),
-        Item.gear(name: String(localized: "comfort_cloak"), description: String(localized: "comfort_cloak_description"), iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon, value: 100),
-        Item.gear(name: String(localized: "silken_grace"), description: String(localized: "silken_grace_description"), iconName: "char_outfit_dress", category: .outfit, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "ironclad_plate"), description: String(localized: "ironclad_plate_description"), iconName: "char_outfit_iron", category: .outfit, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "reinforced_ironclad"), description: String(localized: "reinforced_ironclad_description"), iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "crimson_raiment"), description: String(localized: "crimson_raiment_description"), iconName: "char_outfit_red", category: .outfit, rarity: .legendary, value: 1250),
-        Item.gear(name: String(localized: "arcane_robes"), description: String(localized: "arcane_robes_description"), iconName: "char_outfit_wizard", category: .outfit, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "nightwing_shroud"), description: String(localized: "nightwing_shroud_description"), iconName: "char_outfit_bat", category: .outfit, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "inferno_mantle"), description: String(localized: "inferno_mantle_description"), iconName: "char_outfit_fire", category: .outfit, rarity: .legendary, value: 1250),
+        Item.gear(name: "peasants_garb".localized, description: "peasants_garb_description".localized, iconName: "char_outfit_villager", category: .outfit, rarity: .common, value: 50),
+        Item.gear(name: "azure_tunic".localized, description: "azure_tunic_description".localized, iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common, value: 50),
+        Item.gear(name: "comfort_cloak".localized, description: "comfort_cloak_description".localized, iconName: "char_outfit_hoodie", category: .outfit, rarity: .uncommon, value: 100),
+        Item.gear(name: "silken_grace".localized, description: "silken_grace_description".localized, iconName: "char_outfit_dress", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "ironclad_plate".localized, description: "ironclad_plate_description".localized, iconName: "char_outfit_iron", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "reinforced_ironclad".localized, description: "reinforced_ironclad_description".localized, iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "crimson_raiment".localized, description: "crimson_raiment_description".localized, iconName: "char_outfit_red", category: .outfit, rarity: .legendary, value: 1250),
+        Item.gear(name: "arcane_robes".localized, description: "arcane_robes_description".localized, iconName: "char_outfit_wizard", category: .outfit, rarity: .rare, value: 250),
+        Item.gear(name: "nightwing_shroud".localized, description: "nightwing_shroud_description".localized, iconName: "char_outfit_bat", category: .outfit, rarity: .epic, value: 500),
+        Item.gear(name: "inferno_mantle".localized, description: "inferno_mantle_description".localized, iconName: "char_outfit_fire", category: .outfit, rarity: .legendary, value: 1250),
 
         // Wings
-        Item.gear(name: String(localized: "celestial_wings"), description: String(localized: "celestial_wings_description"), iconName: "char_wings_white", category: .wings, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "phoenix_wings"), description: String(localized: "phoenix_wings_description"), iconName: "char_wings_red", category: .wings, rarity: .legendary, value: 1250),
-        Item.gear(name: String(localized: "blazing_phoenix"), description: String(localized: "blazing_phoenix_description"), iconName: "char_wings_red_2", category: .wings, rarity: .legendary, value: 1250),
-        Item.gear(name: String(localized: "shadow_wings"), description: String(localized: "shadow_wings_description"), iconName: "char_wings_bat", category: .wings, rarity: .legendary, value: 1250),
+        Item.gear(name: "celestial_wings".localized, description: "celestial_wings_description".localized, iconName: "char_wings_white", category: .wings, rarity: .epic, value: 500),
+        Item.gear(name: "phoenix_wings".localized, description: "phoenix_wings_description".localized, iconName: "char_wings_red", category: .wings, rarity: .legendary, value: 1250),
+        Item.gear(name: "blazing_phoenix".localized, description: "blazing_phoenix_description".localized, iconName: "char_wings_red_2", category: .wings, rarity: .legendary, value: 1250),
+        Item.gear(name: "shadow_wings".localized, description: "shadow_wings_description".localized, iconName: "char_wings_bat", category: .wings, rarity: .legendary, value: 1250),
         
         // Weapons
-        Item.gear(name: String(localized: "oakheart_blade"), description: String(localized: "oakheart_blade_description"), iconName: "char_sword_wood", category: .weapon, rarity: .common, value: 50),
-        Item.gear(name: String(localized: "copper_fang"), description: String(localized: "copper_fang_description"), iconName: "char_sword_copper", category: .weapon, rarity: .uncommon, value: 100),
-        Item.gear(name: String(localized: "ironclad_edge"), description: String(localized: "ironclad_edge_description"), iconName: "char_sword_iron", category: .weapon, rarity: .common, value: 50),
-        Item.gear(name: String(localized: "steel_serpent"), description: String(localized: "steel_serpent_description"), iconName: "char_sword_steel", category: .weapon, rarity: .uncommon, value: 100),
-        Item.gear(name: String(localized: "crimson_fang"), description: String(localized: "crimson_fang_description"), iconName: "char_sword_red", category: .weapon, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "blazing_fang"), description: String(localized: "blazing_fang_description"), iconName: "char_sword_red_2", category: .weapon, rarity: .legendary, value: 1250),
-        Item.gear(name: String(localized: "golden_dawn"), description: String(localized: "golden_dawn_description"), iconName: "char_sword_gold", category: .weapon, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "thunder_axe"), description: String(localized: "thunder_axe_description"), iconName: "char_sword_axe", category: .weapon, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "storm_hatchet"), description: String(localized: "storm_hatchet_description"), iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon, value: 100),
-        Item.gear(name: String(localized: "vipers_lash"), description: String(localized: "vipers_lash_description"), iconName: "char_sword_whip", category: .weapon, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "arcane_staff"), description: String(localized: "arcane_staff_description"), iconName: "char_sword_staff", category: .weapon, rarity: .legendary, value: 1250),
-        Item.gear(name: String(localized: "iron_maiden"), description: String(localized: "iron_maiden_description"), iconName: "char_sword_mace", category: .weapon, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "soul_reaper"), description: String(localized: "soul_reaper_description"), iconName: "char_sword_deadly", category: .weapon, rarity: .legendary, value: 1250),
-        Item.gear(name: String(localized: "windseeker_bow"), description: String(localized: "windseeker_bow_description"), iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "stormcaller_bow"), description: String(localized: "stormcaller_bow_description"), iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare, value: 250),
+        Item.gear(name: "oakheart_blade".localized, description: "oakheart_blade_description".localized, iconName: "char_sword_wood", category: .weapon, rarity: .common, value: 50),
+        Item.gear(name: "copper_fang".localized, description: "copper_fang_description".localized, iconName: "char_sword_copper", category: .weapon, rarity: .uncommon, value: 100),
+        Item.gear(name: "ironclad_edge".localized, description: "ironclad_edge_description".localized, iconName: "char_sword_iron", category: .weapon, rarity: .common, value: 50),
+        Item.gear(name: "steel_serpent".localized, description: "steel_serpent_description".localized, iconName: "char_sword_steel", category: .weapon, rarity: .uncommon, value: 100),
+        Item.gear(name: "crimson_fang".localized, description: "crimson_fang_description".localized, iconName: "char_sword_red", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "blazing_fang".localized, description: "blazing_fang_description".localized, iconName: "char_sword_red_2", category: .weapon, rarity: .legendary, value: 1250),
+        Item.gear(name: "golden_dawn".localized, description: "golden_dawn_description".localized, iconName: "char_sword_gold", category: .weapon, rarity: .rare, value: 250),
+        Item.gear(name: "thunder_axe".localized, description: "thunder_axe_description".localized, iconName: "char_sword_axe", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "storm_hatchet".localized, description: "storm_hatchet_description".localized, iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon, value: 100),
+        Item.gear(name: "vipers_lash".localized, description: "vipers_lash_description".localized, iconName: "char_sword_whip", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "arcane_staff".localized, description: "arcane_staff_description".localized, iconName: "char_sword_staff", category: .weapon, rarity: .legendary, value: 1250),
+        Item.gear(name: "iron_maiden".localized, description: "iron_maiden_description".localized, iconName: "char_sword_mace", category: .weapon, rarity: .epic, value: 500),
+        Item.gear(name: "soul_reaper".localized, description: "soul_reaper_description".localized, iconName: "char_sword_deadly", category: .weapon, rarity: .legendary, value: 1250),
+        Item.gear(name: "windseeker_bow".localized, description: "windseeker_bow_description".localized, iconName: "char_weapon_bow_front", category: .weapon, rarity: .rare, value: 250),
+        Item.gear(name: "stormcaller_bow".localized, description: "stormcaller_bow_description".localized, iconName: "char_weapon_bow_back", category: .weapon, rarity: .rare, value: 250),
         
         // Shields
-        Item.gear(name: String(localized: "oakheart_ward"), description: String(localized: "oakheart_ward_description"), iconName: "char_shield_wood", category: .shield, rarity: .uncommon, value: 100),
-        Item.gear(name: String(localized: "crimson_ward"), description: String(localized: "crimson_ward_description"), iconName: "char_shield_red", category: .shield, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "ironclad_bulwark"), description: String(localized: "ironclad_bulwark_description"), iconName: "char_shield_iron", category: .shield, rarity: .rare, value: 250),
-        Item.gear(name: String(localized: "golden_aegis"), description: String(localized: "golden_aegis_description"), iconName: "char_shield_gold", category: .shield, rarity: .epic, value: 500),
+        Item.gear(name: "oakheart_ward".localized, description: "oakheart_ward_description".localized, iconName: "char_shield_wood", category: .shield, rarity: .uncommon, value: 100),
+        Item.gear(name: "crimson_ward".localized, description: "crimson_ward_description".localized, iconName: "char_shield_red", category: .shield, rarity: .rare, value: 250),
+        Item.gear(name: "ironclad_bulwark".localized, description: "ironclad_bulwark_description".localized, iconName: "char_shield_iron", category: .shield, rarity: .rare, value: 250),
+        Item.gear(name: "golden_aegis".localized, description: "golden_aegis_description".localized, iconName: "char_shield_gold", category: .shield, rarity: .epic, value: 500),
         
         // Pets
-        Item.gear(name: String(localized: "shadowpaw"), description: String(localized: "shadowpaw_description"), iconName: "char_pet_cat", category: .pet, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "whiskerwind"), description: String(localized: "whiskerwind_description"), iconName: "char_pet_cat_2", category: .pet, rarity: .epic, value: 500),
-        Item.gear(name: String(localized: "golden_cluck"), description: String(localized: "golden_cluck_description"), iconName: "char_pet_chicken", category: .pet, rarity: .uncommon, value: 100)
+        Item.gear(name: "shadowpaw".localized, description: "shadowpaw_description".localized, iconName: "char_pet_cat", category: .pet, rarity: .epic, value: 500),
+        Item.gear(name: "whiskerwind".localized, description: "whiskerwind_description".localized, iconName: "char_pet_cat_2", category: .pet, rarity: .epic, value: 500),
+        Item.gear(name: "golden_cluck".localized, description: "golden_cluck_description".localized, iconName: "char_pet_chicken", category: .pet, rarity: .uncommon, value: 100)
     ]
 
     // MARK: - Collectible Items
     static let allCollectibles: [Item] = [
-        Item.collectible(name: String(localized: "crown_of_kings"), description: String(localized: "crown_of_kings_description"), iconName: "icon_crown", collectionCategory: String(localized: "royalty"), isRare: true),
-        Item.collectible(name: String(localized: "mystic_egg"), description: String(localized: "mystic_egg_description"), iconName: "icon_egg", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "thunder_hammer"), description: String(localized: "thunder_hammer_description"), iconName: "icon_hammer", collectionCategory: String(localized: "weapons")),
-        Item.collectible(name: String(localized: "golden_key_of_ages"), description: String(localized: "golden_key_of_ages_description"), iconName: "icon_key_gold", collectionCategory: String(localized: "treasure"), isRare: true),
-        Item.collectible(name: String(localized: "silver_key_of_secrets"), description: String(localized: "silver_key_of_secrets_description"), iconName: "icon_key_silver", collectionCategory: String(localized: "treasure"), isRare: true),
-        Item.collectible(name: String(localized: "medal_of_honor"), description: String(localized: "medal_of_honor_description"), iconName: "icon_medal", collectionCategory: String(localized: "royalty"), isRare: true),
-        Item.collectible(name: String(localized: "harvest_pumpkin"), description: String(localized: "harvest_pumpkin_description"), iconName: "icon_pumpkin", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "ring_of_power"), description: String(localized: "ring_of_power_description"), iconName: "icon_ring", collectionCategory: String(localized: "accessories"), isRare: true),
-        Item.collectible(name: String(localized: "treasure_chest"), description: String(localized: "treasure_chest_description"), iconName: "icon_chest", collectionCategory: String(localized: "treasure")),
-        Item.collectible(name: String(localized: "azure_treasure_chest"), description: String(localized: "azure_treasure_chest_description"), iconName: "icon_chest_blue", collectionCategory: String(localized: "treasure"), isRare: true),
-        Item.collectible(name: String(localized: "opened_treasure_chest"), description: String(localized: "opened_treasure_chest_description"), iconName: "icon_chest_open", collectionCategory: String(localized: "treasure")),
-        Item.collectible(name: String(localized: "bronze_trophy_of_valor"), description: String(localized: "bronze_trophy_of_valor_description"), iconName: "icon_trophy_bronze", collectionCategory: String(localized: "trophies")),
-        Item.collectible(name: String(localized: "silver_trophy_of_glory"), description: String(localized: "silver_trophy_of_glory_description"), iconName: "icon_trophy_silver", collectionCategory: String(localized: "trophies"), isRare: true),
-        Item.collectible(name: String(localized: "golden_trophy_of_legends"), description: String(localized: "golden_trophy_of_legends_description"), iconName: "icon_trophy_gold", collectionCategory: String(localized: "trophies"), isRare: true),
-        Item.collectible(name: String(localized: "scroll_of_ancient_wisdom"), description: String(localized: "scroll_of_ancient_wisdom_description"), iconName: "icon_scroll_1", collectionCategory: String(localized: "scrolls")),
-        Item.collectible(name: String(localized: "scroll_of_lost_secrets"), description: String(localized: "scroll_of_lost_secrets_description"), iconName: "icon_scroll_2", collectionCategory: String(localized: "scrolls"), isRare: true),
-        Item.collectible(name: String(localized: "scroll_of_forbidden_knowledge"), description: String(localized: "scroll_of_forbidden_knowledge_description"), iconName: "icon_scroll_3", collectionCategory: String(localized: "scrolls"), isRare: true),
-        Item.collectible(name: String(localized: "bell_of_awakening"), description: String(localized: "bell_of_awakening_description"), iconName: "icon_bell", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "chronometer"), description: String(localized: "chronometer_description"), iconName: "icon_calendar", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "lucky_four_leaf_clover"), description: String(localized: "lucky_four_leaf_clover_description"), iconName: "icon_clover", collectionCategory: String(localized: "general"), isRare: true),
-        Item.collectible(name: String(localized: "holy_cross"), description: String(localized: "holy_cross_description"), iconName: "icon_cross", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "phoenix_feather"), description: String(localized: "phoenix_feather_description"), iconName: "icon_feather", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "essence_of_fire"), description: String(localized: "essence_of_fire_description"), iconName: "icon_fire", collectionCategory: String(localized: "elements")),
-        Item.collectible(name: String(localized: "lightning_bolt"), description: String(localized: "lightning_bolt_description"), iconName: "icon_lightning", collectionCategory: String(localized: "elements")),
-        Item.collectible(name: String(localized: "strength_totem"), description: String(localized: "strength_totem_description"), iconName: "icon_muscle", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "starlight_fragment"), description: String(localized: "starlight_fragment_description"), iconName: "icon_star_fill", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "skull_of_the_fallen"), description: String(localized: "skull_of_the_fallen_description"), iconName: "icon_skull", collectionCategory: String(localized: "general")),
-        Item.collectible(name: String(localized: "skull_of_the_ancient"), description: String(localized: "skull_of_the_ancient_description"), iconName: "icon_skull_side", collectionCategory: String(localized: "general"))
+        Item.collectible(name: "crown_of_kings".localized, description: "crown_of_kings_description".localized, iconName: "icon_crown", collectionCategory: "royalty".localized, isRare: true),
+        Item.collectible(name: "mystic_egg".localized, description: "mystic_egg_description".localized, iconName: "icon_egg", collectionCategory: "general".localized),
+        Item.collectible(name: "thunder_hammer".localized, description: "thunder_hammer_description".localized, iconName: "icon_hammer", collectionCategory: "weapons".localized),
+        Item.collectible(name: "golden_key_of_ages".localized, description: "golden_key_of_ages_description".localized, iconName: "icon_key_gold", collectionCategory: "treasure".localized, isRare: true),
+        Item.collectible(name: "silver_key_of_secrets".localized, description: "silver_key_of_secrets_description".localized, iconName: "icon_key_silver", collectionCategory: "treasure".localized, isRare: true),
+        Item.collectible(name: "medal_of_honor".localized, description: "medal_of_honor_description".localized, iconName: "icon_medal", collectionCategory: "royalty".localized, isRare: true),
+        Item.collectible(name: "harvest_pumpkin".localized, description: "harvest_pumpkin_description".localized, iconName: "icon_pumpkin", collectionCategory: "general".localized),
+        Item.collectible(name: "ring_of_power".localized, description: "ring_of_power_description".localized, iconName: "icon_ring", collectionCategory: "accessories".localized, isRare: true),
+        Item.collectible(name: "treasure_chest".localized, description: "treasure_chest_description".localized, iconName: "icon_chest", collectionCategory: "treasure".localized),
+        Item.collectible(name: "azure_treasure_chest".localized, description: "azure_treasure_chest_description".localized, iconName: "icon_chest_blue", collectionCategory: "treasure".localized, isRare: true),
+        Item.collectible(name: "opened_treasure_chest".localized, description: "opened_treasure_chest_description".localized, iconName: "icon_chest_open", collectionCategory: "treasure".localized),
+        Item.collectible(name: "bronze_trophy_of_valor".localized, description: "bronze_trophy_of_valor_description".localized, iconName: "icon_trophy_bronze", collectionCategory: "trophies".localized),
+        Item.collectible(name: "silver_trophy_of_glory".localized, description: "silver_trophy_of_glory_description".localized, iconName: "icon_trophy_silver", collectionCategory: "trophies".localized, isRare: true),
+        Item.collectible(name: "golden_trophy_of_legends".localized, description: "golden_trophy_of_legends_description".localized, iconName: "icon_trophy_gold", collectionCategory: "trophies".localized, isRare: true),
+        Item.collectible(name: "scroll_of_ancient_wisdom".localized, description: "scroll_of_ancient_wisdom_description".localized, iconName: "icon_scroll_1", collectionCategory: "scrolls".localized),
+        Item.collectible(name: "scroll_of_lost_secrets".localized, description: "scroll_of_lost_secrets_description".localized, iconName: "icon_scroll_2", collectionCategory: "scrolls".localized, isRare: true),
+        Item.collectible(name: "scroll_of_forbidden_knowledge".localized, description: "scroll_of_forbidden_knowledge_description".localized, iconName: "icon_scroll_3", collectionCategory: "scrolls".localized, isRare: true),
+        Item.collectible(name: "bell_of_awakening".localized, description: "bell_of_awakening_description".localized, iconName: "icon_bell", collectionCategory: "general".localized),
+        Item.collectible(name: "chronometer".localized, description: "chronometer_description".localized, iconName: "icon_calendar", collectionCategory: "general".localized),
+        Item.collectible(name: "lucky_four_leaf_clover".localized, description: "lucky_four_leaf_clover_description".localized, iconName: "icon_clover", collectionCategory: "general".localized, isRare: true),
+        Item.collectible(name: "holy_cross".localized, description: "holy_cross_description".localized, iconName: "icon_cross", collectionCategory: "general".localized),
+        Item.collectible(name: "phoenix_feather".localized, description: "phoenix_feather_description".localized, iconName: "icon_feather", collectionCategory: "general".localized),
+        Item.collectible(name: "essence_of_fire".localized, description: "essence_of_fire_description".localized, iconName: "icon_fire", collectionCategory: "elements".localized),
+        Item.collectible(name: "lightning_bolt".localized, description: "lightning_bolt_description".localized, iconName: "icon_lightning", collectionCategory: "elements".localized),
+        Item.collectible(name: "strength_totem".localized, description: "strength_totem_description".localized, iconName: "icon_muscle", collectionCategory: "general".localized),
+        Item.collectible(name: "starlight_fragment".localized, description: "starlight_fragment_description".localized, iconName: "icon_star_fill", collectionCategory: "general".localized),
+        Item.collectible(name: "skull_of_the_fallen".localized, description: "skull_of_the_fallen_description".localized, iconName: "icon_skull", collectionCategory: "general".localized),
+        Item.collectible(name: "skull_of_the_ancient".localized, description: "skull_of_the_ancient_description".localized, iconName: "icon_skull_side", collectionCategory: "general".localized)
     ]
 
     // MARK: - All Items

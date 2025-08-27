@@ -324,7 +324,7 @@ enum CalendarViewComponents {
                     .scaleEffect(1.2)
                     .progressViewStyle(CircularProgressViewStyle(tint: theme.textColor.opacity(0.6)))
                 
-                Text(String(localized: "loading_quests"))
+                Text("loading_quests".localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -352,7 +352,7 @@ enum CalendarViewComponents {
                     .foregroundColor(theme.textColor.opacity(0.3))
                 
                 Spacer()
-                Text(String(localized: "no_quests"))
+                Text("no_quests".localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -366,7 +366,7 @@ enum CalendarViewComponents {
                     Image(systemName: "plus.circle.fill")
                         .font(.title2)
                         .foregroundColor(theme.textColor)
-                    Text(String(localized: "add_quest"))
+                    Text("add_quest".localized)
                         .font(.appFont(size: 16, weight: .black))
                     .foregroundColor(theme.textColor)
                     Spacer()
@@ -515,7 +515,7 @@ private struct TagFilterButton: View {
             HStack(spacing: 6) {
                 Image(systemName: "tag.fill")
                     .font(.system(size: 14, weight: .medium))
-                Text(String(localized: "filter"))
+                Text("filter".localized)
                     .font(.appFont(size: 14, weight: .medium))
             }
             .foregroundColor(theme.accentColor)
@@ -542,7 +542,7 @@ private struct ApplyFiltersButton: View {
             HStack(spacing: 6) {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 14, weight: .medium))
-                Text(String(localized: "apply"))
+                Text("apply".localized)
                     .font(.appFont(size: 14, weight: .medium))
             }
             .foregroundColor(theme.accentColor)

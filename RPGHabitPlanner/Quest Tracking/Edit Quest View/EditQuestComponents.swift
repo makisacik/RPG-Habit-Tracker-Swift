@@ -106,7 +106,7 @@ struct EditQuestBasicInfoSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text(String.basicInformation.localized)
+                Text("basic_information".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -115,11 +115,11 @@ struct EditQuestBasicInfoSection: View {
             VStack(spacing: 12) {
                 // Title Field
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String.questTitle.localized)
+                    Text("quest_title".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
-                    TextField(String.enterQuestTitle.localized, text: $viewModel.title)
+                    TextField("enter_quest_title".localized, text: $viewModel.title)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
                         .padding(12)
@@ -131,11 +131,11 @@ struct EditQuestBasicInfoSection: View {
 
                 // Description Field
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String.questDescription.localized)
+                    Text("quest_description".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
-                    TextField(String.enterQuestDescription.localized, text: $viewModel.description, axis: .vertical)
+                    TextField("enter_quest_description".localized, text: $viewModel.description, axis: .vertical)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor)
                         .lineLimit(3...6)
@@ -149,7 +149,7 @@ struct EditQuestBasicInfoSection: View {
                 // Tags Field
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text(String(localized: "tags"))
+                        Text("tags".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
 
@@ -184,7 +184,7 @@ struct EditQuestBasicInfoSection: View {
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.4))
 
-                            Text(String(localized: "no_tags_assigned"))
+                            Text("no_tags_assigned".localized)
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor.opacity(0.6))
 
@@ -245,7 +245,7 @@ struct EditQuestSettingsSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text(String.questSettings.localized)
+                Text("quest_settings".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -258,7 +258,7 @@ struct EditQuestSettingsSection: View {
                         .foregroundColor(.yellow)
                         .font(.system(size: 16))
 
-                    Text(String.mainQuest.localized)
+                    Text("main_quest".localized)
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
 
@@ -275,7 +275,7 @@ struct EditQuestSettingsSection: View {
 
                 // Due Date
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String.questDueDate.localized)
+                    Text("quest_due_date".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
@@ -291,15 +291,15 @@ struct EditQuestSettingsSection: View {
 
                 // Repeat Type
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String.repeatType.localized)
+                    Text("repeat_type".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
-                    Picker(String.repeatType.localized, selection: $viewModel.repeatType) {
-                        Text(String.oneTime.localized).tag(QuestRepeatType.oneTime)
-                        Text(String.daily.localized).tag(QuestRepeatType.daily)
-                        Text(String.weekly.localized).tag(QuestRepeatType.weekly)
-                        Text(String(localized: "scheduled")).tag(QuestRepeatType.scheduled)
+                    Picker("repeat_type".localized, selection: $viewModel.repeatType) {
+                        Text("one_time".localized).tag(QuestRepeatType.oneTime)
+                        Text("daily".localized).tag(QuestRepeatType.daily)
+                        Text("weekly".localized).tag(QuestRepeatType.weekly)
+                        Text("scheduled".localized).tag(QuestRepeatType.scheduled)
                     }
                     .pickerStyle(.segmented)
                     .padding(12)
@@ -320,7 +320,7 @@ struct EditQuestSettingsSection: View {
 
                 // Difficulty
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String.questDifficulty.localized)
+                    Text("quest_difficulty".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.8))
 
@@ -351,7 +351,7 @@ struct EditQuestTasksSection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text(String.tasks.localized)
+                Text("tasks".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
@@ -368,11 +368,11 @@ struct EditQuestTasksSection: View {
                         .foregroundColor(.yellow)
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(String.manageTasks.localized)
+                        Text("manage_tasks".localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
 
-                        Text("\(validTaskCount) \(validTaskCount == 1 ? String.task.localized : String.tasks.localized)")
+                        Text("\(validTaskCount) \(validTaskCount == 1 ? "task".localized : "tasks".localized)")
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
                     }
@@ -423,7 +423,7 @@ struct EditQuestActionButtonsSection: View {
                     } else {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 18))
-                        Text(String.saveButton.localized)
+                        Text("save".localized)
                             .font(.appFont(size: 16, weight: .bold))
                     }
                 }
@@ -468,7 +468,7 @@ struct EditQuestTaskEditorSheet: View {
                                 HStack(spacing: 8) {
                                     Image(systemName: "plus.circle.fill")
                                         .font(.title3)
-                                    Text(String.addNewTask.localized)
+                                    Text("add_new_task".localized)
                                         .font(.appFont(size: 16, weight: .medium))
                                 }
                                 .foregroundColor(.yellow)
@@ -486,19 +486,19 @@ struct EditQuestTaskEditorSheet: View {
                     }
                 }
             }
-                            .navigationTitle(String.editTasks.localized)
+                            .navigationTitle("edit_tasks".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(String.cancelButton.localized) {
+                    Button("cancel".localized) {
                         isPresented.wrappedValue = false
                     }
                     .foregroundColor(theme.textColor)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(String.doneButton.localized) {
+                    Button("done".localized) {
                         cleanupBlankTasks()
                         isPresented.wrappedValue = false
                     }

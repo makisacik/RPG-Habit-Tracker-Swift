@@ -86,7 +86,6 @@
 				"CoreDataModels/TaskEntity+CoreDataProperties.swift",
 				"Fonts/IMFellEnglishSC-Regular.ttf",
 				"Fonts/Quicksand-VariableFont_wght.ttf",
-				Model/Item.swift,
 				Persistence.swift,
 				RPGHabitPlanner.xcdatamodeld,
 			);

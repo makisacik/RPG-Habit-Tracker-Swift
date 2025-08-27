@@ -12,13 +12,13 @@ struct ScheduledDaysSelectionView: View {
     @EnvironmentObject var themeManager: ThemeManager
 
     private let weekdays = [
-        (1, String(localized: "weekday_sun")),
-        (2, String(localized: "weekday_mon")),
-        (3, String(localized: "weekday_tue")),
-        (4, String(localized: "weekday_wed")),
-        (5, String(localized: "weekday_thu")),
-        (6, String(localized: "weekday_fri")),
-        (7, String(localized: "weekday_sat"))
+        (1, "weekday_sun".localized),
+        (2, "weekday_mon".localized),
+        (3, "weekday_tue".localized),
+        (4, "weekday_wed".localized),
+        (5, "weekday_thu".localized),
+        (6, "weekday_fri".localized),
+        (7, "weekday_sat".localized)
     ]
 
     var body: some View {
@@ -30,7 +30,7 @@ struct ScheduledDaysSelectionView: View {
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.6))
 
-                Text(String(localized: "scheduled_days"))
+                Text("scheduled_days".localized)
                     .font(.appFont(size: 18, weight: .semibold))
                     .foregroundColor(theme.textColor)
 

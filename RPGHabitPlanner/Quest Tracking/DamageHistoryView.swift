@@ -31,7 +31,7 @@ struct DamageHistoryView: View {
                             .foregroundColor(.red)
                             .font(.title2)
                         
-                        Text(String(localized: "total_damage_taken"))
+                        Text("total_damage_taken".localized)
                             .font(.appFont(size: 18, weight: .bold))
                             .foregroundColor(theme.textColor)
                         
@@ -42,7 +42,7 @@ struct DamageHistoryView: View {
                             .foregroundColor(.red)
                     }
                     
-                    Text("\(String(localized: "quest_label")) \(questTitle)")
+                    Text("\("quest_label".localized)) \(questTitle)")
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -72,7 +72,7 @@ struct DamageHistoryView: View {
                             .foregroundColor(.orange)
                             .font(.title)
                         
-                        Text(String(localized: "error_loading_damage_history"))
+                        Text("error_loading_damage_history".localized)
                             .font(.appFont(size: 16, weight: .bold))
                             .foregroundColor(theme.textColor)
                         
@@ -81,7 +81,7 @@ struct DamageHistoryView: View {
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
                         
-                        Button(String(localized: "retry")) {
+                        Button("retry".localized) {
                             loadDamageHistory()
                         }
                         .buttonStyle(.borderedProminent)
@@ -96,11 +96,11 @@ struct DamageHistoryView: View {
                             .foregroundColor(.green)
                             .font(.title)
                         
-                        Text(String(localized: "no_damage_history"))
+                        Text("no_damage_history".localized)
                             .font(.appFont(size: 16, weight: .bold))
                             .foregroundColor(theme.textColor)
                         
-                        Text(String(localized: "no_damage_yet_message"))
+                        Text("no_damage_yet_message".localized)
                             .font(.appFont(size: 14))
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
@@ -116,7 +116,7 @@ struct DamageHistoryView: View {
                     .listStyle(PlainListStyle())
                 }
             }
-            .navigationTitle(String(localized: "damage_history"))
+            .navigationTitle("damage_history".localized)
             .navigationBarTitleDisplayMode(.inline)
             .background(theme.backgroundColor)
             .onAppear {
@@ -196,7 +196,7 @@ struct DamageEventRow: View {
 #Preview {
     DamageHistoryView(
         questId: UUID(),
-        questTitle: String(localized: "sample_quest_title")
+        questTitle: "sample_quest_title".localized
     )
     .environmentObject(ThemeManager.shared)
 }

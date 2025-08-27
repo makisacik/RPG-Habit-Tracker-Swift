@@ -96,7 +96,7 @@ enum EnemyType: String, CaseIterable, Codable {
         switch self {
         case .sleepyCat:
             return BattleEntity(
-                name: String(localized: "sleepy_cat"),
+                name: "sleepy_cat".localized,
                 maxHealth: 80,
                 attackPower: 15,
                 defense: 5,
@@ -105,7 +105,7 @@ enum EnemyType: String, CaseIterable, Codable {
             )
         case .funnyZombie:
             return BattleEntity(
-                name: String(localized: "funny_zombie"),
+                name: "funny_zombie".localized,
                 maxHealth: 100,
                 attackPower: 18,
                 defense: 8,
@@ -114,7 +114,7 @@ enum EnemyType: String, CaseIterable, Codable {
             )
         case .funkyMonster:
             return BattleEntity(
-                name: String(localized: "funky_monster"),
+                name: "funky_monster".localized,
                 maxHealth: 120,
                 attackPower: 22,
                 defense: 12,
@@ -123,7 +123,7 @@ enum EnemyType: String, CaseIterable, Codable {
             )
         case .booMonster:
             return BattleEntity(
-                name: String(localized: "boo_monster"),
+                name: "boo_monster".localized,
                 maxHealth: 150,
                 attackPower: 25,
                 defense: 15,
@@ -132,7 +132,7 @@ enum EnemyType: String, CaseIterable, Codable {
             )
         case .flyingDragon:
             return BattleEntity(
-                name: String(localized: "flying_dragon"),
+                name: "flying_dragon".localized,
                 maxHealth: 200,
                 attackPower: 30,
                 defense: 20,
@@ -145,15 +145,15 @@ enum EnemyType: String, CaseIterable, Codable {
     var description: String {
         switch self {
         case .sleepyCat:
-            return String(localized: "sleepy_cat_description")
+            return "sleepy_cat_description".localized
         case .funnyZombie:
-            return String(localized: "funny_zombie_description")
+            return "funny_zombie_description".localized
         case .funkyMonster:
-            return String(localized: "funky_monster_description")
+            return "funky_monster_description".localized
         case .booMonster:
-            return String(localized: "boo_monster_description")
+            return "boo_monster_description".localized
         case .flyingDragon:
-            return String(localized: "flying_dragon_description")
+            return "flying_dragon_description".localized
         }
     }
 

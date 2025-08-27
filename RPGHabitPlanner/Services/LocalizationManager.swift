@@ -34,16 +34,16 @@ class LocalizationManager: ObservableObject {
     // MARK: - Available Languages
     enum Language: String, CaseIterable, Identifiable {
         case english = "en"
-        // case turkish = "tr"  // Temporarily disabled
+        case turkish = "tr"
 
         var id: String { rawValue }
 
         var displayName: String {
             switch self {
             case .english:
-                return String(localized: "language_english")
-            // case .turkish:
-            //     return String(localized: "language_turkish")
+                return "language_english".localized
+            case .turkish:
+                return "language_turkish".localized
             }
         }
 
@@ -51,8 +51,8 @@ class LocalizationManager: ObservableObject {
             switch self {
             case .english:
                 return "🇺🇸"
-            // case .turkish:
-            //     return "🇹🇷"
+            case .turkish:
+                return "🇹🇷"
             }
         }
 
@@ -60,16 +60,22 @@ class LocalizationManager: ObservableObject {
             switch self {
             case .english:
                 return Locale(identifier: "en_US")
-            // case .turkish:
-            //     return Locale(identifier: "tr_TR")
+            case .turkish:
+                return Locale(identifier: "tr_TR")
             }
         }
     }
 
     // MARK: - Initialization
     private init() {
-        // Always default to English for now
-        let initialLanguage: Language = .english
+        // Try to restore saved language preference, default to English
+        let initialLanguage: Language
+        if let savedLanguage = UserDefaults.standard.string(forKey: "selectedLanguage"),
+           let language = Language(rawValue: savedLanguage) {
+            initialLanguage = language
+        } else {
+            initialLanguage = .english
+        }
 
         // Initialize stored properties
         self.currentLanguage = initialLanguage

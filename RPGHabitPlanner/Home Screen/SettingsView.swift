@@ -10,21 +10,21 @@ import StoreKit
 
 struct SettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
-    // @EnvironmentObject var localizationManager: LocalizationManager  // Temporarily disabled
+    @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.colorScheme) private var systemScheme
 
     @State private var isDark = false
-    // @State private var showLanguageSettings = false  // Temporarily disabled
+    @State private var showLanguageSettings = false
 
     var body: some View {
         List {
-            Section(String(localized: "appearance")) {
+            Section("appearance".localized) {
                 // Light/Dark toggle
                 Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(String(localized: "dark_mode"))
+                        Text("dark_mode".localized)
                             .font(.headline)
-                        Text(String(localized: "switch_between_light_and_dark_themes"))
+                        Text("switch_between_light_and_dark_themes".localized)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -41,35 +41,35 @@ struct SettingsView: View {
                     isDark = (systemScheme == .dark)
                 } label: {
                     HStack {
-                        Label(String(localized: "use_system_appearance"), systemImage: "circle.lefthalf.filled")
+                        Label("use_system_appearance".localized, systemImage: "circle.lefthalf.filled")
                         Spacer()
-                        Text(themeManager.currentTheme == .system ? String(localized: "on_label") : String(localized: "off_label"))
+                        Text(themeManager.currentTheme == .system ? "on_label".localized : "off_label".localized)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
 
-            Section(String(localized: "general")) {
-                // Language Setting - Temporarily disabled
-                // Button {
-                //     showLanguageSettings = true
-                // } label: {
-                //     HStack {
-                //         Label(String(localized: "language"), systemImage: "globe")
-                //         Spacer()
-                //         HStack(spacing: 4) {
-                //             Text(localizationManager.currentLanguage.flag)
-                //             Text(localizationManager.currentLanguage.displayName)
-                //                 .foregroundStyle(.secondary)
-                //         }
-                //         Image(systemName: "chevron.right")
-                //             .font(.caption)
-                //             .foregroundStyle(.secondary)
-                //     }
-                // }
+            Section("general".localized) {
+                // Language Setting
+                Button {
+                    showLanguageSettings = true
+                } label: {
+                    HStack {
+                        Label("language".localized, systemImage: "globe")
+                        Spacer()
+                        HStack(spacing: 4) {
+                            Text(localizationManager.currentLanguage.flag)
+                            Text(localizationManager.currentLanguage.displayName)
+                                .foregroundStyle(.secondary)
+                        }
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
 
-                NavigationLink(String(localized: "notifications")) { Text(String(localized: "notifications_settings")) }
-                NavigationLink(String(localized: "data_and_storage")) { Text(String(localized: "data_and_storage_settings")) }
+                NavigationLink("notifications".localized) { Text("notifications_settings".localized) }
+                NavigationLink("data_and_storage".localized) { Text("data_and_storage_settings".localized) }
             }
 
             // Development features section
@@ -85,7 +85,7 @@ struct SettingsView: View {
                 .foregroundColor(.orange)
             }
         }
-        .navigationTitle(String(localized: "settings"))
+        .navigationTitle("settings".localized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             switch themeManager.currentTheme {
@@ -100,12 +100,11 @@ struct SettingsView: View {
                 isDark = (systemScheme == .dark)
             }
         }
-        // Language settings sheet - Temporarily disabled
-        // .sheet(isPresented: $showLanguageSettings) {
-        //     LanguageSettingsView()
-        //         .environmentObject(themeManager)
-        //         .environmentObject(localizationManager)
-        // }
+        .sheet(isPresented: $showLanguageSettings) {
+            LanguageSettingsView()
+                .environmentObject(themeManager)
+                .environmentObject(localizationManager)
+        }
     }
 
     private func requestAppReview() {

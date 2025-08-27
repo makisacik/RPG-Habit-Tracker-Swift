@@ -30,7 +30,7 @@ struct MyQuestsSection: View {
         VStack(alignment: .leading, spacing: 12) {
             // Header with date selection
             HStack {
-                Text(String(localized: "my_quests"))
+                Text("my_quests".localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
@@ -111,7 +111,7 @@ struct MyQuestsSection: View {
         HStack {
             Spacer()
 
-                            Button(String(localized: "view_all")) {
+                            Button("view_all".localized) {
                     selectedTab = .tracking
                             }
             .font(.appFont(size: 14, weight: .medium))
@@ -132,13 +132,13 @@ struct MyQuestsSection: View {
 
     @ViewBuilder
     private func loadingView(theme: Theme) -> some View {
-        HStack(spacing: 8) {
+                    HStack(spacing: 8) {
             ProgressView()
                 .scaleEffect(0.8)
-                            Text(String(localized: "loading_quests"))
+                            Text("loading_quests".localized)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
-        }
+                    }
         .padding(.vertical, 12)
     }
 
@@ -184,11 +184,11 @@ struct MyQuestsSection: View {
                 .font(.system(size: 32))
                 .foregroundColor(theme.textColor.opacity(0.5))
 
-                                Text(String(localized: "no_quests_for_date").localized(with: dateFormatter.string(from: viewModel.selectedDate)))
+                                Text("no_quests_for_date".localized(with: dateFormatter.string(from: viewModel.selectedDate)))
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
-            Button(String(localized: "create_quest")) {
+            Button("create_quest".localized) {
                 showingQuestCreation = true
             }
             .font(.appFont(size: 14, weight: .medium))
@@ -300,7 +300,7 @@ struct MyQuestRow: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) \(String(localized: "tasks"))")
+                            Text("\(tasks.count) \("tasks".localized)")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
                             Spacer()
@@ -381,10 +381,10 @@ struct MyQuestRow: View {
 
     private var subtitle: String {
         switch item.quest.repeatType {
-        case .daily: return String(localized: "daily")
-        case .weekly: return String(localized: "weekly")
-        case .oneTime: return String(localized: "one_time")
-        case .scheduled: return String(localized: "scheduled")
+        case .daily: return "daily".localized
+        case .weekly: return "weekly".localized
+        case .oneTime: return "one_time".localized
+        case .scheduled: return "scheduled".localized
         }
     }
 }

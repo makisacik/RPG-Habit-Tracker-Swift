@@ -68,11 +68,11 @@ enum CharacterBackground: String, CaseIterable, Codable, Identifiable {
     
     var displayName: String {
         switch self {
-        case .none: return String(localized: "no_background")
-        case .background1: return String(localized: "background_1")
-        case .background2: return String(localized: "background_2")
-        case .background3: return String(localized: "background_3")
-        case .background4: return String(localized: "background_4")
+        case .none: return "no_background".localized
+        case .background1: return "background_1".localized
+        case .background2: return "background_2".localized
+        case .background3: return "background_3".localized
+        case .background4: return "background_4".localized
         }
     }
     

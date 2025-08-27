@@ -17,7 +17,7 @@ struct CustomizationProgressView: View {
     var body: some View {
         let currentStepValue = currentStep + 1
         let totalStepsValue = totalSteps + 1
-        let currentStepText = String(localized: "step_progress").localized(with: currentStepValue, totalStepsValue)
+        let currentStepText = "step_progress".localized(with: currentStepValue, totalStepsValue)
 
         VStack(spacing: 8) {
             HStack {
@@ -232,7 +232,7 @@ struct CustomizationNavigationButtons: View {
                     HStack(spacing: 8) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .medium))
-                        let backText = String(localized: "back")
+                        let backText = "back".localized
                         Text(backText)
                             .font(.appFont(size: 16, weight: .medium))
                     }
@@ -251,7 +251,7 @@ struct CustomizationNavigationButtons: View {
             // Next button
             Button(action: onForward) {
                 HStack(spacing: 8) {
-                    let nextText = String(localized: "next")
+                    let nextText = "next".localized
                     Text(nextText)
                         .font(.appFont(size: 16, weight: .medium))
                     Image(systemName: "chevron.right")

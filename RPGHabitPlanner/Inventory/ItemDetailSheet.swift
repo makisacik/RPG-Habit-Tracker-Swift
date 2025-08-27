@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ItemDetailSheet: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -61,7 +62,7 @@ struct ItemDetailSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(String(localized: "close")) {
+                    Button("close".localized) {
                         dismiss()
                     }
                     .foregroundColor(theme.textColor)
@@ -103,8 +104,8 @@ struct ItemDetailSheet: View {
                     SuccessMessageOverlay(
                         theme: theme,
                         message: canEquipItem ?
-                            (isItemEquipped ? String(localized: "item_unequipped_successfully") : String(localized: "item_equipped_successfully")) :
-                            String(localized: "item_used_successfully")
+                            (isItemEquipped ? "item_unequipped_successfully".localized : "item_equipped_successfully".localized) :
+                            "item_used_successfully".localized
                     )
                 }
             }
@@ -175,7 +176,7 @@ struct ItemDetailSheet: View {
                             self.dismiss()
                         }
                     } else {
-                        self.errorMessage = error?.localizedDescription ?? String(localized: "failed_to_use_item")
+                        self.errorMessage = error?.localizedDescription ?? "failed_to_use_item".localized
                         self.showErrorMessage = true
 
                         // Auto-dismiss error after 3 seconds
@@ -188,7 +189,7 @@ struct ItemDetailSheet: View {
                 } else {
             // Item not found in inventory
             isUsingItem = false
-            errorMessage = String(localized: "item_not_found_in_inventory")
+            errorMessage = "item_not_found_in_inventory".localized
             showErrorMessage = true
 
             // Auto-dismiss error after 3 seconds
@@ -208,7 +209,7 @@ struct ItemDetailSheet: View {
             // Get the gear category for this item
             guard let gearCategory = getGearCategory(for: itemEntity) else {
                 isUsingItem = false
-                errorMessage = String(localized: "invalid_gear_category")
+                errorMessage = "invalid_gear_category".localized
                 showErrorMessage = true
                 return
             }
@@ -231,7 +232,7 @@ struct ItemDetailSheet: View {
         } else {
             // Item not found in inventory
             isUsingItem = false
-            errorMessage = String(localized: "item_not_found_in_inventory")
+            errorMessage = "item_not_found_in_inventory".localized
             showErrorMessage = true
 
             // Auto-dismiss error after 3 seconds
@@ -251,7 +252,7 @@ struct ItemDetailSheet: View {
             // Get the gear category for this item
             guard let gearCategory = getGearCategory(for: itemEntity) else {
                 isUsingItem = false
-                errorMessage = String(localized: "invalid_gear_category")
+                errorMessage = "invalid_gear_category".localized
                 showErrorMessage = true
                 return
             }
@@ -274,7 +275,7 @@ struct ItemDetailSheet: View {
         } else {
             // Item not found in inventory
             isUsingItem = false
-            errorMessage = String(localized: "item_not_found_in_inventory")
+            errorMessage = "item_not_found_in_inventory".localized
             showErrorMessage = true
 
             // Auto-dismiss error after 3 seconds

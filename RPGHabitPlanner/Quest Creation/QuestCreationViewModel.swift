@@ -39,7 +39,7 @@ final class QuestCreationViewModel: ObservableObject {
 
     func validateInputs() -> Bool {
         if questTitle.isEmpty {
-                            errorMessage = String(localized: "quest_title_cannot_be_empty")
+            errorMessage = "quest_title_cannot_be_empty".localized
             return false
         }
         return true

@@ -20,7 +20,7 @@ extension HomeView {
         ], spacing: 12) {
             HomeStatCard(
                 icon: "list.bullet.clipboard",
-                title: String(localized: "active"),
+                title: "active".localized,
                 value: "",
                 color: .blue,
                 theme: theme
@@ -30,7 +30,7 @@ extension HomeView {
 
             HomeStatCard(
                 icon: "checkmark.seal.fill",
-                title: String(localized: "completed"),
+                title: "completed".localized,
                 value: "",
                 color: .green,
                 theme: theme
@@ -40,7 +40,7 @@ extension HomeView {
 
             HomeStatCard(
                 icon: "trophy.fill",
-                title: String(localized: "achievements"),
+                title: "achievements".localized,
                 value: "\(viewModel.achievementsCount)",
                 color: .orange,
                 theme: theme
@@ -55,13 +55,13 @@ extension HomeView {
 
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(String(localized: "active_quests"))
+                Text("active_quests".localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
 
                 Spacer()
 
-                Button(String(localized: "view_all")) {
+                Button("view_all".localized) {
                     selectedTab = .tracking
                 }
                 .font(.appFont(size: 14, weight: .medium))
@@ -80,14 +80,14 @@ extension HomeView {
                         .font(.system(size: 32))
                         .foregroundColor(theme.textColor.opacity(0.5))
 
-                    Text(String(localized: "no_active_quests"))
+                    Text("no_active_quests".localized)
                         .font(.appFont(size: 16))
                         .foregroundColor(theme.textColor.opacity(0.7))
 
                     NavigationLink(destination: QuestCreationView(
                         viewModel: QuestCreationViewModel(questDataService: questDataService)
                     )) {
-                        Text(String(localized: "create_quest"))
+                        Text("create_quest".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(.blue)
                     }
@@ -115,14 +115,14 @@ extension HomeView {
         
         return VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(String(localized: "analytics"))
+                Text("analytics".localized)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
                 NavigationLink(destination: AnalyticsView()) {
-                    Text(String(localized: "view_all"))
+                    Text("view_all".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(.blue)
                 }

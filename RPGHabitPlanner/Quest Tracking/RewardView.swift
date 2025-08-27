@@ -79,7 +79,7 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text(String(localized: "experience"))
+                                            Text("experience".localized)
                                                 .font(.appFont(size: 14, weight: .medium))
                                                 .foregroundColor(theme.textColor.opacity(0.7))
                                             Spacer()
@@ -90,11 +90,11 @@ struct RewardView: View {
 
                                         if hasBoosters {
                                             HStack {
-                                                Text("\(String(localized: "base")): \(baseExp)")
+                                                Text("\("base".localized): \(baseExp)")
                                                     .font(.appFont(size: 12))
                                                     .foregroundColor(theme.textColor.opacity(0.6))
                                                 Spacer()
-                                                Text("+\(boostedExp - baseExp) \(String(localized: "from_boosters"))")
+                                                Text("+\(boostedExp - baseExp) \("from_boosters".localized)")
                                                     .font(.appFont(size: 12, weight: .medium))
                                                     .foregroundColor(.green)
                                             }
@@ -114,7 +114,7 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text(String(localized: "currency_coins"))
+                                            Text("currency_coins".localized)
                                                 .font(.appFont(size: 14, weight: .medium))
                                                 .foregroundColor(theme.textColor.opacity(0.7))
                                             Spacer()
@@ -125,11 +125,11 @@ struct RewardView: View {
 
                                         if hasBoosters {
                                             HStack {
-                                                Text("\(String(localized: "base")): \(baseCoins)")
+                                                Text("\("base".localized): \(baseCoins)")
                                                     .font(.appFont(size: 12))
                                                     .foregroundColor(theme.textColor.opacity(0.6))
                                                 Spacer()
-                                                Text("+\(boostedCoins - baseCoins) \(String(localized: "from_boosters"))")
+                                                Text("+\(boostedCoins - baseCoins) \("from_boosters".localized)")
                                                     .font(.appFont(size: 12, weight: .medium))
                                                     .foregroundColor(.green)
                                             }
@@ -149,7 +149,7 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text(String(localized: "currency_gems"))
+                                            Text("currency_gems".localized)
                                                 .font(.appFont(size: 14, weight: .medium))
                                                 .foregroundColor(theme.textColor.opacity(0.7))
                                             Spacer()
@@ -186,7 +186,7 @@ struct RewardView: View {
                     }) {
                         HStack {
                             Spacer()
-                            Text(String(localized: "dismiss"))
+                            Text("dismiss".localized)
                                 .font(.appFont(size: 16, weight: .black))
                                 .foregroundColor(theme.buttonTextColor)
                             Spacer()

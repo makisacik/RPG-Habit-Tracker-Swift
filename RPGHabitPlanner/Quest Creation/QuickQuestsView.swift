@@ -27,11 +27,11 @@ struct QuickQuestsView: View {
                     VStack(spacing: 20) {
                         // Header
                         VStack(spacing: 8) {
-                            Text(String.quickQuests.localized)
+                            Text("quick_quests".localized)
                                 .font(.appFont(size: 28, weight: .black))
                                 .foregroundColor(theme.textColor)
 
-                            Text(String.chooseFromCuratedQuestTemplates.localized)
+                            Text("choose_from_curated_quest_templates".localized)
                                 .font(.appFont(size: 16))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                                 .multilineTextAlignment(.center)
@@ -39,10 +39,10 @@ struct QuickQuestsView: View {
                         .padding(.top, 20)
 
                         // Quest Type Segments
-                        Picker(String.questType.localized, selection: $viewModel.selectedQuestType) {
-                            Text(String.daily.localized).tag(QuestType.daily)
-                            Text(String.weekly.localized).tag(QuestType.weekly)
-                            Text(String.oneTime.localized).tag(QuestType.oneTime)
+                        Picker("quest_type".localized, selection: $viewModel.selectedQuestType) {
+                            Text("daily".localized).tag(QuestType.daily)
+                            Text("weekly".localized).tag(QuestType.weekly)
+                            Text("one_time".localized).tag(QuestType.oneTime)
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         .padding(.horizontal, 16)
@@ -64,14 +64,14 @@ struct QuickQuestsView: View {
                     .padding(.bottom, 20)
                 }
             }
-            .navigationTitle(String.quickQuests.localized)
+            .navigationTitle("quick_quests".localized)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading: Button(String.cancelButton.localized) {
+                leading: Button("cancel".localized) {
                     dismiss()
                 }
                 .foregroundColor(theme.textColor),
-                trailing: Button(String.doneButton.localized) {
+                trailing: Button("done".localized) {
                     dismiss()
                 }
                 .foregroundColor(theme.textColor)
@@ -95,7 +95,7 @@ struct QuickQuestsView: View {
                 Alert(
                     title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
                     message: Text(alertMessage).font(.appFont(size: 14)),
-                    dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black)))
+                    dismissButton: .default(Text("ok".localized).font(.appFont(size: 14, weight: .black)))
                 )
             }
         }
@@ -221,7 +221,7 @@ struct DueDateSelectionView: View {
 
                     // Due Date Selection
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(String.dueDate.localized)
+                        Text("due_date".localized)
                             .font(.appFont(size: 18, weight: .bold))
                             .foregroundColor(theme.textColor)
 
@@ -238,7 +238,7 @@ struct DueDateSelectionView: View {
 
                     // Default Duration Info
                     VStack(spacing: 8) {
-                        Text(String.defaultDuration.localized)
+                        Text("default_duration".localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.7))
 
@@ -257,7 +257,7 @@ struct DueDateSelectionView: View {
                         }) {
                             HStack {
                                 Spacer()
-                                Text(String.addQuest.localized)
+                                Text("add_quest".localized)
                                     .font(.appFont(size: 18, weight: .black))
                                     .foregroundColor(theme.textColor)
                                 Spacer()
@@ -272,7 +272,7 @@ struct DueDateSelectionView: View {
                             )
                         }
 
-                        Button(String.cancelButton.localized) {
+                        Button("cancel".localized) {
                             dismiss()
                         }
                         .font(.appFont(size: 16))
@@ -282,9 +282,9 @@ struct DueDateSelectionView: View {
                     .padding(.bottom, 20)
                 }
             }
-                            .navigationTitle(String.setDueDate.localized)
+                            .navigationTitle("set_due_date".localized)
             .navigationBarTitleDisplayMode(.inline)
-                            .navigationBarItems(trailing: Button(String.cancelButton.localized) {
+                            .navigationBarItems(trailing: Button("cancel".localized) {
                 dismiss()
                             })
         }
@@ -293,11 +293,11 @@ struct DueDateSelectionView: View {
     private var defaultDurationText: String {
         switch questType {
         case .daily:
-            return "5 \(String.daysFromToday.localized)"
+            return "5 \("days_from_today".localized)"
         case .weekly:
-            return "3 \(String.weeksFromToday.localized)"
+            return "3 \("weeks_from_today".localized)"
         case .oneTime:
-            return "1 \(String.monthsFromToday.localized)"
+            return "1 \("months_from_today".localized)"
         }
     }
 }
@@ -329,17 +329,17 @@ enum QuickQuestCategory: String, CaseIterable {
     var displayName: String {
         switch self {
         case .health:
-            return String.healthAndWellness.localized
+            return "health_and_wellness".localized
         case .productivity:
-            return String.productivity.localized
+            return "productivity".localized
         case .learning:
-            return String.learningAndGrowth.localized
+            return "learning_and_growth".localized
         case .mindfulness:
-            return String.mindfulness.localized
+            return "mindfulness".localized
         case .fitness:
-            return String.fitness.localized
+            return "fitness".localized
         case .social:
-            return String.social.localized
+            return "social".localized
         }
     }
 

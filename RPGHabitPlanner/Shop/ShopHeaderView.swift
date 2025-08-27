@@ -15,11 +15,11 @@ struct ShopHeaderView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(String(localized: "adventure_shop"))
+                Text("adventure_shop".localized)
                     .font(.appFont(size: 24, weight: .black))
                     .foregroundColor(theme.textColor)
 
-                Text(String(localized: "shop_description"))
+                Text("shop_description".localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -34,7 +34,7 @@ struct ShopHeaderView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
 
-                    Text("\(currentCoins) \(String(localized: "currency_coins"))")
+                    Text("\(currentCoins)")
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.yellow)
                 }
@@ -55,7 +55,7 @@ struct ShopHeaderView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
 
-                    Text("\(currentGems) \(String(localized: "currency_gems"))")
+                    Text("\(currentGems)")
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.purple)
                 }

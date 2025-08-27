@@ -72,7 +72,7 @@ final class UserManager {
                 try context.save()
                 completion(nil)
             } else {
-                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: String(localized: "user_not_found")]))
+                completion(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "user_not_found".localized]))
             }
         } catch {
             completion(error)
@@ -82,7 +82,7 @@ final class UserManager {
     func updateUserLevel(newLevel: Int16, completion: @escaping (Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
-                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: String(localized: "user_not_found")]))
+                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "user_not_found".localized]))
                 return
             }
 
@@ -101,7 +101,7 @@ final class UserManager {
     func updateUserExperience(additionalExp: Int16, completion: @escaping (Bool, Int16?, Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
-                completion(false, nil, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: String(localized: "user_not_found")]))
+                completion(false, nil, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "user_not_found".localized]))
                 return
             }
 
@@ -136,7 +136,7 @@ final class UserManager {
     func updateUserCoins(additionalCoins: Int32, completion: @escaping (Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
-                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: String(localized: "user_not_found")]))
+                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "user_not_found".localized]))
                 return
             }
 
@@ -156,7 +156,7 @@ final class UserManager {
     func updateUserGems(additionalGems: Int32, completion: @escaping (Error?) -> Void) {
         fetchUser { user, error in
             guard let user = user, error == nil else {
-                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: String(localized: "user_not_found")]))
+                completion(error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "user_not_found".localized]))
                 return
             }
 

@@ -46,12 +46,12 @@ struct EditQuestView: View {
                     .padding(.bottom, 40)
                 }
             }
-                            .navigationTitle(String.editQuest.localized)
+                            .navigationTitle("edit_quest".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(String.cancelButton.localized) {
+                    Button("cancel".localized) {
                         onCancel?()
                         dismiss()
                     }
@@ -59,7 +59,7 @@ struct EditQuestView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button(String.deleteQuest.localized, role: .destructive) {
+                        Button("delete_quest".localized, role: .destructive) {
                             showDeleteConfirmation = true
                         }
                     } label: {
@@ -75,19 +75,19 @@ struct EditQuestView: View {
                     isPresented: $isTaskPopupVisible
                 )
             }
-                            .alert(String.deleteQuestConfirmation.localized, isPresented: $showDeleteConfirmation) {
-                    Button(String.cancelButton.localized, role: .cancel) { }
-                    Button(String.deleteButton.localized, role: .destructive) {
+                            .alert("delete_quest_confirmation".localized, isPresented: $showDeleteConfirmation) {
+                    Button("cancel".localized, role: .cancel) { }
+                    Button("delete".localized, role: .destructive) {
                     deleteQuest() // 🔧 implement
                     }
                             } message: {
-                    Text(String.deleteQuestWarning.localized)
+                    Text("delete_quest_warning".localized)
                             }
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle),
                     message: Text(alertMessage),
-                    dismissButton: .default(Text(String.okButton.localized))
+                    dismissButton: .default(Text("ok".localized))
                 )
             }
             .onChange(of: viewModel.didUpdateQuest) { updated in
@@ -112,11 +112,11 @@ struct EditQuestView: View {
                     onSaveSuccess?()     // 🔧 let parent refresh
                     dismiss()            // close sheet
                 } else {
-                    showAlert(title: String(localized: "error"), message: viewModel.errorMessage ?? String(localized: "failed_to_update_quest"))
+                    showAlert(title: "error".localized, message: viewModel.errorMessage ?? "failed_to_update_quest".localized)
                 }
             }
         } else {
-            showAlert(title: String(localized: "warning"), message: viewModel.errorMessage ?? String(localized: "please_check_your_input"))
+            showAlert(title: "warning".localized, message: viewModel.errorMessage ?? "please_check_your_input".localized)
         }
     }
 
@@ -127,7 +127,7 @@ struct EditQuestView: View {
                 onDeleteSuccess?()  // tell parent to refresh
                 dismiss()
             } else {
-                showAlert(title: String(localized: "error"), message: viewModel.errorMessage ?? String(localized: "failed_to_delete_quest"))
+                showAlert(title: "error".localized, message: viewModel.errorMessage ?? "failed_to_delete_quest".localized)
             }
         }
     }

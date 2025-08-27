@@ -16,17 +16,17 @@ enum BoosterType: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .experience: return String(localized: "experience")
-        case .coins: return String(localized: "coins")
-        case .both: return String(localized: "both")
+        case .experience: return "experience".localized
+        case .coins: return "coins".localized
+        case .both: return "both".localized
         }
     }
 
     var description: String {
         switch self {
-        case .experience: return String(localized: "booster_experience_description")
-        case .coins: return String(localized: "booster_coins_description")
-        case .both: return String(localized: "booster_both_description")
+        case .experience: return "booster_experience_description".localized
+        case .coins: return "booster_coins_description".localized
+        case .both: return "booster_both_description".localized
         }
     }
 }
@@ -39,8 +39,8 @@ enum BoosterSource: String, CaseIterable, Codable {
 
     var displayName: String {
         switch self {
-        case .item: return String(localized: "item")
-        case .temporary: return String(localized: "temporary")
+        case .item: return "item".localized
+        case .temporary: return "temporary".localized
         }
     }
 }
@@ -290,7 +290,7 @@ final class BoosterManager: ObservableObject {
                 multiplier: multiplier,
                 flatBonus: 0,
                 sourceId: effect.sourceItemId.uuidString,
-                sourceName: String(localized: "xp_boost_item"),
+                sourceName: "xp_boost_item".localized,
                 startTime: effect.startTime,
                 expiresAt: effect.endTime
             )
@@ -305,7 +305,7 @@ final class BoosterManager: ObservableObject {
                 multiplier: multiplier,
                 flatBonus: 0,
                 sourceId: effect.sourceItemId.uuidString,
-                sourceName: String(localized: "coin_boost_item"),
+                sourceName: "coin_boost_item".localized,
                 startTime: effect.startTime,
                 expiresAt: effect.endTime
             )

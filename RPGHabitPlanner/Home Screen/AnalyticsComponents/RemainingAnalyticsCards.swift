@@ -23,7 +23,7 @@ struct StreakInsightsCard: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_streak_insights"))
+                Text("analytics_streak_insights".localized)
                     .font(.headline)
                     .foregroundColor(theme.textColor)
                 
@@ -42,21 +42,21 @@ struct StreakInsightsCard: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 StatItem(
-                    title: String(localized: "analytics_current_streak"),
+                    title: "analytics_current_streak".localized,
                     value: "\(streakData.currentStreak)",
                     icon: "flame.fill",
                     color: theme.warningColor
                 )
                 
                 StatItem(
-                    title: String(localized: "analytics_longest_streak"),
+                    title: "analytics_longest_streak".localized,
                     value: "\(streakData.longestStreak)",
                     icon: "trophy.fill",
                     color: theme.accentColor
                 )
                 
                 StatItem(
-                    title: String(localized: "analytics_avg_streak"),
+                    title: "analytics_avg_streak".localized,
                     value: String(format: "%.1f", streakData.averageStreakLength),
                     icon: "chart.bar.fill",
                     color: theme.infoColor
@@ -65,7 +65,7 @@ struct StreakInsightsCard: View {
             
             // Streak Insights
             VStack(alignment: .leading, spacing: 12) {
-                Text(String(localized: "analytics_streak_insights_details"))
+                Text("analytics_streak_insights_details".localized)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textColor)
@@ -73,7 +73,7 @@ struct StreakInsightsCard: View {
                 VStack(spacing: 8) {
                     InsightRow(
                         icon: "calendar",
-                        title: String(localized: "analytics_best_streak_day"),
+                        title: "analytics_best_streak_day".localized,
                         value: dayOfWeekName(streakData.bestStreakDay),
                         color: theme.successColor
                     )
@@ -81,7 +81,7 @@ struct StreakInsightsCard: View {
                     if !streakData.streakBreakPatterns.isEmpty {
                         InsightRow(
                             icon: "exclamationmark.triangle.fill",
-                            title: String(localized: "analytics_common_break_day"),
+                            title: "analytics_common_break_day".localized,
                             value: dayOfWeekName(streakData.streakBreakPatterns.first?.dayOfWeek ?? 1),
                             color: theme.errorColor
                         )
@@ -92,7 +92,7 @@ struct StreakInsightsCard: View {
             // Streak Motivation
             if streakData.currentStreak > 0 {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(String(localized: "analytics_streak_motivation"))
+                    Text("analytics_streak_motivation".localized)
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textColor)
@@ -114,11 +114,11 @@ struct StreakInsightsCard: View {
     
     private var streakMotivationText: String {
         if streakData.currentStreak >= streakData.longestStreak {
-            return String(localized: "analytics_streak_motivation_record")
+            return "analytics_streak_motivation_record".localized
         } else if streakData.currentStreak >= streakData.longestStreak / 2 {
-            return String(localized: "analytics_streak_motivation_halfway")
+            return "analytics_streak_motivation_halfway".localized
         } else {
-            return String(localized: "analytics_streak_motivation_keep_going")
+            return "analytics_streak_motivation_keep_going".localized
         }
     }
     
@@ -146,13 +146,13 @@ struct CustomizationPreferencesCard: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_customization_preferences"))
+                Text("analytics_customization_preferences".localized)
                     .font(.headline)
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
-                Text(String(localized: "analytics_customization_score"))
+                Text("analytics_customization_score".localized)
                     .font(.caption)
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
@@ -163,14 +163,14 @@ struct CustomizationPreferencesCard: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 StatItem(
-                    title: String(localized: "analytics_customization_frequency"),
+                    title: "analytics_customization_frequency".localized,
                     value: "\(customization.customizationFrequency)",
                     icon: "paintbrush.fill",
                     color: theme.infoColor
                 )
                 
                 StatItem(
-                    title: String(localized: "analytics_last_customization"),
+                    title: "analytics_last_customization".localized,
                     value: formatLastCustomizationDate(customization.lastCustomizationDate),
                     icon: "calendar",
                     color: theme.warningColor
@@ -179,7 +179,7 @@ struct CustomizationPreferencesCard: View {
             
             // Preferences
             VStack(alignment: .leading, spacing: 12) {
-                Text(String(localized: "analytics_preferences"))
+                Text("analytics_preferences".localized)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textColor)
@@ -187,7 +187,7 @@ struct CustomizationPreferencesCard: View {
                 if let mostUsedPreset = customization.mostUsedPreset {
                     InsightRow(
                         icon: "star.fill",
-                        title: String(localized: "analytics_most_used_preset"),
+                        title: "analytics_most_used_preset".localized,
                         value: mostUsedPreset,
                         color: theme.accentColor
                     )
@@ -196,7 +196,7 @@ struct CustomizationPreferencesCard: View {
                 if !customization.preferredColors.isEmpty {
                     InsightRow(
                         icon: "paintpalette.fill",
-                        title: String(localized: "analytics_preferred_colors"),
+                        title: "analytics_preferred_colors".localized,
                         value: customization.preferredColors.joined(separator: ", "),
                         color: theme.infoColor
                     )
@@ -205,7 +205,7 @@ struct CustomizationPreferencesCard: View {
                 if !customization.preferredAccessories.isEmpty {
                     InsightRow(
                         icon: "crown.fill",
-                        title: String(localized: "analytics_preferred_accessories"),
+                        title: "analytics_preferred_accessories".localized,
                         value: customization.preferredAccessories.joined(separator: ", "),
                         color: theme.warningColor
                     )
@@ -214,7 +214,7 @@ struct CustomizationPreferencesCard: View {
             
             // Customization Tips
             VStack(alignment: .leading, spacing: 8) {
-                Text(String(localized: "analytics_customization_tips"))
+                Text("analytics_customization_tips".localized)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textColor)
@@ -235,7 +235,7 @@ struct CustomizationPreferencesCard: View {
     
     private func formatLastCustomizationDate(_ date: Date?) -> String {
         guard let date = date else {
-            return String(localized: "analytics_never")
+            return "analytics_never".localized
         }
         
         let formatter = RelativeDateTimeFormatter()
@@ -245,11 +245,11 @@ struct CustomizationPreferencesCard: View {
     
     private var customizationTipText: String {
         if customization.customizationFrequency == 0 {
-            return String(localized: "analytics_customization_tip_new")
+            return "analytics_customization_tip_new".localized
         } else if customization.customizationFrequency < AnalyticsConfiguration.Customization.occasionalCustomizationThreshold {
-            return String(localized: "analytics_customization_tip_occasional")
+            return "analytics_customization_tip_occasional".localized
         } else {
-            return String(localized: "analytics_customization_tip_active")
+            return "analytics_customization_tip_active".localized
         }
     }
 }
@@ -270,7 +270,7 @@ struct RecommendationsSection: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_recommendations"))
+                Text("analytics_recommendations".localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
@@ -303,12 +303,12 @@ struct RecommendationsSection: View {
                 .font(.system(size: 40))
                 .foregroundColor(theme.successColor.opacity(0.7))
             
-            Text(String(localized: "analytics_no_recommendations_title"))
+            Text("analytics_no_recommendations_title".localized)
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor)
                 .multilineTextAlignment(.center)
             
-            Text(String(localized: "analytics_no_recommendations_description"))
+            Text("analytics_no_recommendations_description".localized)
                 .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -379,7 +379,7 @@ struct RecommendationRow: View {
                 Spacer()
                 
                 if isFirst {
-                    Text(String(localized: "analytics_priority_high"))
+                    Text("analytics_priority_high".localized)
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(.white)
                         .padding(.horizontal, 6)
@@ -446,12 +446,12 @@ struct AnalyticsFiltersView: View {
         
         NavigationView {
             VStack(alignment: .leading, spacing: 20) {
-                Text(String(localized: "analytics_filters_title"))
+                Text("analytics_filters_title".localized)
                     .font(.appFont(size: 20, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 VStack(alignment: .leading, spacing: 16) {
-                    Text(String(localized: "analytics_time_period"))
+                    Text("analytics_time_period".localized)
                         .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
                     
@@ -480,11 +480,11 @@ struct AnalyticsFiltersView: View {
             }
             .padding(20)
             .background(theme.backgroundColor)
-            .navigationTitle(String(localized: "analytics_filters"))
+            .navigationTitle("analytics_filters".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(String(localized: "done")) {
+                    Button("done".localized) {
                         dismiss()
                     }
                     .font(.appFont(size: 16, weight: .medium))
@@ -497,15 +497,15 @@ struct AnalyticsFiltersView: View {
     private func periodDisplayName(_ period: AnalyticsPeriod) -> String {
         switch period {
         case .week:
-            return String(localized: "analytics_period_week")
+            return "analytics_period_week".localized
         case .month:
-            return String(localized: "analytics_period_month")
+            return "analytics_period_month".localized
         case .quarter:
-            return String(localized: "analytics_period_quarter")
+            return "analytics_period_quarter".localized
         case .year:
-            return String(localized: "analytics_period_year")
+            return "analytics_period_year".localized
         case .allTime:
-            return String(localized: "analytics_period_all_time")
+            return "analytics_period_all_time".localized
         }
     }
 }

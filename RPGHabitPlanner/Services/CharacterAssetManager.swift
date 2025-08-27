@@ -31,21 +31,21 @@ public enum AssetCategory: String, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .bodyType: return String(localized: "character_asset_body_type")
-        case .hairStyle: return String(localized: "character_asset_hair_style")
-        case .hairBackStyle: return String(localized: "character_asset_hair_back_style")
-        case .hairColor: return String(localized: "character_asset_hair_color")
-        case .eyeColor: return String(localized: "character_asset_eye_color")
-        case .outfit: return String(localized: "character_asset_outfit")
-        case .weapon: return String(localized: "character_asset_weapon")
-        case .accessory: return String(localized: "character_asset_accessory")
-        case .head: return String(localized: "character_asset_head")
-        case .headGear: return String(localized: "character_asset_head_gear")
-        case .shield: return String(localized: "character_asset_shield")
-        case .wings: return String(localized: "character_asset_wings")
-        case .mustache: return String(localized: "character_asset_mustache")
-        case .flower: return String(localized: "character_asset_flower")
-        case .pet: return String(localized: "character_asset_pet")
+        case .bodyType: return "character_asset_body_type".localized
+        case .hairStyle: return "character_asset_hair_style".localized
+        case .hairBackStyle: return "character_asset_hair_back_style".localized
+        case .hairColor: return "character_asset_hair_color".localized
+        case .eyeColor: return "character_asset_eye_color".localized
+        case .outfit: return "character_asset_outfit".localized
+        case .weapon: return "character_asset_weapon".localized
+        case .accessory: return "character_asset_accessory".localized
+        case .head: return "character_asset_head".localized
+        case .headGear: return "character_asset_head_gear".localized
+        case .shield: return "character_asset_shield".localized
+        case .wings: return "character_asset_wings".localized
+        case .mustache: return "character_asset_mustache".localized
+        case .flower: return "character_asset_flower".localized
+        case .pet: return "character_asset_pet".localized
         }
     }
 

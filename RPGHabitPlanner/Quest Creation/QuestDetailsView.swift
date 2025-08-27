@@ -22,18 +22,18 @@ struct QuestDetailsView: View {
 
                 // Quest Title
                 GamifiedInputField(
-                    title: String(localized: "quest_title"),
+                    title: "quest_title".localized,
                     text: $viewModel.questTitle,
                     icon: "pencil.circle.fill",
-                    placeholder: String(localized: "enter_quest_name")
+                    placeholder: "enter_quest_name".localized
                 )
 
                 // Quest Description
                 GamifiedInputField(
-                    title: String(localized: "quest_description"),
+                    title: "quest_description".localized,
                     text: $viewModel.questDescription,
                     icon: "doc.text.fill",
-                    placeholder: String(localized: "describe_quest")
+                    placeholder: "describe_quest".localized
                 )
 
                 // Repeat Type
@@ -49,7 +49,7 @@ struct QuestDetailsView: View {
 
                 // Quest Deadline
                 GamifiedDatePicker(
-                    title: String(localized: "quest_deadline"),
+                    title: "quest_deadline".localized,
                     date: $viewModel.questDueDate
                 )
 
@@ -63,7 +63,7 @@ struct QuestDetailsView: View {
                     HStack {
                         Image(systemName: "star.circle.fill")
                             .foregroundColor(.yellow)
-                        Text(String(localized: "quest_difficulty"))
+                        Text("quest_difficulty".localized)
                             .font(.appFont(size: 14, weight: .black))
                             .foregroundColor(theme.textColor)
                     }
@@ -109,7 +109,7 @@ struct QuestDetailsView: View {
                             Image(systemName: "checkmark.circle.fill")
                                 .font(.title2)
                         }
-                        Text(viewModel.isSaving ? String(localized: "creating") : String(localized: "create_quest"))
+                        Text(viewModel.isSaving ? "creating".localized : "create_quest".localized)
                             .font(.appFont(size: 16, weight: .black))
                     }
                     .foregroundColor(.white)
@@ -133,10 +133,10 @@ struct QuestDetailsView: View {
             .padding(.horizontal)
             .padding(.top, 8)
         }
-        .alert(String(localized: "error"), isPresented: $showErrorAlert) {
-            Button(String(localized: "ok")) { }
+        .alert("error".localized, isPresented: $showErrorAlert) {
+            Button("ok".localized) { }
         } message: {
-            Text(viewModel.errorMessage ?? String(localized: "unknown_error"))
+            Text(viewModel.errorMessage ?? "unknown_error".localized)
         }
         .onChange(of: viewModel.didSaveQuest) { didSave in
             if didSave {

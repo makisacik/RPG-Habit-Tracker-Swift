@@ -22,7 +22,7 @@ struct CompletedQuestsView: View {
             VStack(spacing: 5) {
                 VStack {
                     if viewModel.completedQuests.isEmpty {
-                        Text(String.noFinishedQuestsYet.localized)
+                        Text("no_finished_quests_yet".localized)
                             .font(.appFont(size: 16, weight: .black))
                             .foregroundColor(theme.textColor)
                             .padding()
@@ -46,10 +46,10 @@ struct CompletedQuestsView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text(String.errorTitle.localized).font(.appFont(size: 16, weight: .black)),
-                    message: Text(viewModel.errorMessage ?? String.unknownError.localized)
+                    title: Text("error".localized).font(.appFont(size: 16, weight: .black)),
+                    message: Text(viewModel.errorMessage ?? "unknown_error".localized)
                         .font(.appFont(size: 14)),
-                    dismissButton: .default(Text(String.okButton.localized).font(.appFont(size: 14, weight: .black))) {
+                    dismissButton: .default(Text("ok".localized).font(.appFont(size: 14, weight: .black))) {
                         viewModel.errorMessage = nil
                     }
                 )
@@ -86,7 +86,7 @@ struct CompletedQuestCardView: View {
 
                 Spacer()
 
-                Text("\(String.finished.localized): \(quest.isFinishedDate?.formatted(date: .abbreviated, time: .omitted) ?? quest.creationDate.formatted(date: .abbreviated, time: .omitted))")
+                Text("\("finished".localized): \(quest.isFinishedDate?.formatted(date: .abbreviated, time: .omitted) ?? quest.creationDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor)
             }
@@ -107,7 +107,7 @@ struct CompletedQuestCardView: View {
                     }
                 }) {
                     HStack {
-                        Text("\(tasks.count) \(String.tasks.localized)")
+                        Text("\(tasks.count) \("tasks".localized)")
                             .font(.appFont(size: 14, weight: .regular))
                             .foregroundColor(theme.textColor)
                         Spacer()
@@ -149,7 +149,7 @@ struct CompletedQuestCardView: View {
 
                 Spacer()
 
-                Text("\(String.dueLabel.localized) \(quest.dueDate.formatted(date: .abbreviated, time: .omitted))")
+                Text("\("due_label".localized) \(quest.dueDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor)
             }

@@ -33,7 +33,7 @@ struct CalendarView: View {
         let theme = themeManager.activeTheme
 
         mainContent(theme: theme)
-            .navigationTitle(String(localized: "quest_calendar"))
+            .navigationTitle("quest_calendar".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
@@ -84,9 +84,9 @@ struct CalendarView: View {
 
             .alert(isPresented: $showingAlert) {
                 Alert(
-                    title: Text(String(localized: "heads_up")),
+                    title: Text("heads_up".localized),
                     message: Text(viewModel.alertMessage ?? ""),
-                    dismissButton: .default(Text(String(localized: "ok_button"))) {
+                    dismissButton: .default(Text("ok_button".localized)) {
                         viewModel.alertMessage = nil
                     }
                 )
@@ -311,7 +311,7 @@ struct QuestCalendarRow: View {
                         }
                     }) {
                         HStack {
-                            Text("\(tasks.count) \(String(localized: "tasks"))")
+                            Text("\(tasks.count) \(("tasks".localized))")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
                             Spacer()
@@ -380,10 +380,10 @@ struct QuestCalendarRow: View {
 
     private var subtitle: String {
         switch item.quest.repeatType {
-        case .daily: return String(localized: "daily")
-        case .weekly: return String(localized: "weekly")
-        case .oneTime: return String(localized: "one_time")
-        case .scheduled: return String(localized: "scheduled")
+        case .daily: return "daily".localized
+        case .weekly: return "weekly".localized
+        case .oneTime: return "one_time".localized
+        case .scheduled: return "scheduled".localized
         }
     }
 }

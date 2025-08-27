@@ -75,7 +75,7 @@ struct FinalStepView: View {
                     }
 
                     VStack(spacing: 8) {
-                        Text(coordinator.nickname.isEmpty ? String(localized: "hero") : coordinator.nickname)
+                        Text(coordinator.nickname.isEmpty ? "hero".localized : coordinator.nickname)
                             .font(.appFont(size: 28, weight: .bold))
                             .foregroundColor(theme.textColor)
                             .lineLimit(1)
@@ -102,7 +102,7 @@ struct FinalStepView: View {
 
                 // Adventure summary
                 VStack(spacing: 16) {
-                    Text(String(localized: "your_adventure_awaits"))
+                    Text("your_adventure_awaits".localized)
                         .font(.appFont(size: 28, weight: .black))
                         .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
@@ -110,13 +110,13 @@ struct FinalStepView: View {
                         .animation(.easeInOut(duration: 1.2), value: showCompletionAnimation)
 
                     VStack(spacing: 12) {
-                        AdventureFeatureRow(icon: "icon_sword", text: String(localized: "create_quests_and_complete_tasks"), theme: theme)
+                        AdventureFeatureRow(icon: "icon_sword", text: "create_quests_and_complete_tasks".localized, theme: theme)
                             .opacity(showCompletionAnimation ? 1.0 : 0.6)
                             .animation(.easeInOut(duration: 0.8).delay(0.2), value: showCompletionAnimation)
-                        AdventureFeatureRow(icon: "trophy.fill", text: String(localized: "earn_experience_and_level_up"), theme: theme)
+                        AdventureFeatureRow(icon: "trophy.fill", text: "earn_experience_and_level_up".localized, theme: theme)
                             .opacity(showCompletionAnimation ? 1.0 : 0.6)
                             .animation(.easeInOut(duration: 0.8).delay(0.4), value: showCompletionAnimation)
-                        AdventureFeatureRow(icon: "star.fill", text: String(localized: "unlock_achievements_and_rewards"), theme: theme)
+                        AdventureFeatureRow(icon: "star.fill", text: "unlock_achievements_and_rewards".localized, theme: theme)
                             .opacity(showCompletionAnimation ? 1.0 : 0.6)
                             .animation(.easeInOut(duration: 0.8).delay(0.6), value: showCompletionAnimation)
                     }

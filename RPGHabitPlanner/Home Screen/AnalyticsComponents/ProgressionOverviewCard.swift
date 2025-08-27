@@ -21,7 +21,7 @@ struct ProgressionOverviewCard: View {
                     .foregroundColor(theme.textColor)
                     .font(.title2)
                 
-                Text(String(localized: "analytics_progression_overview"))
+                Text("analytics_progression_overview".localized)
                     .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
@@ -35,7 +35,7 @@ struct ProgressionOverviewCard: View {
                 GridItem(.flexible())
             ], spacing: 16) {
                 CustomStatItem(
-                    title: String(localized: "analytics_total_coins"),
+                    title: "analytics_total_coins".localized,
                     value: "\(progression.currencyEarned.totalCoinsEarned + 100)",
                     assetName: "icon_gold",
                     color: theme.warningColor,
@@ -43,7 +43,7 @@ struct ProgressionOverviewCard: View {
                 )
                 
                 CustomStatItem(
-                    title: String(localized: "analytics_total_gems"),
+                    title: "analytics_total_gems".localized,
                     value: "\(progression.currencyEarned.totalGemsEarned)",
                     assetName: "icon_gem",
                     color: theme.infoColor,
@@ -53,21 +53,21 @@ struct ProgressionOverviewCard: View {
             
             // Currency Analytics
             VStack(alignment: .leading, spacing: 12) {
-                Text(String(localized: "analytics_currency_analytics"))
+                Text("analytics_currency_analytics".localized)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 VStack(spacing: 8) {
                     InsightRow(
                         icon: "chart.bar.fill",
-                        title: String(localized: "analytics_avg_coins_per_quest"),
+                        title: "analytics_avg_coins_per_quest".localized,
                         value: String(format: "%.1f", progression.currencyEarned.averageCoinsPerQuest),
                         color: theme.warningColor
                     )
                     
                     InsightRow(
                         icon: "chart.line.uptrend.xyaxis",
-                        title: String(localized: "analytics_earning_rate"),
+                        title: "analytics_earning_rate".localized,
                         value: String(format: "%.0f", progression.currencyEarned.earningRate) + "/week",
                         color: theme.successColor
                     )
@@ -77,7 +77,7 @@ struct ProgressionOverviewCard: View {
             // Achievements Section
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text(String(localized: "analytics_achievements"))
+                    Text("analytics_achievements".localized)
                         .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                     
@@ -91,7 +91,7 @@ struct ProgressionOverviewCard: View {
                 // Achievement Progress Bar
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text(String(localized: "analytics_achievement_progress"))
+                        Text("analytics_achievement_progress".localized)
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
                         
@@ -110,7 +110,7 @@ struct ProgressionOverviewCard: View {
                 // Recent Achievements
                 if !progression.achievements.recentUnlocks.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(String(localized: "analytics_recent_achievements"))
+                        Text("analytics_recent_achievements".localized)
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                         
@@ -123,7 +123,7 @@ struct ProgressionOverviewCard: View {
                 // Next Achievements
                 if !progression.achievements.nextAchievements.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(String(localized: "analytics_next_achievements"))
+                        Text("analytics_next_achievements".localized)
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                         

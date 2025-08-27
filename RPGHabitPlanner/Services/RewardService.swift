@@ -25,7 +25,7 @@ class RewardService {
         // Check for abuse - prevent rapid toggling
         guard completionTracker.canCompleteQuest(quest.id) else {
             print("⚠️ Quest completion blocked due to cooldown: \(quest.title)")
-            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: String(localized: "quest_completion_cooldown")]))
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "quest_completion_cooldown".localized]))
             return
         }
 
@@ -65,7 +65,7 @@ class RewardService {
         // Check for abuse - prevent rapid toggling
         guard completionTracker.canCompleteTask(task.id, questId: quest.id) else {
             print("⚠️ Task completion blocked due to cooldown: \(task.title)")
-            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: String(localized: "task_completion_cooldown")]))
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "task_completion_cooldown".localized]))
             return
         }
         
@@ -103,9 +103,9 @@ class RewardService {
     
     func showPreviewQuestReward() {
         let sampleQuest = Quest(
-            title: String(localized: "sample_quest_title"),
+            title: "sample_quest_title".localized,
             isMainQuest: true,
-            info: String(localized: "sample_quest_description"),
+            info: "sample_quest_description".localized,
             difficulty: 3,
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400),
@@ -119,9 +119,9 @@ class RewardService {
     
     func showPreviewTaskReward() {
         let sampleQuest = Quest(
-            title: String(localized: "sample_quest_title"),
+            title: "sample_quest_title".localized,
             isMainQuest: false,
-            info: String(localized: "sample_quest_description"),
+                          info: "sample_quest_description".localized,
             difficulty: 2,
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400),
@@ -131,7 +131,7 @@ class RewardService {
         
         let sampleTask = QuestTask(
             id: UUID(),
-            title: String(localized: "sample_task_title"),
+            title: "sample_task_title".localized,
             isCompleted: true,
             order: 0
         )

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 // MARK: - Item Header View
 struct ItemHeaderView: View {
@@ -69,7 +70,7 @@ struct ItemHeaderView: View {
             }
 
             // Item Name
-            Text(item.name ?? "Unknown Item")
+            Text(item.localizedName)
                 .font(.appFont(size: 24, weight: .bold))
                 .foregroundColor(theme.textColor)
                 .multilineTextAlignment(.center)
@@ -177,7 +178,7 @@ struct CompactItemHeaderView: View {
             // Right side: Name, Rarity, and Description
             VStack(alignment: .leading, spacing: 8) {
                 // Item Name
-                Text(item.name)
+                Text(item.localizedName)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.leading)
@@ -228,7 +229,7 @@ struct ItemDetailsView: View {
                 .font(.appFont(size: 18, weight: .semibold))
                 .foregroundColor(theme.textColor)
 
-            Text(item.info ?? "no_description_available".localized)
+            Text(item.localizedDescription)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .multilineTextAlignment(.leading)
