@@ -280,10 +280,14 @@ final class MyQuestsViewModel: ObservableObject {
                         baseCoins: baseCoins
                     )
 
+                    print("🔄 MyQuestsViewModel: Calling updateUserExperience with \(boosted.experience) XP")
                     self.userManager.updateUserExperience(additionalExp: Int16(boosted.experience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
+                            print("❌ MyQuestsViewModel: Error updating experience: \(expError)")
                             self.alertMessage = expError.localizedDescription
                         } else {
+                            print("✅ MyQuestsViewModel: Successfully updated user experience")
+                            print("   Leveled Up: \(leveledUp), New Level: \(newLevel ?? 0)")
                             CurrencyManager.shared.addCoins(boosted.coins) { coinError in
                                 if let coinError = coinError {
                                     print("❌ Error adding coins: \(coinError)")

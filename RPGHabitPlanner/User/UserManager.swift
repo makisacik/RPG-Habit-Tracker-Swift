@@ -99,8 +99,10 @@ final class UserManager {
     }
 
     func updateUserExperience(additionalExp: Int16, completion: @escaping (Bool, Int16?, Error?) -> Void) {
+        print("🔄 UserManager: Starting updateUserExperience with \(additionalExp) additional XP")
         fetchUser { user, error in
             guard let user = user, error == nil else {
+                print("❌ UserManager: Failed to fetch user for experience update: \(error?.localizedDescription ?? "unknown error")")
                 completion(false, nil, error ?? NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "user_not_found".localized]))
                 return
             }
@@ -119,15 +121,26 @@ final class UserManager {
             // Check if leveled up
             let leveledUp = newLevel > user.level
 
+            print("🔄 UserManager: Experience Update Details:")
+            print("   Current Level: \(user.level), Current XP: \(user.exp)")
+            print("   Additional XP: \(additionalExp)")
+            print("   New Level: \(newLevel), New XP: \(newExperienceInLevel)")
+            print("   Leveled Up: \(leveledUp)")
+
             // Update user data
             user.level = Int16(newLevel)
             user.exp = Int16(newExperienceInLevel)
 
             do {
                 try context.save()
-                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
+                print("✅ UserManager: Successfully saved user experience update")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .userDidUpdate, object: nil)
+                    print("📢 UserManager: Posted userDidUpdate notification")
+                }
                 completion(leveledUp, user.level, nil)
             } catch {
+                print("❌ UserManager: Failed to save user experience update: \(error)")
                 completion(false, nil, error)
             }
         }

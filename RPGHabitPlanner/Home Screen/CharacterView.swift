@@ -15,7 +15,7 @@ struct CharacterView: View {
     @State private var refreshTrigger = false
     @State private var showCustomizationModal = false
     @State private var characterCustomization: CharacterCustomization?
-    let user: UserEntity
+    @ObservedObject var homeViewModel: HomeViewModel
 
     private let customizationService = CharacterCustomizationService()
 
@@ -26,56 +26,73 @@ struct CharacterView: View {
             theme.backgroundColor
                 .ignoresSafeArea()
 
-            ScrollView {
-                VStack(spacing: 20) {
-                    CharacterSectionView(
-                        user: user,
-                        characterCustomization: characterCustomization,
-                        showCustomizationModal: $showCustomizationModal
-                    )
-
-                    VStack(spacing: 12) {
-                        // Health Bar
-                        HealthBarView(healthManager: healthManager, size: .large, showShineAnimation: false)
-                            .padding(.horizontal)
-
-                        // Level and Experience
-                        LevelExperienceView(user: user, theme: theme)
-
-                        // Inventory Section
-                        InventorySectionView(
-                            inventoryManager: inventoryManager,
-                            theme: theme
+            if let user = homeViewModel.user {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        CharacterSectionView(
+                            user: user,
+                            characterCustomization: characterCustomization,
+                            showCustomizationModal: $showCustomizationModal
                         )
 
-                        // Boosters Section
-                        CompactBoostersSectionView(
-                            boosterManager: boosterManager,
-                            theme: theme
-                        )
+                        VStack(spacing: 12) {
+                            // Health Bar
+                            HealthBarView(healthManager: healthManager, size: .large, showShineAnimation: false)
+                                .padding(.horizontal)
+
+                            // Level and Experience
+                            LevelExperienceView(user: user, theme: theme)
+
+                            // Inventory Section
+                            InventorySectionView(
+                                inventoryManager: inventoryManager,
+                                theme: theme
+                            )
+
+                            // Boosters Section
+                            CompactBoostersSectionView(
+                                boosterManager: boosterManager,
+                                theme: theme
+                            )
+                        }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
+            } else {
+                // Loading state
+                VStack {
+                    ProgressView()
+                        .scaleEffect(1.0)
+                        .tint(.yellow)
+                    Text("loading_character".localized)
+                        .font(.appFont(size: 14))
+                        .foregroundColor(theme.textColor)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .sheet(isPresented: $showCustomizationModal) {
-            CharacterTabCustomizationView(user: user)
-                .environmentObject(themeManager)
+            if let user = homeViewModel.user {
+                CharacterTabCustomizationView(user: user)
+                    .environmentObject(themeManager)
+            }
         }
         .onAppear {
-            fetchCharacterCustomization()
-            // Refresh inventory to ensure we have items to test with
-            inventoryManager.refreshInventory()
-            // Ensure GearManager is initialized and refresh character customization
-            let gearManager = GearManager.shared
-            // Force refresh character customization from gear
-            gearManager.refreshCharacterCustomizationFromGear(for: user)
+            if let user = homeViewModel.user {
+                fetchCharacterCustomization(for: user)
+                // Refresh inventory to ensure we have items to test with
+                inventoryManager.refreshInventory()
+                // Ensure GearManager is initialized and refresh character customization
+                let gearManager = GearManager.shared
+                // Force refresh character customization from gear
+                gearManager.refreshCharacterCustomizationFromGear(for: user)
+            }
         }
         .onChange(of: showCustomizationModal) { isPresented in
             // Refresh character customization when modal is dismissed
-            if !isPresented {
-                fetchCharacterCustomization()
+            if !isPresented, let user = homeViewModel.user {
+                fetchCharacterCustomization(for: user)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .boostersUpdated)) { _ in
@@ -84,16 +101,20 @@ struct CharacterView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .characterCustomizationUpdated)) { _ in
             print("🔄 CharacterView: Received characterCustomizationUpdated notification")
-            fetchCharacterCustomization()
+            if let user = homeViewModel.user {
+                fetchCharacterCustomization(for: user)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .gearUpdated)) { _ in
             print("🔄 CharacterView: Received gearUpdated notification")
-            fetchCharacterCustomization()
+            if let user = homeViewModel.user {
+                fetchCharacterCustomization(for: user)
+            }
             inventoryManager.refreshInventory()
         }
     }
 
-    private func fetchCharacterCustomization() {
+    private func fetchCharacterCustomization(for user: UserEntity) {
         if let customizationEntity = customizationService.fetchCustomization(for: user) {
             self.characterCustomization = customizationEntity.toCharacterCustomization()
             print("✅ CharacterView: Loaded character customization")
@@ -121,7 +142,9 @@ struct CharacterView: View {
 
     /// Refreshes character customization data
     private func refreshCharacterCustomization() {
-        fetchCharacterCustomization()
+        if let user = homeViewModel.user {
+            fetchCharacterCustomization(for: user)
+        }
     }
 }
 

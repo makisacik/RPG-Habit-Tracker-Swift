@@ -2326,3 +2326,40 @@
 // MARK: - Consumable Subcategories
 "consumable_subcategory_potions" = "Potions";
 "consumable_subcategory_boosts" = "Boosts";
+
+// MARK: - Analytics Dashboard Additional Keys
+"analytics_partial_finished" = "Partial Finished";
+"analytics_view_details" = "View Details";
+"analytics_detailed_view_title" = "Detailed %@ View";
+"analytics_detailed_view_description" = "This would show detailed analytics for %@";
+"analytics_quest_performance_chart" = "Quest Performance Chart";
+"analytics_difficulty_analysis" = "Difficulty Analysis";
+"analytics_completion_trends" = "Completion Trends";
+"analytics_productivity_heatmap" = "Productivity Heatmap";
+"analytics_activity_patterns" = "Activity Patterns";
+"analytics_time_analysis" = "Time Analysis";
+"analytics_customization_patterns" = "Customization Patterns";
+"analytics_priority_recommendations" = "Priority Recommendations";
+"analytics_improvement_suggestions" = "Improvement Suggestions";
+"analytics_goal_setting" = "Goal Setting";
+"analytics_performance_overview" = "Performance Overview";
+"analytics_streak_status" = "Streak Status";
+"analytics_recent_activity" = "Recent Activity";
+"analytics_quick_actions" = "Quick Actions";
+"analytics_last_quest_completed" = "Last quest completed";
+"analytics_new_quest_created" = "New quest created";
+
+// MARK: - Achievement Titles (for preview data)
+"achievement_first_steps_title" = "First Steps";
+"achievement_first_steps_description" = "Complete your first quest";
+"achievement_streak_master_title" = "Streak Master";
+"achievement_streak_master_description" = "Maintain a 7-day streak";
+"achievement_quest_master_title" = "Quest Master";
+"achievement_quest_master_description" = "Complete 50 quests";
+"achievement_level_up_title" = "Level Up";
+"achievement_level_up_description" = "Reach level 20";
+
+// MARK: - Recommendation Titles (for preview data)
+"recommendation_create_more_quests_title" = "Create More Quests";
+"recommendation_create_more_quests_description" = "You've been doing great! Try creating more quests to increase your productivity.";
+"recommendation_create_quest_action" = "Create Quest";

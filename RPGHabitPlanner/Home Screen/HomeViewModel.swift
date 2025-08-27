@@ -83,11 +83,16 @@ class HomeViewModel: ObservableObject {
     }
 
     func fetchUserData() {
+        print("🔄 HomeViewModel: Starting fetchUserData()")
         userManager.fetchUser { [weak self] user, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("Failed to fetch user data: \(error)")
+                    print("❌ HomeViewModel: Failed to fetch user data: \(error)")
                 } else {
+                    print("✅ HomeViewModel: Successfully fetched user data")
+                    if let user = user {
+                        print("   User Level: \(user.level), User XP: \(user.exp)")
+                    }
                     self?.user = user
 
                     // Fetch character customization if user exists
@@ -198,6 +203,7 @@ class HomeViewModel: ObservableObject {
     private func observeUserUpdates() {
         NotificationCenter.default.publisher(for: .userDidUpdate)
             .sink { [weak self] _ in
+                print("📢 HomeViewModel: Received userDidUpdate notification")
                 self?.fetchUserData()
             }
             .store(in: &cancellables)

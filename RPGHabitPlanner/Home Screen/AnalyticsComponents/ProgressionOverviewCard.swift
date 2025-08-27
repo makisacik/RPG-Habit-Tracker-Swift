@@ -237,12 +237,12 @@ struct ProgressionOverviewCard_Previews: PreviewProvider {
                 unlockedAchievements: 18,
                 unlockRate: 0.72,
                                           recentUnlocks: [
-                              AchievementDefinition(id: "1", title: "First Steps", description: "Complete your first quest", iconName: "star.fill", category: .quests, requirement: .questCount(1)),
-                              AchievementDefinition(id: "2", title: "Streak Master", description: "Maintain a 7-day streak", iconName: "flame.fill", category: .quests, requirement: .consecutiveDays(7))
+                              AchievementDefinition(id: "1", title: "achievement_first_steps_title".localized, description: "achievement_first_steps_description".localized, iconName: "star.fill", category: .quests, requirement: .questCount(1)),
+                              AchievementDefinition(id: "2", title: "achievement_streak_master_title".localized, description: "achievement_streak_master_description".localized, iconName: "flame.fill", category: .quests, requirement: .consecutiveDays(7))
                                           ],
                           nextAchievements: [
-                              AchievementDefinition(id: "3", title: "Quest Master", description: "Complete 50 quests", iconName: "crown.fill", category: .quests, requirement: .questCount(50)),
-                              AchievementDefinition(id: "4", title: "Level Up", description: "Reach level 20", iconName: "arrow.up.circle.fill", category: .leveling, requirement: .level(20))
+                              AchievementDefinition(id: "3", title: "achievement_quest_master_title".localized, description: "achievement_quest_master_description".localized, iconName: "crown.fill", category: .quests, requirement: .questCount(50)),
+                              AchievementDefinition(id: "4", title: "achievement_level_up_title".localized, description: "achievement_level_up_description".localized, iconName: "arrow.up.circle.fill", category: .leveling, requirement: .level(20))
                           ]
             )
         ))

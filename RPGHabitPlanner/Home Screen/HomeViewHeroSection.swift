@@ -157,7 +157,9 @@ extension HomeView {
             Image("icon_lightning")
                 .resizable()
                 .frame(width: 10, height: 10)
-            Text("\(user.exp)/100 \("xp".localized)")
+            let levelingSystem = LevelingSystem.shared
+            let expRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))
+            Text("\(user.exp)/\(expRequiredForNextLevel) \("xp".localized)")
                 .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.8))
         }
@@ -310,7 +312,10 @@ extension HomeView {
                     .fill(theme.backgroundColor.opacity(0.7))
                     .frame(width: 100, height: 8)
 
-                let expRatio = min(CGFloat(user.exp) / 100.0, 1.0)
+                let levelingSystem = LevelingSystem.shared
+                let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
+                let progress = levelingSystem.calculateLevelProgress(totalExperience: totalExperience, currentLevel: Int(user.level))
+                let expRatio = min(CGFloat(progress), 1.0)
                 let expGradient = LinearGradient(
                     colors: [Color.green, Color.green.opacity(0.7)],
                     startPoint: .leading,
@@ -319,7 +324,7 @@ extension HomeView {
                 RoundedRectangle(cornerRadius: 4)
                     .fill(expGradient)
                     .frame(width: 100 * expRatio, height: 8)
-                    .animation(.easeInOut(duration: 0.5), value: user.exp)
+                    .animation(.easeInOut(duration: 0.5), value: expRatio)
             }
         }
     }

@@ -29,8 +29,11 @@ final class LevelingSystem {
         // Level 5: 50 + 60 + 70 + 80 = 260 XP
         // Formula: sum from i=1 to (level-1) of (40 + 10*i)
         
-        let levelDifference = level - 1
-        return levelDifference * (50 + 5 * (levelDifference - 1))
+        var total = 0
+        for i in 1..<level {
+            total += 40 + 10 * i
+        }
+        return total
     }
     
     /// Calculates the experience required for the next level from current level
@@ -69,7 +72,11 @@ final class LevelingSystem {
     ///   - currentLevel: Current level
     /// - Returns: Progress as a value between 0.0 and 1.0
     func calculateLevelProgress(totalExperience: Int, currentLevel: Int) -> Double {
-        guard currentLevel > 1 else { return 0.0 }
+        if currentLevel == 1 {
+            // For level 1, progress is based on experience towards level 2
+            let experienceForLevel2 = experienceRequiredForLevel(2)
+            return min(Double(totalExperience) / Double(experienceForLevel2), 1.0)
+        }
         
         let experienceForCurrentLevel = experienceRequiredForLevel(currentLevel)
         let experienceForNextLevel = experienceRequiredForLevel(currentLevel + 1)

@@ -255,7 +255,7 @@ struct HomeView: View {
             // MARK: Character
             NavigationStack {
                 if let user = viewModel.user {
-                    CharacterView(user: user)
+                    CharacterView(homeViewModel: viewModel)
                 } else {
                     Text("loading_character".localized)
                         .foregroundColor(theme.textColor)

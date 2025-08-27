@@ -566,11 +566,11 @@ struct RemainingAnalyticsCards_Previews: PreviewProvider {
             RecommendationsSection(recommendations: [
                 PersonalizedRecommendation(
                     type: .questCreation,
-                    title: "Create More Quests",
-                    description: "You've been doing great! Try creating more quests to increase your productivity.",
+                    title: "recommendation_create_more_quests_title".localized,
+                    description: "recommendation_create_more_quests_description".localized,
                     priority: .high,
                     actionable: true,
-                    actionTitle: "Create Quest",
+                    actionTitle: "recommendation_create_quest_action".localized,
                     actionData: nil
                 )
             ])

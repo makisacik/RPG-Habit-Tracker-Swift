@@ -13,7 +13,7 @@ struct AnalyticsDashboardPlaceholders {
     // MARK: - Performance Tab Placeholders
     
     static func questPerformanceChart(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Quest Performance Chart")
+        Text("analytics_quest_performance_chart".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 200)
             .background(theme.cardBackgroundColor)
@@ -21,7 +21,7 @@ struct AnalyticsDashboardPlaceholders {
     }
     
     static func difficultyAnalysisCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Difficulty Analysis")
+        Text("analytics_difficulty_analysis".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -29,7 +29,7 @@ struct AnalyticsDashboardPlaceholders {
     }
     
     static func completionTrendsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Completion Trends")
+        Text("analytics_completion_trends".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -37,7 +37,7 @@ struct AnalyticsDashboardPlaceholders {
     }
     
     static func productivityHeatmapCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Productivity Heatmap")
+        Text("analytics_productivity_heatmap".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 200)
             .background(theme.cardBackgroundColor)
@@ -47,7 +47,7 @@ struct AnalyticsDashboardPlaceholders {
     // MARK: - Patterns Tab Placeholders
     
     static func activityPatternsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Activity Patterns")
+        Text("analytics_activity_patterns".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -55,7 +55,7 @@ struct AnalyticsDashboardPlaceholders {
     }
     
     static func timeAnalysisCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Time Analysis")
+        Text("analytics_time_analysis".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -64,7 +64,7 @@ struct AnalyticsDashboardPlaceholders {
     
     
     static func customizationPatternsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Customization Patterns")
+        Text("analytics_customization_patterns".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -74,7 +74,7 @@ struct AnalyticsDashboardPlaceholders {
     // MARK: - Recommendations Tab Placeholders
     
     static func priorityRecommendationsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Priority Recommendations")
+        Text("analytics_priority_recommendations".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -82,7 +82,7 @@ struct AnalyticsDashboardPlaceholders {
     }
     
     static func improvementSuggestionsCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Improvement Suggestions")
+        Text("analytics_improvement_suggestions".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)
@@ -90,7 +90,7 @@ struct AnalyticsDashboardPlaceholders {
     }
     
     static func goalSettingCard(summary: AnalyticsSummary, theme: Theme) -> some View {
-        Text("Goal Setting")
+        Text("analytics_goal_setting".localized)
             .foregroundColor(theme.textColor)
             .frame(maxWidth: .infinity, maxHeight: 150)
             .background(theme.cardBackgroundColor)

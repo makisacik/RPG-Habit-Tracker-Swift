@@ -290,7 +290,7 @@ struct AnalyticsDashboardView: View {
                 
                 Spacer()
                 
-                Button("View Details") {
+                Button("analytics_view_details".localized) {
                     selectedTab = .performance
                     showDetailedView = true
                 }
@@ -416,7 +416,7 @@ struct AnalyticsDashboardView: View {
                 ActivityRow(
                     icon: "plus.circle.fill",
                     title: "analytics_new_quest_created".localized,
-                    subtitle: "Yesterday",
+                    subtitle: "yesterday".localized,
                     color: theme.accentColor,
                     theme: theme
                 )

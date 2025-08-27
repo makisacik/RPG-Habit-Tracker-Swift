@@ -2103,3 +2103,40 @@
 "network_error" = "Ağ hatası";
 "retry_connection" = "Bağlantıyı yeniden dene";
 "connection_successful" = "Bağlantı başarılı";
+
+// MARK: - Analytics Dashboard Additional Keys
+"analytics_partial_finished" = "Kısmen Tamamlandı";
+"analytics_view_details" = "Detayları Görüntüle";
+"analytics_detailed_view_title" = "Detaylı %@ Görünümü";
+"analytics_detailed_view_description" = "Bu %@ için detaylı analitikleri gösterecek";
+"analytics_quest_performance_chart" = "Görev Performans Grafiği";
+"analytics_difficulty_analysis" = "Zorluk Analizi";
+"analytics_completion_trends" = "Tamamlama Trendleri";
+"analytics_productivity_heatmap" = "Üretkenlik Isı Haritası";
+"analytics_activity_patterns" = "Aktivite Desenleri";
+"analytics_time_analysis" = "Zaman Analizi";
+"analytics_customization_patterns" = "Özelleştirme Desenleri";
+"analytics_priority_recommendations" = "Öncelikli Öneriler";
+"analytics_improvement_suggestions" = "İyileştirme Önerileri";
+"analytics_goal_setting" = "Hedef Belirleme";
+"analytics_performance_overview" = "Performans Genel Bakışı";
+"analytics_streak_status" = "Seri Durumu";
+"analytics_recent_activity" = "Son Aktiviteler";
+"analytics_quick_actions" = "Hızlı İşlemler";
+"analytics_last_quest_completed" = "Son tamamlanan görev";
+"analytics_new_quest_created" = "Yeni görev oluşturuldu";
+
+// MARK: - Achievement Titles (for preview data)
+"achievement_first_steps_title" = "İlk Adımlar";
+"achievement_first_steps_description" = "İlk görevini tamamla";
+"achievement_streak_master_title" = "Seri Ustası";
+"achievement_streak_master_description" = "7 günlük seri sürdür";
+"achievement_quest_master_title" = "Görev Ustası";
+"achievement_quest_master_description" = "50 görev tamamla";
+"achievement_level_up_title" = "Seviye Atlama";
+"achievement_level_up_description" = "20. seviyeye ulaş";
+
+// MARK: - Recommendation Titles (for preview data)
+"recommendation_create_more_quests_title" = "Daha Fazla Görev Oluştur";
+"recommendation_create_more_quests_description" = "Harika gidiyorsun! Üretkenliğini artırmak için daha fazla görev oluşturmayı dene.";
+"recommendation_create_quest_action" = "Görev Oluştur";

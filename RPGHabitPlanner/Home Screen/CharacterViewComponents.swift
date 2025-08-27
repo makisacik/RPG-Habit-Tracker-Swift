@@ -211,8 +211,8 @@ struct LevelExperienceView: View {
 
                 HStack {
                     let levelingSystem = LevelingSystem.shared
-                    let experienceToNext = levelingSystem.experienceToNextLevel(totalExperience: levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp)), currentLevel: Int(user.level))
-                    Text("\(user.exp)/\(experienceToNext)")
+                    let experienceRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))
+                    Text("\(user.exp)/\(experienceRequiredForNextLevel)")
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(.white)
                         .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)

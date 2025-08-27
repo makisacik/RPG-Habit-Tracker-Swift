@@ -72,7 +72,7 @@ struct QuestPerformanceCard: View {
                 // )
                 
                 StatItem(
-                    title: "Partial Finished",
+                    title: "analytics_partial_finished".localized,
                     value: "\(Int(performance.partialCompletionRate * 100))%",
                     icon: "chart.line.uptrend.xyaxis",
                     color: theme.infoColor

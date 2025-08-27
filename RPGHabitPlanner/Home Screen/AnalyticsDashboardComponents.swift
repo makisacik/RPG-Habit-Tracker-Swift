@@ -109,11 +109,11 @@ struct AnalyticsDetailedView: View {
         
         NavigationView {
             VStack {
-                Text("Detailed \(selectedTab.displayName) View")
+                Text(String(format: "analytics_detailed_view_title".localized, selectedTab.displayName))
                     .font(.title)
                     .foregroundColor(theme.textColor)
                 
-                Text("This would show detailed analytics for \(selectedTab.displayName)")
+                Text(String(format: "analytics_detailed_view_description".localized, selectedTab.displayName))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding()
@@ -124,7 +124,7 @@ struct AnalyticsDetailedView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button("done".localized) {
                         dismiss()
                     }
                     .foregroundColor(theme.accentColor)
