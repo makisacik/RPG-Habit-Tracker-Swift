@@ -72,19 +72,17 @@ struct SettingsView: View {
                 NavigationLink(String(localized: "data_and_storage")) { Text(String(localized: "data_and_storage_settings")) }
             }
 
-            // Development features section (visible in DEBUG, release builds from Xcode, and TestFlight)
-            if Bundle.main.isDevelopmentBuild {
-                Section("Development") {
-                    Button {
-                        addTestCurrency()
-                    } label: {
-                        HStack {
-                            Label("Add Test Currency", systemImage: "plus.circle.fill")
-                            Spacer()
-                        }
+            // Development features section
+            Section("Development") {
+                Button {
+                    addTestCurrency()
+                } label: {
+                    HStack {
+                        Label("Add Test Currency", systemImage: "plus.circle.fill")
+                        Spacer()
                     }
-                    .foregroundColor(.orange)
                 }
+                .foregroundColor(.orange)
             }
         }
         .navigationTitle(String(localized: "settings"))
