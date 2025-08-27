@@ -244,13 +244,6 @@ struct HomeView: View {
                             .tabItem { Label("quests".localized, systemImage: "list.bullet.clipboard.fill") }
             .tag(HomeTab.tracking)
 
-            // MARK: Calendar
-            NavigationStack {
-                CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
-                    .environmentObject(themeManager)
-            }
-                            .tabItem { Label("calendar".localized, systemImage: "calendar") }
-            .tag(HomeTab.calendar)
 
             // MARK: Character
             NavigationStack {

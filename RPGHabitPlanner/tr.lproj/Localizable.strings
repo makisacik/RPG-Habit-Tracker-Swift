@@ -498,6 +498,7 @@
 "create_first_tag_to_get_started" = "Başlamak için ilk etiketini oluştur";
 "create_new_tag" = "Yeni Etiket Oluştur";
 "selected_tags" = "Seçilen Etiketler";
+"selected_tags_count" = "Seçilen (%d)";
 "no_tags_found" = "Etiket bulunamadı";
 "try_adjusting_search_or_create_new_tag" = "Aramayı değiştir veya yeni bir etiket oluştur";
 "create_your_first_tag" = "İlk Etiketini Oluştur";

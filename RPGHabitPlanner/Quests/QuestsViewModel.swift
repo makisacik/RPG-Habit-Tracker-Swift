@@ -25,7 +25,7 @@ final class QuestsViewModel: ObservableObject {
     @Published var questToCheckCompletion: Quest?
 
     let questDataService: QuestDataServiceProtocol
-    private let userManager: UserManager
+    let userManager: UserManager
     private let calendar = Calendar.current
     private let streakManager = StreakManager.shared
     private let boosterManager = BoosterManager.shared

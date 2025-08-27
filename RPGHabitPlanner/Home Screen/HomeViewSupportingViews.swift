@@ -208,5 +208,4 @@ enum HomeTab: Hashable {
     case shop
     case achievements
     case focusTimer
-    case calendar
 }

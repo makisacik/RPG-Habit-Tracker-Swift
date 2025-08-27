@@ -72,18 +72,17 @@ final class LevelingSystem {
     ///   - currentLevel: Current level
     /// - Returns: Progress as a value between 0.0 and 1.0
     func calculateLevelProgress(totalExperience: Int, currentLevel: Int) -> Double {
+        let experienceRequiredForNextLevel = experienceRequiredForNextLevel(from: currentLevel)
+
         if currentLevel == 1 {
             // For level 1, progress is based on experience towards level 2
-            let experienceForLevel2 = experienceRequiredForLevel(2)
-            return min(Double(totalExperience) / Double(experienceForLevel2), 1.0)
+            return min(Double(totalExperience) / Double(experienceRequiredForNextLevel), 1.0)
         }
-        
+
         let experienceForCurrentLevel = experienceRequiredForLevel(currentLevel)
-        let experienceForNextLevel = experienceRequiredForLevel(currentLevel + 1)
         let experienceInCurrentLevel = totalExperience - experienceForCurrentLevel
-        let experienceNeededForNextLevel = experienceForNextLevel - experienceForCurrentLevel
-        
-        return Double(experienceInCurrentLevel) / Double(experienceNeededForNextLevel)
+
+        return min(Double(experienceInCurrentLevel) / Double(experienceRequiredForNextLevel), 1.0)
     }
     
     /// Calculates experience remaining to next level

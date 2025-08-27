@@ -82,18 +82,23 @@ final class LevelingSystemTests: XCTestCase {
     // MARK: - Progress Calculation Tests
 
     func testCalculateLevelProgress() {
-        // Level 1 should always return 0.0 (no progress within level 1)
+        // Level 1 with 0 XP progress (0/50 = 0.0)
         XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 0, currentLevel: 1), 0.0)
-        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 25, currentLevel: 1), 0.0)
-        
-        // Level 2 with 25 XP progress (25/50 = 0.5)
-        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 75, currentLevel: 2), 0.5)
-        
-        // Level 2 with 50 XP progress (50/50 = 1.0)
-        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 100, currentLevel: 2), 1.0)
-        
-        // Level 3 with 30 XP progress (30/60 = 0.5)
-        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 140, currentLevel: 3), 0.5)
+
+        // Level 1 with 25 XP progress (25/50 = 0.5)
+        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 25, currentLevel: 1), 0.5)
+
+        // Level 1 with 50 XP progress (50/50 = 1.0)
+        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 50, currentLevel: 1), 1.0)
+
+        // Level 2 with 25 XP progress (25/60 = 0.417)
+        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 75, currentLevel: 2), 25.0 / 60.0)
+
+        // Level 2 with 60 XP progress (60/60 = 1.0)
+        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 110, currentLevel: 2), 1.0)
+
+        // Level 3 with 30 XP progress (30/70 = 0.429)
+        XCTAssertEqual(levelingSystem.calculateLevelProgress(totalExperience: 140, currentLevel: 3), 30.0 / 70.0)
     }
 
     func testExperienceToNextLevel() {

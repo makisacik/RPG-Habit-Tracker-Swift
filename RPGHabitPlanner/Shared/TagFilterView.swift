@@ -87,7 +87,7 @@ struct TagFilterView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "checkmark.circle.fill")
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(theme.accentColor)
+                                .foregroundColor(theme.textColor)
 
                             Text(String(format: "selected_tags_count".localized, viewModel.selectedTags.count))
                                 .font(.appFont(size: 14, weight: .bold))
@@ -107,12 +107,12 @@ struct TagFilterView: View {
                                 Text("clear_all".localized)
                                     .font(.appFont(size: 12, weight: .medium))
                             }
-                            .foregroundColor(theme.accentColor)
+                            .foregroundColor(theme.textColor)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(theme.accentColor.opacity(0.1))
+                                    .fill(theme.textColor.opacity(0.1))
                             )
                         }
                         .buttonStyle(PlainButtonStyle())

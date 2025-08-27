@@ -19,6 +19,7 @@ struct QuestsView: View {
     @State private var completedQuest: Quest?
     @State private var showLevelUp = false
     @State private var levelUpLevel: Int = 0
+    @State private var showCalendar = false
 
     let questDataService: QuestDataServiceProtocol
 
@@ -35,6 +36,15 @@ struct QuestsView: View {
         mainContent(theme: theme)
             .navigationTitle("quest_journal".localized)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { showCalendar = true }) {
+                        Image(systemName: "calendar")
+                            .font(.title2)
+                            .foregroundColor(theme.textColor)
+                    }
+                }
+            }
             .sheet(isPresented: $showingQuestCreation, onDismiss: {
                 viewModel.fetchQuests()
             }) {
@@ -50,6 +60,12 @@ struct QuestsView: View {
                         questDataService: questDataService
                     )
                     .environmentObject(themeManager)
+                }
+            }
+            .sheet(isPresented: $showCalendar) {
+                NavigationStack {
+                    CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
+                        .environmentObject(themeManager)
                 }
             }
             .onChange(of: viewModel.alertMessage) { alertMessage in

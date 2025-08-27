@@ -527,15 +527,15 @@ private struct TagFilterButton: View {
                 Text("filter".localized)
                     .font(.appFont(size: 14, weight: .medium))
             }
-            .foregroundColor(theme.accentColor)
+            .foregroundColor(theme.textColor)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.accentColor.opacity(0.1))
+                    .fill(theme.textColor.opacity(0.1))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
+                            .stroke(theme.textColor.opacity(0.3), lineWidth: 1)
                     )
             )
         }
@@ -554,15 +554,15 @@ private struct ApplyFiltersButton: View {
                 Text("apply".localized)
                     .font(.appFont(size: 14, weight: .medium))
             }
-            .foregroundColor(theme.accentColor)
+            .foregroundColor(theme.textColor)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.accentColor.opacity(0.1))
+                    .fill(theme.textColor.opacity(0.1))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
+                            .stroke(theme.textColor.opacity(0.3), lineWidth: 1)
                     )
             )
         }
