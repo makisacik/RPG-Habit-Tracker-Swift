@@ -539,7 +539,7 @@ struct ItemPreviewModal: View {
     let onPurchase: () -> Void
 
     @EnvironmentObject var themeManager: ThemeManager
-    @State private var previewScale: CGFloat = 0.8
+    @State private var previewScale: CGFloat = 1.0
     @State private var showItemDetails = false
 
     var body: some View {
@@ -587,16 +587,16 @@ struct ItemPreviewModal: View {
                                 Image(uiImage: image)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 120, height: 120)
+                                    .frame(width: 144, height: 144)
                                     .scaleEffect(previewScale)
-                                    .animation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true), value: previewScale)
+                                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
                             } else {
                                 Image(systemName: "photo")
                                     .font(.system(size: 40))
                                     .foregroundColor(theme.textColor.opacity(0.3))
-                                    .frame(width: 120, height: 120)
+                                    .frame(width: 144, height: 144)
                                     .scaleEffect(previewScale)
-                                    .animation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true), value: previewScale)
+                                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
                             }
                         }
                     }
@@ -699,8 +699,16 @@ struct ItemPreviewModal: View {
     }
 
     private func startPreviewAnimation() {
-        withAnimation(.spring(response: 0.8, dampingFraction: 0.6).repeatForever(autoreverses: true)) {
-            previewScale = 1.1
+        // Single animation cycle
+        withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+            previewScale = 1.2
+        }
+        
+        // Return to normal size
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                previewScale = 1.0
+            }
         }
     }
 }
