@@ -121,7 +121,7 @@ struct MyQuestsSection: View {
 
     @ViewBuilder
     private func questsListView(theme: Theme) -> some View {
-        if viewModel.isLoading && viewModel.allQuests.isEmpty {
+        if viewModel.isLoading && !viewModel.hasInitialData {
             loadingView(theme: theme)
         } else if !viewModel.itemsForSelectedDate.isEmpty {
             questsListContent(theme: theme)

@@ -21,6 +21,7 @@ final class CalendarViewModel: ObservableObject {
     @Published var allQuests: [Quest] = []
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
+    @Published var hasInitialData = false  // Track if we've loaded data at least once
     @Published var alertMessage: String?
     @Published var showFinishConfirmation: Bool = false
     @Published var questToFinish: Quest?
@@ -106,7 +107,7 @@ final class CalendarViewModel: ObservableObject {
     
     var itemsForSelectedDate: [DayQuestItem] { items(for: selectedDate) }
     
-    var shouldShowLoadingState: Bool { isLoading && allQuests.isEmpty }
+    var shouldShowLoadingState: Bool { isLoading && !hasInitialData }
     
     func fetchQuests() {
         print("📅 CalendarViewModel: Starting fetchQuests()")
@@ -118,6 +119,7 @@ final class CalendarViewModel: ObservableObject {
                     print("📅 CalendarViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
+                    self?.hasInitialData = true  // Mark that we've loaded data at least once
                     self?.bumpCalendarVersion() // 🔁 ensure UI refreshes
                 }
             }
@@ -130,6 +132,7 @@ final class CalendarViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Refreshed quest data with \(quests.count) quests")
                     self?.allQuests = quests
+                    self?.hasInitialData = true  // Mark that we've loaded data at least once
                     NotificationCenter.default.post(name: .questUpdated, object: nil)
                     self?.bumpCalendarVersion() // 🔁
                 }
@@ -143,6 +146,7 @@ final class CalendarViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     print("📅 CalendarViewModel: Silently updated quest data with \(quests.count) quests")
                     self?.allQuests = quests
+                    self?.hasInitialData = true  // Mark that we've loaded data at least once
                     self?.bumpCalendarVersion() // 🔁
                 }
             }

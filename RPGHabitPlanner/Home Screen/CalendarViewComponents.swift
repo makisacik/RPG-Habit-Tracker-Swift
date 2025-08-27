@@ -166,9 +166,9 @@ enum CalendarViewComponents {
         onQuestTap: @escaping (DayQuestItem) -> Void
     ) -> some View {
         VStack(spacing: 0) {
-            if viewModel.isLoading && viewModel.allQuests.isEmpty {
-                // Show loading state only when there's no data
-                loadingSection(theme: theme)
+            if viewModel.isLoading && !viewModel.hasInitialData {
+                // Show transparent loading state
+                transparentLoadingSection(theme: theme)
             } else if !viewModel.itemsForSelectedDate.isEmpty {
                 SelectedDateDetails(
                     date: viewModel.selectedDate,
@@ -200,7 +200,7 @@ enum CalendarViewComponents {
         }
         .frame(minHeight: 280, maxHeight: 320)
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
-        .animation(Animation.easeInOut(duration: 0.3), value: viewModel.isLoading && viewModel.allQuests.isEmpty)
+        .animation(Animation.easeInOut(duration: 0.3), value: viewModel.isLoading && !viewModel.hasInitialData)
     }
     
     // MARK: - Overlay Views
@@ -335,6 +335,15 @@ enum CalendarViewComponents {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .transition(.opacity.combined(with: .scale))
+    }
+    
+    // MARK: - Transparent Loading Section
+    @ViewBuilder
+    static func transparentLoadingSection(theme: Theme) -> some View {
+        // Completely transparent empty view
+        Color.clear
+            .frame(minHeight: 280, maxHeight: 320)
+            .transition(.opacity)
     }
     
     // MARK: - Add Quest Section

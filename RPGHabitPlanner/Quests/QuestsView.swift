@@ -108,7 +108,7 @@ struct QuestsView: View {
     private func questsListSection(theme: Theme) -> some View {
         ScrollView {
             VStack(spacing: 0) {
-                if viewModel.isLoading && viewModel.allQuests.isEmpty {
+                if viewModel.isLoading && !viewModel.hasInitialData {
                     loadingView(theme: theme)
                 } else if !viewModel.itemsForSelectedDate.isEmpty {
                     questsListContent(theme: theme)

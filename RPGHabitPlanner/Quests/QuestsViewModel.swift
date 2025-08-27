@@ -12,6 +12,7 @@ final class QuestsViewModel: ObservableObject {
     @Published var allQuests: [Quest] = []
     @Published var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @Published var isLoading = false
+    @Published var hasInitialData = false  // Track if we've loaded data at least once
     @Published var alertMessage: String?
     @Published var questCompleted: Bool = false
     @Published var didLevelUp: Bool = false
@@ -128,6 +129,7 @@ final class QuestsViewModel: ObservableObject {
                     print("📅 QuestsViewModel: Received \(quests.count) quests from fetchAllQuests")
                     self?.isLoading = false
                     self?.allQuests = quests
+                    self?.hasInitialData = true  // Mark that we've loaded data at least once
                 }
             }
         }
@@ -140,6 +142,7 @@ final class QuestsViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     print("📅 QuestsViewModel: Refreshed quest data with \(quests.count) quests")
                     self?.allQuests = quests
+                    self?.hasInitialData = true  // Mark that we've loaded data at least once
                     // Send notification to other views
                     NotificationCenter.default.post(name: .questUpdated, object: nil)
                 }
