@@ -6,1727 +6,2147 @@
 */
 
 // MARK: - General
-"ok" = "Tamam";
-"cancel" = "İptal";
-"save" = "Kaydet";
-"delete" = "Sil";
-"edit" = "Düzenle";
-"close" = "Kapat";
-"back" = "Geri";
-"next" = "İleri";
-"previous" = "Önceki";
-"done" = "Bitti";
-"error" = "Hata";
-"warning" = "Uyarı";
-"success" = "Başarılı";
-"loading" = "Yükleniyor...";
+"ok" = "OK";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"close" = "Close";
+"back" = "Back";
+"next" = "Next";
+"previous" = "Previous";
+"done" = "Done";
+"error" = "Error";
+"warning" = "Warning";
+"success" = "Success";
+"loading" = "Loading...";
 
 // MARK: - Navigation & Titles
-"adventure_hub" = "Macera Merkezi";
-"quest_tracking" = "Görev Takibi";
-"quest_creation" = "Görev Yaratımı";
-"character_details" = "Karakter Detayları";
-"completed_quests" = "Tamamlanan Görevler";
-"settings" = "Ayarlar";
-"about" = "Hakkında";
-"calendar" = "Takvim";
-"inventory" = "Envanter";
-"achievements" = "Başarılar";
+"adventure_hub" = "Adventure Hub";
+"quest_tracking" = "Quest Tracking";
+"quest_creation" = "Quest Creation";
+"character_details" = "Character Details";
+"completed_quests" = "Completed Quests";
+"settings" = "Settings";
+"about" = "About";
+"calendar" = "Calendar";
+"inventory" = "Inventory";
+"achievements" = "Achievements";
 
 // MARK: - Quest Related
-"quest" = "Görev";
-"quests" = "Görevler";
-"quest_type" = "Görev Türü";
-"quick_quests" = "Hızlı Görevler";
-"choose_from_curated_quest_templates" = "Hazırlanmış görev şablonlarımızdan seç";
-"main_quest" = "Ana Görev";
-"side_quest" = "Yan Görev";
-"quest_title" = "Başlık";
-"quest_description" = "Açıklama";
-"quest_difficulty" = "Görev Zorluğu";
-"quest_due_date" = "Bitiş Tarihi";
-"basic_information" = "Temel Bilgiler";
-"quest_settings" = "Görev Ayarları";
-"enter_quest_title" = "Görev başlığı gir";
-"enter_quest_description" = "Görev açıklaması gir";
-"repeat_type" = "Tekrar Türü";
-"manage_tasks" = "Alt Görevleri Yönet";
-"save_quest" = "Görevi Kaydet";
-"edit_quest" = "Görevi Düzenle";
-"delete_quest" = "Görevi Sil";
-"complete_quest" = "Görevi Tamamla";
-"quest_completed" = "Görev Tamamlandı!";
-"quest_failed" = "Görev Başarısız";
-"quest_expired" = "Görev Süresi Doldu";
-"mark_as_finished" = "Bitti Olarak İşaretle";
-"finished" = "Bitti";
+"quest" = "Quest";
+"quests" = "Quests";
+"quest_type" = "Quest Type";
+"quick_quests" = "Quick Quests";
+"choose_from_curated_quest_templates" = "Choose from our curated quest templates";
+"main_quest" = "Main Quest";
+"side_quest" = "Side Quest";
+"quest_title" = "Title";
+"quest_description" = "Description";
+"quest_difficulty" = "Quest Difficulty";
+"quest_due_date" = "Due Date";
+"basic_information" = "Basic Information";
+"quest_settings" = "Quest Settings";
+"enter_quest_title" = "Enter quest title";
+"enter_quest_description" = "Enter quest description";
+"repeat_type" = "Repeat Type";
+"manage_tasks" = "Manage Tasks";
+"save_quest" = "Save Quest";
+"edit_quest" = "Edit Quest";
+"delete_quest" = "Delete Quest";
+"complete_quest" = "Complete Quest";
+"quest_completed" = "Quest Completed!";
+"quest_failed" = "Quest Failed";
+"quest_expired" = "Quest Expired";
+"mark_as_finished" = "Mark as Finished";
+"finished" = "Finished";
 
 // MARK: - First Time Quest
-"first_quest_title" = "İlk Adım";
-"first_quest_description" = "Her kahramanın yolculuğu tek bir adımla başlar.";
-"first_quest_task_1" = "İlk görevini ekle";
-"first_quest_task_2" = "Karakterini keşfet";
+"first_quest_title" = "The First Step";
+"first_quest_description" = "Every hero's journey begins with a single step.";
+"first_quest_task_1" = "Add your first quest";
+"first_quest_task_2" = "Explore your character";
 
 // MARK: - Quest Filters
-"active_today" = "Bugün Aktif";
-"inactive_today" = "Bugün Pasif";
-"all_quests" = "Tüm Görevler";
-"today" = "Bugün";
+"active_today" = "Active Today";
+"inactive_today" = "Inactive Today";
+"all_quests" = "All Quests";
+"today" = "Today";
 
 // MARK: - Tasks
-"task" = "Alt Görev";
-"tasks" = "Alt Görevler";
-"add_task" = "Alt Görev Ekle";
-"add_new_task" = "Yeni Alt Görev Ekle";
-"edit_tasks" = "Alt Görevleri Düzenle";
-"enter_task_description" = "Alt görev açıklaması gir";
-"remove_task" = "Alt Görevi Kaldır";
-"task_completed" = "Alt Görev Tamamlandı";
-"task_incomplete" = "Alt Görev Tamamlanmadı";
+"task" = "Task";
+"tasks" = "Tasks";
+"add_task" = "Add Task";
+"add_new_task" = "Add New Task";
+"edit_tasks" = "Edit Tasks";
+"enter_task_description" = "Enter task description";
+"remove_task" = "Remove Task";
+"task_completed" = "Task Completed";
+"task_incomplete" = "Task Incomplete";
 
 // MARK: - Quest Repeat Types
-"one_time" = "Tek Seferlik";
-"daily" = "Günlük";
-"weekly" = "Haftalık";
-"monthly" = "Aylık";
+"one_time" = "One Time";
+"daily" = "Daily";
+"weekly" = "Weekly";
+"monthly" = "Monthly";
 
 // MARK: - Character & Stats
-"character" = "Karakter";
-"character_test" = "Karakter Testi";
-"character_preview" = "Karakter Önizlemesi";
-"customize_character" = "Karakterini Özelleştir";
-"customizeYourHero" = "Kahramanını Özelleştir";
-"createYourUniqueCharacter" = "Benzersiz karakterini oluştur";
-"createYourCharacter" = "Karakterini Oluştur";
-"preview" = "Önizleme";
-"confirmSelection" = "Seçimi Onayla";
-"continueButton" = "Devam Et";
-"yourCharacter" = "Karakterin";
-"customized" = "Özelleştirilmiş";
+"character" = "Character";
+
+"character_test" = "Character Test";
+"character_preview" = "Character Preview";
+"customize_character" = "Customize Your Character";
+"customizeYourHero" = "Customize Your Hero";
+"createYourUniqueCharacter" = "Create your unique character";
+
+// MARK: - Character Background
+"select_background" = "Select Background";
+"choose_character_background" = "Choose your character's background";
+"background" = "Background";
+"no_background" = "No Background";
+"background_1" = "Background 1";
+"background_2" = "Background 2";
+"background_3" = "Background 3";
+"background_4" = "Background 4";
+"createYourCharacter" = "Create Your Character";
+"preview" = "Preview";
+"confirmSelection" = "Confirm Selection";
+"continueButton" = "Continue";
+"yourCharacter" = "Your Character";
+"customized" = "Customized";
 
 // MARK: - Character Titles
-"chooseYourTitle" = "Unvanını Seç";
-"selectTitleDescription" = "Karakterinin kaderini yansıtan bir unvan seç";
-"selectDifferentTitle" = "Farklı Unvan Seç";
-"randomTitle" = "Rastgele Unvan";
-"chooseFromAvailableTitles" = "Mevcut unvanlardan seç";
-"hair_style" = "Saç Stili";
-"eye_style" = "Göz Stili";
-"outfit" = "Kıyafet";
-"weapon" = "Silah";
-"style" = "Stil";
-"level" = "Seviye";
-"experience" = "Deneyim";
-"health" = "Can";
+"chooseYourTitle" = "Choose Your Title";
+"selectTitleDescription" = "Select a title that reflects your character's destiny";
+"selectDifferentTitle" = "Select Different Title";
+"randomTitle" = "Random Title";
+"chooseFromAvailableTitles" = "Select from the available titles";
+"hair_style" = "Hair Style";
+"eye_style" = "Eye Style";
+"outfit" = "Outfit";
+"weapon" = "Weapon";
+"style" = "Style";
+"level" = "Level";
+"experience" = "Experience";
+"health" = "Health";
 "mana" = "Mana";
-"strength" = "Güç";
-"intelligence" = "Zeka";
-"agility" = "Çeviklik";
-"level_up" = "Seviye Atladın!";
-"experience_gained" = "Deneyim Kazanıldı";
-"new_level_reached" = "Yeni Seviye Ulaşıldı!";
+"strength" = "Strength";
+"intelligence" = "Intelligence";
+"agility" = "Agility";
+"level_up" = "Level Up!";
+"experience_gained" = "Experience Gained";
+"new_level_reached" = "New Level Reached!";
 
 // MARK: - Streak System
-"streak" = "Seri";
-"current_streak" = "Mevcut Seri";
-"longest_streak" = "En Uzun Seri";
-"streak_days" = "gün";
-"streak_day" = "gün";
-"best_streak" = "En İyi";
-"today_status" = "Bugün";
-"streak_calendar" = "Seri Takvimi";
-"monthly_activity" = "Aylık Aktivite";
-"active_days" = "Aktif Günler";
-"activity_rate" = "Aktivite Oranı";
+"streak" = "Streak";
+"current_streak" = "Current Streak";
+"longest_streak" = "Longest Streak";
+"streak_days" = "days";
+"streak_day" = "day";
+"best_streak" = "Best";
+"today_status" = "Today";
+"streak_calendar" = "Streak Calendar";
+"monthly_activity" = "Monthly Activity";
+"active_days" = "Active Days";
+"activity_rate" = "Activity Rate";
 
 // MARK: - Rewards & Achievements
-"reward" = "Ödül";
-"rewards" = "Ödüller";
-"achievement" = "Başarım";
-"achievement_unlocked" = "Başarım Açıldı!";
-"unlocked" = "Açıldı!";
-"locked" = "Kilitli";
-"experience_points" = "Deneyim Puanı";
-"gold" = "Altın";
-"items" = "Eşyalar";
+"reward" = "Reward";
+"rewards" = "Rewards";
+"achievement" = "Achievement";
+"achievement_unlocked" = "Achievement Unlocked!";
+"unlocked" = "Unlocked!";
+"locked" = "Locked";
+"experience_points" = "Experience Points";
+"gold" = "Gold";
+"items" = "Items";
 
 // MARK: - Notifications
-"notify_me" = "Beni haberdar et";
-"notify_me_about_quest" = "Bu görev hakkında beni haberdar et";
-"notification" = "Bildirim";
-"notifications" = "Bildirimler";
-"reminder" = "Hatırlatma";
-"reminders" = "Hatırlatmalar";
+"notify_me" = "Notify me";
+"notify_me_about_quest" = "Notify me about this quest";
+"notification" = "Notification";
+"notifications" = "Notifications";
+"reminder" = "Reminder";
+"reminders" = "Reminders";
 
 // MARK: - Home Screen
-"quick_stats" = "Hızlı İstatistikler";
-"active_quests" = "Aktif Görevler";
-"recent_achievements" = "Son Başarımlar";
-"quick_actions" = "Hızlı İşlemler";
-"create_new_quest" = "Yeni Görev Yarat";
-"view_completed_quests" = "Tamamlanan Görevleri Görüntüle";
-"view_character_details" = "Karakter Detaylarını Görüntüle";
+"quick_stats" = "Quick Stats";
+"active_quests" = "Active Quests";
+"recent_achievements" = "Recent Achievements";
+"quick_actions" = "Quick Actions";
+"create_new_quest" = "Create New Quest";
+"view_completed_quests" = "View Completed Quests";
+"view_character_details" = "View Character Details";
 
 // MARK: - Calendar
-"calendar_view" = "Takvim Görünümü";
-"this_week" = "Bu Hafta";
-"this_month" = "Bu Ay";
-"no_quests_scheduled" = "Planlanmış görev yok";
-"quests_scheduled" = "Planlanmış görevler";
+"calendar_view" = "Calendar View";
+"this_week" = "This Week";
+"this_month" = "This Month";
+"no_quests_scheduled" = "No quests scheduled";
+"quests_scheduled" = "Quests scheduled";
 
 // MARK: - Settings
-"theme" = "Tema";
-"language" = "Dil";
-"choose_your_preferred_language" = "Tercih ettiğin dili seç";
-"language_changes_will_take_effect_immediately" = "Dil değişiklikleri anında geçerli olacak";
-"some_system_elements_may_remain_in_previous_language" = "Bazı sistem öğeleri uygulama yeniden başlatılana kadar önceki dilde kalabilir";
-"sound_effects" = "Ses Efektleri";
-"music" = "Müzik";
-"notifications_enabled" = "Bildirimler Açık";
-"data_backup" = "Veri Yedekleme";
-"export_data" = "Veriyi Dışa Aktar";
-"import_data" = "Veriyi İçe Aktar";
-"reset_progress" = "İlerlemeyi Sıfırla";
-"about_app" = "Uygulama Hakkında";
-"version" = "Sürüm";
-"privacy_policy" = "Gizlilik Politikası";
-"terms_of_service" = "Kullanım Koşulları";
-"support" = "Destek";
-"add_a_review" = "Değerlendirme Ekle";
+"theme" = "Theme";
+"language" = "Language";
+"choose_your_preferred_language" = "Choose your preferred language";
+"language_changes_will_take_effect_immediately" = "Language changes will take effect immediately";
+"some_system_elements_may_remain_in_previous_language" = "Some system elements may remain in the previous language until the app is restarted";
+"sound_effects" = "Sound Effects";
+"music" = "Music";
+"notifications_enabled" = "Notifications Enabled";
+"data_backup" = "Data Backup";
+"export_data" = "Export Data";
+"import_data" = "Import Data";
+"reset_progress" = "Reset Progress";
+"about_app" = "About App";
+"version" = "Version";
+"privacy_policy" = "Privacy Policy";
+"terms_of_service" = "Terms of Service";
+"support" = "Support";
+"add_a_review" = "Add a Review";
 
 // MARK: - Themes
-"theme_classic" = "Klasik";
-"theme_dark" = "Koyu";
-"theme_light" = "Açık";
-"theme_auto" = "Otomatik";
+"theme_classic" = "Classic";
+"theme_dark" = "Dark";
+"theme_light" = "Light";
+"theme_auto" = "Auto";
 
 // MARK: - Onboarding
-"welcome" = "Hoş Geldin";
-"welcome_to_rpg_habit_planner" = "RPG Habit Planner'a Hoş Geldin";
-"create_your_character" = "Karakterini Oluştur";
-"choose_your_class" = "Sınıfını Seç";
-"start_your_adventure" = "Macerana Başla";
-"start_adventure" = "Macera Başlasın!";
-"lets_begin" = "Hadi Başlayalım";
-"confirm_selection" = "Seçimi Onayla";
-"enter_your_nickname" = "Takma adını gir";
-"nickname" = "Takma Ad";
-"transform_habits_into_epic_adventures" = "Alışkanlıklarını destansı maceralara dönüştür";
-"create_epic_quests" = "Destansı Görevler Yarat";
-"turn_daily_tasks_into_heroic_missions" = "Günlük görevlerini kahramanca görevlere dönüştür";
-"earn_rewards" = "Ödüller Kazan";
-"level_up_and_unlock_achievements" = "Seviye atla ve başarımlar aç";
-"track_progress" = "İlerlemeni Takip Et";
-"watch_your_character_grow_stronger" = "Karakterinin güçlenişini izle";
-"ready_to_begin_adventure" = "Macerana başlamak için hazır mısın?";
-"choose_your_hero" = "Kahramanını Seç";
-"customize_your_hero" = "Kahramanını Özelleştir";
-"choose_weapon_and_see_character_come_to_life" = "Silahını seç ve karakterinin canlandığını gör";
-"select_your_weapon" = "Silahını Seç";
-"name_your_hero" = "Kahramanına İsim Ver";
-"choose_legendary_name_for_character" = "Karakterine efsanevi bir isim seç";
-"enter_your_heros_name" = "Kahramanının adını gir";
-"maximum_20_characters" = "Maksimum 20 karakter";
-"ready_for_adventure" = "Macera İçin Hazır!";
-"your_hero_is_ready_to_begin_journey" = "Kahramanın yolculuğa başlamak için hazır";
+"welcome" = "Welcome";
+"welcome_to_rpg_habit_planner" = "Welcome to RPG Habit Planner";
+"create_your_character" = "Create Your Character";
+"choose_your_class" = "Choose Your Class";
+"start_your_adventure" = "Start Your Adventure";
+"start_adventure" = "Start Adventure!";
+"lets_begin" = "Let's Begin";
+"confirm_selection" = "Confirm Selection";
+"enter_your_nickname" = "Enter Your Nickname";
+"nickname" = "Nickname";
+"transform_habits_into_epic_adventures" = "Transform Your Habits Into Epic Adventures";
+"create_epic_quests" = "Create Epic Quests";
+"turn_daily_tasks_into_heroic_missions" = "Turn daily tasks into heroic missions";
+"earn_rewards" = "Earn Rewards";
+"level_up_and_unlock_achievements" = "Level up and unlock achievements";
+"track_progress" = "Track Progress";
+"watch_your_character_grow_stronger" = "Watch your character grow stronger";
+"ready_to_begin_adventure" = "Ready to begin your adventure?";
+"choose_your_hero" = "Choose Your Hero";
+
+"customize_your_hero" = "Customize Your Hero";
+"choose_weapon_and_see_character_come_to_life" = "Choose your weapon and see your character come to life";
+"select_your_weapon" = "Select Your Weapon";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"enter_your_heros_name" = "Enter your hero's name";
+"maximum_20_characters" = "Maximum 20 characters";
+"ready_for_adventure" = "Ready for Adventure!";
+"your_hero_is_ready_to_begin_journey" = "Your hero is ready to begin their journey";
 
 // MARK: - Focus Timer
-"select_monster" = "Canavar Seç";
-"no_monster_selected" = "Canavar Seçilmedi";
-"choose_your_enemy" = "Düşmanını seç";
-"pomodoros" = "Pomodoro";
-"monster_defeated" = "Canavar Yenildi!";
-"you_have_successfully_defeated_monster" = "Canavarı başarıyla yendin!";
-"continue" = "Devam Et";
-"health_points" = "Can Puanı";
+"select_monster" = "Select Monster";
+"no_monster_selected" = "No Monster Selected";
+"choose_your_enemy" = "Choose your enemy";
+"pomodoros" = "Pomodoros";
+"monster_defeated" = "Monster Defeated!";
+"you_have_successfully_defeated_monster" = "You have successfully defeated the monster!";
+"continue" = "Continue";
+"health_points" = "HP";
 
 // MARK: - Character Classes
-"warrior" = "Savaşçı";
-"mage" = "Büyücü";
-"rogue" = "Haydut";
+"warrior" = "Warrior";
+"mage" = "Mage";
+"rogue" = "Rogue";
 "paladin" = "Paladin";
-"archer" = "Okçu";
+"archer" = "Archer";
 
 // MARK: - Error Messages
-"unknown" = "Bilinmeyen";
-"adventurer" = "Maceracı";
-"unknown_error" = "Bilinmeyen bir hata oluştu";
-"heads_up" = "Dikkat";
-"active_quest" = "aktif görev";
-"add_quest" = "Görev Ekle";
-"network_error" = "Ağ hatası oluştu";
-"data_error" = "Veri hatası oluştu";
-"validation_error" = "Doğrulama hatası";
-"save_error" = "Kaydedilemedi";
-"load_error" = "Veri yüklenemedi";
-"delete_error" = "Silinemedi";
-"invalid_input" = "Geçersiz giriş";
+"unknown" = "Unknown";
+"adventurer" = "Adventurer";
+"unknown_error" = "An unknown error occurred";
+"heads_up" = "Heads up";
+"active_quest" = "active quest";
+"add_quest" = "Add Quest";
+"network_error" = "Network error occurred";
+"data_error" = "Data error occurred";
+"validation_error" = "Validation error";
+"save_error" = "Failed to save";
+"load_error" = "Failed to load data";
+"delete_error" = "Failed to delete";
+"invalid_input" = "Invalid input";
 
 // MARK: - Success Messages
-"quest_saved_successfully" = "Görev başarıyla kaydedildi";
-"quest_deleted_successfully" = "Görev başarıyla silindi";
-"quest_completed_successfully" = "Görev başarıyla tamamlandı";
-"data_saved_successfully" = "Veri başarıyla kaydedildi";
-"settings_updated" = "Ayarlar güncellendi";
+"quest_saved_successfully" = "Quest saved successfully";
+"quest_deleted_successfully" = "Quest deleted successfully";
+"quest_completed_successfully" = "Quest completed successfully";
+"data_saved_successfully" = "Data saved successfully";
+"settings_updated" = "Settings updated";
 
 // MARK: - Validation Messages
-"title_required" = "Başlık gerekli";
-"description_required" = "Açıklama gerekli";
-"due_date_required" = "Bitiş tarihi gerekli";
-"invalid_date" = "Geçersiz tarih";
-"date_in_past" = "Tarih geçmiş olamaz";
+"title_required" = "Title is required";
+"description_required" = "Description is required";
+"due_date_required" = "Due date is required";
+"invalid_date" = "Invalid date";
+"date_in_past" = "Date cannot be in the past";
 
 // MARK: - Time & Date
-"yesterday" = "Dün";
-"tomorrow" = "Yarın";
-"next_week" = "Gelecek Hafta";
-"next_month" = "Gelecek Ay";
+"today" = "Today";
+"yesterday" = "Yesterday";
+"tomorrow" = "Tomorrow";
+"this_week" = "This Week";
+"next_week" = "Next Week";
+"this_month" = "This Month";
+"next_month" = "Next Month";
 
 // MARK: - Progress
-"progress" = "İlerleme";
-"completed" = "Tamamlandı";
-"in_progress" = "Devam Ediyor";
-"not_started" = "Başlanmadı";
-"overdue" = "Gecikmiş";
+"progress" = "Progress";
+"completed" = "Finished";
+"in_progress" = "In Progress";
+"not_started" = "Not Started";
+"overdue" = "Overdue";
 
 // MARK: - Difficulty
-"easy" = "Kolay";
-"medium" = "Orta";
-"hard" = "Zor";
-"very_hard" = "Çok Zor";
-"legendary" = "Efsanevi";
+"easy" = "Easy";
+"medium" = "Medium";
+"hard" = "Hard";
+"very_hard" = "Very Hard";
+"legendary" = "Legendary";
 
 // MARK: - Empty States
-"no_quests" = "Henüz görev yok";
-"no_active_quests" = "Aktif görev yok";
-"no_completed_quests" = "Tamamlanan görev yok";
-"no_finished_quests_yet" = "Henüz bitmiş görev yok!";
-"no_achievements" = "Henüz başarım yok";
-"create_your_first_quest" = "Macerana başlamak için ilk görevini oluştur!";
-"complete_quests_to_earn_rewards" = "Ödüller kazanmak ve seviye atlamak için görevleri tamamla!";
+"no_quests" = "No quests yet";
+"no_active_quests" = "No active quests";
+"no_completed_quests" = "No completed quests";
+"no_finished_quests_yet" = "No finished quests yet!";
+"no_achievements" = "No achievements yet";
+"create_your_first_quest" = "Create your first quest to begin your adventure!";
+"complete_quests_to_earn_rewards" = "Complete quests to earn rewards and level up!";
 
 // MARK: - Tooltips & Help
-"tap_to_complete" = "Tamamlamak için dokun";
-"tap_to_edit" = "Düzenlemek için dokun";
-"swipe_to_delete" = "Silmek için kaydır";
-"long_press_for_options" = "Seçenekler için uzun bas";
-"drag_to_reorder" = "Yeniden sıralamak için sürükle";
+"tap_to_complete" = "Tap to complete";
+"tap_to_edit" = "Tap to edit";
+"swipe_to_delete" = "Swipe to delete";
+"long_press_for_options" = "Long press for options";
+"drag_to_reorder" = "Drag to reorder";
 
 // MARK: - Accessibility
-"accessibility_quest_card" = "Görev kartı";
-"accessibility_complete_button" = "Görev tamamlama butonu";
-"accessibility_edit_button" = "Görev düzenleme butonu";
-"accessibility_delete_button" = "Görev silme butonu";
-"accessibility_progress_bar" = "İlerleme çubuğu";
-"accessibility_star_rating" = "Yıldız derecelendirmesi";
-"accessibility_date_picker" = "Tarih seçici";
+"accessibility_quest_card" = "Quest card";
+"accessibility_complete_button" = "Complete quest button";
+"accessibility_edit_button" = "Edit quest button";
+"accessibility_delete_button" = "Delete quest button";
+"accessibility_progress_bar" = "Progress bar";
+"accessibility_star_rating" = "Star rating";
+"accessibility_date_picker" = "Date picker";
 
 // MARK: - Tab Navigation
-"home" = "Ana Sayfa";
-"focus_timer" = "Odak Zamanlayıcı";
-"quest_journal" = "Görev Günlüğü";
+"home" = "Home";
+"quests" = "Quests";
+"character" = "Character";
+"focus_timer" = "Focus Timer";
+"calendar" = "Calendar";
+"quest_journal" = "Quest Journal";
 
 // MARK: - Home Screen
-"active" = "Aktif";
-"view_all" = "Tümünü Gör";
-"create_quest" = "Görev Yarat";
-"loading_character" = "Karakter yükleniyor...";
-"no_achievements_yet" = "Henüz başarı yok";
-"complete_quests_to_earn_achievements" = "Başarımlar kazanmak için görevleri tamamla!";
+"active" = "Active";
+"completed" = "Finished";
+"view_all" = "View All";
+"create_quest" = "Create Quest";
+"loading_character" = "Loading character...";
+"recent_achievements" = "Recent Achievements";
+"no_achievements_yet" = "No achievements yet";
+"complete_quests_to_earn_achievements" = "Complete quests to earn achievements!";
+"quick_actions" = "Quick Actions";
 
 // MARK: - Quest Details
-"quest_details" = "Görev Detayları";
-"delete_quest_confirmation" = "Görevi Sil";
-"delete_quest_warning" = "Bu görevi silmek istediğinden emin misin? Bu işlem geri alınamaz.";
-"difficulty" = "Zorluk:";
-"completion_history" = "Tamamlama Geçmişi";
-"no_completions_yet" = "Henüz tamamlanan yok";
+"quest_details" = "Quest Details";
+"close" = "Close";
+"edit_quest" = "Edit Quest";
+"delete_quest" = "Delete Quest";
+"delete_quest_confirmation" = "Delete Quest";
+"delete_quest_warning" = "Are you sure you want to delete this quest? This action cannot be undone.";
+"progress" = "Progress";
+"difficulty" = "Difficulty:";
+"completion_history" = "Completion History";
+"no_completions_yet" = "No completions yet";
+"mark_as_finished" = "Mark as Finished";
 
 // MARK: - Character Details
+"character_details" = "Character Details";
 "exp" = "EXP";
-"equipped_weapon" = "Kuşanılmış Silah";
-"character_id" = "Karakter ID:";
+"weapon" = "Weapon:";
+"equipped_weapon" = "Equipped Weapon";
+"character_id" = "Character ID:";
 
 // MARK: - Calendar
-"quest_calendar" = "Görev Takvimi";
-"set_due_date" = "Bitiş Tarihi Belirle";
-"due_date" = "Bitiş Tarihi";
-"default_duration" = "Varsayılan Süre";
+"quest_calendar" = "Quest Calendar";
+"tasks" = "Tasks";
+"set_due_date" = "Set Due Date";
+"due_date" = "Due Date";
+"default_duration" = "Default Duration";
+"add_quest" = "Add Quest";
 
 // MARK: - Focus Timer
-"remaining" = "kalan";
-"complete" = "tamamlandı";
-"percent_complete" = "% tamamlandı";
+"choose_your_enemy" = "Choose Your Enemy";
+"focus_timer" = "Focus Timer";
+"remaining" = "remaining";
+"complete" = "complete";
+"percent_complete" = "% complete";
 
 // MARK: - Widget
-"all_quests_completed" = "Tüm görevler tamamlandı!";
-"due_today" = "Bugün bitiyor";
-"due_tomorrow" = "Yarın bitiyor";
-"days_left" = "gün kaldı";
-"untitled_quest" = "İsimsiz Görev";
+"active_quest" = "Active Quest";
+"no_active_quests" = "No Active Quests";
+"all_quests_completed" = "All quests completed!";
+"start_your_adventure" = "Start Your Adventure";
+"create_your_first_quest" = "Create your first quest";
+"overdue" = "Overdue!";
+"due_today" = "Due today";
+"due_tomorrow" = "Due tomorrow";
+"days_left" = "days left";
+"untitled_quest" = "Untitled Quest";
 
 // MARK: - Settings
-"dark_mode" = "Karanlık Mod";
-"switch_between_light_and_dark_themes" = "Açık ve koyu temalar arasında geçiş yap";
-"notifications_settings" = "Bildirim ayarları";
-"data_and_storage" = "Veri ve Depolama";
-"data_and_storage_settings" = "Veri ve Depolama ayarları";
-"version_info" = "Sürüm 1.0 • © Sen";
+"dark_mode" = "Dark Mode";
+"switch_between_light_and_dark_themes" = "Switch between light and dark themes";
+"notifications" = "Notifications";
+"notifications_settings" = "Notifications settings";
+"data_and_storage" = "Data & Storage";
+"data_and_storage_settings" = "Data & Storage settings";
+"about_app" = "About App";
+"version_info" = "Version 1.0 • © You";
 
 // MARK: - Onboarding
-"your_adventure_awaits" = "Maceran Seni Bekliyor";
-"class_label" = "Sınıf";
-"weapon_label" = "Silah";
+"your_adventure_awaits" = "Your Adventure Awaits";
+"class_label" = "Class";
+"weapon_label" = "Weapon";
 
 // MARK: - Quest Categories
-"health_and_wellness" = "Sağlık ve İyilik Hali";
-"productivity" = "Üretkenlik";
-"learning_and_growth" = "Öğrenme ve Gelişim";
-"mindfulness" = "Farkındalık";
-"fitness" = "Spor";
-"social" = "Sosyal";
+"health_and_wellness" = "Health & Wellness";
+"productivity" = "Productivity";
+"learning_and_growth" = "Learning & Growth";
+"mindfulness" = "Mindfulness";
+"fitness" = "Fitness";
+"social" = "Social";
 
 // MARK: - Time Formats
-"days_from_today" = "bugünden itibaren gün";
-"weeks_from_today" = "bugünden itibaren hafta";
-"months_from_today" = "bugünden itibaren ay";
+"days_from_today" = "days from today";
+"weeks_from_today" = "weeks from today";
+"months_from_today" = "months from today";
 
 // MARK: - Battle/Achievement Items
-"focus_crystal" = "Odak Kristali";
-"focus_crystal_description" = "Odak yeteneklerini artıran bir kristal";
-"focus_master" = "Odak Ustası";
-"focus_master_description" = "Tek bir savaşta 8 pomodoro tamamla";
-"dragon_slayer" = "Ejderha Avcısı";
-"dragon_slayer_description" = "Uçan Ejderhayı yen";
+"focus_crystal" = "Focus Crystal";
+"focus_crystal_description" = "A crystal that enhances your focus abilities";
+"focus_master" = "Focus Master";
+"focus_master_description" = "Complete 8 pomodoros in a single battle";
+"dragon_slayer" = "Dragon Slayer";
+"dragon_slayer_description" = "Defeat the Flying Dragon";
 
 // MARK: - Labels
-"due_label" = "Bitiş:";
-"use_system_appearance" = "Sistem Görünümünü Kullan";
-"repeat_label" = "Tekrar";
-"mark_incomplete" = "Tamamlanmadı Olarak İşaretle";
-"mark_complete" = "Tamamlandı Olarak İşaretle";
-"yes" = "Evet";
-"created" = "Oluşturuldu";
-"type" = "Tür";
-"main_quest_label" = "Ana Görev";
-"completed_label" = "Tamamlandı";
-"on_label" = "Açık";
-"off_label" = "Kapalı";
-"widget_description" = "Mevcut görev ilerlemeni ve bitiş tarihlerini takip et.";
+"due_label" = "Due:";
+"use_system_appearance" = "Use System Appearance";
+"repeat_label" = "Repeat";
+"mark_incomplete" = "Mark Incomplete";
+"mark_complete" = "Mark Complete";
+"yes" = "Yes";
+"created" = "Created";
+"type" = "Type";
+"main_quest_label" = "Main Quest";
+"completed_label" = "Completed";
+"on_label" = "On";
+"off_label" = "Off";
+"widget_description" = "Track your current quest progress and due dates.";
 
 // MARK: - Gamified Quest Creation
-"quest_board" = "Görev Panosu";
-"adventure_awaits" = "Maceran seni bekliyor, cesur biri!";
-"accept_new_quest" = "Yeni Görevi Kabul Et";
-"quest_master" = "Görev Ustası";
-"quest_details_title" = "Görev Detayları";
-"quest_summary" = "Görev Özeti";
-"review_quest" = "Görevi İncele";
-"accept_quest" = "Görevi Kabul Et";
-"quest_name" = "Görev Adı";
-"quest_deadline" = "Görev Bitiş Tarihi";
-"quest_tasks" = "Görev Alt Görevleri";
-"quest_tags" = "Görev Etiketleri";
-"add_tags" = "Etiket Ekle";
-"no_tags_selected" = "Etiket seçilmedi";
-"no_description" = "Açıklama yok";
-"stars" = "Yıldızlar";
-"tasks_count" = "alt görev";
-"preparing_quest" = "Görev hazırlanıyor...";
-"greetings_adventurer" = "Selam cesur maceracı! Dikkatini gerektiren bir görevim var. Bu yolculuğa çıkmaya hazır mısın?";
+"quest_board" = "Quest Board";
+"adventure_awaits" = "Adventure awaits, brave one!";
+"accept_new_quest" = "Accept New Quest";
+"quest_master" = "Quest Master";
+"quest_details_title" = "Quest Details";
+"quest_summary" = "Quest Summary";
+"review_quest" = "Review Quest";
+"accept_quest" = "Accept Quest";
+"quest_name" = "Quest Name";
+"quest_type" = "Quest Type";
+"quest_deadline" = "Quest Deadline";
+"quest_tasks" = "Quest Tasks";
+"quest_difficulty" = "Quest Difficulty";
+"quest_tags" = "Quest Tags";
+"manage_tasks" = "Manage Tasks";
+"add_tags" = "Add Tags";
+"no_tags_selected" = "No tags selected";
+"untitled_quest" = "Untitled Quest";
+"no_description" = "No description";
+"main_quest" = "Main Quest";
+"side_quest" = "Side Quest";
+"stars" = "Stars";
+"tasks_count" = "tasks";
+"preparing_quest" = "Preparing your quest...";
+"greetings_adventurer" = "Greetings, brave adventurer! I have a quest that requires your attention. Are you ready to embark on this journey?";
+"continue" = "Continue";
 
 // MARK: - Character Customization
-"mustache" = "Bıyık";
-"flower" = "Çiçek";
+"mustache" = "Mustache";
+"flower" = "Flower";
 
 // MARK: - New Localization Keys
-"my_quests" = "Görevlerim";
-"loading_quests" = "Görevler yükleniyor...";
-"no_quests_for_date" = "%@ için görev yok";
-"create_quest_to_get_started" = "Başlamak için bir görev oluştur!";
-"adventure_shop" = "Macera Dükkanı";
-"shop_description" = "Altınlarını ve mücevherlerini güçlü eşyalarla takas et";
-"adventure_awaits_brave_one" = "Maceran seni bekliyor, cesur biri!";
-"enter_quest_name" = "Görevinin adını gir...";
-"describe_quest" = "Görevini açıkla...";
-"creating" = "Oluşturuluyor...";
-"rpg_habit_planner" = "RPG Alışkanlık Planlayıcı";
-"transform_daily_tasks_into_epic_adventures" = "Günlük görevlerini destansı maceralara dönüştür";
-"random_name" = "Rastgele İsim";
-"custom_hero" = "Özel Kahraman";
-"scheduled_days" = "Planlanan Günler";
-"quest_damage_calculator" = "Görev Hasar Hesaplayıcı";
-"calculate_damage_for_active_quests" = "Tüm aktif görevler için hasar hesapla";
-"no_active_quests_found" = "Aktif görev bulunamadı";
-"todays_total_damage" = "Bugünün Toplam Hasarı";
-"last_calculated" = "Son hesaplama: %@";
-"filter" = "Filtre";
-"apply" = "Uygula";
-"no_active_boosters" = "Aktif güçlendirici yok";
-"visit_shop_to_get_boosters" = "Güçlendirici almak için mağazayı ziyaret et!";
-"visit_shop" = "Dükkanı Ziyaret Et";
-"appearance" = "Görünüm";
-"general" = "Genel";
-"scheduled" = "Planlandı";
-"expires" = "Sona Eriyor";
-"failed_to_update_quest_tags" = "Görev etiketleri güncellenemedi";
-"daily_quests_can_only_be_toggled_for_today" = "Günlük görevler yalnızca bugün için değiştirilebilir";
-"weekly_quests_can_only_be_toggled_in_current_week" = "Haftalık görevler yalnızca mevcut hafta içinde değiştirilebilir";
-"quest_can_only_be_completed_between_creation_and_due_date" = "Bu görev yalnızca oluşturulma ve bitiş tarihi arasında tamamlanabilir";
-"quest_can_only_be_completed_on_scheduled_days" = "Bu görev yalnızca planlanan günlerde tamamlanabilir";
-"failed_to_delete_quest" = "Görev silinemedi";
+"my_quests" = "My Quests";
+"loading_quests" = "Loading quests...";
+"no_quests_for_date" = "No quests for %@";
+"create_quest_to_get_started" = "Create a quest to get started!";
+"adventure_shop" = "Adventure Shop";
+"shop_description" = "Trade your coins and gems for powerful items";
+"quest_board" = "Quest Board";
+"adventure_awaits_brave_one" = "Adventure awaits, brave one!";
+"accept_new_quest" = "Accept New Quest";
+"enter_quest_name" = "Enter your quest's name...";
+"describe_quest" = "Describe your quest...";
+"quest_deadline" = "Quest Deadline";
+"creating" = "Creating...";
+"create_quest" = "Create Quest";
+"quest_master" = "Quest Master";
+"rpg_habit_planner" = "RPG Habit Planner";
+"transform_daily_tasks_into_epic_adventures" = "Transform your daily tasks into epic adventures";
+"your_adventure_awaits" = "Your Adventure Awaits!";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"random_name" = "Random Name";
+"maximum_20_characters" = "Maximum 20 characters";
+"custom_hero" = "Custom Hero";
+"scheduled_days" = "Scheduled Days";
+"quest_damage_calculator" = "Quest Damage Calculator";
+"calculate_damage_for_active_quests" = "Calculate damage for all active quests";
+"no_active_quests_found" = "No active quests found";
+"todays_total_damage" = "Today's Total Damage";
+"last_calculated" = "Last calculated: %@";
+"filter" = "Filter";
+"apply" = "Apply";
+"no_active_boosters" = "No active boosters";
+"visit_shop" = "Visit Shop";
+"my_quests" = "My Quests";
+"view_all" = "View All";
+"loading_quests" = "Loading quests…";
+"create_quest" = "Create Quest";
+"appearance" = "Appearance";
+"general" = "General";
+"about" = "About";
+"daily" = "Daily";
+"weekly" = "Weekly";
+"one_time" = "One-time";
+"scheduled" = "Scheduled";
+"expires" = "Expires";
+"failed_to_update_quest_tags" = "Failed to update quest tags";
+"daily_quests_can_only_be_toggled_for_today" = "Daily quests can only be toggled for today";
+"weekly_quests_can_only_be_toggled_in_current_week" = "Weekly quests can only be toggled in the current week";
+"quest_can_only_be_completed_between_creation_and_due_date" = "This quest can only be completed between creation and due date";
+"quest_can_only_be_completed_on_scheduled_days" = "This quest can only be completed on scheduled days";
+"failed_to_delete_quest" = "Failed to delete quest";
 
 // MARK: - Calendar & Streak Views
-"filter_by_tags" = "Etiketlere Göre Filtrele";
-"any" = "Herhangi";
-"all" = "Tümü";
-"clear_all" = "Hepsini Temizle";
-"available_tags" = "Mevcut Etiketler";
-"no_tags_available" = "Etiket yok";
-"create_first_tag_to_get_started" = "Başlamak için ilk etiketini oluştur";
-"create_new_tag" = "Yeni Etiket Oluştur";
-"selected_tags" = "Seçilen Etiketler";
-"no_tags_found" = "Etiket bulunamadı";
-"try_adjusting_search_or_create_new_tag" = "Aramayı değiştir veya yeni bir etiket oluştur";
-"create_your_first_tag" = "İlk Etiketini Oluştur";
-"select_tags" = "Etiket Seç";
-"loading_tags" = "Etiketler yükleniyor...";
-"no_tags_available_for_selection" = "Seçim için etiket yok";
-"create_first_tag_to_get_started_selection" = "Başlamak için ilk etiketini oluştur";
-"work" = "İş";
-"personal" = "Kişisel";
-"urgent" = "Acil";
-"study" = "Çalışma";
-"not_yet" = "Henüz Değil";
-"finish_quest" = "Görevi Bitir";
-"quest_finish_confirmation_popup_examples" = "Görev Bitirme Onay Penceresi Örnekleri";
-"tags" = "Etiketler";
-"no_tags_assigned" = "Atanmış etiket yok";
-"customize_your_character_appearance" = "Karakterinin görünümünü özelleştir";
-"save_changes" = "Değişiklikleri Kaydet";
-"customization" = "ÖZELLEŞTİRME";
-"quest_not_found" = "Görev bulunamadı";
-"failed_to_create_user" = "Kullanıcı oluşturulamadı";
-"user_not_found" = "Kullanıcı bulunamadı";
-"total_damage_taken" = "Alınan Toplam Hasar";
-"error_loading_damage_history" = "Hasar geçmişi yüklenirken hata oluştu";
-"no_damage_history" = "Hasar Geçmişi Yok";
-"retry" = "Tekrar Dene";
+"filter" = "Filter";
+"apply" = "Apply";
+"filter_by_tags" = "Filter by Tags";
+"any" = "Any";
+"all" = "All";
+"clear_all" = "Clear All";
+"available_tags" = "Available Tags";
+"no_tags_available" = "No tags available";
+"create_first_tag_to_get_started" = "Create your first tag to get started";
+"create_new_tag" = "Create New Tag";
+"selected_tags" = "Selected Tags";
+"no_tags_found" = "No tags found";
+"try_adjusting_search_or_create_new_tag" = "Try adjusting your search or create a new tag";
+"create_your_first_tag" = "Create Your First Tag";
+"select_tags" = "Select Tags";
+"loading_tags" = "Loading tags...";
+"no_tags_available_for_selection" = "No tags available";
+"create_first_tag_to_get_started_selection" = "Create your first tag to get started";
+"work" = "Work";
+"personal" = "Personal";
+"urgent" = "Urgent";
+"study" = "Study";
+"not_yet" = "Not Yet";
+"finish_quest" = "Finish Quest";
+"quest_finish_confirmation_popup_examples" = "Quest Finish Confirmation Popup Examples";
+"tags" = "Tags";
+"add_tags" = "Add Tags";
+"no_tags_assigned" = "No tags assigned";
+"customize_your_character_appearance" = "Customize your character's appearance";
+"save_changes" = "Save Changes";
+"customization" = "CUSTOMIZATION";
+"quest_not_found" = "Quest not found";
+"failed_to_create_user" = "Failed to create user";
+"user_not_found" = "User not found";
+"total_damage_taken" = "Total Damage Taken";
+"error_loading_damage_history" = "Error Loading Damage History";
+"no_damage_history" = "No Damage History";
+"retry" = "Retry";
 
 // MARK: - Achievement Names
-"achievement_first_steps" = "İlk Adımlar";
-"achievement_first_steps_description" = "İlk görevinizi tamamlayın";
-"achievement_quest_master" = "Görev Ustası";
-"achievement_quest_master_description" = "50 görev tamamla";
-"achievement_speed_runner" = "Hız Koşucusu";
-"achievement_speed_runner_description" = "Bir günde 3 görev tamamla";
-"achievement_consistency" = "Tutarlılık";
-"achievement_consistency_description" = "7 gün üst üste görevleri tamamla";
-"achievement_level_up" = "Seviye Atla!";
-"achievement_level_up_description" = "Seviye 5'e ulaş";
-"achievement_veteran" = "Kıdemli";
-"achievement_veteran_description" = "Seviye 20'ye ulaş";
-"achievement_legend" = "Efsane";
-"achievement_legend_description" = "Seviye 50'ye ulaş";
-"achievement_experience_hunter" = "Deneyim Avcısı";
-"achievement_experience_hunter_description" = "1000 deneyim puanı kazan";
-"achievement_early_bird" = "Erken Kalkan";
-"achievement_early_bird_description" = "08:00'den önce bir görev tamamla";
-"achievement_night_owl" = "Gece Kuşu";
-"achievement_night_owl_description" = "22:00'den sonra bir görev tamamla";
-"achievement_weekend_warrior" = "Hafta Sonu Savaşçısı";
-"achievement_weekend_warrior_description" = "Hafta sonu 5 görev tamamla";
-"achievement_perfect_day" = "Mükemmel Gün";
-"achievement_perfect_day_description" = "Tüm günlük görevleri tamamla";
+"achievement_first_steps" = "First Steps";
+"achievement_first_steps_description" = "Complete your first quest";
+"achievement_quest_master" = "Quest Master";
+"achievement_quest_master_description" = "Complete 50 quests";
+"achievement_speed_runner" = "Speed Runner";
+"achievement_speed_runner_description" = "Complete 3 quests in one day";
+"achievement_consistency" = "Consistency";
+"achievement_consistency_description" = "Complete quests for 7 days in a row";
+"achievement_level_up" = "Level Up!";
+"achievement_level_up_description" = "Reach level 5";
+"achievement_veteran" = "Veteran";
+"achievement_veteran_description" = "Reach level 20";
+"achievement_legend" = "Legend";
+"achievement_legend_description" = "Reach level 50";
+"achievement_experience_hunter" = "Experience Hunter";
+"achievement_experience_hunter_description" = "Gain 1000 experience points";
+"achievement_early_bird" = "Early Bird";
+"achievement_early_bird_description" = "Complete a quest before 8 AM";
+"achievement_night_owl" = "Night Owl";
+"achievement_night_owl_description" = "Complete a quest after 10 PM";
+"achievement_weekend_warrior" = "Weekend Warrior";
+"achievement_weekend_warrior_description" = "Complete 5 quests on a weekend";
+"achievement_perfect_day" = "Perfect Day";
+"achievement_perfect_day_description" = "Complete all daily quests";
 
 // MARK: - Achievement Types
-"achievement_type_quest" = "Görev";
-"achievement_type_leveling" = "Seviye Atlama";
-"achievement_type_focus" = "Odak";
-"achievement_type_battle" = "Savaş";
-"achievement_type_special" = "Özel";
+"achievement_type_quest" = "Quest";
+"achievement_type_leveling" = "Leveling";
+"achievement_type_focus" = "Focus";
+"achievement_type_battle" = "Battle";
+"achievement_type_special" = "Special";
 
 // MARK: - Achievement Categories
-"achievement_category_all" = "Tümü";
-"achievement_category_quests" = "Görevler";
-"achievement_category_leveling" = "Seviye Atlama";
-"achievement_category_special" = "Özel";
+"achievement_category_all" = "All";
+"achievement_category_quests" = "Quests";
+"achievement_category_leveling" = "Leveling";
+"achievement_category_special" = "Special";
 
 // MARK: - Quick Quest Names
-"quick_quest_hydration_hero" = "Hidrasyon Kahramanı";
-"quick_quest_hydration_hero_description" = "Gün boyunca 8 bardak su iç";
-"quick_quest_hydration_hero_task_1" = "Sabah 2 bardak su iç";
-"quick_quest_hydration_hero_task_2" = "Öğle yemeğinde 2 bardak su iç";
-"quick_quest_hydration_hero_task_3" = "Öğleden sonra 2 bardak su iç";
-"quick_quest_hydration_hero_task_4" = "Akşam 2 bardak su iç";
+"quick_quest_hydration_hero" = "Hydration Hero";
+"quick_quest_hydration_hero_description" = "Drink 8 glasses of water throughout the day";
+"quick_quest_hydration_hero_task_1" = "Drink 2 glasses of water in the morning";
+"quick_quest_hydration_hero_task_2" = "Drink 2 glasses of water at lunch";
+"quick_quest_hydration_hero_task_3" = "Drink 2 glasses of water in the afternoon";
+"quick_quest_hydration_hero_task_4" = "Drink 2 glasses of water in the evening";
 
-"quick_quest_morning_exercise" = "Sabah Egzersizi";
-"quick_quest_morning_exercise_description" = "15 dakikalık sabah antrenmanı tamamla";
-"quick_quest_morning_exercise_task_1" = "10 şınav çek";
-"quick_quest_morning_exercise_task_2" = "20 jumping jack yap";
-"quick_quest_morning_exercise_task_3" = "15 squat yap";
-"quick_quest_morning_exercise_task_4" = "5 dakika esneme yap";
+"quick_quest_morning_exercise" = "Morning Exercise";
+"quick_quest_morning_exercise_description" = "Complete a 15-minute morning workout routine";
+"quick_quest_morning_exercise_task_1" = "Do 10 push-ups";
+"quick_quest_morning_exercise_task_2" = "Do 20 jumping jacks";
+"quick_quest_morning_exercise_task_3" = "Do 15 squats";
+"quick_quest_morning_exercise_task_4" = "Stretch for 5 minutes";
 
-"quick_quest_mindful_reading" = "Dikkatli Okuma";
-"quick_quest_mindful_reading_description" = "20 dakika boyunca dikkatle oku";
-"quick_quest_mindful_reading_task_1" = "Sessiz bir okuma alanı bul";
-"quick_quest_mindful_reading_task_2" = "20 dakika oku";
-"quick_quest_mindful_reading_task_3" = "Önemli noktaları not al";
+"quick_quest_mindful_reading" = "Mindful Reading";
+"quick_quest_mindful_reading_description" = "Read for 20 minutes with full attention";
+"quick_quest_mindful_reading_task_1" = "Find a quiet reading spot";
+"quick_quest_mindful_reading_task_2" = "Read for 20 minutes";
+"quick_quest_mindful_reading_task_3" = "Take notes on key points";
 
-"quick_quest_gratitude_practice" = "Minnettarlık Pratiği";
-"quick_quest_gratitude_practice_description" = "Bugün minnettar olduğun 3 şeyi yaz";
-"quick_quest_gratitude_practice_task_1" = "Gününü düşün";
-"quick_quest_gratitude_practice_task_2" = "3 minnettarlık maddesi yaz";
-"quick_quest_gratitude_practice_task_3" = "Pozitif duyguları hisset";
+"quick_quest_gratitude_practice" = "Gratitude Practice";
+"quick_quest_gratitude_practice_description" = "Write down 3 things you're grateful for today";
+"quick_quest_gratitude_practice_task_1" = "Reflect on your day";
+"quick_quest_gratitude_practice_task_2" = "Write 3 gratitude items";
+"quick_quest_gratitude_practice_task_3" = "Feel the positive emotions";
 
-"quick_quest_weekly_planning" = "Haftalık Planlama";
-"quick_quest_weekly_planning_description" = "Haftanı net hedefler ve önceliklerle planla";
-"quick_quest_weekly_planning_task_1" = "Geçen haftanın başarılarını gözden geçir";
-"quick_quest_weekly_planning_task_2" = "Hafta için 3 ana hedef belirle";
-"quick_quest_weekly_planning_task_3" = "Önemli görevleri planla";
-"quick_quest_weekly_planning_task_4" = "Kendi bakım aktivitelerini planla";
+"quick_quest_weekly_planning" = "Weekly Planning";
+"quick_quest_weekly_planning_description" = "Plan your week ahead with clear goals and priorities";
+"quick_quest_weekly_planning_task_1" = "Review last week's achievements";
+"quick_quest_weekly_planning_task_2" = "Set 3 main goals for the week";
+"quick_quest_weekly_planning_task_3" = "Schedule important tasks";
+"quick_quest_weekly_planning_task_4" = "Plan self-care activities";
 
-"quick_quest_skill_development" = "Beceri Geliştirme";
-"quick_quest_skill_development_description" = "Yeni bir beceri öğrenmeye veya mevcutları geliştirmeye zaman ayır";
-"quick_quest_skill_development_task_1" = "Odaklanacağın beceriyi seç";
-"quick_quest_skill_development_task_2" = "Öğrenme kaynaklarını araştır";
-"quick_quest_skill_development_task_3" = "Her gün 30 dakika pratik yap";
-"quick_quest_skill_development_task_4" = "İlerlemeni takip et";
+"quick_quest_skill_development" = "Skill Development";
+"quick_quest_skill_development_description" = "Dedicate time to learning a new skill or improving existing ones";
+"quick_quest_skill_development_task_1" = "Choose a skill to focus on";
+"quick_quest_skill_development_task_2" = "Research learning resources";
+"quick_quest_skill_development_task_3" = "Practice for 30 minutes daily";
+"quick_quest_skill_development_task_4" = "Track your progress";
 
-"quick_quest_social_connection" = "Sosyal Bağlantı";
-"quick_quest_social_connection_description" = "Arkadaşların ve ailenle iletişim kurarak ilişkilerini sürdür";
-"quick_quest_social_connection_task_1" = "Bir aile üyesini ara";
-"quick_quest_social_connection_task_2" = "Eski bir arkadaşına mesaj at";
-"quick_quest_social_connection_task_3" = "Bir buluşma planla";
-"quick_quest_social_connection_task_4" = "Takdirini göster";
+"quick_quest_social_connection" = "Social Connection";
+"quick_quest_social_connection_description" = "Reach out to friends and family to maintain relationships";
+"quick_quest_social_connection_task_1" = "Call a family member";
+"quick_quest_social_connection_task_2" = "Message an old friend";
+"quick_quest_social_connection_task_3" = "Plan a meetup";
+"quick_quest_social_connection_task_4" = "Show appreciation";
 
-"quick_quest_home_organization" = "Ev Düzenleme";
-"quick_quest_home_organization_description" = "Evinin bir bölümünü düzenle ve fazlalıklardan kurtul";
-"quick_quest_home_organization_task_1" = "Düzenlenecek bir alan seç";
-"quick_quest_home_organization_task_2" = "Eşyaları tut/bağışla/çöp olarak ayır";
-"quick_quest_home_organization_task_3" = "Alanı iyice temizle";
-"quick_quest_home_organization_task_4" = "Kalan eşyaları düzenle";
+"quick_quest_home_organization" = "Home Organization";
+"quick_quest_home_organization_description" = "Declutter and organize one area of your home";
+"quick_quest_home_organization_task_1" = "Choose an area to organize";
+"quick_quest_home_organization_task_2" = "Sort items into keep/donate/trash";
+"quick_quest_home_organization_task_3" = "Clean the space thoroughly";
+"quick_quest_home_organization_task_4" = "Organize remaining items";
 
-"quick_quest_bucket_list_adventure" = "Hayaller Listesi Macerası";
-"quick_quest_bucket_list_adventure_description" = "Hayaller listesinden bir maddeyi tamamla veya tamamen yeni bir şey dene";
-"quick_quest_bucket_list_adventure_task_1" = "Bir hayaller listesi maddesi seç";
-"quick_quest_bucket_list_adventure_task_2" = "Macerayı araştır ve planla";
-"quick_quest_bucket_list_adventure_task_3" = "Gerekli düzenlemeleri yap";
-"quick_quest_bucket_list_adventure_task_4" = "Macera görevini uygula";
-"quick_quest_bucket_list_adventure_task_5" = "Deneyimi kaydet";
+"quick_quest_bucket_list_adventure" = "Bucket List Adventure";
+"quick_quest_bucket_list_adventure_description" = "Complete one item from your bucket list or try something completely new";
+"quick_quest_bucket_list_adventure_task_1" = "Identify a bucket list item";
+"quick_quest_bucket_list_adventure_task_2" = "Research and plan the adventure";
+"quick_quest_bucket_list_adventure_task_3" = "Make necessary arrangements";
+"quick_quest_bucket_list_adventure_task_4" = "Execute the adventure";
+"quick_quest_bucket_list_adventure_task_5" = "Document the experience";
 
-"quick_quest_digital_detox" = "Dijital Detoks";
-"quick_quest_digital_detox_description" = "Belirli bir süre boyunca sosyal medyadan ve dijital cihazlardan tamamen uzaklaş";
-"quick_quest_digital_detox_task_1" = "Detoks süresini ve kurallarını belirle";
-"quick_quest_digital_detox_task_2" = "Arkadaşlarını ve aileni bilgilendir";
-"quick_quest_digital_detox_task_3" = "Alternatif aktiviteler bul";
-"quick_quest_digital_detox_task_4" = "Detoks süresini tamamla";
-"quick_quest_digital_detox_task_5" = "Deneyimi değerlendir";
+"quick_quest_digital_detox" = "Digital Detox";
+"quick_quest_digital_detox_description" = "Take a complete break from social media and digital devices for a set period";
+"quick_quest_digital_detox_task_1" = "Set detox duration and rules";
+"quick_quest_digital_detox_task_2" = "Inform friends and family";
+"quick_quest_digital_detox_task_3" = "Find alternative activities";
+"quick_quest_digital_detox_task_4" = "Complete the detox period";
+"quick_quest_digital_detox_task_5" = "Reflect on the experience";
 
-"quick_quest_creative_project" = "Yaratıcı Proje";
-"quick_quest_creative_project_description" = "Uzun zamandır yapmak istediğin bir yaratıcı projeye başla ve bitir";
-"quick_quest_creative_project_task_1" = "Yaratıcı projeni seç";
-"quick_quest_creative_project_task_2" = "Gerekli malzemeleri ve kaynakları topla";
-"quick_quest_creative_project_task_3" = "Kilometre taşlarını ve zaman çizelgesini belirle";
-"quick_quest_creative_project_task_4" = "Projeyi düzenli olarak sürdür";
-"quick_quest_creative_project_task_5" = "Projeyi tamamla ve sergile";
+"quick_quest_creative_project" = "Creative Project";
+"quick_quest_creative_project_description" = "Start and complete a creative project that you've been wanting to do";
+"quick_quest_creative_project_task_1" = "Choose your creative project";
+"quick_quest_creative_project_task_2" = "Gather materials and resources";
+"quick_quest_creative_project_task_3" = "Set milestones and timeline";
+"quick_quest_creative_project_task_4" = "Work on the project regularly";
+"quick_quest_creative_project_task_5" = "Complete and showcase the project";
 
-"quick_quest_fitness_challenge" = "Spor Meydan Okuması";
-"quick_quest_fitness_challenge_description" = "Sağlıklı alışkanlıklar kazanmak için 30 günlük bir spor meydan okumasını tamamla";
-"quick_quest_fitness_challenge_task_1" = "Bir spor meydan okuması seç";
-"quick_quest_fitness_challenge_task_2" = "Takip sistemini kur";
-"quick_quest_fitness_challenge_task_3" = "Günlük antrenmanları yap";
-"quick_quest_fitness_challenge_task_4" = "İlerlemeyi takip et ve ayarla";
-"quick_quest_fitness_challenge_task_5" = "30 günlük meydan okumayı tamamla";
+"quick_quest_fitness_challenge" = "Fitness Challenge";
+"quick_quest_fitness_challenge_description" = "Complete a 30-day fitness challenge to build healthy habits";
+"quick_quest_fitness_challenge_task_1" = "Choose a fitness challenge";
+"quick_quest_fitness_challenge_task_2" = "Set up tracking system";
+"quick_quest_fitness_challenge_task_3" = "Complete daily workouts";
+"quick_quest_fitness_challenge_task_4" = "Track progress and adjust";
+"quick_quest_fitness_challenge_task_5" = "Complete the 30-day challenge";
 
 // MARK: - Edit Quest Components
+"scheduled" = "Scheduled";
 
 // MARK: - Damage Tracking
-"damage_calculator" = "Hasar Hesaplayıcı";
+"damage_calculator" = "Damage Calculator";
 
 // MARK: - Premium Features
-"premium_unlimited_quests" = "Sınırsız Görev";
-"premium_unlimited_quests_description" = "İstediğin kadar görev yarat";
-"premium_advanced_analytics" = "Gelişmiş Analizler";
-"premium_advanced_analytics_description" = "İlerlemeni ayrıntılı içgörülerle takip et";
-"premium_custom_themes" = "Özel Temalar";
-"premium_custom_themes_description" = "Uygulama görünümünü kişiselleştir";
-"premium_cloud_sync" = "Bulut Senkronizasyonu";
-"premium_cloud_sync_description" = "Verilerini tüm cihazlarında senkronize et";
-"premium_advanced_notifications" = "Gelişmiş Bildirimler";
-"premium_advanced_notifications_description" = "Akıllı hatırlatmalar ve bildirimler";
-"premium_exclusive_achievements" = "Özel Başarımlar";
-"premium_exclusive_achievements_description" = "Özel başarımları ve ödülleri aç";
+"premium_unlimited_quests" = "Unlimited Quests";
+"premium_unlimited_quests_description" = "Create as many quests as you want";
+"premium_advanced_analytics" = "Advanced Analytics";
+"premium_advanced_analytics_description" = "Track your progress with detailed insights";
+"premium_custom_themes" = "Custom Themes";
+"premium_custom_themes_description" = "Personalize your app appearance";
+"premium_cloud_sync" = "Cloud Sync";
+"premium_cloud_sync_description" = "Sync your data across all devices";
+"premium_advanced_notifications" = "Advanced Notifications";
+"premium_advanced_notifications_description" = "Smart reminders and notifications";
+"premium_exclusive_achievements" = "Exclusive Achievements";
+"premium_exclusive_achievements_description" = "Unlock special achievements and rewards";
 
 // MARK: - Premium Plans
-"lifetime" = "Ömür Boyu";
-"per_month" = "aylık";
-"one_time_payment" = "tek seferlik ödeme";
+"monthly" = "Monthly";
+"lifetime" = "Lifetime";
+"per_month" = "per month";
+"one_time_payment" = "one-time payment";
 
 // MARK: - Error Messages
-"failed_to_update_quest" = "Görev güncellenemedi";
-"please_check_your_input" = "Lütfen girdini kontrol et";
+"error" = "Error";
+"warning" = "Warning";
+"failed_to_update_quest" = "Failed to update quest";
+"failed_to_delete_quest" = "Failed to delete quest";
+"please_check_your_input" = "Please check your input";
 
 // MARK: - Equipment Categories
-"equipment_body_type" = "Vücut Tipi";
-"equipment_hair_style" = "Saç Stili";
-"equipment_hair_color" = "Saç Rengi";
-"equipment_eye_color" = "Göz Rengi";
-"equipment_outfit" = "Kıyafet";
-"equipment_weapon" = "Silah";
-"equipment_accessory" = "Aksesuar";
+"equipment_body_type" = "Body Type";
+"equipment_hair_style" = "Hair Style";
+"equipment_hair_color" = "Hair Color";
+"equipment_eye_color" = "Eye Color";
+"equipment_outfit" = "Outfit";
+"equipment_weapon" = "Weapon";
+"equipment_accessory" = "Accessory";
 
 // MARK: - Health Status
-"health_status_dead" = "Ölü";
-"health_status_critical" = "Kritik";
-"health_status_injured" = "Yaralı";
-"health_status_wounded" = "Hasar Görmüş";
-"health_status_healthy" = "Sağlıklı";
-"health_status_full_health" = "Tam Sağlık";
+"health_status_dead" = "Dead";
+"health_status_critical" = "Critical";
+"health_status_injured" = "Injured";
+"health_status_wounded" = "Wounded";
+"health_status_healthy" = "Healthy";
+"health_status_full_health" = "Full Health";
 
 // MARK: - Item Types
-"item_type_consumable_description" = "Bir kez kullanılır ve tüketilir";
-"item_type_accessory_description" = "Karakter özelleştirmesi için kozmetik aksesuarlar";
-"item_type_gear_description" = "İstatistiklere ve nadirliklere sahip kuşanılabilir eşyalar";
-"item_type_booster_description" = "Geçici bonuslar sağlar";
-"item_type_collectible_description" = "Görsel sergi ve koleksiyon için eşyalar";
+"item_type_consumable_description" = "Used once and consumed";
+"item_type_accessory_description" = "Cosmetic accessories for character customization";
+"item_type_gear_description" = "Equippable items with stats and rarities";
+"item_type_booster_description" = "Provides temporary bonuses";
+"item_type_collectible_description" = "Visual items for display and collection";
 
 // MARK: - Gear Categories
-"gear_category_head_description" = "Başlıklar ve miğferler";
-"gear_category_outfit_description" = "Zırhlar ve giysiler";
-"gear_category_weapon_description" = "Silahlar ve araçlar";
-"gear_category_shield_description" = "Kalkanlar ve savunma ekipmanları";
-"gear_category_wings_description" = "Kanat aksesuarları";
-"gear_category_pet_description" = "Evcil yoldaşlar";
+"gear_category_head_description" = "Headgear and helmets";
+"gear_category_outfit_description" = "Body armor and clothing";
+"gear_category_weapon_description" = "Weapons and tools";
+"gear_category_shield_description" = "Shields and defensive gear";
+"gear_category_wings_description" = "Wing accessories";
+"gear_category_pet_description" = "Pet companions";
 
 // MARK: - Accessory Categories
-"accessory_category_earrings_description" = "Kulak aksesuarları";
-"accessory_category_eyeglasses_description" = "Göz aksesuarları";
-"accessory_category_lashes_description" = "Kirpik aksesuarları";
-"accessory_category_clips_description" = "Saç tokaları ve çiçekler";
+"accessory_category_earrings_description" = "Ear accessories";
+"accessory_category_eyeglasses_description" = "Eye accessories";
+"accessory_category_lashes_description" = "Eyelash accessories";
+"accessory_category_clips_description" = "Hair clips and flowers";
 
 // MARK: - Item Effects
-"item_effect_attack_description" = "Saldırı gücünü artırır";
-"item_effect_defense_description" = "Savunmayı artırır";
-"item_effect_health_description" = "Sağlığı yeniler veya artırır";
-"item_effect_focus_description" = "Odağı yeniler veya artırır";
-"item_effect_experience_description" = "Deneyim puanı kazandırır";
-"item_effect_luck_description" = "Şansı artırır";
-"item_effect_speed_description" = "Hareket/eylem hızını artırır";
-"item_effect_critical_chance_description" = "Kritik vuruş ihtimalini artırır";
-"item_effect_critical_damage_description" = "Kritik vuruş hasarını artırır";
-"item_effect_xp_boost_description" = "Deneyim kazanımını katlar";
-"item_effect_coin_boost_description" = "Altın kazanımını katlar";
-"item_effect_health_regeneration_description" = "Zamanla sağlığı yeniler";
-"item_effect_focus_regeneration_description" = "Zamanla odağı yeniler";
+"item_effect_attack_description" = "Increases attack power";
+"item_effect_defense_description" = "Increases defense";
+"item_effect_health_description" = "Restores or increases health";
+"item_effect_focus_description" = "Restores or increases focus";
+"item_effect_experience_description" = "Grants experience points";
+"item_effect_luck_description" = "Increases luck";
+"item_effect_speed_description" = "Increases movement/action speed";
+"item_effect_critical_chance_description" = "Increases critical hit chance";
+"item_effect_critical_damage_description" = "Increases critical hit damage";
+"item_effect_xp_boost_description" = "Multiplies experience gain";
+"item_effect_coin_boost_description" = "Multiplies coin gain";
+"item_effect_health_regeneration_description" = "Regenerates health over time";
+"item_effect_focus_regeneration_description" = "Regenerates focus over time";
 
 // MARK: - Health Status (Additional)
-"health_status_low" = "Düşük";
-"health_status_moderate" = "Orta";
-"health_status_full" = "Tam";
-"health_status_unknown" = "Bilinmiyor";
+"health_status_low" = "Low";
+"health_status_moderate" = "Moderate";
+"health_status_full" = "Full";
+"health_status_unknown" = "Unknown";
 
 // MARK: - Health Errors
-"health_error_user_not_found" = "Kullanıcı bulunamadı";
-"health_error_invalid_damage_amount" = "Geçersiz hasar miktarı";
-"health_error_invalid_heal_amount" = "Geçersiz iyileştirme miktarı";
-"health_error_invalid_max_health_amount" = "Geçersiz maksimum sağlık miktarı";
-"health_error_invalid_health_amount" = "Geçersiz sağlık miktarı";
-"health_error_invalid_quest_difficulty" = "Geçersiz görev zorluğu";
-"health_error_health_at_maximum" = "Sağlık zaten maksimumda";
-"health_error_health_at_minimum" = "Sağlık zaten minimumda";
+"health_error_user_not_found" = "User not found";
+"health_error_invalid_damage_amount" = "Invalid damage amount";
+"health_error_invalid_heal_amount" = "Invalid heal amount";
+"health_error_invalid_max_health_amount" = "Invalid max health amount";
+"health_error_invalid_health_amount" = "Invalid health amount";
+"health_error_invalid_quest_difficulty" = "Invalid quest difficulty";
+"health_error_health_at_maximum" = "Health is already at maximum";
+"health_error_health_at_minimum" = "Health is already at minimum";
 
 // MARK: - Character Asset Categories
-"character_asset_body_type" = "Vücut Tipi";
-"character_asset_hair_style" = "Saç Stili";
-"character_asset_hair_back_style" = "Arka Saç Stili";
-"character_asset_hair_color" = "Saç Rengi";
-"character_asset_eye_color" = "Göz Rengi";
-"character_asset_outfit" = "Kıyafet";
-"character_asset_weapon" = "Silah";
-"character_asset_accessory" = "Aksesuar";
-"character_asset_head" = "Baş";
-"character_asset_head_gear" = "Başlık";
-"character_asset_shield" = "Kalkan";
-"character_asset_wings" = "Kanatlar";
-"character_asset_mustache" = "Bıyık";
-"character_asset_flower" = "Çiçek";
-"character_asset_pet" = "Evcil Hayvan";
+"character_asset_body_type" = "Body Type";
+"character_asset_hair_style" = "Hair Style";
+"character_asset_hair_back_style" = "Hair Back Style";
+"character_asset_hair_color" = "Hair Color";
+"character_asset_eye_color" = "Eye Color";
+"character_asset_outfit" = "Outfit";
+"character_asset_weapon" = "Weapon";
+"character_asset_accessory" = "Accessory";
+"character_asset_head" = "Head";
+"character_asset_head_gear" = "Head Gear";
+"character_asset_shield" = "Shield";
+"character_asset_wings" = "Wings";
+"character_asset_mustache" = "Mustache";
+"character_asset_flower" = "Flower";
+"character_asset_pet" = "Pet";
 
 // MARK: - Inventory Errors
-"inventory_error_invalid_item" = "Geçersiz eşya";
-"inventory_error_item_not_found" = "Eşya envanterde bulunamadı";
-"inventory_error_insufficient_quantity" = "Yeterli eşya yok";
-"inventory_error_item_not_usable" = "Bu eşya kullanılamaz";
+"inventory_error_invalid_item" = "Invalid item";
+"inventory_error_item_not_found" = "Item not found in inventory";
+"inventory_error_insufficient_quantity" = "Not enough items";
+"inventory_error_item_not_usable" = "This item cannot be used";
 
 // MARK: - Inventory Categories
-"inventory_category_head_description" = "Miğferler ve başlıklar";
-"inventory_category_weapon_description" = "Silahlar ve savaş eşyaları";
-"inventory_category_shield_description" = "Kalkanlar ve savunma eşyaları";
-"inventory_category_outfit_description" = "Giysiler ve zırhlar";
-"inventory_category_pet_description" = "Evcil yoldaşlar";
-"inventory_category_wings_description" = "Kanatlar ve uçuş eşyaları";
-"inventory_category_others_description" = "Güçlendiriciler, iksirler, koleksiyonluklar";
+"inventory_category_head_description" = "Helmets and headgear";
+"inventory_category_weapon_description" = "Weapons and combat items";
+"inventory_category_shield_description" = "Shields and defensive gear";
+"inventory_category_outfit_description" = "Clothing and armor";
+"inventory_category_pet_description" = "Companion pets";
+"inventory_category_wings_description" = "Wings and flight items";
+"inventory_category_others_description" = "Boosters, potions, collectibles";
 
 // MARK: - General
-"unknown_item" = "Bilinmeyen Eşya";
+"unknown_item" = "Unknown Item";
 
 // MARK: - Premium Errors
-"premium_error_product_not_found" = "Ürün bulunamadı";
-"premium_error_user_cancelled" = "Satın alma iptal edildi";
-"premium_error_purchase_pending" = "Satın alma onay bekliyor";
-"premium_error_unknown" = "Bilinmeyen bir hata oluştu";
+"premium_error_product_not_found" = "Product not found";
+"premium_error_user_cancelled" = "Purchase was cancelled";
+"premium_error_purchase_pending" = "Purchase is pending approval";
+"premium_error_unknown" = "An unknown error occurred";
 
 // MARK: - Languages
-"language_english" = "İngilizce";
+"language_english" = "English";
 "language_turkish" = "Türkçe";
 
 // MARK: - Shop Categories
-"shop_category_weapons_description" = "Savaş için güçlü bir silah";
-"shop_category_armor_description" = "Maceraların için koruyucu ekipman";
-"shop_category_wings_description" = "Karakterin için sihirli kanatlar";
-"shop_category_pets_description" = "Maceraların için sadık bir yoldaş";
-"shop_category_consumables_description" = "Yolculuğun için tüketilebilir eşyalar";
+"shop_category_weapons_description" = "A powerful weapon for combat";
+"shop_category_armor_description" = "Protective gear for your adventures";
+"shop_category_accessories_description" = "Stylish accessories to enhance your character";
+"shop_category_wings_description" = "Magical wings for your character";
+"shop_category_pets_description" = "A loyal companion for your adventures";
+"shop_category_consumables_description" = "Consumable items for your journey";
 
 // MARK: - Currency
-"currency_gems" = "mücevher";
-"gem_reward" = "Mücevher Ödülü";
-"currency_coins" = "altın";
+"currency_gems" = "Gems";
+"gem_reward" = "Gem Reward";
+"currency_coins" = "Coins";
+
+// MARK: - Damage Calculation
+"due_today" = "Due today";
 
 // MARK: - Sample Data
-"sample_quest_title" = "Örnek Görev";
-"sample_quest_description" = "Test için bir örnek görev";
-"sample_task_title" = "Örnek Alt Görev";
-"sample_one_time_quest_title" = "Örnek Tek Seferlik Görev";
-"sample_one_time_quest_description" = "Bu, örnek tek seferlik görev açıklamasıdır.";
-"sample_daily_quest_title" = "Örnek Günlük Görev";
-"sample_daily_quest_description" = "Bu, örnek günlük görev açıklamasıdır.";
-"sample_task_1" = "Alt Görev 1";
-"sample_task_2" = "Alt Görev 2";
-"sample_task_3" = "Alt Görev 3";
+"sample_quest_title" = "Sample Quest";
+"sample_quest_description" = "A sample quest for testing";
+"sample_task_title" = "Sample Task";
+"sample_one_time_quest_title" = "Sample One-Time Quest";
+"sample_one_time_quest_description" = "This is a sample one-time quest description.";
+"sample_daily_quest_title" = "Sample Daily Quest";
+"sample_daily_quest_description" = "This is a sample daily quest description.";
+"sample_task_1" = "Task 1";
+"sample_task_2" = "Task 2";
+"sample_task_3" = "Task 3";
 
-"item_boosters" = "Eşya Güçlendiriciler";
-"total_active_boosters" = "Toplam Aktif Güçlendirici";
-"collect_items_to_get_boosters" = "Güçlendiriciler kazanmak için eşyalar topla!";
-"go_to_shop" = "Dükkan'a Git";
-"view_details" = "Detayları Gör";
-"tag_preview_will_appear_here" = "Etiket önizlemesi burada görünecek";
-"tag_name" = "Etiket Adı";
-"enter_tag_name" = "Etiket adı gir";
-"icon" = "Simge";
-"browse_all" = "Tümünü Göz At";
-"selected_icon" = "Seçilen Simge";
-"color" = "Renk";
-"create_tag" = "Etiket Oluştur";
-"create" = "Oluştur";
-"owned" = "Sahip Olunan";
-"buy" = "Satın Al";
-"filters" = "Filtreler";
-"rarity" = "Nadirlik";
-"show_only_affordable_items" = "Yalnızca karşılanabilir eşyaları göster";
-"item_preview" = "Eşya Önizlemesi";
-"buy_for" = "%@ karşılığında satın al";
-"unlock_premium" = "Premium'u Aç";
-"transform_quest_planning_experience" = "Görev planlama deneyimini dönüştür";
-"premium_features" = "Premium Özellikler";
-"choose_your_plan" = "Planını Seç";
-"get_premium" = "Premium Al";
-"subscription_terms" = "İstediğin zaman iptal edebilirsin. Abonelik, otomatik yenileme kapatılmadıkça mevcut dönem bitmeden 24 saat önce otomatik yenilenir.";
-"most_popular" = "EN POPÜLER";
-"usage_information" = "Kullanım Bilgisi";
-"consumable_item" = "Tüketilebilir Eşya";
-"consumable_item_description" = "Bu eşya kullanıldığında tüketilecek ve envanterinden kaldırılacak.";
-"booster_item" = "Güçlendirici Eşya";
-"booster_item_description" = "Bu eşya geçici bonuslar sağlar ve kullanıldığında tüketilir.";
-"equipment_item" = "Ekipman Eşyası";
-"equipment_item_description" = "Bu eşya karakterinin istatistiklerini artırmak için kuşanılabilir.";
-"collectible_item" = "Koleksiyonluk Eşya";
-"collectible_item_description" = "Bu eşya yalnızca sergileme amaçlı koleksiyonluk bir eşyadır.";
-"item_details" = "Eşya Detayları";
-"use" = "Kullan";
-"equip" = "Kuşan";
-"unequip" = "Çıkar";
-"failed_to_use_item" = "Eşya kullanılamadı";
-"item_not_found_in_inventory" = "Eşya envanterde bulunamadı";
-"failed_to_equip_item" = "Eşya kuşanılamadı";
-"invalid_gear_category" = "Geçersiz ekipman kategorisi";
-"item_equipped_successfully" = "Eşya başarıyla kuşanıldı!";
-"item_unequipped_successfully" = "Eşya başarıyla çıkarıldı!";
-"item_used_successfully" = "Eşya başarıyla kullanıldı!";
-"no_items_for_category" = "Kategori için %@ eşya yok";
-"visit_shop_to_get_items" = "Bazı %@ eşyalarını almak için dükkana git!";
-"no_colors_available_for_hair_style" = "Bu saç stili için renk mevcut değil";
+"loading_quests" = "Loading quests…";
+"no_quests" = "No Quests";
+"add_quest" = "Add Quest";
+"streak_calendar" = "Streak Calendar";
+"current_streak" = "Current Streak";
+"longest_streak" = "Longest Streak";
+"streak_day" = "day";
+"streak_days" = "days";
+"best_streak" = "Best Streak";
+"today_status" = "Today";
+"monthly_activity" = "Monthly Activity";
+"active_days" = "Active Days";
+"activity_rate" = "Activity Rate";
+"item_boosters" = "Item Boosters";
+"total_active_boosters" = "Total Active Boosters";
+"collect_items_to_get_boosters" = "Collect items to get boosters!";
+"go_to_shop" = "Go to Shop";
+"view_details" = "View Details";
+"tag_preview_will_appear_here" = "Tag preview will appear here";
+"tag_name" = "Tag Name";
+"enter_tag_name" = "Enter tag name";
+"icon" = "Icon";
+"browse_all" = "Browse All";
+"selected_icon" = "Selected Icon";
+"color" = "Color";
+"create_tag" = "Create Tag";
+"create" = "Create";
+"owned" = "Owned";
+"buy" = "Buy";
+"filters" = "Filters";
+"rarity" = "Rarity";
+"all" = "All";
+"show_only_affordable_items" = "Show only affordable items";
+"item_preview" = "Item Preview";
+"buy_for" = "Buy for %@";
+"unlock_premium" = "Unlock Premium";
+"transform_quest_planning_experience" = "Transform your quest planning experience";
+"premium_features" = "Premium Features";
+"choose_your_plan" = "Choose Your Plan";
+"get_premium" = "Get Premium";
+"subscription_terms" = "Cancel anytime. Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.";
+"most_popular" = "MOST POPULAR";
+"usage_information" = "Usage Information";
+"consumable_item" = "Consumable Item";
+"consumable_item_description" = "This item will be consumed when used and removed from your inventory.";
+"booster_item" = "Booster Item";
+"booster_item_description" = "This item provides temporary bonuses and will be consumed when used.";
+"equipment_item" = "Equipment Item";
+"equipment_item_description" = "This item can be equipped to enhance your character's stats.";
+"collectible_item" = "Collectible Item";
+"collectible_item_description" = "This is a collectible item for display purposes.";
+"item_details" = "Item Details";
+"use" = "Use";
+"equip" = "Equip";
+"unequip" = "Unequip";
+"failed_to_use_item" = "Failed to use item";
+"item_not_found_in_inventory" = "Item not found in inventory";
+"failed_to_equip_item" = "Failed to equip item";
+"invalid_gear_category" = "Invalid gear category";
+"item_equipped_successfully" = "Item equipped successfully!";
+"item_unequipped_successfully" = "Item unequipped successfully!";
+"item_used_successfully" = "Item used successfully!";
+"no_items_for_category" = "No %@ items";
+"visit_shop_to_get_items" = "Visit the shop to get some %@ items!";
+"no_colors_available_for_hair_style" = "No colors available for this hair style";
 "price" = "%@";
-"damage_history" = "Hasar Geçmişi";
+"damage_history" = "Damage History";
 "total_damage" = "%@ HP";
-"loading_damage_history" = "Hasar geçmişi yükleniyor...";
-"no_damage_taken" = "Hasar alınmadı";
+"loading_damage_history" = "Loading damage history...";
+"no_damage_taken" = "No damage taken";
 "damage_amount" = "%@ HP";
-"view_all_damage_events" = "Tüm %d hasar olaylarını gör";
-"damage_info_title" = "Hasar Nasıl İşler";
-"damage_info_message" = "Görev bitiş tarihlerini kaçırdığında hasar alırsın. Günlük görevler kaçırılan gün başına 3 HP, haftalık görevler 8 HP ve tek seferlik görevler 10 HP hasar verir. Hasar almamak için görevleri zamanında tamamla!";
+"view_all_damage_events" = "View all %d damage events";
+"damage_info_title" = "How Damage Works";
+"damage_info_message" = "You take damage when you miss quest deadlines. Daily quests deal 3 HP per missed day, weekly quests deal 8 HP, and one-time quests deal 10 HP. Complete quests on time to avoid damage!";
 
 // MARK: - Item Names and Descriptions
 
 // Health Potions
-"lesser_healing_elixir" = "Küçük İyileştirme İksiri";
-"lesser_healing_elixir_description" = "15 HP yeniler. Yaygın otlardan yapılmış basit bir iksir.";
-"vitality_draught" = "Can İksiri";
-"vitality_draught_description" = "30 HP yeniler. Maceracılar için güvenilir bir iksir.";
-"greater_restoration_tonic" = "Büyük Yenilenme Tonuğu";
-"greater_restoration_tonic_description" = "50 HP yeniler. Hayatını kurtarabilecek güçlü bir iksir.";
-"supreme_life_essence" = "Yüce Yaşam Özütü";
-"supreme_life_essence_description" = "75 HP yeniler. Nadir içeriklerle hazırlanmış olağanüstü bir iksir.";
-"phoenix_tears" = "Anka Gözyaşları";
-"phoenix_tears_description" = "Sağlığı tamamen yeniler. Seni ölümün eşiğinden geri getiren efsanevi bir iksir.";
+"lesser_healing_elixir" = "Lesser Healing Elixir";
+"lesser_healing_elixir_description" = "Restores 15 HP. A basic healing potion made from common herbs.";
+"vitality_draught" = "Vitality Draught";
+"vitality_draught_description" = "Restores 30 HP. A reliable healing potion for adventurers.";
+"greater_restoration_tonic" = "Greater Restoration Tonic";
+"greater_restoration_tonic_description" = "Restores 50 HP. A powerful healing potion that can save your life.";
+"supreme_life_essence" = "Supreme Life Essence";
+"supreme_life_essence_description" = "Restores 75 HP. An exceptional healing potion with rare ingredients.";
+"phoenix_tears" = "Phoenix Tears";
+"phoenix_tears_description" = "Fully restores health. A legendary potion that brings you back from the brink of death.";
 
 // XP Boosts
-"wisdoms_breath" = "Bilgeliğin Nefesi";
-"wisdoms_breath_description" = "30 dakika boyunca XP kazanımını %25 artırır";
-"scholars_insight" = "Bilgenin iç yüzü";
-"masters_enlightenment" = "Ustanın Aydınlanması";
-"masters_enlightenment_description" = "2 saat boyunca XP kazanımını %100 artırır";
-
-"ancient_knowledge_essence" = "Kadim Bilgelik Özütü";
-"ancient_knowledge_essence_description" = "4 saat boyunca XP kazanımını %200 artırır";
+"wisdoms_breath" = "Wisdom's Breath";
+"wisdoms_breath_description" = "Increases XP gain by 25% for 30 minutes";
+"scholars_insight" = "Scholar's Insight";
+"scholars_insight_description" = "Increases XP gain by 50% for 1 hour";
+"masters_enlightenment" = "Master's Enlightenment";
+"masters_enlightenment_description" = "Increases XP gain by 100% for 2 hours";
+"ancient_knowledge_essence" = "Ancient Knowledge Essence";
+"ancient_knowledge_essence_description" = "Increases XP gain by 200% for 4 hours";
 
 // Coin Boosts
-"merchants_blessing" = "Tüccarın Bereketi";
-"merchants_blessing_description" = "30 dakika boyunca altın kazanımını %25 artırır";
-
-"wealth_attractor" = "Zenginlik Çekicisi";
-"wealth_attractor_description" = "1 saat boyunca altın kazanımını %50 artırır";
-
-"golden_fortune" = "Altın Talihi";
-"golden_fortune_description" = "2 saat boyunca altın kazanımını %100 artırır";
-
-"dragons_hoard_essence" = "Ejderhanın Hazine Özütü";
-"dragons_hoard_essence_description" = "4 saat boyunca altın kazanımını %200 artırır";
-
-// Karakter Özelleştirme Arayüzü
-"step_progress" = "%d / %d. Adım";
-"current_selection" = "Mevcut Seçim";
-"premium_item" = "Premium Öğe";
-"locked_item" = "Kilitli Öğe";
-"unlock_premium_to_access" = "Bu öğeye erişmek için Premium'u açın";
-
-// MARK: - Karakter Başlıkları (Ek)
-
-// MARK: - Karakter Başlık Açıklamaları
-
-// MARK: - Başlangıç Akışı
-"select_title_description" = "Karakterinizin kişiliğini ve başarılarını yansıtan bir unvan seçin";
-
-// MARK: - Karakter Özelleştirme Kategorileri
-"skin_color" = "Ten Rengi";
-"hairstyle" = "Saç Stili";
-"hair_color" = "Saç Rengi";
-"hair_back_style" = "Arka Saç Stili";
-"eye_color" = "Göz Rengi";
-
-// MARK: - Karakter Özelleştirme Seçenekleri
-"no_customization_selected" = "Herhangi bir özelleştirme seçilmedi";
-"default_style" = "Varsayılan Stil";
-"classic_style" = "Klasik Stil";
-"modern_style" = "Modern Stil";
-"elegant_style" = "Zarif Stil";
-"warrior_style" = "Savaşçı Stili";
-"mage_style" = "Büyücü Stili";
-"rogue_style" = "Haydut Stili";
-
-// MARK: - Karakter Önizlemesi
-"preview_your_character" = "Karakterinizi önizleyin";
-"character_customization" = "Karakter Özelleştirme";
-
-// MARK: - Karakter İstatistikleri
-"character_stats" = "Karakter İstatistikleri";
-"character_level" = "Seviye";
-"character_experience" = "Deneyim";
-"character_health" = "Can";
-"character_mana" = "Mana";
-"character_strength" = "Güç";
-"character_intelligence" = "Zeka";
-"character_agility" = "Çeviklik";
-
-// MARK: - Karakter Ekipmanı
-"equipped_items" = "Kuşanılmış Eşyalar";
-"no_items_equipped" = "Hiç eşya kuşanılmamış";
-"equip_item" = "Eşyayı Kuşan";
-"unequip_item" = "Eşyayı Çıkar";
-"item_equipped" = "Eşya Kuşanıldı";
-"item_unequipped" = "Eşya Çıkarıldı";
-
-// MARK: - Karakter Özelleştirme Akışı
-"customization_progress" = "Özelleştirme İlerlemesi";
-"customization_complete" = "Özelleştirme Tamamlandı";
-"customization_incomplete" = "Özelleştirme Eksik";
-"please_complete_customization" = "Lütfen karakter özelleştirmesini tamamlayın";
-"customization_saved" = "Özelleştirme başarıyla kaydedildi";
-"customization_failed" = "Özelleştirme kaydedilemedi";
-
-// MARK: - Karakter Özelleştirme Doğrulama
-"please_select_skin_color" = "Lütfen bir ten rengi seçin";
-"please_select_hairstyle" = "Lütfen bir saç stili seçin";
-"please_select_eye_color" = "Lütfen bir göz rengi seçin";
-"please_select_outfit" = "Lütfen bir kıyafet seçin";
-"please_select_weapon" = "Lütfen bir silah seçin";
-
-// MARK: - Karakter Özelleştirme Yardımı
-"customization_help" = "Özelleştirme Yardımı";
-"tap_to_select" = "Seçmek için dokunun";
-"tap_to_preview" = "Önizlemek için dokunun";
-"swipe_to_browse" = "Seçenekleri gezinmek için kaydırın";
-"premium_items_available" = "Premium eşyalar mevcut";
-"unlock_premium_for_more_options" = "Daha fazla özelleştirme seçeneği için Premium'u açın";
-
-// MARK: - Ödül ve Güçlendirici Sistemi
-"expired" = "Süresi Dolmuş";
-"from_boosters" = "güçlendiricilerden";
-"base" = "Temel";
-"dismiss" = "Kapat";
-"coins_gained" = "Kazanılan Altınlar";
-"quest_rewards" = "Görev Ödülleri";
-"reward_animation" = "Ödül Animasyonu";
-"chest_opened" = "Sandık Açıldı";
-"chest_closed" = "Sandık Kapalı";
-"boosted_rewards" = "Geliştirilmiş Ödüller";
-"booster_bonus" = "Güçlendirici Bonusu";
-"booster_multiplier" = "Güçlendirici Çarpanı";
-"booster_duration" = "Güçlendirici Süresi";
-"booster_remaining" = "Kalan Güçlendirici Süresi";
-"booster_expired" = "Güçlendirici Süresi Doldu";
-"booster_active" = "Güçlendirici Aktif";
-"booster_inactive" = "Güçlendirici Pasif";
-"booster_effect" = "Güçlendirici Etkisi";
-"booster_source" = "Güçlendirici Kaynağı";
-"booster_type" = "Güçlendirici Türü";
-"booster_value" = "Güçlendirici Değeri";
-"booster_time_left" = "Kalan Süre";
-"booster_minutes" = "dakika";
-"booster_hours" = "saat";
-"booster_days" = "gün";
-"booster_permanent" = "Kalıcı";
-"booster_temporary" = "Geçici";
-"booster_consumable" = "Tüketilebilir";
-"booster_equipment" = "Ekipman";
-"booster_accessory" = "Aksesuar";
-"booster_collectible" = "Koleksiyonluk";
-"booster_rarity" = "Nadirlik";
-"booster_common" = "Sıradan";
-"booster_uncommon" = "Nadiren";
-"booster_rare" = "Nadir";
-"booster_epic" = "Destansı";
-"booster_legendary" = "Efsanevi";
-"booster_description" = "Açıklama";
-"booster_usage" = "Kullanım";
-"booster_effects" = "Etkiler";
-"booster_duration_remaining" = "Kalan Süre";
-"booster_time_remaining" = "Kalan Zaman";
-"booster_expires_in" = "Süresi dolmasına kalan";
-"booster_expired_on" = "Şu tarihte sona erdi";
-"booster_activated_on" = "Şu tarihte etkinleştirildi";
-"booster_deactivated_on" = "Şu tarihte devre dışı bırakıldı";
-"booster_activation_time" = "Etkinleştirme Süresi";
-"booster_expiration_time" = "Bitiş Süresi";
-"booster_total_bonus" = "Toplam Bonus";
-"booster_individual_bonus" = "Bireysel Bonus";
-"booster_combined_bonus" = "Birleşik Bonus";
-"booster_stack_limit" = "Yığın Limiti";
-"booster_max_stacks" = "Maksimum Yığın";
-"booster_current_stacks" = "Mevcut Yığınlar";
-"booster_stack_bonus" = "Yığın Bonusu";
-"booster_stack_multiplier" = "Yığın Çarpanı";
-"booster_stack_duration" = "Yığın Süresi";
-"booster_stack_remaining" = "Kalan Yığın Süresi";
-"booster_stack_expired" = "Yığının Süresi Doldu";
-"booster_stack_active" = "Yığın Aktif";
-"booster_stack_inactive" = "Yığın Pasif";
-"booster_stack_effect" = "Yığın Etkisi";
-"booster_stack_source" = "Yığın Kaynağı";
-"booster_stack_type" = "Yığın Türü";
-"booster_stack_value" = "Yığın Değeri";
-"booster_stack_time_left" = "Yığının Kalan Süresi";
-"booster_stack_minutes" = "Dakika";
-"booster_stack_hours" = "Saat";
-"booster_stack_days" = "Gün";
-"booster_stack_permanent" = "Kalıcı Yığın";
-"booster_stack_temporary" = "Geçici Yığın";
-"booster_stack_consumable" = "Tüketilebilir Yığın";
-"booster_stack_equipment" = "Ekipman Yığını";
-"booster_stack_accessory" = "Aksesuar Yığını";
-"booster_stack_collectible" = "Koleksiyonluk Yığın";
-"booster_stack_rarity" = "Yığının Nadirliği";
-"booster_stack_common" = "Sıradan Yığın";
-"booster_stack_uncommon" = "Nadiren Yığın";
-"booster_stack_rare" = "Nadir Yığın";
-"booster_stack_epic" = "Destansı Yığın";
-"booster_stack_legendary" = "Efsanevi Yığın";
-"booster_stack_description" = "Yığın Açıklaması";
-"booster_stack_usage" = "Yığın Kullanımı";
-"booster_stack_effects" = "Yığın Etkileri";
-"booster_stack_duration_remaining" = "Kalan Yığın Süresi";
-"booster_stack_time_remaining" = "Kalan Yığın Zamanı";
-"booster_stack_expires_in" = "Yığının Süresi Dolmasına Kalan";
-"booster_stack_expired_on" = "Şu tarihte sona erdi";
-"booster_stack_activated_on" = "Şu tarihte etkinleştirildi";
-"booster_stack_deactivated_on" = "Şu tarihte devre dışı bırakıldı";
-"booster_stack_activation_time" = "Yığın Etkinleştirme Süresi";
-"booster_stack_expiration_time" = "Yığın Bitiş Süresi";
-"booster_stack_total_bonus" = "Toplam Yığın Bonusu";
-"booster_stack_individual_bonus" = "Bireysel Yığın Bonusu";
-"booster_stack_combined_bonus" = "Birleşik Yığın Bonusu";
-
-// MARK: - Ek Güçlendirici ve Ödül Anahtarları
-"quest_booster" = "Görev Güçlendirici";
-"total_boost_format" = "Toplam Artış: +%d%% XP, +%d%% Altın";
-"booster_time_format" = "%ds %ddk";
-"booster_minutes_format" = "%ddk";
-"booster_hours_format" = "%ds";
-"booster_days_format" = "%dg";
-"booster_permanent_text" = "Kalıcı";
-"booster_temporary_text" = "Geçici";
-"booster_expired_text" = "Süresi Doldu";
-"booster_active_text" = "Aktif";
-"booster_inactive_text" = "Pasif";
-"booster_consumable_text" = "Tüketilebilir";
-"booster_equipment_text" = "Ekipman";
-"booster_accessory_text" = "Aksesuar";
-"booster_collectible_text" = "Koleksiyonluk";
-"booster_common_text" = "Sıradan";
-"booster_uncommon_text" = "Nadir";
-"booster_rare_text" = "Ender";
-"booster_epic_text" = "Destansı";
-"booster_legendary_text" = "Efsanevi";
-"booster_description_text" = "Açıklama";
-"booster_usage_text" = "Kullanım";
-"booster_effects_text" = "Etkiler";
-"booster_duration_remaining_text" = "Kalan Süre";
-"booster_time_remaining_text" = "Kalan Zaman";
-"booster_expires_in_text" = "Süresi Dolmasına Kalan";
-"booster_expired_on_text" = "Şu tarihte sona erdi";
-"booster_activated_on_text" = "Şu tarihte etkinleştirildi";
-"booster_deactivated_on_text" = "Şu tarihte devre dışı bırakıldı";
-"booster_activation_time_text" = "Etkinleştirme Süresi";
-"booster_expiration_time_text" = "Bitiş Süresi";
-"booster_total_bonus_text" = "Toplam Bonus";
-"booster_individual_bonus_text" = "Bireysel Bonus";
-"booster_combined_bonus_text" = "Birleşik Bonus";
-"booster_stack_limit_text" = "Yığın Limiti";
-"booster_max_stacks_text" = "Maksimum Yığın";
-"booster_current_stacks_text" = "Mevcut Yığınlar";
-"booster_stack_bonus_text" = "Yığın Bonusu";
-"booster_stack_multiplier_text" = "Yığın Çarpanı";
-"booster_stack_duration_text" = "Yığın Süresi";
-"booster_stack_remaining_text" = "Kalan Yığın Süresi";
-"booster_stack_expired_text" = "Yığının Süresi Doldu";
-"booster_stack_active_text" = "Yığın Aktif";
-"booster_stack_inactive_text" = "Yığın Pasif";
-"booster_stack_effect_text" = "Yığın Etkisi";
-"booster_stack_source_text" = "Yığın Kaynağı";
-"booster_stack_type_text" = "Yığın Türü";
-"booster_stack_value_text" = "Yığın Değeri";
-"booster_stack_time_left_text" = "Kalan Yığın Süresi";
-"booster_stack_minutes_text" = "Dakika";
-"booster_stack_hours_text" = "Saat";
-"booster_stack_days_text" = "Gün";
-"booster_stack_permanent_text" = "Kalıcı Yığın";
-"booster_stack_temporary_text" = "Geçici Yığın";
-"booster_stack_consumable_text" = "Tüketilebilir Yığın";
-"booster_stack_equipment_text" = "Ekipman Yığını";
-"booster_stack_accessory_text" = "Aksesuar Yığını";
-"booster_stack_collectible_text" = "Koleksiyonluk Yığın";
-"booster_stack_rarity_text" = "Yığının Nadirliği";
-"booster_stack_common_text" = "Sıradan Yığın";
-"booster_stack_uncommon_text" = "Nadir Yığın";
-"booster_stack_rare_text" = "Ender Yığın";
-"booster_stack_epic_text" = "Destansı Yığın";
-"booster_stack_legendary_text" = "Efsanevi Yığın";
-"booster_stack_description_text" = "Yığın Açıklaması";
-"booster_stack_usage_text" = "Yığın Kullanımı";
-"booster_stack_effects_text" = "Yığın Etkileri";
-"booster_stack_duration_remaining_text" = "Kalan Yığın Süresi";
-"booster_stack_time_remaining_text" = "Kalan Yığın Zamanı";
-"booster_stack_expires_in_text" = "Süresi Dolmasına Kalan";
-"booster_stack_expired_on_text" = "Şu tarihte sona erdi";
-"booster_stack_activated_on_text" = "Şu tarihte etkinleştirildi";
-"booster_stack_deactivated_on_text" = "Şu tarihte devre dışı bırakıldı";
-"booster_stack_activation_time_text" = "Etkinleştirme Süresi";
-"booster_stack_expiration_time_text" = "Bitiş Süresi";
-"booster_stack_total_bonus_text" = "Toplam Yığın Bonusu";
-"booster_stack_individual_bonus_text" = "Bireysel Yığın Bonusu";
-"booster_stack_combined_bonus_text" = "Birleşik Yığın Bonusu";
-
-// MARK: - Hata Mesajları
-"quest_completion_cooldown" = "Görev tamamlama bekleme süresinde";
-"task_completion_cooldown" = "Görev tamamlama bekleme süresinde";
-
-// MARK: - Güçlendirici Açıklamaları
-"booster_experience_description" = "Görevlerden kazanılan deneyimi artırır";
-"booster_coins_description" = "Görevlerden kazanılan altınları artırır";
-"booster_both_description" = "Görevlerden hem deneyim hem altın kazanımını artırır";
-"both" = "İkisi de";
-"temporary" = "Geçici";
-"xp_boost_item" = "XP Güçlendirme Eşyası";
-"coin_boost_item" = "Altın Güçlendirme Eşyası";
-
-// MARK: - Karakter Özelleştirme Kategorileri (Detaylı)
-"body_type" = "Vücut Tipi";
-"hair_back" = "Arka Saç";
-"outfit_style" = "Kıyafet Stili";
-"weapon_style" = "Silah Stili";
-"facial_hair" = "Yüz Saçı";
-"head_accessory" = "Baş Aksesuarı";
-"body_accessory" = "Vücut Aksesuarı";
-
-// MARK: - Karakter Özelleştirme Seçenekleri (Detaylı)
-"natural_skin" = "Doğal Ten";
-"fair_skin" = "Açık Ten";
-"olive_skin" = "Zeytin Ten";
-"dark_skin" = "Koyu Ten";
-"tanned_skin" = "Bronz Ten";
-
-"short_hair" = "Kısa Saç";
-"long_hair" = "Uzun Saç";
-"curly_hair" = "Kıvırcık Saç";
-"straight_hair" = "Düz Saç";
-"wavy_hair" = "Dalgalı Saç";
-"spiky_hair" = "Dikenli Saç";
-"bald" = "Kel";
-
-"blue_eyes" = "Mavi Göz";
-"green_eyes" = "Yeşil Göz";
-"brown_eyes" = "Kahverengi Göz";
-"gray_eyes" = "Gri Göz";
-"hazel_eyes" = "Ela Göz";
-
-"casual_outfit" = "Gündelik Kıyafet";
-"formal_outfit" = "Resmi Kıyafet";
-"armor_outfit" = "Zırh Kıyafeti";
-"robes_outfit" = "Büyücü Cüppesi";
-"adventure_outfit" = "Maceracı Kıyafeti";
-
-"sword_weapon" = "Kılıç";
-"axe_weapon" = "Balta";
-"bow_weapon" = "Yay";
-"staff_weapon" = "Asa";
-"dagger_weapon" = "Hançer";
-
-"no_mustache" = "Bıyık Yok";
-"thin_mustache" = "İnce Bıyık";
-"thick_mustache" = "Kalın Bıyık";
-"handlebar_mustache" = "Kıvrımlı Bıyık";
-
-"no_flower" = "Çiçek Yok";
-"rose_flower" = "Gül";
-"daisy_flower" = "Papatya";
-"lily_flower" = "Zambak";
-"sunflower_flower" = "Ayçiçeği";
-
-"no_accessory" = "Aksesuar Yok";
-"glasses_accessory" = "Gözlük";
-"earrings_accessory" = "Küpe";
-"necklace_accessory" = "Kolye";
-"hat_accessory" = "Şapka";
-
-// MARK: - Karakter Özelleştirme Açıklamaları
-"natural_skin_description" = "Doğal bir ten rengi";
-"fair_skin_description" = "Açık, beyaz bir ten";
-"olive_skin_description" = "Sıcak, zeytin tonlu bir ten";
-"dark_skin_description" = "Koyu, zengin bir ten rengi";
-"tanned_skin_description" = "Güneş görmüş, bronz bir ten";
-
-"short_hair_description" = "Kısa ve pratik saç stili";
-"long_hair_description" = "Uzun ve dalgalı saçlar";
-"curly_hair_description" = "Doğal kıvırcık saçlar";
-"straight_hair_description" = "Pürüzsüz, düz saç";
-"wavy_hair_description" = "Nazik dalgalarla dolu saçlar";
-"spiky_hair_description" = "Keskin, dikenli saç stili";
-"bald_description" = "Tamamen tıraşlı kafa";
-
-"blue_eyes_description" = "Parlak mavi gözler";
-"green_eyes_description" = "Zümrüt yeşili gözler";
-"brown_eyes_description" = "Sıcak kahverengi gözler";
-"gray_eyes_description" = "Soğuk gri gözler";
-"hazel_eyes_description" = "Çok renkli ela gözler";
-
-"casual_outfit_description" = "Rahat, gündelik kıyafetler";
-"formal_outfit_description" = "Zarif, resmi kıyafet";
-"armor_outfit_description" = "Koruyucu savaş zırhı";
-"robes_outfit_description" = "Gizemli büyücü cüppesi";
-"adventure_outfit_description" = "Maceraya uygun dayanıklı giysi";
-
-"sword_weapon_description" = "Güvenilir bir kılıç";
-"axe_weapon_description" = "Güçlü bir balta";
-"bow_weapon_description" = "Keskin nişancı yayı";
-"staff_weapon_description" = "Büyülü bir asa";
-"dagger_weapon_description" = "Hızlı ve keskin bir hançer";
-
-"no_mustache_description" = "Tertemiz tıraşlı yüz";
-"thin_mustache_description" = "İnce ve zarif bir bıyık";
-"thick_mustache_description" = "Kalın ve dikkat çekici bir bıyık";
-"handlebar_mustache_description" = "Kıvrımlı, gösterişli bir bıyık";
-
-"no_flower_description" = "Çiçek aksesuarı yok";
-"rose_flower_description" = "Kırmızı bir gül";
-"daisy_flower_description" = "Neşeli beyaz bir papatya";
-"lily_flower_description" = "Zarif bir zambak";
-"sunflower_flower_description" = "Parlak bir ayçiçeği";
-
-"no_accessory_description" = "Ekstra aksesuar yok";
-"glasses_accessory_description" = "Şık bir gözlük";
-"earrings_accessory_description" = "Dekoratif küpeler";
-"necklace_accessory_description" = "Zarif bir kolye";
-"hat_accessory_description" = "Modaya uygun bir şapka";
+"merchants_blessing" = "Merchant's Blessing";
+"merchants_blessing_description" = "Increases coin gain by 25% for 30 minutes";
+"wealth_attractor" = "Wealth Attractor";
+"wealth_attractor_description" = "Increases coin gain by 50% for 1 hour";
+"golden_fortune" = "Golden Fortune";
+"golden_fortune_description" = "Increases coin gain by 100% for 2 hours";
+"dragons_hoard_essence" = "Dragon's Hoard Essence";
+"dragons_hoard_essence_description" = "Increases coin gain by 200% for 4 hours";
 
 // Accessories - Flowers
-"azure_bloom" = "Gökyüzü Çiçeği";
-"azure_bloom_description" = "Açık yaz göğünün özünü yakalıyor gibi görünen güzel mavi bir çiçek. Taç yaprakları içsel bir ışıkla parlar ve onu takanlara huzur getirir.";
-"emerald_petal" = "Zümrüt Yaprak";
-"emerald_petal_description" = "Sabah çiyi gibi parlayan yapraklara sahip güzel yeşil bir çiçek. Doğal enerji yayar ve takanın doğayla bağını güçlendirir.";
-"amethyst_blossom" = "Ametist Çiçeği";
-"amethyst_blossom_description" = "Mistisizmiyle parlayan taç yaprakları olan zarif mor bir çiçek. Onu takmak bilgelik ve içsel güç hissi verir.";
+"azure_bloom" = "Azure Bloom";
+"azure_bloom_description" = "A beautiful blue flower that seems to capture the essence of a clear summer sky. Its petals shimmer with an inner light that brings peace to those who wear it.";
+"emerald_petal" = "Emerald Petal";
+"emerald_petal_description" = "A lovely green flower with leaves that sparkle like morning dew. It radiates natural energy and seems to enhance the wearer's connection to nature.";
+"amethyst_blossom" = "Amethyst Blossom";
+"amethyst_blossom_description" = "An elegant purple flower with petals that seem to glow with mystical energy. Wearing it grants a sense of wisdom and inner strength.";
 
 // Accessories - Eyeglasses
-"sapphire_spectacles" = "Safir Gözlük";
-"sapphire_spectacles_description" = "Normal insan görme yeteneğini aşan görüş kazandırıyor gibi görünen şık mavi gözlük. Çerçeveler değerli metallerden yapılmış ve küçük safir taşlarla süslenmiştir.";
-"shadow_lenses" = "Gölge Lensler";
-"shadow_lenses_description" = "Işığı yansıtmak yerine emiyormuş gibi görünen klasik gri gözlük. Takana gizemli bir hava verir ve gölgelerde kaybolmasına yardımcı olur.";
-"ruby_frames" = "Yakut Çerçeve";
-"ruby_frames_description" = "İçsel ateşle yanan cesur kırmızı gözlük. Lensler ısıyla parlıyor gibi görünür ve onu takan kişiye korkutucu bir duruş kazandırır.";
+"sapphire_spectacles" = "Sapphire Spectacles";
+"sapphire_spectacles_description" = "Stylish blue glasses with lenses that seem to enhance vision beyond normal human capabilities. The frames are crafted from precious metals and set with tiny sapphire gems.";
+"shadow_lenses" = "Shadow Lenses";
+"shadow_lenses_description" = "Classic gray glasses that seem to absorb light rather than reflect it. They grant the wearer an air of mystery and help them blend into shadows.";
+"ruby_frames" = "Ruby Frames";
+"ruby_frames_description" = "Bold red glasses that burn with inner fire. The lenses seem to glow with heat, and wearing them grants an intimidating presence.";
 
 // Accessories - Earrings
-"moonstone_stud" = "Aytaşı Küpe";
-"moonstone_stud_description" = "Saf aytaşından yapılmış basit bir küpe. Suyun üzerindeki ay ışığı gibi ışığı yakalar ve nazik enerjiyle atar gibi görünür.";
-"starlight_hoop" = "Yıldız Işığı Halka";
-"starlight_hoop_description" = "Yıldız ışığı gibi parıldayan zarif bir küpe. Metal, ışıkta parlayan ve dans eden küçük yıldızları içeriyor gibi görünür.";
+"moonstone_stud" = "Moonstone Stud";
+"moonstone_stud_description" = "A simple earring crafted from pure moonstone. It catches the light like moonlight on water and seems to pulse with gentle energy.";
+"starlight_hoop" = "Starlight Hoop";
+"starlight_hoop_description" = "An elegant earring that sparkles like starlight. The metal seems to contain tiny stars that twinkle and dance in the light.";
 
 // Accessories - Lashes
-"rose_blush" = "Gül Pembesi";
-"rose_blush_description" = "Takan kişiye doğal, sağlıklı bir parlaklık veren hafif bir allık. Renk, güzelliği ve özgüveni artırır, kişiyi çekici kılar.";
+"rose_blush" = "Rose Blush";
+"rose_blush_description" = "A touch of blush that gives the wearer a natural, healthy glow. The color seems to enhance beauty and confidence, making the wearer radiate charm.";
 
 // Gear - Head
-"shadow_veil" = "Gölge Örtüsü";
-"shadow_veil_description" = "Gölge özünden dokunmuş gizemli bir başlık. Kimliğini gizlerken temel koruma sağlar.";
-"ironclad_crown" = "Demir Taç";
-"ironclad_crown_description" = "En iyi demirden dövülmüş bu taç, görkemli görünümünü korurken mükemmel koruma sağlar. Birçok hevesli şövalye tarafından giyilmiştir.";
-"crimson_crest" = "Kızıl Miğfer";
-"crimson_crest_description" = "Kızıl taşlarla süslenmiş etkileyici bir miğfer. Metal içsel ateşle atıyor gibi görünür, takana korkutucu bir duruş kazandırır.";
+"shadow_veil" = "Shadow Veil";
+"shadow_veil_description" = "A mysterious hood woven from shadow essence. Conceals your identity while offering basic protection from the elements.";
+"ironclad_crown" = "Ironclad Crown";
+"ironclad_crown_description" = "Forged from the finest iron, this crown provides excellent protection while maintaining a regal appearance. Worn by many aspiring knights.";
+"crimson_crest" = "Crimson Crest";
+"crimson_crest_description" = "A striking helmet adorned with crimson gems. The metal seems to pulse with inner fire, granting its wearer an intimidating presence.";
 
 // Gear - Outfits
-"peasants_garb" = "Köylü Giysisi";
-"peasants_garb_description" = "Köylüler tarafından giyilen basit ama dayanıklı giysiler. Alçakgönüllü görünümüne rağmen sayısız maceracının bilinmeyene ilk adımlarında hizmet etmiştir.";
-"azure_tunic" = "Gökyüzü Tuniği";
-"azure_tunic_description" = "Sabah çiyi gibi ışığı yakalayan güzel mavi bir tunik. Kumaş şaşırtıcı derecede dayanıklıdır, hem stil hem de koruma sağlar.";
-"comfort_cloak" = "Rahat Pelerin";
-"comfort_cloak_description" = "Nazik bir kucaklama gibi hissettiren sıcak ve rahat bir pelerin. Uzun çalışma geceleri veya sessiz düşünceler için mükemmeldir.";
-"silken_grace" = "İpeksi Zarafet";
-"silken_grace_description" = "En iyi ipekten dokunmuş zarif bir elbise. Kumaş su gibi akar ve detaylı işlemeler eski sarayların hikayelerini anlatır.";
-"ironclad_plate" = "Demir Zırh";
-"ironclad_plate_description" = "Otoriteyle gürültü çıkaran ağır demir zırh. Her plaka dikkatle işlenmiş ve uyarlanmıştır, fiziksel saldırılara karşı üstün koruma sağlar.";
-"reinforced_ironclad" = "Güçlendirilmiş Demir Zırh";
-"reinforced_ironclad_description" = "Ek takviyelerle güçlendirilmiş demir zırh. Metal eski tekniklerle işlenmiş, sıradan silahlara karşı neredeyse dayanılmaz hale getirilmiştir.";
-"crimson_raiment" = "Kızıl Zırh";
-"crimson_raiment_description" = "İçsel ateşle yanan cesur kırmızı zırh. Metal canlıymış gibi atar ve hem düşmanları korkutur hem de müttefikleri cesaretlendirir.";
-"arcane_robes" = "Büyülü Cübbe";
-"arcane_robes_description" = "Sihirli enerjilerle parıldayan gizemli cübbeler. Büyülü ipliklerle dokunmuş, büyü yeteneklerini artırır ve büyülü saldırılara karşı korur.";
-"nightwing_shroud" = "Gece Kanadı Pelerini";
-"nightwing_shroud_description" = "Işığı emiyormuş gibi görünen gizemli bir kıyafet. Gölgelerde yürüyenler tarafından giyilir ve takana doğaüstü bir varlık hissi verir.";
-"inferno_mantle" = "Alev Pelerini";
-"inferno_mantle_description" = "Saf ateş enerjisi yayan alevli bir kıyafet. Alevler kullanıcının etrafında dans eder ve yok edici bir güç aurası oluşturur.";
+"peasants_garb" = "Peasant's Garb";
+"peasants_garb_description" = "Simple but durable clothing worn by villagers. Though humble in appearance, it has served countless adventurers on their first steps into the unknown.";
+"azure_tunic" = "Azure Tunic";
+"azure_tunic_description" = "A beautiful blue tunic that catches the light like morning dew. The fabric is surprisingly resilient, offering both style and protection.";
+"comfort_cloak" = "Comfort Cloak";
+"comfort_cloak_description" = "A warm, comfortable hoodie that feels like a gentle embrace. Perfect for those long nights of study or quiet contemplation.";
+"silken_grace" = "Silken Grace";
+"silken_grace_description" = "An elegant dress woven from the finest silk. The fabric flows like water, and the intricate embroidery tells stories of ancient courts.";
+"ironclad_plate" = "Ironclad Plate";
+"ironclad_plate_description" = "Heavy iron armor that clanks with authority. Each plate has been carefully crafted and fitted, offering superior protection against physical attacks.";
+"reinforced_ironclad" = "Reinforced Ironclad";
+"reinforced_ironclad_description" = "Enhanced iron armor with additional reinforcements. The metal has been treated with ancient techniques, making it nearly impervious to common weapons.";
+"crimson_raiment" = "Crimson Raiment";
+"crimson_raiment_description" = "Bold red armor that burns with inner fire. The metal seems alive, pulsing with heat that intimidates enemies and inspires allies.";
+"arcane_robes" = "Arcane Robes";
+"arcane_robes_description" = "Mystical robes that shimmer with magical energy. Woven with enchanted threads, they enhance magical abilities and protect against arcane attacks.";
+"nightwing_shroud" = "Nightwing Shroud";
+"nightwing_shroud_description" = "A mysterious outfit that seems to absorb light itself. Worn by those who walk in shadows, it grants the wearer an otherworldly presence.";
+"inferno_mantle" = "Inferno Mantle";
+"inferno_mantle_description" = "A blazing outfit that radiates pure fire energy. The flames dance around the wearer, creating an aura of destruction and power.";
 
 // Gear - Wings
-"celestial_wings" = "Göksel Kanatlar";
-"celestial_wings_description" = "İlahi ışıkla parlayan saf beyaz kanatlar. Saf enerjiden yapılmış gibidirler ve sahibine göklerde zarafetle uçma imkanı verirler.";
-"phoenix_wings" = "Anka Kanatları";
-"phoenix_wings_description" = "Ebedi ateşle yanan alevli kanatlar. Her tüy sıcaklıkla çıtırdar ve kanatlar yok oluşun küllerinden bile yeniden doğar.";
-"blazing_phoenix" = "Alevli Anka";
-"blazing_phoenix_description" = "Yoğunlaştırılmış ateşle yanan güçlendirilmiş anka kanatları. Isı o kadar güçlüdür ki yakın düşmanlar yeniden doğuşun yakıcı gücünü hisseder.";
-"shadow_wings" = "Gölge Kanatlar";
-"shadow_wings_description" = "Çevresindeki tüm ışığı emiyormuş gibi görünen kara kanatlar. Gece boyunca sessiz uçuş sağlar, görünmez kalmayı tercih edenler için mükemmeldir.";
+"celestial_wings" = "Celestial Wings";
+"celestial_wings_description" = "Pure white wings that glow with divine light. They seem to be made of pure energy, allowing the bearer to soar through the heavens with grace.";
+"phoenix_wings" = "Phoenix Wings";
+"phoenix_wings_description" = "Fiery wings that burn with eternal flame. Each feather crackles with heat, and the wings seem to regenerate even from the ashes of destruction.";
+"blazing_phoenix" = "Blazing Phoenix";
+"blazing_phoenix_description" = "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.";
+"shadow_wings" = "Shadow Wings";
+"shadow_wings_description" = "Dark wings that seem to absorb all light around them. They allow silent flight through the night, perfect for those who prefer to remain unseen.";
 
 // Gear - Weapons
-"oakheart_blade" = "Meşe Kalpli Kılıç";
-"oakheart_blade_description" = "Kadim meşeden oyulmuş bir kılıç, yıllar boyunca sertleşmiş bir bıçak. Basit olmasına rağmen doğal dengesi onu ustaların elinde etkili kılar.";
-"copper_fang" = "Bakır Diş";
-"copper_fang_description" = "Kendine has kırmızımsı tonu olan bir bakır kılıç. Metal, güneş ışığında parlayan keskin bir kenar oluşturmak için dikkatle dövülmüştür.";
-"ironclad_edge" = "Demir Keskinlik";
-"ironclad_edge_description" = "Sayısız savaşçının tercih ettiği güvenilir demir kılıç. Dengesi ve dayanıklılığı onu güvenilir bir savaş yoldaşı yapar.";
-"steel_serpent" = "Çelik Yılan";
-"steel_serpent_description" = "Saldıran bir yılan gibi hareket eden keskin çelik kılıç. Bıçak o kadar ince işlenmiştir ki daha zayıf zırhları kolayca kesebilir.";
-"crimson_fang" = "Kızıl Diş";
-"crimson_fang_description" = "İçsel ateşle yanan kızıl bir kılıç. Bıçak savaş için susamış gibi görünür, her vuruşta daha da ısınır.";
-"blazing_fang" = "Alevli Diş";
-"blazing_fang_description" = "Kızıl Diş'in geliştirilmiş hali, öyle yoğun yanar ki tek darbede düşmanları tutuşturabilir.";
-"golden_dawn" = "Altın Şafak";
-"golden_dawn_description" = "Şafak ışığını yakalayan efsanevi altın kılıç. Bıçağı sıcaklık ve umut yayar, müttefikleri cesaretlendirirken düşmanlara korku salar.";
-"thunder_axe" = "Gök Gürültüsü Baltası";
-"thunder_axe_description" = "Elektrik enerjisiyle çatırdayan ağır bir balta. Her sallayış gök gürültüsü gibi patlar ve bıçak yıldırımı yönlendirebilir.";
-"storm_hatchet" = "Fırtına Balta";
-"storm_hatchet_description" = "Fırtına enerjisiyle uğuldayan küçük bir balta. Büyük akrabalarından daha hafif olsa da yine de şimşek ve yıldırım gücünü taşıyabilir.";
-"vipers_lash" = "Engerek Kırbacı";
-"vipers_lash_description" = "Zehirli bir yılan gibi vuran esnek bir kırbaç. Deri özel yağlarla işlenmiş, onu hem ölümcül hem de sessiz yapmıştır.";
-"arcane_staff" = "Büyülü Asa";
-"arcane_staff_description" = "Büyü enerjisiyle atan sihirli bir asa. Kadim ağaçtan oyulmuş ve mistik kristallerle süslenmiştir, büyü yeteneklerini artırır ve güçlü büyüler kanalize eder.";
-"iron_maiden" = "Demir Topuz";
-"iron_maiden_description" = "Yıkıcı bir güçle vuran ağır bir topuz. Çivili başlığı zırhı ve kemikleri kolayca parçalayabilir, onu herkesin korkulu rüyası yapar.";
-"soul_reaper" = "Ruh Biçen";
-"soul_reaper_description" = "Kurbanlarının yaşamını emiyor gibi görünen ölümcül bir silah. Bıçak gece kadar karanlık ve ölüm kadar soğuktur, adını bilen herkes tarafından korkulur.";
-"windseeker_bow" = "Rüzgar Arayıcı Yay";
-"windseeker_bow_description" = "Rüzgarın kendisi tarafından yönlendiriliyormuş gibi görünen bir yay. Oklar olağanüstü bir doğrulukla uçar, en sert rüzgarlarda bile hedefini bulur.";
-"stormcaller_bow" = "Fırtına Çağıran Yay";
-"stormcaller_bow_description" = "Oklarıyla fırtınalar çağırabilen bir yay. Her atış yıldırımla çatırdar ve yay gök gürültüsünün gücüyle uğuldar.";
+"oakheart_blade" = "Oakheart Blade";
+"oakheart_blade_description" = "A sword carved from ancient oak, its blade hardened through years of seasoning. Though simple, it has a natural balance that makes it surprisingly effective in skilled hands.";
+"copper_fang" = "Copper Fang";
+"copper_fang_description" = "A copper sword with a distinctive reddish hue. The metal has been carefully forged to create a sharp edge that gleams in the sunlight.";
+"ironclad_edge" = "Ironclad Edge";
+"ironclad_edge_description" = "A reliable iron sword that has been the weapon of choice for countless warriors. Its balance and durability make it a trusted companion in battle.";
+"steel_serpent" = "Steel Serpent";
+"steel_serpent_description" = "A sharp steel sword that moves like a striking snake. The blade is so finely crafted that it can cut through lesser armor with ease.";
+"crimson_fang" = "Crimson Fang";
+"crimson_fang_description" = "A fiery red sword that burns with inner heat. The blade seems to thirst for battle, growing hotter with each strike against enemies.";
+"blazing_fang" = "Blazing Fang";
+"blazing_fang_description" = "An enhanced version of the Crimson Fang, this sword burns with such intensity that it can ignite enemies with a single strike.";
+"golden_dawn" = "Golden Dawn";
+"golden_dawn_description" = "A legendary golden sword that seems to capture the first light of dawn. Its blade radiates warmth and hope, inspiring allies while striking fear into enemies.";
+"thunder_axe" = "Thunder Axe";
+"thunder_axe_description" = "A heavy axe that crackles with electrical energy. Each swing creates a thunderous boom, and the blade can channel lightning through its strikes.";
+"storm_hatchet" = "Storm Hatchet";
+"storm_hatchet_description" = "A smaller axe that hums with storm energy. Though lighter than its larger cousin, it can still channel the power of thunder and lightning.";
+"vipers_lash" = "Viper's Lash";
+"vipers_lash_description" = "A flexible whip that strikes like a venomous snake. The leather has been treated with special oils, making it both deadly and silent.";
+"arcane_staff" = "Arcane Staff";
+"arcane_staff_description" = "A magical staff that pulses with arcane energy. Carved from ancient wood and set with mystical crystals, it enhances magical abilities and channels powerful spells.";
+"iron_maiden" = "Iron Maiden";
+"iron_maiden_description" = "A heavy mace that strikes with devastating force. The spiked head can crush armor and bone alike, making it feared by all who face it.";
+"soul_reaper" = "Soul Reaper";
+"soul_reaper_description" = "A deadly weapon that seems to drain the life from its victims. The blade is dark as night and cold as death, feared by all who know its name.";
+"windseeker_bow" = "Windseeker Bow";
+"windseeker_bow_description" = "A bow that seems to be guided by the wind itself. Arrows fired from this bow fly with uncanny accuracy, finding their targets even in the strongest gales.";
+"stormcaller_bow" = "Stormcaller Bow";
+"stormcaller_bow_description" = "A bow that can summon storms with its arrows. Each shot crackles with lightning, and the bow itself hums with the power of thunder.";
 
 // Gear - Shields
-"oakheart_ward" = "Meşe Kalpli Kalkan";
-"oakheart_ward_description" = "Kadim meşeden oyulmuş, yüzeyi aşınmış ama güçlü bir kalkan. Sayısız darbeyi emmiş, her savaşçı için güvenilir bir savunma olmuştur.";
-"crimson_ward" = "Kızıl Kalkan";
-"crimson_ward_description" = "Savunma ateşiyle yanan kırmızı bir kalkan. Metal saldırıları emer ve ısı olarak geri yansıtır, düşmanları tekrar saldırmadan önce düşündürür.";
-"ironclad_bulwark" = "Demir Siper";
-"ironclad_bulwark_description" = "Zamanın testinden geçmiş sağlam bir demir kalkan. Yüzeyi savaş izleriyle doludur, her biri koruyucu gücünün kanıtıdır.";
-"golden_aegis" = "Altın Aegis";
-"golden_aegis_description" = "İlahi koruma yayan altın bir kalkan. Metal kutsal ışıkla parlar ve düşman saldırıları karşısında zayıflar.";
+"oakheart_ward" = "Oakheart Ward";
+"oakheart_ward_description" = "A shield carved from ancient oak, its surface weathered but strong. The wood has absorbed countless blows, making it a reliable defense for any warrior.";
+"crimson_ward" = "Crimson Ward";
+"crimson_ward_description" = "A red shield that burns with defensive fire. The metal seems to absorb attacks and reflect them back as heat, making enemies think twice before striking.";
+"ironclad_bulwark" = "Ironclad Bulwark";
+"ironclad_bulwark_description" = "A sturdy iron shield that has withstood the test of time. Its surface is covered in battle scars, each one a testament to its protective power.";
+"golden_aegis" = "Golden Aegis";
+"golden_aegis_description" = "A golden shield that radiates divine protection. The metal gleams with holy light, and enemies find their attacks weakened when facing its brilliance.";
 
 // Gear - Pets
-"shadowpaw" = "Gölgepençe";
-"shadowpaw_description" = "Koyu gece kadar siyah kürkü olan gizemli bir kedi yoldaş. Sessizce hareket eder ve düşüncelerini anlıyormuş gibi görünür, gizli görevler için mükemmel bir yoldaştır.";
-"whiskerwind" = "Bıyıkrüzgar";
-"whiskerwind_description" = "Yıldız ışığı gibi parıldayan kürkü olan zarif bir kedi. Tehlikeyi olağanüstü şekilde hisseder ve yaklaşan tehditler konusunda seni uyarır.";
-"golden_cluck" = "Altın Gıdak";
-"golden_cluck_description" = "Altın tüyleri güneş ışığında parlayan sadık bir tavuk yoldaş. Alçakgönüllü görünümüne rağmen altın gibi bir kalbe sahiptir ve seni her yere takip eder.";
+"shadowpaw" = "Shadowpaw";
+"shadowpaw_description" = "A mysterious cat companion with fur as dark as midnight. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.";
+"whiskerwind" = "Whiskerwind";
+"whiskerwind_description" = "A graceful cat with fur that shimmers like starlight. It has an uncanny ability to sense danger and will warn you of approaching threats.";
+"golden_cluck" = "Golden Cluck";
+"golden_cluck_description" = "A loyal chicken companion with golden feathers that gleam in the sunlight. Despite its humble appearance, it has a heart of gold and will follow you anywhere.";
 
 // Collectibles
-"crown_of_kings" = "Kralların Tacı";
-"crown_of_kings_description" = "Tarih boyunca sayısız hükümdarın başını süslemiş görkemli bir taç. Mücevherleri geçmişin bilgeliğini taşır ve onu takmak otorite aurası kazandırır.";
-"mystic_egg" = "Gizemli Yumurta";
-"mystic_egg_description" = "Bilinmeyen bir enerjiyle atan gizemli bir yumurta. Kadim efsaneler bu yumurtalardan çıkan yaratıklardan bahseder ama kimse dönüşüme tanık olmamıştır.";
-"thunder_hammer" = "Gök Gürültüsü Çekici";
-"thunder_hammer_description" = "Elektrik enerjisiyle çatırdayan güçlü bir çekiç. Her darbe gök gürültüsü gibi patlar ve silah fırtınaların gücünü kanalize eder.";
-"golden_key_of_ages" = "Çağların Altın Anahtarı";
-"golden_key_of_ages_description" = "Sadece fiziksel kapıları değil daha fazlasını açıyor gibi görünen altın bir anahtar. Kadim yazıtlar, unutulmuş diyarların ve gizli bilgilerin kapılarını açabileceğini söyler.";
-"silver_key_of_secrets" = "Sırlar Gümüş Anahtarı";
-"silver_key_of_secrets_description" = "Onu tutanlara sırlar fısıldayan gümüş bir anahtar. Metal, açtığı her kilidi ve açığa çıkardığı her sırrı hatırlıyor gibi görünür.";
-"medal_of_honor" = "Onur Madalyası";
-"medal_of_honor_description" = "Büyük cesaret ve yiğitlik gösterenlere verilen prestijli bir madalya. Metal onur ışığıyla parlar ve takanı görenlerde saygı uyandırır.";
-"harvest_pumpkin" = "Hasat Balkabağı";
-"harvest_pumpkin_description" = "İçsel ışıkla parıldayan şenlikli bir balkabağı. Özenle oyulmuş ve mistik sembollerle süslenmiş, göründüğü her yere neşe getirir.";
-"ring_of_power" = "Güç Yüzüğü";
-"ring_of_power_description" = "Büyü enerjisiyle atan sihirli bir yüzük. Yüzeyine kadim runlar işlenmiştir ve onu takmak unutulmuş büyüsel yeteneklere erişim sağlar.";
-"treasure_chest" = "Hazine Sandığı";
-"treasure_chest_description" = "Tarih boyunca sayısız serveti saklamış sağlam bir hazine sandığı. Ahşabı aşınmış ama güçlüdür, kilit mekanizması eski mühendisliğin harikasıdır.";
-"azure_treasure_chest" = "Gökyüzü Hazine Sandığı";
-"azure_treasure_chest_description" = "İçsel ışıkla parıldayan nadir mavi bir hazine sandığı. Metali bilinen hiçbir alaşıma benzemez ve sandığın kendisi büyüsel enerjiyle uğuldar.";
-"opened_treasure_chest" = "Açılmış Hazine Sandığı";
-"opened_treasure_chest_description" = "Sırlarını çoktan açığa çıkarmış bir hazine sandığı. Şimdi boş olsa da hâlâ macera ve keşif vaadi taşır.";
-"bronze_trophy_of_valor" = "Bronz Cesaret Kupası";
-"bronze_trophy_of_valor_description" = "Cesaret ve yiğitlik için verilen bronz bir kupa. Metal parlatılmıştır ve işçilik büyük beceri ve özveriyi gösterir.";
-"silver_trophy_of_glory" = "Gümüş Zafer Kupası";
-"silver_trophy_of_glory_description" = "Zafer ışığıyla parıldayan gümüş bir kupa. Metal, geçmiş zaferlerin görkemini yakalar ve yansıtır.";
-"golden_trophy_of_legends" = "Altın Efsane Kupası";
-"golden_trophy_of_legends_description" = "Efsanenin gücüyle ışıldayan altın bir kupa. Metal, büyüklüğün özünü taşır ve ona sahip olanlar şöhrete yazgılıdır.";
-"scroll_of_ancient_wisdom" = "Kadim Bilgelik Parşömeni";
-"scroll_of_ancient_wisdom_description" = "Mistik runlarla kaplı kadim bir parşömen. Parşömen dikkatle incelendiğinde sırlar fısıldar.";
-"scroll_of_lost_secrets" = "Kayıp Sırlar Parşömeni";
-"scroll_of_lost_secrets_description" = "O kadar güçlü sırlar içeren bir parşömen ki yüzyıllarca saklanmıştır. Mürekkep yasak bilgiyle parlar.";
-"scroll_of_forbidden_knowledge" = "Yasak Bilgi Parşömeni";
-"scroll_of_forbidden_knowledge_description" = "Tehlikeli enerjiyle atan bir parşömen. İçindeki bilgi o kadar güçlüdür ki kadim bilginler dünyayı korumak için mühürlemiştir.";
-"bell_of_awakening" = "Uyanış Çanı";
-"bell_of_awakening_description" = "Ruhu uyandırıyormuş gibi çınlayan sihirli bir çan. Metal saf enerjiyle rezonansa girer ve çanı büyüleri bozabilir.";
-"chronometer" = "Kronometre";
-"chronometer_description" = "Saatlerden fazlasını ölçüyor gibi görünen mistik bir zaman ölçer. Dişlileri imkânsız hassasiyetle hareket eder ve zamanı ölçebilir.";
-"lucky_four_leaf_clover" = "Şanslı Dört Yapraklı Yonca";
-"lucky_four_leaf_clover_description" = "İyi şans yayan nadir bir dört yapraklı yonca. Yapraklar içsel ışıkla parlar ve onu taşımak sahibine şans getirir.";
-"holy_cross" = "Kutsal Haç";
-"holy_cross_description" = "İlahi ışıkla parlayan kutsal bir haç. Metal kutsanmış gibi görünür ve karanlık güçlere karşı koruma sağlar.";
-"phoenix_feather" = "Anka Tüyü";
-"phoenix_feather_description" = "Ebedi alevle yanan bir tüy. Ateş tarafından tüketilmesi gerekirken sağlam kalır ve sıcaklık yayar.";
-"essence_of_fire" = "Ateş Özütü";
-"essence_of_fire_description" = "Saf ateş enerjisi içeren bir kristal. Alevler içinde dans eder ve en soğuk kalpleri bile ısıtır.";
-"lightning_bolt" = "Yıldırım Oku";
-"lightning_bolt_description" = "Kristal formunda yakalanmış bir yıldırım. Enerji içinde çatırdar ve kristal fırtınaların gücüyle uğuldar.";
-"strength_totem" = "Güç Totemi";
-"strength_totem_description" = "Fiziksel güç enerjisi yayan bir totem. Güç sembolleriyle oyulmuş, takana cesaret verir.";
-"starlight_fragment" = "Yıldız Işığı Parçası";
-"starlight_fragment_description" = "Kristal formunda yakalanmış yıldız ışığı parçası. Uzak yıldızların ışığıyla parlar ve ilham getirir.";
-"skull_of_the_fallen" = "Düşmüşlerin Kafatası";
-"skull_of_the_fallen_description" = "Eski sahibinin anılarını taşıyor gibi görünen gizemli bir kafatası. Rahatsız edici olsa da geçmiş hakkında sırlar açığa çıkarabilir.";
-"skull_of_the_ancient" = "Kadim Kafatası";
-"skull_of_the_ancient_description" = "O kadar eski bir kafatası ki fosilleşmiş. Ondan kadim bilgelik yayılır.";
+"crown_of_kings" = "Crown of Kings";
+"crown_of_kings_description" = "A magnificent crown that has adorned the heads of countless rulers throughout history. Its jewels seem to hold the wisdom of ages past, and wearing it grants an aura of authority.";
+"mystic_egg" = "Mystic Egg";
+"mystic_egg_description" = "A mysterious egg that pulses with unknown energy. Ancient legends speak of creatures that hatch from such eggs, but none have ever witnessed the transformation.";
+"thunder_hammer" = "Thunder Hammer";
+"thunder_hammer_description" = "A mighty hammer that crackles with electrical energy. Each strike creates a thunderous boom, and the weapon seems to channel the power of storms themselves.";
+"golden_key_of_ages" = "Golden Key of Ages";
+"golden_key_of_ages_description" = "A golden key that seems to unlock more than just physical doors. Ancient inscriptions suggest it can open portals to forgotten realms and hidden knowledge.";
+"silver_key_of_secrets" = "Silver Key of Secrets";
+"silver_key_of_secrets_description" = "A silver key that whispers secrets to those who hold it. The metal seems to remember every lock it has ever opened, and every secret it has ever revealed.";
+"medal_of_honor" = "Medal of Honor";
+"medal_of_honor_description" = "A prestigious medal awarded for acts of great courage and valor. The metal gleams with the light of honor, and wearing it inspires respect from all who see it.";
+"harvest_pumpkin" = "Harvest Pumpkin";
+"harvest_pumpkin_description" = "A festive pumpkin that seems to glow with inner light. Carved with care and decorated with mystical symbols, it brings joy and celebration wherever it appears.";
+"ring_of_power" = "Ring of Power";
+"ring_of_power_description" = "A magical ring that pulses with arcane energy. Ancient runes are etched into its surface, and wearing it grants access to forgotten magical abilities.";
+"treasure_chest" = "Treasure Chest";
+"treasure_chest_description" = "A sturdy treasure chest that has held countless fortunes throughout the ages. Its wood is weathered but strong, and the lock mechanism is a marvel of ancient engineering.";
+"azure_treasure_chest" = "Azure Treasure Chest";
+"azure_treasure_chest_description" = "A rare blue treasure chest that seems to glow with inner light. The metal is unlike any known alloy, and the chest itself seems to hum with magical energy.";
+"opened_treasure_chest" = "Opened Treasure Chest";
+"opened_treasure_chest_description" = "An opened treasure chest that has already revealed its secrets. Though empty now, it still holds the promise of adventure and discovery.";
+"bronze_trophy_of_valor" = "Bronze Trophy of Valor";
+"bronze_trophy_of_valor_description" = "A bronze trophy awarded for acts of bravery and courage. The metal has been polished to a shine, and the craftsmanship speaks of great skill and dedication.";
+"silver_trophy_of_glory" = "Silver Trophy of Glory";
+"silver_trophy_of_glory_description" = "A silver trophy that gleams with the light of achievement. The metal seems to capture and reflect the glory of past victories, inspiring future triumphs.";
+"golden_trophy_of_legends" = "Golden Trophy of Legends";
+"golden_trophy_of_legends_description" = "A golden trophy that radiates with the power of legend. The metal seems to hold the essence of greatness itself, and those who possess it are destined for fame.";
+"scroll_of_ancient_wisdom" = "Scroll of Ancient Wisdom";
+"scroll_of_ancient_wisdom_description" = "An ancient scroll covered in mystical runes and forgotten knowledge. The parchment seems to whisper secrets to those who study it carefully.";
+"scroll_of_lost_secrets" = "Scroll of Lost Secrets";
+"scroll_of_lost_secrets_description" = "A scroll that contains secrets so powerful they were hidden away for centuries. The ink seems to glow with forbidden knowledge, and reading it grants insights into forgotten magic.";
+"scroll_of_forbidden_knowledge" = "Scroll of Forbidden Knowledge";
+"scroll_of_forbidden_knowledge_description" = "A scroll that pulses with dangerous energy. The knowledge contained within is so powerful that it was sealed away by ancient sages to protect the world.";
+"bell_of_awakening" = "Bell of Awakening";
+"bell_of_awakening_description" = "A magical bell that rings with a sound that seems to awaken the soul. The metal resonates with pure energy, and its chime can break enchantments and dispel illusions.";
+"chronometer" = "Chronometer";
+"chronometer_description" = "A mystical timepiece that seems to track more than just hours and minutes. The gears move with impossible precision, and the device can measure the flow of time itself.";
+"lucky_four_leaf_clover" = "Lucky Four-Leaf Clover";
+"lucky_four_leaf_clover_description" = "A rare four-leaf clover that seems to radiate good fortune. The leaves shimmer with an inner light, and carrying it brings luck and protection to its owner.";
+"holy_cross" = "Holy Cross";
+"holy_cross_description" = "A sacred cross that glows with divine light. The metal seems to be blessed, and it offers protection against dark forces and evil magic.";
+"phoenix_feather" = "Phoenix Feather";
+"phoenix_feather_description" = "A feather that burns with eternal flame. Though it should be consumed by fire, it remains intact and radiates warmth and renewal.";
+"essence_of_fire" = "Essence of Fire";
+"essence_of_fire_description" = "A crystal that contains pure fire energy. The flames dance within the gem, and it radiates heat that can warm even the coldest heart.";
+"lightning_bolt" = "Lightning Bolt";
+"lightning_bolt_description" = "A bolt of lightning captured in crystal form. The energy crackles within, and the crystal hums with the power of storms.";
+"strength_totem" = "Strength Totem";
+"strength_totem_description" = "A totem that radiates with the power of physical might. Carved with symbols of strength, it enhances the bearer's physical abilities and grants courage in battle.";
+"starlight_fragment" = "Starlight Fragment";
+"starlight_fragment_description" = "A fragment of starlight captured in crystal form. It glows with the light of distant stars, and holding it brings clarity and inspiration.";
+"skull_of_the_fallen" = "Skull of the Fallen";
+"skull_of_the_fallen_description" = "A mysterious skull that seems to hold the memories of its former owner. Though unsettling, it can reveal secrets about the past and warn of future dangers.";
+"skull_of_the_ancient" = "Skull of the Ancient";
+"skull_of_the_ancient_description" = "A skull so old that it has become fossilized. Ancient wisdom seems to emanate from it, and those who study it can learn forgotten knowledge.";
 
 // MARK: - Enemy Names and Descriptions
-"sleepy_cat" = "Uykucu Kedi";
-"sleepy_cat_description" = "Çalışmak yerine seni uyumaya teşvik eden uykucu bir kedi";
-"funny_zombie" = "Komik Zombi";
-"funny_zombie_description" = "Esprileriyle seni oyalayan komik bir zombi";
-"funky_monster" = "Ritmik Canavar";
-"funky_monster_description" = "Seni odaklanmak yerine dans ettiren ritmik bir canavar";
-"boo_monster" = "Buu Canavarı";
-"boo_monster_description" = "Dikkatini korkutucu şekilde dağıtan buu canavarı";
-"flying_dragon" = "Uçan Ejderha";
-"flying_dragon_description" = "Yenmesi zor, görkemli bir uçan ejderha";
+"sleepy_cat" = "Sleepy Cat";
+"sleepy_cat_description" = "A sleepy cat that makes you want to nap instead of work";
+"funny_zombie" = "Funny Zombie";
+"funny_zombie_description" = "A funny zombie that distracts you with humor";
+"funky_monster" = "Funky Monster";
+"funky_monster_description" = "A funky monster that gets you grooving instead of focusing";
+"boo_monster" = "Boo Monster";
+"boo_monster_description" = "A spooky boo monster that scares away your concentration";
+"flying_dragon" = "Flying Dragon";
+"flying_dragon_description" = "A majestic flying dragon that's hard to defeat";
 
 // MARK: - Item Categories
-"consumable" = "Tüketilebilir";
-"booster" = "Güçlendirici";
-"collectible" = "Koleksiyonluk";
-"accessory" = "Aksesuar";
-"gear" = "Ekipman";
+"consumable" = "Consumable";
+"booster" = "Booster";
+"collectible" = "Collectible";
+"accessory" = "Accessory";
+"gear" = "Gear";
 
 // MARK: - Gear Categories
-"head" = "Baş";
-"wings" = "Kanatlar";
-"shield" = "Kalkan";
-"pet" = "Evcil Hayvan";
+"head" = "Head";
+"outfit" = "Outfit";
+"wings" = "Wings";
+"weapon" = "Weapon";
+"shield" = "Shield";
+"pet" = "Pet";
 
 // MARK: - Accessory Categories
-"clips" = "Tokalar";
-"eyeglasses" = "Gözlükler";
-"earrings" = "Küpe";
-"lashes" = "Kirpikler";
-"eyelashes" = "Kirpikler";
-"eyelash" = "Kirpik";
+"clips" = "Clips";
+"eyeglasses" = "Eyeglasses";
+"earrings" = "Earrings";
+"lashes" = "Lashes";
+"eyelashes" = "Eyelashes";
+"eyelash" = "Eyelash";
 
 // MARK: - Collection Categories
-"royalty" = "Asalet";
-"weapons" = "Silahlar";
-"treasure" = "Hazine";
-"accessories" = "Aksesuarlar";
-"trophies" = "Kupalar";
-"scrolls" = "Parşömenler";
-"elements" = "Elementler";
+"royalty" = "Royalty";
+"general" = "General";
+"weapons" = "Weapons";
+"treasure" = "Treasure";
+"accessories" = "Accessories";
+"trophies" = "Trophies";
+"scrolls" = "Scrolls";
+"elements" = "Elements";
 
 // MARK: - Item Rarities
-"common" = "Yaygın";
-"uncommon" = "Nadir";
-"rare" = "Çok Nadir";
-"epic" = "Destansı";
+"common" = "Common";
+"uncommon" = "Uncommon";
+"rare" = "Rare";
+"epic" = "Epic";
+"legendary" = "Legendary";
 
 // MARK: - Onboarding Flow
-"choose_name" = "İsim Seç";
-"choose_title" = "Unvan Seç";
-"ready" = "Hazır";
-"create_quests_and_complete_tasks" = "Görevler yarat ve alt görevleri tamamla";
-"earn_experience_and_level_up" = "Deneyim kazan ve seviye atla";
-"unlock_achievements_and_rewards" = "Başarımları ve ödülleri aç";
-"customize_your_character" = "Karakterini özelleştir";
-"enter_hero_name" = "Kahraman ismi gir";
+"next" = "Next";
+"start_adventure" = "Start Adventure";
+"welcome" = "Welcome";
+"customize_character" = "Customize Character";
+"choose_name" = "Choose Name";
+"choose_title" = "Choose Title";
+"ready" = "Ready";
+"create_quests_and_complete_tasks" = "Create quests and complete tasks";
+"earn_experience_and_level_up" = "Earn experience and level up";
+"unlock_achievements_and_rewards" = "Unlock achievements and rewards";
+"customize_your_character" = "Customize your character";
+"enter_hero_name" = "Enter hero name";
+"cancel" = "Cancel";
 
 // MARK: - Character Titles
-"the_brave" = "Cesur";
-"the_brave_description" = "Tehlikenin karşısında korkusuz";
-"the_wise" = "Bilge";
-"the_wise_description" = "Bilgi ve bilgelik yolunu gösterir";
-"the_swift" = "Çevik";
-"the_swift_description" = "Rüzgar kadar hızlı, kedi kadar çevik";
-"the_mighty" = "Kudretli";
-"the_mighty_description" = "Güç ve kudretin vücut bulmuş hali";
-"the_shadow" = "Gölge";
-"the_shadow_description" = "Görünmez hareket eder, karanlıktan vurur";
-"the_guardian" = "Koruyucu";
-"the_guardian_description" = "Masumları ve zayıfları koruyan";
-"the_wanderer" = "Gezgin";
-"the_wanderer_description" = "Bilinmeyen toprakları ve sırları keşfeden";
-"the_legendary" = "Efsanevi";
-"the_legendary_description" = "Büyüklüğe ve şöhrete yazgılı";
-"the_whimsical" = "Keyifli";
-"the_whimsical_description" = "Gittiği her yere neşe ve merak getirir";
-"the_stormborn" = "Fırtına Doğan";
-"the_stormborn_description" = "Gök gürültüsünden doğmuş, kaosun ustası";
-"the_dreamweaver" = "Rüya Dokuyucu";
-"the_dreamweaver_description" = "Rüyaları gerçeğe dönüştüren";
-"the_starlight" = "Yıldız Işığı";
-"the_starlight_description" = "En karanlık yolları aydınlatır";
-"hero" = "Kahraman";
+"the_brave" = "The Brave";
+"the_brave_description" = "Fearless in the face of danger";
+"the_wise" = "The Wise";
+"the_wise_description" = "Knowledge and wisdom guide their path";
+"the_swift" = "The Swift";
+"the_swift_description" = "Quick as the wind, agile as a cat";
+"the_mighty" = "The Mighty";
+"the_mighty_description" = "Strength and power personified";
+"the_shadow" = "The Shadow";
+"the_shadow_description" = "Moves unseen, strikes from darkness";
+"the_guardian" = "The Guardian";
+"the_guardian_description" = "Protector of the innocent and weak";
+"the_wanderer" = "The Wanderer";
+"the_wanderer_description" = "Explorer of unknown lands and secrets";
+"the_legendary" = "The Legendary";
+"the_legendary_description" = "Destined for greatness and fame";
+"the_whimsical" = "The Whimsical";
+"the_whimsical_description" = "Brings joy and wonder wherever they go";
+"the_stormborn" = "The Stormborn";
+"the_stormborn_description" = "Born of thunder, master of chaos";
+"the_dreamweaver" = "The Dreamweaver";
+"the_dreamweaver_description" = "Weaves dreams into reality";
+"the_starlight" = "The Starlight";
+"the_starlight_description" = "Illuminates the darkest paths";
+"hero" = "Hero";
+"chooseYourTitle" = "Choose Your Title";
+"selectTitleDescription" = "Select a title that represents your character's personality and achievements";
+"selectDifferentTitle" = "Select Different Title";
+"randomTitle" = "Random Title";
+"chooseFromAvailableTitles" = "Choose from available titles";
+"maximum_20_characters" = "Maximum 20 characters";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"random_name" = "Random Name";
+"your_adventure_awaits" = "Your Adventure Awaits";
 
 // MARK: - Home View
-"new_quest" = "Yeni Görev";
-"create_new_adventure" = "Yeni bir macera yarat";
-"add_premade_quests" = "Hazır görevler ekle";
-"view_your_stats" = "İstatistiklerini gör";
-"view_your_trophies" = "Kupalarını gör";
-"battle_distractions" = "Dikkat dağıtıcılarla savaş";
-"shop" = "Dükkan";
-"buy_items_with_coins" = "Altınlarla eşya satın al";
-"add_currency" = "Para Ekle";
-"active_boosters" = "Aktif Güçlendiriciler";
-"coins" = "Altınlar";
+"new_quest" = "New Quest";
+"create_new_adventure" = "Create a new adventure";
+"quick_quests" = "Quick Quests";
+"add_premade_quests" = "Add premade quests";
+"character" = "Character";
+"view_your_stats" = "View your stats";
+"finished" = "Finished";
+"view_completed_quests" = "View completed quests";
+"achievements" = "Achievements";
+"view_your_trophies" = "View your trophies";
+"focus_timer" = "Focus Timer";
+"battle_distractions" = "Battle distractions";
+"shop" = "Shop";
+"buy_items_with_coins" = "Buy items with coins";
+"add_currency" = "Add Currency";
+"active_quests" = "Active Quests";
+"no_active_quests" = "No Active Quests";
+"create_quest" = "Create Quest";
+"active_boosters" = "Active Boosters";
+"no_active_boosters" = "No Active Boosters";
+"experience" = "Experience";
+"coins" = "Coins";
+"visit_shop" = "Visit Shop";
 
 // MARK: - Quest Creation & Details
-"quest_reward" = "Görev Ödülü";
-"base_reward" = "Temel Ödül";
-"task_bonus" = "Alt Görev Bonusu";
-"quest_title_cannot_be_empty" = "Görev başlığı boş bırakılamaz.";
+"quest_title" = "Quest Title";
+"enter_quest_name" = "Enter quest name";
+"quest_description" = "Quest Description";
+"describe_quest" = "Describe your quest";
+"quest_deadline" = "Quest Deadline";
+"quest_difficulty" = "Quest Difficulty";
+"creating" = "Creating...";
+"error" = "Error";
+"ok" = "OK";
+"unknown_error" = "Unknown error";
+"quest_details" = "Quest Details";
+"quest_due_date" = "Quest Due Date";
+"created" = "Created";
+"type" = "Type";
+"main_quest_label" = "Main Quest";
+"completed_label" = "Completed";
+"mark_as_finished" = "Mark as Finished";
+"mark_incomplete" = "Mark Incomplete";
+"mark_complete" = "Mark Complete";
+"view_all_damage_events" = "View all {count} damage events";
+"damage_history" = "Damage History";
+"total_damage" = "Total Damage";
+"loading_damage_history" = "Loading damage history...";
+"no_damage_taken" = "No damage taken";
+"damage_amount" = "Damage Amount";
+
+// MARK: - Quest Creation Components
+"quest_master" = "Quest Master";
+"continue" = "Continue";
+"quest_board" = "Quest Board";
+"adventure_awaits_brave_one" = "Adventure awaits, brave one!";
+"accept_new_quest" = "Accept New Quest";
+"scheduled_days" = "Scheduled Days";
+"quest_tasks" = "Quest Tasks";
+"manage_tasks" = "Manage Tasks";
+"quest_difficulty" = "Quest Difficulty";
+"repeat_type" = "Repeat Type";
+"one_time" = "One Time";
+"quest_reward" = "Quest Reward";
+"base_reward" = "Base Reward";
+"task_bonus" = "Task Bonus";
+"quest_tags" = "Quest Tags";
+"add_tags" = "Add Tags";
+"no_tags_selected" = "No tags selected";
+"quest_title_cannot_be_empty" = "Quest title cannot be empty.";
 
 // MARK: - Calendar View
-"ok_button" = "Tamam";
+"quest_calendar" = "Quest Calendar";
+"heads_up" = "Heads Up";
+"ok_button" = "OK";
+"no_quests" = "No Quests";
+"add_quest" = "Add Quest";
+"loading_character" = "Loading Character...";
+"recent_achievements" = "Recent Achievements";
+"no_achievements_yet" = "No Achievements Yet";
+"complete_quests_to_earn_achievements" = "Complete quests to earn achievements";
+"quick_actions" = "Quick Actions";
+"health" = "Health";
+"the_brave" = "The Brave";
 "xp" = "XP";
 
 // MARK: - Shop Categories
-"armor" = "Zırh";
-"pets" = "Evcil Hayvanlar";
-"consumables" = "Tüketilebilirler";
-"helmet" = "Miğfer";
-"potions" = "İksirler";
-"boosts" = "Güçlendirmeler";
+"weapons" = "Weapons";
+"armor" = "Armor";
+"accessories" = "Accessories";
+"wings" = "Wings";
+"pets" = "Pets";
+"consumables" = "Consumables";
+"helmet" = "Helmet";
+"outfit" = "Outfit";
+"shield" = "Shield";
+"potions" = "Potions";
+"boosts" = "Boosts";
+"specials" = "Specials";
 
 // MARK: - Shop Items
-"icon_gold" = "Altın";
-"icon_gem" = "Mücevher";
+"icon_gold" = "Gold";
+"icon_gem" = "Gem";
 
 // MARK: - Character Customization Steps
-"select_skin_color" = "Ten Rengi Seç";
-"choose_hairstyle" = "Saç Stili Seç";
-"choose_hair_back_style" = "Arka Saç Stili Seç";
-"select_eye_color" = "Göz Rengi Seç";
-"choose_outfit" = "Kıyafet Seç";
-"pick_your_weapon" = "Silahını Seç";
-"add_mustache" = "Bıyık Ekle";
-"add_flower" = "Çiçek Ekle";
-"add_accessories" = "Aksesuar Ekle";
+"select_skin_color" = "Select Skin Color";
+"choose_hairstyle" = "Choose Hairstyle";
+"choose_hair_back_style" = "Choose Hair Back Style";
+"select_eye_color" = "Select Eye Color";
+"choose_outfit" = "Choose Outfit";
+"pick_your_weapon" = "Pick Your Weapon";
+"add_mustache" = "Add Mustache";
+"add_flower" = "Add Flower";
+"add_accessories" = "Add Accessories";
 
-"masters_enlightenment" = "Ustanın Aydınlanması";
-"masters_enlightenment_description" = "2 saat boyunca XP kazanımını %100 artırır";
+// MARK: - Character Customization UI
+"step_progress" = "Step %d of %d";
+"current_selection" = "Current Selection";
+"premium_item" = "Premium Item";
+"locked_item" = "Locked Item";
+"unlock_premium_to_access" = "Unlock Premium to access this item";
 
-"ancient_knowledge_essence" = "Kadim Bilgelik Özütü";
-"ancient_knowledge_essence_description" = "4 saat boyunca XP kazanımını %200 artırır";
+// MARK: - Character Titles (Additional)
+"the_brave" = "The Brave";
+"the_wise" = "The Wise";
+"the_swift" = "The Swift";
+"the_mighty" = "The Mighty";
+"the_shadow" = "The Shadow";
+"the_guardian" = "The Guardian";
+"the_wanderer" = "The Wanderer";
+"the_legendary" = "The Legendary";
+"the_whimsical" = "The Whimsical";
+"the_stormborn" = "The Stormborn";
+"the_dreamweaver" = "The Dreamweaver";
+"the_starlight" = "The Starlight";
 
-// Coin Boosts
-"merchants_blessing" = "Tüccarın Bereketi";
-"merchants_blessing_description" = "30 dakika boyunca altın kazanımını %25 artırır";
+// MARK: - Character Title Descriptions
+"the_brave_description" = "Fearless in the face of danger";
+"the_wise_description" = "Knowledge and wisdom guide their path";
+"the_swift_description" = "Quick as the wind, agile as a cat";
+"the_mighty_description" = "Strength and power personified";
+"the_shadow_description" = "Moves unseen, strikes from darkness";
+"the_guardian_description" = "Protector of the innocent and weak";
+"the_wanderer_description" = "Explorer of unknown lands and secrets";
+"the_legendary_description" = "Destined for greatness and fame";
+"the_whimsical_description" = "Brings joy and wonder wherever they go";
+"the_stormborn_description" = "Born of thunder, master of chaos";
+"the_dreamweaver_description" = "Weaves dreams into reality";
+"the_starlight_description" = "Illuminates the darkest paths";
 
-"wealth_attractor" = "Zenginlik Çekicisi";
-"wealth_attractor_description" = "1 saat boyunca altın kazanımını %50 artırır";
+// MARK: - Onboarding Flow
+"choose_name" = "Choose Name";
+"choose_title" = "Choose Title";
+"ready" = "Ready";
+"create_quests_and_complete_tasks" = "Create quests and complete tasks";
+"earn_experience_and_level_up" = "Earn experience and level up";
+"unlock_achievements_and_rewards" = "Unlock achievements and rewards";
+"customize_your_character" = "Customize your character";
+"enter_hero_name" = "Enter hero name";
+"select_title_description" = "Select a title that represents your character's personality and achievements";
 
-"golden_fortune" = "Altın Talihi";
-"golden_fortune_description" = "2 saat boyunca altın kazanımını %100 artırır";
+// MARK: - Character Customization Categories
+"skin_color" = "Skin Color";
+"hairstyle" = "Hairstyle";
+"hair_back_style" = "Hair Back Style";
+"hair_color" = "Hair Color";
+"eye_color" = "Eye Color";
+"outfit" = "Outfit";
+"weapon" = "Weapon";
+"mustache" = "Mustache";
+"flower" = "Flower";
+"accessory" = "Accessory";
 
-"dragons_hoard_essence" = "Ejderhanın Hazine Özütü";
-"dragons_hoard_essence_description" = "4 saat boyunca altın kazanımını %200 artırır";
+// MARK: - Character Customization Options
+"no_customization_selected" = "No customization selected";
+"default_style" = "Default Style";
+"classic_style" = "Classic Style";
+"modern_style" = "Modern Style";
+"elegant_style" = "Elegant Style";
+"warrior_style" = "Warrior Style";
+"mage_style" = "Mage Style";
+"rogue_style" = "Rogue Style";
 
-"quest_completion_daily_message" = "Günlük görevin tamamlandı!";
-"short_break_phase" = "Kısa mola aşaması";
-"calculate_damage" = "Hasarı hesapla";
-"icon_category_general" = "Genel";
-"eye_color_blue" = "Mavi göz";
-"session_finished" = "Oturum tamamlandı";
-"outfit_red" = "Kırmızı kıyafet";
-"coin_boost" = "Altın artışı";
-"mustache_2_brown" = "Kahverengi bıyık 2";
-"body_dark_2" = "Koyu ten 2";
-"no_description_available" = "Açıklama mevcut değil";
-"difficulty_must_be_between_1_and_5" = "Zorluk 1 ile 5 arasında olmalıdır";
-"hair_color_red" = "Kırmızı saç";
-"damage_applied_message" = "Hasar uygulandı";
-"purchase_failed" = "Satın alma başarısız oldu";
-"quest_finish_scheduled_message" = "Görev bitişi planlandı";
-"quest_reminder_title" = "Görev hatırlatıcısı";
-"quest_finish_confirmation" = "Görev bitirme onayı";
-"body_tan" = "Bronz ten";
-"quest_finish_weekly_message" = "Haftalık görev tamamlandı!";
-"boost_applied" = "Güçlendirme uygulandı";
-"armor_equipped" = "Zırh kuşanıldı";
-"weapon_equipped" = "Silah kuşanıldı";
-"shield_equipped" = "Kalkan kuşanıldı";
-"helmet_equipped" = "Miğfer kuşanıldı";
-"accessory_equipped" = "Aksesuar kuşanıldı";
-"eye_color_green" = "Yeşil göz";
-"eye_color_brown" = "Kahverengi göz";
-"eye_color_gray" = "Gri göz";
-"eye_color_black" = "Siyah göz";
-"eye_color_hazel" = "Ela göz";
-"eye_color_purple" = "Mor göz";
-"eye_color_yellow" = "Sarı göz";
-"eye_color_aqua" = "Turkuaz göz";
-"mustache_1_black" = "Siyah bıyık 1";
-"mustache_1_brown" = "Kahverengi bıyık 1";
-"mustache_1_blonde" = "Sarışın bıyık 1";
-"mustache_2_black" = "Siyah bıyık 2";
-"mustache_2_blonde" = "Sarışın bıyık 2";
-"mustache_3_black" = "Siyah bıyık 3";
-"mustache_3_brown" = "Kahverengi bıyık 3";
-"mustache_3_blonde" = "Sarışın bıyık 3";
-"beard_1_black" = "Siyah sakal 1";
-"beard_1_brown" = "Kahverengi sakal 1";
-"beard_1_blonde" = "Sarışın sakal 1";
-"beard_2_black" = "Siyah sakal 2";
-"beard_2_brown" = "Kahverengi sakal 2";
-"beard_2_blonde" = "Sarışın sakal 2";
-"outfit_blue" = "Mavi kıyafet";
-"outfit_green" = "Yeşil kıyafet";
-"outfit_black" = "Siyah kıyafet";
-"outfit_white" = "Beyaz kıyafet";
-"outfit_purple" = "Mor kıyafet";
-"body_light" = "Açık ten";
-"body_medium" = "Orta ten";
-"body_dark" = "Koyu ten";
-"hair_color_black" = "Siyah saç";
-"hair_color_blonde" = "Sarışın saç";
-"hair_color_brown" = "Kahverengi saç";
-"hair_color_gray" = "Gri saç";
-"hair_color_white" = "Beyaz saç";
-"hair_color_blue" = "Mavi saç";
-"hair_color_green" = "Yeşil saç";
-"hair_color_purple" = "Mor saç";
-"hair_color_pink" = "Pembe saç";
-"hair_color_orange" = "Turuncu saç";
-"hair_color_silver" = "Gümüş saç";
-"damage_report" = "Hasar raporu";
-"damage_calculation_in_progress" = "Hasar hesaplanıyor...";
-"damage_prevention_success" = "Hasar başarıyla önlendi";
-"damage_prevention_failed" = "Hasar önlenemedi";
-"quest_damage_taken" = "Görev hasar aldı";
-"quest_damage_reduced" = "Hasar azaltıldı";
-"quest_damage_critical" = "Kritik hasar!";
-"quest_no_damage" = "Hasar alınmadı";
-"quest_progress_saved" = "Görev ilerlemesi kaydedildi";
-"quest_failed" = "Görev başarısız oldu";
-"quest_success" = "Görev başarıyla tamamlandı";
-"quest_bonus_received" = "Görev bonusu alındı";
-"boost_duration_remaining" = "Kalan güçlendirme süresi";
-"boost_expired" = "Güçlendirme süresi doldu";
-"boost_active" = "Güçlendirme aktif";
-"booster_shop" = "Güçlendirme mağazası";
-"coin_multiplier" = "Altın çarpanı";
-"xp_multiplier" = "XP çarpanı";
-"critical_hit" = "Kritik vuruş!";
-"missed_attack" = "Saldırı kaçırıldı!";
-"attack_success" = "Saldırı başarılı!";
-"defense_success" = "Savunma başarılı!";
-"level_up_message" = "Seviye atladınız!";
-"reward_claimed" = "Ödül alındı";
-"reward_unlocked" = "Ödül kilidi açıldı";
-"reward_locked" = "Ödül kilitli";
-"reward_available" = "Ödül mevcut";
-"shop_purchase_success" = "Satın alma başarılı";
-"shop_purchase_failed" = "Satın alma başarısız oldu";
-"insufficient_coins" = "Yetersiz altın";
-"insufficient_gems" = "Yetersiz değerli taş";
-"daily_bonus_received" = "Günlük bonus alındı";
-"weekly_bonus_received" = "Haftalık bonus alındı";
-"monthly_bonus_received" = "Aylık bonus alındı";
-"event_started" = "Etkinlik başladı";
-"event_ended" = "Etkinlik sona erdi";
-"event_reward_claimed" = "Etkinlik ödülü alındı";
-"damage_log" = "Hasar kaydı";
-"system_update_available" = "Sistem güncellemesi mevcut";
-"update_now" = "Şimdi güncelle";
-"update_later" = "Sonra güncelle";
-"update_failed" = "Güncelleme başarısız oldu";
-"loading_resources" = "Kaynaklar yükleniyor...";
-"loading_completed" = "Yükleme tamamlandı";
-"network_error" = "Ağ hatası";
-"retry_connection" = "Bağlantıyı yeniden dene";
-"connection_successful" = "Bağlantı başarılı";
+// MARK: - Character Preview
+"character_preview" = "Character Preview";
+"preview_your_character" = "Preview your character";
+"character_customization" = "Character Customization";
+"customize_your_hero" = "Customize Your Hero";
+"choose_weapon_and_see_character_come_to_life" = "Choose your weapon and see your character come to life";
+"select_your_weapon" = "Select Your Weapon";
+"name_your_hero" = "Name Your Hero";
+"choose_legendary_name_for_character" = "Choose a legendary name for your character";
+"enter_your_heros_name" = "Enter your hero's name";
+"maximum_20_characters" = "Maximum 20 characters";
+"ready_for_adventure" = "Ready for Adventure!";
+"your_hero_is_ready_to_begin_journey" = "Your hero is ready to begin their journey";
+
+// MARK: - Character Stats
+"character_stats" = "Character Stats";
+"character_level" = "Level";
+"character_experience" = "Experience";
+"character_health" = "Health";
+"character_mana" = "Mana";
+"character_strength" = "Strength";
+"character_intelligence" = "Intelligence";
+"character_agility" = "Agility";
+
+// MARK: - Character Equipment
+"equipped_items" = "Equipped Items";
+"no_items_equipped" = "No items equipped";
+"equip_item" = "Equip Item";
+"unequip_item" = "Unequip Item";
+"item_equipped" = "Item Equipped";
+"item_unequipped" = "Item Unequipped";
+
+// MARK: - Character Customization Flow
+"customization_progress" = "Customization Progress";
+"customization_complete" = "Customization Complete";
+"customization_incomplete" = "Customization Incomplete";
+"please_complete_customization" = "Please complete your character customization";
+"customization_saved" = "Customization saved successfully";
+"customization_failed" = "Failed to save customization";
+
+// MARK: - Character Customization Validation
+"please_select_skin_color" = "Please select a skin color";
+"please_select_hairstyle" = "Please select a hairstyle";
+"please_select_eye_color" = "Please select an eye color";
+"please_select_outfit" = "Please select an outfit";
+"please_select_weapon" = "Please select a weapon";
+
+// MARK: - Character Customization Help
+"customization_help" = "Customization Help";
+"tap_to_select" = "Tap to select";
+"tap_to_preview" = "Tap to preview";
+"swipe_to_browse" = "Swipe to browse options";
+"premium_items_available" = "Premium items available";
+"unlock_premium_for_more_options" = "Unlock premium for more customization options";
+
+// MARK: - Reward & Booster System
+"active_boosters" = "Active Boosters";
+"total_active_boosters" = "Total Active Boosters";
+"item_boosters" = "Item Boosters";
+"no_active_boosters" = "No Active Boosters";
+"visit_shop_to_get_boosters" = "Visit the shop to get boosters!";
+"collect_items_to_get_boosters" = "Collect items to get boosters!";
+"expired" = "Expired";
+"expires" = "Expires";
+"from_boosters" = "from boosters";
+"base" = "Base";
+"dismiss" = "Dismiss";
+"level_up" = "Level Up!";
+"new_level_reached" = "New Level Reached!";
+"experience_gained" = "Experience Gained";
+"coins_gained" = "Coins Gained";
+"quest_completed" = "Quest Completed!";
+"quest_rewards" = "Quest Rewards";
+"reward_animation" = "Reward Animation";
+"chest_opened" = "Chest Opened";
+"chest_closed" = "Chest Closed";
+"boosted_rewards" = "Boosted Rewards";
+"booster_bonus" = "Booster Bonus";
+"booster_multiplier" = "Booster Multiplier";
+"booster_duration" = "Booster Duration";
+"booster_remaining" = "Booster Remaining";
+"booster_expired" = "Booster Expired";
+"booster_active" = "Booster Active";
+"booster_inactive" = "Booster Inactive";
+"booster_effect" = "Booster Effect";
+"booster_source" = "Booster Source";
+"booster_type" = "Booster Type";
+"booster_value" = "Booster Value";
+"booster_time_left" = "Time Left";
+"booster_minutes" = "minutes";
+"booster_hours" = "hours";
+"booster_days" = "days";
+"booster_permanent" = "Permanent";
+"booster_temporary" = "Temporary";
+"booster_consumable" = "Consumable";
+"booster_equipment" = "Equipment";
+"booster_accessory" = "Accessory";
+"booster_collectible" = "Collectible";
+"booster_rarity" = "Rarity";
+"booster_common" = "Common";
+"booster_uncommon" = "Uncommon";
+"booster_rare" = "Rare";
+"booster_epic" = "Epic";
+"booster_legendary" = "Legendary";
+"booster_description" = "Description";
+"booster_usage" = "Usage";
+"booster_effects" = "Effects";
+"booster_duration_remaining" = "Duration Remaining";
+"booster_time_remaining" = "Time Remaining";
+"booster_expires_in" = "Expires in";
+"booster_expired_on" = "Expired on";
+"booster_activated_on" = "Activated on";
+"booster_deactivated_on" = "Deactivated on";
+"booster_activation_time" = "Activation Time";
+"booster_expiration_time" = "Expiration Time";
+"booster_total_bonus" = "Total Bonus";
+"booster_individual_bonus" = "Individual Bonus";
+"booster_combined_bonus" = "Combined Bonus";
+"booster_stack_limit" = "Stack Limit";
+"booster_max_stacks" = "Max Stacks";
+"booster_current_stacks" = "Current Stacks";
+"booster_stack_bonus" = "Stack Bonus";
+"booster_stack_multiplier" = "Stack Multiplier";
+"booster_stack_duration" = "Stack Duration";
+"booster_stack_remaining" = "Stack Remaining";
+"booster_stack_expired" = "Stack Expired";
+"booster_stack_active" = "Stack Active";
+"booster_stack_inactive" = "Stack Inactive";
+"booster_stack_effect" = "Stack Effect";
+"booster_stack_source" = "Stack Source";
+"booster_stack_type" = "Stack Type";
+"booster_stack_value" = "Stack Value";
+"booster_stack_time_left" = "Stack Time Left";
+"booster_stack_minutes" = "Stack Minutes";
+"booster_stack_hours" = "Stack Hours";
+"booster_stack_days" = "Stack Days";
+"booster_stack_permanent" = "Stack Permanent";
+"booster_stack_temporary" = "Stack Temporary";
+"booster_stack_consumable" = "Stack Consumable";
+"booster_stack_equipment" = "Stack Equipment";
+"booster_stack_accessory" = "Stack Accessory";
+"booster_stack_collectible" = "Stack Collectible";
+"booster_stack_rarity" = "Stack Rarity";
+"booster_stack_common" = "Stack Common";
+"booster_stack_uncommon" = "Stack Uncommon";
+"booster_stack_rare" = "Stack Rare";
+"booster_stack_epic" = "Stack Epic";
+"booster_stack_legendary" = "Stack Legendary";
+"booster_stack_description" = "Stack Description";
+"booster_stack_usage" = "Stack Usage";
+"booster_stack_effects" = "Stack Effects";
+"booster_stack_duration_remaining" = "Stack Duration Remaining";
+"booster_stack_time_remaining" = "Stack Time Remaining";
+"booster_stack_expires_in" = "Stack Expires In";
+"booster_stack_expired_on" = "Stack Expired On";
+"booster_stack_activated_on" = "Stack Activated On";
+"booster_stack_deactivated_on" = "Stack Deactivated On";
+"booster_stack_activation_time" = "Stack Activation Time";
+"booster_stack_expiration_time" = "Stack Expiration Time";
+"booster_stack_total_bonus" = "Stack Total Bonus";
+"booster_stack_individual_bonus" = "Stack Individual Bonus";
+"booster_stack_combined_bonus" = "Stack Combined Bonus";
+
+// MARK: - Additional Booster & Reward Keys
+"quest_booster" = "Quest Booster";
+"total_boost_format" = "Total Boost: +%d%% XP, +%d%% Coins";
+"booster_time_format" = "%dh %dm";
+"booster_minutes_format" = "%dm";
+"booster_hours_format" = "%dh";
+"booster_days_format" = "%dd";
+"booster_permanent_text" = "Permanent";
+"booster_temporary_text" = "Temporary";
+"booster_expired_text" = "Expired";
+"booster_active_text" = "Active";
+"booster_inactive_text" = "Inactive";
+"booster_consumable_text" = "Consumable";
+"booster_equipment_text" = "Equipment";
+"booster_accessory_text" = "Accessory";
+"booster_collectible_text" = "Collectible";
+"booster_common_text" = "Common";
+"booster_uncommon_text" = "Uncommon";
+"booster_rare_text" = "Rare";
+"booster_epic_text" = "Epic";
+"booster_legendary_text" = "Legendary";
+"booster_description_text" = "Description";
+"booster_usage_text" = "Usage";
+"booster_effects_text" = "Effects";
+"booster_duration_remaining_text" = "Duration Remaining";
+"booster_time_remaining_text" = "Time Remaining";
+"booster_expires_in_text" = "Expires in";
+"booster_expired_on_text" = "Expired on";
+"booster_activated_on_text" = "Activated on";
+"booster_deactivated_on_text" = "Deactivated on";
+"booster_activation_time_text" = "Activation Time";
+"booster_expiration_time_text" = "Expiration Time";
+"booster_total_bonus_text" = "Total Bonus";
+"booster_individual_bonus_text" = "Individual Bonus";
+"booster_combined_bonus_text" = "Combined Bonus";
+"booster_stack_limit_text" = "Stack Limit";
+"booster_max_stacks_text" = "Max Stacks";
+"booster_current_stacks_text" = "Current Stacks";
+"booster_stack_bonus_text" = "Stack Bonus";
+"booster_stack_multiplier_text" = "Stack Multiplier";
+"booster_stack_duration_text" = "Stack Duration";
+"booster_stack_remaining_text" = "Stack Remaining";
+"booster_stack_expired_text" = "Stack Expired";
+"booster_stack_active_text" = "Stack Active";
+"booster_stack_inactive_text" = "Stack Inactive";
+"booster_stack_effect_text" = "Stack Effect";
+"booster_stack_source_text" = "Stack Source";
+"booster_stack_type_text" = "Stack Type";
+"booster_stack_value_text" = "Stack Value";
+"booster_stack_time_left_text" = "Stack Time Left";
+"booster_stack_minutes_text" = "Stack Minutes";
+"booster_stack_hours_text" = "Stack Hours";
+"booster_stack_days_text" = "Stack Days";
+"booster_stack_permanent_text" = "Stack Permanent";
+"booster_stack_temporary_text" = "Stack Temporary";
+"booster_stack_consumable_text" = "Stack Consumable";
+"booster_stack_equipment_text" = "Stack Equipment";
+"booster_stack_accessory_text" = "Stack Accessory";
+"booster_stack_collectible_text" = "Stack Collectible";
+"booster_stack_rarity_text" = "Stack Rarity";
+"booster_stack_common_text" = "Stack Common";
+"booster_stack_uncommon_text" = "Stack Uncommon";
+"booster_stack_rare_text" = "Stack Rare";
+"booster_stack_epic_text" = "Stack Epic";
+"booster_stack_legendary_text" = "Stack Legendary";
+"booster_stack_description_text" = "Stack Description";
+"booster_stack_usage_text" = "Stack Usage";
+"booster_stack_effects_text" = "Stack Effects";
+"booster_stack_duration_remaining_text" = "Stack Duration Remaining";
+"booster_stack_time_remaining_text" = "Stack Time Remaining";
+"booster_stack_expires_in_text" = "Stack Expires In";
+"booster_stack_expired_on_text" = "Stack Expired On";
+"booster_stack_activated_on_text" = "Stack Activated On";
+"booster_stack_deactivated_on_text" = "Stack Deactivated On";
+"booster_stack_activation_time_text" = "Stack Activation Time";
+"booster_stack_expiration_time_text" = "Stack Expiration Time";
+"booster_stack_total_bonus_text" = "Stack Total Bonus";
+"booster_stack_individual_bonus_text" = "Stack Individual Bonus";
+"booster_stack_combined_bonus_text" = "Stack Combined Bonus";
+
+// MARK: - Error Messages
+"quest_completion_cooldown" = "Quest completion is on cooldown";
+"task_completion_cooldown" = "Task completion is on cooldown";
+
+// MARK: - Booster Descriptions
+"booster_experience_description" = "Increases experience gained from quests";
+"booster_coins_description" = "Increases coins gained from quests";
+"booster_both_description" = "Increases both experience and coins gained from quests";
+"both" = "Both";
+"temporary" = "Temporary";
+"xp_boost_item" = "XP Boost Item";
+"coin_boost_item" = "Coin Boost Item";
+
+// MARK: - Character Customization Categories (Detailed)
+"body_type" = "Body Type";
+"hair_style" = "Hair Style";
+"hair_back" = "Hair Back";
+"eye_style" = "Eye Style";
+"outfit_style" = "Outfit Style";
+"weapon_style" = "Weapon Style";
+"facial_hair" = "Facial Hair";
+"head_accessory" = "Head Accessory";
+"body_accessory" = "Body Accessory";
+
+// MARK: - Character Customization Options (Detailed)
+"natural_skin" = "Natural Skin";
+"fair_skin" = "Fair Skin";
+"olive_skin" = "Olive Skin";
+"dark_skin" = "Dark Skin";
+"tanned_skin" = "Tanned Skin";
+
+"short_hair" = "Short Hair";
+"long_hair" = "Long Hair";
+"curly_hair" = "Curly Hair";
+"straight_hair" = "Straight Hair";
+"wavy_hair" = "Wavy Hair";
+"spiky_hair" = "Spiky Hair";
+"bald" = "Bald";
+
+"blue_eyes" = "Blue Eyes";
+"green_eyes" = "Green Eyes";
+"brown_eyes" = "Brown Eyes";
+"gray_eyes" = "Gray Eyes";
+"hazel_eyes" = "Hazel Eyes";
+
+"casual_outfit" = "Casual Outfit";
+"formal_outfit" = "Formal Outfit";
+"armor_outfit" = "Armor Outfit";
+"robes_outfit" = "Robes Outfit";
+"adventure_outfit" = "Adventure Outfit";
+
+"sword_weapon" = "Sword";
+"axe_weapon" = "Axe";
+"bow_weapon" = "Bow";
+"staff_weapon" = "Staff";
+"dagger_weapon" = "Dagger";
+
+"no_mustache" = "No Mustache";
+"thin_mustache" = "Thin Mustache";
+"thick_mustache" = "Thick Mustache";
+"handlebar_mustache" = "Handlebar Mustache";
+
+"no_flower" = "No Flower";
+"rose_flower" = "Rose";
+"daisy_flower" = "Daisy";
+"lily_flower" = "Lily";
+"sunflower_flower" = "Sunflower";
+
+"no_accessory" = "No Accessory";
+"glasses_accessory" = "Glasses";
+"earrings_accessory" = "Earrings";
+"necklace_accessory" = "Necklace";
+"hat_accessory" = "Hat";
+
+// MARK: - Character Customization Descriptions
+"natural_skin_description" = "A natural skin tone";
+"fair_skin_description" = "A fair, light skin tone";
+"olive_skin_description" = "A warm, olive skin tone";
+"dark_skin_description" = "A rich, dark skin tone";
+"tanned_skin_description" = "A sun-kissed, tanned skin tone";
+
+"short_hair_description" = "Short, practical hairstyle";
+"long_hair_description" = "Long, flowing hair";
+"curly_hair_description" = "Naturally curly hair";
+"straight_hair_description" = "Smooth, straight hair";
+"wavy_hair_description" = "Gentle waves in the hair";
+"spiky_hair_description" = "Edgy, spiked hairstyle";
+"bald_description" = "Clean-shaven head";
+
+"blue_eyes_description" = "Bright blue eyes";
+"green_eyes_description" = "Emerald green eyes";
+"brown_eyes_description" = "Warm brown eyes";
+"gray_eyes_description" = "Cool gray eyes";
+"hazel_eyes_description" = "Multi-colored hazel eyes";
+
+"casual_outfit_description" = "Comfortable, everyday clothing";
+"formal_outfit_description" = "Elegant, formal attire";
+"armor_outfit_description" = "Protective battle armor";
+"robes_outfit_description" = "Mystical robes";
+"adventure_outfit_description" = "Practical adventure gear";
+
+"sword_weapon_description" = "A reliable sword";
+"axe_weapon_description" = "A powerful axe";
+"bow_weapon_description" = "A precise bow";
+"staff_weapon_description" = "A magical staff";
+"dagger_weapon_description" = "A swift dagger";
+
+"no_mustache_description" = "Clean-shaven face";
+"thin_mustache_description" = "A thin, elegant mustache";
+"thick_mustache_description" = "A thick, bold mustache";
+"handlebar_mustache_description" = "A distinctive handlebar mustache";
+
+"no_flower_description" = "No flower accessory";
+"rose_flower_description" = "A beautiful red rose";
+"daisy_flower_description" = "A cheerful white daisy";
+"lily_flower_description" = "An elegant lily";
+"sunflower_flower_description" = "A bright sunflower";
+
+"no_accessory_description" = "No additional accessories";
+"glasses_accessory_description" = "Stylish glasses";
+"earrings_accessory_description" = "Decorative earrings";
+"necklace_accessory_description" = "An elegant necklace";
+"hat_accessory_description" = "A fashionable hat";
+
+// MARK: - Additional Hardcoded Strings Found
+"quest_finished" = "Quest Finished!";
+"choose_icon" = "Choose Icon";
+"damage_calculator" = "Damage Calculator";
+"quest_finish_confirmation" = "Is this quest finished?";
+"yes_finish_it" = "Yes, finish it!";
+"quest_finish_confirmation_message" = "Are you sure you want to mark '%@' as finished?";
+"no_damage_yet_message" = "This quest hasn't caused any damage yet. Keep up the good work!";
+"purchase_error" = "Purchase Error";
+"an_error_occurred" = "An error occurred";
+"an_error_occurred_during_purchase" = "An error occurred during purchase";
+"close" = "Close";
+"restore_purchases" = "Restore Purchases";
+"terms_of_service" = "Terms of Service";
+"privacy_policy" = "Privacy Policy";
+"ok_button" = "OK";
+"done_button" = "Done";
+"work_phase" = "Work";
+"short_break_phase" = "Short Break";
+"long_break_phase" = "Long Break";
+"battle_phase" = "Battle";
+"victory_phase" = "Victory!";
+"defeat_phase" = "Defeat";
+"idle_phase" = "Idle";
+
+// MARK: - Quest Confirmation Popups
+"not_yet" = "Not yet";
+"finish_quest" = "Yes, mark as done";
+"quest_finish_confirmation_popup_examples" = "Quest Finish Confirmation Popup Examples";
+"sample_one_time_quest_title" = "Sample One-Time Quest";
+"sample_one_time_quest_description" = "This is a sample one-time quest description";
+"sample_daily_quest_title" = "Sample Daily Quest";
+"sample_daily_quest_description" = "This is a sample daily quest description";
+"quest_completion_is_finished_check_popup_examples" = "Quest Completion Is Finished Check Popup Examples";
+
+// MARK: - Quest Completion Messages
+"quest_completion_one_time_message" = "Are you done with this quest? This one-time quest will be marked as finished.";
+"quest_completion_daily_message" = "Are you done with this quest? This daily quest will be marked as finished.";
+"quest_completion_weekly_message" = "Are you done with this quest? This weekly quest will be marked as finished.";
+"quest_completion_scheduled_message" = "Are you done with this quest? This scheduled quest will be marked as finished.";
+
+// MARK: - Quest Finish Messages
+"quest_finish_one_time_message" = "This is a one-time quest. Would you like to mark it as finished and receive your rewards?";
+"quest_finish_daily_message" = "This daily quest has reached its final day. Would you like to mark it as finished and receive your rewards?";
+"quest_finish_weekly_message" = "This weekly quest has reached its final week. Would you like to mark it as finished and receive your rewards?";
+"quest_finish_scheduled_message" = "This scheduled quest has reached its final day. Would you like to mark it as finished and receive your rewards?";
+
+// MARK: - Icon Categories
+"icon_category_general" = "General";
+"icon_category_work" = "Work";
+"icon_category_personal" = "Personal";
+"icon_category_health" = "Health";
+"icon_category_study" = "Study";
+"icon_category_travel" = "Travel";
+"icon_category_food" = "Food";
+"icon_category_nature" = "Nature";
+"icon_category_objects" = "Objects";
+"icon_category_emotions" = "Emotions";
+
+// MARK: - Tag Filter
+"selected_tags_count" = "Selected (%d)";
+
+// MARK: - Damage History
+"quest_label" = "Quest:";
+
+// MARK: - Shop
+"purchase" = "Purchase";
+
+// MARK: - Inventory
+"unknown_item" = "Unknown";
+
+// MARK: - Weekdays
+"weekday_sun" = "Sun";
+"weekday_mon" = "Mon";
+"weekday_tue" = "Tue";
+"weekday_wed" = "Wed";
+"weekday_thu" = "Thu";
+"weekday_fri" = "Fri";
+"weekday_sat" = "Sat";
+
+// MARK: - Shop Messages
+"purchase_failed" = "Purchase failed";
+"successfully_purchased" = "Successfully purchased %@!";
+"insufficient_gems" = "Insufficient gems";
+
+// MARK: - Item Details
+"no_description_available" = "No description available";
+"unknown_error" = "Unknown error";
+
+// MARK: - App Title
+"app_title" = "RPG Your Life";
+
+// MARK: - Equipment Validation Messages
+"item_not_unlocked" = "Item is not unlocked";
+"item_not_owned" = "Item is not owned by this user";
+"item_category_mismatch" = "Item category doesn't match equipment slot";
+"max_accessories_exceeded" = "Maximum of 3 accessories can be equipped";
+
+// MARK: - Alert Titles
+"damage_calculation_result" = "Damage Calculation Result";
+
+// MARK: - Damage Calculation
+"calculating" = "Calculating...";
+"calculate_damage" = "Calculate Damage";
+"unknown_result" = "Unknown result";
+"error_prefix" = "Error: ";
+"damage_applied_message" = "Applied %d damage to your health for missed quests.";
+"no_damage_calculated_message" = "No damage calculated. All quests are up to date!";
+"days_overdue" = "%d day(s) overdue";
+"days_left" = "%d day(s) left";
+
+// MARK: - Focus Timer Notifications
+"focus_timer_complete" = "Focus Timer Complete!";
+"session_finished" = "Your %@ session has finished.";
+
+// MARK: - Item Details
+"no_description_available" = "No description available";
+"item_used_successfully" = "Item used successfully!";
+
+// MARK: - Quest Validation
+"quest_title_cannot_be_empty" = "Quest title cannot be empty.";
+"difficulty_must_be_between_1_and_5" = "Difficulty must be between 1 and 5.";
+"due_date_cannot_be_earlier_than_creation" = "Due date cannot be earlier than the creation date.";
+
+// MARK: - Quest Notifications
+"quest_reminder_title" = "Traveller, don't forget your quest!";
+
+// MARK: - Additional Gear Categories
+"others" = "Others";
+
+// MARK: - Item Effect Types
+"attack" = "Attack";
+"defense" = "Defense";
+"health" = "Health";
+"focus" = "Focus";
+"experience" = "Experience";
+"luck" = "Luck";
+"speed" = "Speed";
+"critical_chance" = "Critical Chance";
+"critical_damage" = "Critical Damage";
+"xp_boost" = "XP Boost";
+"coin_boost" = "Coin Boost";
+"health_regeneration" = "Health Regeneration";
+"focus_regeneration" = "Focus Regeneration";
+
+// MARK: - Hair Colors
+"hair_color_brown" = "Brown";
+"hair_color_black" = "Black";
+"hair_color_blonde" = "Blonde";
+"hair_color_red" = "Red";
+"hair_color_dark_brown" = "Dark Brown";
+
+// MARK: - Eye Colors
+"eye_color_black" = "Black";
+"eye_color_blue" = "Blue";
+"eye_color_green" = "Green";
+
+// MARK: - Body Types (Skin Colors)
+"body_white" = "Fair";
+"body_blue" = "Blue";
+"body_tan" = "Tan";
+"body_tan_2" = "Medium Tan";
+"body_tan_3" = "Dark Tan";
+"body_purple" = "Purple";
+"body_dark_1" = "Dark";
+"body_dark_2" = "Very Dark";
+"body_green" = "Green";
+
+// MARK: - Outfits
+"outfit_villager" = "Villager";
+"outfit_villager_blue" = "Blue Villager";
+"outfit_iron" = "Iron Armor";
+"outfit_iron_2" = "Iron Armor II";
+"outfit_wizard" = "Wizard Robe";
+"outfit_dress" = "Elegant Dress";
+"outfit_fire" = "Fire Armor";
+"outfit_bat" = "Bat Armor";
+"outfit_red" = "Red Armor";
+"outfit_hoodie" = "Hoodie";
+
+// MARK: - Mustaches
+"mustache_1_brown" = "Classic Brown";
+"mustache_1_black" = "Classic Black";
+"mustache_1_blonde" = "Classic Blonde";
+"mustache_1_dark_brown" = "Classic Dark Brown";
+"mustache_2_brown" = "Handlebar Brown";
+"mustache_2_black" = "Handlebar Black";
+"mustache_2_blonde" = "Handlebar Blonde";
+"mustache_2_dark_brown" = "Handlebar Dark Brown";
 
 // MARK: - Analytics
-"analytics_total_coins" = "Toplam Altın";
-"analytics_total_gems" = "Toplam Mücevher";
+"analytics" = "Analytics";
+"analytics_time_period" = "Time Period";
+"analytics_period_week" = "Week";
+"analytics_period_month" = "Month";
+"analytics_period_quarter" = "Quarter";
+"analytics_period_year" = "Year";
+"analytics_period_all_time" = "All Time";
+"analytics_loading" = "Loading Analytics";
+"analytics_loading_description" = "Gathering your personalized insights and recommendations...";
+"analytics_empty_title" = "No Analytics Available";
+"analytics_empty_description" = "Complete some quests to see your personalized analytics and insights.";
+"analytics_refresh" = "Refresh";
+"analytics_last_updated" = "Last updated:";
+"analytics_filters" = "Filters";
+"analytics_filters_title" = "Analytics Filters";
 
-// MARK: - Character Background
-"select_background" = "Arka Plan Seç";
-"choose_character_background" = "Karakterinizin arka planını seçin";
-"background" = "Arka Plan";
-"no_background" = "Arka Plan Yok";
-"background_1" = "Arka Plan 1";
-"background_2" = "Arka Plan 2";
-"background_3" = "Arka Plan 3";
-"background_4" = "Arka Plan 4";
+// Analytics Cards
+"analytics_quest_performance" = "Quest Performance";
+"analytics_performance_score" = "Performance Score";
+"analytics_total_quests" = "Total Quests";
+"total" = "Total";
+"analytics_finished_quests" = "Finished";
+"analytics_partially_completed_quests" = "Partially Completed";
+"analytics_partial_completion_rate" = "Partial Completion Rate";
+"analytics_completion_rate" = "Completion Rate";
+"analytics_completion_progress" = "Completion Progress";
+"analytics_performance_insights" = "Performance Insights";
+"analytics_avg_completion_time" = "Avg. Completion Time";
+"analytics_most_productive_hour" = "Most Productive Hour";
+"analytics_preferred_difficulty" = "Preferred Difficulty";
+"analytics_difficulty_success_rates" = "Difficulty Success Rates";
+"analytics_no_data" = "No data";
+"analytics_time_hours_minutes" = "{hours}h {minutes}m";
+"analytics_time_minutes" = "{minutes}m";
+
+"analytics_progression_overview" = "Progression Overview";
+"analytics_level_progress" = "Level Progress";
+"analytics_level_up_rate" = "Level Up Rate";
+"analytics_total_coins" = "Total Coins";
+"analytics_total_gems" = "Total Gems";
+"analytics_currency_analytics" = "Currency Analytics";
+"analytics_avg_coins_per_quest" = "Avg. Coins/Quest";
+"analytics_avg_gems_per_quest" = "Avg. Gems/Quest";
+"analytics_earning_rate" = "Earning Rate";
+"analytics_achievements" = "Achievements";
+"analytics_achievement_progress" = "Achievement Progress";
+"analytics_recent_achievements" = "Recent Achievements";
+"analytics_next_achievements" = "Next Achievements";
+
+"analytics_streak_insights" = "Streak Insights";
+"analytics_current_streak" = "Current Streak";
+"analytics_longest_streak" = "Longest Streak";
+"analytics_avg_streak" = "Avg. Streak";
+"analytics_streak_insights_details" = "Streak Details";
+"analytics_best_streak_day" = "Best Streak Day";
+"analytics_common_break_day" = "Common Break Day";
+"analytics_streak_motivation" = "Streak Motivation";
+"analytics_streak_motivation_record" = "🔥 You're on fire! This is your longest streak ever. Keep it up!";
+"analytics_streak_motivation_halfway" = "You're halfway to your record! You can do it!";
+"analytics_streak_motivation_keep_going" = "Great start! Keep building your streak momentum.";
+
+"analytics_engagement_metrics" = "Engagement Metrics";
+"analytics_engagement_score" = "Engagement Score";
+"analytics_sessions_per_week" = "Sessions/Week";
+"analytics_avg_session" = "Avg. Session";
+"analytics_app_opens" = "App Opens";
+"analytics_activity_patterns" = "Activity Patterns";
+"analytics_most_active_day" = "Most Active Day";
+"analytics_most_active_hour" = "Most Active Hour";
+"analytics_feature_usage" = "Feature Usage";
+
+"analytics_customization_preferences" = "Customization Preferences";
+"analytics_customization_score" = "Customization Score";
+"analytics_customization_frequency" = "Customization Frequency";
+"analytics_last_customization" = "Last Customization";
+"analytics_preferences" = "Preferences";
+"analytics_most_used_preset" = "Most Used Preset";
+"analytics_preferred_colors" = "Preferred Colors";
+"analytics_preferred_accessories" = "Preferred Accessories";
+"analytics_customization_tips" = "Customization Tips";
+"analytics_customization_tip_new" = "Try customizing your character to make your journey more personal!";
+"analytics_customization_tip_occasional" = "You occasionally customize your character. Try new looks to keep things fresh!";
+"analytics_customization_tip_active" = "You're very active with customization! Your character looks great!";
+"analytics_never" = "Never";
+
+"analytics_recommendations" = "Personalized Recommendations";
+"analytics_no_recommendations_title" = "All Caught Up!";
+"analytics_no_recommendations_description" = "You're doing great! No specific recommendations at this time.";
+"analytics_priority_high" = "HIGH";
+
+// Analytics Recommendations
+"analytics_recommendation_create_more_quests_title" = "Create More Quests";
+"analytics_recommendation_create_more_quests_description" = "You have few quests. Creating more quests will help you build better habits and track your progress.";
+"analytics_recommendation_difficulty_title" = "Adjust Quest Difficulty";
+"analytics_recommendation_difficulty_description" = "You're struggling with your current difficulty level. Try reducing the difficulty to improve your completion rate.";
+"analytics_recommendation_increase_difficulty_title" = "Increase Quest Difficulty";
+"analytics_recommendation_increase_difficulty_description" = "You're doing great with your current difficulty! Consider increasing the challenge to earn more rewards.";
+"analytics_recommendation_streak_title" = "Start a New Streak";
+"analytics_recommendation_streak_description" = "Your streak has ended. Start a new one today to build momentum and maintain consistency.";
+"analytics_recommendation_streak_continue_title" = "Continue Your Streak";
+"analytics_recommendation_streak_continue_description" = "You're building a good streak! Keep going to reach your longest streak record.";
+"analytics_recommendation_achievements_title" = "Unlock More Achievements";
+"analytics_recommendation_achievements_description" = "You have many achievements to unlock. Focus on completing different types of quests to earn more achievements.";
+"analytics_recommendation_timing_title" = "Perfect Time for Quests";
+"analytics_recommendation_timing_description" = "This is your most productive hour! Create or complete quests now for better results.";
+
+// MARK: - Analytics Dashboard
+"analytics_dashboard" = "Analytics Dashboard";
+"analytics_tab_overview" = "Overview";
+"analytics_tab_performance" = "Performance";
+"analytics_tab_patterns" = "Patterns";
+"analytics_tab_recommendations" = "Recommendations";
+"analytics_performance_overview" = "Performance Overview";
+"analytics_streak_status" = "Streak Status";
+"analytics_recent_activity" = "Recent Activity";
+"analytics_quick_actions" = "Quick Actions";
+"analytics_last_quest_completed" = "Last Quest Completed";
+"analytics_new_quest_created" = "New Quest Created";
+"analytics_level_up" = "Level Up!";
+"analytics_view_details" = "View Details";
+
+// MARK: - Analytics Dashboard Additional
+"analytics_quest_performance_chart" = "Quest Performance Chart";
+"analytics_difficulty_analysis" = "Difficulty Analysis";
+"analytics_completion_trends" = "Completion Trends";
+"analytics_productivity_heatmap" = "Productivity Heatmap";
+"analytics_activity_patterns" = "Activity Patterns";
+"analytics_time_analysis" = "Time Analysis";
+"analytics_engagement_metrics" = "Engagement Metrics";
+"analytics_customization_patterns" = "Customization Patterns";
+"analytics_priority_recommendations" = "Priority Recommendations";
+"analytics_improvement_suggestions" = "Improvement Suggestions";
+"analytics_goal_setting" = "Goal Setting";
+
+// Analytics Actions
+"create_quest" = "Create Quest";
+"adjust_difficulty" = "Adjust Difficulty";
+"increase_difficulty" = "Increase Difficulty";
+"start_streak" = "Start Streak";
+"continue_streak" = "Continue Streak";
+"view_achievements" = "View Achievements";
+"create_quest_now" = "Create Quest Now";
