@@ -271,15 +271,14 @@ struct RecommendationsSection: View {
                     .font(.title2)
                 
                 Text(String(localized: "analytics_recommendations"))
-                    .font(.headline)
+                    .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
                 Text("\(recommendations.count)")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.accentColor)
+                    .font(.appFont(size: 14, weight: .medium))
+                    .foregroundColor(theme.textColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .background(theme.accentColor.opacity(0.2))
@@ -305,16 +304,17 @@ struct RecommendationsSection: View {
                 .foregroundColor(theme.successColor.opacity(0.7))
             
             Text(String(localized: "analytics_no_recommendations_title"))
-                .font(.subheadline)
-                .fontWeight(.semibold)
+                .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor)
+                .multilineTextAlignment(.center)
             
             Text(String(localized: "analytics_no_recommendations_description"))
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
         .padding(.vertical, 20)
+        .frame(maxWidth: .infinity)
     }
     
     private func recommendationsList(theme: Theme) -> some View {
@@ -340,20 +340,19 @@ struct FeatureUsageRow: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "chart.bar.fill")
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.infoColor)
                 .frame(width: 12)
             
             Text(featureName)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor)
                 .lineLimit(1)
             
             Spacer()
             
             Text("\(usageCount)")
-                .font(.caption)
-                .fontWeight(.semibold)
+                .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.accentColor)
         }
         .padding(.vertical, 2)
@@ -369,21 +368,19 @@ struct RecommendationRow: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: recommendationIcon)
-                    .font(.subheadline)
+                    .font(.appFont(size: 14))
                     .foregroundColor(priorityColor)
                     .frame(width: 16)
                 
                 Text(recommendation.title)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
                 if isFirst {
                     Text(String(localized: "analytics_priority_high"))
-                        .font(.caption)
-                        .fontWeight(.semibold)
+                        .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(.white)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -393,7 +390,7 @@ struct RecommendationRow: View {
             }
             
             Text(recommendation.description)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .lineLimit(3)
         }
@@ -450,13 +447,12 @@ struct AnalyticsFiltersView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 20) {
                 Text(String(localized: "analytics_filters_title"))
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.appFont(size: 20, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 VStack(alignment: .leading, spacing: 16) {
                     Text(String(localized: "analytics_time_period"))
-                        .font(.headline)
+                        .font(.appFont(size: 16, weight: .medium))
                         .foregroundColor(theme.textColor)
                     
                     ForEach(AnalyticsPeriod.allCases, id: \.self) { period in
@@ -465,6 +461,7 @@ struct AnalyticsFiltersView: View {
                         }) {
                             HStack {
                                 Text(periodDisplayName(period))
+                                    .font(.appFont(size: 14))
                                     .foregroundColor(theme.textColor)
                                 
                                 Spacer()
@@ -490,6 +487,7 @@ struct AnalyticsFiltersView: View {
                     Button(String(localized: "done")) {
                         dismiss()
                     }
+                    .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.accentColor)
                 }
             }
@@ -526,19 +524,18 @@ struct InsightRow: View {
         
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.subheadline)
+                .font(.appFont(size: 14))
                 .foregroundColor(color)
                 .frame(width: 16)
             
             Text(title)
-                .font(.subheadline)
+                .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor)
             
             Spacer()
             
             Text(value)
-                .font(.subheadline)
-                .fontWeight(.semibold)
+                .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor)
         }
     }

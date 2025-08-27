@@ -22,7 +22,7 @@ struct ProgressionOverviewCard: View {
                     .font(.title2)
                 
                 Text(String(localized: "analytics_progression_overview"))
-                    .font(.headline)
+                    .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
@@ -54,8 +54,7 @@ struct ProgressionOverviewCard: View {
             // Currency Analytics
             VStack(alignment: .leading, spacing: 12) {
                 Text(String(localized: "analytics_currency_analytics"))
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 VStack(spacing: 8) {
@@ -79,15 +78,13 @@ struct ProgressionOverviewCard: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
                     Text(String(localized: "analytics_achievements"))
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                        .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                     
                     Spacer()
                     
                     Text("\(progression.achievements.unlockedAchievements)/\(progression.achievements.totalAchievements)")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                        .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                 }
                 
@@ -95,14 +92,13 @@ struct ProgressionOverviewCard: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text(String(localized: "analytics_achievement_progress"))
-                            .font(.caption)
+                            .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.7))
                         
                         Spacer()
                         
                         Text("\(Int(progression.achievements.unlockRate * 100))%")
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                     }
                     
@@ -115,8 +111,7 @@ struct ProgressionOverviewCard: View {
                 if !progression.achievements.recentUnlocks.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(String(localized: "analytics_recent_achievements"))
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                         
                         ForEach(progression.achievements.recentUnlocks.prefix(3), id: \.id) { achievement in
@@ -129,8 +124,7 @@ struct ProgressionOverviewCard: View {
                 if !progression.achievements.nextAchievements.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(String(localized: "analytics_next_achievements"))
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
                         
                         ForEach(progression.achievements.nextAchievements.prefix(3), id: \.id) { achievement in
@@ -168,12 +162,11 @@ struct CustomStatItem: View {
                 .foregroundColor(color)
             
             Text(value)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.appFont(size: 20, weight: .medium))
                 .foregroundColor(theme.textColor)
             
             Text(title)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
@@ -195,12 +188,12 @@ struct AchievementRow: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: isLocked ? "lock.fill" : "trophy.fill")
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(isLocked ? theme.textColor.opacity(0.5) : theme.warningColor)
                 .frame(width: 12)
             
             Text(achievement.title)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(isLocked ? theme.textColor.opacity(0.5) : theme.textColor)
                 .lineLimit(1)
             
@@ -208,7 +201,7 @@ struct AchievementRow: View {
             
             if !isLocked {
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.caption)
+                    .font(.appFont(size: 12))
                     .foregroundColor(theme.successColor)
             }
         }

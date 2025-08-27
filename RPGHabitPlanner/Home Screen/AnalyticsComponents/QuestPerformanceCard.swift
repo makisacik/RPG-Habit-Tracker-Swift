@@ -22,13 +22,13 @@ struct QuestPerformanceCard: View {
                     .font(.title2)
                 
                 Text(String(localized: "analytics_quest_performance"))
-                    .font(.headline)
+                    .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
                 
                 Text(String(localized: "analytics_performance_score"))
-                    .font(.caption)
+                    .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.7))
             }
             
@@ -83,14 +83,13 @@ struct QuestPerformanceCard: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Text(String(localized: "analytics_completion_progress"))
-                        .font(.subheadline)
+                        .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor)
                     
                     Spacer()
                     
                     Text("\(Int(performance.completionRate * 100))%")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                        .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                 }
                 
@@ -104,8 +103,7 @@ struct QuestPerformanceCard: View {
             if !performance.difficultySuccessRates.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(String(localized: "analytics_difficulty_success_rates"))
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
+                        .font(.appFont(size: 14, weight: .medium))
                         .foregroundColor(theme.textColor)
                     
                     LazyVGrid(columns: [
@@ -152,12 +150,11 @@ struct StatItem: View {
                 .foregroundColor(color)
             
             Text(value)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.appFont(size: 20, weight: .medium))
                 .foregroundColor(theme.textColor)
             
             Text(title)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
@@ -174,8 +171,7 @@ struct DifficultySuccessRateView: View {
     var body: some View {
         VStack(spacing: 4) {
             Text("\(difficulty)")
-                .font(.caption)
-                .fontWeight(.semibold)
+                .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor)
             
             ZStack {
@@ -190,8 +186,7 @@ struct DifficultySuccessRateView: View {
                     .rotationEffect(.degrees(-90))
                 
                 Text("\(Int(successRate * 100))%")
-                    .font(.caption2)
-                    .fontWeight(.bold)
+                    .font(.appFont(size: 10, weight: .medium))
                     .foregroundColor(theme.textColor)
             }
         }

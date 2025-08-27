@@ -32,7 +32,7 @@ struct AnalyticsPreviewCard: View {
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
 
             Text(String(localized: "analytics_loading"))
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
         }
         .frame(height: 60)
@@ -71,12 +71,11 @@ struct AnalyticsPreviewCard: View {
                 .foregroundColor(theme.textColor.opacity(0.5))
 
             Text(String(localized: "analytics_empty_title"))
-                .font(.caption)
-                .fontWeight(.medium)
+                .font(.appFont(size: 12, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.7))
 
             Text(String(localized: "analytics_empty_description"))
-                .font(.caption2)
+                .font(.appFont(size: 10))
                 .foregroundColor(theme.textColor.opacity(0.5))
                 .multilineTextAlignment(.center)
         }
@@ -107,12 +106,11 @@ struct QuickStatItem: View {
                 .foregroundColor(color)
 
             Text(value)
-                .font(.headline)
-                .fontWeight(.bold)
+                .font(.appFont(size: 18, weight: .medium))
                 .foregroundColor(theme.textColor)
 
             Text(title)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
         }

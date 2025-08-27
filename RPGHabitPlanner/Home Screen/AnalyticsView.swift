@@ -95,7 +95,7 @@ struct AnalyticsView: View {
         VStack(spacing: 12) {
             HStack {
                 Text(String(localized: "analytics_time_period"))
-                    .font(.headline)
+                    .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.textColor)
                 
                 Spacer()
@@ -108,6 +108,7 @@ struct AnalyticsView: View {
                         }) {
                             HStack {
                                 Text(periodDisplayName(period))
+                                    .font(.appFont(size: 14))
                                     .foregroundColor(theme.textColor)
                                 if selectedTimePeriod == period {
                                     Image(systemName: "checkmark")
@@ -119,9 +120,10 @@ struct AnalyticsView: View {
                 } label: {
                     HStack {
                         Text(periodDisplayName(selectedTimePeriod))
-                            .foregroundColor(theme.accentColor)
+                            .font(.appFont(size: 14, weight: .medium))
+                            .foregroundColor(theme.textColor)
                         Image(systemName: "chevron.down")
-                            .foregroundColor(theme.accentColor)
+                            .foregroundColor(theme.textColor)
                             .font(.caption)
                     }
                     .padding(.horizontal, 12)
@@ -143,11 +145,11 @@ struct AnalyticsView: View {
                 .progressViewStyle(CircularProgressViewStyle(tint: theme.accentColor))
             
             Text(String(localized: "analytics_loading"))
-                .font(.headline)
+                .font(.appFont(size: 18, weight: .medium))
                 .foregroundColor(theme.textColor)
             
             Text(String(localized: "analytics_loading_description"))
-                .font(.subheadline)
+                .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
@@ -161,12 +163,11 @@ struct AnalyticsView: View {
                 .foregroundColor(theme.accentColor.opacity(0.5))
             
             Text(String(localized: "analytics_empty_title"))
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(.appFont(size: 20, weight: .medium))
                 .foregroundColor(theme.textColor)
             
             Text(String(localized: "analytics_empty_description"))
-                .font(.body)
+                .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
@@ -175,7 +176,7 @@ struct AnalyticsView: View {
                 analyticsManager.refreshAnalytics()
             }) {
                 Text(String(localized: "analytics_refresh"))
-                    .font(.headline)
+                    .font(.appFont(size: 16, weight: .medium))
                     .foregroundColor(theme.buttonTextColor)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 12)
@@ -190,11 +191,11 @@ struct AnalyticsView: View {
             Spacer()
             
             Text(String(localized: "analytics_last_updated"))
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.6))
             
             Text(analyticsManager.lastUpdated, style: .relative)
-                .font(.caption)
+                .font(.appFont(size: 12))
                 .foregroundColor(theme.textColor.opacity(0.6))
             
             Spacer()
