@@ -29,6 +29,7 @@ struct ContentView: View {
         ZStack {
             if showSplash {
                 SplashView()
+                    .environmentObject(themeManager)
                     .transition(.opacity)
             } else if isCharacterCreated {
                 HomeView(viewModel: homeViewModel, questDataService: questDataService)
@@ -68,7 +69,7 @@ struct ContentView: View {
                     }
                 }
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 withAnimation {
                     showSplash = false
                 }

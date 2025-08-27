@@ -8,23 +8,34 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State var show = false
-    let title = String(localized: "app_title")
-
-    private let colorsTuple: [(color: Color, delay: Double)] = [
-        (Color(hex: "#E9EED9"), 0.0),
-        (Color(hex: "#CBD2A4"), 0.04),
-        (Color(hex: "#FFFF00"), 0.12),
-        (Color(hex: "#9A7E6F"), 0.18),
-        (Color(hex: "#B99470"), 0.28),
-        (Color(hex: "#54473F"), 0.35)
-    ]
+    @State private var scale: CGFloat = 0.8
+    @State private var opacity: Double = 0.0
+    @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
+        let theme = themeManager.activeTheme
+
         ZStack {
-            ForEach(0..<colorsTuple.count, id: \.self) { index in
-                let colorDelay = colorsTuple[index]
-                AnimatedTitleView(title: title, color: colorDelay.color, initialDelay: colorDelay.delay, animationType: .spring(duration: 1))
+            // Background color from theme
+            theme.backgroundColor
+                .ignoresSafeArea()
+
+            // App Icon
+            Image("splash_icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 250, height: 250)
+            .scaleEffect(scale)
+            .opacity(opacity)
+            .animation(.easeInOut(duration: 0.5), value: scale)
+            .animation(.easeInOut(duration: 0.5), value: opacity)
+        }
+        .onAppear {
+            // Animate in
+            withAnimation(.easeInOut(duration: 0.5)) {
+                scale = 1.0
+                opacity = 1.0
             }
         }
     }
@@ -32,4 +43,5 @@ struct SplashView: View {
 
 #Preview {
     SplashView()
+        .environmentObject(ThemeManager.shared)
 }
