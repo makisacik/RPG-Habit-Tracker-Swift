@@ -65,6 +65,7 @@ class HomeViewModel: ObservableObject {
         print("🔄 HomeViewModel: Received quest updated notification")
         DispatchQueue.main.async { [weak self] in
             self?.fetchDashboardData()
+            self?.fetchUserData() // 👈 Also refresh user data to update exp bars
         }
     }
 

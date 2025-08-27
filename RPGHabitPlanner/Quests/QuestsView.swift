@@ -135,6 +135,7 @@ struct QuestsView: View {
             .padding(.horizontal, 20)
             .padding(.top, 20)
         }
+        .scrollIndicators(.hidden)
     }
     
     @ViewBuilder

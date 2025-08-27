@@ -319,6 +319,7 @@ extension HomeView {
             }
         }
         .frame(height: 12)
+        .id("exp-bar-\(user.level)-\(user.exp)") // 👈 Make exp bar reactive to user changes
     }
     @ViewBuilder
     private func characterCardBackground(theme: Theme) -> some View {

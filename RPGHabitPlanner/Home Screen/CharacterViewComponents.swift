@@ -208,6 +208,7 @@ struct LevelExperienceView: View {
                     }
                 }
                 .frame(height: 22)
+                .id("level-exp-bar-\(user.level)-\(user.exp)") // 👈 Make exp bar reactive to user changes
 
                 HStack {
                     let levelingSystem = LevelingSystem.shared
@@ -551,5 +552,6 @@ struct ExperienceBarSection: View {
             }
         }
         .frame(height: 12)
+        .id("exp-bar-section-\(user.level)-\(user.exp)") // 👈 Make exp bar reactive to user changes
     }
 }
