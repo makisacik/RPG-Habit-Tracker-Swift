@@ -116,17 +116,21 @@ struct SettingsView: View {
 
     private func addTestCurrency() {
         CurrencyManager.shared.addCoins(5000) { error in
-            if let error = error {
-                print("❌ Failed to add coins: \(error.localizedDescription)")
-            } else {
-                print("✅ Successfully added 5000 coins")
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("❌ Failed to add coins: \(error.localizedDescription)")
+                } else {
+                    print("✅ Successfully added 5000 coins")
+                }
             }
         }
         CurrencyManager.shared.addGems(500) { error in
-            if let error = error {
-                print("❌ Failed to add gems: \(error.localizedDescription)")
-            } else {
-                print("✅ Successfully added 500 gems")
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("❌ Failed to add gems: \(error.localizedDescription)")
+                } else {
+                    print("✅ Successfully added 500 gems")
+                }
             }
         }
     }

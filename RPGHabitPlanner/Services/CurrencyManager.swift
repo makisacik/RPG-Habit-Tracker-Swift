@@ -41,8 +41,8 @@ final class CurrencyManager: ObservableObject {
                 DispatchQueue.main.async {
                     self?.currentCoins = Int(user.coins)
                     print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after adding coins")
+                    NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 }
-                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(nil)
             } catch {
                 completion(error)
@@ -69,8 +69,8 @@ final class CurrencyManager: ObservableObject {
                 DispatchQueue.main.async {
                     self?.currentGems = Int(user.gems)
                     print("💎 CurrencyManager: Updated currentGems to \(Int(user.gems)) after adding gems")
+                    NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 }
-                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(nil)
             } catch {
                 completion(error)
@@ -100,8 +100,8 @@ final class CurrencyManager: ObservableObject {
                 DispatchQueue.main.async {
                     self?.currentCoins = Int(user.coins)
                     print("💰 CurrencyManager: Updated currentCoins to \(Int(user.coins)) after spending coins")
+                    NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 }
-                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(true, nil)
             } catch {
                 completion(false, error)
@@ -131,8 +131,8 @@ final class CurrencyManager: ObservableObject {
                 DispatchQueue.main.async {
                     self?.currentGems = Int(user.gems)
                     print("💎 CurrencyManager: Updated currentGems to \(Int(user.gems)) after spending gems")
+                    NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 }
-                NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                 completion(true, nil)
             } catch {
                 completion(false, error)
