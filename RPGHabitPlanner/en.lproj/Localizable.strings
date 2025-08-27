@@ -108,6 +108,8 @@
 "background_2" = "Background 2";
 "background_3" = "Background 3";
 "background_4" = "Background 4";
+"save_changes" = "Save Changes";
+"tap_to_apply_changes" = "Tap to apply your changes";
 "createYourCharacter" = "Create Your Character";
 "preview" = "Preview";
 "confirmSelection" = "Confirm Selection";

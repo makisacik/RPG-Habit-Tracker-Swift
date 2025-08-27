@@ -12,9 +12,13 @@ struct CharacterBackgroundSelectionView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var backgroundManager = CharacterBackgroundManager.shared
     @State private var selectedBackground: CharacterBackground
+    @State private var originalBackground: CharacterBackground
+    @State private var hasChanges = false
     
     init() {
-        _selectedBackground = State(initialValue: CharacterBackgroundManager.shared.getCurrentBackground())
+        let currentBackground = CharacterBackgroundManager.shared.getCurrentBackground()
+        _selectedBackground = State(initialValue: currentBackground)
+        _originalBackground = State(initialValue: currentBackground)
     }
     
     var body: some View {
@@ -30,8 +34,16 @@ struct CharacterBackgroundSelectionView: View {
                 
                 // Background Options Grid
                 backgroundOptionsGridView(theme: theme)
+                
+                // Save Button
+                if hasChanges {
+                    saveButtonView(theme: theme)
+                }
             }
             .padding()
+        }
+        .onChange(of: selectedBackground) { newBackground in
+            hasChanges = newBackground != originalBackground
         }
     }
     
@@ -78,7 +90,6 @@ struct CharacterBackgroundSelectionView: View {
                         isSelected: selectedBackground == background,
                         onTap: {
                             selectedBackground = background
-                            backgroundManager.setBackground(background)
                         },
                         theme: theme
                     )
@@ -86,6 +97,40 @@ struct CharacterBackgroundSelectionView: View {
             }
             .padding(.horizontal)
         }
+    }
+    
+    // MARK: - Save Button View
+    @ViewBuilder
+    private func saveButtonView(theme: Theme) -> some View {
+        VStack(spacing: 12) {
+            Button(action: {
+                backgroundManager.setBackground(selectedBackground)
+                dismiss()
+            }) {
+                HStack {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 16))
+                    Text(String(localized: "save_changes"))
+                        .font(.appFont(size: 16, weight: .semibold))
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.accentColor)
+                )
+                .shadow(color: theme.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Text(String(localized: "tap_to_apply_changes"))
+                .font(.appFont(size: 12))
+                .foregroundColor(theme.textColor.opacity(0.6))
+                .multilineTextAlignment(.center)
+        }
+        .padding(.top, 16)
+        .padding(.horizontal)
     }
 }
 
