@@ -135,6 +135,8 @@ struct CharacterSectionView: View {
     @State private var selectedGearCategory: GearCategory = .head
     @State private var pendingGearCategory: GearCategory?
     @StateObject private var gearManager = GearManager.shared
+    @StateObject private var backgroundManager = CharacterBackgroundManager.shared
+    @State private var showBackgroundSelectionModal = false
     
     // Add a computed property to ensure we always have the correct category
     private var currentGearCategory: GearCategory {
@@ -220,19 +222,17 @@ struct CharacterSectionView: View {
                             .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
 
                         // Background image sized to the container, then clipped
-                        GeometryReader { proxy in
-                            Image("char_background")
-                                .resizable()
-                                .scaledToFill() // covers the whole card
-                                .frame(width: proxy.size.width, height: proxy.size.height)
-                                .clipped() // remove the overflow from scaledToFill
-                                .opacity(0.30)
+                        if let backgroundImageName = backgroundManager.getBackgroundImageName() {
+                            GeometryReader { proxy in
+                                Image(backgroundImageName)
+                                    .resizable()
+                                    .scaledToFill() // covers the whole card
+                                    .frame(width: proxy.size.width, height: proxy.size.height)
+                                    .clipped() // remove the overflow from scaledToFill
+                                    .opacity(0.30)
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: corner))
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: corner))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: corner)
-                                .stroke(theme.borderColor.opacity(0.12), lineWidth: 1)
-                        )
 
                         CharacterDisplayView(
                             customization: characterCustomization,
@@ -243,6 +243,10 @@ struct CharacterSectionView: View {
                         .id("character-display-\(characterCustomization?.shield?.rawValue ?? "nil")-\(characterCustomization?.pet?.rawValue ?? "nil")")
                         .offset(y: 70)
                     }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(theme.borderColor.opacity(0.12), lineWidth: 1)
+                    )
                     .frame(width: 200, height: 270)
 
                     // Action Buttons
@@ -250,14 +254,26 @@ struct CharacterSectionView: View {
                         Button(action: {
                             showCustomizationModal = true
                         }) {
-                            Text(String(localized: "customization"))
-                                .font(.appFont(size: 12, weight: .medium))
-                                .foregroundColor(theme.textColor)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
+                            Image(systemName: "paintbrush.fill")
+                                .font(.system(size: 16))
+                                .foregroundColor(theme.textColor.opacity(0.7))
+                                .frame(width: 32, height: 32)
                                 .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(theme.primaryColor)
+                                    Circle()
+                                        .fill(theme.cardBackgroundColor)
+                                )
+                        }
+
+                        Button(action: {
+                            showBackgroundSelectionModal = true
+                        }) {
+                            Image(systemName: "photo.fill")
+                                .font(.system(size: 16))
+                                .foregroundColor(theme.textColor.opacity(0.7))
+                                .frame(width: 32, height: 32)
+                                .background(
+                                    Circle()
+                                        .fill(theme.cardBackgroundColor)
                                 )
                         }
                     }
@@ -322,6 +338,12 @@ struct CharacterSectionView: View {
                 .onAppear {
                     print("🎯 Sheet presented with category: \(pendingGearCategory?.rawValue ?? selectedGearCategory.rawValue)")
                 }
+        }
+        .sheet(isPresented: $showBackgroundSelectionModal) {
+            CharacterBackgroundSelectionView()
+                .environmentObject(themeManager)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
         }
         .onChange(of: showGearMenu) { isPresented in
             if !isPresented {

@@ -1720,3 +1720,13 @@
 // MARK: - Analytics
 "analytics_total_coins" = "Toplam Altın";
 "analytics_total_gems" = "Toplam Mücevher";
+
+// MARK: - Character Background
+"select_background" = "Arka Plan Seç";
+"choose_character_background" = "Karakterinizin arka planını seçin";
+"background" = "Arka Plan";
+"no_background" = "Arka Plan Yok";
+"background_1" = "Arka Plan 1";
+"background_2" = "Arka Plan 2";
+"background_3" = "Arka Plan 3";
+"background_4" = "Arka Plan 4";

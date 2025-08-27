@@ -319,7 +319,7 @@ struct EnhancedShopItemCard: View {
                 } else {
                     Button(action: onPurchase) {
                         HStack(spacing: 4) {
-                            if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
+                            if ShopManager.shared.getDisplayCurrency(for: item) == String(localized: "currency_gems") {
                                 Image("icon_gem")
                                     .resizable()
                                     .frame(width: 18, height: 18)
@@ -656,7 +656,7 @@ struct ItemPreviewModal: View {
                             onDismiss()
                         }) {
                             HStack(spacing: 8) {
-                                if ShopManager.shared.getDisplayCurrency(for: item) == "gems" {
+                                if ShopManager.shared.getDisplayCurrency(for: item) == String(localized: "currency_gems") {
                                     Image("icon_gem")
                                         .resizable()
                                         .frame(width: 20, height: 20)

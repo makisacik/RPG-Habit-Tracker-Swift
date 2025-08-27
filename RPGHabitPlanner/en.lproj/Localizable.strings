@@ -98,6 +98,16 @@
 "customize_character" = "Customize Your Character";
 "customizeYourHero" = "Customize Your Hero";
 "createYourUniqueCharacter" = "Create your unique character";
+
+// MARK: - Character Background
+"select_background" = "Select Background";
+"choose_character_background" = "Choose your character's background";
+"background" = "Background";
+"no_background" = "No Background";
+"background_1" = "Background 1";
+"background_2" = "Background 2";
+"background_3" = "Background 3";
+"background_4" = "Background 4";
 "createYourCharacter" = "Create Your Character";
 "preview" = "Preview";
 "confirmSelection" = "Confirm Selection";
