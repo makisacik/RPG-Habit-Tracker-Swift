@@ -25,6 +25,8 @@ final class AnalyticsManager: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private var refreshDebounceTimer: Timer?
+    private var isCalculating = false
+    private var lastCalculationTime = Date.distantPast
     let calendar = Calendar.current // Made accessible to extensions
     
     private init() {
@@ -40,15 +42,30 @@ final class AnalyticsManager: ObservableObject {
     // MARK: - Public Methods
     
     func refreshAnalytics(completion: @escaping (AnalyticsSummary?) -> Void = { _ in }) {
+        // Rate limiting: prevent rapid successive calls
+        let now = Date()
+        let timeSinceLastCalculation = now.timeIntervalSince(lastCalculationTime)
+        
+        if isCalculating || timeSinceLastCalculation < 1.0 {
+            // If already calculating or called too recently, skip
+            completion(analyticsSummary)
+            return
+        }
+        
+        isCalculating = true
         isLoading = true
+        lastCalculationTime = now
         
         Task {
             let summary = await calculateAnalyticsSummary()
             
-            self.analyticsSummary = summary
-            self.lastUpdated = Date()
-            self.isLoading = false
-            completion(summary)
+            await MainActor.run {
+                self.analyticsSummary = summary
+                self.lastUpdated = Date()
+                self.isLoading = false
+                self.isCalculating = false
+                completion(summary)
+            }
         }
     }
 

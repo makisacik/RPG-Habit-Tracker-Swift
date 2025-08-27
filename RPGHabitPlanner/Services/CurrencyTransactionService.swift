@@ -52,8 +52,8 @@ class CurrencyTransactionService: ObservableObject {
         let totalEarned = calculateTotalEarned(currency: currency)
         print("💰 CurrencyTransactionService: Total earned for \(currency.rawValue): \(totalEarned)")
 
-        // Get finished quests count directly from quest data service to avoid circular dependency
-        let questDataService = QuestCoreDataService()
+        // Use a shared quest data service to avoid creating multiple Core Data contexts
+        let questDataService = QuestCoreDataService.shared
         let finishedQuestsCount = await withCheckedContinuation { continuation in
             questDataService.fetchAllQuests { quests, error in
                 if let error = error {

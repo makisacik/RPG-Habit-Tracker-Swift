@@ -105,7 +105,10 @@ final class QuestFailureHandler: ObservableObject {
         let completions: [Date]
         if let completionsSet = entity.completions,
            let array = completionsSet.allObjects as? [QuestCompletionEntity] {
-            completions = array.compactMap { $0.date }
+            completions = array.map { completionEntity in
+                // Safely access the date property (date is non-optional)
+                return completionEntity.date
+            }
         } else {
             completions = []
         }

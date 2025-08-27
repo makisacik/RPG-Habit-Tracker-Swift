@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 
 final class QuestCoreDataService: QuestDataServiceProtocol {
+    static let shared = QuestCoreDataService()
+    
     private let persistentContainer: NSPersistentContainer
     private let calendar = Calendar.current
 
@@ -332,14 +334,31 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
     }
 
     private func mapQuestEntityToQuest(_ entity: QuestEntity) -> Quest {
-        let completions: Set<Date> = (entity.completions as? Set<QuestCompletionEntity>)?
-            .compactMap { $0.date }
-            .map { calendar.startOfDay(for: $0) }
-            .reduce(into: Set<Date>()) { $0.insert($1) } ?? []
+        // Safely extract completion dates with error handling
+        let completions: Set<Date> = {
+            guard let completionsSet = entity.completions else { return [] }
+            
+            // Convert to array first to avoid potential Core Data faults
+            let completionEntities = completionsSet.allObjects as? [QuestCompletionEntity] ?? []
+            
+            return Set(completionEntities.map { completionEntity in
+                // Safely access the date property (date is non-optional)
+                return calendar.startOfDay(for: completionEntity.date)
+            })
+        }()
 
-        let tags: Set<Tag> = (entity.tags as? Set<TagEntity>)?
-            .map { Tag(entity: $0) }
-            .reduce(into: Set<Tag>()) { $0.insert($1) } ?? []
+        // Safely extract tags with error handling
+        let tags: Set<Tag> = {
+            guard let tagsSet = entity.tags else { return [] }
+            
+            // Convert to array first to avoid potential Core Data faults
+            let tagEntities = tagsSet.allObjects as? [TagEntity] ?? []
+            
+            return Set(tagEntities.compactMap { tagEntity in
+                // Safely create Tag object
+                return Tag(entity: tagEntity)
+            })
+        }()
 
         print("🗄️ QuestCoreDataService: Mapping quest '\(entity.title ?? "Unknown")' with \(entity.taskList.count) tasks and \(tags.count) tags")
 
