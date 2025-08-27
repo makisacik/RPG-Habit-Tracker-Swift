@@ -1760,6 +1760,7 @@
 "analytics_quest_performance" = "Görev Performansı";
 "analytics_performance_score" = "Performans Puanı";
 "analytics_total_quests" = "Toplam Görev";
+"analytics_total" = "Toplam";
 "analytics_finished_quests" = "Tamamlanan";
 "analytics_partially_completed_quests" = "Kısmen Tamamlanan";
 "analytics_partial_completion_rate" = "Kısmi Tamamlama Oranı";

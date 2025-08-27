@@ -48,7 +48,7 @@ struct AnalyticsPreviewCard: View {
             // Quick Stats Row
             HStack(spacing: 16) {
                 QuickStatItem(
-                    title: "total".localized,
+                    title: "analytics_total".localized,
                     value: "\(summary.questPerformance.totalQuests)",
                     icon: "list.bullet.clipboard",
                     color: theme.infoColor

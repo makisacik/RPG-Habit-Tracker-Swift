@@ -38,37 +38,17 @@ struct ShopHeaderView: View {
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.yellow)
                 }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 6)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.yellow.opacity(0.2))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.yellow.opacity(0.5), lineWidth: 1)
-                        )
-                )
 
                 // Gems
                 HStack(spacing: 4) {
                     Image("icon_gem")
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .frame(width: 28, height: 28)
 
                     Text("\(currentGems)")
                         .font(.appFont(size: 16, weight: .black))
                         .foregroundColor(.purple)
                 }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 6)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.purple.opacity(0.2))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.purple.opacity(0.5), lineWidth: 1)
-                        )
-                )
             }
         }
         .padding()

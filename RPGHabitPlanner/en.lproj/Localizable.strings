@@ -2044,6 +2044,7 @@
 "analytics_performance_score" = "Performance Score";
 "analytics_total_quests" = "Total Quests";
 "total" = "Total";
+"analytics_total" = "Total";
 "analytics_finished_quests" = "Finished";
 "analytics_partially_completed_quests" = "Partially Completed";
 "analytics_partial_completion_rate" = "Partial Completion Rate";

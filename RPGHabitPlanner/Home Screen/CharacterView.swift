@@ -36,12 +36,13 @@ struct CharacterView: View {
                         )
 
                         VStack(spacing: 12) {
-                            // Health Bar
-                            HealthBarView(healthManager: healthManager, size: .large, showShineAnimation: false)
+                            // Health Bar - matching home view hero section
+                            HealthBarSection(healthManager: healthManager, theme: theme)
                                 .padding(.horizontal)
 
-                            // Level and Experience
-                            LevelExperienceView(user: user, theme: theme)
+                            // Experience Bar - matching home view hero section
+                            ExperienceBarSection(user: user, theme: theme)
+                                .padding(.horizontal)
 
                             // Inventory Section
                             InventorySectionView(

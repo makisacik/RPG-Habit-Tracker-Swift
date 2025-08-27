@@ -359,16 +359,6 @@ struct EnhancedShopItemCard: View {
                                 .font(.appFont(size: 14, weight: .bold))
                                 .foregroundColor(canAfford ? theme.textColor : .red)
                         }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(theme.secondaryColor)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(theme.borderColor.opacity(0.6), lineWidth: 1)
-                                )
-                        )
                     }
                     .disabled(!canAfford)
                 }

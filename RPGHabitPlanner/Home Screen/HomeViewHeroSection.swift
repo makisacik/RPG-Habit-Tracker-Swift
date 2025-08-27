@@ -96,6 +96,7 @@ extension HomeView {
                 .foregroundColor(theme.textColor)
                 .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
             Spacer()
+            currencySection(user: user)
         }
     }
 
@@ -135,7 +136,6 @@ extension HomeView {
         HStack {
             levelDisplay(user: user, theme: theme)
             Spacer()
-            xpDisplay(user: user, theme: theme)
         }
     }
 
@@ -151,19 +151,6 @@ extension HomeView {
         }
     }
 
-    @ViewBuilder
-    private func xpDisplay(user: UserEntity, theme: Theme) -> some View {
-        HStack(spacing: 3) {
-            Image("icon_lightning")
-                .resizable()
-                .frame(width: 10, height: 10)
-            let levelingSystem = LevelingSystem.shared
-            let expRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))
-            Text("\(user.exp)/\(expRequiredForNextLevel) \("xp".localized)")
-                .font(.appFont(size: 12, weight: .medium))
-                .foregroundColor(theme.textColor.opacity(0.8))
-        }
-    }
 
     @ViewBuilder
     private func dividerSection(theme: Theme) -> some View {
@@ -238,11 +225,8 @@ extension HomeView {
 
     @ViewBuilder
     private func currencyAndExperienceSection(user: UserEntity, theme: Theme) -> some View {
-        HStack(spacing: 12) {
-            coinsDisplay(user: user)
-            gemsDisplay(user: user)
-            Spacer()
-            experienceBar(user: user, theme: theme)
+        VStack(spacing: 10) {
+            experienceBarSection(user: user, theme: theme)
         }
     }
 
@@ -258,59 +242,66 @@ extension HomeView {
                 .foregroundColor(.yellow)
                 .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(coinsBackground)
     }
 
-    @ViewBuilder
-    private var coinsBackground: some View {
-        RoundedRectangle(cornerRadius: 6)
-            .fill(Color.yellow.opacity(0.2))
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-            )
-    }
 
     @ViewBuilder
     private func gemsDisplay(user: UserEntity) -> some View {
         HStack(spacing: 4) {
             Image("icon_gem")
                 .resizable()
-                .frame(width: 14, height: 14)
+                .frame(width: 16, height: 16)
                 .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
             Text("\(user.gems)")
                 .font(.appFont(size: 14, weight: .black))
                 .foregroundColor(.purple)
                 .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(gemsBackground)
+    }
+
+
+    @ViewBuilder
+    private func currencySection(user: UserEntity) -> some View {
+        HStack(spacing: 8) {
+            coinsDisplay(user: user)
+            gemsDisplay(user: user)
+        }
     }
 
     @ViewBuilder
-    private var gemsBackground: some View {
-        RoundedRectangle(cornerRadius: 6)
-            .fill(Color.purple.opacity(0.2))
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color.purple.opacity(0.3), lineWidth: 1)
-            )
+    private func experienceBarSection(user: UserEntity, theme: Theme) -> some View {
+        VStack(spacing: 4) {
+            experienceBarHeader(user: user, theme: theme)
+            experienceBarVisual(user: user, theme: theme)
+        }
     }
 
     @ViewBuilder
-    private func experienceBar(user: UserEntity, theme: Theme) -> some View {
-        VStack(spacing: 3) {
+    private func experienceBarHeader(user: UserEntity, theme: Theme) -> some View {
+        HStack {
+            Image("icon_lightning")
+                .resizable()
+                .frame(width: 12, height: 12)
+                .foregroundColor(.yellow)
             Text("experience".localized)
-                .font(.appFont(size: 10, weight: .medium))
-                .foregroundColor(theme.textColor.opacity(0.7))
+                .font(.appFont(size: 12, weight: .bold))
+                .foregroundColor(theme.textColor)
+            Spacer()
+            let levelingSystem = LevelingSystem.shared
+            let expRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))
+            Text("\(user.exp)/\(expRequiredForNextLevel)")
+                .font(.appFont(size: 11, weight: .black))
+                .foregroundColor(theme.textColor)
+        }
+    }
 
+    @ViewBuilder
+    private func experienceBarVisual(user: UserEntity, theme: Theme) -> some View {
+        GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(theme.backgroundColor.opacity(0.7))
-                    .frame(width: 100, height: 8)
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(theme.secondaryColor.opacity(0.7))
+                    .frame(height: 12)
 
                 let levelingSystem = LevelingSystem.shared
                 let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
@@ -321,12 +312,13 @@ extension HomeView {
                     startPoint: .leading,
                     endPoint: .trailing
                 )
-                RoundedRectangle(cornerRadius: 4)
+                RoundedRectangle(cornerRadius: 6)
                     .fill(expGradient)
-                    .frame(width: 100 * expRatio, height: 8)
+                    .frame(width: geometry.size.width * expRatio, height: 12)
                     .animation(.easeInOut(duration: 0.5), value: expRatio)
             }
         }
+        .frame(height: 12)
     }
     @ViewBuilder
     private func characterCardBackground(theme: Theme) -> some View {

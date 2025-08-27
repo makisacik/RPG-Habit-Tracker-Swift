@@ -443,3 +443,113 @@ struct VerticalFloat: ViewModifier {
             }
     }
 }
+
+// MARK: - Health Bar Section (matching home view hero section)
+struct HealthBarSection: View {
+    @ObservedObject var healthManager: HealthManager
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 4) {
+            healthBarHeader(healthManager: healthManager, theme: theme)
+            healthBarVisual(healthManager: healthManager)
+        }
+    }
+
+    @ViewBuilder
+    private func healthBarHeader(healthManager: HealthManager, theme: Theme) -> some View {
+        HStack {
+            Image(systemName: "heart.fill")
+                .font(.system(size: 12))
+                .foregroundColor(.red)
+            Text("health".localized)
+                .font(.appFont(size: 12, weight: .bold))
+                .foregroundColor(theme.textColor)
+            Spacer()
+            Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
+                .font(.appFont(size: 11, weight: .black))
+                .foregroundColor(theme.textColor)
+        }
+    }
+
+    @ViewBuilder
+    private func healthBarVisual(healthManager: HealthManager) -> some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.red.opacity(0.2))
+                    .frame(height: 12)
+
+                let healthPercentage = healthManager.getHealthPercentage()
+                let healthGradient = LinearGradient(
+                    colors: [Color.red, Color.red.opacity(0.8)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(healthGradient)
+                    .frame(width: geometry.size.width * healthPercentage, height: 12)
+                    .animation(.easeOut(duration: 0.5), value: healthPercentage)
+            }
+        }
+        .frame(height: 12)
+    }
+}
+
+// MARK: - Experience Bar Section (matching home view hero section)
+struct ExperienceBarSection: View {
+    let user: UserEntity
+    let theme: Theme
+
+    var body: some View {
+        VStack(spacing: 4) {
+            experienceBarHeader(user: user, theme: theme)
+            experienceBarVisual(user: user, theme: theme)
+        }
+    }
+
+    @ViewBuilder
+    private func experienceBarHeader(user: UserEntity, theme: Theme) -> some View {
+        HStack {
+            Image("icon_lightning")
+                .resizable()
+                .frame(width: 12, height: 12)
+                .foregroundColor(.yellow)
+            Text("experience".localized)
+                .font(.appFont(size: 12, weight: .bold))
+                .foregroundColor(theme.textColor)
+            Spacer()
+            let levelingSystem = LevelingSystem.shared
+            let expRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))
+            Text("\(user.exp)/\(expRequiredForNextLevel)")
+                .font(.appFont(size: 11, weight: .black))
+                .foregroundColor(theme.textColor)
+        }
+    }
+
+    @ViewBuilder
+    private func experienceBarVisual(user: UserEntity, theme: Theme) -> some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(theme.secondaryColor.opacity(0.7))
+                    .frame(height: 12)
+
+                let levelingSystem = LevelingSystem.shared
+                let totalExperience = levelingSystem.calculateTotalExperience(level: Int(user.level), experienceInLevel: Int(user.exp))
+                let progress = levelingSystem.calculateLevelProgress(totalExperience: totalExperience, currentLevel: Int(user.level))
+                let expRatio = min(CGFloat(progress), 1.0)
+                let expGradient = LinearGradient(
+                    colors: [Color.green, Color.green.opacity(0.7)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(expGradient)
+                    .frame(width: geometry.size.width * expRatio, height: 12)
+                    .animation(.easeInOut(duration: 0.5), value: expRatio)
+            }
+        }
+        .frame(height: 12)
+    }
+}
