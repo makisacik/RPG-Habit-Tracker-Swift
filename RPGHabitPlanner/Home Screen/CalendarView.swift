@@ -174,8 +174,10 @@ struct CalendarDayView: View {
                 Text("\(calendar.component(.day, from: date))")
                     .font(.appFont(size: 16, weight: isSelected ? .bold : .medium))
                     .foregroundColor(selectionTextColor)
-                if !items.isEmpty {
-                    HStack(spacing: 2) {
+
+                // Fixed height container for dots to ensure consistent sizing
+                HStack(spacing: 2) {
+                    if !items.isEmpty {
                         ForEach(items.prefix(3)) { item in
                             Circle()
                                 .fill(dotColor(for: item))
@@ -188,6 +190,8 @@ struct CalendarDayView: View {
                         }
                     }
                 }
+                .frame(height: 8) // Fixed height for the dots row
+                .frame(maxWidth: .infinity) // Center the dots horizontally
             }
             .frame(width: 40, height: 40)
             .background(
