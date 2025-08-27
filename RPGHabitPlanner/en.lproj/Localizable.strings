@@ -380,6 +380,7 @@
 
 // MARK: - Calendar
 "quest_calendar" = "Quest Calendar";
+"calendar" = "Calendar";
 "tasks" = "Tasks";
 "set_due_date" = "Set Due Date";
 "due_date" = "Due Date";
@@ -1355,6 +1356,7 @@
 
 // MARK: - Calendar View
 "quest_calendar" = "Quest Calendar";
+"calendar" = "Calendar";
 "heads_up" = "Heads Up";
 "ok_button" = "OK";
 "no_quests" = "No Quests";

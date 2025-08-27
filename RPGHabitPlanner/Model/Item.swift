@@ -68,7 +68,7 @@ enum ItemRarity: String, CaseIterable, Codable {
     }
 
     var localizedName: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return self.rawValue.localized
     }
 }
 
@@ -97,7 +97,7 @@ enum ItemType: String, CaseIterable, Codable {
     }
 
     var localizedName: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return self.rawValue.localized
     }
 }
 
@@ -129,7 +129,7 @@ enum GearCategory: String, CaseIterable, Codable {
     }
 
     var localizedName: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return self.rawValue.localized
     }
 }
 
@@ -155,7 +155,7 @@ enum AccessoryCategory: String, CaseIterable, Codable {
     }
 
     var localizedName: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return self.rawValue.localized
     }
 }
 

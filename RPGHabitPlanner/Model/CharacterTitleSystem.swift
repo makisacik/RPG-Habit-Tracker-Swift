@@ -24,7 +24,7 @@ enum CharacterTitle: String, CaseIterable {
     case theStarlight = "the_starlight"
     
     var displayName: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return self.rawValue.localized
     }
     
     var description: String {

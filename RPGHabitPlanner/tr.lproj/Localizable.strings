@@ -361,6 +361,7 @@
 
 // MARK: - Calendar
 "quest_calendar" = "Görev Takvimi";
+"calendar" = "Takvim";
 "set_due_date" = "Bitiş Tarihi Belirle";
 "due_date" = "Bitiş Tarihi";
 "default_duration" = "Varsayılan Süre";
@@ -758,7 +759,7 @@
 "character_asset_outfit" = "Kıyafet";
 "character_asset_weapon" = "Silah";
 "character_asset_accessory" = "Aksesuar";
-"character_asset_head" = "Baş";
+"character_asset_head" = "Kafa";
 "character_asset_head_gear" = "Başlık";
 "character_asset_shield" = "Kalkan";
 "character_asset_wings" = "Kanatlar";
@@ -866,7 +867,7 @@
 "item_equipped_successfully" = "Eşya başarıyla kuşanıldı!";
 "item_unequipped_successfully" = "Eşya başarıyla çıkarıldı!";
 "item_used_successfully" = "Eşya başarıyla kullanıldı!";
-"no_items_for_category" = "Kategori için %@ eşya yok";
+"no_items_for_category" = "Kategori için %@ eşyası yok";
 "visit_shop_to_get_items" = "Bazı %@ eşyalarını almak için dükkana git!";
 "no_colors_available_for_hair_style" = "Bu saç stili için renk mevcut değil";
 "price" = "%@";
@@ -1188,7 +1189,7 @@
 "outfit_style" = "Kıyafet Stili";
 "weapon_style" = "Silah Stili";
 "facial_hair" = "Yüz Saçı";
-"head_accessory" = "Baş Aksesuarı";
+"head_accessory" = "Kafa Aksesuarı";
 "body_accessory" = "Vücut Aksesuarı";
 
 // MARK: - Karakter Özelleştirme Seçenekleri (Detaylı)
@@ -1497,7 +1498,7 @@
 "gear" = "Ekipman";
 
 // MARK: - Gear Categories
-"head" = "Baş";
+"head" = "Kafa";
 "wings" = "Kanatlar";
 "shield" = "Kalkan";
 "pet" = "Evcil Hayvan";
@@ -1868,7 +1869,7 @@
 "continue_streak" = "Seriyi Sürdür";
 "view_achievements" = "Başarıları Görüntüle";
 "create_quest_now" = "Şimdi Görev Oluştur";
-"gear_slot_head" = "BAŞ";
+"gear_slot_head" = "KAFA";
 "gear_slot_weapon" = "SİLAH";
 "gear_slot_shield" = "KALKAN";
 "gear_slot_outfit" = "KIYAFET";

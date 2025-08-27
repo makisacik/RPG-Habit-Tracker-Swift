@@ -32,6 +32,36 @@ struct ItemDetailSheet: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
+        mainContentView(theme: theme)
+            .overlay(successMessageOverlay(theme: theme))
+            .overlay(errorMessageOverlay(theme: theme))
+            .animation(.easeInOut(duration: 0.3), value: showSuccessMessage)
+            .animation(.easeInOut(duration: 0.3), value: showErrorMessage)
+            .onAppear {
+                loadUserAndCheckEquipmentStatus()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .gearUpdated)) { _ in
+                // Refresh equipment status when gear is updated
+                checkEquipmentStatus()
+            }
+    }
+
+    // MARK: - Helper Methods
+
+    private func getItemRarity() -> ItemRarity? {
+        return item.rarity
+    }
+
+    private func getSuccessMessage() -> String {
+        if canEquipItem {
+            return isItemEquipped ? "item_equipped_successfully".localized : "item_unequipped_successfully".localized
+        } else {
+            return "item_used_successfully".localized
+        }
+    }
+
+    @ViewBuilder
+    private func mainContentView(theme: Theme) -> some View {
         NavigationView {
             ZStack {
                 theme.backgroundColor
@@ -97,42 +127,25 @@ struct ItemDetailSheet: View {
                 }
             }
         }
-        .overlay(
-            // Success Message
-            Group {
-                if showSuccessMessage {
-                    SuccessMessageOverlay(
-                        theme: theme,
-                        message: canEquipItem ?
-                            (isItemEquipped ? "item_unequipped_successfully".localized : "item_equipped_successfully".localized) :
-                            "item_used_successfully".localized
-                    )
-                }
-            }
-        )
-        .overlay(
-            // Error Message
-            Group {
-                if showErrorMessage {
-                    ErrorMessageOverlay(errorMessage: errorMessage, theme: theme)
-                }
-            }
-        )
-        .animation(.easeInOut(duration: 0.3), value: showSuccessMessage)
-        .animation(.easeInOut(duration: 0.3), value: showErrorMessage)
-        .onAppear {
-            loadUserAndCheckEquipmentStatus()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .gearUpdated)) { _ in
-            // Refresh equipment status when gear is updated
-            checkEquipmentStatus()
+    }
+
+    @ViewBuilder
+    private func successMessageOverlay(theme: Theme) -> some View {
+        if showSuccessMessage {
+            SuccessMessageOverlay(
+                theme: theme,
+                message: getSuccessMessage()
+            )
         }
     }
 
-    // MARK: - Helper Methods
-
-    private func getItemRarity() -> ItemRarity? {
-        return item.rarity
+    @ViewBuilder
+    private func errorMessageOverlay(theme: Theme) -> some View {
+        Group {
+            if showErrorMessage {
+                ErrorMessageOverlay(errorMessage: errorMessage, theme: theme)
+            }
+        }
     }
 
     private func loadUserAndCheckEquipmentStatus() {
@@ -150,10 +163,13 @@ struct ItemDetailSheet: View {
     private func checkEquipmentStatus() {
         guard let itemEntity = inventoryManager.inventoryItems.first(where: { $0.iconName == item.iconName }) else {
             isItemEquipped = false
+            print("🔍 ItemDetailSheet: Item not found in inventory, setting isItemEquipped to false")
             return
         }
 
+        let wasEquipped = isItemEquipped
         isItemEquipped = GearManager.shared.isItemEquipped(itemEntity)
+        print("🔍 ItemDetailSheet: Equipment status check - was: \(wasEquipped), now: \(isItemEquipped)")
     }
 
     private func useItem() {
@@ -220,8 +236,10 @@ struct ItemDetailSheet: View {
             // Update UI
             DispatchQueue.main.async {
                 self.isUsingItem = false
+                print("🔍 ItemDetailSheet: EQUIP - Before checkEquipmentStatus - isItemEquipped: \(self.isItemEquipped)")
+                self.checkEquipmentStatus() // Update status first
+                print("🔍 ItemDetailSheet: EQUIP - After checkEquipmentStatus - isItemEquipped: \(self.isItemEquipped)")
                 self.showSuccessMessage = true
-                self.checkEquipmentStatus()
 
                 // Auto-dismiss after 2 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -263,8 +281,10 @@ struct ItemDetailSheet: View {
             // Update UI
             DispatchQueue.main.async {
                 self.isUsingItem = false
+                print("🔍 ItemDetailSheet: UNEQUIP - Before checkEquipmentStatus - isItemEquipped: \(self.isItemEquipped)")
+                self.checkEquipmentStatus() // Update status first
+                print("🔍 ItemDetailSheet: UNEQUIP - After checkEquipmentStatus - isItemEquipped: \(self.isItemEquipped)")
                 self.showSuccessMessage = true
-                self.checkEquipmentStatus()
 
                 // Auto-dismiss after 2 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

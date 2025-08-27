@@ -33,7 +33,7 @@ struct CalendarView: View {
         let theme = themeManager.activeTheme
 
         mainContent(theme: theme)
-            .navigationTitle("quest_calendar".localized)
+            .navigationTitle("calendar".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {

@@ -60,20 +60,23 @@ struct GearMenuView: View {
     @ViewBuilder
     private func headerView(theme: Theme) -> some View {
         VStack(spacing: 12) {
-            HStack {
-                Button("close".localized) {
-                    dismiss()
+            ZStack {
+                // Close button positioned on the left
+                HStack {
+                    Button("close".localized) {
+                        dismiss()
+                    }
+                    .font(.appFont(size: 16, weight: .medium))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+                    
+                    Spacer()
                 }
-                .font(.appFont(size: 16, weight: .medium))
-                .foregroundColor(theme.textColor.opacity(0.7))
                 
-                Spacer()
-                
+                // Centered title
                 Text(gearCategory.localizedName)
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
-
-                Spacer()
+                    .id(refreshTrigger) // Force refresh when language changes
             }
             
             Text(gearCategory.description)
