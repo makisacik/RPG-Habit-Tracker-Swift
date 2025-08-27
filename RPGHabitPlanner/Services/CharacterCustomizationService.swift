@@ -168,7 +168,13 @@ extension CharacterCustomizationEntity {
     func ownsCustomizationItem(category: CustomizationCategory, itemId: String) -> Bool {
         guard let user = user else { return false }
 
-        let items = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
+        let items: [CustomizationItemEntity]
+        if let customizationItems = user.customizationItems,
+           let array = customizationItems.allObjects as? [CustomizationItemEntity] {
+            items = array
+        } else {
+            items = []
+        }
         return items.contains { item in
             item.category == category.rawValue &&
             item.imageName == itemId &&
@@ -180,7 +186,13 @@ extension CharacterCustomizationEntity {
     func getOwnedItems(for category: CustomizationCategory) -> [CustomizationItemEntity] {
         guard let user = user else { return [] }
 
-        let items = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
+        let items: [CustomizationItemEntity]
+        if let customizationItems = user.customizationItems,
+           let array = customizationItems.allObjects as? [CustomizationItemEntity] {
+            items = array
+        } else {
+            items = []
+        }
         return items.filter { item in
             item.category == category.rawValue && item.isUnlocked
         }
@@ -190,7 +202,13 @@ extension CharacterCustomizationEntity {
     func getEquippedItem(for category: CustomizationCategory) -> CustomizationItemEntity? {
         guard let user = user else { return nil }
 
-        let items = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
+        let items: [CustomizationItemEntity]
+        if let customizationItems = user.customizationItems,
+           let array = customizationItems.allObjects as? [CustomizationItemEntity] {
+            items = array
+        } else {
+            items = []
+        }
         return items.first { item in
             item.category == category.rawValue && item.isEquipped
         }

@@ -229,7 +229,13 @@ final class QuestDamageTrackingService {
     // MARK: - Mapping Methods
     
     private func mapQuestDamageTrackerEntityToModel(_ entity: QuestDamageTrackerEntity) -> QuestDamageTracker {
-        let damageHistory = (entity.damageHistory?.allObjects as? [DamageEventEntity])?.map { mapDamageEventEntityToModel($0) } ?? []
+        let damageHistory: [DamageEvent]
+        if let damageHistorySet = entity.damageHistory,
+           let array = damageHistorySet.allObjects as? [DamageEventEntity] {
+            damageHistory = array.map { mapDamageEventEntityToModel($0) }
+        } else {
+            damageHistory = []
+        }
         
         return QuestDamageTracker(
             id: entity.id ?? UUID(),

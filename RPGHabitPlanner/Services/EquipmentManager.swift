@@ -72,7 +72,13 @@ struct EquipmentValidation {
         switch slot {
         case .accessory:
             // Check if too many accessories are equipped
-            let equippedAccessories = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
+            let equippedAccessories: [CustomizationItemEntity]
+            if let items = user.customizationItems,
+               let array = items.allObjects as? [CustomizationItemEntity] {
+                equippedAccessories = array
+            } else {
+                equippedAccessories = []
+            }
             let accessoryCount = equippedAccessories.filter { $0.category == EquipmentSlot.accessory.rawValue && $0.isEquipped }.count
 
             if accessoryCount >= 3 { // Max 3 accessories
@@ -86,7 +92,13 @@ struct EquipmentValidation {
     }
 
     static func getConflictingItems(for slot: EquipmentSlot, user: UserEntity) -> [CustomizationItemEntity] {
-        let items = user.customizationItems?.allObjects as? [CustomizationItemEntity] ?? []
+        let items: [CustomizationItemEntity]
+        if let customizationItems = user.customizationItems,
+           let array = customizationItems.allObjects as? [CustomizationItemEntity] {
+            items = array
+        } else {
+            items = []
+        }
         return items.filter { item in
             item.category == slot.rawValue && item.isEquipped
         }

@@ -38,6 +38,10 @@ extension TagEntity {
 
 extension TagEntity: Identifiable {
     var questList: [QuestEntity] {
-        (quests?.allObjects as? [QuestEntity]) ?? []
+        guard let quests = quests,
+              let array = quests.allObjects as? [QuestEntity] else {
+            return []
+        }
+        return array
     }
 }

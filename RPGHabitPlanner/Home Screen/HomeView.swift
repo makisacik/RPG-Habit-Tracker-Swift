@@ -159,16 +159,20 @@ struct HomeView: View {
                 }
                 .onAppear {
                     themeManager.applyTheme(using: colorScheme)
-                    viewModel.fetchUserData()
-                    viewModel.fetchDashboardData()
-                    fetchCurrentQuestCount()
-                    WidgetCenter.shared.reloadAllTimelines()
 
-                    // Record streak activity when app is opened
-                    viewModel.streakManager.recordActivity()
+                    // Use a small delay to prevent flashing when returning from navigation
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        viewModel.fetchUserData()
+                        viewModel.fetchDashboardData()
+                        fetchCurrentQuestCount()
+                        WidgetCenter.shared.reloadAllTimelines()
 
-                    // Check for failed quests
-                    questFailureHandler.performDailyQuestCheck()
+                        // Record streak activity when app is opened
+                        viewModel.streakManager.recordActivity()
+
+                        // Check for failed quests
+                        questFailureHandler.performDailyQuestCheck()
+                    }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .questCreated)) { _ in
                     fetchCurrentQuestCount()

@@ -275,7 +275,13 @@ final class TagService: TagServiceProtocol {
                 return
             }
 
-            let tagEntities = questEntity.tags?.allObjects as? [TagEntity] ?? []
+            let tagEntities: [TagEntity]
+            if let tagsSet = questEntity.tags,
+               let array = tagsSet.allObjects as? [TagEntity] {
+                tagEntities = array
+            } else {
+                tagEntities = []
+            }
             let tags = tagEntities.map { Tag(entity: $0) }
             completion(tags, nil)
         } catch {

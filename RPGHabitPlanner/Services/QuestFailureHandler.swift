@@ -87,24 +87,42 @@ final class QuestFailureHandler: ObservableObject {
     }
 
     private func mapQuestEntityToQuest(_ entity: QuestEntity) -> Quest {
-        let tasks = (entity.tasks?.array as? [TaskEntity])?.map { taskEntity in
-            QuestTask(
-                id: taskEntity.id ?? UUID(),
-                title: taskEntity.title ?? "",
-                isCompleted: taskEntity.isCompleted,
-                order: Int(taskEntity.order)
-            )
-        } ?? []
+        let tasks: [QuestTask]
+        if let tasksSet = entity.tasks,
+           let array = tasksSet.array as? [TaskEntity] {
+            tasks = array.map { taskEntity in
+                QuestTask(
+                    id: taskEntity.id ?? UUID(),
+                    title: taskEntity.title ?? "",
+                    isCompleted: taskEntity.isCompleted,
+                    order: Int(taskEntity.order)
+                )
+            }
+        } else {
+            tasks = []
+        }
 
-        let completions = (entity.completions?.allObjects as? [QuestCompletionEntity])?.compactMap { $0.date } ?? []
-        let tags = (entity.tags?.allObjects as? [TagEntity])?.map { tagEntity in
-            Tag(
-                id: tagEntity.id ?? UUID(),
-                name: tagEntity.name ?? "",
-                icon: tagEntity.icon,
-                color: tagEntity.color
-            )
-        } ?? []
+        let completions: [Date]
+        if let completionsSet = entity.completions,
+           let array = completionsSet.allObjects as? [QuestCompletionEntity] {
+            completions = array.compactMap { $0.date }
+        } else {
+            completions = []
+        }
+        let tags: [Tag]
+        if let tagsSet = entity.tags,
+           let array = tagsSet.allObjects as? [TagEntity] {
+            tags = array.map { tagEntity in
+                Tag(
+                    id: tagEntity.id ?? UUID(),
+                    name: tagEntity.name ?? "",
+                    icon: tagEntity.icon,
+                    color: tagEntity.color
+                )
+            }
+        } else {
+            tags = []
+        }
 
         let scheduledDays = entity.scheduledDays?.components(separatedBy: ",").compactMap { Int($0) } ?? []
 

@@ -65,12 +65,24 @@ extension QuestEntity {
 
 extension QuestEntity: Identifiable {
     var taskList: [TaskEntity] {
-        (tasks?.array as? [TaskEntity]) ?? []
+        guard let tasks = tasks,
+              let array = tasks.array as? [TaskEntity] else {
+            return []
+        }
+        return array
     }
     var completionList: [QuestCompletionEntity] {
-        (completions?.allObjects as? [QuestCompletionEntity]) ?? []
+        guard let completions = completions,
+              let array = completions.allObjects as? [QuestCompletionEntity] else {
+            return []
+        }
+        return array
     }
     var tagList: [TagEntity] {
-        (tags?.allObjects as? [TagEntity]) ?? []
+        guard let tags = tags,
+              let array = tags.allObjects as? [TagEntity] else {
+            return []
+        }
+        return array
     }
 }

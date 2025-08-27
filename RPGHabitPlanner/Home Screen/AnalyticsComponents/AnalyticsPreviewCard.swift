@@ -15,9 +15,11 @@ struct AnalyticsPreviewCard: View {
         let theme = themeManager.activeTheme
 
         VStack(spacing: 12) {
-            if analyticsManager.isLoading {
+            if analyticsManager.isLoading && analyticsManager.analyticsSummary == nil {
+                // Only show loading if we don't have any data yet
                 loadingView(theme: theme)
             } else if let summary = analyticsManager.analyticsSummary {
+                // Show existing data even if loading (for background refresh)
                 analyticsPreviewContent(summary: summary, theme: theme)
             } else {
                 emptyStateView(theme: theme)

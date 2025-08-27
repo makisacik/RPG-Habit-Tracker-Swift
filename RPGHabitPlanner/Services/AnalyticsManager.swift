@@ -24,6 +24,7 @@ final class AnalyticsManager: ObservableObject {
     let customizationService: CharacterCustomizationService // Made accessible to extensions
     
     private var cancellables = Set<AnyCancellable>()
+    private var refreshDebounceTimer: Timer?
     let calendar = Calendar.current // Made accessible to extensions
     
     private init() {
@@ -48,6 +49,16 @@ final class AnalyticsManager: ObservableObject {
             self.lastUpdated = Date()
             self.isLoading = false
             completion(summary)
+        }
+    }
+
+    private func debouncedRefreshAnalytics() {
+        // Cancel any existing timer
+        refreshDebounceTimer?.invalidate()
+
+        // Set a new timer to refresh after a short delay
+        refreshDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+            self?.refreshAnalytics()
         }
     }
     
@@ -97,29 +108,29 @@ final class AnalyticsManager: ObservableObject {
     // MARK: - Private Methods
     
     private func setupObservers() {
-        // Listen for quest changes
+        // Listen for quest changes with debounced refresh to prevent flashing
         NotificationCenter.default.publisher(for: .questCreated)
             .sink { [weak self] _ in
-                self?.refreshAnalytics()
+                self?.debouncedRefreshAnalytics()
             }
             .store(in: &cancellables)
         
         NotificationCenter.default.publisher(for: .questUpdated)
             .sink { [weak self] _ in
-                self?.refreshAnalytics()
+                self?.debouncedRefreshAnalytics()
             }
             .store(in: &cancellables)
         
         NotificationCenter.default.publisher(for: .questDeleted)
             .sink { [weak self] _ in
-                self?.refreshAnalytics()
+                self?.debouncedRefreshAnalytics()
             }
             .store(in: &cancellables)
         
         // Listen for user updates (currency changes)
         NotificationCenter.default.publisher(for: .userDidUpdate)
             .sink { [weak self] _ in
-                self?.refreshAnalytics()
+                self?.debouncedRefreshAnalytics()
             }
             .store(in: &cancellables)
     }

@@ -107,7 +107,13 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
     }
 
     private func updateQuestTasks(questEntity: QuestEntity, tasks: [String], context: NSManagedObjectContext) {
-        let existingTasks = questEntity.tasks?.array as? [TaskEntity] ?? []
+        let existingTasks: [TaskEntity]
+        if let tasksSet = questEntity.tasks,
+           let array = tasksSet.array as? [TaskEntity] {
+            existingTasks = array
+        } else {
+            existingTasks = []
+        }
         var existingTasksSet = Set(existingTasks)
 
         for (index, title) in tasks.enumerated() {

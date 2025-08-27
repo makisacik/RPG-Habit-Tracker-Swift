@@ -16,44 +16,42 @@ struct AnalyticsView: View {
     
     var body: some View {
         let theme = themeManager.activeTheme
-        
-        NavigationView {
-            ZStack {
-                theme.backgroundColor.ignoresSafeArea()
-                
-                if analyticsManager.isLoading {
-                    loadingView(theme: theme)
-                } else if let summary = analyticsManager.analyticsSummary {
-                    analyticsContent(summary: summary, theme: theme)
-                } else {
-                    emptyStateView(theme: theme)
+
+        ZStack {
+            theme.backgroundColor.ignoresSafeArea()
+
+            if analyticsManager.isLoading {
+                loadingView(theme: theme)
+            } else if let summary = analyticsManager.analyticsSummary {
+                analyticsContent(summary: summary, theme: theme)
+            } else {
+                emptyStateView(theme: theme)
+            }
+        }
+        .navigationTitle("analytics".localized)
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    analyticsManager.refreshAnalytics()
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(theme.accentColor)
                 }
             }
-            .navigationTitle("analytics".localized)
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        analyticsManager.refreshAnalytics()
-                    }) {
-                        Image(systemName: "arrow.clockwise")
-                            .foregroundColor(theme.accentColor)
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        showFilters.toggle()
-                    }) {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                            .foregroundColor(theme.accentColor)
-                    }
+
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    showFilters.toggle()
+                }) {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                        .foregroundColor(theme.accentColor)
                 }
             }
-            .sheet(isPresented: $showFilters) {
-                AnalyticsFiltersView(selectedPeriod: $selectedTimePeriod)
-                    .environmentObject(themeManager)
-            }
+        }
+        .sheet(isPresented: $showFilters) {
+            AnalyticsFiltersView(selectedPeriod: $selectedTimePeriod)
+                .environmentObject(themeManager)
         }
         .onAppear {
             if analyticsManager.analyticsSummary == nil {
