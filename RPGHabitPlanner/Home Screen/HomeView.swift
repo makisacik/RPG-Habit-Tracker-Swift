@@ -66,9 +66,6 @@ struct HomeView: View {
                             StreakDisplayView(streakManager: viewModel.streakManager)
                                 .environmentObject(themeManager)
 
-                            // Analytics Section
-                            analyticsSection
-
                             recentAchievementsSection
                             quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
                         }
@@ -269,6 +266,14 @@ struct HomeView: View {
             }
                             .tabItem { Label("shop".localized, systemImage: "cart.fill") }
             .tag(HomeTab.shop)
+
+            // MARK: Progress
+            NavigationStack {
+                AnalyticsView()
+                    .environmentObject(themeManager)
+            }
+                            .tabItem { Label("progress".localized, systemImage: "chart.bar.xaxis") }
+            .tag(HomeTab.progress)
         }
         .accentColor(.red)
         .sheet(isPresented: $showAchievements) {
