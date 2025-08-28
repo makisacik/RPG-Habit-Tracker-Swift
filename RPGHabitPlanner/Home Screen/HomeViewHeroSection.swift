@@ -39,7 +39,8 @@ extension HomeView {
             characterDetails(user: user, theme: theme)
             Spacer()
         }
-        .padding(.horizontal, 16)
+        .padding(.leading, 16)
+        .padding(.trailing, 16)
         .padding(.top, 16)
     }
 
@@ -92,9 +93,11 @@ extension HomeView {
     private func characterName(user: UserEntity, theme: Theme) -> some View {
         HStack {
             Text(user.nickname ?? "Adventurer")
-                .font(.appFont(size: 20, weight: .black))
+                .font(.appFont(size: 16, weight: .black))
                 .foregroundColor(theme.textColor)
                 .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                .minimumScaleFactor(0.8)
+                .lineLimit(1)
             Spacer()
             currencySection(user: user)
         }

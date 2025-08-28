@@ -15,7 +15,7 @@ extension String {
     
     var isValidNickname: Bool {
         let trimmed = self.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.count >= 2 && trimmed.count <= 20
+        return trimmed.count >= 2 && trimmed.count <= 16
     }
     
     // MARK: - Formatting

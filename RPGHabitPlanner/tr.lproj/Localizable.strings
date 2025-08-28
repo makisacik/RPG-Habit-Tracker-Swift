@@ -239,7 +239,7 @@
 "name_your_hero" = "Kahramanına İsim Ver";
 "choose_legendary_name_for_character" = "Karakterine efsanevi bir isim seç";
 "enter_your_heros_name" = "Kahramanının adını gir";
-"maximum_20_characters" = "Maksimum 20 karakter";
+"maximum_16_characters" = "Maksimum 16 karakter";
 "ready_for_adventure" = "Macera İçin Hazır!";
 "your_hero_is_ready_to_begin_journey" = "Kahramanın yolculuğa başlamak için hazır";
 
@@ -454,7 +454,7 @@
 "flower" = "Çiçek";
 
 // MARK: - New Localization Keys
-"my_quests" = "Görevlerim";
+"my_quests" = "Görevler";
 "loading_quests" = "Görevler yükleniyor...";
 "no_quests_for_date" = "%@ için görev yok";
 "create_quest_to_get_started" = "Başlamak için bir görev oluştur!";

@@ -242,7 +242,7 @@
 "name_your_hero" = "Name Your Hero";
 "choose_legendary_name_for_character" = "Choose a legendary name for your character";
 "enter_your_heros_name" = "Enter your hero's name";
-"maximum_20_characters" = "Maximum 20 characters";
+"maximum_16_characters" = "Maximum 16 characters";
 "ready_for_adventure" = "Ready for Adventure!";
 "your_hero_is_ready_to_begin_journey" = "Your hero is ready to begin their journey";
 
@@ -491,7 +491,7 @@
 "flower" = "Flower";
 
 // MARK: - New Localization Keys
-"my_quests" = "My Quests";
+"my_quests" = "Quests";
 "loading_quests" = "Loading quests...";
 "no_quests_for_date" = "No quests for %@";
 "create_quest_to_get_started" = "Create a quest to get started!";
@@ -512,7 +512,7 @@
 "name_your_hero" = "Name Your Hero";
 "choose_legendary_name_for_character" = "Choose a legendary name for your character";
 "random_name" = "Random Name";
-"maximum_20_characters" = "Maximum 20 characters";
+"maximum_16_characters" = "Maximum 16 characters";
 "custom_hero" = "Custom Hero";
 "scheduled_days" = "Scheduled Days";
 "quest_damage_calculator" = "Quest Damage Calculator";
@@ -524,7 +524,7 @@
 "apply" = "Apply";
 "no_active_boosters" = "No active boosters";
 "visit_shop" = "Visit Shop";
-"my_quests" = "My Quests";
+"my_quests" = "Quests";
 "view_all" = "View All";
 "loading_quests" = "Loading quests…";
 "create_quest" = "Create Quest";
@@ -1277,7 +1277,7 @@
 "selectDifferentTitle" = "Select Different Title";
 "randomTitle" = "Random Title";
 "chooseFromAvailableTitles" = "Choose from available titles";
-"maximum_20_characters" = "Maximum 20 characters";
+"maximum_16_characters" = "Maximum 16 characters";
 "name_your_hero" = "Name Your Hero";
 "choose_legendary_name_for_character" = "Choose a legendary name for your character";
 "random_name" = "Random Name";
@@ -1478,7 +1478,7 @@
 "name_your_hero" = "Name Your Hero";
 "choose_legendary_name_for_character" = "Choose a legendary name for your character";
 "enter_your_heros_name" = "Enter your hero's name";
-"maximum_20_characters" = "Maximum 20 characters";
+"maximum_16_characters" = "Maximum 16 characters";
 "ready_for_adventure" = "Ready for Adventure!";
 "your_hero_is_ready_to_begin_journey" = "Your hero is ready to begin their journey";
 

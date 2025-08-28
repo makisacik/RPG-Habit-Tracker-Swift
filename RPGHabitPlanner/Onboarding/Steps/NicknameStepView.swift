@@ -83,9 +83,9 @@ struct NicknameStepView: View {
                     .textFieldStyle(PlainTextFieldStyle())
                     .focused($isTextFieldFocused)
                     .onChange(of: coordinator.nickname) { newValue in
-                        // Limit to 20 characters
-                        if newValue.count > 20 {
-                            coordinator.nickname = String(newValue.prefix(20))
+                        // Limit to 16 characters
+                        if newValue.count > 16 {
+                            coordinator.nickname = String(newValue.prefix(16))
                         }
                     }
                     .submitLabel(.done)
@@ -115,7 +115,7 @@ struct NicknameStepView: View {
                     )
                 }
 
-                Text("maximum_20_characters".localized)
+                Text("maximum_16_characters".localized)
                     .font(.appFont(size: 12))
                     .foregroundColor(theme.textColor.opacity(0.6))
             }
