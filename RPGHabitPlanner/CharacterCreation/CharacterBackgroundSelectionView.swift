@@ -63,8 +63,17 @@ struct CharacterBackgroundSelectionView: View {
                 Text("select_background".localized)
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(theme.textColor)
-                
+                    .frame(maxWidth: .infinity)
+
                 Spacer()
+                
+                // Invisible button to balance the layout
+                Button("cancel".localized) {
+                    dismiss()
+                }
+                .font(.appFont(size: 16, weight: .medium))
+                .foregroundColor(.clear)
+                .disabled(true)
             }
             .padding(.horizontal)
             
@@ -81,8 +90,8 @@ struct CharacterBackgroundSelectionView: View {
     private func backgroundOptionsGridView(theme: Theme) -> some View {
         ScrollView {
             LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
             ], spacing: 16) {
                 ForEach(CharacterBackground.allCases, id: \.self) { background in
                     BackgroundOptionCard(
@@ -95,7 +104,8 @@ struct CharacterBackgroundSelectionView: View {
                     )
                 }
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 20)
         }
     }
     
@@ -152,14 +162,14 @@ struct BackgroundOptionCard: View {
     
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 12) {
+            VStack(spacing: 8) {
                 // Background preview
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 10)
                         .fill(theme.cardBackgroundColor)
-                        .frame(height: 120)
+                        .frame(height: 100)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 12)
+                            RoundedRectangle(cornerRadius: 10)
                                 .stroke(strokeColor, lineWidth: strokeWidth)
                         )
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
@@ -168,17 +178,16 @@ struct BackgroundOptionCard: View {
                         Image(imageName)
                             .resizable()
                             .scaledToFill()
-                            .frame(height: 120)
-                            .clipped()
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     } else {
                         // No background option
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: 10)
                             .fill(theme.cardBackgroundColor)
-                            .frame(height: 120)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .overlay(
                                 Image(systemName: "photo.slash")
-                                    .font(.system(size: 30))
+                                    .font(.system(size: 24))
                                     .foregroundColor(theme.textColor.opacity(0.5))
                             )
                     }
@@ -189,19 +198,26 @@ struct BackgroundOptionCard: View {
                             HStack {
                                 Spacer()
                                 Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(size: 24))
+                                    .font(.system(size: 20))
                                     .foregroundColor(.white)
                                     .background(
                                         Circle()
                                             .fill(theme.accentColor)
-                                            .frame(width: 24, height: 24)
+                                            .frame(width: 20, height: 20)
                                     )
-                                    .padding(8)
+                                    .padding(6)
                             }
                             Spacer()
                         }
                     }
                 }
+                
+                // Background name
+                Text(background.displayName)
+                    .font(.appFont(size: 12, weight: isSelected ? .bold : .medium))
+                    .foregroundColor(isSelected ? theme.accentColor : theme.textColor.opacity(0.8))
+                    .lineLimit(1)
+                    .multilineTextAlignment(.center)
             }
         }
         .buttonStyle(PlainButtonStyle())
