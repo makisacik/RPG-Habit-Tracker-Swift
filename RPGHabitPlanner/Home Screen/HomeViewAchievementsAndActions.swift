@@ -78,18 +78,6 @@ extension HomeView {
                 GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: 12) {
-                Button(action: {
-                    handleCreateQuestTap()
-                }) {
-                    NavigationQuickActionCard(
-                        icon: "plus.circle.fill",
-                        title: "new_quest".localized,
-                        subtitle: "create_new_adventure".localized,
-                        color: .green,
-                        theme: theme
-                    )
-                }
-
                 NavigationLink(destination: QuickQuestsView(
                     viewModel: QuickQuestsViewModel(questDataService: questDataService)
                 )) {
@@ -103,16 +91,6 @@ extension HomeView {
                 }
 
                 QuickActionCard(
-                    icon: "person.crop.circle.fill",
-                    title: "character".localized,
-                    subtitle: "view_your_stats".localized,
-                    color: .blue,
-                    theme: theme
-                ) {
-                    selectedTab = .character
-                }
-
-                QuickActionCard(
                     icon: "checkmark.seal.fill",
                     title: "finished".localized,
                     subtitle: "view_completed_quests".localized,
@@ -120,26 +98,6 @@ extension HomeView {
                     theme: theme
                 ) {
                     isCompletedQuestsPresented.wrappedValue = true
-                }
-
-                QuickActionCard(
-                    icon: "trophy.fill",
-                    title: "achievements".localized,
-                    subtitle: "view_your_trophies".localized,
-                    color: .purple,
-                    theme: theme
-                ) {
-                    showAchievements = true   // ← was: selectedTab = .achievements
-                }
-
-                QuickActionCard(
-                    icon: "cart.fill",
-                    title: "shop".localized,
-                    subtitle: "buy_items_with_coins".localized,
-                    color: .yellow,
-                    theme: theme
-                ) {
-                    selectedTab = .shop
                 }
             }
         }
