@@ -260,6 +260,7 @@ struct ItemsPreviewView: View {
     @ObservedObject var inventoryManager: InventoryManager
     let theme: Theme
     @State private var refreshTrigger = false
+    @State private var showShop = false
 
     // Define grid columns for inventory layout
     private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 4), count: 4)
@@ -294,7 +295,7 @@ struct ItemsPreviewView: View {
     var body: some View {
         Group {
             if filteredItems.isEmpty {
-                VStack(spacing: 8) {
+                VStack(spacing: 12) {
                     if category.icon.hasPrefix("icon_") {
                         Image(category.icon)
                             .resizable()
@@ -310,6 +311,34 @@ struct ItemsPreviewView: View {
                     Text("no_items_for_category".localized(with: category.localizedName))
                         .font(.appFont(size: 14))
                         .foregroundColor(theme.textColor.opacity(0.7))
+                    
+                    Text("visit_shop_to_get_items".localized(with: category.localizedName))
+                        .font(.appFont(size: 14))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                        .multilineTextAlignment(.center)
+                    
+                    Button(action: {
+                        showShop = true
+                    }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "cart.fill")
+                                .font(.system(size: 14))
+                            Text("go_to_shop".localized)
+                                .font(.appFont(size: 14, weight: .medium))
+                        }
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(theme.textColor.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(theme.textColor.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
                 .padding()
                 .background(
@@ -351,6 +380,13 @@ struct ItemsPreviewView: View {
                                 .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
                         )
                 )
+            }
+        }
+        .sheet(isPresented: $showShop) {
+            let (category, armorSubcategory) = mapInventoryCategoryToShopCategory(category)
+            NavigationStack {
+                ShopView(initialCategory: category, initialArmorSubcategory: armorSubcategory)
+                    .environmentObject(ThemeManager.shared)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
@@ -554,4 +590,32 @@ struct ExperienceBarSection: View {
         .frame(height: 12)
         .id("exp-bar-section-\(user.level)-\(user.exp)") // 👈 Make exp bar reactive to user changes
     }
+}
+
+// MARK: - Helper Functions
+
+/// Maps InventoryCategory to EnhancedShopCategory and ArmorSubcategory for navigation
+private func mapInventoryCategoryToShopCategory(_ category: InventoryCategory) -> (EnhancedShopCategory, ArmorSubcategory) {
+    print("🎯 ItemsPreviewView: Mapping inventory category \(category.rawValue)")
+    let result: (EnhancedShopCategory, ArmorSubcategory)
+    
+    switch category {
+    case .head:
+        result = (.armor, .helmet)
+    case .outfit:
+        result = (.armor, .outfit)
+    case .weapon:
+        result = (.weapons, .helmet) // Default armor subcategory, won't be used
+    case .shield:
+        result = (.armor, .shield)
+    case .wings:
+        result = (.wings, .helmet) // Default armor subcategory, won't be used
+    case .pet:
+        result = (.pets, .helmet) // Default armor subcategory, won't be used
+    case .others:
+        result = (.consumables, .helmet) // Default armor subcategory, won't be used
+    }
+    
+    print("🎯 ItemsPreviewView: Mapped to shop category: \(result.0.rawValue), armor subcategory: \(result.1.rawValue)")
+    return result
 }

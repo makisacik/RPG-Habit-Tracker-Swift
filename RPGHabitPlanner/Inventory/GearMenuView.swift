@@ -67,7 +67,7 @@ struct GearMenuView: View {
                         dismiss()
                     }
                     .font(.appFont(size: 16, weight: .medium))
-                    .foregroundColor(theme.textColor.opacity(0.7))
+                    .foregroundColor(theme.textColor)
                     
                     Spacer()
                 }
@@ -77,6 +77,34 @@ struct GearMenuView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                     .id(refreshTrigger) // Force refresh when language changes
+                
+                // Shop button positioned on the right
+                HStack {
+                    Spacer()
+
+                    Button(action: {
+                        showShop = true
+                    }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "cart.fill")
+                                .font(.system(size: 14))
+                            Text("shop".localized)
+                                .font(.appFont(size: 16, weight: .medium))
+                        }
+                        .foregroundColor(theme.textColor)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(theme.textColor.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(theme.textColor.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
             }
             
             Text(gearCategory.description)
