@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import WidgetKit
 
 extension QuestEntity {
     var repeatKind: QuestRepeatType { QuestRepeatType(rawValue: repeatType) ?? .oneTime }
@@ -44,6 +45,9 @@ final class QuestLogService {
         quest.isCompleted = true
         quest.completionDate = date
         try context.save()
+        
+        // Trigger widget refresh
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func unmarkCompleted(_ quest: QuestEntity, on date: Date = .now) throws {
@@ -65,6 +69,9 @@ final class QuestLogService {
             context.delete(existingCompletion)
             quest.isCompleted = false
             try context.save()
+            
+            // Trigger widget refresh
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
 

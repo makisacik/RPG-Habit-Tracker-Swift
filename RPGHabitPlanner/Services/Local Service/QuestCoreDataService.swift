@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import WidgetKit
 
 final class QuestCoreDataService: QuestDataServiceProtocol {
     static let shared = QuestCoreDataService()
@@ -68,6 +69,10 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             }
 
             try context.save()
+            
+            // Trigger widget refresh
+            WidgetCenter.shared.reloadAllTimelines()
+            
             completion(nil)
         } catch {
             completion(error)
@@ -194,6 +199,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
 
                 try context.save()
                 
+                // Trigger widget refresh
+                WidgetCenter.shared.reloadAllTimelines()
+                
                 // Post notification to update UI
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: .questUpdated, object: nil)
@@ -279,6 +287,10 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
 
         do {
             try context.save()
+            
+            // Trigger widget refresh
+            WidgetCenter.shared.reloadAllTimelines()
+            
             completion(nil)
         } catch {
             completion(error)

@@ -104,26 +104,26 @@ struct CharacterTabCustomizationView: View {
                     Image(customizationManager.currentCustomization.bodyType.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 240) // 2x bigger (was 120)
+                        .frame(height: 312) // 30% bigger (was 240)
 
                     // Hair - Use the actual hair style image (not tinted)
                     Image(customizationManager.currentCustomization.hairStyle.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 240) // 2x bigger (was 120)
+                        .frame(height: 312) // 30% bigger (was 240)
 
                     // Eyes
                     Image(customizationManager.currentCustomization.eyeColor.rawValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 240) // 2x bigger (was 120)
+                        .frame(height: 312) // 30% bigger (was 240)
 
                     // Mustache
                     if let mustache = customizationManager.currentCustomization.mustache {
                         Image(mustache.rawValue)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 240)
+                            .frame(height: 312)
                     }
 
                     // Flower
@@ -131,7 +131,7 @@ struct CharacterTabCustomizationView: View {
                         Image(flower.rawValue)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 240)
+                            .frame(height: 312)
                     }
 
                     // Glasses (Accessory)
@@ -139,9 +139,10 @@ struct CharacterTabCustomizationView: View {
                         Image(accessory.rawValue)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 240)
+                            .frame(height: 312)
                     }
                 }
+                .offset(y: -70) // Move character image 70 pixels up
 
                 Text("preview".localized)
                     .font(.appFont(size: 16, weight: .medium))
@@ -149,7 +150,7 @@ struct CharacterTabCustomizationView: View {
             }
             .padding()
         }
-        .frame(height: 300) // Increased container height to accommodate larger character
+        .frame(height: 370) // Increased container height to accommodate larger character (30% bigger + 70px offset)
     }
 
     // MARK: - Category Selector View

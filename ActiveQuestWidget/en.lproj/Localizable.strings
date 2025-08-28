@@ -24,3 +24,12 @@
 "untitled_quest" = "Untitled Quest";
 "progress" = "Progress";
 "widget_description" = "Track your current quest progress and due dates.";
+
+// MARK: - Daily Quest Summary Widget
+"daily_quests" = "Daily Quests";
+"quests_completed" = "quests completed";
+"more_quests" = "more quests";
+"daily_quest_summary" = "Daily Quest Summary";
+"daily_quest_widget_description" = "Track your daily quests and completion progress.";
+"done_for_today" = "Done for today!";
+"all_quests_completed_today" = "All quests completed for today";

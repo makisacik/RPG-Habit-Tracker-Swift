@@ -46,4 +46,11 @@ extension LocalizationHelper {
     static let dueTomorrow = "due_tomorrow"
     static let daysLeft = "days_left"
     static let untitledQuest = "untitled_quest"
+    
+    // Daily Quest Summary Widget
+    static let dailyQuests = "daily_quests"
+    static let questsCompleted = "quests_completed"
+    static let moreQuests = "more_quests"
+    static let dailyQuestSummary = "daily_quest_summary"
+    static let dailyQuestWidgetDescription = "daily_quest_widget_description"
 }

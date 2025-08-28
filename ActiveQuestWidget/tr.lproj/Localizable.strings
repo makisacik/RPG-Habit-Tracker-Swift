@@ -6,7 +6,7 @@
 */
 
 // MARK: - Focus Timer
-"focus_timer" = "Odak Zamanlayıcısı";
+"focus_timer" = "Odaklanma Zamanlayıcısı";
 "remaining" = "kaldı";
 "complete" = "tamamlandı";
 "percent_complete" = "% tamamlandı";
@@ -18,9 +18,18 @@
 "start_your_adventure" = "Maceranı Başlat";
 "create_your_first_quest" = "İlk görevini oluştur";
 "overdue" = "Gecikmiş!";
-"due_today" = "Bugün son tarih";
-"due_tomorrow" = "Yarın son tarih";
+"due_today" = "Bugün son";
+"due_tomorrow" = "Yarın son";
 "days_left" = "gün kaldı";
 "untitled_quest" = "Başlıksız Görev";
 "progress" = "İlerleme";
-"widget_description" = "Mevcut görev ilerlemenizi ve son tarihleri takip edin.";
+"widget_description" = "Mevcut görev ilerlemeni ve son tarihleri takip et.";
+
+// MARK: - Daily Quest Summary Widget
+"daily_quests" = "Günlük Görevler";
+"quests_completed" = "görev tamamlandı";
+"more_quests" = "görev daha";
+"daily_quest_summary" = "Günlük Görev Özeti";
+"daily_quest_widget_description" = "Günlük görevlerini ve tamamlama ilerlemeni takip et.";
+"done_for_today" = "Bugün için tamamlandı!";
+"all_quests_completed_today" = "Bugün için tüm görevler tamamlandı";
