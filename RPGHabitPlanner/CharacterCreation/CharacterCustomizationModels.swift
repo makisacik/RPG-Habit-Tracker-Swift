@@ -853,6 +853,7 @@ enum Shield: String, CaseIterable, Codable, Identifiable {
 enum Wings: String, CaseIterable, Codable, Identifiable {
     case wingsWhite = "char_wings_white"
     case wingsRed = "char_wings_red"
+    case wingsRed2 = "char_wings_red_2"
     case wingsBat = "char_wings_bat"
 
     var id: String { self.rawValue }
@@ -861,6 +862,7 @@ enum Wings: String, CaseIterable, Codable, Identifiable {
         switch self {
         case .wingsWhite: return "celestial_wings".localized
         case .wingsRed: return "phoenix_wings".localized
+        case .wingsRed2: return "blazing_phoenix_wings".localized
         case .wingsBat: return "shadow_wings".localized
         }
     }
@@ -869,6 +871,7 @@ enum Wings: String, CaseIterable, Codable, Identifiable {
         switch self {
         case .wingsWhite: return "char_wings_white_preview"
         case .wingsRed: return "char_wings_red_preview"
+        case .wingsRed2: return "char_wings_red_2_preview"
         case .wingsBat: return "char_wings_bat_preview"
         }
     }

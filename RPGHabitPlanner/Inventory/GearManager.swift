@@ -410,8 +410,10 @@ class GearManager: ObservableObject {
         switch actualAssetName {
         case "char_wings_white":
             return .wingsWhite
-        case "char_wings_red", "char_wings_red_2":
+        case "char_wings_red":
             return .wingsRed
+        case "char_wings_red_2":
+            return .wingsRed2
         case "char_wings_bat":
             return .wingsBat
         default:

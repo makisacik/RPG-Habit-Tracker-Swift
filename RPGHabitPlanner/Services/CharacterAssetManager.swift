@@ -307,7 +307,9 @@ final class CharacterAssetManager: ObservableObject {
 
             // Wings
             "wings_white": .epic, // Celestial Wings
-            "wings_red": .legendary // Phoenix Wings and Blazing Phoenix
+            "wings_bat": .legendary, // Shadow Wings
+            "wings_red": .legendary, // Phoenix Wings
+            "wings_red_2": .legendary // Blazing Phoenix Wings
         ]
         
         // Check for exact matches first

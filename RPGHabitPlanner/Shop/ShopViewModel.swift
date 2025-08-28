@@ -329,6 +329,7 @@ class ShopViewModel: ObservableObject {
                     name: item.localizedName,
                     description: item.localizedDescription,
                     iconName: item.iconName,
+                    previewImage: item.iconName, // Use iconName as preview since no preview assets exist
                     price: item.value,
                     rarity: .common, // Potions are typically common
                     category: .consumables,
@@ -341,6 +342,7 @@ class ShopViewModel: ObservableObject {
                     name: item.localizedName,
                     description: item.localizedDescription,
                     iconName: item.iconName,
+                    previewImage: item.iconName, // Use iconName as preview since no preview assets exist
                     price: item.value,
                     rarity: item.isRare ? .rare : .common,
                     category: .consumables,
@@ -363,6 +365,7 @@ class ShopViewModel: ObservableObject {
                 name: item.localizedName,
                 description: item.localizedDescription,
                 iconName: item.iconName,
+                previewImage: item.previewImage, // Use the proper preview image from ItemDatabase
                 price: item.value,
                 gemPrice: gemPrice,
                 rarity: rarity,

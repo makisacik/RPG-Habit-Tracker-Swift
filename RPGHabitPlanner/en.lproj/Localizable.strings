@@ -1054,6 +1054,8 @@
 "celestial_wings_description" = "Pure white wings that glow with divine light. They seem to be made of pure energy, allowing the bearer to soar through the heavens with grace.";
 "phoenix_wings" = "Phoenix Wings";
 "phoenix_wings_description" = "Fiery wings that burn with eternal flame. Each feather crackles with heat, and the wings seem to regenerate even from the ashes of destruction.";
+"blazing_phoenix_wings" = "Blazing Phoenix Wings";
+"blazing_phoenix_wings_description" = "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.";
 "blazing_phoenix" = "Blazing Phoenix";
 "blazing_phoenix_description" = "Enhanced phoenix wings that blaze with intensified fire. The heat is so intense that enemies nearby feel the scorching power of rebirth.";
 "shadow_wings" = "Shadow Wings";
@@ -2367,3 +2369,8 @@
 "recommendation_create_more_quests_title" = "Create More Quests";
 "recommendation_create_more_quests_description" = "You've been doing great! Try creating more quests to increase your productivity.";
 "recommendation_create_quest_action" = "Create Quest";
+
+// MARK: - Consumable Item Descriptions
+"restores_health_amount" = "Restores %d Health";
+"xp_boost_percentage_duration" = "XP Boost %d%% (%@)";
+"coin_boost_percentage_duration" = "Coin Boost %d%% (%@)";

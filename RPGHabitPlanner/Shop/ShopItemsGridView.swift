@@ -15,7 +15,7 @@ struct ShopItemsGridView: View {
     let onPreview: ((ShopItem) -> Void)?
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             LazyVGrid(columns: [
                 GridItem(.flexible(), spacing: 12),
                 GridItem(.flexible(), spacing: 12),
@@ -25,11 +25,11 @@ struct ShopItemsGridView: View {
                     EnhancedShopItemCard(
                         item: item,
                         selectedCategory: selectedCategory,
-                        isCustomizationItem: selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil,
+                        isCustomizationItem: selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil || selectedCategory == .consumables,
                         onPurchase: {
                             onPurchase(item)
                         },
-                        onPreview: (selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil) ? {
+                        onPreview: (selectedCategory.isCustomizationCategory || selectedCategory.assetCategory != nil || selectedCategory == .consumables) ? {
                             onPreview?(item)
                         } : nil
                     )

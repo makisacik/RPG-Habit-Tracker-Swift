@@ -181,10 +181,24 @@ struct BoosterWidgetRow: View {
     }
 
     private func formatTime(_ timeInterval: TimeInterval) -> String {
-        let minutes = Int(timeInterval) / 60
-        let seconds = Int(timeInterval) % 60
+        let days = Int(timeInterval / (24 * 3600))
+        let hours = Int((timeInterval.truncatingRemainder(dividingBy: 24 * 3600)) / 3600)
+        let minutes = Int((timeInterval.truncatingRemainder(dividingBy: 3600)) / 60)
+        let seconds = Int(timeInterval.truncatingRemainder(dividingBy: 60))
 
-        if minutes > 0 {
+        if days > 0 {
+            if hours > 0 {
+                return String(format: "%dd %dh", days, hours)
+            } else {
+                return String(format: "%dd", days)
+            }
+        } else if hours > 0 {
+            if minutes > 0 {
+                return String(format: "%dh %dm", hours, minutes)
+            } else {
+                return String(format: "%dh", hours)
+            }
+        } else if minutes > 0 {
             return String(format: "%dm %02ds", minutes, seconds)
         } else {
             return String(format: "%ds", seconds)
@@ -239,13 +253,24 @@ struct XPBoostIndicator: View {
     }
 
     private func formatTime(_ timeInterval: TimeInterval) -> String {
-        let minutes = Int(timeInterval) / 60
-        let seconds = Int(timeInterval) % 60
+        let days = Int(timeInterval / (24 * 3600))
+        let hours = Int((timeInterval.truncatingRemainder(dividingBy: 24 * 3600)) / 3600)
+        let minutes = Int((timeInterval.truncatingRemainder(dividingBy: 3600)) / 60)
 
-        if minutes > 0 {
-            return String(format: "%dm", minutes)
+        if days > 0 {
+            if hours > 0 {
+                return String(format: "%dd %dh", days, hours)
+            } else {
+                return String(format: "%dd", days)
+            }
+        } else if hours > 0 {
+            if minutes > 0 {
+                return String(format: "%dh %dm", hours, minutes)
+            } else {
+                return String(format: "%dh", hours)
+            }
         } else {
-            return String(format: "%ds", seconds)
+            return String(format: "%dm", minutes)
         }
     }
 }

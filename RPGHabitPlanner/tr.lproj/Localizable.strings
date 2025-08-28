@@ -1354,6 +1354,8 @@
 "celestial_wings_description" = "İlahi ışıkla parlayan saf beyaz kanatlar. Saf enerjiden yapılmış gibidirler ve sahibine göklerde zarafetle uçma imkanı verirler.";
 "phoenix_wings" = "Anka Kanatları";
 "phoenix_wings_description" = "Ebedi ateşle yanan alevli kanatlar. Her tüy sıcaklıkla çıtırdar ve kanatlar yok oluşun küllerinden bile yeniden doğar.";
+"blazing_phoenix_wings" = "Alevli Anka Kanatları";
+"blazing_phoenix_wings_description" = "Yoğunlaştırılmış ateşle parlayan gelişmiş anka kanatları. Sıcaklık o kadar yoğun ki yakındaki düşmanlar yeniden doğuşun yakıcı gücünü hisseder.";
 "blazing_phoenix" = "Alevli Anka";
 "blazing_phoenix_description" = "Yoğunlaştırılmış ateşle yanan güçlendirilmiş anka kanatları. Isı o kadar güçlüdür ki yakın düşmanlar yeniden doğuşun yakıcı gücünü hisseder.";
 "shadow_wings" = "Gölge Kanatlar";
@@ -2144,3 +2146,8 @@
 "recommendation_create_more_quests_title" = "Daha Fazla Görev Oluştur";
 "recommendation_create_more_quests_description" = "Harika gidiyorsun! Üretkenliğini artırmak için daha fazla görev oluşturmayı dene.";
 "recommendation_create_quest_action" = "Görev Oluştur";
+
+// MARK: - Consumable Item Descriptions
+"restores_health_amount" = "%d Can Yeniler";
+"xp_boost_percentage_duration" = "XP Artışı %d%% (%@)";
+"coin_boost_percentage_duration" = "Altın Artışı %d%% (%@)";

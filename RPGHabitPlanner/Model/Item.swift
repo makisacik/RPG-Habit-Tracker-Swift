@@ -259,7 +259,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: "icon_flask_red",
-            previewImage: "icon_flask_red_preview",
+            previewImage: "icon_flask_red", // Use iconName since preview image doesn't exist
             itemType: .consumable,
             value: value,
             usageData: .healthPotion(healAmount: healAmount)
@@ -277,7 +277,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: "icon_lightning",
-            previewImage: "icon_lightning_preview",
+            previewImage: "icon_lightning", // Use iconName since preview image doesn't exist
             itemType: .booster,
             value: value,
             usageData: .xpBoost(multiplier: multiplier, duration: duration)
@@ -295,7 +295,7 @@ struct Item: GameItem {
             name: name,
             description: description,
             iconName: "icon_flask_purple",
-            previewImage: "icon_flask_purple_preview",
+            previewImage: "icon_flask_purple", // Use iconName since preview image doesn't exist
             itemType: .booster,
             value: value,
             usageData: .coinBoost(multiplier: multiplier, duration: duration)
@@ -700,9 +700,10 @@ struct ItemDatabase {
             Item.gear(name: "golden_aegis", description: "golden_aegis_description", iconName: "char_shield_gold", category: .shield, rarity: .epic, value: 600),
 
             // Wings
-            Item.gear(name: "celestial_wings", description: "celestial_wings_description", iconName: "char_wings_white", category: .wings, rarity: .common, value: 200),
-            Item.gear(name: "shadow_wings", description: "shadow_wings_description", iconName: "char_wings_bat", category: .wings, rarity: .uncommon, value: 400),
-            Item.gear(name: "phoenix_wings", description: "phoenix_wings_description", iconName: "char_wings_red", category: .wings, rarity: .epic, value: 1000),
+            Item.gear(name: "celestial_wings", description: "celestial_wings_description", iconName: "char_wings_white", category: .wings, rarity: .epic, value: 500),
+            Item.gear(name: "shadow_wings", description: "shadow_wings_description", iconName: "char_wings_bat", category: .wings, rarity: .legendary, value: 200),
+            Item.gear(name: "phoenix_wings", description: "phoenix_wings_description", iconName: "char_wings_red", category: .wings, rarity: .legendary, value: 200),
+            Item.gear(name: "blazing_phoenix_wings", description: "blazing_phoenix_wings_description", iconName: "char_wings_red_2", category: .wings, rarity: .legendary, value: 200),
 
             // Pets
             Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat", category: .pet, rarity: .common, value: 300),

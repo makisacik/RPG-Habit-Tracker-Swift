@@ -339,7 +339,7 @@ struct EnhancedShopItemCard: View {
                         .padding(.vertical, 4)
                         .background(
                             RoundedRectangle(cornerRadius: 4)
-                                .fill(.gray)
+                                .fill(theme.backgroundColor)
                         )
                 } else {
                     Button(action: onPurchase) {
@@ -585,33 +585,66 @@ struct ItemPreviewModal: View {
                     }
                 }
 
-                // Character preview with item
+                // Item preview - different for consumables vs gear
                 VStack(spacing: 16) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(theme.primaryColor)
-                            .frame(width: 200, height: 200)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(item.rarity.borderColor, lineWidth: 3)
-                            )
+                    if item.category == .consumables {
+                        // Consumable item preview
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(theme.primaryColor)
+                                .frame(width: 200, height: 200)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(theme.borderColor.opacity(0.6), lineWidth: 2)
+                                )
 
-                        // Character with item preview
-                        VStack {
-                            if let image = UIImage(named: item.previewImage) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 144, height: 144)
-                                    .scaleEffect(previewScale)
-                                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
-                            } else {
-                                Image(systemName: "photo")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(theme.textColor.opacity(0.3))
-                                    .frame(width: 144, height: 144)
-                                    .scaleEffect(previewScale)
-                                    .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
+                            // Consumable item icon
+                            VStack {
+                                if let image = UIImage(named: item.previewImage) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 120, height: 120)
+                                        .scaleEffect(previewScale)
+                                        .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
+                                } else {
+                                    Image(systemName: "photo")
+                                        .font(.system(size: 40))
+                                        .foregroundColor(theme.textColor.opacity(0.3))
+                                        .frame(width: 120, height: 120)
+                                        .scaleEffect(previewScale)
+                                        .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
+                                }
+                            }
+                        }
+                    } else {
+                        // Character preview with gear item
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(theme.primaryColor)
+                                .frame(width: 200, height: 200)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(item.rarity.borderColor, lineWidth: 3)
+                                )
+
+                            // Character with item preview
+                            VStack {
+                                if let image = UIImage(named: item.previewImage) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 144, height: 144)
+                                        .scaleEffect(previewScale)
+                                        .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
+                                } else {
+                                    Image(systemName: "photo")
+                                        .font(.system(size: 40))
+                                        .foregroundColor(theme.textColor.opacity(0.3))
+                                        .frame(width: 144, height: 144)
+                                        .scaleEffect(previewScale)
+                                        .animation(.spring(response: 0.8, dampingFraction: 0.6), value: previewScale)
+                                }
                             }
                         }
                     }
@@ -632,6 +665,30 @@ struct ItemPreviewModal: View {
                             .foregroundColor(theme.textColor.opacity(0.7))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
+                        
+                        // Show additional info for consumables
+                        if item.category == .consumables {
+                            VStack(spacing: 8) {
+                                // Show usage data if available
+                                if let usageData = getItemUsageData(for: item) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: getUsageDataIcon(for: usageData))
+                                            .foregroundColor(getUsageDataColor(for: usageData))
+                                            .font(.system(size: 16))
+                                        
+                                        Text(getUsageDataDescription(for: usageData))
+                                            .font(.appFont(size: 12, weight: .medium))
+                                            .foregroundColor(theme.textColor)
+                                    }
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(theme.primaryColor.opacity(0.1))
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -662,7 +719,7 @@ struct ItemPreviewModal: View {
                         .padding(.vertical, 12)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(.gray)
+                                .fill(theme.backgroundColor)
                         )
                     } else {
                         // Show purchase button only if not owned
@@ -724,6 +781,68 @@ struct ItemPreviewModal: View {
             withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
                 previewScale = 1.0
             }
+        }
+    }
+    
+    // MARK: - Helper Functions for Consumable Preview
+    
+    private func getItemUsageData(for item: ShopItem) -> ItemUsageData? {
+        // Try to find the item in ItemDatabase to get usage data
+        if let databaseItem = ItemDatabase.findItem(byIconName: item.iconName) {
+            return databaseItem.usageData
+        }
+        return nil
+    }
+    
+    private func getUsageDataIcon(for usageData: ItemUsageData) -> String {
+        switch usageData {
+        case .healthPotion:
+            return "heart.fill"
+        case .xpBoost:
+            return "icon_lightning"
+        case .coinBoost:
+            return "icon_gold"
+        }
+    }
+    
+    private func getUsageDataColor(for usageData: ItemUsageData) -> Color {
+        switch usageData {
+        case .healthPotion:
+            return .red
+        case .xpBoost:
+            return .green
+        case .coinBoost:
+            return .yellow
+        }
+    }
+    
+    private func getUsageDataDescription(for usageData: ItemUsageData) -> String {
+        switch usageData {
+        case .healthPotion(let healAmount):
+            return String(format: "restores_health_amount".localized, healAmount)
+        case .xpBoost(let multiplier, let duration):
+            let percentage = Int((multiplier - 1.0) * 100)
+            let formattedDuration = formatDuration(duration)
+            return String(format: "xp_boost_percentage_duration".localized, percentage, formattedDuration)
+        case .coinBoost(let multiplier, let duration):
+            let percentage = Int((multiplier - 1.0) * 100)
+            let formattedDuration = formatDuration(duration)
+            return String(format: "coin_boost_percentage_duration".localized, percentage, formattedDuration)
+        }
+    }
+    
+    private func formatDuration(_ duration: TimeInterval) -> String {
+        let days = Int(duration / (24 * 3600))
+        let hours = Int((duration.truncatingRemainder(dividingBy: 24 * 3600)) / 3600)
+        
+        if days > 0 {
+            if hours > 0 {
+                return "\(days)d \(hours)h"
+            } else {
+                return "\(days)d"
+            }
+        } else {
+            return "\(hours)h"
         }
     }
 }

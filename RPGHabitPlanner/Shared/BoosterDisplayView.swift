@@ -132,14 +132,24 @@ struct BoosterItemView: View {
             return "expired".localized
         }
 
-        let minutes = Int(timeInterval / 60)
-        let hours = minutes / 60
-        let remainingMinutes = minutes % 60
+        let days = Int(timeInterval / (24 * 3600))
+        let hours = Int((timeInterval.truncatingRemainder(dividingBy: 24 * 3600)) / 3600)
+        let minutes = Int((timeInterval.truncatingRemainder(dividingBy: 3600)) / 60)
 
-        if hours > 0 {
-            return "\(hours)h \(remainingMinutes)m"
+        if days > 0 {
+            if hours > 0 {
+                return "\(days)d \(hours)h"
+            } else {
+                return "\(days)d"
+            }
+        } else if hours > 0 {
+            if minutes > 0 {
+                return "\(hours)h \(minutes)m"
+            } else {
+                return "\(hours)h"
+            }
         } else {
-            return "\(remainingMinutes)m"
+            return "\(minutes)m"
         }
     }
 }

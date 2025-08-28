@@ -17,73 +17,87 @@ struct SettingsView: View {
     @State private var showLanguageSettings = false
 
     var body: some View {
-        List {
-            Section("appearance".localized) {
-                // Light/Dark toggle
-                Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("dark_mode".localized)
-                            .font(.headline)
-                        Text("switch_between_light_and_dark_themes".localized)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .toggleStyle(MoonSunToggleStyle())
-                .onChange(of: isDark) { newValue in
-                    // Switch explicitly to light/dark
-                    themeManager.setTheme(newValue ? .dark : .light)
-                }
+        let theme = themeManager.activeTheme
 
-                // System mode button
-                Button {
-                    themeManager.setTheme(.system)
-                    isDark = (systemScheme == .dark)
-                } label: {
-                    HStack {
-                        Label("use_system_appearance".localized, systemImage: "circle.lefthalf.filled")
-                        Spacer()
-                        Text(themeManager.currentTheme == .system ? "on_label".localized : "off_label".localized)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-            }
+        ZStack {
+            theme.backgroundColor
+                .ignoresSafeArea()
 
-            Section("general".localized) {
-                // Language Setting
-                Button {
-                    showLanguageSettings = true
-                } label: {
-                    HStack {
-                        Label("language".localized, systemImage: "globe")
-                        Spacer()
-                        HStack(spacing: 4) {
-                            Text(localizationManager.currentLanguage.flag)
-                            Text(localizationManager.currentLanguage.displayName)
-                                .foregroundStyle(.secondary)
+            List {
+                Section("appearance".localized) {
+                    // Light/Dark toggle
+                    Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("dark_mode".localized)
+                                .font(.appFont(size: 16, weight: .semibold))
+                                .foregroundColor(theme.textColor)
+                            Text("switch_between_light_and_dark_themes".localized)
+                                .font(.appFont(size: 14))
+                                .foregroundColor(theme.textColor.opacity(0.7))
                         }
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                    }
+                    .toggleStyle(MoonSunToggleStyle(theme: theme))
+                    .onChange(of: isDark) { newValue in
+                        // Switch explicitly to light/dark
+                        themeManager.setTheme(newValue ? .dark : .light)
                     }
                 }
+                .listRowBackground(theme.cardBackgroundColor)
 
-                NavigationLink("notifications".localized) { Text("notifications_settings".localized) }
-                NavigationLink("data_and_storage".localized) { Text("data_and_storage_settings".localized) }
-            }
+                Section("general".localized) {
+                    // Language Setting
+                    Button {
+                        showLanguageSettings = true
+                    } label: {
+                        HStack {
+                            Label("language".localized, systemImage: "globe")
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.textColor)
+                            Spacer()
+                            HStack(spacing: 4) {
+                                Text(localizationManager.currentLanguage.flag)
+                                Text(localizationManager.currentLanguage.displayName)
+                                    .font(.appFont(size: 14))
+                                    .foregroundColor(theme.textColor.opacity(0.7))
+                            }
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundColor(theme.textColor.opacity(0.5))
+                        }
+                    }
 
-            // Development features section
-            Section("Development") {
-                Button {
-                    addTestCurrency()
-                } label: {
-                    HStack {
-                        Label("Add Test Currency", systemImage: "plus.circle.fill")
-                        Spacer()
+                    NavigationLink("notifications".localized) {
+                        Text("notifications_settings".localized)
+                            .foregroundColor(theme.textColor)
+                    }
+                    .font(.appFont(size: 16, weight: .medium))
+                    .foregroundColor(theme.textColor)
+
+                    NavigationLink("data_and_storage".localized) {
+                        Text("data_and_storage_settings".localized)
+                            .foregroundColor(theme.textColor)
+                    }
+                    .font(.appFont(size: 16, weight: .medium))
+                    .foregroundColor(theme.textColor)
+                }
+                .listRowBackground(theme.cardBackgroundColor)
+
+                // Development features section
+                Section("Development") {
+                    Button {
+                        addTestCurrency()
+                    } label: {
+                        HStack {
+                            Label("Add Test Currency", systemImage: "plus.circle.fill")
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.warningColor)
+                            Spacer()
+                        }
                     }
                 }
-                .foregroundColor(.orange)
+                .listRowBackground(theme.cardBackgroundColor)
             }
+            .scrollContentBackground(.hidden)
         }
         .navigationTitle("settings".localized)
         .navigationBarTitleDisplayMode(.inline)
@@ -136,6 +150,8 @@ struct SettingsView: View {
 }
 
 struct MoonSunToggleStyle: ToggleStyle {
+    let theme: Theme
+
     func makeBody(configuration: Configuration) -> some View {
         Button {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
@@ -148,20 +164,22 @@ struct MoonSunToggleStyle: ToggleStyle {
 
                 ZStack {
                     Capsule()
-                        .fill(.ultraThinMaterial)
+                        .fill(theme.surfaceColor)
                         .overlay(
                             Capsule()
-                                .stroke(Color(UIColor.separator), lineWidth: 1)
+                                .stroke(theme.borderColor, lineWidth: 1)
                         )
                         .frame(width: 72, height: 36)
 
                     HStack {
                         Image(systemName: "moon.fill")
                             .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(theme.textColor)
                             .opacity(configuration.isOn ? 1 : 0.35)
                         Spacer()
                         Image(systemName: "sun.max.fill")
                             .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(theme.textColor)
                             .opacity(configuration.isOn ? 0.35 : 1)
                     }
                     .padding(.horizontal, 10)
@@ -169,12 +187,12 @@ struct MoonSunToggleStyle: ToggleStyle {
                     HStack {
                         if configuration.isOn { Spacer() }
                         Circle()
-                            .fill(Color(UIColor.systemBackground))
+                            .fill(theme.primaryColor)
                             .overlay(
-                                Circle().stroke(Color(UIColor.separator), lineWidth: 1)
+                                Circle().stroke(theme.borderColor, lineWidth: 1)
                             )
                             .frame(width: 30, height: 30)
-                            .shadow(radius: 1, y: 1)
+                            .shadow(color: theme.shadowColor, radius: 1, y: 1)
                         if !configuration.isOn { Spacer() }
                     }
                     .padding(.horizontal, 3)
