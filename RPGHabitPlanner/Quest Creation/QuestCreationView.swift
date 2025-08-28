@@ -11,7 +11,7 @@ struct QuestCreationView: View {
     @State private var alertMessage: String = ""
     @State private var isButtonPressed: Bool = false
     @State private var isTaskPopupVisible = false
-    @State private var showSuccessAnimation = false
+
     @State private var notifyMe = true
     @State private var showPaywall = false
     @State private var showTagPicker = false
@@ -85,11 +85,6 @@ struct QuestCreationView: View {
                     .environmentObject(premiumManager)
                 }
 
-                // Success animation
-                if showSuccessAnimation {
-                    SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
-                        .zIndex(20)
-                }
 
                 // Task popup
                 if isTaskPopupVisible {
@@ -129,11 +124,10 @@ struct QuestCreationView: View {
             }
             .onChange(of: viewModel.didSaveQuest) { didSave in
                 if didSave {
-                    showSuccessAnimation = true
                     viewModel.resetInputs()
                     viewModel.didSaveQuest = false
                     // Dismiss the view and return to previous screen after success
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         dismiss()
                     }
                 }

@@ -8,7 +8,7 @@ struct QuickQuestsView: View {
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
-    @State private var showSuccessAnimation = false
+
     @State private var showPaywall = false
 
     var body: some View {
@@ -16,11 +16,6 @@ struct QuickQuestsView: View {
 
         NavigationView {
             ZStack {
-                if showSuccessAnimation {
-                    SuccessAnimationOverlay(isVisible: $showSuccessAnimation)
-                        .zIndex(20)
-                }
-
                 theme.backgroundColor
                     .ignoresSafeArea()
 
@@ -84,10 +79,6 @@ struct QuickQuestsView: View {
                         questType: viewModel.selectedQuestType
                     ) { dueDate in
                             viewModel.addQuickQuest(template: template, dueDate: dueDate)
-                            showSuccessAnimation = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                showSuccessAnimation = false
-                            }
                     }
                     .environmentObject(themeManager)
                 }
