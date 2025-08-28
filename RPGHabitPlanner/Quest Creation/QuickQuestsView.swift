@@ -9,6 +9,7 @@ struct QuickQuestsView: View {
     @State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
     @State private var showSuccessAnimation = false
+    @State private var showPaywall = false
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -54,8 +55,8 @@ struct QuickQuestsView: View {
                                     template: template,
                                     theme: theme
                                 ) {
-                                        viewModel.selectedTemplate = template
-                                        viewModel.showDueDatePicker = true
+                                    viewModel.selectedTemplate = template
+                                    viewModel.showDueDatePicker = true
                                 }
                             }
                         }
@@ -90,6 +91,10 @@ struct QuickQuestsView: View {
                     }
                     .environmentObject(themeManager)
                 }
+            }
+
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
             }
             .alert(isPresented: $showAlert) {
                 Alert(
@@ -167,6 +172,7 @@ struct DueDateSelectionView: View {
     let template: QuickQuestTemplate
     let questType: QuestType
     let onSave: (Date) -> Void
+    @State private var showPaywall = false
 
     @State private var selectedDueDate: Date
 
@@ -252,12 +258,16 @@ struct DueDateSelectionView: View {
                     // Action Buttons
                     VStack(spacing: 12) {
                         Button(action: {
-                            onSave(selectedDueDate)
-                            dismiss()
+                            if PremiumManager.shared.canCreateQuest() {
+                                onSave(selectedDueDate)
+                                dismiss()
+                            } else {
+                                showPaywall = true
+                            }
                         }) {
                             HStack {
                                 Spacer()
-                                Text("add_quest".localized)
+                                Text(PremiumManager.shared.canCreateQuest() ? "add_quest".localized : "unlock".localized)
                                     .font(.appFont(size: 18, weight: .black))
                                     .foregroundColor(theme.textColor)
                                 Spacer()
@@ -287,6 +297,9 @@ struct DueDateSelectionView: View {
                             .navigationBarItems(trailing: Button("cancel".localized) {
                 dismiss()
                             })
+                            .sheet(isPresented: $showPaywall) {
+                                PaywallView()
+                            }
         }
     }
 

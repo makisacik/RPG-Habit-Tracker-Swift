@@ -36,6 +36,8 @@ final class PremiumManager: ObservableObject {
     private let isSubscribedKey = "isSubscribed"
     private let isLifetimePremiumKey = "isLifetimePremium"
     private let subscriptionExpiryKey = "subscriptionExpiry"
+    private let weeklyQuestCountKey = "weeklyQuestCount"
+    private let weeklyQuestResetDateKey = "weeklyQuestResetDate"
 
     private init() {
         loadPremiumStatus()
@@ -255,17 +257,68 @@ enum PremiumError: LocalizedError {
 // MARK: - Premium Features
 
 extension PremiumManager {
+    static let weeklyQuestLimit = 5
     static let freeQuestLimit = 10
 
+    // MARK: - Weekly Quest Tracking
+
+    private func getCurrentWeekStart() -> Date {
+        let calendar = Calendar.current
+        let now = Date()
+        let weekStart = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? now
+        return calendar.startOfDay(for: weekStart)
+    }
+
+    private func shouldResetWeeklyCount() -> Bool {
+        let defaults = UserDefaults.standard
+        let lastResetDate = defaults.object(forKey: weeklyQuestResetDateKey) as? Date ?? Date.distantPast
+        let currentWeekStart = getCurrentWeekStart()
+
+        return !Calendar.current.isDate(lastResetDate, inSameDayAs: currentWeekStart)
+    }
+
+    private func resetWeeklyCountIfNeeded() {
+        if shouldResetWeeklyCount() {
+            let defaults = UserDefaults.standard
+            defaults.set(0, forKey: weeklyQuestCountKey)
+            defaults.set(getCurrentWeekStart(), forKey: weeklyQuestResetDateKey)
+        }
+    }
+
+    func getWeeklyQuestCount() -> Int {
+        resetWeeklyCountIfNeeded()
+        return UserDefaults.standard.integer(forKey: weeklyQuestCountKey)
+    }
+
+    func incrementWeeklyQuestCount() {
+        resetWeeklyCountIfNeeded()
+        let currentCount = UserDefaults.standard.integer(forKey: weeklyQuestCountKey)
+        UserDefaults.standard.set(currentCount + 1, forKey: weeklyQuestCountKey)
+    }
+
+    func canCreateQuest() -> Bool {
+        return isPremium || getWeeklyQuestCount() < Self.weeklyQuestLimit
+    }
+
+    func remainingFreeQuests() -> Int {
+        return max(0, Self.weeklyQuestLimit - getWeeklyQuestCount())
+    }
+
+    func shouldShowPaywall() -> Bool {
+        return !isPremium && getWeeklyQuestCount() >= Self.weeklyQuestLimit
+    }
+
+    // MARK: - Legacy Support (for backward compatibility)
+
     func canCreateQuest(currentQuestCount: Int) -> Bool {
-        return isPremium || currentQuestCount < Self.freeQuestLimit
+        return canCreateQuest()
     }
 
     func remainingFreeQuests(currentQuestCount: Int) -> Int {
-        return max(0, Self.freeQuestLimit - currentQuestCount)
+        return remainingFreeQuests()
     }
 
     func shouldShowPaywall(currentQuestCount: Int) -> Bool {
-        return !isPremium && currentQuestCount >= Self.freeQuestLimit
+        return shouldShowPaywall()
     }
 }

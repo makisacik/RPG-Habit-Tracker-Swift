@@ -50,7 +50,7 @@ final class QuestCreationViewModel: ObservableObject {
         guard validateInputs() else { return }
 
         // Check premium status before saving
-        if !premiumManager.canCreateQuest(currentQuestCount: currentQuestCount) {
+        if !premiumManager.canCreateQuest() {
             shouldShowPaywall = true
             return
         }
@@ -90,6 +90,8 @@ final class QuestCreationViewModel: ObservableObject {
                         NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
                     }
                     self.didSaveQuest = true
+                    // Increment weekly quest count
+                    self.premiumManager.incrementWeeklyQuestCount()
                     // Update quest count
                     self.fetchCurrentQuestCount()
                     // Record streak activity when creating a quest
@@ -116,17 +118,15 @@ final class QuestCreationViewModel: ObservableObject {
 
     // MARK: - Premium Methods
 
-    private func fetchCurrentQuestCount() {
-        questDataService.fetchAllQuests { [weak self] quests, _ in
-            DispatchQueue.main.async {
-                self?.currentQuestCount = quests.count
-                self?.shouldShowPaywall = self?.premiumManager.shouldShowPaywall(currentQuestCount: quests.count) ?? false
-            }
+    func fetchCurrentQuestCount() {
+        DispatchQueue.main.async {
+            self.currentQuestCount = self.premiumManager.getWeeklyQuestCount()
+            // Don't automatically set shouldShowPaywall here - only check when user tries to create quest
         }
     }
 
     @MainActor
     func checkPremiumStatus() {
-        shouldShowPaywall = premiumManager.shouldShowPaywall(currentQuestCount: currentQuestCount)
+        shouldShowPaywall = premiumManager.shouldShowPaywall()
     }
 }

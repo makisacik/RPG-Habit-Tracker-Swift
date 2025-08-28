@@ -2,10 +2,12 @@ import SwiftUI
 
 struct QuestDetailsView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var premiumManager: PremiumManager
     @ObservedObject var viewModel: QuestCreationViewModel
     let onContinue: () -> Void
     @Binding var showTaskPopup: Bool
     @Binding var showTagPicker: Bool
+    @Binding var showPaywall: Bool
     let animate: Bool
     @State private var isButtonPressed = false
     @State private var showErrorAlert = false
@@ -92,6 +94,12 @@ struct QuestDetailsView: View {
                     isButtonPressed = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         isButtonPressed = false
+                        // Check if user can create quest or should show paywall
+                        if !premiumManager.canCreateQuest() {
+                            // Show paywall
+                            showPaywall = true
+                            return
+                        }
                         // Directly save the quest instead of going to review
                         if viewModel.validateInputs() {
                             viewModel.saveQuest()
@@ -106,10 +114,10 @@ struct QuestDetailsView: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 .scaleEffect(0.8)
                         } else {
-                            Image(systemName: "checkmark.circle.fill")
+                            Image(systemName: !premiumManager.canCreateQuest() ? "lock.fill" : "checkmark.circle.fill")
                                 .font(.title2)
                         }
-                        Text(viewModel.isSaving ? "creating".localized : "create_quest".localized)
+                        Text(viewModel.isSaving ? "creating".localized : (!premiumManager.canCreateQuest() ? "unlock".localized : "create_quest".localized))
                             .font(.appFont(size: 16, weight: .black))
                     }
                     .foregroundColor(.white)

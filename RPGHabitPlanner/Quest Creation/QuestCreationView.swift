@@ -58,8 +58,10 @@ struct QuestCreationView: View {
                             onContinue: moveToNextStep,
                             showTaskPopup: $isTaskPopupVisible,
                             showTagPicker: $showTagPicker,
+                            showPaywall: $showPaywall,
                             animate: animateParchment
                         )
+                        .environmentObject(premiumManager)
                     }
 
                 case .questGiver:
@@ -76,8 +78,10 @@ struct QuestCreationView: View {
                         onContinue: moveToNextStep,
                         showTaskPopup: $isTaskPopupVisible,
                         showTagPicker: $showTagPicker,
+                        showPaywall: $showPaywall,
                         animate: animateParchment
                     )
+                    .environmentObject(premiumManager)
                 }
 
                 // Success animation
@@ -133,21 +137,16 @@ struct QuestCreationView: View {
                     }
                 }
             }
-            .onChange(of: viewModel.shouldShowPaywall) { shouldShow in
-                if shouldShow {
-                    showPaywall = true
-                }
-            }
+
             .onChange(of: premiumManager.isPremium) { isPremium in
                 if isPremium {
                     showPaywall = false
+                    // Refresh the view model to update quest count after premium purchase
+                    viewModel.fetchCurrentQuestCount()
                 }
             }
+
             .onAppear {
-                // Check if user should see paywall when view appears
-                if !premiumManager.isPremium && viewModel.currentQuestCount >= PremiumManager.freeQuestLimit {
-                    showPaywall = true
-                }
                 // Start quest board animation
                 withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                     animateQuestBoard = true

@@ -144,6 +144,8 @@ struct HomeView: View {
                     QuestCreationView(
                         viewModel: QuestCreationViewModel(questDataService: questDataService)
                     )
+                    .environmentObject(themeManager)
+                    .environmentObject(premiumManager)
                 }
                 .sheet(isPresented: $isCompletedQuestsPresented) {
                     NavigationStack {
@@ -240,6 +242,8 @@ struct HomeView: View {
                     QuestCreationView(
                         viewModel: QuestCreationViewModel(questDataService: questDataService)
                     )
+                    .environmentObject(themeManager)
+                    .environmentObject(premiumManager)
                 }
             }
                             .tabItem { Label("quests".localized, systemImage: "list.bullet.clipboard.fill") }
@@ -295,18 +299,8 @@ struct HomeView: View {
     }
 
     func handleCreateQuestTap() {
-        // Fetch the current quest count first to ensure we have the latest data
-        questDataService.fetchAllQuests { quests, _ in
-            DispatchQueue.main.async {
-                let currentCount = quests.count
-                
-                if self.premiumManager.canCreateQuest(currentQuestCount: currentCount) {
-                    self.shouldNavigateToQuestCreation = true
-                } else {
-                    self.showPaywall = true
-                }
-            }
-        }
+        // Always allow access to quest creation form
+        shouldNavigateToQuestCreation = true
     }
 
     @ToolbarContentBuilder

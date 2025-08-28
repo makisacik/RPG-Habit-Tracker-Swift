@@ -156,6 +156,7 @@
 "achievement" = "Başarım";
 "achievement_unlocked" = "Başarım Açıldı!";
 "unlocked" = "Açıldı!";
+"unlock" = "Kilidi Aç";
 "locked" = "Kilitli";
 "experience_points" = "Deneyim Puanı";
 "gold" = "Altın";

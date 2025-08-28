@@ -9,6 +9,7 @@ import SwiftUI
 
 struct QuestsView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var premiumManager: PremiumManager
     @StateObject var viewModel: QuestsViewModel
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showingQuestCreation = false
@@ -50,6 +51,8 @@ struct QuestsView: View {
             }) {
                 NavigationStack {
                     QuestCreationView(viewModel: createQuestCreationViewModel())
+                        .environmentObject(themeManager)
+                        .environmentObject(premiumManager)
                 }
             }
             .sheet(item: $selectedQuestItem) { questItem in

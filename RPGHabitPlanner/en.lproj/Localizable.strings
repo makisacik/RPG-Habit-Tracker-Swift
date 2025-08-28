@@ -158,6 +158,7 @@
 "achievement" = "Achievement";
 "achievement_unlocked" = "Achievement Unlocked!";
 "unlocked" = "Unlocked!";
+"unlock" = "Unlock";
 "locked" = "Locked";
 "experience_points" = "Experience Points";
 "gold" = "Gold";

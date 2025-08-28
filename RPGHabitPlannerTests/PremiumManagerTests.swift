@@ -22,13 +22,27 @@ final class PremiumManagerTests: XCTestCase {
     }
 
     @MainActor
-    func testFreeQuestLimit() {
-        // Test that free users can create up to 10 quests
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 0))
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 5))
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 9))
-        XCTAssertFalse(premiumManager.canCreateQuest(currentQuestCount: 10))
-        XCTAssertFalse(premiumManager.canCreateQuest(currentQuestCount: 15))
+    func testWeeklyQuestLimit() {
+        // Reset weekly count for testing
+        UserDefaults.standard.set(0, forKey: "weeklyQuestCount")
+        
+        // Test that free users can create up to 5 quests per week
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
+        XCTAssertFalse(premiumManager.canCreateQuest())
     }
 
     @MainActor
@@ -36,10 +50,10 @@ final class PremiumManagerTests: XCTestCase {
         // Simulate premium user
         premiumManager.isPremium = true
 
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 0))
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 10))
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 100))
-        XCTAssertTrue(premiumManager.canCreateQuest(currentQuestCount: 1000))
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        XCTAssertTrue(premiumManager.canCreateQuest())
 
         // Reset for other tests
         premiumManager.isPremium = false
@@ -47,19 +61,48 @@ final class PremiumManagerTests: XCTestCase {
 
     @MainActor
     func testRemainingFreeQuests() {
-        XCTAssertEqual(premiumManager.remainingFreeQuests(currentQuestCount: 0), 10)
-        XCTAssertEqual(premiumManager.remainingFreeQuests(currentQuestCount: 5), 5)
-        XCTAssertEqual(premiumManager.remainingFreeQuests(currentQuestCount: 10), 0)
-        XCTAssertEqual(premiumManager.remainingFreeQuests(currentQuestCount: 15), 0)
+        // Reset weekly count for testing
+        UserDefaults.standard.set(0, forKey: "weeklyQuestCount")
+        
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 5)
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 4)
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 3)
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 2)
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 1)
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 0)
     }
 
     @MainActor
     func testShouldShowPaywall() {
-        XCTAssertFalse(premiumManager.shouldShowPaywall(currentQuestCount: 0))
-        XCTAssertFalse(premiumManager.shouldShowPaywall(currentQuestCount: 5))
-        XCTAssertFalse(premiumManager.shouldShowPaywall(currentQuestCount: 9))
-        XCTAssertTrue(premiumManager.shouldShowPaywall(currentQuestCount: 10))
-        XCTAssertTrue(premiumManager.shouldShowPaywall(currentQuestCount: 15))
+        // Reset weekly count for testing
+        UserDefaults.standard.set(0, forKey: "weeklyQuestCount")
+        
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertTrue(premiumManager.shouldShowPaywall())
     }
 
     @MainActor
@@ -67,9 +110,9 @@ final class PremiumManagerTests: XCTestCase {
         // Simulate premium user
         premiumManager.isPremium = true
 
-        XCTAssertFalse(premiumManager.shouldShowPaywall(currentQuestCount: 0))
-        XCTAssertFalse(premiumManager.shouldShowPaywall(currentQuestCount: 10))
-        XCTAssertFalse(premiumManager.shouldShowPaywall(currentQuestCount: 100))
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
 
         // Reset for other tests
         premiumManager.isPremium = false

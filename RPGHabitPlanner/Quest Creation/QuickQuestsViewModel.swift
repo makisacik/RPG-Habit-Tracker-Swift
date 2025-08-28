@@ -27,6 +27,18 @@ final class QuickQuestsViewModel: ObservableObject {
         }
     }
 
+    nonisolated func canCreateQuest() -> Bool {
+        // Check if user is premium first
+        let isPremium = UserDefaults.standard.bool(forKey: "isPremium")
+        if isPremium {
+            return true
+        }
+        
+        // Check weekly quest count
+        let weeklyCount = UserDefaults.standard.integer(forKey: "weeklyQuestCount")
+        return weeklyCount < 5 // 5 is the weekly limit
+    }
+    
     func addQuickQuest(template: QuickQuestTemplate, dueDate: Date) {
         let repeatType: QuestRepeatType
         switch selectedQuestType {
@@ -59,6 +71,8 @@ final class QuickQuestsViewModel: ObservableObject {
                     print("Failed to save quick quest: \(error)")
                 } else {
                     print("Quick quest saved successfully: \(template.title)")
+                    // Increment weekly quest count for premium tracking
+                    PremiumManager.shared.incrementWeeklyQuestCount()
                     // Send notification to update other views
                     NotificationCenter.default.post(name: .questCreated, object: newQuest)
                 }
