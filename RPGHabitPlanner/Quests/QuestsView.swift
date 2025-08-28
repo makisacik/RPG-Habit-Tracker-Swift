@@ -275,7 +275,7 @@ struct QuestsView: View {
                 ))
             }
         }
-        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: viewModel.itemsForSelectedDate.map { $0.id })
+        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: viewModel.questsLastUpdated)
     }
 
     @ViewBuilder

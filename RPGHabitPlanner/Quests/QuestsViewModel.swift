@@ -23,6 +23,8 @@ final class QuestsViewModel: ObservableObject {
     @Published var questToFinish: Quest?
     @Published var showCompletionIsFinishedCheck: Bool = false
     @Published var questToCheckCompletion: Quest?
+    @Published var questsLastUpdated = Date()
+
 
     let questDataService: QuestDataServiceProtocol
     let userManager: UserManager
@@ -130,6 +132,7 @@ final class QuestsViewModel: ObservableObject {
                     self?.isLoading = false
                     self?.allQuests = quests
                     self?.hasInitialData = true  // Mark that we've loaded data at least once
+                    self?.questsLastUpdated = Date()  // Force view refresh
                 }
             }
         }
@@ -216,6 +219,10 @@ final class QuestsViewModel: ObservableObject {
 
                     // Fetch quests to update the view and notify other views
                     self?.fetchQuests()
+                    // Force view refresh by posting a specific notification
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        NotificationCenter.default.post(name: .questUpdated, object: item.quest)
+                    }
                     }
                 }
             }
@@ -232,6 +239,10 @@ final class QuestsViewModel: ObservableObject {
                     } else {
                         // Fetch quests to update the view and notify other views
                         self?.fetchQuests()
+                        // Force view refresh by posting a specific notification
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            NotificationCenter.default.post(name: .questUpdated, object: item.quest)
+                        }
                     }
                 }
             }
@@ -311,6 +322,10 @@ final class QuestsViewModel: ObservableObject {
 
                             // Fetch quests to update the view and notify other views
                             self.fetchQuests()
+                            // Force view refresh by posting a specific notification
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                NotificationCenter.default.post(name: .questUpdated, object: quest)
+                            }
                         }
                     }
                 }
