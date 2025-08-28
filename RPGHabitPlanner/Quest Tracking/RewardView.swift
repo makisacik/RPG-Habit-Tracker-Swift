@@ -73,9 +73,11 @@ struct RewardView: View {
                             VStack(spacing: 12) {
                                 // Experience Section
                                 HStack {
-                                    Image(systemName: "star.fill")
+                                    Image("icon_lightning")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
                                         .foregroundColor(.yellow)
-                                        .frame(width: 20)
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {

@@ -64,6 +64,12 @@ struct BoosterItemView: View {
                 Image("icon_gold")
                     .resizable()
                     .frame(width: 12, height: 12)
+            } else if booster.type == .experience {
+                Image("icon_lightning")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 12, height: 12)
+                    .foregroundColor(boosterColor)
             } else {
                 Image(systemName: boosterIconName)
                     .foregroundColor(boosterColor)
@@ -101,7 +107,7 @@ struct BoosterItemView: View {
     private var boosterIconName: String {
         switch booster.type {
         case .experience:
-            return "star.fill"
+            return "icon_lightning"
         case .coins:
             return "icon_gold"
         case .both:

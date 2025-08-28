@@ -35,8 +35,10 @@ struct RewardToastView: View {
                 HStack(spacing: 12) {
                     // Experience
                     HStack(spacing: 4) {
-                        Image(systemName: "star.fill")
-                            .font(.caption)
+                        Image("icon_lightning")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 12, height: 12)
                             .foregroundColor(.yellow)
                         
                         Text("+\(toast.experience) \("xp".localized)")
@@ -46,8 +48,10 @@ struct RewardToastView: View {
                     
                     // Coins
                     HStack(spacing: 4) {
-                        Image(systemName: "dollarsign.circle.fill")
-                            .font(.caption)
+                        Image("icon_gold")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 12, height: 12)
                             .foregroundColor(.yellow)
                         
                         Text("+\(toast.coins) \("currency_coins".localized)")
