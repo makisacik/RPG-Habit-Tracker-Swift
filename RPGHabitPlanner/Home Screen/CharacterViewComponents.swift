@@ -229,6 +229,7 @@ struct LevelExperienceView: View {
 struct InventorySectionView: View {
     @ObservedObject var inventoryManager: InventoryManager
     @State private var selectedCategory: InventoryCategory = .head
+    @State private var showShop = false
 
     let theme: Theme
 
@@ -239,6 +240,28 @@ struct InventorySectionView: View {
                     .font(.appFont(size: 20, weight: .bold))
                     .foregroundColor(theme.textColor)
                 Spacer()
+                Button(action: {
+                    showShop = true
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "cart.fill")
+                            .font(.system(size: 14))
+                        Text("shop".localized)
+                            .font(.appFont(size: 14, weight: .medium))
+                    }
+                    .foregroundColor(theme.textColor)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(theme.accentColor.opacity(0.2))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
+                            )
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
             }
 
             // Category Selector
@@ -250,6 +273,12 @@ struct InventorySectionView: View {
                 inventoryManager: inventoryManager,
                 theme: theme
             )
+        }
+        .sheet(isPresented: $showShop) {
+            NavigationStack {
+                ShopView()
+                    .environmentObject(ThemeManager.shared)
+            }
         }
     }
 }

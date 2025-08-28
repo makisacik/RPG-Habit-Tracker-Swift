@@ -263,13 +263,6 @@ struct HomeView: View {
                             .tabItem { Label("character".localized, systemImage: "person.crop.circle.fill") }
             .tag(HomeTab.character)
 
-            // MARK: Shop
-            NavigationStack {
-                ShopView()
-                    .environmentObject(themeManager)
-            }
-                            .tabItem { Label("shop".localized, systemImage: "cart.fill") }
-            .tag(HomeTab.shop)
 
             // MARK: Progress
             NavigationStack {
