@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AchievementView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @StateObject private var achievementManager = AchievementManager.shared
     @State private var selectedCategory: AchievementCategory = .all
 
@@ -61,7 +62,7 @@ struct AchievementView: View {
                             .padding(.vertical, 8)
                             .background(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(selectedCategory == category ? Color.yellow : theme.secondaryColor)
+                                    .fill(selectedCategory == category ? theme.primaryColor : theme.secondaryColor)
                                     .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
                             )
                     }
@@ -80,10 +81,16 @@ struct AchievementView: View {
             return allAchievements.filter { $0.category == selectedCategory }
         }
     }
+
+    // Force view refresh when language changes
+    private var languageChangeTrigger: String {
+        achievementManager.languageChangeTrigger
+    }
 }
 
 struct AchievementCardView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @StateObject private var achievementManager = AchievementManager.shared
     let achievement: AchievementDefinition
 
@@ -94,12 +101,12 @@ struct AchievementCardView: View {
             // Achievement Icon
             ZStack {
                 Circle()
-                    .fill(isUnlocked ? Color.yellow.opacity(0.2) : Color.gray.opacity(0.2))
+                    .fill(isUnlocked ? theme.accentColor.opacity(0.2) : Color.gray.opacity(0.2))
                     .frame(width: 60, height: 60)
 
                 Image(systemName: achievement.iconName)
                     .font(.title2)
-                    .foregroundColor(isUnlocked ? .yellow : .gray)
+                    .foregroundColor(isUnlocked ? theme.accentColor : .gray)
             }
 
             // Achievement Info
@@ -152,10 +159,16 @@ struct AchievementCardView: View {
     private var isUnlocked: Bool {
         achievementManager.isAchievementUnlocked(achievement.id)
     }
+
+    // Force view refresh when language changes
+    private var languageChangeTrigger: String {
+        achievementManager.languageChangeTrigger
+    }
 }
 
 
 #Preview {
     AchievementView()
         .environmentObject(ThemeManager.shared)
+        .environmentObject(LocalizationManager.shared)
 }

@@ -287,7 +287,7 @@ enum CalendarViewComponents {
             
             Spacer()
             
-            Text(dateFormatter.string(from: viewModel.selectedDate))
+            Text(dateFormatter(locale: LocalizationManager.shared.currentLocale).string(from: viewModel.selectedDate))
                 .font(.appFont(size: 20, weight: .black))
                 .foregroundColor(theme.textColor)
             
@@ -419,11 +419,12 @@ enum CalendarViewComponents {
     }
     
     private static let calendar = Calendar.current
-    private static let dateFormatter: DateFormatter = {
+    private static func dateFormatter(locale: Locale) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"
+        formatter.locale = locale
         return formatter
-    }()
+    }
 }
 
 // MARK: - Month Grid (updated)

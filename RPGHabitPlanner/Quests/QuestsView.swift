@@ -9,6 +9,7 @@ import SwiftUI
 
 struct QuestsView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @EnvironmentObject var premiumManager: PremiumManager
     @StateObject var viewModel: QuestsViewModel
     @State private var selectedQuestItem: DayQuestItem?
@@ -25,11 +26,12 @@ struct QuestsView: View {
     let questDataService: QuestDataServiceProtocol
 
     private let calendar = Calendar.current
-    private let dateFormatter: DateFormatter = {
+    private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d"
+        dateFormatter.locale = localizationManager.currentLocale
         return dateFormatter
-    }()
+    }
 
     var body: some View {
         let theme = themeManager.activeTheme

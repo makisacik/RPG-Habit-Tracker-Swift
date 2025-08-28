@@ -311,9 +311,18 @@ struct HomeView: View {
             } label: {
                 Image(systemName: "line.3.horizontal")
                     .font(.title2)
-                    .foregroundColor(theme.textColor)
+                    .foregroundColor(theme.accentColor)
             }
             .menuOrder(.fixed)
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            Button(action: { showPaywall = true }) {
+                Image(systemName: "crown.fill")
+                    .font(.title2)
+                    .foregroundColor(theme.accentColor)
+            }
+            .opacity(premiumManager.isPremium ? 0.6 : 1.0)
         }
     }
 

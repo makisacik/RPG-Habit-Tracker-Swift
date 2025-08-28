@@ -189,6 +189,7 @@ struct DamageEventRow: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter.string(from: date)
     }
 }

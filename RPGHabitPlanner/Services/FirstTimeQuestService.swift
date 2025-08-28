@@ -60,10 +60,12 @@ final class FirstTimeQuestService {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .full
             dateFormatter.timeStyle = .full
+            dateFormatter.locale = LocalizationManager.shared.currentLocale
             
             let shortDateFormatter = DateFormatter()
             shortDateFormatter.dateStyle = .medium
             shortDateFormatter.timeStyle = .none
+            shortDateFormatter.locale = LocalizationManager.shared.currentLocale
             
             print("📅 FirstTimeQuestService: Creating first quest")
             print("📅 FirstTimeQuestService: Today: \(shortDateFormatter.string(from: today))")

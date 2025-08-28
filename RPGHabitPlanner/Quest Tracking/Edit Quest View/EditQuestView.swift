@@ -3,6 +3,7 @@ import SwiftUI
 struct EditQuestView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var viewModel: EditQuestViewModel
 
     @State private var isButtonPressed: Bool = false

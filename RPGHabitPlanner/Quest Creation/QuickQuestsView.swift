@@ -168,6 +168,7 @@ struct QuickQuestTemplateCard: View {
 
 struct DueDateSelectionView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.dismiss) private var dismiss
     let template: QuickQuestTemplate
     let questType: QuestType

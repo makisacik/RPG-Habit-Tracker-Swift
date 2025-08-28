@@ -106,7 +106,7 @@ struct AchievementPreviewCard: View {
         HStack(spacing: 12) {
             Image(systemName: achievement.iconName)
                 .font(.system(size: 20))
-                .foregroundColor(.orange)
+                .foregroundColor(theme.accentColor)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(achievement.title)
@@ -126,7 +126,7 @@ struct AchievementPreviewCard: View {
         .padding(.horizontal, 12)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(theme.primaryColor.opacity(0.5))
+                .fill(theme.secondaryColor)
         )
     }
 }

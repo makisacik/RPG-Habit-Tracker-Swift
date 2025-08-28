@@ -31,15 +31,6 @@ struct AnalyticsView: View {
         .navigationTitle("analytics".localized)
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    analyticsManager.refreshAnalytics()
-                }) {
-                    Image(systemName: "arrow.clockwise")
-                        .foregroundColor(theme.accentColor)
-                }
-            }
-
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     showFilters.toggle()
@@ -54,9 +45,7 @@ struct AnalyticsView: View {
                 .environmentObject(themeManager)
         }
         .onAppear {
-            if analyticsManager.analyticsSummary == nil {
-                analyticsManager.refreshAnalytics()
-            }
+            analyticsManager.refreshAnalytics()
         }
     }
     

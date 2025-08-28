@@ -2,16 +2,18 @@ import SwiftUI
 
 struct StreakCalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var streakManager: StreakManager
     @State private var selectedDate = Date()
     @State private var showingStreakDetails = false
 
     private let calendar = Calendar.current
-    private let dateFormatter: DateFormatter = {
+    private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM yyyy"
+        dateFormatter.locale = localizationManager.currentLocale
         return dateFormatter
-    }()
+    }
 
     // Store activity dates for the current month
     @State private var activityDates: Set<Date> = []

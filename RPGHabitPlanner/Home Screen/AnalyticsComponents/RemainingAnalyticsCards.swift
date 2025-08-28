@@ -124,7 +124,7 @@ struct StreakInsightsCard: View {
     
     private func dayOfWeekName(_ day: Int) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter.weekdaySymbols[day - 1]
     }
 }

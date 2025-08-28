@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var viewModel: CalendarViewModel
     @State private var showingQuestCreation = false
     @State private var showingAlert = false
@@ -22,11 +23,12 @@ struct CalendarView: View {
     @State private var levelUpLevel: Int = 0
 
     private let calendar = Calendar.current
-    private let dateFormatter: DateFormatter = {
+    private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"
+        formatter.locale = localizationManager.currentLocale
         return formatter
-    }()
+    }
 
     // MARK: - Body
     var body: some View {

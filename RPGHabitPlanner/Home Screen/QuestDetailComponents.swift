@@ -192,6 +192,7 @@ struct QuestDetailDetailsSection: View {
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter
     }
 }
@@ -318,6 +319,7 @@ struct QuestDetailCompletionHistorySection: View {
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter
     }
 }

@@ -70,6 +70,7 @@ struct GamifiedToggleCard: View {
 
 struct GamifiedDatePicker: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     let title: String
     @Binding var date: Date
 

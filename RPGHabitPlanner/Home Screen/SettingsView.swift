@@ -24,25 +24,25 @@ struct SettingsView: View {
                 .ignoresSafeArea()
 
             List {
-                Section("appearance".localized) {
-                    // Light/Dark toggle
-                    Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("dark_mode".localized)
-                                .font(.appFont(size: 16, weight: .semibold))
-                                .foregroundColor(theme.textColor)
-                            Text("switch_between_light_and_dark_themes".localized)
-                                .font(.appFont(size: 14))
-                                .foregroundColor(theme.textColor.opacity(0.7))
-                        }
-                    }
-                    .toggleStyle(MoonSunToggleStyle(theme: theme))
-                    .onChange(of: isDark) { newValue in
-                        // Switch explicitly to light/dark
-                        themeManager.setTheme(newValue ? .dark : .light)
-                    }
-                }
-                .listRowBackground(theme.cardBackgroundColor)
+                // Section("appearance".localized) {
+                //     // Light/Dark toggle
+                //     Toggle(isOn: $isDark.animation(.easeInOut(duration: 0.2))) {
+                //         VStack(alignment: .leading, spacing: 4) {
+                //             Text("dark_mode".localized)
+                //                 .font(.appFont(size: 16, weight: .semibold))
+                //                 .foregroundColor(theme.textColor)
+                //             Text("switch_between_light_and_dark_themes".localized)
+                //                 .font(.appFont(size: 14))
+                //                 .foregroundColor(theme.textColor.opacity(0.7))
+                //         }
+                //     }
+                //     .toggleStyle(MoonSunToggleStyle(theme: theme))
+                //     .onChange(of: isDark) { newValue in
+                //         // Switch explicitly to light/dark
+                //         themeManager.setTheme(newValue ? .dark : .light)
+                //     }
+                // }
+                // .listRowBackground(theme.cardBackgroundColor)
 
                 Section("general".localized) {
                     // Language Setting
@@ -65,20 +65,6 @@ struct SettingsView: View {
                                 .foregroundColor(theme.textColor.opacity(0.5))
                         }
                     }
-
-                    NavigationLink("notifications".localized) {
-                        Text("notifications_settings".localized)
-                            .foregroundColor(theme.textColor)
-                    }
-                    .font(.appFont(size: 16, weight: .medium))
-                    .foregroundColor(theme.textColor)
-
-                    NavigationLink("data_and_storage".localized) {
-                        Text("data_and_storage_settings".localized)
-                            .foregroundColor(theme.textColor)
-                    }
-                    .font(.appFont(size: 16, weight: .medium))
-                    .foregroundColor(theme.textColor)
                 }
                 .listRowBackground(theme.cardBackgroundColor)
 

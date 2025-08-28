@@ -13,12 +13,26 @@ class AchievementManager: ObservableObject {
 
     @Published var unlockedAchievements: Set<String> = []
     @Published var newlyUnlockedAchievements: [AchievementDefinition] = []
+    @Published var languageChangeTrigger: String = ""
 
     private let userDefaults = UserDefaults.standard
     private let unlockedAchievementsKey = "unlockedAchievements"
+    private var cancellables = Set<AnyCancellable>()
 
     private init() {
         loadUnlockedAchievements()
+        setupLanguageChangeObserver()
+    }
+    
+    private func setupLanguageChangeObserver() {
+        NotificationCenter.default.publisher(for: .languageChanged)
+            .sink { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.languageChangeTrigger = UUID().uuidString
+                    self?.objectWillChange.send()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Achievement Checking
@@ -30,7 +44,7 @@ class AchievementManager: ObservableObject {
     ) {
         var newlyUnlocked: [AchievementDefinition] = []
 
-        for achievement in AchievementDefinition.allAchievements {
+        for achievement in AchievementDefinition.getAllAchievements() {
             if !unlockedAchievements.contains(achievement.id) {
                 if isAchievementUnlocked(achievement, questDataService: questDataService, userManager: userManager) {
                     newlyUnlocked.append(achievement)
@@ -282,15 +296,15 @@ class AchievementManager: ObservableObject {
     }
 
     func getUnlockedAchievements() -> [AchievementDefinition] {
-        return AchievementDefinition.allAchievements.filter { unlockedAchievements.contains($0.id) }
+        return AchievementDefinition.getAllAchievements().filter { unlockedAchievements.contains($0.id) }
     }
 
     func getLockedAchievements() -> [AchievementDefinition] {
-        return AchievementDefinition.allAchievements.filter { !unlockedAchievements.contains($0.id) }
+        return AchievementDefinition.getAllAchievements().filter { !unlockedAchievements.contains($0.id) }
     }
 
     func getAllAchievements() -> [AchievementDefinition] {
-        return AchievementDefinition.allAchievements
+        return AchievementDefinition.getAllAchievements()
     }
 
     // MARK: - Persistence

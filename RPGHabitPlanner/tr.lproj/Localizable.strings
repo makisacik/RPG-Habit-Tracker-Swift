@@ -176,7 +176,7 @@
 "recent_achievements" = "Son Başarımlar";
 "quick_actions" = "Hızlı İşlemler";
 "create_new_quest" = "Yeni Görev Yarat";
-"view_completed_quests" = "Tamamlanan Görevleri Görüntüle";
+"view_completed_quests" = "Tamamlanan görevleri gör";
 "view_character_details" = "Karakter Detaylarını Görüntüle";
 
 // MARK: - Calendar
@@ -661,22 +661,18 @@
 
 // MARK: - Premium Features
 "premium_unlimited_quests" = "Sınırsız Görev";
-"premium_unlimited_quests_description" = "İstediğin kadar görev yarat";
-"premium_advanced_analytics" = "Gelişmiş Analizler";
-"premium_advanced_analytics_description" = "İlerlemeni ayrıntılı içgörülerle takip et";
-"premium_custom_themes" = "Özel Temalar";
-"premium_custom_themes_description" = "Uygulama görünümünü kişiselleştir";
-"premium_cloud_sync" = "Bulut Senkronizasyonu";
-"premium_cloud_sync_description" = "Verilerini tüm cihazlarında senkronize et";
-"premium_advanced_notifications" = "Gelişmiş Bildirimler";
-"premium_advanced_notifications_description" = "Akıllı hatırlatmalar ve bildirimler";
-"premium_exclusive_achievements" = "Özel Başarımlar";
-"premium_exclusive_achievements_description" = "Özel başarımları ve ödülleri aç";
+"premium_unlimited_quests_description" = "Haftada 5 yerine sınırsız görev";
+"premium_more_rewards" = "Daha Fazla Ödül";
+"premium_more_rewards_description" = "Görev tamamlamalarında daha fazla ödül al";
+"premium_instant_gems" = "Anında Mücevher";
+"premium_instant_gems_description" = "Anında 300 mücevher al";
+"premium_widgets" = "Widget'lar";
+"premium_widgets_description" = "Widget'ları kullan";
 
 // MARK: - Premium Plans
 "lifetime" = "Ömür Boyu";
-"per_month" = "aylık";
-"one_time_payment" = "tek seferlik ödeme";
+"per_month" = "Aylık";
+"one_time_payment" = "Tek seferlik ödeme";
 
 // MARK: - Error Messages
 "failed_to_update_quest" = "Görev güncellenemedi";
@@ -834,7 +830,7 @@
 "color" = "Renk";
 "create_tag" = "Etiket Oluştur";
 "create" = "Oluştur";
-"owned" = "Sahip Olunan";
+"owned" = "Mevcut";
 "buy" = "Satın Al";
 "filters" = "Filtreler";
 "rarity" = "Nadirlik";
@@ -851,7 +847,7 @@
 "usage_information" = "Kullanım Bilgisi";
 "consumable_item" = "Tüketilebilir Eşya";
 "consumable_item_description" = "Bu eşya kullanıldığında tüketilecek ve envanterinden kaldırılacak.";
-"booster_item" = "Güçlendirici Eşya";
+"booster_item" = "Güçlendirici";
 "booster_item_description" = "Bu eşya geçici bonuslar sağlar ve kullanıldığında tüketilir.";
 "equipment_item" = "Ekipman Eşyası";
 "equipment_item_description" = "Bu eşya karakterinin istatistiklerini artırmak için kuşanılabilir.";

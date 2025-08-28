@@ -121,11 +121,9 @@ struct PaywallView: View {
 
             VStack(spacing: 12) {
                 PremiumFeatureRow(icon: "infinity", title: "premium_unlimited_quests".localized, description: "premium_unlimited_quests_description".localized)
-                PremiumFeatureRow(icon: "chart.bar.fill", title: "premium_advanced_analytics".localized, description: "premium_advanced_analytics_description".localized)
-                PremiumFeatureRow(icon: "paintbrush.fill", title: "premium_custom_themes".localized, description: "premium_custom_themes_description".localized)
-                PremiumFeatureRow(icon: "icloud.fill", title: "premium_cloud_sync".localized, description: "premium_cloud_sync_description".localized)
-                PremiumFeatureRow(icon: "bell.badge.fill", title: "premium_advanced_notifications".localized, description: "premium_advanced_notifications_description".localized)
-                PremiumFeatureRow(icon: "trophy.fill", title: "premium_exclusive_achievements".localized, description: "premium_exclusive_achievements_description".localized)
+                PremiumFeatureRow(icon: "gift.fill", title: "premium_more_rewards".localized, description: "premium_more_rewards_description".localized)
+                PremiumFeatureRow(icon: "diamond.fill", title: "premium_instant_gems".localized, description: "premium_instant_gems_description".localized)
+                PremiumFeatureRow(icon: "rectangle.3.group.fill", title: "premium_widgets".localized, description: "premium_widgets_description".localized)
             }
         }
         .padding(20)
@@ -356,9 +354,9 @@ enum PremiumPlan {
     var price: String {
         switch self {
         case .monthly:
-            return "$4.99"
+            return "$2.99"
         case .lifetime:
-            return "$29.99"
+            return "$9.99"
         }
     }
 

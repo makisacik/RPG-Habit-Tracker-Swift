@@ -199,6 +199,7 @@ struct DamageCalculationView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter.string(from: date)
     }
 }
@@ -301,6 +302,8 @@ struct QuestDamagePreviewRow: View {
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter.string(from: date)
     }
 }
