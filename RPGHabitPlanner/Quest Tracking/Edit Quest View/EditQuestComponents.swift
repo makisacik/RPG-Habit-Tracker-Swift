@@ -240,6 +240,7 @@ struct EditQuestBasicInfoSection: View {
 // MARK: - Quest Settings Section Component
 struct EditQuestSettingsSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
+    @EnvironmentObject var localizationManager: LocalizationManager
     let theme: Theme
 
     var body: some View {
@@ -282,6 +283,7 @@ struct EditQuestSettingsSection: View {
                     DatePicker("", selection: $viewModel.dueDate, displayedComponents: [.date])
                         .labelsHidden()
                         .datePickerStyle(.compact)
+                        .environment(\.locale, localizationManager.currentLocale)
                         .padding(12)
                         .background(
                             RoundedRectangle(cornerRadius: 8)

@@ -121,12 +121,12 @@ struct CreateTagView: View {
                                         Text("browse_all".localized)
                                             .font(.appFont(size: 14, weight: .medium))
                                     }
-                                    .foregroundColor(theme.accentColor)
+                                    .foregroundColor(theme.textColor)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
                                     .background(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .fill(theme.accentColor.opacity(0.1))
+                                            .fill(theme.textColor.opacity(0.1))
                                     )
                                 }
                             }
@@ -141,6 +141,10 @@ struct CreateTagView: View {
                                         RoundedRectangle(cornerRadius: 16)
                                             .fill(Color(hex: viewModel.selectedColor))
                                             .shadow(color: Color(hex: viewModel.selectedColor).opacity(0.3), radius: 8, x: 0, y: 4)
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(theme.textColor.opacity(0.1), lineWidth: 1)
                                     )
 
                                 VStack(alignment: .leading, spacing: 4) {
@@ -241,7 +245,7 @@ struct CreateTagView: View {
                             Text("cancel".localized)
                                 .font(.appFont(size: 16, weight: .medium))
                         }
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                     }
                 }
 
@@ -256,7 +260,7 @@ struct CreateTagView: View {
                     }) {
                         Text("create".localized)
                             .font(.appFont(size: 16, weight: .bold))
-                            .foregroundColor(viewModel.tagName.isEmpty || viewModel.isCreating ? theme.textColor.opacity(0.5) : theme.accentColor)
+                            .foregroundColor(viewModel.tagName.isEmpty || viewModel.isCreating ? theme.textColor.opacity(0.5) : theme.textColor)
                     }
                     .disabled(viewModel.tagName.isEmpty || viewModel.isCreating)
                 }
@@ -349,7 +353,7 @@ struct IconPickerView: View {
                     Button("done_button".localized) {
                         dismiss()
                     }
-                    .foregroundColor(theme.accentColor)
+                    .foregroundColor(theme.textColor)
                 }
             }
         }

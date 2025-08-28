@@ -35,7 +35,7 @@ struct TagPickerView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.7))
 
-                            TextField("Search tags...", text: $viewModel.searchQuery)
+                            TextField("search_tags".localized, text: $viewModel.searchQuery)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .font(.appFont(size: 16, weight: .regular))
                                 .foregroundColor(theme.textColor)
@@ -73,7 +73,7 @@ struct TagPickerView: View {
                         }) {
                             Image(systemName: "plus.circle.fill")
                                 .font(.system(size: 24, weight: .medium))
-                                .foregroundColor(theme.accentColor)
+                                .foregroundColor(theme.textColor)
                                 .frame(width: 44, height: 44)
                                 .background(
                                     Circle()
@@ -114,7 +114,7 @@ struct TagPickerView: View {
                                 }) {
                                     Text("clear_all".localized)
                                         .font(.appFont(size: 14, weight: .medium))
-                                        .foregroundColor(theme.accentColor)
+                                        .foregroundColor(theme.textColor)
                                 }
                             }
                             .padding(.horizontal, 20)
@@ -327,7 +327,7 @@ struct TagPickerView: View {
                             Text("cancel".localized)
                                 .font(.appFont(size: 16, weight: .medium))
                         }
-                        .foregroundColor(theme.accentColor)
+                        .foregroundColor(theme.textColor)
                     }
                 }
 
@@ -340,7 +340,7 @@ struct TagPickerView: View {
                     }) {
                         Text("done".localized)
                             .font(.appFont(size: 16, weight: .bold))
-                            .foregroundColor(viewModel.selectedTags.isEmpty ? theme.textColor.opacity(0.5) : theme.accentColor)
+                            .foregroundColor(viewModel.selectedTags.isEmpty ? theme.textColor.opacity(0.5) : theme.textColor)
                     }
                     .disabled(viewModel.selectedTags.isEmpty)
                 }

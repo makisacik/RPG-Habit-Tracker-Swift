@@ -235,6 +235,7 @@ struct DueDateSelectionView: View {
                         DatePicker("", selection: $selectedDueDate, displayedComponents: [.date])
                             .datePickerStyle(WheelDatePickerStyle())
                             .labelsHidden()
+                            .environment(\.locale, localizationManager.currentLocale)
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: 12)

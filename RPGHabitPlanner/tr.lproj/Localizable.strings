@@ -481,7 +481,7 @@
 "visit_shop" = "Dükkanı Ziyaret Et";
 "appearance" = "Görünüm";
 "general" = "Genel";
-"scheduled" = "Planlandı";
+"scheduled" = "Planlı";
 "expires" = "Sona Eriyor";
 "failed_to_update_quest_tags" = "Görev etiketleri güncellenemedi";
 "daily_quests_can_only_be_toggled_for_today" = "Günlük görevler yalnızca bugün için değiştirilebilir";
@@ -508,6 +508,8 @@
 "loading_tags" = "Etiketler yükleniyor...";
 "no_tags_available_for_selection" = "Seçim için etiket yok";
 "create_first_tag_to_get_started_selection" = "Başlamak için ilk etiketini oluştur";
+"search_tags" = "Etiketleri ara...";
+"browse_all" = "Tümünü Göster";
 "work" = "İş";
 "personal" = "Kişisel";
 "urgent" = "Acil";

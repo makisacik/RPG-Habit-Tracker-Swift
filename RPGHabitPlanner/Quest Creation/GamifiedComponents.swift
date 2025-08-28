@@ -87,6 +87,7 @@ struct GamifiedDatePicker: View {
 
             DatePicker("", selection: $date, displayedComponents: [.date])
                 .labelsHidden()
+                .environment(\.locale, localizationManager.currentLocale)
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 12)

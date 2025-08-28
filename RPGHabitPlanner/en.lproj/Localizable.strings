@@ -562,6 +562,8 @@
 "loading_tags" = "Loading tags...";
 "no_tags_available_for_selection" = "No tags available";
 "create_first_tag_to_get_started_selection" = "Create your first tag to get started";
+"search_tags" = "Search tags...";
+"browse_all" = "Browse All";
 "work" = "Work";
 "personal" = "Personal";
 "urgent" = "Urgent";

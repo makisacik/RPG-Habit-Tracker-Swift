@@ -9,6 +9,7 @@ import SwiftUI
 
 struct QuestDetailView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: QuestDetailViewModel
 
@@ -119,6 +120,7 @@ struct QuestDetailView: View {
                 }
             )
             .environmentObject(themeManager)
+            .environmentObject(localizationManager)
         }
         .alert("delete_quest_confirmation".localized, isPresented: $showingDeleteAlert) {
             Button("cancel".localized, role: .cancel) { }

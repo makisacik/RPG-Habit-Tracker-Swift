@@ -3,6 +3,7 @@ import SwiftUI
 struct QuestCreationView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var premiumManager: PremiumManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: QuestCreationViewModel
     @State private var showAlert: Bool = false

@@ -3,6 +3,7 @@ import SwiftUI
 struct QuestDetailsView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var premiumManager: PremiumManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var viewModel: QuestCreationViewModel
     let onContinue: () -> Void
     @Binding var showTaskPopup: Bool
