@@ -674,27 +674,27 @@ struct ItemDatabase {
             Item.gear(name: "battle_axe", description: "battle_axe_description", iconName: "char_sword_axe", category: .weapon, rarity: .epic, value: 1200),
             Item.gear(name: "small_battle_axe", description: "small_battle_axe_description", iconName: "char_sword_axe_small", category: .weapon, rarity: .uncommon, value: 400),
             Item.gear(name: "whip_sword", description: "whip_sword_description", iconName: "char_sword_whip", category: .weapon, rarity: .epic, value: 1100),
-            Item.gear(name: "golden_dawn", description: "golden_dawn_description", iconName: "char_sword_gold", category: .weapon, rarity: .epic, value: 1500),
+            Item.gear(name: "golden_dawn", description: "golden_dawn_description", iconName: "char_sword_gold", category: .weapon, rarity: .rare, value: 1500),
             Item.gear(name: "copper_fang", description: "copper_fang_description", iconName: "char_sword_copper", category: .weapon, rarity: .uncommon, value: 300),
-            Item.gear(name: "crimson_fang", description: "crimson_fang_description", iconName: "char_sword_red", category: .weapon, rarity: .rare, value: 700),
-            Item.gear(name: "blazing_fang", description: "blazing_fang_description", iconName: "char_sword_red_2", category: .weapon, rarity: .epic, value: 1300),
-            Item.gear(name: "iron_maiden", description: "iron_maiden_description", iconName: "char_sword_mace", category: .weapon, rarity: .rare, value: 800),
-            Item.gear(name: "arcane_staff", description: "arcane_staff_description", iconName: "char_sword_staff", category: .weapon, rarity: .epic, value: 1400),
+            Item.gear(name: "crimson_fang", description: "crimson_fang_description", iconName: "char_sword_red", category: .weapon, rarity: .epic, value: 700),
+            Item.gear(name: "blazing_fang", description: "blazing_fang_description", iconName: "char_sword_red_2", category: .weapon, rarity: .legendary, value: 1300),
+            Item.gear(name: "iron_maiden", description: "iron_maiden_description", iconName: "char_sword_mace", category: .weapon, rarity: .epic, value: 800),
+            Item.gear(name: "arcane_staff", description: "arcane_staff_description", iconName: "char_sword_staff", category: .weapon, rarity: .legendary, value: 1400),
 
             // Outfits
             Item.gear(name: "peasants_garb", description: "peasants_garb_description", iconName: "char_outfit_villager", category: .outfit, rarity: .common, value: 100),
             Item.gear(name: "azure_tunic", description: "azure_tunic_description", iconName: "char_outfit_villager_blue", category: .outfit, rarity: .common, value: 150),
             Item.gear(name: "ironclad_plate", description: "ironclad_plate_description", iconName: "char_outfit_iron", category: .outfit, rarity: .uncommon, value: 300),
             Item.gear(name: "reinforced_ironclad", description: "reinforced_ironclad_description", iconName: "char_outfit_iron_2", category: .outfit, rarity: .rare, value: 600),
-            Item.gear(name: "crimson_raiment", description: "crimson_raiment_description", iconName: "char_outfit_red", category: .outfit, rarity: .epic, value: 1200),
+            Item.gear(name: "crimson_raiment", description: "crimson_raiment_description", iconName: "char_outfit_red", category: .outfit, rarity: .legendary, value: 1200),
 
             // Helmets
-            Item.gear(name: "crimson_crest", description: "crimson_crest_description", iconName: "char_helmet_red", category: .head, rarity: .common, value: 80),
-            Item.gear(name: "ironclad_crown", description: "ironclad_crown_description", iconName: "char_helmet_iron", category: .head, rarity: .uncommon, value: 200),
-            Item.gear(name: "crown_of_kings", description: "crown_of_kings_description", iconName: "char_helmet_hood", category: .head, rarity: .epic, value: 800),
+            Item.gear(name: "crimson_crest", description: "crimson_crest_description", iconName: "char_helmet_red", category: .head, rarity: .epic, value: 80),
+            Item.gear(name: "ironclad_crown", description: "ironclad_crown_description", iconName: "char_helmet_iron", category: .head, rarity: .epic, value: 200),
+            Item.gear(name: "crown_of_kings", description: "crown_of_kings_description", iconName: "char_helmet_hood", category: .head, rarity: .rare, value: 800),
 
             // Shields
-            Item.gear(name: "oakheart_ward", description: "oakheart_ward_description", iconName: "char_shield_wood", category: .shield, rarity: .common, value: 60),
+            Item.gear(name: "oakheart_ward", description: "oakheart_ward_description", iconName: "char_shield_wood", category: .shield, rarity: .uncommon, value: 60),
             Item.gear(name: "ironclad_bulwark", description: "ironclad_bulwark_description", iconName: "char_shield_iron", category: .shield, rarity: .uncommon, value: 150),
             Item.gear(name: "crimson_ward", description: "crimson_ward_description", iconName: "char_shield_red", category: .shield, rarity: .rare, value: 300),
             Item.gear(name: "golden_aegis", description: "golden_aegis_description", iconName: "char_shield_gold", category: .shield, rarity: .epic, value: 600),
@@ -706,9 +706,9 @@ struct ItemDatabase {
             Item.gear(name: "blazing_phoenix_wings", description: "blazing_phoenix_wings_description", iconName: "char_wings_red_2", category: .wings, rarity: .legendary, value: 200),
 
             // Pets
-            Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat", category: .pet, rarity: .common, value: 300),
-            Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat_2", category: .pet, rarity: .uncommon, value: 500),
-            Item.gear(name: "golden_cluck", description: "golden_cluck_description", iconName: "char_pet_chicken", category: .pet, rarity: .epic, value: 1500)
+            Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat", category: .pet, rarity: .epic, value: 300),
+            Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat_2", category: .pet, rarity: .epic, value: 500),
+            Item.gear(name: "golden_cluck", description: "golden_cluck_description", iconName: "char_pet_chicken", category: .pet, rarity: .uncommon, value: 1500)
         ]
     }
 

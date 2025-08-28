@@ -132,7 +132,7 @@ struct HomeView: View {
                         .zIndex(70)
                 }
                 .navigationTitle("adventure_hub".localized)
-                .navigationBarTitleDisplayMode(.large)
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: homeToolbarContent)
 
                 .navigationDestination(isPresented: $goToSettings) {

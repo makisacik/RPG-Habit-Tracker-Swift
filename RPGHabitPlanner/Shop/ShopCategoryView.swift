@@ -327,7 +327,7 @@ struct EnhancedShopItemCard: View {
                 Text(item.name)
                     .font(.appFont(size: 12, weight: .bold))
                     .foregroundColor(theme.textColor)
-                    .lineLimit(1)
+                    .lineLimit(2)
                     .multilineTextAlignment(.center)
 
                 // Price or Owned status - centered at bottom
