@@ -663,7 +663,7 @@
 
 // MARK: - Premium Features
 "premium_unlimited_quests" = "Sınırsız Görev";
-"premium_unlimited_quests_description" = "Haftada 5 yerine sınırsız görev";
+"premium_unlimited_quests_description" = "Haftada 7 yerine sınırsız görev";
 "premium_more_rewards" = "Daha Fazla Ödül";
 "premium_more_rewards_description" = "Görev tamamlamalarında daha fazla ödül al";
 "premium_instant_gems" = "Anında Mücevher";

@@ -26,7 +26,13 @@ final class PremiumManagerTests: XCTestCase {
         // Reset weekly count for testing
         UserDefaults.standard.set(0, forKey: "weeklyQuestCount")
         
-        // Test that free users can create up to 5 quests per week
+        // Test that free users can create up to 7 quests per week
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
+        XCTAssertTrue(premiumManager.canCreateQuest())
+        premiumManager.incrementWeeklyQuestCount()
+        
         XCTAssertTrue(premiumManager.canCreateQuest())
         premiumManager.incrementWeeklyQuestCount()
         
@@ -64,6 +70,12 @@ final class PremiumManagerTests: XCTestCase {
         // Reset weekly count for testing
         UserDefaults.standard.set(0, forKey: "weeklyQuestCount")
         
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 7)
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertEqual(premiumManager.remainingFreeQuests(), 6)
+        
+        premiumManager.incrementWeeklyQuestCount()
         XCTAssertEqual(premiumManager.remainingFreeQuests(), 5)
         
         premiumManager.incrementWeeklyQuestCount()
@@ -87,6 +99,12 @@ final class PremiumManagerTests: XCTestCase {
         // Reset weekly count for testing
         UserDefaults.standard.set(0, forKey: "weeklyQuestCount")
         
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
+        XCTAssertFalse(premiumManager.shouldShowPaywall())
+        
+        premiumManager.incrementWeeklyQuestCount()
         XCTAssertFalse(premiumManager.shouldShowPaywall())
         
         premiumManager.incrementWeeklyQuestCount()

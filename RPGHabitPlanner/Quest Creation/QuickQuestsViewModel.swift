@@ -36,7 +36,7 @@ final class QuickQuestsViewModel: ObservableObject {
         
         // Check weekly quest count
         let weeklyCount = UserDefaults.standard.integer(forKey: "weeklyQuestCount")
-        return weeklyCount < 5 // 5 is the weekly limit
+        return weeklyCount < 7 // 7 is the weekly limit
     }
     
     func addQuickQuest(template: QuickQuestTemplate, dueDate: Date) {

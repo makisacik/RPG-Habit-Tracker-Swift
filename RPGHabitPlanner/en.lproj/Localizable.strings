@@ -719,7 +719,7 @@
 
 // MARK: - Premium Features
 "premium_unlimited_quests" = "Unlimited Quests";
-"premium_unlimited_quests_description" = "There is unlimited quests instead of 5 per week";
+"premium_unlimited_quests_description" = "There is unlimited quests instead of 7 per week";
 "premium_more_rewards" = "More Rewards";
 "premium_more_rewards_description" = "Get more rewards on quest completions";
 "premium_instant_gems" = "Instant Gems";

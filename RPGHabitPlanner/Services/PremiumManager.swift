@@ -363,9 +363,7 @@ enum PremiumError: LocalizedError {
 // MARK: - Premium Features
 
 extension PremiumManager {
-    static let weeklyQuestLimit = 5
-    static let freeQuestLimit = 10
-
+    static let weeklyQuestLimit = 7
     // MARK: - Weekly Quest Tracking
 
     private func getCurrentWeekStart() -> Date {
