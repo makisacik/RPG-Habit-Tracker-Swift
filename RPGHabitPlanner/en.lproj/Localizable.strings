@@ -995,6 +995,8 @@
 // Accessories - Flowers
 "azure_bloom" = "Azure Bloom";
 "azure_bloom_description" = "A beautiful blue flower that seems to capture the essence of a clear summer sky. Its petals shimmer with an inner light that brings peace to those who wear it.";
+"rose_petal" = "Rose Petal";
+"rose_petal_description" = "A delicate red rose petal that adds elegance and beauty to your character. Its soft fragrance brings a touch of romance and grace.";
 "emerald_petal" = "Emerald Petal";
 "emerald_petal_description" = "A lovely green flower with leaves that sparkle like morning dew. It radiates natural energy and seems to enhance the wearer's connection to nature.";
 "amethyst_blossom" = "Amethyst Blossom";
@@ -1115,8 +1117,10 @@
 "golden_aegis_description" = "A golden shield that radiates divine protection. The metal gleams with holy light, and enemies find their attacks weakened when facing its brilliance.";
 
 // Gear - Pets
-"shadowpaw" = "Shadowpaw";
-"shadowpaw_description" = "A mysterious cat companion with fur as dark as midnight. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.";
+"grey_paw" = "Grey Paw";
+"grey_paw_description" = "A mysterious grey cat companion with fur as soft as shadows. It moves silently and seems to understand your thoughts, making it the perfect companion for stealth missions.";
+"brown_paw" = "Brown Paw";
+"brown_paw_description" = "A loyal brown cat companion with warm, earthy fur. It has a gentle nature and provides comfort during long adventures.";
 "whiskerwind" = "Whiskerwind";
 "whiskerwind_description" = "A graceful cat with fur that shimmers like starlight. It has an uncanny ability to sense danger and will warn you of approaching threats.";
 "golden_cluck" = "Golden Cluck";

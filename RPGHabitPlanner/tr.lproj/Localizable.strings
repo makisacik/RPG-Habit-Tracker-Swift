@@ -1295,6 +1295,8 @@
 // Accessories - Flowers
 "azure_bloom" = "Gökyüzü Çiçeği";
 "azure_bloom_description" = "Açık yaz göğünün özünü yakalıyor gibi görünen güzel mavi bir çiçek. Taç yaprakları içsel bir ışıkla parlar ve onu takanlara huzur getirir.";
+"rose_petal" = "Gül Yaprağı";
+"rose_petal_description" = "Karakterinize zarafet ve güzellik katan nazik kırmızı gül yaprağı. Yumuşak kokusu romantizm ve zarafet dokunuşu getirir.";
 "emerald_petal" = "Zümrüt Yaprak";
 "emerald_petal_description" = "Sabah çiyi gibi parlayan yapraklara sahip güzel yeşil bir çiçek. Doğal enerji yayar ve takanın doğayla bağını güçlendirir.";
 "amethyst_blossom" = "Ametist Çiçeği";
@@ -1415,8 +1417,10 @@
 "golden_aegis_description" = "İlahi koruma yayan altın bir kalkan. Metal kutsal ışıkla parlar ve düşman saldırıları karşısında zayıflar.";
 
 // Gear - Pets
-"shadowpaw" = "Gölgepençe";
-"shadowpaw_description" = "Koyu gece kadar siyah kürkü olan gizemli bir kedi yoldaş. Sessizce hareket eder ve düşüncelerini anlıyormuş gibi görünür, gizli görevler için mükemmel bir yoldaştır.";
+"grey_paw" = "Gri Pençe";
+"grey_paw_description" = "Gölgeler kadar yumuşak kürkü olan gizemli gri bir kedi yoldaş. Sessizce hareket eder ve düşüncelerini anlıyormuş gibi görünür, gizli görevler için mükemmel bir yoldaştır.";
+"brown_paw" = "Kahverengi Pençe";
+"brown_paw_description" = "Sıcak, topraksı kürkü olan sadık kahverengi bir kedi yoldaş. Nazik bir doğası vardır ve uzun maceralar sırasında rahatlık sağlar.";
 "whiskerwind" = "Bıyıkrüzgar";
 "whiskerwind_description" = "Yıldız ışığı gibi parıldayan kürkü olan zarif bir kedi. Tehlikeyi olağanüstü şekilde hisseder ve yaklaşan tehditler konusunda seni uyarır.";
 "golden_cluck" = "Altın Gıdak";

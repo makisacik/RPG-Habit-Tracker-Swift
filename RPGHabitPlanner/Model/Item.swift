@@ -709,8 +709,8 @@ struct ItemDatabase {
             Item.gear(name: "blazing_phoenix_wings", description: "blazing_phoenix_wings_description", iconName: "char_wings_red_2", category: .wings, rarity: .legendary, value: 200),
 
             // Pets
-            Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat", category: .pet, rarity: .epic, value: 300),
-            Item.gear(name: "shadowpaw", description: "shadowpaw_description", iconName: "char_pet_cat_2", category: .pet, rarity: .epic, value: 500),
+            Item.gear(name: "grey_paw", description: "grey_paw_description", iconName: "char_pet_cat", category: .pet, rarity: .epic, value: 300),
+            Item.gear(name: "brown_paw", description: "brown_paw_description", iconName: "char_pet_cat_2", category: .pet, rarity: .epic, value: 500),
             Item.gear(name: "golden_cluck", description: "golden_cluck_description", iconName: "char_pet_chicken", category: .pet, rarity: .uncommon, value: 1500)
         ]
     }
