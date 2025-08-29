@@ -98,16 +98,18 @@ struct AchievementCardView: View {
         let theme = themeManager.activeTheme
 
         VStack(spacing: 12) {
-            // Achievement Icon
+            // Achievement Icon - Fixed size container
             ZStack {
                 Circle()
                     .fill(isUnlocked ? theme.accentColor.opacity(0.2) : Color.gray.opacity(0.2))
                     .frame(width: 60, height: 60)
 
                 Image(systemName: achievement.iconName)
-                    .font(.title2)
+                    .font(.system(size: 24, weight: .medium))
                     .foregroundColor(isUnlocked ? theme.accentColor : .gray)
+                    .frame(width: 24, height: 24)
             }
+            .frame(width: 60, height: 60)
 
             // Achievement Info
             VStack(spacing: 4) {
@@ -116,34 +118,26 @@ struct AchievementCardView: View {
                     .foregroundColor(theme.textColor)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
+                    .frame(height: 36) // Fixed height for title
 
                 Text(achievement.description)
                     .font(.appFont(size: 12, weight: .regular))
                     .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .lineLimit(3)
+                    .frame(height: 48) // Fixed height for description
 
-                if isUnlocked {
-                    Text("unlocked".localized)
-                        .font(.appFont(size: 10, weight: .black))
-                        .foregroundColor(.green)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.green.opacity(0.2))
-                        )
-                } else {
-                    Text("locked".localized)
-                        .font(.appFont(size: 10, weight: .black))
-                        .foregroundColor(.gray)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.gray.opacity(0.2))
-                        )
-                }
+                // Status badge
+                Text(isUnlocked ? "unlocked".localized : "locked".localized)
+                    .font(.appFont(size: 10, weight: .black))
+                    .foregroundColor(isUnlocked ? .green : .gray)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(isUnlocked ? Color.green.opacity(0.2) : Color.gray.opacity(0.2))
+                    )
+                    .frame(height: 20) // Fixed height for status badge
             }
         }
         .padding()

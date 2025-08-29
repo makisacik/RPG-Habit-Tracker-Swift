@@ -105,8 +105,9 @@ struct AchievementPreviewCard: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: achievement.iconName)
-                .font(.system(size: 20))
+                .font(.system(size: 20, weight: .medium))
                 .foregroundColor(theme.accentColor)
+                .frame(width: 20, height: 20)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(achievement.title)

@@ -339,12 +339,13 @@ struct HomeView: View {
         }
 
         ToolbarItem(placement: .primaryAction) {
-            Button(action: { showPaywall = true }) {
-                Image(systemName: "crown.fill")
-                    .font(.title2)
-                    .foregroundColor(theme.accentColor)
+            if !premiumManager.isPremium {
+                Button(action: { showPaywall = true }) {
+                    Image(systemName: "crown.fill")
+                        .font(.title2)
+                        .foregroundColor(theme.accentColor)
+                }
             }
-            .opacity(premiumManager.isPremium ? 0.6 : 1.0)
         }
     }
 
