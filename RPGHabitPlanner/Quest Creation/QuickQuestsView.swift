@@ -330,39 +330,36 @@ struct DueDateSelectionView: View {
                             .padding(.horizontal, 20)
                     }
 
-                    // Enhanced Default Duration Info
-                    VStack(spacing: 12) {
-                        HStack {
-                            Image(systemName: "clock.arrow.circlepath")
-                                .font(.system(size: 16, weight: .medium))
+                    // Enhanced Default Duration Info with Add Quest Button
+                    VStack(spacing: 20) {
+                        VStack(spacing: 12) {
+                            HStack {
+                                Image(systemName: "clock.arrow.circlepath")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(theme.textColor.opacity(0.6))
+
+                                Text("default_duration".localized)
+                                    .font(.appFont(size: 16, weight: .medium))
+                                    .foregroundColor(theme.textColor.opacity(0.8))
+                            }
+
+                            Text(defaultDurationText)
+                                .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor.opacity(0.6))
-
-                            Text("default_duration".localized)
-                                .font(.appFont(size: 16, weight: .medium))
-                                .foregroundColor(theme.textColor.opacity(0.8))
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(theme.primaryColor.opacity(0.2))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(theme.borderColor.opacity(0.2), lineWidth: 1)
+                                        )
+                                )
                         }
+                        .padding(.horizontal, 20)
 
-                        Text(defaultDurationText)
-                            .font(.appFont(size: 14))
-                            .foregroundColor(theme.textColor.opacity(0.6))
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(theme.primaryColor.opacity(0.2))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(theme.borderColor.opacity(0.2), lineWidth: 1)
-                                    )
-                            )
-                    }
-                    .padding(.horizontal, 20)
-
-                    Spacer()
-
-                    // Enhanced Action Buttons
-                    VStack(spacing: 16) {
-                        // Primary action button
+                        // Add Quest Button positioned right under the default duration text
                         Button(action: {
                             if PremiumManager.shared.canCreateQuest() {
                                 onSave(selectedDueDate)
@@ -390,9 +387,10 @@ struct DueDateSelectionView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 30)
+
+                    Spacer()
                 }
             }
             .navigationBarItems(trailing: Button("cancel".localized) {
