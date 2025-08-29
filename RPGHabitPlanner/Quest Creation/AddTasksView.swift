@@ -85,28 +85,28 @@ struct TaskRow: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        HStack(spacing: 12) {
+        HStack(spacing: 8) {
             Text("\(index + 1)")
-                .font(.appFont(size: 12, weight: .black))
+                .font(.appFont(size: 11, weight: .black))
                 .foregroundColor(theme.textColor)
-                .frame(width: 24, height: 24)
+                .frame(width: 20, height: 20)
                 .background(Circle().fill(Color.yellow.opacity(0.2)))
 
             TextField("enter_task_description".localized, text: $task)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
-                .font(.appFont(size: 16))
+                .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
                 .background(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: 6)
                         .fill(theme.primaryColor.opacity(0.3))
                 )
 
             Button(action: onDelete) {
                 Image(systemName: "trash.circle.fill")
-                    .font(.title3)
+                    .font(.title2)
                     .foregroundColor(.red.opacity(0.8))
             }
             .buttonStyle(PlainButtonStyle())
@@ -123,7 +123,7 @@ struct TaskEditorPopup: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
             // Header
             HStack {
                 HStack(spacing: 8) {
@@ -147,12 +147,15 @@ struct TaskEditorPopup: View {
                 }
                 .buttonStyle(PlainButtonStyle())
             }
+            .padding(.horizontal, 20)
+            .padding(.top, 16)
+            .padding(.bottom, 12)
 
             Divider()
                 .background(theme.textColor.opacity(0.3))
 
             // Task List
-            ScrollView(.vertical) {
+            ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 12) {
                     ForEach(tasks.indices, id: \.self) { index in
                         TaskRow(
@@ -192,38 +195,49 @@ struct TaskEditorPopup: View {
                             .onEnded { _ in isAddPressed = false }
                     )
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
             }
-
-            Spacer()
 
             // Done button
-            Button(action: {
-                cleanupBlankTasks()
-                isPresented = false
-            }) {
-                Text("done".localized)
-                    .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(.white)
-                    .padding(.vertical, 12)
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        Image(theme.buttonPrimary)
-                            .resizable(
-                                capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
-                                resizingMode: .stretch
-                            )
-                            .opacity(isDonePressed ? 0.7 : 1.0)
-                    )
+            VStack {
+                Button(action: {
+                    cleanupBlankTasks()
+                    isPresented = false
+                }) {
+                    Text("done".localized)
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(.white)
+                        .padding(.vertical, 16)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            Image(theme.buttonPrimary)
+                                .resizable(
+                                    capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                    resizingMode: .stretch
+                                )
+                                .opacity(isDonePressed ? 0.7 : 1.0)
+                        )
+                }
+                .buttonStyle(PlainButtonStyle())
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in isDonePressed = true }
+                        .onEnded { _ in isDonePressed = false }
+                )
             }
-            .buttonStyle(PlainButtonStyle())
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in isDonePressed = true }
-                    .onEnded { _ in isDonePressed = false }
-            )
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
+            .background(theme.backgroundColor)
         }
-        .padding()
+        .background(theme.backgroundColor)
+        .onTapGesture {
+            hideKeyboard()
+        }
+    }
+
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 
     private func cleanupBlankTasks() {

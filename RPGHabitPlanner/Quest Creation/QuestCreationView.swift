@@ -39,10 +39,6 @@ struct QuestCreationView: View {
                     .fill(theme.backgroundColor)
                     .ignoresSafeArea()
 
-                // Animated background elements
-                if currentStep == .questBoard && !hasSeenQuestCreation {
-                    QuestBoardBackground(animate: animateQuestBoard)
-                }
 
                 // Main content based on current step
                 switch currentStep {
@@ -60,7 +56,7 @@ struct QuestCreationView: View {
                             showTaskPopup: $isTaskPopupVisible,
                             showTagPicker: $showTagPicker,
                             showPaywall: $showPaywall,
-                            animate: animateParchment
+                            animate: false
                         )
                         .environmentObject(premiumManager)
                     }
@@ -80,41 +76,11 @@ struct QuestCreationView: View {
                         showTaskPopup: $isTaskPopupVisible,
                         showTagPicker: $showTagPicker,
                         showPaywall: $showPaywall,
-                        animate: animateParchment
+                        animate: false
                     )
                     .environmentObject(premiumManager)
                 }
-
-
-                // Task popup
-                if isTaskPopupVisible {
-                    Color.black.opacity(0.6)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            withAnimation {
-                                isTaskPopupVisible = false
-                            }
-                        }
-                        .transition(.opacity)
-                        .zIndex(9)
-
-                    TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
-                        .frame(width: 350, height: 450)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(theme.primaryColor)
-                                .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
-                        )
-                        .cornerRadius(12)
-                        .shadow(radius: 10)
-                        .transition(.scale.combined(with: .opacity))
-                        .zIndex(10)
-                }
         }
-            .animation(.easeInOut(duration: 0.25), value: isTaskPopupVisible)
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
@@ -142,10 +108,7 @@ struct QuestCreationView: View {
             }
 
             .onAppear {
-                // Start quest board animation
-                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                    animateQuestBoard = true
-                }
+                // No animations to prevent layout issues
             }
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
@@ -157,6 +120,11 @@ struct QuestCreationView: View {
                 }
                 .environmentObject(themeManager)
             }
+            .sheet(isPresented: $isTaskPopupVisible) {
+                TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
+                    .environmentObject(themeManager)
+                    .presentationDetents([.medium])
+            }
     }
 
     // MARK: - Quest Creation Flow Methods
@@ -167,12 +135,6 @@ struct QuestCreationView: View {
 
         withAnimation(.easeInOut(duration: 0.5)) {
             currentStep = .questDetails
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            withAnimation(.easeInOut(duration: 0.8)) {
-                animateParchment = true
-            }
         }
     }
 

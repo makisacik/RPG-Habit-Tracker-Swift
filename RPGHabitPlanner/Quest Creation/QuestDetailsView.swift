@@ -15,13 +15,13 @@ struct QuestDetailsView: View {
 
     var body: some View {
         let theme = themeManager.activeTheme
-        ScrollView {
-            VStack(spacing: 24) {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 20) {
                 // Removed quest details header
 
                 // Add top padding for better spacing
                 Spacer()
-                    .frame(height: 16)
+                    .frame(height: 12)
 
                 // Quest Title
                 GamifiedInputField(
@@ -147,11 +147,18 @@ struct QuestDetailsView: View {
         } message: {
             Text(viewModel.errorMessage ?? "unknown_error".localized)
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         .onChange(of: viewModel.didSaveQuest) { didSave in
             if didSave {
                 // Quest was successfully created, dismiss the view
                 // This will be handled by the parent view
             }
         }
+    }
+
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
