@@ -1356,6 +1356,12 @@
 "no_tags_selected" = "No tags selected";
 "quest_title_cannot_be_empty" = "Quest title cannot be empty.";
 
+// MARK: - Enhanced Date Picker
+"select_your_quest_deadline" = "Select your quest deadline";
+"selected_date" = "Selected Date";
+"selected_deadline" = "Selected Deadline";
+"confirm_date" = "Confirm Date";
+
 // MARK: - Calendar View
 "quest_calendar" = "Quest Calendar";
 "calendar" = "Calendar";

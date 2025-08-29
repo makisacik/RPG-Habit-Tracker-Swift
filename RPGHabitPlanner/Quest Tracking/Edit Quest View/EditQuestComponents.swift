@@ -275,19 +275,31 @@ struct EditQuestSettingsSection: View {
                 )
 
                 // Due Date
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("quest_due_date".localized)
-                        .font(.appFont(size: 14, weight: .medium))
-                        .foregroundColor(theme.textColor.opacity(0.8))
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Image(systemName: "calendar.circle.fill")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.yellow)
+                        
+                        Text("quest_due_date".localized)
+                            .font(.appFont(size: 16, weight: .black))
+                            .foregroundColor(theme.textColor)
+                    }
 
                     DatePicker("", selection: $viewModel.dueDate, displayedComponents: [.date])
                         .labelsHidden()
                         .datePickerStyle(.compact)
                         .environment(\.locale, localizationManager.currentLocale)
-                        .padding(12)
+                        .environment(\.calendar, Calendar(identifier: .gregorian))
+                        .padding(16)
                         .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(theme.primaryColor.opacity(0.3))
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.secondaryColor.opacity(0.8))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                                )
+                                .shadow(color: theme.shadowColor.opacity(0.1), radius: 4, x: 0, y: 2)
                         )
                 }
 

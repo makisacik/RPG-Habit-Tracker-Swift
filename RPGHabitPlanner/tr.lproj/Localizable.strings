@@ -1582,7 +1582,7 @@
 "quest_reward" = "Görev Ödülü";
 "base_reward" = "Temel Ödül";
 "task_bonus" = "Alt Görev Bonusu";
-"quest_title_cannot_be_empty" = "Görev başlığı boş bırakılamaz.";
+"quest_title_cannot_be_empty" = "Görev başlığı boş olamaz.";
 
 // MARK: - Calendar View
 "ok_button" = "Tamam";
@@ -2152,3 +2152,9 @@
 "restores_health_amount" = "%d Can Yeniler";
 "xp_boost_percentage_duration" = "XP Artışı %d%% (%@)";
 "coin_boost_percentage_duration" = "Altın Artışı %d%% (%@)";
+
+// MARK: - Enhanced Date Picker
+"select_your_quest_deadline" = "Görev bitiş tarihinizi seçin";
+"selected_date" = "Seçilen Tarih";
+"selected_deadline" = "Seçilen Bitiş Tarihi";
+"confirm_date" = "Tarihi Onayla";

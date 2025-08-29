@@ -71,35 +71,237 @@ struct GamifiedToggleCard: View {
 struct GamifiedDatePicker: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var localizationManager: LocalizationManager
+
     let title: String
     @Binding var date: Date
 
+    @State private var showPicker = false
+    @State private var tempDate = Date()
+
+    private func formattedDateString(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = localizationManager.currentLocale
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.dateFormat = "d MMM yyyy"     // 12 Sep 2025 / 12 Eyl 2025
+        return dateFormatter.string(from: date)
+    }
+
     var body: some View {
         let theme = themeManager.activeTheme
+
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: "calendar.circle.fill")
                     .foregroundColor(.yellow)
+                    .font(.system(size: 16, weight: .medium))
                 Text(title)
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
 
-            DatePicker("", selection: $date, displayedComponents: [.date])
-                .labelsHidden()
-                .environment(\.locale, localizationManager.currentLocale)
-                .padding()
+            Button {
+                tempDate = date
+                showPicker = true
+            } label: {
+                HStack {
+                    Text(formattedDateString(date))
+                        .font(.appFont(size: 14, weight: .black))
+                        .foregroundColor(theme.textColor)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                        .font(.system(size: 12, weight: .medium))
+                        .rotationEffect(.degrees(showPicker ? 180 : 0))
+                        .animation(.easeInOut(duration: 0.2), value: showPicker)
+                }
+                .frame(height: 44)
+                .padding(.horizontal, 16)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .fill(theme.primaryColor.opacity(0.3))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 12)
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
                                 .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
                         )
+                        .shadow(color: theme.shadowColor.opacity(0.1), radius: 2, x: 0, y: 1)
                 )
+            }
+            .buttonStyle(.plain)
+        }
+        // Localize the sheet content too
+        .environment(\.locale, localizationManager.currentLocale)
+        .environment(\.calendar, Calendar(identifier: .gregorian))
+        .sheet(isPresented: $showPicker) {
+            ThemedDatePickerSheet(
+                title: title,
+                date: $tempDate,
+                onSave: {
+                    date = tempDate
+                    showPicker = false
+                },
+                onCancel: {
+                    showPicker = false
+                }
+            )
+            .environmentObject(themeManager)
+            .environmentObject(localizationManager)
         }
     }
 }
+
+// MARK: - Themed Date Picker Sheet
+struct ThemedDatePickerSheet: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
+    @Environment(\.dismiss) private var dismiss
+    
+    let title: String
+    @Binding var date: Date
+    let onSave: () -> Void
+    let onCancel: () -> Void
+    
+    @State private var selectedDate: Date
+    
+    init(title: String, date: Binding<Date>, onSave: @escaping () -> Void, onCancel: @escaping () -> Void) {
+        self.title = title
+        self._date = date
+        self.onSave = onSave
+        self.onCancel = onCancel
+        self._selectedDate = State(initialValue: date.wrappedValue)
+    }
+
+    var body: some View {
+        let theme = themeManager.activeTheme
+        
+        NavigationView {
+            ZStack {
+                // Background using theme color
+                theme.backgroundColor
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    // Header with quest-like styling
+                    VStack(spacing: 16) {
+                        // Decorative icon
+                        Image(systemName: "calendar.badge.clock")
+                            .font(.system(size: 48, weight: .light))
+                            .foregroundColor(.yellow)
+                            .padding(.top, 20)
+                        
+                        // Title
+                        Text(title)
+                            .font(.appFont(size: 24, weight: .black))
+                            .foregroundColor(theme.textColor)
+                            .multilineTextAlignment(.center)
+                        
+                        // Subtitle
+                        Text("select_your_quest_deadline".localized)
+                            .font(.appFont(size: 16))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    // Date picker container
+                    VStack(spacing: 20) {
+                        // Current selection display
+                        VStack(spacing: 8) {
+                            Text("selected_date".localized)
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(theme.textColor.opacity(0.8))
+                            
+                            Text(formattedSelectedDate)
+                                .font(.appFont(size: 20, weight: .black))
+                                .foregroundColor(theme.textColor)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(theme.primaryColor.opacity(0.3))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .stroke(Color.yellow.opacity(0.4), lineWidth: 2)
+                                        )
+                                        .shadow(color: theme.shadowColor.opacity(0.1), radius: 4, x: 0, y: 2)
+                                )
+                        }
+                        
+                        // Calendar picker
+                        DatePicker("", selection: $selectedDate, displayedComponents: [.date])
+                            .datePickerStyle(.graphical)
+                            .labelsHidden()
+                            .environment(\.locale, localizationManager.currentLocale)
+                            .environment(\.calendar, Calendar(identifier: .gregorian))
+                            .padding(20)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(theme.secondaryColor.opacity(0.8))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                                    )
+                                    .shadow(color: theme.shadowColor.opacity(0.1), radius: 8, x: 0, y: 4)
+                            )
+                            .padding(.horizontal, 20)
+                    }
+                    .padding(.top, 20)
+                    
+                    Spacer()
+                    
+                    // Action buttons
+                    VStack(spacing: 12) {
+                        // Save button
+                        Button(action: {
+                            date = selectedDate
+                            onSave()
+                        }) {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 16, weight: .medium))
+                                Text("confirm_date".localized)
+                                    .font(.appFont(size: 18, weight: .black))
+                            }
+                            .foregroundColor(theme.textColor)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                Image(theme.buttonPrimary)
+                                    .resizable(
+                                        capInsets: EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
+                                        resizingMode: .stretch
+                                    )
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        
+                        // Cancel button
+                        Button(action: {
+                            onCancel()
+                        }) {
+                            Text("cancel".localized)
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.textColor.opacity(0.7))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 30)
+                }
+            }
+            .navigationBarHidden(true)
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    private var formattedSelectedDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = localizationManager.currentLocale
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.dateFormat = "EEEE, d MMMM yyyy"
+        return dateFormatter.string(from: selectedDate)
+    }
+}
+
 
 struct GamifiedTasksSection: View {
     @EnvironmentObject var themeManager: ThemeManager
