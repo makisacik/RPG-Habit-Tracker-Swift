@@ -155,6 +155,7 @@
 // MARK: - Rewards & Achievements
 "reward" = "Reward";
 "rewards" = "Rewards";
+"premium_bonus" = "Premium Bonus";
 "achievement" = "Achievement";
 "achievement_unlocked" = "Achievement Unlocked!";
 "unlocked" = "Unlocked!";

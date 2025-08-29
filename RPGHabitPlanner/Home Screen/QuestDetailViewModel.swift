@@ -201,45 +201,24 @@ final class QuestDetailViewModel: ObservableObject {
                     HapticFeedbackManager.shared.questFinished()
                     print("✅ QuestDetailViewModel: Successfully marked quest as finished on server")
 
-                    // Calculate and award rewards (same logic as QuestsViewModel)
-                    let baseExp: Int
-                    let baseCoins: Int
-
-                    #if DEBUG
-                    baseExp = 50 * self.quest.difficulty
-                    #else
-                    baseExp = 10 * self.quest.difficulty
-                    #endif
-
-                    // Calculate coin reward using CurrencyManager
-                    baseCoins = CurrencyManager.shared.calculateQuestReward(
-                        difficulty: self.quest.difficulty,
-                        isMainQuest: self.quest.isMainQuest,
-                        taskCount: self.quest.tasks.count
-                    )
-
-                    // Apply boosters
-                    let boosterManager = BoosterManager.shared
-                    let boostedRewards = boosterManager.calculateBoostedRewards(
-                        baseExperience: baseExp,
-                        baseCoins: baseCoins
-                    )
+                    // Calculate and award rewards using RewardSystem (includes premium multiplier)
+                    let reward = RewardSystem.shared.calculateQuestReward(quest: self.quest)
 
                     // Award boosted experience
                     let userManager = UserManager(container: PersistenceController.shared.container)
-                    userManager.updateUserExperience(additionalExp: Int16(boostedRewards.experience)) { leveledUp, newLevel, expError in
+                    userManager.updateUserExperience(additionalExp: Int16(reward.totalExperience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             print("❌ Error updating experience: \(expError)")
                         } else {
                             // Award boosted coins
-                            CurrencyManager.shared.addCoins(boostedRewards.coins) { coinError in
+                            CurrencyManager.shared.addCoins(reward.totalCoins) { coinError in
                                 if let coinError = coinError {
                                     print("❌ Error adding coins: \(coinError)")
                                 }
                             }
 
                             // Add gems for quest completion
-                            CurrencyManager.shared.addGems(5) { gemError in
+                            CurrencyManager.shared.addGems(reward.totalGems) { gemError in
                                 if let gemError = gemError {
                                     print("❌ Error adding gems: \(gemError)")
                                 }

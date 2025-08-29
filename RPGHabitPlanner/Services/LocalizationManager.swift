@@ -68,13 +68,14 @@ class LocalizationManager: ObservableObject {
 
     // MARK: - Initialization
     private init() {
-        // Try to restore saved language preference, default to English
+        // Try to restore saved language preference first
         let initialLanguage: Language
         if let savedLanguage = UserDefaults.standard.string(forKey: "selectedLanguage"),
            let language = Language(rawValue: savedLanguage) {
             initialLanguage = language
         } else {
-            initialLanguage = .english
+            // Auto-detect device language if no saved preference
+            initialLanguage = Self.detectDeviceLanguage()
         }
 
         // Initialize stored properties
@@ -89,6 +90,23 @@ class LocalizationManager: ObservableObject {
         }
 
         self.currentLocale = initialLocale
+    }
+
+    // MARK: - Device Language Detection
+
+    /// Detects the device language and returns the appropriate app language
+    /// - Returns: Turkish if device is set to Turkish, otherwise English
+    private static func detectDeviceLanguage() -> Language {
+        // Get the preferred language from the device
+        let preferredLanguage = Locale.preferredLanguages.first ?? "en"
+
+        // Check if the device language is Turkish
+        if preferredLanguage.hasPrefix("tr") {
+            return .turkish
+        }
+
+        // For all other languages, default to English
+        return .english
     }
 
     // MARK: - Public Methods

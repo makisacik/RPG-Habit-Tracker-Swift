@@ -16,8 +16,10 @@ import Foundation
 struct RewardCalculation {
     let baseExperience: Int
     let baseCoins: Int
+    let baseGems: Int
     let boostedExperience: Int
     let boostedCoins: Int
+    let boostedGems: Int
     let experienceMultiplier: Double
     let coinsMultiplier: Double
     let experienceBonus: Int
@@ -29,6 +31,10 @@ struct RewardCalculation {
     
     var totalCoins: Int {
         return boostedCoins
+    }
+
+    var totalGems: Int {
+        return boostedGems
     }
 }
 
@@ -44,17 +50,26 @@ class RewardSystem {
     func calculateQuestReward(quest: Quest) -> RewardCalculation {
         let baseExp = calculateBaseQuestExperience(quest: quest)
         let baseCoins = calculateBaseQuestCoins(quest: quest)
-        
+        let baseGems = 5 // Base gems for quest completion
+
+        // Apply premium multiplier (x2 for premium users) to base rewards
+        let premiumMultiplier = getPremiumMultiplier()
+        let premiumBaseExp = Int(Double(baseExp) * premiumMultiplier)
+        let premiumBaseCoins = Int(Double(baseCoins) * premiumMultiplier)
+        let premiumBaseGems = Int(Double(baseGems) * premiumMultiplier)
+
         let boostedRewards = boosterManager.calculateBoostedRewards(
-            baseExperience: baseExp,
-            baseCoins: baseCoins
+            baseExperience: premiumBaseExp,
+            baseCoins: premiumBaseCoins
         )
-        
+
         return RewardCalculation(
             baseExperience: baseExp,
             baseCoins: baseCoins,
+            baseGems: baseGems,
             boostedExperience: boostedRewards.experience,
             boostedCoins: boostedRewards.coins,
+            boostedGems: premiumBaseGems,
             experienceMultiplier: boosterManager.totalExperienceMultiplier,
             coinsMultiplier: boosterManager.totalCoinsMultiplier,
             experienceBonus: boosterManager.totalExperienceBonus,
@@ -67,17 +82,26 @@ class RewardSystem {
     func calculateTaskReward(task: QuestTask, quest: Quest) -> RewardCalculation {
         let baseExp = calculateBaseTaskExperience(task: task, quest: quest)
         let baseCoins = calculateBaseTaskCoins(task: task, quest: quest)
-        
+        let baseGems = 0 // Tasks don't give gems
+
+        // Apply premium multiplier (x2 for premium users) to base rewards
+        let premiumMultiplier = getPremiumMultiplier()
+        let premiumBaseExp = Int(Double(baseExp) * premiumMultiplier)
+        let premiumBaseCoins = Int(Double(baseCoins) * premiumMultiplier)
+        let premiumBaseGems = Int(Double(baseGems) * premiumMultiplier)
+
         let boostedRewards = boosterManager.calculateBoostedRewards(
-            baseExperience: baseExp,
-            baseCoins: baseCoins
+            baseExperience: premiumBaseExp,
+            baseCoins: premiumBaseCoins
         )
-        
+
         return RewardCalculation(
             baseExperience: baseExp,
             baseCoins: baseCoins,
+            baseGems: baseGems,
             boostedExperience: boostedRewards.experience,
             boostedCoins: boostedRewards.coins,
+            boostedGems: premiumBaseGems,
             experienceMultiplier: boosterManager.totalExperienceMultiplier,
             coinsMultiplier: boosterManager.totalCoinsMultiplier,
             experienceBonus: boosterManager.totalExperienceBonus,
@@ -155,5 +179,12 @@ class RewardSystem {
         let mainQuestBonus = quest.isMainQuest ? 3 : 0
         
         return baseCoins + difficultyBonus + mainQuestBonus
+    }
+    
+    // MARK: - Premium Helper
+    
+    private func getPremiumMultiplier() -> Double {
+        // Access premium status from UserDefaults to avoid main actor issues
+        return UserDefaults.standard.bool(forKey: "isPremium") ? 2.0 : 1.0
     }
 }

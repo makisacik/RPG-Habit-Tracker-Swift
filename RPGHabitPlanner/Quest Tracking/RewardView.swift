@@ -238,29 +238,15 @@ struct RewardView: View {
         rotation = 0
         viewAppeared = true // Ensure view is visible
 
-        // Calculate rewards
-        #if DEBUG
-        baseExp = 50 * quest.difficulty
-        #else
-        baseExp = 10 * quest.difficulty
-        #endif
+        // Calculate rewards using RewardSystem (includes premium multiplier)
+        let reward = RewardSystem.shared.calculateQuestReward(quest: quest)
 
-        baseCoins = CurrencyManager.shared.calculateQuestReward(
-            difficulty: quest.difficulty,
-            isMainQuest: quest.isMainQuest,
-            taskCount: quest.tasks.count
-        )
-
-        // Apply boosters
-        let boosterManager = BoosterManager.shared
-        let boostedRewards = boosterManager.calculateBoostedRewards(
-            baseExperience: baseExp,
-            baseCoins: baseCoins
-        )
-
-        boostedExp = boostedRewards.experience
-        boostedCoins = boostedRewards.coins
-        hasBoosters = !boosterManager.activeBoosters.isEmpty
+        baseExp = reward.baseExperience
+        baseCoins = reward.baseCoins
+        boostedExp = reward.totalExperience
+        boostedCoins = reward.totalCoins
+        gems = reward.totalGems
+        hasBoosters = reward.experienceMultiplier > 1.0 || reward.coinsMultiplier > 1.0 || reward.experienceBonus > 0 || reward.coinsBonus > 0
 
         // Add boosted coins to user
         CurrencyManager.shared.addCoins(boostedCoins) { error in

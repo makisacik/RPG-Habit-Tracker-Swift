@@ -464,15 +464,38 @@ struct QuestRewardPreviewSection: View {
     let isMainQuest: Bool
     let taskCount: Int
 
-    private var coinReward: Int {
-        // Calculate reward without random bonus for quest creation preview
-        let baseReward = difficulty * 10
-        let taskBonus = taskCount * 5
-        return baseReward + taskBonus
-    }
+    private var reward: RewardCalculation {
+        // Create tasks for the quest
+        var tasks: [QuestTask] = []
+        for i in 0..<taskCount {
+            let task = QuestTask(
+                id: UUID(),
+                title: "Task \(i + 1)",
+                isCompleted: false,
+                order: i
+            )
+            tasks.append(task)
+        }
 
-    private var gemReward: Int {
-        return 5 // Fixed 5 gems for quest completion
+        // Create a temporary quest for reward calculation with tasks included
+        let tempQuest = Quest(
+            title: "Preview Quest",
+            isMainQuest: isMainQuest,
+            info: "Preview quest for reward calculation",
+            difficulty: difficulty,
+            creationDate: Date(),
+            dueDate: Date().addingTimeInterval(86400),
+            isActive: true,
+            progress: 0,
+            isCompleted: false,
+            completionDate: nil,
+            tasks: tasks,
+            repeatType: .oneTime,
+            tags: [],
+            scheduledDays: []
+        )
+
+        return RewardSystem.shared.calculateQuestReward(quest: tempQuest)
     }
 
     var body: some View {
@@ -493,7 +516,7 @@ struct QuestRewardPreviewSection: View {
                         Image("icon_gold")
                             .resizable()
                             .frame(width: 16, height: 16)
-                        Text("\(coinReward)")
+                        Text("\(reward.totalCoins)")
                             .font(.appFont(size: 16, weight: .black))
                             .foregroundColor(.yellow)
                     }
@@ -502,7 +525,7 @@ struct QuestRewardPreviewSection: View {
                         Image("icon_gem")
                             .resizable()
                             .frame(width: 16, height: 16)
-                        Text("\(gemReward)")
+                        Text("\(reward.totalGems)")
                             .font(.appFont(size: 16, weight: .black))
                             .foregroundColor(.purple)
                     }
@@ -515,7 +538,7 @@ struct QuestRewardPreviewSection: View {
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     Spacer()
-                    Text("\(difficulty * 10)")
+                    Text("\(reward.baseCoins)")
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(theme.textColor)
                 }
@@ -535,9 +558,22 @@ struct QuestRewardPreviewSection: View {
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(theme.textColor.opacity(0.7))
                     Spacer()
-                    Text("\(gemReward)")
+                    Text("\(reward.baseGems)")
                         .font(.appFont(size: 12, weight: .black))
                         .foregroundColor(.purple)
+                }
+
+                // Show premium multiplier if user is premium
+                if UserDefaults.standard.bool(forKey: "isPremium") {
+                    HStack {
+                        Text("premium_bonus".localized + ":")
+                            .font(.appFont(size: 12, weight: .medium))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                        Spacer()
+                        Text("×2")
+                            .font(.appFont(size: 12, weight: .black))
+                            .foregroundColor(.orange)
+                    }
                 }
             }
             .padding()

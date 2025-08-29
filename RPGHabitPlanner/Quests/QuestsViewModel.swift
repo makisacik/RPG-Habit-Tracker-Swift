@@ -273,38 +273,22 @@ final class QuestsViewModel: ObservableObject {
                 } else {
                     // Provide success haptic feedback for quest finished
                     HapticFeedbackManager.shared.questFinished()
-                    let baseExp: Int
-                    let baseCoins: Int
 
-                    #if DEBUG
-                    baseExp = 50 * quest.difficulty
-                    #else
-                    baseExp = 10 * quest.difficulty
-                    #endif
+                    // Calculate and award rewards using RewardSystem (includes premium multiplier)
+                    let reward = RewardSystem.shared.calculateQuestReward(quest: quest)
 
-                    baseCoins = CurrencyManager.shared.calculateQuestReward(
-                        difficulty: quest.difficulty,
-                        isMainQuest: quest.isMainQuest,
-                        taskCount: quest.tasks.count
-                    )
-
-                    let boosted = self.boosterManager.calculateBoostedRewards(
-                        baseExperience: baseExp,
-                        baseCoins: baseCoins
-                    )
-
-                    self.userManager.updateUserExperience(additionalExp: Int16(boosted.experience)) { leveledUp, newLevel, expError in
+                    self.userManager.updateUserExperience(additionalExp: Int16(reward.totalExperience)) { leveledUp, newLevel, expError in
                         if let expError = expError {
                             self.alertMessage = expError.localizedDescription
                         } else {
-                            CurrencyManager.shared.addCoins(boosted.coins) { coinError in
+                            CurrencyManager.shared.addCoins(reward.totalCoins) { coinError in
                                 if let coinError = coinError {
                                     print("❌ Error adding coins: \(coinError)")
                                 }
                             }
 
                             // Add gems for quest completion
-                            CurrencyManager.shared.addGems(5) { gemError in
+                            CurrencyManager.shared.addGems(reward.totalGems) { gemError in
                                 if let gemError = gemError {
                                     print("❌ Error adding gems: \(gemError)")
                                 }

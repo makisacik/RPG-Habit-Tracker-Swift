@@ -177,7 +177,6 @@ final class BoosterManager: ObservableObject {
         print("🚀 BoosterManager: Refreshed boosters from persistence - Total: \(activeBoosters.count)")
     }
 
-
     func calculateBoostedRewards(baseExperience: Int, baseCoins: Int) -> (experience: Int, coins: Int) {
         let boostedExperience = Int(Double(baseExperience) * totalExperienceMultiplier) + totalExperienceBonus
         let boostedCoins = Int(Double(baseCoins) * totalCoinsMultiplier) + totalCoinsBonus

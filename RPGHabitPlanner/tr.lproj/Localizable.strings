@@ -153,6 +153,7 @@
 // MARK: - Rewards & Achievements
 "reward" = "Ödül";
 "rewards" = "Ödüller";
+"premium_bonus" = "Premium Bonus";
 "achievement" = "Başarım";
 "achievement_unlocked" = "Başarım Açıldı!";
 "unlocked" = "Açıldı!";
