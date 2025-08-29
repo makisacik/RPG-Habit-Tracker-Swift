@@ -97,6 +97,7 @@ enum TransactionSource {
     case booster
     case dailyReward
     case levelUp
+    case premium_purchase
     case other
 }
 

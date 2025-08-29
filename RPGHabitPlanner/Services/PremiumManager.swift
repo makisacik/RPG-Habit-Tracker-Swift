@@ -28,8 +28,8 @@ final class PremiumManager: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Product Identifiers
-    private let subscriptionProductID = "com.makisacik.rpghabitplanner.premium.monthly"
-    private let lifetimeProductID = "com.makisacik.rpghabitplanner.premium.lifetime"
+    private let subscriptionProductID = "com.makisacik.RPGHabitPlanner.premium.monthly"
+    private let lifetimeProductID = "com.makisacik.RPGHabitPlanner.premium.onetime"
 
     // MARK: - User Defaults Keys
     private let isPremiumKey = "isPremium"
@@ -55,6 +55,11 @@ final class PremiumManager: ObservableObject {
     // MARK: - Public Methods
 
     func purchaseSubscription() async throws {
+        // Check if already premium
+        if isPremium {
+            throw PremiumError.alreadyPremium
+        }
+        
         guard let product = products.first(where: { $0.id == subscriptionProductID }) else {
             throw PremiumError.productNotFound
         }
@@ -86,6 +91,11 @@ final class PremiumManager: ObservableObject {
     }
 
     func purchaseLifetime() async throws {
+        // Check if already premium
+        if isPremium {
+            throw PremiumError.alreadyPremium
+        }
+        
         guard let product = products.first(where: { $0.id == lifetimeProductID }) else {
             throw PremiumError.productNotFound
         }
@@ -141,6 +151,61 @@ final class PremiumManager: ObservableObject {
         errorMessage = nil
     }
 
+    // MARK: - Product Management
+
+    func getProductDetails() -> [Product] {
+        return availableProducts
+    }
+    
+    // MARK: - Localized Pricing
+    
+    func getLocalizedPrice(for productID: String) -> String? {
+        guard let product = products.first(where: { $0.id == productID }) else {
+            return nil
+        }
+        return product.displayPrice
+    }
+    
+    func getLocalizedPriceWithCurrency(for productID: String) -> String? {
+        guard let product = products.first(where: { $0.id == productID }) else {
+            return nil
+        }
+        return product.displayPrice
+    }
+    
+    func getAllLocalizedPrices() -> [String: String] {
+        var prices: [String: String] = [:]
+        for product in products {
+            prices[product.id] = product.displayPrice
+        }
+        return prices
+    }
+
+    func areProductsLoaded() -> Bool {
+        return !products.isEmpty
+    }
+
+    // MARK: - Debug Methods
+
+    func debugProductStatus() {
+        print("🔍 PremiumManager Debug:")
+        print("  - Products loaded: \(products.count)")
+        print("  - Available products: \(availableProducts.count)")
+        print("  - Is Premium: \(isPremium)")
+        print("  - Is Subscribed: \(isSubscribed)")
+        print("  - Is Lifetime: \(isLifetimePremium)")
+
+        for product in products {
+            print("  - Product: \(product.id) - \(product.displayName) - \(product.displayPrice)")
+        }
+    }
+    
+    func reloadProducts() async {
+        print("🔄 PremiumManager: Manually reloading products...")
+        await loadProducts()
+        debugProductStatus()
+    }
+
     // MARK: - Private Methods
 
     private func setupStoreKitListener() {
@@ -168,12 +233,31 @@ final class PremiumManager: ObservableObject {
     }
 
     private func loadProducts() async {
+        print("🔄 PremiumManager: Starting to load products...")
+        print("🔍 PremiumManager: Looking for products: \(subscriptionProductID), \(lifetimeProductID)")
+
         do {
             let productIDs = Set([subscriptionProductID, lifetimeProductID])
+            print("📦 PremiumManager: Requesting products from StoreKit...")
             products = try await Product.products(for: productIDs)
             availableProducts = products
+
+            // Log loaded products for debugging
+            print("📱 PremiumManager: Loaded \(products.count) products")
+            for product in products {
+                print("💰 Product: \(product.id) - \(product.displayName) - \(product.displayPrice)")
+            }
+
+            if products.isEmpty {
+                print("⚠️ PremiumManager: No products loaded! This could mean:")
+                print("   - StoreKit configuration is not set up in scheme")
+                print("   - Product IDs don't match StoreKit configuration")
+                print("   - Running on device without TestFlight/App Store")
+            }
         } catch {
-            print("Failed to load products: \(error)")
+            print("❌ PremiumManager: Failed to load products: \(error)")
+            print("❌ PremiumManager: Error details: \(error.localizedDescription)")
+            errorMessage = "Failed to load products: \(error.localizedDescription)"
         }
     }
 
@@ -214,7 +298,26 @@ final class PremiumManager: ObservableObject {
         isPremium = true
         savePremiumStatus()
 
+        // Add 300 gems as a bonus for purchasing premium
+        await addPurchaseBonusGems()
+
         await transaction.finish()
+    }
+    
+    private func addPurchaseBonusGems() async {
+        let currencyManager = CurrencyManager.shared
+        let gemsToAdd = 300
+        
+        await withCheckedContinuation { continuation in
+            currencyManager.addGems(gemsToAdd, source: .premium_purchase, description: "Premium purchase bonus") { error in
+                if let error = error {
+                    print("❌ PremiumManager: Failed to add bonus gems: \(error)")
+                } else {
+                    print("💰 PremiumManager: Successfully added \(gemsToAdd) bonus gems for premium purchase")
+                }
+                continuation.resume()
+            }
+        }
     }
 
     private func loadPremiumStatus() {
@@ -238,6 +341,7 @@ enum PremiumError: LocalizedError {
     case productNotFound
     case userCancelled
     case purchasePending
+    case alreadyPremium
     case unknown
 
     var errorDescription: String? {
@@ -248,6 +352,8 @@ enum PremiumError: LocalizedError {
             return "premium_error_user_cancelled".localized
         case .purchasePending:
             return "premium_error_purchase_pending".localized
+        case .alreadyPremium:
+            return "premium_error_already_premium".localized
         case .unknown:
             return "premium_error_unknown".localized
         }

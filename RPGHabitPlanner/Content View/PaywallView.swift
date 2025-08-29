@@ -15,6 +15,7 @@ struct PaywallView: View {
 
     @State private var selectedPlan: PremiumPlan = .monthly
     @State private var showingError = false
+    @State private var showingSuccess = false
 
     private let theme: Theme
 
@@ -76,8 +77,17 @@ struct PaywallView: View {
         } message: {
             Text(premiumManager.errorMessage ?? "an_error_occurred_during_purchase".localized)
         }
+        .alert("purchase_successful".localized, isPresented: $showingSuccess) {
+            Button("ok_button".localized) { }
+        } message: {
+            Text("premium_purchase_success_message".localized)
+        }
         .onReceive(premiumManager.$errorMessage) { errorMessage in
             showingError = errorMessage != nil
+        }
+        .onAppear {
+            // Debug product loading
+            premiumManager.debugProductStatus()
         }
     }
 
@@ -143,16 +153,39 @@ struct PaywallView: View {
                 .foregroundColor(theme.textColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            HStack(spacing: 12) {
-                PricingCard(
-                    plan: .monthly,
-                    isSelected: selectedPlan == .monthly
-                ) { selectedPlan = .monthly }
+            if premiumManager.areProductsLoaded() {
+                HStack(spacing: 12) {
+                    if let monthlyProduct = premiumManager.getProductDetails().first(where: { $0.id == "com.makisacik.RPGHabitPlanner.premium.monthly" }) {
+                        PricingCard(
+                            plan: .monthly,
+                            product: monthlyProduct,
+                            isSelected: selectedPlan == .monthly
+                        ) { selectedPlan = .monthly }
+                    }
 
-                PricingCard(
-                    plan: .lifetime,
-                    isSelected: selectedPlan == .lifetime
-                ) { selectedPlan = .lifetime }
+                    if let lifetimeProduct = premiumManager.getProductDetails().first(where: { $0.id == "com.makisacik.RPGHabitPlanner.premium.onetime" }) {
+                        PricingCard(
+                            plan: .lifetime,
+                            product: lifetimeProduct,
+                            isSelected: selectedPlan == .lifetime
+                        ) { selectedPlan = .lifetime }
+                    }
+                }
+            } else {
+                // Show loading state
+                HStack(spacing: 12) {
+                    PricingCard(
+                        plan: .monthly,
+                        product: nil,
+                        isSelected: selectedPlan == .monthly
+                    ) { selectedPlan = .monthly }
+                    
+                    PricingCard(
+                        plan: .lifetime,
+                        product: nil,
+                        isSelected: selectedPlan == .lifetime
+                    ) { selectedPlan = .lifetime }
+                }
             }
         }
     }
@@ -170,7 +203,11 @@ struct PaywallView: View {
                         case .lifetime:
                             try await premiumManager.purchaseLifetime()
                         }
-                        dismiss()
+                        showingSuccess = true
+                        // Dismiss after a short delay to show success message
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            dismiss()
+                        }
                     } catch {
                         // Error is handled by the alert
                     }
@@ -214,6 +251,22 @@ struct PaywallView: View {
             .font(.appFont(size: 16, weight: .medium))
             .foregroundColor(theme.accentColor)
             .disabled(premiumManager.isLoading)
+
+            #if DEBUG
+            Button("Debug Products") {
+                premiumManager.debugProductStatus()
+            }
+            .font(.appFont(size: 14, weight: .medium))
+            .foregroundColor(theme.textColor.opacity(0.6))
+            
+            Button("Reload Products") {
+                Task {
+                    await premiumManager.reloadProducts()
+                }
+            }
+            .font(.appFont(size: 14, weight: .medium))
+            .foregroundColor(theme.textColor.opacity(0.6))
+            #endif
         }
     }
 
@@ -281,6 +334,7 @@ struct PremiumFeatureRow: View {
 
 struct PricingCard: View {
     let plan: PremiumPlan
+    let product: Product?
     let isSelected: Bool
     let onTap: () -> Void
 
@@ -297,9 +351,14 @@ struct PricingCard: View {
                     .font(.appFont(size: 18, weight: .bold))
                     .foregroundColor(isSelected ? .white : theme.textColor)
 
-                Text(plan.price)
+                Text(product?.displayPrice ?? plan.price)
                     .font(.appFont(size: 24, weight: .bold))
                     .foregroundColor(isSelected ? .white : theme.accentColor)
+                    .onAppear {
+                        if let product = product {
+                            print("💰 Localized price for \(product.id): \(product.displayPrice)")
+                        }
+                    }
 
                 Text(plan.description)
                     .font(.appFont(size: 14, weight: .medium))

@@ -788,6 +788,7 @@
 "premium_error_product_not_found" = "Ürün bulunamadı";
 "premium_error_user_cancelled" = "Satın alma iptal edildi";
 "premium_error_purchase_pending" = "Satın alma onay bekliyor";
+"premium_error_already_premium" = "Zaten premium kullanıcısısın";
 "premium_error_unknown" = "Bilinmeyen bir hata oluştu";
 
 // MARK: - Languages
@@ -1904,6 +1905,8 @@
 "quest_finish_confirmation_message" = "'%@' görevini bitti olarak işaretlemek istediğinden emin misin?";
 "no_damage_yet_message" = "Bu görev henüz hiç hasar vermedi. İyi iş çıkarıyorsun!";
 "purchase_error" = "Satın Alma Hatası";
+"purchase_successful" = "Satın Alma Başarılı";
+"premium_purchase_success_message" = "Premium'a hoş geldin! Teşekkür hediyesi olarak 300 bonus mücevher aldın.";
 "an_error_occurred" = "Bir hata oluştu";
 "an_error_occurred_during_purchase" = "Satın alma sırasında bir hata oluştu";
 "restore_purchases" = "Satın Alımları Geri Yükle";

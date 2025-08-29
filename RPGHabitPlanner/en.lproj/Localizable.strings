@@ -848,6 +848,7 @@
 "premium_error_product_not_found" = "Product not found";
 "premium_error_user_cancelled" = "Purchase was cancelled";
 "premium_error_purchase_pending" = "Purchase is pending approval";
+"premium_error_already_premium" = "You are already a premium user";
 "premium_error_unknown" = "An unknown error occurred";
 
 // MARK: - Languages
@@ -1844,6 +1845,8 @@
 "quest_finish_confirmation_message" = "Are you sure you want to mark '%@' as finished?";
 "no_damage_yet_message" = "This quest hasn't caused any damage yet. Keep up the good work!";
 "purchase_error" = "Purchase Error";
+"purchase_successful" = "Purchase Successful";
+"premium_purchase_success_message" = "Welcome to Premium! You've received 300 bonus gems as a thank you gift.";
 "an_error_occurred" = "An error occurred";
 "an_error_occurred_during_purchase" = "An error occurred during purchase";
 "close" = "Close";

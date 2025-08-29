@@ -165,6 +165,7 @@ extension TransactionSource: RawRepresentable {
         case "booster": self = .booster
         case "dailyReward": self = .dailyReward
         case "levelUp": self = .levelUp
+        case "premium_purchase": self = .premium_purchase
         case "other": self = .other
         default: return nil
         }
@@ -179,6 +180,7 @@ extension TransactionSource: RawRepresentable {
         case .booster: return "booster"
         case .dailyReward: return "dailyReward"
         case .levelUp: return "levelUp"
+        case .premium_purchase: return "premium_purchase"
         case .other: return "other"
         }
     }
