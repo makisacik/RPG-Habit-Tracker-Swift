@@ -82,6 +82,31 @@ struct HomeView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
             shouldNavigateToQuestCreation = true
         }
+        .onAppear {
+            // Record streak activity when home view appears
+            viewModel.streakManager.recordActivity()
+
+            // Show tutorial for first-time users
+            if !hasSeenHomeTutorial {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    showTutorial = true
+                }
+            }
+        }
+        .overlay(
+            Group {
+                if showTutorial {
+                    TutorialView(isPresented: $showTutorial)
+                        .environmentObject(themeManager)
+                        .environmentObject(localizationManager)
+                        .onDisappear {
+                            // Mark tutorial as seen when dismissed
+                            hasSeenHomeTutorial = true
+                        }
+                        .zIndex(100)
+                }
+            }
+        )
     }
 
     // MARK: - Tab View Builders

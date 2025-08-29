@@ -64,7 +64,7 @@ extension HomeView {
                 size: 45,
                 showShadow: false
             )
-            .scaleEffect(1.725)
+            .scaleEffect(1.5525)
             .clipped()
         }
     }

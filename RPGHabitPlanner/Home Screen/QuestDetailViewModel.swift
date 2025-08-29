@@ -280,6 +280,12 @@ final class QuestDetailViewModel: ObservableObject {
                     self?.refreshQuest()
                 } else {
                     print("✅ QuestDetailViewModel: Successfully updated task completion on server")
+                    
+                    // Record streak activity when completing a task
+                    if newValue {
+                        self?.streakManager.recordActivity()
+                    }
+                    
                     // Notify other views that quest was updated
                     NotificationCenter.default.post(name: .questUpdated, object: self?.quest)
                 }

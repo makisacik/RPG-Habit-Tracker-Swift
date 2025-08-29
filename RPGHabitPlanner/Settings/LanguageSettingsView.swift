@@ -130,10 +130,6 @@ struct LanguageOptionCard: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
-                // Flag
-                Text(language.flag)
-                    .font(.title)
-
                 // Language Info
                 VStack(alignment: .leading, spacing: 4) {
                     Text(language.displayName)

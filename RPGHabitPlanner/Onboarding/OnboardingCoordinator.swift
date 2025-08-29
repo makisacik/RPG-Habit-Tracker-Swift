@@ -42,25 +42,12 @@ class OnboardingCoordinator: ObservableObject {
         // Dismiss keyboard before navigation
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 
-        guard let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep),
-              currentIndex < OnboardingStep.allCases.count - 1 else { return }
+        let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep) ?? 0
+        let nextIndex = currentIndex + 1
 
-        let nextStep = OnboardingStep.allCases[currentIndex + 1]
-
-        withAnimation(.easeInOut(duration: 0.3)) {
-            currentStep = nextStep
-        }
-
-        // Show keyboard when navigating to nickname step
-        if nextStep == .nickname {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                // Find and focus the text field in the nickname step
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let window = windowScene.windows.first {
-                    window.makeKey()
-                    // Trigger focus on the text field
-                    NotificationCenter.default.post(name: NSNotification.Name("FocusNicknameTextField"), object: nil)
-                }
+        if nextIndex < OnboardingStep.allCases.count {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                currentStep = OnboardingStep.allCases[nextIndex]
             }
         }
     }
@@ -69,11 +56,13 @@ class OnboardingCoordinator: ObservableObject {
         // Dismiss keyboard before navigation
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 
-        guard let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep),
-              currentIndex > 0 else { return }
+        let currentIndex = OnboardingStep.allCases.firstIndex(of: currentStep) ?? 0
+        let previousIndex = currentIndex - 1
 
-        withAnimation(.easeInOut(duration: 0.3)) {
-            currentStep = OnboardingStep.allCases[currentIndex - 1]
+        if previousIndex >= 0 {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                currentStep = OnboardingStep.allCases[currentIndex - 1]
+            }
         }
     }
 
@@ -98,6 +87,7 @@ class OnboardingCoordinator: ObservableObject {
                 print("❌ OnboardingCoordinator: Failed to save user: \(error.localizedDescription)")
             } else {
                 print("✅ OnboardingCoordinator: User saved successfully")
+
                 // After user is saved, save character customization to Core Data
                 self?.userManager.fetchUser { user, fetchError in
                     if let user = user, fetchError == nil {

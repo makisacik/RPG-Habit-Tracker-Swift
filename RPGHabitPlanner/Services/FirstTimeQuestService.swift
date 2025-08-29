@@ -107,7 +107,7 @@ final class FirstTimeQuestService {
                         completion(error)
                     } else {
                         print("✅ FirstTimeQuestService: Quest saved successfully")
-                        
+
                         // Verify the quest was saved correctly by fetching it back
                         questDataService.fetchAllQuests { quests, fetchError in
                             if let fetchError = fetchError {

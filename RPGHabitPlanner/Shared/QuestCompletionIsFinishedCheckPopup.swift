@@ -83,7 +83,7 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                         HapticFeedbackManager.shared.questFinished()
                         onConfirm()
                     }) {
-                        Text("Done")
+                        Text("done".localized)
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 24)

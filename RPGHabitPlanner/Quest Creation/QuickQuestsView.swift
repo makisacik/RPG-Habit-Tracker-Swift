@@ -1,6 +1,66 @@
 import SwiftUI
 import Foundation
 
+// MARK: - Quest Types and Templates
+enum QuestType: String, CaseIterable {
+    case daily = "daily"
+    case weekly = "weekly"
+    case oneTime = "oneTime"
+}
+
+struct QuickQuestTemplate: Identifiable {
+    let id = UUID()
+    let title: String
+    let description: String
+    let category: QuickQuestCategory
+    let difficulty: Int
+    let iconName: String
+    let tasks: [QuestTask]
+}
+
+enum QuickQuestCategory: String, CaseIterable {
+    case health = "health"
+    case productivity = "productivity"
+    case learning = "learning"
+    case mindfulness = "mindfulness"
+    case fitness = "fitness"
+    case social = "social"
+
+    var displayName: String {
+        switch self {
+        case .health:
+            return "health_and_wellness".localized
+        case .productivity:
+            return "productivity".localized
+        case .learning:
+            return "learning_and_growth".localized
+        case .mindfulness:
+            return "mindfulness".localized
+        case .fitness:
+            return "fitness".localized
+        case .social:
+            return "social".localized
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .health:
+            return .red
+        case .productivity:
+            return .blue
+        case .learning:
+            return .purple
+        case .mindfulness:
+            return .indigo
+        case .fitness:
+            return .green
+        case .social:
+            return .orange
+        }
+    }
+}
+
 struct QuickQuestsView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: QuickQuestsViewModel
@@ -14,64 +74,50 @@ struct QuickQuestsView: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
-        NavigationView {
-            ZStack {
-                theme.backgroundColor
-                    .ignoresSafeArea()
+        ZStack {
+            theme.backgroundColor
+                .ignoresSafeArea()
 
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Header
-                        VStack(spacing: 8) {
-                            Text("quick_quests".localized)
-                                .font(.appFont(size: 28, weight: .black))
-                                .foregroundColor(theme.textColor)
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Header
+                    VStack(spacing: 8) {
+                        Text("quick_quests".localized)
+                            .font(.appFont(size: 28, weight: .black))
+                            .foregroundColor(theme.textColor)
 
-                            Text("choose_from_curated_quest_templates".localized)
-                                .font(.appFont(size: 16))
-                                .foregroundColor(theme.textColor.opacity(0.7))
-                                .multilineTextAlignment(.center)
-                        }
-                        .padding(.top, 20)
+                        Text("choose_from_curated_quest_templates".localized)
+                            .font(.appFont(size: 16))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 20)
 
-                        // Quest Type Segments
-                        Picker("quest_type".localized, selection: $viewModel.selectedQuestType) {
-                            Text("daily".localized).tag(QuestType.daily)
-                            Text("weekly".localized).tag(QuestType.weekly)
-                            Text("one_time".localized).tag(QuestType.oneTime)
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding(.horizontal, 16)
+                    // Quest Type Segments
+                    Picker("quest_type".localized, selection: $viewModel.selectedQuestType) {
+                        Text("daily".localized).tag(QuestType.daily)
+                        Text("weekly".localized).tag(QuestType.weekly)
+                        Text("one_time".localized).tag(QuestType.oneTime)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal, 16)
 
-                        // Quest Templates
-                        LazyVStack(spacing: 16) {
-                            ForEach(viewModel.questsForSelectedType, id: \.id) { template in
-                                QuickQuestTemplateCard(
-                                    template: template,
-                                    theme: theme
-                                ) {
-                                    viewModel.selectedTemplate = template
-                                    viewModel.showDueDatePicker = true
-                                }
+                    // Quest Templates
+                    LazyVStack(spacing: 16) {
+                        ForEach(viewModel.questsForSelectedType, id: \.id) { template in
+                            QuickQuestTemplateCard(
+                                template: template,
+                                theme: theme
+                            ) {
+                                viewModel.selectedTemplate = template
+                                viewModel.showDueDatePicker = true
                             }
                         }
-                        .padding(.horizontal, 16)
                     }
-                    .padding(.bottom, 20)
+                    .padding(.horizontal, 16)
                 }
+                .padding(.bottom, 20)
             }
-            .navigationTitle("quick_quests".localized)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-                leading: Button("cancel".localized) {
-                    dismiss()
-                }
-                .foregroundColor(theme.textColor),
-                trailing: Button("done".localized) {
-                    dismiss()
-                }
-                .foregroundColor(theme.textColor)
-            )
             .sheet(isPresented: $viewModel.showDueDatePicker) {
                 if let template = viewModel.selectedTemplate {
                     DueDateSelectionView(
@@ -95,7 +141,6 @@ struct QuickQuestsView: View {
                 )
             }
         }
-    }
 }
 
 struct QuickQuestTemplateCard: View {
@@ -345,34 +390,15 @@ struct DueDateSelectionView: View {
                             )
                         }
                         .buttonStyle(.plain)
-
-                        // Cancel button with enhanced styling
-                        Button("cancel".localized) {
-                            dismiss()
-                        }
-                        .font(.appFont(size: 16, weight: .medium))
-                        .foregroundColor(theme.textColor.opacity(0.7))
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 20)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(theme.primaryColor.opacity(0.1))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(theme.borderColor.opacity(0.2), lineWidth: 1)
-                                )
-                        )
-                        .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 30)
                 }
             }
-            .navigationTitle("set_due_date".localized)
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(trailing: Button("cancel".localized) {
                 dismiss()
-            })
+            }
+            .foregroundColor(theme.textColor))
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
@@ -399,62 +425,4 @@ struct DueDateSelectionView: View {
         }
     }
 }
-
-enum QuestType: String, CaseIterable {
-    case daily = "daily"
-    case weekly = "weekly"
-    case oneTime = "oneTime"
-}
-
-struct QuickQuestTemplate: Identifiable {
-    let id = UUID()
-    let title: String
-    let description: String
-    let category: QuickQuestCategory
-    let difficulty: Int
-    let iconName: String
-    let tasks: [QuestTask]
-}
-
-enum QuickQuestCategory: String, CaseIterable {
-    case health = "health"
-    case productivity = "productivity"
-    case learning = "learning"
-    case mindfulness = "mindfulness"
-    case fitness = "fitness"
-    case social = "social"
-
-    var displayName: String {
-        switch self {
-        case .health:
-            return "health_and_wellness".localized
-        case .productivity:
-            return "productivity".localized
-        case .learning:
-            return "learning_and_growth".localized
-        case .mindfulness:
-            return "mindfulness".localized
-        case .fitness:
-            return "fitness".localized
-        case .social:
-            return "social".localized
-        }
-    }
-
-    var color: Color {
-        switch self {
-        case .health:
-            return .red
-        case .productivity:
-            return .blue
-        case .learning:
-            return .purple
-        case .mindfulness:
-            return .indigo
-        case .fitness:
-            return .green
-        case .social:
-            return .orange
-        }
-    }
 }

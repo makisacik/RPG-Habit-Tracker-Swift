@@ -333,6 +333,11 @@ final class CalendarViewModel: ObservableObject {
                     // Provide error haptic feedback
                     HapticFeedbackManager.shared.errorOccurred()
                 } else {
+                    // Record streak activity when completing a task
+                    if newValue {
+                        self?.streakManager.recordActivity()
+                    }
+
                     if newValue,
                        let quest = self?.allQuests.first(where: { $0.id == questId }),
                        let task = quest.tasks.first(where: { $0.id == taskId }) {
