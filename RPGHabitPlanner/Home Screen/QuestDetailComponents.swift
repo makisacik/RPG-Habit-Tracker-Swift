@@ -490,7 +490,6 @@ struct QuestDetailDamageHistorySection: View {
         }
     }
 }
-
 // MARK: - Action Buttons Section Component
 struct QuestDetailActionButtonsSection: View {
     let quest: Quest
