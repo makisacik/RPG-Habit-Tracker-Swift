@@ -548,9 +548,9 @@
 "achievement_experience_hunter" = "Deneyim Avcısı";
 "achievement_experience_hunter_description" = "1000 deneyim puanı kazan";
 "achievement_early_bird" = "Erken Kalkan";
-"achievement_early_bird_description" = "08:00'den önce bir görev tamamla";
+"achievement_early_bird_description" = "05:00-08:00 arasında bir görev üzerinde çalış";
 "achievement_night_owl" = "Gece Kuşu";
-"achievement_night_owl_description" = "22:00'den sonra bir görev tamamla";
+"achievement_night_owl_description" = "22:00'den sonra bir görev üzerinde çalış";
 "achievement_weekend_warrior" = "Hafta Sonu Savaşçısı";
 "achievement_weekend_warrior_description" = "Hafta sonu 5 görev tamamla";
 "achievement_perfect_day" = "Mükemmel Gün";

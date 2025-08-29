@@ -60,6 +60,11 @@ class AchievementManager: ObservableObject {
             }
         }
 
+        #if DEBUG
+        // Debug achievement status
+        debugAchievementStatus(questDataService: questDataService)
+        #endif
+
         completion(newlyUnlocked)
     }
 
@@ -100,6 +105,9 @@ class AchievementManager: ObservableObject {
         case .questAfterTime(let hour):
             return hasCompletedQuestAfterTime(questDataService, hour: hour)
 
+        case .questInTimeRange(let startHour, let endHour):
+            return hasCompletedQuestInTimeRange(questDataService, startHour: startHour, endHour: endHour)
+
         case .weekendQuests(let count):
             return getWeekendQuestsCompleted(questDataService) >= count
 
@@ -115,7 +123,8 @@ class AchievementManager: ObservableObject {
         let semaphore = DispatchSemaphore(value: 0)
 
         questDataService.fetchAllQuests { quests, _ in
-                count = quests.filter { $0.isCompleted }.count
+                // Count quests that have been finished (permanently completed)
+                count = quests.filter { $0.isFinished }.count
             semaphore.signal()
         }
 
@@ -211,9 +220,10 @@ class AchievementManager: ObservableObject {
 
         questDataService.fetchAllQuests { quests, _ in
                 hasCompleted = quests.contains { quest in
-                    quest.isCompleted &&
-                    quest.completionDate != nil &&
-                    Calendar.current.component(.hour, from: quest.completionDate!) < hour
+                    // Check if any completion date is before the specified hour
+                    quest.completions.contains { completionDate in
+                        Calendar.current.component(.hour, from: completionDate) < hour
+                    }
                 }
             semaphore.signal()
         }
@@ -227,9 +237,29 @@ class AchievementManager: ObservableObject {
 
         questDataService.fetchAllQuests { quests, _ in
                 hasCompleted = quests.contains { quest in
-                    quest.isCompleted &&
-                    quest.completionDate != nil &&
-                    Calendar.current.component(.hour, from: quest.completionDate!) >= hour
+                    // Check if any completion date is after the specified hour
+                    quest.completions.contains { completionDate in
+                        Calendar.current.component(.hour, from: completionDate) >= hour
+                    }
+                }
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+        return hasCompleted
+    }
+
+    private func hasCompletedQuestInTimeRange(_ questDataService: QuestDataServiceProtocol, startHour: Int, endHour: Int) -> Bool {
+        var hasCompleted = false
+        let semaphore = DispatchSemaphore(value: 0)
+
+        questDataService.fetchAllQuests { quests, _ in
+                hasCompleted = quests.contains { quest in
+                    // Check if any completion date is within the specified time range
+                    quest.completions.contains { completionDate in
+                        let hour = Calendar.current.component(.hour, from: completionDate)
+                        return hour >= startHour && hour < endHour
+                    }
                 }
             semaphore.signal()
         }
@@ -343,6 +373,25 @@ class AchievementManager: ObservableObject {
             unlockedAchievements.insert(achievement.id)
         }
         saveUnlockedAchievements()
+    }
+    
+    func debugAchievementStatus(questDataService: QuestDataServiceProtocol) {
+        questDataService.fetchAllQuests { quests, _ in
+            let finishedQuests = quests.filter { $0.isFinished }
+            let completedQuests = quests.filter { $0.isCompleted }
+            let questsWithCompletions = quests.filter { !$0.completions.isEmpty }
+            
+            print("🔍 Achievement Debug Info:")
+            print("   Total quests: \(quests.count)")
+            print("   Finished quests: \(finishedQuests.count)")
+            print("   Completed quests: \(completedQuests.count)")
+            print("   Quests with completions: \(questsWithCompletions.count)")
+            print("   First Steps achievement unlocked: \(self.isAchievementUnlocked("first_quest"))")
+            
+            for quest in finishedQuests {
+                print("   ✅ Finished quest: '\(quest.title)' (ID: \(quest.id))")
+            }
+        }
     }
     #endif
 }

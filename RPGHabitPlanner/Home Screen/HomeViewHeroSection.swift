@@ -47,17 +47,6 @@ extension HomeView {
     @ViewBuilder
     private func characterAvatar(theme: Theme) -> some View {
         ZStack {
-            // Outer glow effect
-            let outerGlowGradient = LinearGradient(
-                colors: [Color.yellow.opacity(0.3), Color.orange.opacity(0.1)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            Circle()
-                .fill(outerGlowGradient)
-                .frame(width: 70, height: 70)
-                .shadow(color: .yellow.opacity(0.3), radius: 6, x: 0, y: 3)
-
             // Main avatar background
             let avatarBackgroundGradient = LinearGradient(
                 colors: [theme.primaryColor, theme.primaryColor.opacity(0.8)],
@@ -75,7 +64,7 @@ extension HomeView {
                 size: 45,
                 showShadow: false
             )
-            .scaleEffect(1.5)
+            .scaleEffect(1.725)
             .clipped()
         }
     }
@@ -113,24 +102,24 @@ extension HomeView {
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .padding(.horizontal, 8)
                 .padding(.vertical, 3)
-                .background(titleBackground)
+                .background(titleBackground(theme: theme))
         } else {
             Text("the_brave".localized)
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor.opacity(0.8))
                 .padding(.horizontal, 8)
                 .padding(.vertical, 3)
-                .background(titleBackground)
+                .background(titleBackground(theme: theme))
         }
     }
 
     @ViewBuilder
-    private var titleBackground: some View {
+    private func titleBackground(theme: Theme) -> some View {
         RoundedRectangle(cornerRadius: 6)
-            .fill(Color.yellow.opacity(0.2))
+            .fill(theme.accentColor.opacity(0.2))
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                    .stroke(theme.accentColor.opacity(0.3), lineWidth: 1)
             )
     }
 

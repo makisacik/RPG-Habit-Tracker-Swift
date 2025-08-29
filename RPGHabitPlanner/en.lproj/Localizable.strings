@@ -603,9 +603,9 @@
 "achievement_experience_hunter" = "Experience Hunter";
 "achievement_experience_hunter_description" = "Gain 1000 experience points";
 "achievement_early_bird" = "Early Bird";
-"achievement_early_bird_description" = "Complete a quest before 8 AM";
+"achievement_early_bird_description" = "Work on a quest between 5 AM and 8 AM";
 "achievement_night_owl" = "Night Owl";
-"achievement_night_owl_description" = "Complete a quest after 10 PM";
+"achievement_night_owl_description" = "Work on a quest after 10 PM";
 "achievement_weekend_warrior" = "Weekend Warrior";
 "achievement_weekend_warrior_description" = "Complete 5 quests on a weekend";
 "achievement_perfect_day" = "Perfect Day";

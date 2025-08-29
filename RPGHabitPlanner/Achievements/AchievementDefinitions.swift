@@ -114,7 +114,7 @@ struct AchievementDefinition: Identifiable, Codable {
                 description: "achievement_early_bird_description".localized,
                 iconName: "sunrise.fill",
                 category: .special,
-                requirement: .questBeforeTime(8),
+                requirement: .questInTimeRange(startHour: 5, endHour: 8),
                 type: .special
             ),
             AchievementDefinition(
@@ -163,6 +163,7 @@ enum AchievementRequirement: Codable {
     case totalExperience(Int)
     case questBeforeTime(Int)
     case questAfterTime(Int)
+    case questInTimeRange(startHour: Int, endHour: Int)
     case weekendQuests(Int)
     case allDailyQuests
 }
