@@ -30,6 +30,10 @@ struct HomeView: View {
     @State private var showLevelUp = false
     @State private var levelUpLevel: Int = 0
 
+    // Tutorial state
+    @AppStorage("hasSeenHomeTutorial") private var hasSeenHomeTutorial = false
+    @State private var showTutorial = false
+
     let questDataService: QuestDataServiceProtocol
 
     // ✅ Custom init to build StateObject with dependencies
@@ -130,6 +134,12 @@ struct HomeView: View {
                     // Reward Toast Container
                     RewardToastContainerView()
                         .zIndex(70)
+
+                    // Tutorial overlay
+                    if showTutorial {
+                        TutorialView(isPresented: $showTutorial)
+                            .zIndex(100)
+                    }
                 }
                 .navigationTitle("adventure_hub".localized)
                 .navigationBarTitleDisplayMode(.inline)
@@ -171,6 +181,13 @@ struct HomeView: View {
 
                         // Check for failed quests
                         questFailureHandler.performDailyQuestCheck()
+
+                        // Show tutorial if user hasn't seen it before
+                        if !hasSeenHomeTutorial {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                showTutorial = true
+                            }
+                        }
                     }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .questCreated)) { _ in
@@ -187,6 +204,11 @@ struct HomeView: View {
                 }
                 .onChange(of: premiumManager.isPremium) { isPremium in
                     if isPremium { showPaywall = false }
+                }
+                .onChange(of: showTutorial) { visible in
+                    if !visible && !hasSeenHomeTutorial {
+                        hasSeenHomeTutorial = true
+                    }
                 }
                 .sheet(isPresented: $showPaywall) {
                     PaywallView().environmentObject(premiumManager)

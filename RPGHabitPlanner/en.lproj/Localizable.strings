@@ -2524,3 +2524,18 @@
 "weapon_equipped" = "Weapon equipped";
 "weekly_bonus_received" = "Weekly bonus received";
 "xp_multiplier" = "XP multiplier";
+
+// MARK: - Tutorial
+"tutorial_welcome_title" = "Welcome, Adventurer! ✨";
+"tutorial_welcome_subtitle" = "Track your habits as epic quests.";
+"tutorial_create_quests_title" = "Turn your daily tasks into quests.";
+"tutorial_complete_rewards_title" = "Complete & Earn Rewards";
+"tutorial_complete_rewards_subtitle" = "Finish quests to earn gold and gems!";
+"tutorial_grow_character_title" = "Grow Your Character";
+"tutorial_grow_character_subtitle" = "Level up your hero as you build better habits.";
+"tutorial_gear_legend_title" = "Turn your hero into legend";
+"tutorial_gear_legend_subtitle" = "Hop on the shop for gears";
+"tutorial_next" = "Next";
+"tutorial_skip" = "Skip";
+"tutorial_get_started" = "Get Started";
+"tutorial_skip_tutorial" = "Skip Tutorial";

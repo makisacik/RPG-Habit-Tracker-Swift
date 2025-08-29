@@ -80,6 +80,17 @@ struct SettingsView: View {
                             Spacer()
                         }
                     }
+
+                    Button {
+                        resetTutorial()
+                    } label: {
+                        HStack {
+                            Label("Reset Tutorial", systemImage: "arrow.clockwise")
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.accentColor)
+                            Spacer()
+                        }
+                    }
                 }
                 .listRowBackground(theme.cardBackgroundColor)
             }
@@ -132,6 +143,11 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private func resetTutorial() {
+        UserDefaults.standard.set(false, forKey: "hasSeenHomeTutorial")
+        print("✅ Tutorial reset successfully")
     }
 }
 

@@ -2172,3 +2172,18 @@
 "selected_date" = "Seçilen Tarih";
 "selected_deadline" = "Seçilen Bitiş Tarihi";
 "confirm_date" = "Tarihi Onayla";
+
+// MARK: - Tutorial
+"tutorial_welcome_title" = "Hoş Geldin, Maceracı! ✨";
+"tutorial_welcome_subtitle" = "Alışkanlıklarını destansı görevler olarak takip et.";
+"tutorial_create_quests_title" = "Günlük görevlerini görevlere dönüştür.";
+"tutorial_complete_rewards_title" = "Tamamla ve Ödül Kazan";
+"tutorial_complete_rewards_subtitle" = "Görevleri tamamlayarak altın ve mücevher kazan!";
+"tutorial_grow_character_title" = "Karakterini Geliştir";
+"tutorial_grow_character_subtitle" = "Daha iyi alışkanlıklar geliştirirken kahramanını seviye atlat.";
+"tutorial_gear_legend_title" = "Kahramanını efsaneye dönüştür";
+"tutorial_gear_legend_subtitle" = "Ekipman için dükkana git";
+"tutorial_next" = "İleri";
+"tutorial_skip" = "Atla";
+"tutorial_get_started" = "Başla";
+"tutorial_skip_tutorial" = "Öğreticiyi Atla";

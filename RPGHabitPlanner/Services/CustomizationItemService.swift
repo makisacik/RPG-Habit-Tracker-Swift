@@ -224,9 +224,9 @@ extension CustomizationItemService {
             (EyeColor.eyeBlack.rawValue, .eyeColor, .common),
             (EyeColor.eyeBlue.rawValue, .eyeColor, .uncommon),
 
-            // Outfits
-            (Outfit.outfitVillager.rawValue, .outfit, .common),
-            (Outfit.outfitVillagerBlue.rawValue, .outfit, .uncommon),
+            // Outfits - use database items for consistent naming
+            ("char_outfit_villager", .outfit, .common),
+            ("char_outfit_villager_blue", .outfit, .uncommon),
 
             // Weapons
             (CharacterWeapon.swordWood.rawValue, .weapon, .common),

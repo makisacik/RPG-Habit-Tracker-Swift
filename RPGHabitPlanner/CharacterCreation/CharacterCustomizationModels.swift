@@ -544,16 +544,16 @@ enum Outfit: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .outfitVillager: return "outfit_villager".localized
-        case .outfitVillagerBlue: return "outfit_villager_blue".localized
-        case .outfitIron: return "outfit_iron".localized
-        case .outfitIron2: return "outfit_iron_2".localized
-        case .outfitWizard: return "outfit_wizard".localized
-        case .outfitDress: return "outfit_dress".localized
-        case .outfitFire: return "outfit_fire".localized
-        case .outfitBat: return "outfit_bat".localized
-        case .outfitRed: return "outfit_red".localized
-        case .outfitHoodie: return "outfit_hoodie".localized
+        case .outfitVillager: return "peasants_garb".localized
+        case .outfitVillagerBlue: return "azure_tunic".localized
+        case .outfitIron: return "ironclad_plate".localized
+        case .outfitIron2: return "steel_guardian".localized
+        case .outfitWizard: return "arcane_robes".localized
+        case .outfitDress: return "noble_gown".localized
+        case .outfitFire: return "infernal_armor".localized
+        case .outfitBat: return "shadow_cloak".localized
+        case .outfitRed: return "crimson_vestments".localized
+        case .outfitHoodie: return "travelers_cloak".localized
         }
     }
 

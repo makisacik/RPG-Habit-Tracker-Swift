@@ -396,30 +396,47 @@ struct OutfitSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
 
-    // Filter to only show villager outfits
-    private var availableOutfits: [Outfit] {
-        return [.outfitVillager, .outfitVillagerBlue]
+    // Use database items instead of enum for consistent naming
+    private var availableOutfits: [Item] {
+        return ItemDatabase.allGear.filter { item in
+            item.gearCategory == .outfit &&
+            (item.iconName == "char_outfit_villager" || item.iconName == "char_outfit_villager_blue")
+        }
     }
 
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
-            ForEach(availableOutfits, id: \.self) { outfit in
+            ForEach(availableOutfits, id: \.id) { item in
                 CustomizationOptionCard(
                     option: CustomizationOption(
-                        id: outfit.rawValue,
-                        name: outfit.displayName,
-                        imageName: outfit.rawValue,
-                        previewImage: outfit.previewImageName,
-                        isPremium: outfit.isPremium,
+                        id: item.iconName,
+                        name: item.localizedName,
+                        imageName: item.iconName,
+                        previewImage: item.previewImage,
+                        isPremium: false,
                         isUnlocked: true
                     ),
-                    isSelected: viewModel.currentCustomization.outfit == outfit,
+                    isSelected: viewModel.currentCustomization.outfit?.rawValue == item.iconName,
                     onTap: {
-                        viewModel.updateOutfit(outfit)
+                        // Map the database item back to the enum for the view model
+                        if let outfit = mapDatabaseItemToOutfit(item) {
+                            viewModel.updateOutfit(outfit)
+                        }
                     },
                     theme: theme
                 )
             }
+        }
+    }
+    
+    private func mapDatabaseItemToOutfit(_ item: Item) -> Outfit? {
+        switch item.iconName {
+        case "char_outfit_villager":
+            return .outfitVillager
+        case "char_outfit_villager_blue":
+            return .outfitVillagerBlue
+        default:
+            return nil
         }
     }
 }
@@ -590,30 +607,28 @@ struct MustacheSectionView: View {
     @ObservedObject var viewModel: CharacterCreationViewModel
     let theme: Theme
 
-    // Filter to show a few mustache styles
-    private var availableMustaches: [Mustache] {
-        return [.mustache1Brown, .mustache1Black, .mustache2Brown, .mustache2Black]
-    }
-
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
-            ForEach(availableMustaches, id: \.self) { mustache in
-                CustomizationOptionCard(
-                    option: CustomizationOption(
-                        id: mustache.rawValue,
-                        name: mustache.displayName,
-                        imageName: mustache.rawValue,
-                        previewImage: mustache.previewImageName,
-                        isPremium: mustache.isPremium,
-                        isUnlocked: true
-                    ),
-                    isSelected: viewModel.currentCustomization.mustache == mustache,
-                    onTap: {
-                        viewModel.updateMustache(mustache)
-                    },
-                    theme: theme
-                )
+        ScrollView(showsIndicators: true) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
+                ForEach(Mustache.allCases, id: \.self) { mustache in
+                    CustomizationOptionCard(
+                        option: CustomizationOption(
+                            id: mustache.rawValue,
+                            name: mustache.displayName,
+                            imageName: mustache.rawValue,
+                            previewImage: mustache.previewImageName,
+                            isPremium: mustache.isPremium,
+                            isUnlocked: true
+                        ),
+                        isSelected: viewModel.currentCustomization.mustache == mustache,
+                        onTap: {
+                            viewModel.updateMustache(mustache)
+                        },
+                        theme: theme
+                    )
+                }
             }
+            .padding(.horizontal, 12)
         }
     }
 }
