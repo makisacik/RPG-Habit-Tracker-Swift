@@ -48,7 +48,7 @@ struct AddTasksView: View {
                             .padding(.vertical, 4)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.yellow.opacity(0.2))
+                                    .fill(theme.accentColor.opacity(0.2))
                             )
 
                         Image(systemName: "chevron.right")
@@ -90,7 +90,7 @@ struct TaskRow: View {
                 .font(.appFont(size: 11, weight: .black))
                 .foregroundColor(theme.textColor)
                 .frame(width: 20, height: 20)
-                .background(Circle().fill(Color.yellow.opacity(0.2)))
+                .background(Circle().fill(theme.accentColor.opacity(0.2)))
 
             TextField("enter_task_description".localized, text: $task)
                 .autocorrectionDisabled()

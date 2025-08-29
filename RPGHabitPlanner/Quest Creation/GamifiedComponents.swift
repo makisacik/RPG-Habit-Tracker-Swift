@@ -336,7 +336,7 @@ struct GamifiedTasksSection: View {
                     .padding(.vertical, 4)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.yellow)
+                            .fill(theme.accentColor)
                     )
             }
 

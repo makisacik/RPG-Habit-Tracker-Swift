@@ -89,7 +89,7 @@ struct QuestCreationView: View {
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .font(.title2)
-                        .foregroundColor(theme.textColor)
+                        .foregroundColor(theme.accentColor)
                 }
             }
         }
