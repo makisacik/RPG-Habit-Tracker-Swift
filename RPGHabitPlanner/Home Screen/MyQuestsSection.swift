@@ -12,7 +12,6 @@ struct MyQuestsSection: View {
     @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var viewModel: MyQuestsViewModel
     @State private var selectedQuestItem: DayQuestItem?
-    @State private var showingQuestCreation = false
     @Binding var selectedTab: HomeTab
 
 
@@ -54,12 +53,9 @@ struct MyQuestsSection: View {
                 .fill(theme.primaryColor)
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
-        .sheet(isPresented: $showingQuestCreation, onDismiss: {
+        .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
+            // Trigger quest refresh when quest creation is dismissed
             viewModel.fetchQuests()
-        }) {
-            NavigationStack {
-                QuestCreationView(viewModel: createQuestCreationViewModel())
-            }
         }
         .sheet(item: $selectedQuestItem) { questItem in
             NavigationStack {
@@ -191,7 +187,7 @@ struct MyQuestsSection: View {
                 .foregroundColor(theme.textColor.opacity(0.7))
 
             Button("create_quest".localized) {
-                showingQuestCreation = true
+                NotificationCenter.default.post(name: .showQuestCreation, object: nil)
             }
             .font(.appFont(size: 14, weight: .medium))
             .foregroundColor(.blue)
@@ -206,12 +202,6 @@ struct MyQuestsSection: View {
 
     // MARK: - Helper Methods
 
-    private func createQuestCreationViewModel() -> QuestCreationViewModel {
-        let creationVM = QuestCreationViewModel(questDataService: questDataService)
-        creationVM.questDueDate = viewModel.selectedDate
-        return creationVM
-    }
-
     private func previousDay() {
         if let newDate = calendar.date(byAdding: .day, value: -1, to: viewModel.selectedDate) {
             viewModel.selectedDate = calendar.startOfDay(for: newDate)
@@ -224,6 +214,7 @@ struct MyQuestsSection: View {
         }
     }
 }
+
 
 struct MyQuestRow: View {
     @State private var isExpanded: Bool = false

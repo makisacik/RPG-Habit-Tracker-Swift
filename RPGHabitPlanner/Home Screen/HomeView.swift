@@ -2,6 +2,11 @@ import SwiftUI
 import WidgetKit
 import StoreKit
 
+// MARK: - Notification Names
+extension Notification.Name {
+    static let showQuestCreation = Notification.Name("showQuestCreation")
+}
+
 struct HomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var localizationManager: LocalizationManager
@@ -50,249 +55,10 @@ struct HomeView: View {
         let theme = themeManager.activeTheme
 
         TabView(selection: $selectedTab) {
-            // MARK: Home
-            NavigationStack {
-                ZStack {
-                    theme.backgroundColor.ignoresSafeArea()
-
-                    ScrollView {
-                        VStack(spacing: 20) {
-                            heroSection(healthManager: healthManager)
-
-                            // ✅ Use the shared VM instance
-                            MyQuestsSection(
-                                viewModel: myQuestsVM,
-                                selectedTab: $selectedTab,
-                                questDataService: questDataService
-                            )
-                            .environmentObject(themeManager)
-
-                            StreakDisplayView(streakManager: viewModel.streakManager)
-                                .environmentObject(themeManager)
-
-                            recentAchievementsSection
-                            quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 10)
-                    }
-
-                    // Quest Failure Notification
-                    if questFailureHandler.showFailureNotification {
-                        VStack {
-                            QuestFailureNotificationView(
-                                message: questFailureHandler.failureMessage,
-                                isVisible: $questFailureHandler.showFailureNotification
-                            )
-                            .padding(.horizontal)
-                            Spacer()
-                        }
-                        .zIndex(30)
-                    }
-
-                    // ✅ Reward + Level overlays (now shown on Home)
-                    if let quest = completedQuest, showReward {
-                        RewardView(isVisible: $showReward, quest: quest)
-                            .id("reward-\(quest.id)")
-                            .zIndex(50)
-                    }
-                    LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
-                        .zIndex(50)
-
-                    // Quest completion is finished check popup (when completion is toggled)
-                    if myQuestsVM.showCompletionIsFinishedCheck, let quest = myQuestsVM.questToCheckCompletion {
-                        QuestCompletionIsFinishedCheckPopup(
-                            quest: quest,
-                            onConfirm: {
-                                myQuestsVM.handleCompletionIsFinishedCheck(questId: quest.id)
-                            },
-                            onCancel: {
-                                myQuestsVM.showCompletionIsFinishedCheck = false
-                                myQuestsVM.questToCheckCompletion = nil
-                            }
-                        )
-                        .zIndex(60)
-                    }
-
-                    // Quest finish confirmation popup (when finished button is tapped)
-                    if myQuestsVM.showFinishConfirmation, let quest = myQuestsVM.questToFinish {
-                        QuestFinishConfirmationPopup(
-                            quest: quest,
-                            onConfirm: {
-                                myQuestsVM.markQuestAsFinished(questId: quest.id)
-                                myQuestsVM.showFinishConfirmation = false
-                                myQuestsVM.questToFinish = nil
-                            },
-                            onCancel: {
-                                myQuestsVM.showFinishConfirmation = false
-                                myQuestsVM.questToFinish = nil
-                            }
-                        )
-                        .zIndex(60)
-                    }
-
-                    // Reward Toast Container
-                    RewardToastContainerView()
-                        .zIndex(70)
-
-                    // Tutorial overlay
-                    if showTutorial {
-                        TutorialView(isPresented: $showTutorial)
-                            .zIndex(100)
-                    }
-                }
-                .navigationTitle("adventure_hub".localized)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar(content: homeToolbarContent)
-
-                .navigationDestination(isPresented: $goToSettings) {
-                    SettingsView()
-                        .environmentObject(themeManager)
-                        .environmentObject(LocalizationManager.shared)
-                }
-                .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
-                    QuestCreationView(
-                        viewModel: QuestCreationViewModel(questDataService: questDataService)
-                    )
-                    .environmentObject(themeManager)
-                    .environmentObject(premiumManager)
-                }
-                .sheet(isPresented: $isCompletedQuestsPresented) {
-                    NavigationStack {
-                        CompletedQuestsView(
-                            viewModel: CompletedQuestsViewModel(questDataService: questDataService)
-                        )
-                        .navigationTitle("completed_quests".localized)
-                        .navigationBarTitleDisplayMode(.inline)
-                    }
-                }
-                .onAppear {
-                    themeManager.applyTheme(using: colorScheme)
-
-                    // Use a small delay to prevent flashing when returning from navigation
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        viewModel.fetchUserData()
-                        viewModel.fetchDashboardData()
-                        fetchCurrentQuestCount()
-                        WidgetCenter.shared.reloadAllTimelines()
-
-                        // Record streak activity when app is opened
-                        viewModel.streakManager.recordActivity()
-
-                        // Check for failed quests
-                        questFailureHandler.performDailyQuestCheck()
-
-                        // Show tutorial if user hasn't seen it before
-                        if !hasSeenHomeTutorial {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                showTutorial = true
-                            }
-                        }
-                    }
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .questCreated)) { _ in
-                    fetchCurrentQuestCount()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    viewModel.fetchDashboardData()
-                }
-                .onChange(of: colorScheme) { newScheme in
-                    themeManager.applyTheme(using: newScheme)
-                }
-                .onChange(of: themeManager.currentTheme) { _ in
-                    themeManager.applyTheme(using: colorScheme)
-                }
-                .onChange(of: premiumManager.isPremium) { isPremium in
-                    if isPremium { showPaywall = false }
-                }
-                .onChange(of: showTutorial) { visible in
-                    if !visible && !hasSeenHomeTutorial {
-                        hasSeenHomeTutorial = true
-                    }
-                }
-                .sheet(isPresented: $showPaywall) {
-                    PaywallView().environmentObject(premiumManager)
-                }
-                .sheet(isPresented: $showFocusTimer) {
-                    NavigationStack {
-                        TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
-                            .environmentObject(themeManager)
-                            .navigationTitle("focus_timer".localized)
-                            .navigationBarTitleDisplayMode(.inline)
-                    }
-                }
-
-                // ✅ Listen to MyQuestsViewModel signals → show overlays
-                .onChange(of: myQuestsVM.questCompleted) { completed in
-                    if completed && !showReward {
-                        if let quest = myQuestsVM.lastCompletedQuest {
-                            completedQuest = quest
-                        } else if
-                            let id = myQuestsVM.lastCompletedQuestId,
-                            let quest = myQuestsVM.allQuests.first(where: { $0.id == id }) {
-                            completedQuest = quest
-                        }
-                        showReward = (completedQuest != nil)
-                        // Reset flag so we don't re-trigger when list refreshes
-                        myQuestsVM.questCompleted = false
-                    }
-                }
-                .onChange(of: showReward) { visible in
-                    if !visible, myQuestsVM.didLevelUp, let lvl = myQuestsVM.newLevel {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            levelUpLevel = Int(lvl)
-                            showLevelUp = true
-                        }
-                    }
-                }
-            }
-                            .tabItem { Label("home".localized, systemImage: "house.fill") }
-            .tag(HomeTab.home)
-
-            // MARK: Quests
-            NavigationStack {
-                QuestsView(
-                    viewModel: QuestsViewModel(
-                        questDataService: questDataService,
-                        userManager: viewModel.userManager
-                    ),
-                    questDataService: questDataService
-                )
-                .environmentObject(themeManager)
-                .toolbar(content: questsToolbarContent)
-                .navigationDestination(isPresented: $shouldNavigateToQuestCreation) {
-                    QuestCreationView(
-                        viewModel: QuestCreationViewModel(questDataService: questDataService)
-                    )
-                    .environmentObject(themeManager)
-                    .environmentObject(premiumManager)
-                }
-            }
-                            .tabItem { Label("quests".localized, systemImage: "list.bullet.clipboard.fill") }
-            .tag(HomeTab.tracking)
-
-
-            // MARK: Character
-            NavigationStack {
-                if let user = viewModel.user {
-                    CharacterView(homeViewModel: viewModel)
-                } else {
-                    Text("loading_character".localized)
-                        .foregroundColor(theme.textColor)
-                        .onAppear { viewModel.fetchUserData() }
-                }
-            }
-                            .tabItem { Label("character".localized, systemImage: "person.crop.circle.fill") }
-            .tag(HomeTab.character)
-
-
-            // MARK: Progress
-            NavigationStack {
-                AnalyticsView()
-                    .environmentObject(themeManager)
-            }
-                            .tabItem { Label("progress".localized, systemImage: "chart.bar.xaxis") }
-            .tag(HomeTab.progress)
+            homeTabView(theme: theme)
+            questsTabView(theme: theme)
+            characterTabView(theme: theme)
+            progressTabView(theme: theme)
         }
         .accentColor(.red)
         .sheet(isPresented: $showAchievements) {
@@ -303,6 +69,165 @@ struct HomeView: View {
                     .navigationBarTitleDisplayMode(.inline)
             }
         }
+        // Move quest creation to top level - full screen presentation
+        .fullScreenCover(isPresented: $shouldNavigateToQuestCreation) {
+            NavigationStack {
+                QuestCreationView(
+                    viewModel: QuestCreationViewModel(questDataService: questDataService)
+                )
+                .environmentObject(themeManager)
+                .environmentObject(premiumManager)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
+            shouldNavigateToQuestCreation = true
+        }
+    }
+
+    // MARK: - Tab View Builders
+
+    @ViewBuilder
+    private func homeTabView(theme: Theme) -> some View {
+        NavigationStack {
+            ZStack {
+                theme.backgroundColor.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 20) {
+                        heroSection(healthManager: healthManager)
+
+                        // ✅ Use the shared VM instance
+                        MyQuestsSection(
+                            viewModel: myQuestsVM,
+                            selectedTab: $selectedTab,
+                            questDataService: questDataService
+                        )
+                        .environmentObject(themeManager)
+
+                        StreakDisplayView(streakManager: viewModel.streakManager)
+                            .environmentObject(themeManager)
+
+                        recentAchievementsSection
+                        quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 10)
+                }
+
+                // Quest Failure Notification
+                if questFailureHandler.showFailureNotification {
+                    VStack {
+                        QuestFailureNotificationView(
+                            message: questFailureHandler.failureMessage,
+                            isVisible: $questFailureHandler.showFailureNotification
+                        )
+                        .padding(.horizontal)
+                        Spacer()
+                    }
+                    .zIndex(30)
+                }
+
+                // Reward and level-up overlays
+                if let quest = completedQuest, showReward {
+                    RewardView(isVisible: $showReward, quest: quest)
+                        .id("reward-\(quest.id)")
+                        .zIndex(50)
+                }
+
+                LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
+                    .zIndex(50)
+
+                // Reward Toast Container
+                RewardToastContainerView()
+                    .zIndex(70)
+            }
+            .navigationTitle("home".localized)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: homeToolbarContent)
+            .navigationDestination(isPresented: $isCompletedQuestsPresented) {
+                CompletedQuestsView(
+                    viewModel: CompletedQuestsViewModel(questDataService: questDataService)
+                )
+                .environmentObject(themeManager)
+            }
+            .navigationDestination(isPresented: $goToSettings) {
+                SettingsView()
+                    .environmentObject(themeManager)
+                    .environmentObject(localizationManager)
+            }
+            .navigationDestination(isPresented: $showFocusTimer) {
+                TimerView(userManager: viewModel.userManager, damageHandler: damageHandler)
+                    .environmentObject(themeManager)
+            }
+
+            // ✅ Listen to MyQuestsViewModel signals → show overlays
+            .onChange(of: myQuestsVM.questCompleted) { completed in
+                if completed && !showReward {
+                    if let quest = myQuestsVM.lastCompletedQuest {
+                        completedQuest = quest
+                    } else if
+                        let id = myQuestsVM.lastCompletedQuestId,
+                        let quest = myQuestsVM.allQuests.first(where: { $0.id == id }) {
+                        completedQuest = quest
+                    }
+                    showReward = (completedQuest != nil)
+                    // Reset flag so we don't re-trigger when list refreshes
+                    myQuestsVM.questCompleted = false
+                }
+            }
+            .onChange(of: showReward) { visible in
+                if !visible, myQuestsVM.didLevelUp, let lvl = myQuestsVM.newLevel {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        levelUpLevel = Int(lvl)
+                        showLevelUp = true
+                    }
+                }
+            }
+        }
+        .tabItem { Label("home".localized, systemImage: "house.fill") }
+        .tag(HomeTab.home)
+    }
+
+    @ViewBuilder
+    private func questsTabView(theme: Theme) -> some View {
+        NavigationStack {
+            QuestsView(
+                viewModel: QuestsViewModel(
+                    questDataService: questDataService,
+                    userManager: viewModel.userManager
+                ),
+                questDataService: questDataService
+            )
+            .environmentObject(themeManager)
+            .toolbar(content: questsToolbarContent)
+        }
+        .tabItem { Label("quests".localized, systemImage: "list.bullet.clipboard.fill") }
+        .tag(HomeTab.tracking)
+    }
+
+    @ViewBuilder
+    private func characterTabView(theme: Theme) -> some View {
+        NavigationStack {
+            if let user = viewModel.user {
+                CharacterView(homeViewModel: viewModel)
+            } else {
+                Text("loading_character".localized)
+                    .foregroundColor(theme.textColor)
+                    .onAppear { viewModel.fetchUserData() }
+            }
+        }
+        .tabItem { Label("character".localized, systemImage: "person.crop.circle.fill") }
+        .tag(HomeTab.character)
+    }
+
+    @ViewBuilder
+    private func progressTabView(theme: Theme) -> some View {
+        NavigationStack {
+            AnalyticsView()
+                .environmentObject(themeManager)
+        }
+        .tabItem { Label("progress".localized, systemImage: "chart.bar.xaxis") }
+        .tag(HomeTab.progress)
     }
 
     private func fetchCurrentQuestCount() {

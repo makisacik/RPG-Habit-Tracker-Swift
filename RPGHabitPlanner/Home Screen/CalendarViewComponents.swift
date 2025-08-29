@@ -16,7 +16,6 @@ enum CalendarViewComponents {
         showTagFilter: Bool,
         viewModel: CalendarViewModel,
         selectedQuestItem: Binding<DayQuestItem?>,
-        showingQuestCreation: Binding<Bool>,
         onTagFilterToggle: @escaping () -> Void,
         onQuestTap: @escaping (DayQuestItem) -> Void
     ) -> some View {
@@ -41,7 +40,6 @@ enum CalendarViewComponents {
                 theme: theme,
                 viewModel: viewModel,
                 selectedQuestItem: selectedQuestItem,
-                showingQuestCreation: showingQuestCreation,
                 onQuestTap: onQuestTap
             )
         }
@@ -122,7 +120,6 @@ enum CalendarViewComponents {
                 theme: theme,
                 viewModel: viewModel,
                 selectedQuestItem: selectedQuestItem,
-                showingQuestCreation: showingQuestCreation,
                 onQuestTap: onQuestTap
             )
         }
@@ -169,7 +166,6 @@ enum CalendarViewComponents {
         theme: Theme,
         viewModel: CalendarViewModel,
         selectedQuestItem: Binding<DayQuestItem?>,
-        showingQuestCreation: Binding<Bool>,
         onQuestTap: @escaping (DayQuestItem) -> Void
     ) -> some View {
         VStack(spacing: 0) {
@@ -199,10 +195,7 @@ enum CalendarViewComponents {
                     onQuestTap: onQuestTap
                 )
             } else {
-                addQuestSection(
-                    theme: theme,
-                    showingQuestCreation: showingQuestCreation
-                )
+                addQuestSection(theme: theme)
             }
         }
         .animation(Animation.easeInOut(duration: 0.3), value: viewModel.itemsForSelectedDate.count)
@@ -354,8 +347,7 @@ enum CalendarViewComponents {
     // MARK: - Add Quest Section
     @ViewBuilder
     static func addQuestSection(
-        theme: Theme,
-        showingQuestCreation: Binding<Bool>
+        theme: Theme
     ) -> some View {
         VStack(spacing: 16) {
             Spacer()
@@ -374,7 +366,9 @@ enum CalendarViewComponents {
 
             Spacer()
 
-            Button(action: { showingQuestCreation.wrappedValue = true }) {
+            Button(action: {
+                NotificationCenter.default.post(name: .showQuestCreation, object: nil)
+            }) {
                 HStack {
                     Spacer()
                     Image(systemName: "plus.circle.fill")
@@ -426,6 +420,7 @@ enum CalendarViewComponents {
         return formatter
     }
 }
+
 
 // MARK: - Month Grid (updated)
 struct MonthGrid: View {

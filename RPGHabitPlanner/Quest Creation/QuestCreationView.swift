@@ -81,13 +81,25 @@ struct QuestCreationView: View {
                     .environmentObject(premiumManager)
                 }
         }
-            .alert(isPresented: $showAlert) {
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(theme.textColor)
+                }
+            }
+        }
+        .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
                     message: Text(alertMessage).font(.appFont(size: 14)),
                     dismissButton: .default(Text("ok".localized).font(.appFont(size: 14, weight: .black)))
                 )
-            }
+        }
             .onChange(of: viewModel.didSaveQuest) { didSave in
                 if didSave {
                     viewModel.resetInputs()

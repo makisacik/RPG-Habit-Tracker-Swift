@@ -13,7 +13,6 @@ struct QuestsView: View {
     @EnvironmentObject var premiumManager: PremiumManager
     @StateObject var viewModel: QuestsViewModel
     @State private var selectedQuestItem: DayQuestItem?
-    @State private var showingQuestCreation = false
     @State private var showAlert: Bool = false
 
     // Reward and level-up overlay states
@@ -48,15 +47,6 @@ struct QuestsView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingQuestCreation, onDismiss: {
-                viewModel.fetchQuests()
-            }) {
-                NavigationStack {
-                    QuestCreationView(viewModel: createQuestCreationViewModel())
-                        .environmentObject(themeManager)
-                        .environmentObject(premiumManager)
-                }
-            }
             .sheet(item: $selectedQuestItem) { questItem in
                 NavigationStack {
                     QuestDetailView(
@@ -69,8 +59,10 @@ struct QuestsView: View {
             }
             .sheet(isPresented: $showCalendar) {
                 NavigationStack {
-                    CalendarView(viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager))
-                        .environmentObject(themeManager)
+                    CalendarView(
+                        viewModel: CalendarViewModel(questDataService: questDataService, userManager: viewModel.userManager)
+                    )
+                    .environmentObject(themeManager)
                 }
             }
             .onChange(of: viewModel.alertMessage) { alertMessage in
@@ -297,7 +289,9 @@ struct QuestsView: View {
 
             Spacer()
 
-            Button(action: { showingQuestCreation = true }) {
+            Button(action: {
+                NotificationCenter.default.post(name: .showQuestCreation, object: nil)
+            }) {
                 HStack {
                     Spacer()
                     Image(systemName: "plus.circle.fill")
@@ -360,11 +354,6 @@ struct QuestsView: View {
         )
     }
 
-    private func createQuestCreationViewModel() -> QuestCreationViewModel {
-        let creationVM = QuestCreationViewModel(questDataService: questDataService)
-        creationVM.questDueDate = viewModel.selectedDate
-        return creationVM
-    }
 
     private func previousDay() {
         if let newDate = calendar.date(byAdding: .day, value: -1, to: viewModel.selectedDate) {

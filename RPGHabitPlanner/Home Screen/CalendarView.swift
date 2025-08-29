@@ -11,10 +11,10 @@ struct CalendarView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var viewModel: CalendarViewModel
-    @State private var showingQuestCreation = false
     @State private var showingAlert = false
     @State private var selectedQuestItem: DayQuestItem?
     @State private var showTagFilter = false
+
 
     // Reward system state
     @State private var showReward = false
@@ -43,12 +43,9 @@ struct CalendarView: View {
                 viewModel.refreshQuestData()
             }
             .onDisappear { print("Calendar disappear") }
-            .sheet(isPresented: $showingQuestCreation, onDismiss: {
+            .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
+                // Trigger quest refresh when quest creation is dismissed
                 viewModel.fetchQuests()
-            }) {
-                NavigationStack {
-                    QuestCreationView(viewModel: makeCreationVM())
-                }
             }
             .sheet(item: $selectedQuestItem) { questItem in
                 QuestDetailSheet(
@@ -105,7 +102,6 @@ struct CalendarView: View {
                 showTagFilter: showTagFilter,
                 viewModel: viewModel,
                 selectedQuestItem: $selectedQuestItem,
-                showingQuestCreation: $showingQuestCreation,
                 onTagFilterToggle: {
                     withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                         showTagFilter.toggle()
@@ -134,15 +130,7 @@ struct CalendarView: View {
                 .zIndex(70)
         }
     }
-
-    // MARK: - VM factory (moved out of body)
-    private func makeCreationVM() -> QuestCreationViewModel {
-        let creationViewModel = QuestCreationViewModel(questDataService: viewModel.questDataService)
-        creationViewModel.questDueDate = viewModel.selectedDate
-        return creationViewModel
-    }
 }
-
 
 // MARK: - Quest Detail Sheet wrapper (reduces generic bloat)
 private struct QuestDetailSheet: View {
