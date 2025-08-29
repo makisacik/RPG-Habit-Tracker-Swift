@@ -137,12 +137,85 @@ struct InventoryGridItemView: View {
         // Fallback to database lookup
         guard let iconName = item.iconName else { return nil }
         let itemDefinition = ItemDatabase.findItem(byIconName: iconName)
-        return itemDefinition?.rarity
+        return itemDefinition?.rarity ?? getRarityFromEntity()
     }
 
     private func getItemDefinition() -> Item? {
         guard let iconName = item.iconName else { return nil }
-        return ItemDatabase.findItem(byIconName: iconName)
+
+        // First try to find the item in the database
+        if let databaseItem = ItemDatabase.findItem(byIconName: iconName) {
+            return databaseItem
+        }
+
+        // If not found in database, create a dynamic item definition from ItemEntity data
+        // This handles shop-bought items that aren't in the static database
+        let itemType = getItemTypeFromEntity()
+        let gearCategory = getGearCategoryFromEntity()
+        let rarity = getRarityFromEntity()
+
+        return Item(
+            name: item.name ?? "Unknown Item",
+            description: item.info ?? "No description available",
+            iconName: iconName,
+            previewImage: item.previewImage ?? iconName,
+            itemType: itemType,
+            value: Int(item.value),
+            collectionCategory: item.collectionCategory,
+            isRare: item.isRare,
+            gearCategory: gearCategory,
+            rarity: rarity
+        )
+    }
+
+    private func getItemTypeFromEntity() -> ItemType {
+        if let itemTypeString = item.itemType {
+            return ItemType(rawValue: itemTypeString) ?? .collectible
+        }
+
+        // Fallback logic based on gear category
+        if getGearCategoryFromEntity() != nil {
+            return .gear
+        }
+
+        return .collectible
+    }
+
+    private func getGearCategoryFromEntity() -> GearCategory? {
+        if let gearCategoryString = item.gearCategory {
+            return GearCategory(rawValue: gearCategoryString)
+        }
+
+        // Fallback: try to determine from icon name
+        let iconName = item.iconName ?? ""
+        if iconName.contains("outfit") {
+            return .outfit
+        } else if iconName.contains("sword") || iconName.contains("weapon") {
+            return .weapon
+        } else if iconName.contains("shield") {
+            return .shield
+        } else if iconName.contains("head") || iconName.contains("helmet") {
+            return .head
+        } else if iconName.contains("wings") {
+            return .wings
+        } else if iconName.contains("pet") {
+            return .pet
+        }
+
+        return nil
+    }
+
+    private func getRarityFromEntity() -> ItemRarity? {
+        if let rarityString = item.rarity {
+            return ItemRarity(rawValue: rarityString)
+        }
+
+        // Fallback: determine rarity from item value or other properties
+        if item.isRare {
+            return .rare
+        }
+
+        return .common
     }
 }
 

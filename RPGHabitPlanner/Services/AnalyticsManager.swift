@@ -52,8 +52,13 @@ final class AnalyticsManager: ObservableObject {
             return
         }
         
+        // Only show loading if we don't have cached data
+        let shouldShowLoading = analyticsSummary == nil
+        if shouldShowLoading {
+            isLoading = true
+        }
+        
         isCalculating = true
-        isLoading = true
         lastCalculationTime = now
         
         Task {
@@ -67,6 +72,26 @@ final class AnalyticsManager: ObservableObject {
                 completion(summary)
             }
         }
+    }
+    
+    /// Load analytics data without showing loading state if cached data exists
+    func loadAnalyticsIfNeeded() {
+        // If we already have data, don't show loading
+        if analyticsSummary != nil {
+            return
+        }
+        
+        // Only load if not already calculating
+        if !isCalculating {
+            refreshAnalytics()
+        }
+    }
+    
+    /// Force refresh analytics data (always shows loading)
+    func forceRefreshAnalytics(completion: @escaping (AnalyticsSummary?) -> Void = { _ in }) {
+        // Reset state to force loading
+        analyticsSummary = nil
+        refreshAnalytics(completion: completion)
     }
 
     private func debouncedRefreshAnalytics() {

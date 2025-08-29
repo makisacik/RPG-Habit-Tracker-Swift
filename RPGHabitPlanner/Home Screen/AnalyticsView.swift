@@ -45,7 +45,7 @@ struct AnalyticsView: View {
                 .environmentObject(themeManager)
         }
         .onAppear {
-            analyticsManager.refreshAnalytics()
+            analyticsManager.loadAnalyticsIfNeeded()
         }
     }
     
@@ -76,6 +76,9 @@ struct AnalyticsView: View {
             .padding(.horizontal, 16)
             .padding(.top, 10)
         }
+        .refreshable {
+            analyticsManager.forceRefreshAnalytics()
+        }
     }
     
     private func timePeriodHeader(theme: Theme) -> some View {
@@ -91,7 +94,7 @@ struct AnalyticsView: View {
                     ForEach(AnalyticsPeriod.allCases, id: \.self) { period in
                         Button(action: {
                             selectedTimePeriod = period
-                            analyticsManager.refreshAnalytics()
+                            analyticsManager.forceRefreshAnalytics()
                         }) {
                             HStack {
                                 Text(periodDisplayName(period))
@@ -160,7 +163,7 @@ struct AnalyticsView: View {
                 .padding(.horizontal, 40)
             
             Button(action: {
-                analyticsManager.refreshAnalytics()
+                analyticsManager.forceRefreshAnalytics()
             }) {
                 Text("analytics_refresh".localized)
                     .font(.appFont(size: 16, weight: .medium))

@@ -2013,16 +2013,26 @@
 "body_green" = "Green";
 
 // MARK: - Outfits
-"outfit_villager" = "Villager";
-"outfit_villager_blue" = "Blue Villager";
-"outfit_iron" = "Iron Armor";
-"outfit_iron_2" = "Iron Armor II";
-"outfit_wizard" = "Wizard Robe";
-"outfit_dress" = "Elegant Dress";
-"outfit_fire" = "Fire Armor";
-"outfit_bat" = "Bat Armor";
-"outfit_red" = "Red Armor";
-"outfit_hoodie" = "Hoodie";
+"peasants_garb" = "Peasant's Garb";
+"peasants_garb_description" = "Simple, durable clothing worn by common folk. Practical for everyday tasks.";
+"azure_tunic" = "Azure Tunic";
+"azure_tunic_description" = "A beautiful blue tunic that shimmers like the morning sky. Light and comfortable.";
+"ironclad_plate" = "Ironclad Plate";
+"ironclad_plate_description" = "Heavy iron armor that provides excellent protection. A warrior's trusted companion.";
+"steel_guardian" = "Steel Guardian";
+"steel_guardian_description" = "Superior steel armor with intricate engravings. Offers unmatched defense.";
+"arcane_robes" = "Arcane Robes";
+"arcane_robes_description" = "Mystical robes woven with magical threads. Enhances spellcasting abilities.";
+"noble_gown" = "Noble Gown";
+"noble_gown_description" = "An elegant gown fit for royalty. Made from the finest silks and adorned with precious gems.";
+"infernal_armor" = "Infernal Armor";
+"infernal_armor_description" = "Armor forged in the fires of the underworld. Radiates with dark, powerful energy.";
+"shadow_cloak" = "Shadow Cloak";
+"shadow_cloak_description" = "A cloak that seems to absorb light itself. Perfect for stealth and mystery.";
+"crimson_vestments" = "Crimson Vestments";
+"crimson_vestments_description" = "Rich red garments that command attention. Worn by those of great authority.";
+"travelers_cloak" = "Traveler's Cloak";
+"travelers_cloak_description" = "A practical cloak designed for long journeys. Provides warmth and protection from the elements.";
 
 // MARK: - Mustaches
 "mustache_1_brown" = "Classic Brown";
