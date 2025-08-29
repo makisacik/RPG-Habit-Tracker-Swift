@@ -499,30 +499,33 @@ struct QuestDetailActionButtonsSection: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Button(action: {
-                // Provide haptic feedback for toggle completion action
-                if isCompleted {
-                    HapticFeedbackManager.shared.questUncompleted()
-                } else {
-                    HapticFeedbackManager.shared.questCompleted()
-                }
-                onToggleCompletion()
-            }) {
-                HStack {
-                    Image(systemName: isCompleted ? "xmark.circle.fill" : "checkmark.circle.fill")
-                        .font(.system(size: 18))
+            // Only show completion toggle for non-one-time quests
+            if quest.repeatType != .oneTime {
+                Button(action: {
+                    // Provide haptic feedback for toggle completion action
+                    if isCompleted {
+                        HapticFeedbackManager.shared.questUncompleted()
+                    } else {
+                        HapticFeedbackManager.shared.questCompleted()
+                    }
+                    onToggleCompletion()
+                }) {
+                    HStack {
+                        Image(systemName: isCompleted ? "xmark.circle.fill" : "checkmark.circle.fill")
+                            .font(.system(size: 18))
                                             Text(isCompleted ? "mark_incomplete".localized : "mark_complete".localized)
-                        .font(.appFont(size: 16, weight: .bold))
+                            .font(.appFont(size: 16, weight: .bold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(isCompleted ? .red : .green)
+                    )
                 }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(isCompleted ? .red : .green)
-                )
+                .buttonStyle(PlainButtonStyle())
             }
-            .buttonStyle(PlainButtonStyle())
 
             if !quest.isFinished {
                 Button(action: {

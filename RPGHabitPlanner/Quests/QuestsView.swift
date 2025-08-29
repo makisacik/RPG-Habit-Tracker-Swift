@@ -411,18 +411,21 @@ struct QuestRow: View {
 
                     Spacer()
 
-                    Button(action: {
-                        // Provide haptic feedback for quest toggle
-                        if item.state == .done {
-                            HapticFeedbackManager.shared.questUncompleted()
-                        } else {
-                            HapticFeedbackManager.shared.questCompleted()
+                    // Only show completion toggle for non-one-time quests
+                    if item.quest.repeatType != .oneTime {
+                        Button(action: {
+                            // Provide haptic feedback for quest toggle
+                            if item.state == .done {
+                                HapticFeedbackManager.shared.questUncompleted()
+                            } else {
+                                HapticFeedbackManager.shared.questCompleted()
+                            }
+                            onToggle()
+                        }) {
+                            Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
+                                .font(.title3)
+                                .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
                         }
-                        onToggle()
-                    }) {
-                        Image(systemName: item.state == .done ? "checkmark.circle.fill" : "circle")
-                            .font(.title3)
-                            .foregroundColor(item.state == .done ? .green : theme.textColor.opacity(0.6))
                     }
 
                     // Flag button next to quest completion toggle

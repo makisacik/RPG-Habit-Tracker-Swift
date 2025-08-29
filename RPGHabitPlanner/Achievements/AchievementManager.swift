@@ -220,8 +220,12 @@ class AchievementManager: ObservableObject {
 
         questDataService.fetchAllQuests { quests, _ in
                 hasCompleted = quests.contains { quest in
+                    // Check if quest is finished (permanently completed)
+                    if quest.isFinished && quest.isFinishedDate != nil {
+                        return Calendar.current.component(.hour, from: quest.isFinishedDate!) < hour
+                    }
                     // Check if any completion date is before the specified hour
-                    quest.completions.contains { completionDate in
+                    return quest.completions.contains { completionDate in
                         Calendar.current.component(.hour, from: completionDate) < hour
                     }
                 }
@@ -237,8 +241,12 @@ class AchievementManager: ObservableObject {
 
         questDataService.fetchAllQuests { quests, _ in
                 hasCompleted = quests.contains { quest in
+                    // Check if quest is finished (permanently completed)
+                    if quest.isFinished && quest.isFinishedDate != nil {
+                        return Calendar.current.component(.hour, from: quest.isFinishedDate!) >= hour
+                    }
                     // Check if any completion date is after the specified hour
-                    quest.completions.contains { completionDate in
+                    return quest.completions.contains { completionDate in
                         Calendar.current.component(.hour, from: completionDate) >= hour
                     }
                 }
@@ -255,8 +263,13 @@ class AchievementManager: ObservableObject {
 
         questDataService.fetchAllQuests { quests, _ in
                 hasCompleted = quests.contains { quest in
+                    // Check if quest is finished (permanently completed)
+                    if quest.isFinished && quest.isFinishedDate != nil {
+                        let hour = Calendar.current.component(.hour, from: quest.isFinishedDate!)
+                        return hour >= startHour && hour < endHour
+                    }
                     // Check if any completion date is within the specified time range
-                    quest.completions.contains { completionDate in
+                    return quest.completions.contains { completionDate in
                         let hour = Calendar.current.component(.hour, from: completionDate)
                         return hour >= startHour && hour < endHour
                     }
