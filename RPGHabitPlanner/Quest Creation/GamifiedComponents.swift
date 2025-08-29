@@ -136,7 +136,15 @@ struct GamifiedDatePicker: View {
                 title: title,
                 date: $tempDate,
                 onSave: {
-                    date = tempDate
+                    // Ensure date is not in the past
+                    let today = Calendar.current.startOfDay(for: Date())
+                    let selectedDate = Calendar.current.startOfDay(for: tempDate)
+                    
+                    if selectedDate < today {
+                        date = Date() // Set to today if past date selected
+                    } else {
+                        date = tempDate
+                    }
                     showPicker = false
                 },
                 onCancel: {
@@ -227,7 +235,7 @@ struct ThemedDatePickerSheet: View {
                         }
                         
                         // Calendar picker
-                        DatePicker("", selection: $selectedDate, displayedComponents: [.date])
+                        DatePicker("", selection: $selectedDate, in: Date()..., displayedComponents: [.date])
                             .datePickerStyle(.graphical)
                             .labelsHidden()
                             .environment(\.locale, localizationManager.currentLocale)

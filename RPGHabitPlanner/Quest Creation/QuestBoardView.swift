@@ -75,23 +75,27 @@ struct QuestBoardBackground: View {
 
     var body: some View {
         ZStack {
-            // Animated background elements
-            ForEach(0..<5) { index in
-                Circle()
-                    .fill(Color.yellow.opacity(0.1))
-                    .frame(width: CGFloat.random(in: 20...60))
-                    .position(
-                        x: CGFloat.random(in: 50...350),
-                        y: CGFloat.random(in: 100...700)
-                    )
-                    .scaleEffect(animate ? 1.2 : 0.8)
-                    .animation(
-                        .easeInOut(duration: Double.random(in: 2...4))
-                        .repeatForever(autoreverses: true)
-                        .delay(Double(index) * 0.5),
-                        value: animate
-                    )
-            }
+            // Simple animated background elements with fixed positions
+            Circle()
+                .fill(Color.yellow.opacity(0.1))
+                .frame(width: 40, height: 40)
+                .position(x: 80, y: 150)
+                .scaleEffect(animate ? 1.1 : 0.9)
+                .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: animate)
+
+            Circle()
+                .fill(Color.yellow.opacity(0.1))
+                .frame(width: 60, height: 60)
+                .position(x: 300, y: 300)
+                .scaleEffect(animate ? 0.9 : 1.1)
+                .animation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true), value: animate)
+
+            Circle()
+                .fill(Color.yellow.opacity(0.1))
+                .frame(width: 30, height: 30)
+                .position(x: 250, y: 500)
+                .scaleEffect(animate ? 1.2 : 0.8)
+                .animation(.easeInOut(duration: 1.8).repeatForever(autoreverses: true), value: animate)
         }
     }
 }
