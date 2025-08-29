@@ -507,11 +507,7 @@ enum EyeColor: String, CaseIterable, Codable, Identifiable {
     var id: String { self.rawValue }
 
     var displayName: String {
-        switch self {
-        case .eyeBlack: return "eye_color_black".localized
-        case .eyeBlue: return "eye_color_blue".localized
-        case .eyeGreen: return "eye_color_green".localized
-        }
+        return "" // Remove eye color names
     }
 
     var previewImageName: String {
@@ -729,16 +725,7 @@ enum Mustache: String, CaseIterable, Codable, Identifiable {
     var id: String { self.rawValue }
 
     var displayName: String {
-        switch self {
-        case .mustache1Brown: return "mustache_1_brown".localized
-        case .mustache1Black: return "mustache_1_black".localized
-        case .mustache1Blonde: return "mustache_1_blonde".localized
-        case .mustache1Darkbrown: return "mustache_1_dark_brown".localized
-        case .mustache2Brown: return "mustache_2_brown".localized
-        case .mustache2Black: return "mustache_2_black".localized
-        case .mustache2Blonde: return "mustache_2_blonde".localized
-        case .mustache2Darkbrown: return "mustache_2_dark_brown".localized
-        }
+        return "" // Remove mustache names
     }
 
     var previewImageName: String {

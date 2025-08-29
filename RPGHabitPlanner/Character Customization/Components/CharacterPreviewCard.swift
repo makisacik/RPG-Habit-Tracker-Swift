@@ -59,7 +59,7 @@ struct CharacterPreviewCard: View {
         ZStack {
             // Background
             RoundedRectangle(cornerRadius: 20)
-                .fill(theme.cardBackgroundColor)
+                .fill(theme.secondaryColor)
                 .shadow(color: theme.textColor.opacity(0.1), radius: 10, x: 0, y: 5)
 
             // Character layers

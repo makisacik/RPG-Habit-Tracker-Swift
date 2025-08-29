@@ -434,7 +434,7 @@ struct OptimizedCustomizationOptionCard: View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? theme.primaryColor.opacity(0.2) : theme.cardBackgroundColor)
+                    .fill(isSelected ? theme.primaryColor.opacity(0.2) : theme.secondaryColor)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(isSelected ? theme.primaryColor : Color.clear, lineWidth: 2)

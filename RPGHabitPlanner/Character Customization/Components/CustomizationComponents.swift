@@ -167,7 +167,7 @@ struct CustomizationOptionCard: View {
                 // Option image
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.cardBackgroundColor)
+                        .fill(theme.secondaryColor)
                         .frame(width: 80, height: 80)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)

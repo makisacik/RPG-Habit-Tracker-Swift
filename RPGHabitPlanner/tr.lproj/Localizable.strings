@@ -682,7 +682,7 @@
 "please_check_your_input" = "Lütfen girdini kontrol et";
 
 // MARK: - Equipment Categories
-"equipment_body_type" = "Vücut Tipi";
+"equipment_body_type" = "Ten Rengi";
 "equipment_hair_style" = "Saç Stili";
 "equipment_hair_color" = "Saç Rengi";
 "equipment_eye_color" = "Göz Rengi";
@@ -751,7 +751,7 @@
 "health_error_health_at_minimum" = "Sağlık zaten minimumda";
 
 // MARK: - Character Asset Categories
-"character_asset_body_type" = "Vücut Tipi";
+"character_asset_body_type" = "Ten Rengi";
 "character_asset_hair_style" = "Saç Stili";
 "character_asset_hair_back_style" = "Arka Saç Stili";
 "character_asset_hair_color" = "Saç Rengi";
@@ -1185,7 +1185,7 @@
 "coin_boost_item" = "Altın Güçlendirme Eşyası";
 
 // MARK: - Karakter Özelleştirme Kategorileri (Detaylı)
-"body_type" = "Vücut Tipi";
+"body_type" = "Ten Rengi";
 "hair_back" = "Arka Saç";
 "outfit_style" = "Kıyafet Stili";
 "weapon_style" = "Silah Stili";

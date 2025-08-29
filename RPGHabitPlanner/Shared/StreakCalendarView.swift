@@ -14,6 +14,12 @@ struct StreakCalendarView: View {
         dateFormatter.locale = localizationManager.currentLocale
         return dateFormatter
     }
+    
+    private var localizedCalendar: Calendar {
+        var calendar = Calendar.current
+        calendar.locale = localizationManager.currentLocale
+        return calendar
+    }
 
     // Store activity dates for the current month
     @State private var activityDates: Set<Date> = []
@@ -50,8 +56,14 @@ struct StreakCalendarView: View {
         .onChange(of: selectedDate) { _ in
             loadActivityDates()
         }
+        .onChange(of: localizationManager.currentLanguage) { _ in
+            // Force view refresh when language changes
+        }
         .onReceive(NotificationCenter.default.publisher(for: .streakUpdated)) { _ in
             loadActivityDates()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+            // Force view refresh when language changes via notification
         }
     }
 
@@ -86,7 +98,7 @@ struct StreakCalendarView: View {
 
     private func dayOfWeekHeaders(theme: Theme) -> some View {
         HStack(spacing: 0) {
-            ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
+            ForEach(localizedCalendar.shortWeekdaySymbols, id: \.self) { day in
                 Text(day)
                     .font(.appFont(size: 14, weight: .medium))
                     .foregroundColor(theme.textColor.opacity(0.7))
@@ -106,10 +118,10 @@ struct StreakCalendarView: View {
                     activityDates: activityDates,
                     selectedDate: selectedDate,
                     theme: theme,
-                    calendar: calendar
+                    calendar: localizedCalendar
                 ) { selectedDate in
                         self.selectedDate = selectedDate
-                        let dateStartOfDay = calendar.startOfDay(for: selectedDate)
+                        let dateStartOfDay = localizedCalendar.startOfDay(for: selectedDate)
                         if activityDates.contains(dateStartOfDay) {
                             showingStreakDetails = true
                         }
@@ -255,33 +267,33 @@ struct StreakCalendarView: View {
 
     private func previousMonth() {
         withAnimation(.easeInOut(duration: 0.3)) {
-            selectedDate = calendar.date(byAdding: .month, value: -1, to: selectedDate) ?? selectedDate
+            selectedDate = localizedCalendar.date(byAdding: .month, value: -1, to: selectedDate) ?? selectedDate
         }
     }
 
     private func nextMonth() {
         withAnimation(.easeInOut(duration: 0.3)) {
-            selectedDate = calendar.date(byAdding: .month, value: 1, to: selectedDate) ?? selectedDate
+            selectedDate = localizedCalendar.date(byAdding: .month, value: 1, to: selectedDate) ?? selectedDate
         }
     }
 
     private func daysInMonth() -> [Date?] {
-        let startOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
-        let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: startOfMonth)?.start ?? startOfMonth
+        let startOfMonth = localizedCalendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
+        let startOfWeek = localizedCalendar.dateInterval(of: .weekOfYear, for: startOfMonth)?.start ?? startOfMonth
 
-        let endOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.end ?? selectedDate
-        let endOfWeek = calendar.dateInterval(of: .weekOfYear, for: endOfMonth)?.end ?? endOfMonth
+        let endOfMonth = localizedCalendar.dateInterval(of: .month, for: selectedDate)?.end ?? selectedDate
+        let endOfWeek = localizedCalendar.dateInterval(of: .weekOfYear, for: endOfMonth)?.end ?? endOfMonth
 
         var days: [Date?] = []
         var currentDate = startOfWeek
 
         while currentDate < endOfWeek {
-            if calendar.isDate(currentDate, equalTo: startOfMonth, toGranularity: .month) {
+            if localizedCalendar.isDate(currentDate, equalTo: startOfMonth, toGranularity: .month) {
                 days.append(currentDate)
             } else {
                 days.append(nil)
             }
-            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+            currentDate = localizedCalendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
         }
 
         return days
@@ -296,15 +308,15 @@ struct StreakCalendarView: View {
     }
 
     private func calculateMonthlyStats() -> (activeDays: Int, totalDays: Int, activityRate: Int) {
-        let startOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
-        let endOfMonth = calendar.dateInterval(of: .month, for: selectedDate)?.end ?? selectedDate
+        let startOfMonth = localizedCalendar.dateInterval(of: .month, for: selectedDate)?.start ?? selectedDate
+        let endOfMonth = localizedCalendar.dateInterval(of: .month, for: selectedDate)?.end ?? selectedDate
 
         // Calculate total days in the month
-        let totalDays = calendar.dateComponents([.day], from: startOfMonth, to: endOfMonth).day ?? 0
+        let totalDays = localizedCalendar.dateComponents([.day], from: startOfMonth, to: endOfMonth).day ?? 0
 
         // Filter activity dates for the current month
         let activeDays = activityDates.filter { date in
-            let dateStartOfDay = calendar.startOfDay(for: date)
+            let dateStartOfDay = localizedCalendar.startOfDay(for: date)
             return dateStartOfDay >= startOfMonth && dateStartOfDay < endOfMonth
         }.count
 

@@ -290,9 +290,9 @@ struct HairStyleCard: View {
             VStack(spacing: 8) {
                 // Hair style image
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(theme.cardBackgroundColor)
-                        .frame(width: 80, height: 80)
+                                    RoundedRectangle(cornerRadius: 12)
+                    .fill(theme.secondaryColor)
+                    .frame(width: 80, height: 80)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .stroke(isSelected ? theme.accentColor : theme.borderColor.opacity(0.3), lineWidth: isSelected ? 3 : 1)

@@ -223,7 +223,7 @@ struct AssetCarouselCard: View {
         .padding(8)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(isSelected ? (asset.category.isGearCategory ? asset.rarity.color.opacity(0.2) : theme.accentColor.opacity(0.2)) : theme.primaryColor.opacity(0.5))
+                .fill(isSelected ? (asset.category.isGearCategory ? asset.rarity.color.opacity(0.2) : theme.accentColor.opacity(0.2)) : theme.secondaryColor)
                 .animation(.easeInOut(duration: 0.2), value: isSelected)
         )
         .scaleEffect(isSelected ? 1.05 : 1.0)

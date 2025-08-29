@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StreakDisplayView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @ObservedObject var streakManager: StreakManager
     @State private var showingStreakCalendar = false
 
@@ -109,7 +110,14 @@ struct StreakDisplayView: View {
             NavigationStack {
                 StreakCalendarView(streakManager: streakManager)
                     .environmentObject(themeManager)
+                    .environmentObject(localizationManager)
             }
+        }
+        .onChange(of: localizationManager.currentLanguage) { _ in
+            // Force view refresh when language changes
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .languageChanged)) { _ in
+            // Force view refresh when language changes via notification
         }
     }
 }

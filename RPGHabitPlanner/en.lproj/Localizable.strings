@@ -742,7 +742,7 @@
 "please_check_your_input" = "Please check your input";
 
 // MARK: - Equipment Categories
-"equipment_body_type" = "Body Type";
+"equipment_body_type" = "Skin Color";
 "equipment_hair_style" = "Hair Style";
 "equipment_hair_color" = "Hair Color";
 "equipment_eye_color" = "Eye Color";
@@ -811,7 +811,7 @@
 "health_error_health_at_minimum" = "Health is already at minimum";
 
 // MARK: - Character Asset Categories
-"character_asset_body_type" = "Body Type";
+"character_asset_body_type" = "Skin Color";
 "character_asset_hair_style" = "Hair Style";
 "character_asset_hair_back_style" = "Hair Back Style";
 "character_asset_hair_color" = "Hair Color";
@@ -1737,7 +1737,7 @@
 "coin_boost_item" = "Coin Boost Item";
 
 // MARK: - Character Customization Categories (Detailed)
-"body_type" = "Body Type";
+"body_type" = "Skin Color";
 "hair_style" = "Hair Style";
 "hair_back" = "Hair Back";
 "eye_style" = "Eye Style";

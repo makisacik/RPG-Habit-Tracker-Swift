@@ -74,7 +74,7 @@ struct AnalyticsConfiguration {
     
     struct Currency {
         /// Default average coins per quest
-        static let defaultAverageCoinsPerQuest = 10.0
+        static let defaultAverageCoinsPerQuest = 0.0
         
         /// Default average gems per quest
         static let defaultAverageGemsPerQuest = 1.0

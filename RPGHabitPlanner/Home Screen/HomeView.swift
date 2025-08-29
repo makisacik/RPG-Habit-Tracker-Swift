@@ -131,6 +131,7 @@ struct HomeView: View {
 
                         StreakDisplayView(streakManager: viewModel.streakManager)
                             .environmentObject(themeManager)
+                            .environmentObject(localizationManager)
 
                         recentAchievementsSection
                         quickActionsSection(isCompletedQuestsPresented: $isCompletedQuestsPresented)
