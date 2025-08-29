@@ -67,6 +67,7 @@ struct MyQuestsSection: View {
                 .environmentObject(themeManager)
             }
         }
+
         // Make sure the section refreshes when it appears
         .onAppear {
             viewModel.refreshQuestData()

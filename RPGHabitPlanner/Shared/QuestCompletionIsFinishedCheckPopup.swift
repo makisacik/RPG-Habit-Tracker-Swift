@@ -53,13 +53,13 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                     }
                     
                     Text("quest_finish_confirmation".localized)
-                        .font(.appFont(size: 20, weight: .bold))
+                        .font(.system(size: 20, weight: .bold))
                         .foregroundColor(theme.textColor)
                 }
                 
                 // Completion check message
                 Text(completionCheckMessage)
-                    .font(.appFont(size: 14))
+                    .font(.system(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.8))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
@@ -68,7 +68,7 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                 HStack(spacing: 16) {
                     Button(action: onCancel) {
                         Text("not_yet".localized)
-                            .font(.appFont(size: 16, weight: .medium))
+                            .font(.system(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                             .padding(.horizontal, 24)
                             .padding(.vertical, 12)
@@ -83,19 +83,15 @@ struct QuestCompletionIsFinishedCheckPopup: View {
                         HapticFeedbackManager.shared.questFinished()
                         onConfirm()
                     }) {
-                        HStack(spacing: 8) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.white)
-                            Text("finish_quest".localized)
-                                .font(.appFont(size: 16, weight: .bold))
-                                .foregroundColor(.white)
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 12)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(.green)
-                        )
+                        Text("Done")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(theme.textColor)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(theme.primaryColor)
+                            )
                     }
                 }
             }

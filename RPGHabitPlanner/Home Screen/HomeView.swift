@@ -140,6 +140,38 @@ struct HomeView: View {
                 // Reward Toast Container
                 RewardToastContainerView()
                     .zIndex(70)
+
+                // Quest finish confirmation popup (when finished button is tapped)
+                if myQuestsVM.showFinishConfirmation, let quest = myQuestsVM.questToFinish {
+                    QuestFinishConfirmationPopup(
+                        quest: quest,
+                        onConfirm: {
+                            myQuestsVM.markQuestAsFinished(questId: quest.id)
+                            myQuestsVM.showFinishConfirmation = false
+                            myQuestsVM.questToFinish = nil
+                        },
+                        onCancel: {
+                            myQuestsVM.showFinishConfirmation = false
+                            myQuestsVM.questToFinish = nil
+                        }
+                    )
+                    .zIndex(60)
+                }
+
+                // Quest completion is finished check popup (when completion is toggled)
+                if myQuestsVM.showCompletionIsFinishedCheck, let quest = myQuestsVM.questToCheckCompletion {
+                    QuestCompletionIsFinishedCheckPopup(
+                        quest: quest,
+                        onConfirm: {
+                            myQuestsVM.handleCompletionIsFinishedCheck(questId: quest.id)
+                        },
+                        onCancel: {
+                            myQuestsVM.showCompletionIsFinishedCheck = false
+                            myQuestsVM.questToCheckCompletion = nil
+                        }
+                    )
+                    .zIndex(60)
+                }
             }
             .navigationTitle("home".localized)
             .navigationBarTitleDisplayMode(.inline)
@@ -182,6 +214,10 @@ struct HomeView: View {
                         showLevelUp = true
                     }
                 }
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
+                    .environmentObject(premiumManager)
             }
         }
         .tabItem { Label("home".localized, systemImage: "house.fill") }
