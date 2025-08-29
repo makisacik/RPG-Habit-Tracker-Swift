@@ -203,9 +203,18 @@ final class MyQuestsViewModel: ObservableObject {
                         self?.streakManager.recordActivity()
 
                         // Handle quest completion rewards
-                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError in
+                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError, leveledUp, newLevel in
                             if let rewardError = rewardError {
                                 print("❌ Error handling quest completion rewards: \(rewardError)")
+                            } else {
+                                // ✅ Handle level up from quest completion
+                                if leveledUp {
+                                    print("🎉 Quest completion triggered level up to level \(newLevel ?? 0)")
+                                    DispatchQueue.main.async {
+                                        self?.didLevelUp = leveledUp
+                                        self?.newLevel = newLevel
+                                    }
+                                }
                             }
                         }
 
@@ -331,16 +340,32 @@ final class MyQuestsViewModel: ObservableObject {
                     if newValue {
                         if let quest = self?.allQuests.first(where: { $0.id == questId }),
                            let task = quest.tasks.first(where: { $0.id == taskId }) {
-                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError in
-                                if let rewardError = rewardError {
-                                    print("❌ Error handling task completion rewards: \(rewardError)")
+                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError, leveledUp, newLevel in
+                                DispatchQueue.main.async {
+                                    if let rewardError = rewardError {
+                                        print("❌ Error handling task completion rewards: \(rewardError)")
+                                    } else {
+                                        // ✅ Handle level up from task completion
+                                        if leveledUp {
+                                            print("🎉 Task completion triggered level up to level \(newLevel ?? 0)")
+                                            self?.didLevelUp = leveledUp
+                                            self?.newLevel = newLevel
+                                        }
+                                    }
+                                    
+                                    // Fetch quests to update the view and notify other views
+                                    // (moved inside the callback to ensure it happens after level up detection)
+                                    self?.fetchQuests()
                                 }
                             }
+                        } else {
+                            // If no quest/task found, still fetch quests
+                            self?.fetchQuests()
                         }
+                    } else {
+                        // If task is being uncompleted, fetch quests
+                        self?.fetchQuests()
                     }
-
-                    // Fetch quests to update the view and notify other views
-                    self?.fetchQuests()
                 }
             }
         }

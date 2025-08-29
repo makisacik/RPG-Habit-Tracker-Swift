@@ -205,9 +205,18 @@ final class QuestsViewModel: ObservableObject {
                         self?.streakManager.recordActivity()
 
                         // Handle quest completion rewards
-                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError in
+                        self?.rewardService.handleQuestCompletion(quest: item.quest) { rewardError, leveledUp, newLevel in
                             if let rewardError = rewardError {
                                 print("❌ Error handling quest completion rewards: \(rewardError)")
+                            } else {
+                                // ✅ Handle level up from quest completion
+                                if leveledUp {
+                                    print("🎉 Quest completion triggered level up to level \(newLevel ?? 0)")
+                                    DispatchQueue.main.async {
+                                        self?.didLevelUp = leveledUp
+                                        self?.newLevel = newLevel
+                                    }
+                                }
                             }
                         }
 
@@ -341,9 +350,18 @@ final class QuestsViewModel: ObservableObject {
                     if newValue {
                         if let quest = self?.allQuests.first(where: { $0.id == questId }),
                            let task = quest.tasks.first(where: { $0.id == taskId }) {
-                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError in
+                            self?.rewardService.handleTaskCompletion(task: task, quest: quest) { rewardError, leveledUp, newLevel in
                                 if let rewardError = rewardError {
                                     print("❌ Error handling task completion rewards: \(rewardError)")
+                                } else {
+                                    // ✅ Handle level up from task completion
+                                    if leveledUp {
+                                        print("🎉 Task completion triggered level up to level \(newLevel ?? 0)")
+                                        DispatchQueue.main.async {
+                                            self?.didLevelUp = leveledUp
+                                            self?.newLevel = newLevel
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -225,8 +225,19 @@ final class CalendarViewModel: ObservableObject {
                         HapticFeedbackManager.shared.errorOccurred()
                     } else {
                         self?.streakManager.recordActivity()
-                        self?.rewardService.handleQuestCompletion(quest: item.quest) { err in
-                            if let err = err { print("❌ Reward error: \(err)") }
+                        self?.rewardService.handleQuestCompletion(quest: item.quest) { err, leveledUp, newLevel in
+                            if let err = err {
+                                print("❌ Quest reward error: \(err)")
+                            } else {
+                                // ✅ Handle level up from quest completion
+                                if leveledUp {
+                                    print("🎉 Quest completion triggered level up to level \(newLevel ?? 0)")
+                                    DispatchQueue.main.async {
+                                        self?.didLevelUp = leveledUp
+                                        self?.newLevel = newLevel
+                                    }
+                                }
+                            }
                         }
                         if item.quest.shouldShowFinishConfirmation(on: item.date) {
                             self?.questToCheckCompletion = item.quest
@@ -341,8 +352,19 @@ final class CalendarViewModel: ObservableObject {
                     if newValue,
                        let quest = self?.allQuests.first(where: { $0.id == questId }),
                        let task = quest.tasks.first(where: { $0.id == taskId }) {
-                        self?.rewardService.handleTaskCompletion(task: task, quest: quest) { err in
-                            if let err = err { print("❌ Task reward error: \(err)") }
+                        self?.rewardService.handleTaskCompletion(task: task, quest: quest) { err, leveledUp, newLevel in
+                            if let err = err {
+                                print("❌ Task reward error: \(err)")
+                            } else {
+                                // ✅ Handle level up from task completion
+                                if leveledUp {
+                                    print("🎉 Task completion triggered level up to level \(newLevel ?? 0)")
+                                    DispatchQueue.main.async {
+                                        self?.didLevelUp = leveledUp
+                                        self?.newLevel = newLevel
+                                    }
+                                }
+                            }
                         }
                     }
                     self?.silentUpdateQuests() // will bump version

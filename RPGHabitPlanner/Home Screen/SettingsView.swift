@@ -54,12 +54,9 @@ struct SettingsView: View {
                                 .font(.appFont(size: 16, weight: .medium))
                                 .foregroundColor(theme.textColor)
                             Spacer()
-                            HStack(spacing: 4) {
-                                Text(localizationManager.currentLanguage.flag)
-                                Text(localizationManager.currentLanguage.displayName)
-                                    .font(.appFont(size: 14))
-                                    .foregroundColor(theme.textColor.opacity(0.7))
-                            }
+                            Text(localizationManager.currentLanguage.displayName)
+                                .font(.appFont(size: 14))
+                                .foregroundColor(theme.textColor.opacity(0.7))
                             Image(systemName: "chevron.right")
                                 .font(.caption)
                                 .foregroundColor(theme.textColor.opacity(0.5))

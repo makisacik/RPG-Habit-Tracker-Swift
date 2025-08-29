@@ -14,6 +14,9 @@ struct MyQuestsSection: View {
     @State private var selectedQuestItem: DayQuestItem?
     @Binding var selectedTab: HomeTab
 
+    // ✅ Add level up state variables
+    @State private var showLevelUp = false
+    @State private var levelUpLevel: Int = 0
 
     let questDataService: QuestDataServiceProtocol
 
@@ -28,34 +31,64 @@ struct MyQuestsSection: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
-        VStack(alignment: .leading, spacing: 12) {
-            // Header with date selection
-            HStack {
-                Text("my_quests".localized)
-                    .font(.appFont(size: 20, weight: .bold))
-                    .foregroundColor(theme.textColor)
+        ZStack {
+            VStack(alignment: .leading, spacing: 12) {
+                // Header with date selection
+                HStack {
+                    Text("my_quests".localized)
+                        .font(.appFont(size: 20, weight: .bold))
+                        .foregroundColor(theme.textColor)
 
-                Spacer()
+                    Spacer()
 
-                // Date navigation
-                dateNavigationView(theme: theme)
+                    // Date navigation
+                    dateNavigationView(theme: theme)
+                }
+
+                // Quest count summary
+                questCountSummary(theme: theme)
+
+                // Quests list
+                questsListView(theme: theme)
             }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(theme.primaryColor)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+            )
 
-            // Quest count summary
-            questCountSummary(theme: theme)
-
-            // Quests list
-            questsListView(theme: theme)
+            // ✅ Add LevelUpView overlay
+            LevelUpView(isVisible: $showLevelUp, level: levelUpLevel)
+                .zIndex(50)
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(theme.primaryColor)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        )
         .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
             // Trigger quest refresh when quest creation is dismissed
             viewModel.fetchQuests()
+        }
+        // ✅ Add onChange handlers for all level up triggers
+        .onChange(of: viewModel.questCompleted) { completed in
+            handleQuestCompletion(completed)
+        }
+        .onChange(of: viewModel.didLevelUp) { leveledUp in
+            if leveledUp, let lvl = viewModel.newLevel {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    levelUpLevel = Int(lvl)
+                    showLevelUp = true
+                }
+            }
+        }
+        // ✅ Listen for quest completion from detail view
+        .onReceive(NotificationCenter.default.publisher(for: .questCompletedFromDetail)) { notification in
+            if let userInfo = notification.userInfo,
+               let leveledUp = userInfo["leveledUp"] as? Bool,
+               let newLevel = userInfo["newLevel"] as? Int16,
+               leveledUp {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    levelUpLevel = Int(newLevel)
+                    showLevelUp = true
+                }
+            }
         }
         .sheet(item: $selectedQuestItem) { questItem in
             NavigationStack {
@@ -71,6 +104,14 @@ struct MyQuestsSection: View {
         // Make sure the section refreshes when it appears
         .onAppear {
             viewModel.refreshQuestData()
+        }
+    }
+
+    // ✅ Add handler method for quest completion
+    private func handleQuestCompletion(_ completed: Bool) {
+        if completed {
+            // Reset flag so we don't re-trigger when list refreshes
+            viewModel.questCompleted = false
         }
     }
 

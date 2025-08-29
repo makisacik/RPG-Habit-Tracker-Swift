@@ -72,13 +72,17 @@ struct CalendarView: View {
                     viewModel.questCompleted = false
                 }
             }
-            .onChange(of: showReward) { visible in
-                if !visible, viewModel.didLevelUp, let lvl = viewModel.newLevel {
+            .onChange(of: viewModel.didLevelUp) { leveledUp in
+                if leveledUp, let lvl = viewModel.newLevel {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         levelUpLevel = Int(lvl)
                         showLevelUp = true
                     }
                 }
+            }
+            .onChange(of: showReward) { _ in
+                // Level up is now handled directly in the onChange handler for didLevelUp
+                // This can be used for any other reward-related cleanup if needed
             }
 
             .alert(isPresented: $showingAlert) {

@@ -198,7 +198,7 @@ struct HomeView: View {
                     .zIndex(60)
                 }
             }
-            .navigationTitle("Adventure Hub")
+            .navigationTitle("adventure_hub".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: homeToolbarContent)
             .navigationDestination(isPresented: $isCompletedQuestsPresented) {

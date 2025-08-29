@@ -21,11 +21,11 @@ class RewardService {
     
     // MARK: - Quest Completion
     
-    func handleQuestCompletion(quest: Quest, completion: @escaping (Error?) -> Void) {
+    func handleQuestCompletion(quest: Quest, completion: @escaping (Error?, Bool, Int16?) -> Void) {
         // Check for abuse - prevent rapid toggling
         guard completionTracker.canCompleteQuest(quest.id) else {
             print("⚠️ Quest completion blocked due to cooldown: \(quest.title)")
-            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "quest_completion_cooldown".localized]))
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "quest_completion_cooldown".localized]), false, nil)
             return
         }
 
@@ -36,16 +36,16 @@ class RewardService {
         let reward = rewardSystem.calculateQuestReward(quest: quest)
         
         // Award experience
-        userManager.updateUserExperience(additionalExp: Int16(reward.totalExperience)) { [weak self] _, _, error in
+        userManager.updateUserExperience(additionalExp: Int16(reward.totalExperience)) { [weak self] leveledUp, newLevel, error in
             if let error = error {
-                completion(error)
+                completion(error, false, nil)
                 return
             }
             
             // Award coins
             self?.userManager.updateUserCoins(additionalCoins: Int32(reward.totalCoins)) { coinError in
                 if let coinError = coinError {
-                    completion(coinError)
+                    completion(coinError, false, nil)
                     return
                 }
                 
@@ -54,18 +54,18 @@ class RewardService {
                     self?.toastManager.showQuestReward(quest: quest, reward: reward)
                 }
                 
-                completion(nil)
+                completion(nil, leveledUp, newLevel)
             }
         }
     }
     
     // MARK: - Task Completion
     
-    func handleTaskCompletion(task: QuestTask, quest: Quest, completion: @escaping (Error?) -> Void) {
+    func handleTaskCompletion(task: QuestTask, quest: Quest, completion: @escaping (Error?, Bool, Int16?) -> Void) {
         // Check for abuse - prevent rapid toggling
         guard completionTracker.canCompleteTask(task.id, questId: quest.id) else {
             print("⚠️ Task completion blocked due to cooldown: \(task.title)")
-            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "task_completion_cooldown".localized]))
+            completion(NSError(domain: "RewardService", code: 429, userInfo: [NSLocalizedDescriptionKey: "task_completion_cooldown".localized]), false, nil)
             return
         }
         
@@ -76,16 +76,16 @@ class RewardService {
         let reward = rewardSystem.calculateTaskReward(task: task, quest: quest)
         
         // Award experience
-        userManager.updateUserExperience(additionalExp: Int16(reward.totalExperience)) { [weak self] _, _, error in
+        userManager.updateUserExperience(additionalExp: Int16(reward.totalExperience)) { [weak self] leveledUp, newLevel, error in
             if let error = error {
-                completion(error)
+                completion(error, false, nil)
                 return
             }
             
             // Award coins
             self?.userManager.updateUserCoins(additionalCoins: Int32(reward.totalCoins)) { coinError in
                 if let coinError = coinError {
-                    completion(coinError)
+                    completion(coinError, false, nil)
                     return
                 }
                 
@@ -94,7 +94,7 @@ class RewardService {
                     self?.toastManager.showTaskReward(task: task, quest: quest, reward: reward)
                 }
                 
-                completion(nil)
+                completion(nil, leveledUp, newLevel)
             }
         }
     }

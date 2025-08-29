@@ -71,6 +71,14 @@ struct QuestsView: View {
             .onChange(of: viewModel.questCompleted) { completed in
                 handleQuestCompletion(completed)
             }
+            .onChange(of: viewModel.didLevelUp) { leveledUp in
+                if leveledUp, let lvl = viewModel.newLevel {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        levelUpLevel = Int(lvl)
+                        showLevelUp = true
+                    }
+                }
+            }
             .onChange(of: showReward) { visible in
                 handleRewardVisibilityChange(visible)
             }
@@ -336,12 +344,8 @@ struct QuestsView: View {
     }
     
     private func handleRewardVisibilityChange(_ visible: Bool) {
-        if !visible, viewModel.didLevelUp, let lvl = viewModel.newLevel {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                levelUpLevel = Int(lvl)
-                showLevelUp = true
-            }
-        }
+        // Level up is now handled directly in the onChange handler for didLevelUp
+        // This method can be used for any other reward-related cleanup if needed
     }
     
     private func createAlert() -> Alert {
