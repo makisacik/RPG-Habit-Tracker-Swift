@@ -70,6 +70,7 @@ struct QuickQuestsView: View {
     @State private var alertMessage: String = ""
 
     @State private var showPaywall = false
+    @State private var showNotificationPermission = false
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -133,12 +134,33 @@ struct QuickQuestsView: View {
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
+            .sheet(isPresented: $showNotificationPermission) {
+                NotificationPermissionBottomSheet(
+                    onPermissionGranted: {
+                        // Complete quest creation after notification permission
+                        viewModel.completeQuestCreationAfterNotification()
+                    },
+                    onPermissionDenied: {
+                        // Complete quest creation after notification permission denied
+                        viewModel.completeQuestCreationAfterNotification()
+                    },
+                    quest: viewModel.pendingQuestForNotification
+                )
+                .environmentObject(themeManager)
+                .presentationDetents([.medium])
+            }
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle).font(.appFont(size: 16, weight: .black)),
                     message: Text(alertMessage).font(.appFont(size: 14)),
                     dismissButton: .default(Text("ok".localized).font(.appFont(size: 14, weight: .black)))
                 )
+            }
+            .onChange(of: viewModel.shouldShowNotificationPermission) { shouldShow in
+                if shouldShow {
+                    showNotificationPermission = true
+                    viewModel.shouldShowNotificationPermission = false
+                }
             }
         }
 }

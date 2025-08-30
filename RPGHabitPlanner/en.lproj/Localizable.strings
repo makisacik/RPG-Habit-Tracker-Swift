@@ -172,6 +172,19 @@
 "notifications" = "Notifications";
 "reminder" = "Reminder";
 "reminders" = "Reminders";
+"enabled" = "Enabled";
+"disabled" = "Disabled";
+"not_determined" = "Not Determined";
+"provisional" = "Provisional";
+"ephemeral" = "Ephemeral";
+"unknown" = "Unknown";
+
+// MARK: - Notification Permission
+"notification_permission_title" = "Traveller, do you want to be notified about your quests?";
+"notification_permission_message" = "Stay on track with your epic adventures! We'll send you gentle reminders to help you complete your quests and level up your character.";
+"notification_permission_subtitle" = "You can change this anytime in Settings";
+"notification_permission_allow" = "Yes, notify me!";
+"notification_permission_not_now" = "Not now";
 
 // MARK: - Home Screen
 "quick_stats" = "Quick Stats";

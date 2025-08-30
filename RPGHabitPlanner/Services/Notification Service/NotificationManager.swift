@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import UIKit
 
 final class NotificationManager {
     static let shared = NotificationManager()
@@ -145,6 +146,60 @@ final class NotificationManager {
             }
         } else {
             cancelQuestNotifications(questId: quest.id)
+        }
+    }
+
+    // MARK: - First Quest Notification Permission
+
+    func requestPermissionForFirstQuest(completion: @escaping (Bool) -> Void) {
+        // Check if this is the first quest
+        let hasCreatedQuestBefore = UserDefaults.standard.bool(forKey: "hasCreatedQuestBefore")
+
+        if !hasCreatedQuestBefore {
+            // This is the first quest, check current status first
+            checkAndRequestPermission(shouldRequestIfDenied: false) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        // Already has permission, mark as created and continue
+                        UserDefaults.standard.set(true, forKey: "hasCreatedQuestBefore")
+                        completion(true)
+                    } else {
+                        // No permission yet, will be handled by custom bottom sheet
+                        completion(false)
+                    }
+                }
+            }
+        } else {
+            // Not the first quest, just check current status
+            checkAndRequestPermission(shouldRequestIfDenied: false, completion: completion)
+        }
+    }
+    
+    func shouldShowCustomNotificationPrompt() -> Bool {
+        // Check if this is the first quest and user hasn't been asked yet
+        let hasCreatedQuestBefore = UserDefaults.standard.bool(forKey: "hasCreatedQuestBefore")
+        let hasShownCustomPrompt = UserDefaults.standard.bool(forKey: "hasShownCustomNotificationPrompt")
+        
+        return !hasCreatedQuestBefore && !hasShownCustomPrompt
+    }
+    
+    func markCustomNotificationPromptShown() {
+        UserDefaults.standard.set(true, forKey: "hasShownCustomNotificationPrompt")
+    }
+
+    // MARK: - Settings Helper
+
+    func getNotificationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus)
+            }
+        }
+    }
+
+    func openNotificationSettings() {
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsUrl)
         }
     }
 }

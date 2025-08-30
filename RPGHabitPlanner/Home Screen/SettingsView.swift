@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import UserNotifications
 
 struct SettingsView: View {
     @EnvironmentObject var themeManager: ThemeManager
@@ -15,6 +16,7 @@ struct SettingsView: View {
 
     @State private var isDark = false
     @State private var showLanguageSettings = false
+    @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
 
     var body: some View {
         let theme = themeManager.activeTheme
@@ -55,6 +57,24 @@ struct SettingsView: View {
                                 .foregroundColor(theme.textColor)
                             Spacer()
                             Text(localizationManager.currentLanguage.displayName)
+                                .font(.appFont(size: 14))
+                                .foregroundColor(theme.textColor.opacity(0.7))
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundColor(theme.textColor.opacity(0.5))
+                        }
+                    }
+
+                    // Notification Setting
+                    Button {
+                        handleNotificationSetting()
+                    } label: {
+                        HStack {
+                            Label("notifications".localized, systemImage: "bell.fill")
+                                .font(.appFont(size: 16, weight: .medium))
+                                .foregroundColor(theme.textColor)
+                            Spacer()
+                            Text(notificationStatusText)
                                 .font(.appFont(size: 14))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                             Image(systemName: "chevron.right")
@@ -103,6 +123,11 @@ struct SettingsView: View {
             case .light:  isDark = false
             case .system: isDark = (systemScheme == .dark)
             }
+
+            // Load notification status
+            NotificationManager.shared.getNotificationStatus { status in
+                notificationStatus = status
+            }
         }
         .onChange(of: systemScheme) { _ in
             if themeManager.currentTheme == .system {
@@ -147,6 +172,47 @@ struct SettingsView: View {
     private func resetTutorial() {
         UserDefaults.standard.set(false, forKey: "hasSeenHomeTutorial")
         print("✅ Tutorial reset successfully")
+    }
+
+    // MARK: - Notification Settings
+
+    private var notificationStatusText: String {
+        switch notificationStatus {
+        case .authorized:
+            return "enabled".localized
+        case .denied:
+            return "disabled".localized
+        case .notDetermined:
+            return "not_determined".localized
+        case .provisional:
+            return "provisional".localized
+        case .ephemeral:
+            return "ephemeral".localized
+        @unknown default:
+            return "unknown".localized
+        }
+    }
+
+    private func handleNotificationSetting() {
+        switch notificationStatus {
+        case .notDetermined:
+            // Request permission
+            NotificationManager.shared.requestPermission { _ in
+                DispatchQueue.main.async {
+                    NotificationManager.shared.getNotificationStatus { status in
+                        notificationStatus = status
+                    }
+                }
+            }
+        case .denied:
+            // Open settings
+            NotificationManager.shared.openNotificationSettings()
+        case .authorized, .provisional, .ephemeral:
+            // Open settings to allow user to disable
+            NotificationManager.shared.openNotificationSettings()
+        @unknown default:
+            break
+        }
     }
 }
 

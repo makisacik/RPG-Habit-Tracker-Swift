@@ -31,6 +31,8 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var selectedScheduledDays: Set<Int> = []
     @Published var currentQuestCount: Int = 0
     @Published var shouldShowPaywall = false
+    @Published var shouldShowNotificationPermission = false
+    @Published var pendingQuestForNotification: Quest?
 
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
@@ -86,18 +88,30 @@ final class QuestCreationViewModel: ObservableObject {
                     self.errorMessage = error.localizedDescription
                     self.didSaveQuest = false
                 } else {
-                    if self.notifyMe {
-                        NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
+                    // Check if we should show custom notification prompt
+                    if NotificationManager.shared.shouldShowCustomNotificationPrompt() {
+                        self.pendingQuestForNotification = newQuest
+                        self.shouldShowNotificationPermission = true
+                    } else {
+                        // Request notification permission for first quest
+                        NotificationManager.shared.requestPermissionForFirstQuest { granted in
+                            DispatchQueue.main.async {
+                                if self.notifyMe && granted {
+                                    NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
+                                }
+                            }
+                        }
+                        
+                        self.didSaveQuest = true
+                        // Increment weekly quest count
+                        self.premiumManager.incrementWeeklyQuestCount()
+                        // Update quest count
+                        self.fetchCurrentQuestCount()
+                        // Record streak activity when creating a quest
+                        self.streakManager.recordActivity()
+                        // Notify other views that a new quest was created
+                        NotificationCenter.default.post(name: .questCreated, object: newQuest)
                     }
-                    self.didSaveQuest = true
-                    // Increment weekly quest count
-                    self.premiumManager.incrementWeeklyQuestCount()
-                    // Update quest count
-                    self.fetchCurrentQuestCount()
-                    // Record streak activity when creating a quest
-                    self.streakManager.recordActivity()
-                    // Notify other views that a new quest was created
-                    NotificationCenter.default.post(name: .questCreated, object: newQuest)
                 }
             }
         }
@@ -128,5 +142,28 @@ final class QuestCreationViewModel: ObservableObject {
     @MainActor
     func checkPremiumStatus() {
         shouldShowPaywall = premiumManager.shouldShowPaywall()
+    }
+    
+    @MainActor
+    func completeQuestCreationAfterNotification() {
+        guard let quest = pendingQuestForNotification else { return }
+        
+        // Mark that custom prompt was shown
+        NotificationManager.shared.markCustomNotificationPromptShown()
+        UserDefaults.standard.set(true, forKey: "hasCreatedQuestBefore")
+        
+        // Complete the quest creation process
+        self.didSaveQuest = true
+        // Increment weekly quest count
+        self.premiumManager.incrementWeeklyQuestCount()
+        // Update quest count
+        self.fetchCurrentQuestCount()
+        // Record streak activity when creating a quest
+        self.streakManager.recordActivity()
+        // Notify other views that a new quest was created
+        NotificationCenter.default.post(name: .questCreated, object: quest)
+        
+        // Clear the pending quest
+        self.pendingQuestForNotification = nil
     }
 }

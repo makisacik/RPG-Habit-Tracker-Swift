@@ -170,6 +170,19 @@
 "notifications" = "Bildirimler";
 "reminder" = "Hatırlatma";
 "reminders" = "Hatırlatmalar";
+"enabled" = "Açık";
+"disabled" = "Kapalı";
+"not_determined" = "Belirlenmedi";
+"provisional" = "Geçici";
+"ephemeral" = "Geçici";
+"unknown" = "Bilinmiyor";
+
+// MARK: - Notification Permission
+"notification_permission_title" = "Yolcu, görevlerin hakkında bildirim almak ister misin?";
+"notification_permission_message" = "Epik maceralarında takipte kal! Görevlerini tamamlamana ve karakterini geliştirmene yardımcı olmak için nazik hatırlatmalar göndereceğiz.";
+"notification_permission_subtitle" = "Bunu istediğin zaman Ayarlar'dan değiştirebilirsin";
+"notification_permission_allow" = "Evet, beni haberdar et!";
+"notification_permission_not_now" = "Şimdi değil";
 
 // MARK: - Home Screen
 "quick_stats" = "Hızlı İstatistikler";

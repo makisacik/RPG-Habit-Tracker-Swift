@@ -26,20 +26,11 @@ class BackgroundTimerManager: ObservableObject {
     @Published var currentPhase = "work_phase".localized
 
     private init() {
-        setupNotifications()
+        // Removed automatic notification permission request
+        // Notification permission will be requested after first quest creation
     }
 
     // MARK: - Setup
-
-    private func setupNotifications() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                print("✅ Notification permission granted")
-            } else {
-                print("❌ Notification permission denied: \(error?.localizedDescription ?? "")")
-            }
-        }
-    }
 
     func setupBackgroundTasks() {
         do {

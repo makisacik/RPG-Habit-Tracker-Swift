@@ -9,6 +9,8 @@ final class QuickQuestsViewModel: ObservableObject {
     @Published var selectedQuestType: QuestType = .daily
     @Published var selectedTemplate: QuickQuestTemplate?
     @Published var showDueDatePicker = false
+    @Published var shouldShowNotificationPermission = false
+    @Published var pendingQuestForNotification: Quest?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -67,17 +69,52 @@ final class QuickQuestsViewModel: ObservableObject {
 
         questDataService.saveQuest(newQuest, withTasks: template.tasks.map { $0.title }) { [weak self] error in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                
                 if let error = error {
                     print("Failed to save quick quest: \(error)")
                 } else {
-                    print("Quick quest saved successfully: \(template.title)")
-                    // Increment weekly quest count for premium tracking
-                    PremiumManager.shared.incrementWeeklyQuestCount()
-                    // Send notification to update other views
-                    NotificationCenter.default.post(name: .questCreated, object: newQuest)
+                    // Check if we should show custom notification prompt
+                    if NotificationManager.shared.shouldShowCustomNotificationPrompt() {
+                        self.pendingQuestForNotification = newQuest
+                        self.shouldShowNotificationPermission = true
+                    } else {
+                        // Request notification permission for first quest
+                        NotificationManager.shared.requestPermissionForFirstQuest { granted in
+                            DispatchQueue.main.async {
+                                if granted {
+                                    NotificationManager.shared.handleNotificationForQuest(newQuest, enabled: true)
+                                }
+                            }
+                        }
+                        
+                        print("Quick quest saved successfully: \(template.title)")
+                        // Increment weekly quest count for premium tracking
+                        PremiumManager.shared.incrementWeeklyQuestCount()
+                        // Send notification to update other views
+                        NotificationCenter.default.post(name: .questCreated, object: newQuest)
+                    }
                 }
             }
         }
+    }
+    
+    @MainActor
+    func completeQuestCreationAfterNotification() {
+        guard let quest = pendingQuestForNotification else { return }
+        
+        // Mark that custom prompt was shown
+        NotificationManager.shared.markCustomNotificationPromptShown()
+        UserDefaults.standard.set(true, forKey: "hasCreatedQuestBefore")
+        
+        print("Quick quest saved successfully: \(quest.title)")
+        // Increment weekly quest count for premium tracking
+        PremiumManager.shared.incrementWeeklyQuestCount()
+        // Send notification to update other views
+        NotificationCenter.default.post(name: .questCreated, object: quest)
+        
+        // Clear the pending quest
+        self.pendingQuestForNotification = nil
     }
 }
 

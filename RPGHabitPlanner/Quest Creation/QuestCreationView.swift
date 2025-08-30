@@ -15,6 +15,7 @@ struct QuestCreationView: View {
     @State private var notifyMe = true
     @State private var showPaywall = false
     @State private var showTagPicker = false
+    @State private var showNotificationPermission = false
 
     // UserDefaults for first-time visit
     @AppStorage("hasSeenQuestCreation") private var hasSeenQuestCreation = false
@@ -118,6 +119,12 @@ struct QuestCreationView: View {
                     viewModel.fetchCurrentQuestCount()
                 }
             }
+            .onChange(of: viewModel.shouldShowNotificationPermission) { shouldShow in
+                if shouldShow {
+                    showNotificationPermission = true
+                    viewModel.shouldShowNotificationPermission = false
+                }
+            }
 
             .onAppear {
                 // No animations to prevent layout issues
@@ -136,6 +143,21 @@ struct QuestCreationView: View {
                 TaskEditorPopup(tasks: $viewModel.tasks, isPresented: $isTaskPopupVisible)
                     .environmentObject(themeManager)
                     .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showNotificationPermission) {
+                NotificationPermissionBottomSheet(
+                    onPermissionGranted: {
+                        // Complete quest creation after notification permission
+                        viewModel.completeQuestCreationAfterNotification()
+                    },
+                    onPermissionDenied: {
+                        // Complete quest creation after notification permission denied
+                        viewModel.completeQuestCreationAfterNotification()
+                    },
+                    quest: viewModel.pendingQuestForNotification
+                )
+                .environmentObject(themeManager)
+                .presentationDetents([.medium])
             }
     }
 
