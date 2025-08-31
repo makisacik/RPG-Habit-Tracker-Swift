@@ -302,6 +302,7 @@ struct HomeView: View {
         NavigationStack {
             if let user = viewModel.user {
                 CharacterView(homeViewModel: viewModel)
+                    .environmentObject(localizationManager)
             } else {
                 Text("loading_character".localized)
                     .foregroundColor(theme.textColor)

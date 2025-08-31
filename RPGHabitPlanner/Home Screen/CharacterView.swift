@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CharacterView: View {
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @StateObject private var healthManager = HealthManager.shared
     @StateObject private var inventoryManager = InventoryManager.shared
     @StateObject private var boosterManager = BoosterManager.shared
@@ -16,6 +17,10 @@ struct CharacterView: View {
     @State private var showCustomizationModal = false
     @State private var characterCustomization: CharacterCustomization?
     @ObservedObject var homeViewModel: HomeViewModel
+
+    // Tutorial state
+    @AppStorage("hasSeenCharacterTutorial") private var hasSeenCharacterTutorial = false
+    @State private var showTutorial = false
 
     private let customizationService = CharacterCustomizationService()
 
@@ -89,6 +94,13 @@ struct CharacterView: View {
                 // Force refresh character customization from gear
                 gearManager.refreshCharacterCustomizationFromGear(for: user)
             }
+            
+            // Show tutorial for first-time users
+            if !hasSeenCharacterTutorial {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    showTutorial = true
+                }
+            }
         }
         .onChange(of: showCustomizationModal) { isPresented in
             // Refresh character customization when modal is dismissed
@@ -100,6 +112,20 @@ struct CharacterView: View {
             print("🔄 CharacterView: Received boostersUpdated notification")
             refreshTrigger.toggle()
         }
+        .overlay(
+            Group {
+                if showTutorial {
+                    CharacterTabTutorialView(isPresented: $showTutorial)
+                        .environmentObject(themeManager)
+                        .environmentObject(localizationManager)
+                        .onDisappear {
+                            // Mark tutorial as seen when dismissed
+                            hasSeenCharacterTutorial = true
+                        }
+                        .zIndex(100)
+                }
+            }
+        )
         .onReceive(NotificationCenter.default.publisher(for: .characterCustomizationUpdated)) { _ in
             print("🔄 CharacterView: Received characterCustomizationUpdated notification")
             if let user = homeViewModel.user {
