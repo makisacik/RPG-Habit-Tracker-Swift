@@ -185,6 +185,7 @@ extension HomeView {
             Text("health".localized)
                 .font(.appFont(size: 12, weight: .bold))
                 .foregroundColor(theme.textColor)
+                .id("health-label-\(LocalizationManager.shared.currentLanguage)") // 👈 Make health label reactive to language changes
             Spacer()
             Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
                 .font(.appFont(size: 11, weight: .black))
@@ -213,6 +214,7 @@ extension HomeView {
             }
         }
         .frame(height: 12)
+        .id("health-bar-hero-\(healthManager.currentHealth)-\(healthManager.maxHealth)") // 👈 Make health bar reactive to health changes
     }
 
     @ViewBuilder
@@ -278,6 +280,7 @@ extension HomeView {
             Text("experience".localized)
                 .font(.appFont(size: 12, weight: .bold))
                 .foregroundColor(theme.textColor)
+                .id("experience-label-\(LocalizationManager.shared.currentLanguage)") // 👈 Make experience label reactive to language changes
             Spacer()
             let levelingSystem = LevelingSystem.shared
             let expRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))

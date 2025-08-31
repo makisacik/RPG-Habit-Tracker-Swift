@@ -33,3 +33,7 @@
 "daily_quest_widget_description" = "Günlük görevlerini ve tamamlama ilerlemeni takip et.";
 "done_for_today" = "Bugün için tamamlandı!";
 "all_quests_completed_today" = "Bugün için tüm görevler tamamlandı";
+
+// MARK: - Premium Features
+"premium_features" = "Premium Özellik";
+"premium_widgets_description" = "Widget'ları kullanmak için Premium'a yükseltin";

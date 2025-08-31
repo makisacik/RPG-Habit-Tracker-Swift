@@ -191,6 +191,13 @@ class BackgroundTimerManager: ObservableObject {
     private var liveActivity: Activity<FocusTimerAttributes>?
 
     private func startLiveActivity() {
+        // Check if user is premium
+        let isPremium = UserDefaults.standard.bool(forKey: "isPremium")
+        guard isPremium else {
+            print("🔒 Live Activity not started: Premium feature required")
+            return
+        }
+        
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
             return
         }

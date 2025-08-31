@@ -33,3 +33,7 @@
 "daily_quest_widget_description" = "Track your daily quests and completion progress.";
 "done_for_today" = "Done for today!";
 "all_quests_completed_today" = "All quests completed for today";
+
+// MARK: - Premium Features
+"premium_features" = "Premium Feature";
+"premium_widgets_description" = "Upgrade to Premium to use widgets";

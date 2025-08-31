@@ -11,7 +11,7 @@
 "start_your_adventure" = "Commence ton aventure";
 "create_your_first_quest" = "Crée ta première quête";
 "overdue" = "En retard !";
-"due_today" = "À faire aujourd’hui";
+"due_today" = "À faire aujourd'hui";
 "due_tomorrow" = "À faire demain";
 "days_left" = "jours restants";
 "untitled_quest" = "Quête sans titre";
@@ -24,5 +24,9 @@
 "more_quests" = "autres quêtes";
 "daily_quest_summary" = "Résumé des quêtes quotidiennes";
 "daily_quest_widget_description" = "Suis tes quêtes quotidiennes et ta progression.";
-"done_for_today" = "Terminé pour aujourd’hui !";
+"done_for_today" = "Terminé pour aujourd'hui !";
 "all_quests_completed_today" = "Toutes les quêtes du jour sont terminées";
+
+// MARK: - Premium Features
+"premium_features" = "Fonctionnalité Premium";
+"premium_widgets_description" = "Passez à Premium pour utiliser les widgets";

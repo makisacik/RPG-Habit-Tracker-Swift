@@ -33,20 +33,28 @@ struct CalendarView: View {
     // MARK: - Body
     var body: some View {
         let theme = themeManager.activeTheme
+        let baseView = mainContent(theme: theme)
 
-        mainContent(theme: theme)
+        let withNavigation = baseView
             .navigationTitle("calendar".localized)
+            .id("calendar-title-\(LocalizationManager.shared.currentLanguage)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
+
+        let withAppear = withNavigation
             .onAppear {
                 print("Calendar appear", ObjectIdentifier(viewModel))
                 viewModel.refreshQuestData()
             }
             .onDisappear { print("Calendar disappear") }
+
+        let withReceive = withAppear
             .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
                 // Trigger quest refresh when quest creation is dismissed
                 viewModel.fetchQuests()
             }
+
+        let withSheet = withReceive
             .sheet(item: $selectedQuestItem) { questItem in
                 QuestDetailSheet(
                     questItem: questItem,
@@ -54,11 +62,11 @@ struct CalendarView: View {
                     svc: viewModel.questDataService
                 )
             }
+
+        let withChanges = withSheet
             .onChange(of: viewModel.alertMessage) { msg in
                 if msg != nil { showingAlert = true }
             }
-
-            // Listen to CalendarViewModel signals → show overlays
             .onChange(of: viewModel.questCompleted) { completed in
                 if completed && !showReward {
                     if let quest = viewModel.lastCompletedQuest {
@@ -85,6 +93,7 @@ struct CalendarView: View {
                 // This can be used for any other reward-related cleanup if needed
             }
 
+        withChanges
             .alert(isPresented: $showingAlert) {
                 Alert(
                     title: Text("heads_up".localized),
@@ -315,6 +324,7 @@ struct QuestCalendarRow: View {
                             Text("\(tasks.count) \(("tasks".localized))")
                                 .font(.appFont(size: 12, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.8))
+                                .id("tasks-count-\(LocalizationManager.shared.currentLanguage)") // 👈 Make tasks count text reactive to language changes
                             Spacer()
                             Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                                 .foregroundColor(theme.textColor.opacity(0.6))

@@ -110,6 +110,7 @@ struct HealthBarView: View {
                 }
             }
             .frame(height: size.height)
+            .id("health-bar-\(healthManager.currentHealth)-\(healthManager.maxHealth)") // 👈 Make health bar reactive to health changes
         }
         .onAppear {
             if showShineAnimation {
@@ -257,6 +258,7 @@ struct CompactHealthBarView: View {
                 .foregroundColor(theme.textColor)
                 .frame(minWidth: 25, alignment: .trailing)
         }
+        .id("compact-health-bar-\(healthManager.currentHealth)-\(healthManager.maxHealth)") // 👈 Make compact health bar reactive to health changes
     }
 
     private func healthGradient(for percentage: Double) -> LinearGradient {

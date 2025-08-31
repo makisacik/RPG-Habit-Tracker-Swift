@@ -531,6 +531,7 @@ struct HealthBarSection: View {
             Text("health".localized)
                 .font(.appFont(size: 12, weight: .bold))
                 .foregroundColor(theme.textColor)
+                .id("health-label-section-\(LocalizationManager.shared.currentLanguage)") // 👈 Make health label reactive to language changes
             Spacer()
             Text("\(healthManager.currentHealth)/\(healthManager.maxHealth)")
                 .font(.appFont(size: 11, weight: .black))
@@ -559,6 +560,7 @@ struct HealthBarSection: View {
             }
         }
         .frame(height: 12)
+        .id("health-bar-section-\(healthManager.currentHealth)-\(healthManager.maxHealth)") // 👈 Make health bar reactive to health changes
     }
 }
 
@@ -584,6 +586,7 @@ struct ExperienceBarSection: View {
             Text("experience".localized)
                 .font(.appFont(size: 12, weight: .bold))
                 .foregroundColor(theme.textColor)
+                .id("experience-label-section-\(LocalizationManager.shared.currentLanguage)") // 👈 Make experience label reactive to language changes
             Spacer()
             let levelingSystem = LevelingSystem.shared
             let expRequiredForNextLevel = levelingSystem.experienceRequiredForNextLevel(from: Int(user.level))

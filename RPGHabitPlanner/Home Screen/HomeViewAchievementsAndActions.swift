@@ -99,8 +99,6 @@ extension HomeView {
                 ) {
                     isCompletedQuestsPresented.wrappedValue = true
                 }
-
-
             }
         }
         .padding(16)

@@ -86,7 +86,6 @@ struct SettingsView: View {
                 .listRowBackground(theme.cardBackgroundColor)
 
 
-
                 #if DEBUG
                 // Development features section
                 Section("Development") {

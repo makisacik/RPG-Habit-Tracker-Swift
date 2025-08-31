@@ -78,6 +78,7 @@ struct HealthStatusView: View {
                         .stroke(healthColor.opacity(0.3), lineWidth: 1)
                 )
         )
+        .id("health-status-\(healthManager.currentHealth)-\(healthManager.maxHealth)") // 👈 Make health status reactive to health changes
     }
 
     // MARK: - Computed Properties
@@ -186,6 +187,7 @@ struct CompactHealthStatusView: View {
                         .stroke(healthColor(for: healthPercentage).opacity(0.3), lineWidth: 1)
                 )
         )
+        .id("compact-health-status-\(healthManager.currentHealth)-\(healthManager.maxHealth)") // 👈 Make compact health status reactive to health changes
     }
 
     private func healthColor(for percentage: Double) -> Color {

@@ -33,3 +33,7 @@
 "daily_quest_widget_description" = "毎日のクエストと達成状況を追跡しましょう。";
 "done_for_today" = "今日は完了！";
 "all_quests_completed_today" = "今日のクエストをすべて達成しました";
+
+// MARK: - Premium Features
+"premium_features" = "プレミアム機能";
+"premium_widgets_description" = "プレミアムにアップグレードしてウィジェットを使用";

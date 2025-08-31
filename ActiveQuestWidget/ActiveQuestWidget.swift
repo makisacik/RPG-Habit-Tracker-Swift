@@ -85,7 +85,8 @@ struct Provider: TimelineProvider {
             date: Date(),
             todaysQuests: [],
             completedQuestsCount: 0,
-            totalQuestsCount: 0
+            totalQuestsCount: 0,
+            isPremium: false
         )
     }
 
@@ -107,6 +108,9 @@ struct Provider: TimelineProvider {
     private func fetchDailyQuestEntry() -> DailyQuestWidgetEntry {
         let context = persistenceController.container.viewContext
         let fetchRequest: NSFetchRequest<QuestEntity> = QuestEntity.fetchRequest()
+
+        // Check premium status
+        let isPremium = UserDefaults.standard.bool(forKey: "isPremium")
 
         // Fetch all quests that are active today
         fetchRequest.predicate = NSPredicate(format: "isActive == YES")
@@ -187,7 +191,8 @@ struct Provider: TimelineProvider {
                 date: Date(),
                 todaysQuests: todaysQuests,
                 completedQuestsCount: completedQuests.count,
-                totalQuestsCount: todaysQuests.count
+                totalQuestsCount: todaysQuests.count,
+                isPremium: isPremium
             )
         } catch {
             print("Failed to fetch quests for widget: \(error)")
@@ -195,7 +200,8 @@ struct Provider: TimelineProvider {
                 date: Date(),
                 todaysQuests: [],
                 completedQuestsCount: 0,
-                totalQuestsCount: 0
+                totalQuestsCount: 0,
+                isPremium: isPremium
             )
         }
     }
@@ -213,6 +219,7 @@ struct DailyQuestWidgetEntry: TimelineEntry {
     let todaysQuests: [QuestEntity]
     let completedQuestsCount: Int
     let totalQuestsCount: Int
+    let isPremium: Bool
 
     var progressPercentage: Double {
         guard totalQuestsCount > 0 else { return 0 }
@@ -231,7 +238,9 @@ struct DailyQuestWidgetEntryView: View {
 
     var body: some View {
         ZStack {
-            if entry.totalQuestsCount > 0 {
+            if !entry.isPremium {
+                premiumOnlyContent
+            } else if entry.totalQuestsCount > 0 {
                 if entry.completedQuestsCount == entry.totalQuestsCount {
                     allCompletedContent
                 } else {
@@ -343,6 +352,26 @@ struct DailyQuestWidgetEntryView: View {
                 .multilineTextAlignment(.center)
         }
         .padding(12)
+    }
+
+    @ViewBuilder
+    private var premiumOnlyContent: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "crown.fill")
+                .font(.title2)
+                .foregroundColor(theme.accentColor)
+
+            Text(LocalizationHelper.localized("premium_features"))
+                .font(.system(size: 16, weight: .semibold, design: .rounded))
+                .foregroundColor(theme.primaryTextColor)
+
+            Text(LocalizationHelper.localized("premium_widgets_description"))
+                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .foregroundColor(theme.secondaryTextColor)
+                .multilineTextAlignment(.center)
+        }
+        .padding(12)
+        .widgetURL(URL(string: "rpgquest://open-app"))
     }
 
     @ViewBuilder
@@ -464,13 +493,15 @@ struct ActiveQuestWidget: Widget {
         date: Date(),
         todaysQuests: [],
         completedQuestsCount: 0,
-        totalQuestsCount: 0
+        totalQuestsCount: 0,
+        isPremium: false
     )
 
     DailyQuestWidgetEntry(
         date: Date(),
         todaysQuests: [],
         completedQuestsCount: 2,
-        totalQuestsCount: 5
+        totalQuestsCount: 5,
+        isPremium: true
     )
 }

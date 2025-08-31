@@ -81,9 +81,10 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text("experience".localized)
-                                                .font(.appFont(size: 14, weight: .medium))
-                                                .foregroundColor(theme.textColor.opacity(0.7))
+                                                                                    Text("experience".localized)
+                                            .font(.appFont(size: 14, weight: .medium))
+                                            .foregroundColor(theme.textColor.opacity(0.7))
+                                            .id("experience-label-\(LocalizationManager.shared.currentLanguage)")
                                             Spacer()
                                             Text("\(boostedExp)")
                                                 .font(.appFont(size: 16, weight: .bold))
@@ -92,13 +93,15 @@ struct RewardView: View {
 
                                         if hasBoosters {
                                             HStack {
-                                                Text("\("base".localized): \(baseExp)")
-                                                    .font(.appFont(size: 12))
-                                                    .foregroundColor(theme.textColor.opacity(0.6))
-                                                Spacer()
-                                                Text("+\(boostedExp - baseExp) \("from_boosters".localized)")
-                                                    .font(.appFont(size: 12, weight: .medium))
-                                                    .foregroundColor(.green)
+                                                                                            Text("\("base".localized): \(baseExp)")
+                                                .font(.appFont(size: 12))
+                                                .foregroundColor(theme.textColor.opacity(0.6))
+                                                .id("base-label-\(LocalizationManager.shared.currentLanguage)")
+                                            Spacer()
+                                            Text("+\(boostedExp - baseExp) \("from_boosters".localized)")
+                                                .font(.appFont(size: 12, weight: .medium))
+                                                .foregroundColor(.green)
+                                                .id("from-boosters-label-\(LocalizationManager.shared.currentLanguage)")
                                             }
                                         }
                                     }
@@ -116,9 +119,10 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text("currency_coins".localized)
-                                                .font(.appFont(size: 14, weight: .medium))
-                                                .foregroundColor(theme.textColor.opacity(0.7))
+                                                                                    Text("currency_coins".localized)
+                                            .font(.appFont(size: 14, weight: .medium))
+                                            .foregroundColor(theme.textColor.opacity(0.7))
+                                            .id("currency-coins-label-\(LocalizationManager.shared.currentLanguage)")
                                             Spacer()
                                             Text("\(boostedCoins)")
                                                 .font(.appFont(size: 16, weight: .bold))
@@ -127,13 +131,15 @@ struct RewardView: View {
 
                                         if hasBoosters {
                                             HStack {
-                                                Text("\("base".localized): \(baseCoins)")
-                                                    .font(.appFont(size: 12))
-                                                    .foregroundColor(theme.textColor.opacity(0.6))
-                                                Spacer()
-                                                Text("+\(boostedCoins - baseCoins) \("from_boosters".localized)")
-                                                    .font(.appFont(size: 12, weight: .medium))
-                                                    .foregroundColor(.green)
+                                                                                            Text("\("base".localized): \(baseCoins)")
+                                                .font(.appFont(size: 12))
+                                                .foregroundColor(theme.textColor.opacity(0.6))
+                                                .id("base-coins-label-\(LocalizationManager.shared.currentLanguage)")
+                                            Spacer()
+                                            Text("+\(boostedCoins - baseCoins) \("from_boosters".localized)")
+                                                .font(.appFont(size: 12, weight: .medium))
+                                                .foregroundColor(.green)
+                                                .id("from-boosters-coins-label-\(LocalizationManager.shared.currentLanguage)")
                                             }
                                         }
                                     }
@@ -151,9 +157,10 @@ struct RewardView: View {
 
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
-                                            Text("currency_gems".localized)
-                                                .font(.appFont(size: 14, weight: .medium))
-                                                .foregroundColor(theme.textColor.opacity(0.7))
+                                                                                    Text("currency_gems".localized)
+                                            .font(.appFont(size: 14, weight: .medium))
+                                            .foregroundColor(theme.textColor.opacity(0.7))
+                                            .id("currency-gems-label-\(LocalizationManager.shared.currentLanguage)")
                                             Spacer()
                                             Text("\(gems)")
                                                 .font(.appFont(size: 16, weight: .bold))
@@ -191,6 +198,7 @@ struct RewardView: View {
                             Text("dismiss".localized)
                                 .font(.appFont(size: 16, weight: .black))
                                 .foregroundColor(theme.buttonTextColor)
+                                .id("dismiss-button-\(LocalizationManager.shared.currentLanguage)")
                             Spacer()
                         }
                         .padding(.vertical, 16)

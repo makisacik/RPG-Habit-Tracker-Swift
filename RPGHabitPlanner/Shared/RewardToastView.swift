@@ -44,6 +44,7 @@ struct RewardToastView: View {
                         Text("+\(toast.experience) \("xp".localized)")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
+                            .id("xp-label-\(LocalizationManager.shared.currentLanguage)")
                     }
                     
                     // Coins
@@ -57,6 +58,7 @@ struct RewardToastView: View {
                         Text("+\(toast.coins) \("currency_coins".localized)")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor)
+                            .id("currency-coins-toast-label-\(LocalizationManager.shared.currentLanguage)")
                     }
                 }
             }

@@ -283,6 +283,7 @@ enum CalendarViewComponents {
             Text(dateFormatter(locale: LocalizationManager.shared.currentLocale).string(from: viewModel.selectedDate))
                 .font(.appFont(size: 20, weight: .black))
                 .foregroundColor(theme.textColor)
+                .id("month-header-\(LocalizationManager.shared.currentLanguage)-\(viewModel.selectedDate)") // 👈 Make month header reactive to language changes
             
             Spacer()
             
@@ -300,8 +301,9 @@ enum CalendarViewComponents {
     // MARK: - Day of Week Headers
     @ViewBuilder
     static func dayOfWeekHeaders(theme: Theme) -> some View {
+        let localizedCalendar = getLocalizedCalendar()
         HStack(spacing: 0) {
-            ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
+            ForEach(localizedCalendar.shortWeekdaySymbols, id: \.self) { day in
                 Text(day)
                     .font(.appFont(size: 12, weight: .bold))
                     .foregroundColor(theme.textColor.opacity(0.7))
@@ -310,6 +312,7 @@ enum CalendarViewComponents {
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
+        .id("day-headers-\(LocalizationManager.shared.currentLanguage)") // 👈 Make day headers reactive to language changes
     }
     
     // MARK: - Loading Section
@@ -326,6 +329,7 @@ enum CalendarViewComponents {
                 Text("loading_quests".localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
+                    .id("loading-quests-\(LocalizationManager.shared.currentLanguage)") // 👈 Make loading text reactive to language changes
             }
             .frame(height: 24)
 
@@ -361,6 +365,7 @@ enum CalendarViewComponents {
                 Text("no_quests".localized)
                     .font(.appFont(size: 14))
                     .foregroundColor(theme.textColor.opacity(0.7))
+                    .id("no-quests-\(LocalizationManager.shared.currentLanguage)") // 👈 Make no quests text reactive to language changes
             }
             .frame(height: 24)
 
@@ -376,7 +381,8 @@ enum CalendarViewComponents {
                         .foregroundColor(theme.textColor)
                     Text("add_quest".localized)
                         .font(.appFont(size: 16, weight: .black))
-                    .foregroundColor(theme.textColor)
+                        .foregroundColor(theme.textColor)
+                        .id("add-quest-\(LocalizationManager.shared.currentLanguage)") // 👈 Make add quest text reactive to language changes
                     Spacer()
                 }
                 .padding()
@@ -418,6 +424,12 @@ enum CalendarViewComponents {
         formatter.dateFormat = "MMMM yyyy"
         formatter.locale = locale
         return formatter
+    }
+    
+    private static func getLocalizedCalendar() -> Calendar {
+        var calendar = Calendar.current
+        calendar.locale = LocalizationManager.shared.currentLocale
+        return calendar
     }
 }
 
@@ -506,12 +518,20 @@ struct SelectedDateDetails: View {
 
     private func header(active: Int, completed: Int) -> some View {
         HStack {
-            Text(date, style: .date)
+            Text(selectedDateFormatter(locale: LocalizationManager.shared.currentLocale).string(from: date))
                 .font(.appFont(size: 18, weight: .bold))
                 .foregroundColor(theme.textColor)
+                .id("selected-date-\(LocalizationManager.shared.currentLanguage)-\(date)")
             Spacer()
         }
         .frame(height: 24)
+    }
+    
+    private func selectedDateFormatter(locale: Locale) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.locale = locale
+        return formatter
     }
 }
 
@@ -526,6 +546,7 @@ private struct TagFilterButton: View {
                     .font(.system(size: 14, weight: .medium))
                 Text("filter".localized)
                     .font(.appFont(size: 14, weight: .medium))
+                    .id("filter-\(LocalizationManager.shared.currentLanguage)") // 👈 Make filter text reactive to language changes
             }
             .foregroundColor(theme.textColor)
             .padding(.horizontal, 12)
@@ -553,6 +574,7 @@ private struct ApplyFiltersButton: View {
                     .font(.system(size: 14, weight: .medium))
                 Text("apply".localized)
                     .font(.appFont(size: 14, weight: .medium))
+                    .id("apply-\(LocalizationManager.shared.currentLanguage)") // 👈 Make apply text reactive to language changes
             }
             .foregroundColor(theme.textColor)
             .padding(.horizontal, 12)
