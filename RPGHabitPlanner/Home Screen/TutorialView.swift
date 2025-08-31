@@ -52,7 +52,7 @@ struct TutorialView: View {
                         // Page 2: Create Quests
                         TutorialPageView(
                             title: "tutorial_create_quests_title".localized,
-                            subtitle: "",
+                            subtitle: "tutorial_create_quests_subtitle".localized,
                             imageName: "tutorial_quest",
                             isSystemImage: false,
                             theme: theme

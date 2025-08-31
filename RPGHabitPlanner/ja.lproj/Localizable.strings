@@ -2522,16 +2522,17 @@
 "xp_multiplier" = "XP倍率";
 
 // MARK: - Tutorial
-"tutorial_welcome_title" = "ようこそ、冒険者！✨";
-"tutorial_welcome_subtitle" = "習慣を壮大なクエストとして記録しよう。";
-"tutorial_create_quests_title" = "日々のタスクをクエストにしよう。";
-"tutorial_complete_rewards_title" = "完了して報酬を獲得";
-"tutorial_complete_rewards_subtitle" = "クエストを達成してゴールドやジェムを手に入れよう！";
-"tutorial_grow_character_title" = "キャラクターを成長させよう";
-"tutorial_grow_character_subtitle" = "より良い習慣を築きながらヒーローをレベルアップ。";
-"tutorial_gear_legend_title" = "英雄を伝説へ";
-"tutorial_gear_legend_subtitle" = "ショップで装備を整えよう";
-"tutorial_next" = "次へ";
-"tutorial_skip" = "スキップ";
-"tutorial_get_started" = "始める";
+"tutorial_welcome_title" = "冒険へようこそ";
+"tutorial_welcome_subtitle" = "各クエストが運命を形作る壮大な旅に出発しよう！";
+"tutorial_create_quests_title" = "自分のクエストを鍛造しよう";
+"tutorial_create_quests_subtitle" = "決意を試す強力なクエストを作成し、英雄の物語の一部になろう！";
+"tutorial_complete_rewards_title" = "征服して報酬を獲得";
+"tutorial_complete_rewards_subtitle" = "勝利が待っている！クエストを完了して貴重な報酬を獲得し、強力なアイテムをアンロックしよう！";
+"tutorial_grow_character_title" = "ヒーローを進化させよう";
+"tutorial_grow_character_subtitle" = "神秘的なショップを訪れて、強力な装備と伝説のアイテムでキャラクターを強化しよう！";
+"tutorial_gear_legend_title" = "装備して昇格";
+"tutorial_gear_legend_subtitle" = "伝説の鎧を装備し、強力な武器を振るって止められない力になろう！";
+"tutorial_next" = "続ける";
+"tutorial_skip" = "チュートリアルをスキップ";
+"tutorial_get_started" = "冒険を始める";
 "tutorial_skip_tutorial" = "チュートリアルをスキップ";

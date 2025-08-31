@@ -2105,16 +2105,17 @@
 "xp_multiplier" = "XP multiplier";
 
 // MARK: - Tutorial
-"tutorial_welcome_title" = "Welcome, Adventurer! ✨";
-"tutorial_welcome_subtitle" = "Track your habits as epic quests.";
-"tutorial_create_quests_title" = "Turn your daily tasks into quests.";
-"tutorial_complete_rewards_title" = "Complete & Earn Rewards";
-"tutorial_complete_rewards_subtitle" = "Finish quests to earn gold and gems!";
-"tutorial_grow_character_title" = "Grow Your Character";
-"tutorial_grow_character_subtitle" = "Level up your hero as you build better habits.";
-"tutorial_gear_legend_title" = "Turn your hero into legend";
-"tutorial_gear_legend_subtitle" = "Hop on the shop for gears";
-"tutorial_next" = "Next";
-"tutorial_skip" = "Skip";
-"tutorial_get_started" = "Get Started";
+"tutorial_welcome_title" = "Welcome to Your Adventure";
+"tutorial_welcome_subtitle" = "Embark on an epic journey where every quest shapes your destiny!";
+"tutorial_create_quests_title" = "Forge Your Own Quests";
+"tutorial_create_quests_subtitle" = "Craft mighty quests that test your resolve and become part of your heroic saga!";
+"tutorial_complete_rewards_title" = "Conquer & Claim Rewards";
+"tutorial_complete_rewards_subtitle" = "Victory awaits! Complete quests to earn precious rewards and unlock powerful items.";
+"tutorial_grow_character_title" = "Evolve Your Hero";
+"tutorial_grow_character_subtitle" = "Visit the mystical shop to enhance your character with powerful gear and legendary equipment!";
+"tutorial_gear_legend_title" = "Equip & Ascend";
+"tutorial_gear_legend_subtitle" = "Equip legendary armor and wield mighty weapons to become an unstoppable force!";
+"tutorial_next" = "Continue";
+"tutorial_skip" = "Skip Tutorial";
+"tutorial_get_started" = "Begin Adventure";
 "tutorial_skip_tutorial" = "Skip Tutorial";

@@ -2190,16 +2190,17 @@
 "confirm_date" = "Tarihi Onayla";
 
 // MARK: - Tutorial
-"tutorial_welcome_title" = "Hoş Geldin, Maceracı! ✨";
-"tutorial_welcome_subtitle" = "Alışkanlıklarını destansı görevler olarak takip et.";
-"tutorial_create_quests_title" = "Günlük görevlerini görevlere dönüştür.";
-"tutorial_complete_rewards_title" = "Tamamla ve Ödül Kazan";
-"tutorial_complete_rewards_subtitle" = "Görevleri tamamlayarak altın ve mücevher kazan!";
-"tutorial_grow_character_title" = "Karakterini Geliştir";
-"tutorial_grow_character_subtitle" = "Daha iyi alışkanlıklar geliştirirken kahramanını seviye atlat.";
-"tutorial_gear_legend_title" = "Kahramanını efsaneye dönüştür";
-"tutorial_gear_legend_subtitle" = "Ekipman için dükkana git";
-"tutorial_next" = "İleri";
-"tutorial_skip" = "Atla";
-"tutorial_get_started" = "Başla";
+"tutorial_welcome_title" = "Maceralarına Hoş Geldin";
+"tutorial_welcome_subtitle" = "Her görevin kaderini şekillendirdiği destansı bir yolculuğa çık!";
+"tutorial_create_quests_title" = "Kendi Görevlerini Yarat";
+"tutorial_create_quests_subtitle" = "Kararlılığını test eden güçlü görevler oluştur ve kahramanlık destanının bir parçası ol!";
+"tutorial_complete_rewards_title" = "Fethet ve Ödülleri Topla";
+"tutorial_complete_rewards_subtitle" = "Zafer bekliyor! Görevleri tamamlayarak değerli ödüller kazan ve güçlü eşyalar aç!";
+"tutorial_grow_character_title" = "Kahramanını Geliştir";
+"tutorial_grow_character_subtitle" = "Karakterini güçlü ekipman ve efsanevi donanımla geliştirmek için gizemli dükkana git!";
+"tutorial_gear_legend_title" = "Donan ve Yüksel";
+"tutorial_gear_legend_subtitle" = "Efsanevi zırh kuşan ve güçlü silahlar kullanarak durdurulamaz bir güç ol!";
+"tutorial_next" = "Devam Et";
+"tutorial_skip" = "Öğreticiyi Atla";
+"tutorial_get_started" = "Maceralara Başla";
 "tutorial_skip_tutorial" = "Öğreticiyi Atla";
