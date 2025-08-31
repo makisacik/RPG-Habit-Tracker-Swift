@@ -97,6 +97,21 @@ struct HomeView: View {
             // Check for damage on app launch
             viewModel.checkForDamageOnAppLaunch()
         }
+        .overlay(alignment: .bottom) {
+            Button {
+                shouldNavigateToQuestCreation = true
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 56))
+                    .foregroundColor(theme.accentColor)
+                    .background(
+                        Circle()
+                            .fill(theme.backgroundColor)
+                            .frame(width: 64, height: 64)
+                    )
+            }
+            .offset(y: -10)
+        }
         .overlay(
             Group {
                 if showTutorial {
