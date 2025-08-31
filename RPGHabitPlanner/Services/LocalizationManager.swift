@@ -36,6 +36,7 @@ class LocalizationManager: ObservableObject {
         case english = "en"
         case turkish = "tr"
         case japanese = "ja"
+        case french = "fr"
 
         var id: String { rawValue }
 
@@ -47,6 +48,8 @@ class LocalizationManager: ObservableObject {
                 return "language_turkish".localized
             case .japanese:
                 return "language_japanese".localized
+            case .french:
+                return "language_french".localized
             }
         }
 
@@ -58,6 +61,8 @@ class LocalizationManager: ObservableObject {
                 return "🇹🇷"
             case .japanese:
                 return "🇯🇵"
+            case .french:
+                return "🇫🇷"
             }
         }
 
@@ -69,6 +74,8 @@ class LocalizationManager: ObservableObject {
                 return Locale(identifier: "tr_TR")
             case .japanese:
                 return Locale(identifier: "ja_JP")
+            case .french:
+                return Locale(identifier: "fr_FR")
             }
         }
     }
@@ -102,7 +109,7 @@ class LocalizationManager: ObservableObject {
     // MARK: - Device Language Detection
 
     /// Detects the device language and returns the appropriate app language
-    /// - Returns: Japanese if device is set to Japanese, Turkish if device is set to Turkish, otherwise English
+    /// - Returns: Japanese if device is set to Japanese, Turkish if device is set to Turkish, French if device is set to French, otherwise English
     private static func detectDeviceLanguage() -> Language {
         // Get the preferred language from the device
         let preferredLanguage = Locale.preferredLanguages.first ?? "en"
@@ -115,6 +122,11 @@ class LocalizationManager: ObservableObject {
         // Check if the device language is Turkish
         if preferredLanguage.hasPrefix("tr") {
             return .turkish
+        }
+
+        // Check if the device language is French
+        if preferredLanguage.hasPrefix("fr") {
+            return .french
         }
 
         // For all other languages, default to English

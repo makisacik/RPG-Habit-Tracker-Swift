@@ -1,0 +1,1947 @@
+/*
+  Localizable.strings
+  RPGHabitPlanner
+  
+  Created by Mehmet Ali Kısacık on 10.11.2024.
+*/
+
+// MARK: - General
+"ok" = "OK";
+"cancel" = "Annuler";
+"save" = "Enregistrer";
+"delete" = "Supprimer";
+"edit" = "Modifier";
+"close" = "Fermer";
+"back" = "Retour";
+"next" = "Suivant";
+"previous" = "Précédent";
+"done" = "Terminé";
+"error" = "Erreur";
+"warning" = "Avertissement";
+"success" = "Succès";
+"loading" = "Chargement...";
+
+// MARK: - Navigation & Titles
+"adventure_hub" = "Centre d’Aventure";
+"quest_tracking" = "Suivi des Quêtes";
+"quest_creation" = "Création de Quête";
+"character_details" = "Détails du Personnage";
+"completed_quests" = "Quêtes Terminées";
+"settings" = "Paramètres";
+"about" = "À propos";
+"calendar" = "Calendrier";
+"inventory" = "Inventaire";
+"achievements" = "Succès";
+
+// MARK: - Quest Related
+"quest" = "Quête";
+"quests" = "Quêtes";
+"quest_type" = "Type de Quête";
+"quick_quests" = "Quêtes Rapides";
+"choose_from_curated_quest_templates" = "Choisissez parmi nos modèles de quêtes";
+"main_quest" = "Quête Principale";
+"side_quest" = "Quête Secondaire";
+"quest_title" = "Titre";
+"quest_description" = "Description";
+"quest_difficulty" = "Difficulté de la Quête";
+"quest_due_date" = "Date Limite";
+"basic_information" = "Informations de Base";
+"quest_settings" = "Paramètres de la Quête";
+"enter_quest_title" = "Entrez le titre de la quête";
+"enter_quest_description" = "Entrez la description de la quête";
+"repeat_type" = "Type de Répétition";
+"manage_tasks" = "Gérer les Tâches";
+"save_quest" = "Enregistrer la Quête";
+"edit_quest" = "Modifier la Quête";
+"delete_quest" = "Supprimer la Quête";
+"complete_quest" = "Terminer la Quête";
+"quest_completed" = "Quête Terminée !";
+"quest_failed" = "Échec de la Quête";
+"quest_expired" = "Quête Expirée";
+"mark_as_finished" = "Marquer comme terminée";
+"finished" = "Terminé";
+
+// MARK: - First Time Quest
+"first_quest_title" = "Le Premier Pas";
+"first_quest_description" = "Chaque voyage de héros commence par un simple pas.";
+"first_quest_task_1" = "Ajoute ta première quête";
+"first_quest_task_2" = "Explore ton personnage";
+
+// MARK: - Quest Filters
+"active_today" = "Actives Aujourd’hui";
+"inactive_today" = "Inactives Aujourd’hui";
+"all_quests" = "Toutes les Quêtes";
+"today" = "Aujourd’hui";
+
+// MARK: - Tasks
+"task" = "Tâche";
+"tasks" = "Tâches";
+"add_task" = "Ajouter une Tâche";
+"add_new_task" = "Nouvelle Tâche";
+"edit_tasks" = "Modifier les Tâches";
+"enter_task_description" = "Entrez la description de la tâche";
+"remove_task" = "Supprimer la Tâche";
+"task_completed" = "Tâche Terminée";
+"task_incomplete" = "Tâche Incomplète";
+
+// MARK: - Quest Repeat Types
+"one_time" = "Unique";
+"daily" = "Quotidienne";
+"weekly" = "Hebdomadaire";
+"monthly" = "Mensuelle";
+
+// MARK: - Character & Stats
+"character" = "Personnage";
+
+"character_test" = "Test du Personnage";
+"character_preview" = "Aperçu du Personnage";
+"customize_character" = "Personnalise ton Personnage";
+"customizeYourHero" = "Personnalise ton Héros";
+"createYourUniqueCharacter" = "Crée ton héros unique";
+
+// MARK: - Character Background
+"select_background" = "Choisir un Fond";
+"choose_character_background" = "Choisis l’arrière-plan de ton personnage";
+"background" = "Fond";
+"no_background" = "Aucun Fond";
+"background_1" = "Fond 1";
+"background_2" = "Fond 2";
+"background_3" = "Fond 3";
+"background_4" = "Fond 4";
+"save_changes" = "Enregistrer les Modifications";
+"tap_to_apply_changes" = "Appuie pour appliquer les changements";
+"createYourCharacter" = "Crée ton Personnage";
+"preview" = "Aperçu";
+"confirmSelection" = "Confirmer la Sélection";
+"continueButton" = "Continuer";
+"yourCharacter" = "Ton Personnage";
+"customized" = "Personnalisé";
+
+// MARK: - Character Titles
+"chooseYourTitle" = "Choisis ton Titre";
+"selectTitleDescription" = "Choisis un titre qui reflète le destin de ton héros";
+"selectDifferentTitle" = "Choisir un autre Titre";
+"randomTitle" = "Titre Aléatoire";
+"chooseFromAvailableTitles" = "Choisis parmi les titres disponibles";
+"hair_style" = "Coiffure";
+"eye_style" = "Style des Yeux";
+"outfit" = "Tenue";
+"weapon" = "Arme";
+"style" = "Style";
+"level" = "Niveau";
+"experience" = "Expérience";
+"health" = "Santé";
+"mana" = "Mana";
+"strength" = "Force";
+"intelligence" = "Intelligence";
+"agility" = "Agilité";
+"level_up" = "Niveau Supérieur !";
+"experience_gained" = "Expérience Gagnée";
+"new_level_reached" = "Nouveau Niveau Atteint !";
+
+// MARK: - Streak System
+"streak" = "Série";
+"current_streak" = "Série Actuelle";
+"longest_streak" = "Plus Longue Série";
+"streak_days" = "jours";
+"streak_day" = "jour";
+"best_streak" = "Meilleure Série";
+"today_status" = "Aujourd’hui";
+"streak_calendar" = "Calendrier des Séries";
+"monthly_activity" = "Activité Mensuelle";
+"active_days" = "Jours Actifs";
+"activity_rate" = "Taux d’Activité";
+
+// MARK: - Rewards & Achievements
+"reward" = "Récompense";
+"rewards" = "Récompenses";
+"premium_bonus" = "Bonus Premium";
+"achievement" = "Succès";
+"achievement_unlocked" = "Succès Débloqué !";
+"unlocked" = "Débloqué !";
+"unlock" = "Débloquer";
+"locked" = "Verrouillé";
+"experience_points" = "Points d’Expérience";
+"gold" = "Or";
+"items" = "Objets";
+
+// MARK: - Notifications
+"notify_me" = "Me notifier";
+"notify_me_about_quest" = "Me prévenir pour cette quête";
+"notification" = "Notification";
+"notifications" = "Notifications";
+"reminder" = "Rappel";
+"reminders" = "Rappels";
+"enabled" = "Activé";
+"disabled" = "Désactivé";
+"not_determined" = "Non défini";
+"provisional" = "Provisoire";
+"ephemeral" = "Éphémère";
+"unknown" = "Inconnu";
+
+// MARK: - Notification Permission
+"notification_permission_title" = "Voyageur, veux-tu être averti de tes quêtes ?";
+"notification_permission_message" = "Reste sur la bonne voie dans tes aventures épiques ! Nous t’enverrons de doux rappels pour t’aider à accomplir tes quêtes et à faire évoluer ton héros.";
+"notification_permission_subtitle" = "Tu peux changer cela à tout moment dans les Paramètres";
+"notification_permission_allow" = "Oui, avertis-moi !";
+"notification_permission_not_now" = "Pas maintenant";
+
+// MARK: - Home Screen
+"quick_stats" = "Statistiques Rapides";
+"active_quests" = "Quêtes Actives";
+"recent_achievements" = "Succès Récents";
+"quick_actions" = "Actions Rapides";
+"create_new_quest" = "Créer une Nouvelle Quête";
+"view_completed_quests" = "Voir les Quêtes Terminées";
+"view_character_details" = "Voir les Détails du Personnage";
+
+// MARK: - Calendar
+"calendar_view" = "Vue Calendrier";
+"this_week" = "Cette Semaine";
+"this_month" = "Ce Mois-ci";
+"no_quests_scheduled" = "Aucune quête prévue";
+"quests_scheduled" = "Quêtes prévues";
+
+// MARK: - Settings
+"theme" = "Thème";
+"language" = "Langue";
+"choose_your_preferred_language" = "Choisis ta langue préférée";
+"language_changes_will_take_effect_immediately" = "Les changements de langue prendront effet immédiatement";
+"some_system_elements_may_remain_in_previous_language" = "Certains éléments du système peuvent rester dans l’ancienne langue jusqu’au redémarrage de l’application";
+"updating_language" = "Mise à jour de la langue...";
+"sound_effects" = "Effets Sonores";
+"music" = "Musique";
+"notifications_enabled" = "Notifications Activées";
+"data_backup" = "Sauvegarde des Données";
+"export_data" = "Exporter les Données";
+"import_data" = "Importer des Données";
+"reset_progress" = "Réinitialiser la Progression";
+"about_app" = "À propos de l’App";
+"version" = "Version";
+"privacy_policy" = "Politique de Confidentialité";
+"terms_of_service" = "Conditions d’Utilisation";
+"support" = "Support";
+"add_a_review" = "Laisser un Avis";
+
+// MARK: - Themes
+"theme_classic" = "Classique";
+"theme_dark" = "Sombre";
+"theme_light" = "Clair";
+"theme_auto" = "Auto";
+
+// MARK: - Onboarding
+"welcome" = "Bienvenue";
+"welcome_to_rpg_habit_planner" = "Bienvenue dans RPG Habit Planner";
+"create_your_character" = "Crée ton Personnage";
+"choose_your_class" = "Choisis ta Classe";
+"start_your_adventure" = "Commence ton Aventure";
+"start_adventure" = "Commencer l’Aventure !";
+"lets_begin" = "C’est parti";
+"confirm_selection" = "Confirmer la Sélection";
+"enter_your_nickname" = "Entre ton Pseudo";
+"nickname" = "Pseudo";
+"transform_habits_into_epic_adventures" = "Transforme tes habitudes en quêtes épiques";
+"create_epic_quests" = "Crée des Quêtes Épiques";
+"turn_daily_tasks_into_heroic_missions" = "Transforme tes tâches quotidiennes en missions héroïques";
+"earn_rewards" = "Gagne des Récompenses";
+"level_up_and_unlock_achievements" = "Monte en niveau et débloque des succès";
+"track_progress" = "Suis ta Progression";
+"watch_your_character_grow_stronger" = "Regarde ton héros devenir plus fort";
+"ready_to_begin_adventure" = "Prêt pour l’aventure ?";
+"choose_your_hero" = "Choisis ton Héros";
+
+"customize_your_hero" = "Personnalise ton Héros";
+"choose_weapon_and_see_character_come_to_life" = "Choisis ton arme et vois ton héros prendre vie";
+"select_your_weapon" = "Choisis ton Arme";
+"name_your_hero" = "Nomme ton Héros";
+"choose_legendary_name_for_character" = "Choisis un nom légendaire pour ton héros";
+"enter_your_heros_name" = "Entre le nom de ton héros";
+"maximum_16_characters" = "Maximum 16 caractères";
+"ready_for_adventure" = "Prêt pour l’Aventure !";
+"your_hero_is_ready_to_begin_journey" = "Ton héros est prêt à commencer son voyage";
+
+// MARK: - Focus Timer
+"select_monster" = "Choisis un Monstre";
+"no_monster_selected" = "Aucun Monstre Sélectionné";
+"choose_your_enemy" = "Choisis ton Ennemi";
+"pomodoros" = "Pomodoros";
+"monster_defeated" = "Monstre Vaincu !";
+"you_have_successfully_defeated_monster" = "Tu as vaincu le monstre avec succès !";
+"continue" = "Continuer";
+"health_points" = "PV";
+
+// MARK: - Character Classes
+"warrior" = "Guerrier";
+"mage" = "Mage";
+"rogue" = "Voleur";
+"paladin" = "Paladin";
+"archer" = "Archer";
+
+// MARK: - Error Messages
+"adventurer" = "Aventurier";
+"unknown_error" = "Une erreur inconnue est survenue";
+"heads_up" = "Attention";
+"active_quest" = "quête active";
+"add_quest" = "Ajouter une Quête";
+"network_error" = "Erreur réseau";
+"data_error" = "Erreur de données";
+"validation_error" = "Erreur de validation";
+"save_error" = "Échec de l’enregistrement";
+"load_error" = "Échec du chargement des données";
+"delete_error" = "Échec de la suppression";
+"invalid_input" = "Entrée invalide";
+
+// MARK: - Success Messages
+"quest_saved_successfully" = "Quête enregistrée avec succès";
+"quest_deleted_successfully" = "Quête supprimée avec succès";
+"quest_completed_successfully" = "Quête complétée avec succès";
+"data_saved_successfully" = "Données enregistrées avec succès";
+"settings_updated" = "Paramètres mis à jour";
+
+// MARK: - Validation Messages
+"title_required" = "Le titre est requis";
+"description_required" = "La description est requise";
+"due_date_required" = "La date limite est requise";
+"invalid_date" = "Date invalide";
+
+"date_in_past" = "La date ne peut pas être dans le passé";
+
+"yesterday" = "Hier";
+"tomorrow" = "Demain";
+"next_week" = "Semaine prochaine";
+"next_month" = "Mois prochain";
+
+"progress" = "Progression";
+"completed" = "Terminé";
+"in_progress" = "En cours";
+"not_started" = "Non commencé";
+"overdue" = "En retard";
+
+"easy" = "Facile";
+"medium" = "Moyenne";
+"hard" = "Difficile";
+"very_hard" = "Très difficile";
+"legendary" = "Légendaire";
+
+"no_quests" = "Pas encore de quêtes";
+"no_active_quests" = "Aucune quête active";
+"no_completed_quests" = "Aucune quête terminée";
+"no_finished_quests_yet" = "Aucune quête terminée pour l’instant !";
+"no_achievements" = "Aucun succès pour l’instant";
+"create_your_first_quest" = "Crée ta première quête pour commencer l’aventure !";
+"complete_quests_to_earn_rewards" = "Accomplis des quêtes pour gagner des récompenses et monter de niveau !";
+
+"tap_to_complete" = "Appuie pour terminer";
+"tap_to_edit" = "Appuie pour modifier";
+"swipe_to_delete" = "Balaye pour supprimer";
+"long_press_for_options" = "Appui long pour les options";
+"drag_to_reorder" = "Fais glisser pour réorganiser";
+
+"accessibility_quest_card" = "Carte de quête";
+"accessibility_complete_button" = "Bouton terminer la quête";
+"accessibility_edit_button" = "Bouton modifier la quête";
+"accessibility_delete_button" = "Bouton supprimer la quête";
+"accessibility_progress_bar" = "Barre de progression";
+"accessibility_star_rating" = "Évaluation par étoiles";
+"accessibility_date_picker" = "Sélecteur de date";
+
+"home" = "Accueil";
+"focus_timer" = "Minuteur de focus";
+"quest_journal" = "Journal de quêtes";
+
+"active" = "Actives";
+"view_all" = "Tout voir";
+"create_quest" = "Créer une quête";
+"loading_character" = "Chargement du personnage...";
+"no_achievements_yet" = "Aucun succès pour l’instant";
+"complete_quests_to_earn_achievements" = "Accomplis des quêtes pour gagner des succès !";
+
+"quest_details" = "Détails de la quête";
+"delete_quest_confirmation" = "Supprimer la quête";
+"delete_quest_warning" = "Es-tu sûr de vouloir supprimer cette quête ? Cette action est irréversible.";
+"difficulty" = "Difficulté :";
+"completion_history" = "Historique d’accomplissement";
+"no_completions_yet" = "Aucun accomplissement pour le moment";
+
+"exp" = "EXP";
+"equipped_weapon" = "Arme équipée";
+"character_id" = "ID du personnage :";
+
+"quest_calendar" = "Calendrier des quêtes";
+"set_due_date" = "Définir la date limite";
+"due_date" = "Date limite";
+"default_duration" = "Durée par défaut";
+
+"remaining" = "restant";
+"complete" = "terminé";
+"percent_complete" = "% terminé";
+
+"all_quests_completed" = "Toutes les quêtes sont terminées !";
+"due_today" = "Échéance aujourd’hui";
+"due_tomorrow" = "Échéance demain";
+"days_left" = "jours restants";
+"untitled_quest" = "Quête sans titre";
+
+"dark_mode" = "Mode sombre";
+"switch_between_light_and_dark_themes" = "Basculer entre les thèmes clair et sombre";
+"notifications_settings" = "Paramètres des notifications";
+"data_and_storage" = "Données et stockage";
+"data_and_storage_settings" = "Paramètres des données et du stockage";
+"version_info" = "Version 1.0 • © Toi";
+
+"your_adventure_awaits" = "Ton aventure t’attend";
+"class_label" = "Classe";
+"weapon_label" = "Arme";
+
+"health_and_wellness" = "Santé et bien-être";
+"productivity" = "Productivité";
+"learning_and_growth" = "Apprentissage et progression";
+"mindfulness" = "Pleine conscience";
+"fitness" = "Fitness";
+"social" = "Social";
+
+"days_from_today" = "jours à partir d’aujourd’hui";
+"weeks_from_today" = "semaines à partir d’aujourd’hui";
+"months_from_today" = "mois à partir d’aujourd’hui";
+
+"focus_crystal" = "Cristal de concentration";
+"focus_crystal_description" = "Un cristal qui renforce tes capacités de concentration";
+"focus_master" = "Maître de la concentration";
+"focus_master_description" = "Accomplis 8 pomodoros dans un seul combat";
+"dragon_slayer" = "Pourfendeur de dragons";
+"dragon_slayer_description" = "Vaincs le Dragon Volant";
+
+"due_label" = "Échéance :";
+"use_system_appearance" = "Utiliser l’apparence du système";
+"repeat_label" = "Répéter";
+"mark_incomplete" = "Marquer comme incomplète";
+"mark_complete" = "Marquer comme terminée";
+"yes" = "Oui";
+"created" = "Créé";
+"type" = "Type";
+"main_quest_label" = "Quête principale";
+"completed_label" = "Terminé";
+"on_label" = "Activé";
+"off_label" = "Désactivé";
+"widget_description" = "Suis la progression de ta quête actuelle et ses échéances.";
+
+"quest_board" = "Tableau des quêtes";
+"adventure_awaits" = "L’aventure t’attend, brave héros !";
+"accept_new_quest" = "Accepter une nouvelle quête";
+"quest_master" = "Maître des quêtes";
+"quest_details_title" = "Détails de la quête";
+"quest_summary" = "Résumé de la quête";
+"review_quest" = "Vérifier la quête";
+"accept_quest" = "Accepter la quête";
+"quest_name" = "Nom de la quête";
+"quest_deadline" = "Date d’échéance";
+"quest_tasks" = "Tâches de la quête";
+"quest_tags" = "Tags de la quête";
+"add_tags" = "Ajouter des tags";
+"no_tags_selected" = "Aucun tag sélectionné";
+"no_description" = "Aucune description";
+"stars" = "Étoiles";
+"tasks_count" = "tâches";
+"preparing_quest" = "Préparation de ta quête...";
+"greetings_adventurer" = "Salutations, brave aventurier ! J’ai une quête qui requiert ton attention. Es-tu prêt à te lancer ?";
+
+"mustache" = "Moustache";
+"flower" = "Fleur";
+
+"my_quests" = "Quêtes";
+"loading_quests" = "Chargement des quêtes...";
+"no_quests_for_date" = "Aucune quête pour %@";
+"create_quest_to_get_started" = "Crée une quête pour commencer !";
+"adventure_shop" = "Boutique d’aventure";
+"shop_description" = "Échange tes pièces et gemmes contre des objets puissants";
+"adventure_awaits_brave_one" = "L’aventure t’attend, brave héros !";
+"enter_quest_name" = "Entre le nom de ta quête...";
+"describe_quest" = "Décris ta quête...";
+"creating" = "Création...";
+"rpg_habit_planner" = "RPG Habit Planner";
+"transform_daily_tasks_into_epic_adventures" = "Transforme tes tâches quotidiennes en aventures épiques";
+"random_name" = "Nom aléatoire";
+"custom_hero" = "Héros personnalisé";
+"scheduled_days" = "Jours planifiés";
+"quest_damage_calculator" = "Calculateur de dégâts de quêtes";
+"calculate_damage_for_active_quests" = "Calculer les dégâts pour toutes les quêtes actives";
+"no_active_quests_found" = "Aucune quête active trouvée";
+"todays_total_damage" = "Total des dégâts d’aujourd’hui";
+"last_calculated" = "Dernier calcul : %@";
+"filter" = "Filtrer";
+"apply" = "Appliquer";
+"no_active_boosters" = "Aucun booster actif";
+"visit_shop" = "Visiter la boutique";
+"appearance" = "Apparence";
+"general" = "Général";
+"scheduled" = "Planifié";
+"expires" = "Expire";
+"failed_to_update_quest_tags" = "Échec de la mise à jour des tags de la quête";
+"daily_quests_can_only_be_toggled_for_today" = "Les quêtes quotidiennes ne peuvent être basculées que pour aujourd’hui";
+"weekly_quests_can_only_be_toggled_in_current_week" = "Les quêtes hebdomadaires ne peuvent être basculées que pendant la semaine en cours";
+"quest_can_only_be_completed_between_creation_and_due_date" = "Cette quête ne peut être accomplie qu’entre la création et la date d’échéance";
+"quest_can_only_be_completed_on_scheduled_days" = "Cette quête ne peut être accomplie que les jours planifiés";
+"failed_to_delete_quest" = "Échec de la suppression de la quête";
+
+"filter_by_tags" = "Filtrer par tags";
+"any" = "N’importe lequel";
+"all" = "Tous";
+"clear_all" = "Tout effacer";
+"available_tags" = "Tags disponibles";
+"no_tags_available" = "Aucun tag disponible";
+"create_first_tag_to_get_started" = "Crée ton premier tag pour commencer";
+"create_new_tag" = "Créer un nouveau tag";
+"selected_tags" = "Tags sélectionnés";
+"no_tags_found" = "Aucun tag trouvé";
+"try_adjusting_search_or_create_new_tag" = "Essaie d’ajuster ta recherche ou crée un nouveau tag";
+"create_your_first_tag" = "Crée ton premier tag";
+"select_tags" = "Sélectionner des tags";
+"loading_tags" = "Chargement des tags...";
+"no_tags_available_for_selection" = "Aucun tag disponible";
+"create_first_tag_to_get_started_selection" = "Crée ton premier tag pour commencer";
+"search_tags" = "Rechercher des tags...";
+"browse_all" = "Tout parcourir";
+"work" = "Travail";
+"personal" = "Personnel";
+"urgent" = "Urgent";
+"study" = "Études";
+"not_yet" = "Pas encore";
+"finish_quest" = "Terminer la quête";
+"quest_finish_confirmation_popup_examples" = "Exemples de pop-up de confirmation de fin de quête";
+"tags" = "Tags";
+"no_tags_assigned" = "Aucun tag assigné";
+"customize_your_character_appearance" = "Personnalise l’apparence de ton personnage";
+"customization" = "PERSONNALISATION";
+"quest_not_found" = "Quête introuvable";
+"failed_to_create_user" = "Échec de la création de l’utilisateur";
+"user_not_found" = "Utilisateur introuvable";
+"total_damage_taken" = "Dégâts totaux subis";
+"error_loading_damage_history" = "Erreur lors du chargement de l’historique des dégâts";
+"no_damage_history" = "Aucun historique de dégâts";
+"retry" = "Réessayer";
+
+"achievement_first_steps" = "Premiers pas";
+"achievement_first_steps_description" = "Accomplis ta première quête";
+"achievement_quest_master" = "Maître des quêtes";
+"achievement_quest_master_description" = "Accomplis 50 quêtes";
+"achievement_speed_runner" = "Speed Runner";
+"achievement_speed_runner_description" = "Accomplis 3 quêtes en une journée";
+"achievement_consistency" = "Régularité";
+"achievement_consistency_description" = "Accomplis des quêtes 7 jours d’affilée";
+"achievement_level_up" = "Montée de niveau !";
+"achievement_level_up_description" = "Atteins le niveau 5";
+"achievement_veteran" = "Vétéran";
+"achievement_veteran_description" = "Atteins le niveau 20";
+"achievement_legend" = "Légende";
+"achievement_legend_description" = "Atteins le niveau 50";
+"achievement_experience_hunter" = "Chasseur d’expérience";
+"achievement_experience_hunter_description" = "Gagne 1000 points d’expérience";
+"achievement_early_bird" = "Lève-tôt";
+"achievement_early_bird_description" = "Travaille sur une quête entre 5 h et 8 h";
+"achievement_night_owl" = "Oiseau de nuit";
+"achievement_night_owl_description" = "Travaille sur une quête après 22 h";
+"achievement_weekend_warrior" = "Guerrier du week-end";
+"achievement_weekend_warrior_description" = "Accomplis 5 quêtes pendant un week-end";
+"achievement_perfect_day" = "Journée parfaite";
+"achievement_perfect_day_description" = "Accomplis toutes les quêtes quotidiennes";
+
+"achievement_type_quest" = "Quête";
+"achievement_type_leveling" = "Progression";
+"achievement_type_focus" = "Focus";
+"achievement_type_battle" = "Combat";
+"achievement_type_special" = "Spécial";
+
+"achievement_category_all" = "Tous";
+"achievement_category_quests" = "Quêtes";
+"achievement_category_leveling" = "Progression";
+"achievement_category_special" = "Spécial";
+
+"quick_quest_hydration_hero" = "Héros de l’hydratation";
+"quick_quest_hydration_hero_description" = "Bois 8 verres d’eau tout au long de la journée";
+"quick_quest_hydration_hero_task_1" = "Bois 2 verres d’eau le matin";
+"quick_quest_hydration_hero_task_2" = "Bois 2 verres d’eau au déjeuner";
+"quick_quest_hydration_hero_task_3" = "Bois 2 verres d’eau l’après-midi";
+"quick_quest_hydration_hero_task_4" = "Bois 2 verres d’eau le soir";
+
+"quick_quest_morning_exercise" = "Exercice matinal";
+"quick_quest_morning_exercise_description" = "Réalise une routine matinale de 15 minutes";
+"quick_quest_morning_exercise_task_1" = "Fais 10 pompes";
+"quick_quest_morning_exercise_task_2" = "Fais 20 jumping jacks";
+"quick_quest_morning_exercise_task_3" = "Fais 15 squats";
+"quick_quest_morning_exercise_task_4" = "Étire-toi pendant 5 minutes";
+
+"quick_quest_mindful_reading" = "Lecture attentive";
+"quick_quest_mindful_reading_description" = "Lis pendant 20 minutes avec une pleine attention";
+"quick_quest_mindful_reading_task_1" = "Trouve un endroit calme pour lire";
+"quick_quest_mindful_reading_task_2" = "Lis pendant 20 minutes";
+"quick_quest_mindful_reading_task_3" = "Prends des notes sur les points clés";
+
+"quick_quest_gratitude_practice" = "Pratique de gratitude";
+"quick_quest_gratitude_practice_description" = "Écris 3 choses pour lesquelles tu es reconnaissant aujourd’hui";
+"quick_quest_gratitude_practice_task_1" = "Réfléchis à ta journée";
+"quick_quest_gratitude_practice_task_2" = "Écris 3 éléments de gratitude";
+"quick_quest_gratitude_practice_task_3" = "Ressens les émotions positives";
+
+"quick_quest_weekly_planning" = "Planification hebdomadaire";
+"quick_quest_weekly_planning_description" = "Planifie ta semaine avec des objectifs et priorités clairs";
+"quick_quest_weekly_planning_task_1" = "Passe en revue les réussites de la semaine passée";
+"quick_quest_weekly_planning_task_2" = "Fixe 3 objectifs majeurs pour la semaine";
+"quick_quest_weekly_planning_task_3" = "Planifie les tâches importantes";
+"quick_quest_weekly_planning_task_4" = "Prévois des activités de bien-être";
+
+"quick_quest_skill_development" = "Développement de compétences";
+"quick_quest_skill_development_description" = "Consacre du temps à apprendre une nouvelle compétence ou à améliorer celles que tu as";
+"quick_quest_skill_development_task_1" = "Choisis une compétence à travailler";
+"quick_quest_skill_development_task_2" = "Recherche des ressources d’apprentissage";
+"quick_quest_skill_development_task_3" = "Pratique 30 minutes par jour";
+"quick_quest_skill_development_task_4" = "Suis ta progression";
+
+"quick_quest_social_connection" = "Lien social";
+"quick_quest_social_connection_description" = "Prends des nouvelles des amis et de la famille pour entretenir les relations";
+"quick_quest_social_connection_task_1" = "Appelle un membre de ta famille";
+"quick_quest_social_connection_task_2" = "Écris à un vieil ami";
+"quick_quest_social_connection_task_3" = "Prévois une rencontre";
+"quick_quest_social_connection_task_4" = "Montre ta reconnaissance";
+
+"quick_quest_home_organization" = "Organisation de la maison";
+"quick_quest_home_organization_description" = "Désencombre et organise une zone de ta maison";
+"quick_quest_home_organization_task_1" = "Choisis une zone à organiser";
+"quick_quest_home_organization_task_2" = "Trie : garder/donner/jeter";
+"quick_quest_home_organization_task_3" = "Nettoie soigneusement l’espace";
+"quick_quest_home_organization_task_4" = "Organise ce qui reste";
+
+"quick_quest_bucket_list_adventure" = "Aventure de la bucket list";
+"quick_quest_bucket_list_adventure_description" = "Réalise un élément de ta bucket list ou tente quelque chose de totalement nouveau";
+"quick_quest_bucket_list_adventure_task_1" = "Identifie un élément de la bucket list";
+"quick_quest_bucket_list_adventure_task_2" = "Fais des recherches et planifie l’aventure";
+"quick_quest_bucket_list_adventure_task_3" = "Prends les dispositions nécessaires";
+"quick_quest_bucket_list_adventure_task_4" = "Réalise l’aventure";
+"quick_quest_bucket_list_adventure_task_5" = "Documente l’expérience";
+
+"quick_quest_digital_detox" = "Détox digitale";
+"quick_quest_digital_detox_description" = "Fais une pause totale des réseaux sociaux et des appareils numériques pendant une durée définie";
+"quick_quest_digital_detox_task_1" = "Définis la durée et les règles de la détox";
+"quick_quest_digital_detox_task_2" = "Informe tes amis et ta famille";
+"quick_quest_digital_detox_task_3" = "Trouve des activités alternatives";
+"quick_quest_digital_detox_task_4" = "Mène à bien la période de détox";
+"quick_quest_digital_detox_task_5" = "Réfléchis à l’expérience";
+
+"quick_quest_creative_project" = "Projet créatif";
+"quick_quest_creative_project_description" = "Commence et termine un projet créatif que tu voulais faire";
+"quick_quest_creative_project_task_1" = "Choisis ton projet créatif";
+"quick_quest_creative_project_task_2" = "Rassemble le matériel et les ressources";
+"quick_quest_creative_project_task_3" = "Définis des jalons et une chronologie";
+"quick_quest_creative_project_task_4" = "Travaille régulièrement sur le projet";
+"quick_quest_creative_project_task_5" = "Termine et présente le projet";
+
+"quick_quest_fitness_challenge" = "Défi fitness";
+"quick_quest_fitness_challenge_description" = "Réalise un défi fitness de 30 jours pour construire de saines habitudes";
+"quick_quest_fitness_challenge_task_1" = "Choisis un défi fitness";
+"quick_quest_fitness_challenge_task_2" = "Mets en place un suivi";
+"quick_quest_fitness_challenge_task_3" = "Effectue les entraînements quotidiens";
+"quick_quest_fitness_challenge_task_4" = "Suis la progression et ajuste";
+"quick_quest_fitness_challenge_task_5" = "Achève le défi de 30 jours";
+
+"damage_calculator" = "Calculateur de dégâts";
+
+"premium_unlimited_quests" = "Quêtes illimitées";
+"premium_unlimited_quests_description" = "Quêtes illimitées au lieu de 7 par semaine";
+"premium_more_rewards" = "Plus de récompenses";
+"premium_more_rewards_description" = "Reçois davantage de récompenses lors des quêtes terminées";
+"premium_instant_gems" = "Gemme instantanées";
+"premium_instant_gems_description" = "Reçois 300 gemmes instantanément";
+"premium_widgets" = "Widgets";
+"premium_widgets_description" = "Utilise les widgets";
+
+"lifetime" = "À vie";
+"per_month" = "par mois";
+"one_time_payment" = "paiement unique";
+
+"failed_to_update_quest" = "Échec de la mise à jour de la quête";
+"please_check_your_input" = "Vérifie tes saisies";
+
+"equipment_body_type" = "Couleur de peau";
+"equipment_hair_style" = "Style de cheveux";
+"equipment_hair_color" = "Couleur des cheveux";
+"equipment_eye_color" = "Couleur des yeux";
+"equipment_outfit" = "Tenue";
+"equipment_weapon" = "Arme";
+"equipment_accessory" = "Accessoire";
+
+"health_status_dead" = "Mort";
+"health_status_critical" = "Critique";
+"health_status_injured" = "Blessé";
+"health_status_wounded" = "Meurtri";
+"health_status_healthy" = "En bonne santé";
+"health_status_full_health" = "Santé maximale";
+
+"item_type_consumable_description" = "Utilisé une fois puis consommé";
+"item_type_accessory_description" = "Accessoires cosmétiques pour personnaliser le personnage";
+"item_type_gear_description" = "Équipements avec attributs et raretés";
+"item_type_booster_description" = "Confère des bonus temporaires";
+"item_type_collectible_description" = "Objets visuels à exposer et à collectionner";
+
+"gear_category_head_description" = "Couvre-chefs et casques";
+"gear_category_outfit_description" = "Armures et vêtements";
+"gear_category_weapon_description" = "Armes et outils";
+"gear_category_shield_description" = "Boucliers et équipements défensifs";
+"gear_category_wings_description" = "Accessoires d’ailes";
+"gear_category_pet_description" = "Compagnons familiers";
+
+"accessory_category_earrings_description" = "Accessoires d’oreilles";
+"accessory_category_eyeglasses_description" = "Accessoires pour les yeux";
+"accessory_category_lashes_description" = "Accessoires de cils";
+"accessory_category_clips_description" = "Pinces à cheveux et fleurs";
+
+"item_effect_attack_description" = "Augmente la puissance d’attaque";
+"item_effect_defense_description" = "Augmente la défense";
+"item_effect_health_description" = "Restaure ou augmente la santé";
+"item_effect_focus_description" = "Restaure ou augmente la concentration";
+"item_effect_experience_description" = "Accorde des points d’expérience";
+"item_effect_luck_description" = "Augmente la chance";
+"item_effect_speed_description" = "Augmente la vitesse de déplacement/d’action";
+"item_effect_critical_chance_description" = "Augmente la chance de coup critique";
+"item_effect_critical_damage_description" = "Augmente les dégâts critiques";
+"item_effect_xp_boost_description" = "Multiplie le gain d’expérience";
+"item_effect_coin_boost_description" = "Multiplie le gain de pièces";
+"item_effect_health_regeneration_description" = "Régénère la santé au fil du temps";
+"item_effect_focus_regeneration_description" = "Régénère la concentration au fil du temps";
+
+"health_status_low" = "Faible";
+"health_status_moderate" = "Modérée";
+"health_status_full" = "Maximale";
+"health_status_unknown" = "Inconnue";
+
+"health_error_user_not_found" = "Utilisateur introuvable";
+"health_error_invalid_damage_amount" = "Montant de dégâts invalide";
+"health_error_invalid_heal_amount" = "Montant de soin invalide";
+"health_error_invalid_max_health_amount" = "Valeur de santé maximale invalide";
+"health_error_invalid_health_amount" = "Valeur de santé invalide";
+"health_error_invalid_quest_difficulty" = "Difficulté de quête invalide";
+"health_error_health_at_maximum" = "La santé est déjà au maximum";
+"health_error_health_at_minimum" = "La santé est déjà au minimum";
+
+"character_asset_body_type" = "Couleur de peau";
+"character_asset_hair_style" = "Style de cheveux";
+"character_asset_hair_back_style" = "Style arrière des cheveux";
+"character_asset_hair_color" = "Couleur des cheveux";
+"character_asset_eye_color" = "Couleur des yeux";
+"character_asset_outfit" = "Tenue";
+"character_asset_weapon" = "Arme";
+"character_asset_accessory" = "Accessoire";
+"character_asset_head" = "Tête";
+"character_asset_head_gear" = "Coiffe";
+"character_asset_shield" = "Bouclier";
+"character_asset_wings" = "Ailes";
+"character_asset_mustache" = "Moustache";
+"character_asset_flower" = "Fleur";
+"character_asset_pet" = "Familier";
+
+"inventory_error_invalid_item" = "Objet invalide";
+"inventory_error_item_not_found" = "Objet introuvable dans l’inventaire";
+"inventory_error_insufficient_quantity" = "Nombre d’objets insuffisant";
+"inventory_error_item_not_usable" = "Cet objet ne peut pas être utilisé";
+
+"inventory_category_head_description" = "Casques et couvre-chefs";
+"inventory_category_weapon_description" = "Armes et objets de combat";
+"inventory_category_shield_description" = "Boucliers et équipements défensifs";
+"inventory_category_outfit_description" = "Vêtements et armures";
+"inventory_category_pet_description" = "Familiers compagnons";
+"inventory_category_wings_description" = "Ailes et objets de vol";
+"inventory_category_others_description" = "Boosters, potions, objets de collection";
+
+"unknown_item" = "Objet inconnu";
+
+"premium_error_product_not_found" = "Produit introuvable";
+"premium_error_user_cancelled" = "Achat annulé";
+"premium_error_purchase_pending" = "Achat en attente d’approbation";
+"premium_error_already_premium" = "Tu es déjà utilisateur premium";
+"premium_error_unknown" = "Une erreur inconnue est survenue";
+
+"language_english" = "English";
+"language_turkish" = "Türkçe";
+"language_japanese" = "日本語";
+"language_french" = "Français";
+
+"shop_category_weapons_description" = "Une arme puissante pour le combat";
+"shop_category_armor_description" = "Équipement de protection pour tes aventures";
+"shop_category_accessories_description" = "Accessoires stylés pour améliorer ton personnage";
+"shop_category_wings_description" = "Ailes magiques pour ton personnage";
+"shop_category_pets_description" = "Un compagnon fidèle pour tes aventures";
+"shop_category_consumables_description" = "Objets consommables pour ton voyage";
+
+"currency_gems" = "Gemmes";
+"gem_reward" = "Récompense en gemmes";
+"currency_coins" = "Pièces";
+
+"sample_quest_title" = "Quête d’exemple";
+"sample_quest_description" = "Une quête d’exemple pour les tests";
+"sample_task_title" = "Tâche d’exemple";
+"sample_one_time_quest_title" = "Quête unique d’exemple";
+"sample_one_time_quest_description" = "Ceci est une description de quête unique d’exemple.";
+"sample_daily_quest_title" = "Quête quotidienne d’exemple";
+"sample_daily_quest_description" = "Ceci est une description de quête quotidienne d’exemple.";
+"sample_task_1" = "Tâche 1";
+"sample_task_2" = "Tâche 2";
+"sample_task_3" = "Tâche 3";
+
+"item_boosters" = "Boosters d’objets";
+"total_active_boosters" = "Total des boosters actifs";
+"collect_items_to_get_boosters" = "Collectionne des objets pour obtenir des boosters !";
+"go_to_shop" = "Aller à la boutique";
+"view_details" = "Voir les détails";
+"tag_preview_will_appear_here" = "L’aperçu du tag apparaîtra ici";
+"tag_name" = "Nom du tag";
+"enter_tag_name" = "Entre le nom du tag";
+"icon" = "Icône";
+"selected_icon" = "Icône sélectionnée";
+"color" = "Couleur";
+"create_tag" = "Créer un tag";
+"create" = "Créer";
+"owned" = "Possédé";
+"buy" = "Acheter";
+"filters" = "Filtres";
+"rarity" = "Rareté";
+"show_only_affordable_items" = "Afficher uniquement les objets abordables";
+"item_preview" = "Aperçu de l’objet";
+"buy_for" = "Acheter pour %@";
+"unlock_premium" = "Débloquer Premium";
+"transform_quest_planning_experience" = "Transforme ton expérience de planification de quêtes";
+"premium_features" = "Fonctionnalités Premium";
+"choose_your_plan" = "Choisis ton offre";
+"get_premium" = "Passer en Premium";
+"subscription_terms" = "Annulation à tout moment. L’abonnement se renouvelle automatiquement sauf si la désactivation est effectuée au moins 24 h avant la fin de la période en cours.";
+"most_popular" = "LE PLUS POPULAIRE";
+"usage_information" = "Informations d’utilisation";
+"consumable_item" = "Objet consommable";
+"consumable_item_description" = "Cet objet sera consommé lors de son utilisation et retiré de ton inventaire.";
+"booster_item" = "Objet booster";
+"booster_item_description" = "Cet objet fournit des bonus temporaires et sera consommé à l’usage.";
+"equipment_item" = "Objet d’équipement";
+"equipment_item_description" = "Cet objet peut être équipé pour améliorer les stats de ton personnage.";
+"collectible_item" = "Objet de collection";
+"collectible_item_description" = "Objet de collection destiné à l’exposition.";
+"item_details" = "Détails de l’objet";
+"use" = "Utiliser";
+"equip" = "Équiper";
+"unequip" = "Déséquiper";
+"failed_to_use_item" = "Échec de l’utilisation de l’objet";
+"item_not_found_in_inventory" = "Objet introuvable dans l’inventaire";
+"failed_to_equip_item" = "Échec de l’équipement de l’objet";
+"invalid_gear_category" = "Catégorie d’équipement invalide";
+"item_equipped_successfully" = "Objet équipé avec succès !";
+"item_unequipped_successfully" = "Objet déséquipé avec succès !";
+"item_used_successfully" = "Objet utilisé avec succès !";
+"no_items_for_category" = "Aucun objet %@";
+"visit_shop_to_get_items" = "Visite la boutique pour obtenir des objets %@ !";
+"no_colors_available_for_hair_style" = "Aucune couleur disponible pour ce style de cheveux";
+"price" = "%@";
+"damage_history" = "Historique des dégâts";
+"total_damage" = "%@ PV";
+"loading_damage_history" = "Chargement de l’historique des dégâts...";
+"no_damage_taken" = "Aucun dégât subi";
+"damage_amount" = "%@ PV";
+"view_all_damage_events" = "Voir les %d événements de dégâts";
+"damage_info_title" = "Comment fonctionnent les dégâts";
+"damage_info_message" = "Tu subis des dégâts lorsque tu manques les échéances des quêtes. Les quêtes quotidiennes infligent 3 PV par jour manqué, les quêtes hebdomadaires 8 PV, et les quêtes uniques 10 PV. Accomplis tes quêtes à temps pour éviter les dégâts !";
+
+"lesser_healing_elixir" = "Élixir de soins mineur";
+"lesser_healing_elixir_description" = "Restaure 15 PV. Une potion de soins basique faite d’herbes communes.";
+"vitality_draught" = "Breuvage de vitalité";
+"vitality_draught_description" = "Restaure 30 PV. Une potion fiable pour les aventuriers.";
+"greater_restoration_tonic" = "Tonique de grande restauration";
+"greater_restoration_tonic_description" = "Restaure 50 PV. Une puissante potion qui peut te sauver la vie.";
+"supreme_life_essence" = "Essence de vie suprême";
+"supreme_life_essence_description" = "Restaure 75 PV. Une potion exceptionnelle aux ingrédients rares.";
+"phoenix_tears" = "Larmes de phénix";
+"phoenix_tears_description" = "Restaure entièrement la santé. Une potion légendaire qui te ramène du seuil de la mort.";
+
+"wisdoms_breath" = "Souffle de sagesse";
+"wisdoms_breath_description" = "Augmente le gain d’XP de 25 % pendant 30 minutes";
+"scholars_insight" = "Clairvoyance du savant";
+"scholars_insight_description" = "Augmente le gain d’XP de 50 % pendant 1 heure";
+"masters_enlightenment" = "Illumination du maître";
+"masters_enlightenment_description" = "Augmente le gain d’XP de 100 % pendant 2 heures";
+"ancient_knowledge_essence" = "Essence de savoir ancien";
+"ancient_knowledge_essence_description" = "Augmente le gain d’XP de 200 % pendant 4 heures";
+
+"merchants_blessing" = "Bénédiction du marchand";
+"merchants_blessing_description" = "Augmente le gain de pièces de 25 % pendant 30 minutes";
+"wealth_attractor" = "Attracteur de richesse";
+"wealth_attractor_description" = "Augmente le gain de pièces de 50 % pendant 1 heure";
+"golden_fortune" = "Fortune dorée";
+"golden_fortune_description" = "Augmente le gain de pièces de 100 % pendant 2 heures";
+"dragons_hoard_essence" = "Essence du trésor du dragon";
+"dragons_hoard_essence_description" = "Augmente le gain de pièces de 200 % pendant 4 heures";
+
+"azure_bloom" = "Fleur d’azur";
+"azure_bloom_description" = "Une magnifique fleur bleue qui capture l’essence d’un ciel d’été limpide. Ses pétales scintillent d’une lueur intérieure apaisante.";
+"rose_petal" = "Pétale de rose";
+"rose_petal_description" = "Un délicat pétale de rose rouge qui ajoute élégance et beauté. Son parfum léger apporte une touche de romance et de grâce.";
+"emerald_petal" = "Pétale d’émeraude";
+"emerald_petal_description" = "Une jolie fleur verte aux feuilles scintillant comme la rosée du matin. Elle rayonne d’énergie naturelle et renforce le lien avec la nature.";
+"amethyst_blossom" = "Fleur d’améthyste";
+"amethyst_blossom_description" = "Une élégante fleur violette dont les pétales semblent briller d’une énergie mystique. La porter confère sagesse et force intérieure.";
+
+"sapphire_spectacles" = "Lunettes saphir";
+"sapphire_spectacles_description" = "Lunettes bleues élégantes dont les verres semblent améliorer la vision au-delà du normal. Monture en métal précieux sertie de saphirs.";
+"shadow_lenses" = "Lentilles d’ombre";
+"shadow_lenses_description" = "Lunettes grises classiques qui semblent absorber la lumière. Elles donnent une aura de mystère et aident à se fondre dans les ombres.";
+"ruby_frames" = "Monture rubis";
+"ruby_frames_description" = "Lunettes rouges audacieuses brûlant d’un feu intérieur. Les verres semblent luire, conférant une présence intimidante.";
+
+"moonstone_stud" = "Clou en pierre de lune";
+"moonstone_stud_description" = "Une simple boucle d’oreille en pierre de lune pure. Elle capte la lumière comme un clair de lune sur l’eau et pulse d’une douce énergie.";
+"starlight_hoop" = "Anneau de starlight";
+"starlight_hoop_description" = "Une boucle élégante qui scintille comme la lumière des étoiles. Le métal semble renfermer de minuscules astres qui brillent.";
+
+"rose_blush" = "Fard rosé";
+"rose_blush_description" = "Une touche de fard donnant un éclat naturel et sain. La couleur rehausse la beauté et la confiance, faisant rayonner le porteur.";
+
+"shadow_veil" = "Voile d’ombre";
+"shadow_veil_description" = "Une capuche mystérieuse tissée d’essence d’ombre. Masque l’identité et offre une protection basique contre les éléments.";
+"ironclad_crown" = "Couronne blindée";
+"ironclad_crown_description" = "Forgée dans le meilleur fer, cette couronne protège tout en conservant un aspect royal. Portée par de nombreux chevaliers en devenir.";
+"crimson_crest" = "Crête cramoisie";
+"crimson_crest_description" = "Un casque frappant orné de gemmes cramoisies. Le métal pulse d’un feu intérieur, imposant le respect.";
+
+"peasants_garb" = "Habit de paysan";
+"peasants_garb_description" = "Vêtements simples mais durables portés par les villageois. Humble d’apparence, il a servi d’innombrables aventuriers à leurs débuts.";
+"azure_tunic" = "Tunique azur";
+"azure_tunic_description" = "Une belle tunique bleue qui capte la lumière comme la rosée du matin. Tissu résistant alliant style et protection.";
+"comfort_cloak" = "Cape de confort";
+"comfort_cloak_description" = "Un sweat douillet comme une étreinte. Parfait pour les longues nuits d’étude ou de contemplation.";
+"silken_grace" = "Grâce de soie";
+"silken_grace_description" = "Robe élégante tissée de la plus fine soie. Le tissu coule comme l’eau, la broderie raconte des histoires d’antiques cours.";
+"ironclad_plate" = "Plastron blindé";
+"ironclad_plate_description" = "Armure de fer lourde qui résonne avec autorité. Chaque plaque ajustée offre une excellente protection physique.";
+"reinforced_ironclad" = "Blindage renforcé";
+"reinforced_ironclad_description" = "Armure de fer améliorée par des renforts. Le métal, traité par des techniques anciennes, devient presque impénétrable.";
+"crimson_raiment" = "Habit cramoisi";
+"crimson_raiment_description" = "Armure rouge flamboyante animée d’un feu intérieur. Elle intimide les ennemis et inspire les alliés.";
+"arcane_robes" = "Robes arcaniques";
+"arcane_robes_description" = "Robes mystiques miroitant d’énergie magique. Les fils enchantés amplifient les pouvoirs et protègent des attaques arcaniques.";
+"nightwing_shroud" = "Linceul d’aile-noire";
+"nightwing_shroud_description" = "Tenue mystérieuse qui semble absorber la lumière. Portée par ceux qui marchent dans l’ombre, elle confère une aura surnaturelle.";
+"inferno_mantle" = "Manteau d’inferno";
+"inferno_mantle_description" = "Tenue flamboyante irradiante d’énergie de feu. Les flammes dansent autour du porteur, créant une aura de puissance.";
+
+"celestial_wings" = "Ailes célestes";
+"celestial_wings_description" = "Ailes blanches pures illuminées d’une lumière divine. Façonnées d’énergie pure pour voler avec grâce dans les cieux.";
+"phoenix_wings" = "Ailes de phénix";
+"phoenix_wings_description" = "Ailes de feu brûlant d’une flamme éternelle. Chaque plume crépite et renaît de ses cendres.";
+"blazing_phoenix_wings" = "Ailes de phénix flamboyantes";
+"blazing_phoenix_wings_description" = "Ailes de phénix renforcées par un feu intensifié. La chaleur accablante fait sentir le pouvoir de renaissance.";
+"blazing_phoenix" = "Phénix flamboyant";
+"blazing_phoenix_description" = "Ailes de phénix renforcées par un feu intensifié. La chaleur accablante fait sentir le pouvoir de renaissance.";
+"shadow_wings" = "Ailes d’ombre";
+"shadow_wings_description" = "Ailes sombres qui absorbent la lumière. Permettent un vol silencieux dans la nuit, idéales pour rester invisible.";
+
+"oakheart_blade" = "Lame du cœur-de-chêne";
+"oakheart_blade_description" = "Une épée sculptée dans du chêne ancien, dont la lame s’est durcie au fil des années. Simple mais naturellement équilibrée, elle est redoutable entre des mains expertes.";
+"copper_fang" = "Croc de cuivre";
+"copper_fang_description" = "Une épée de cuivre à la teinte rougeâtre distinctive. Le métal a été forgé avec soin pour une arête vive qui brille au soleil.";
+"ironclad_edge" = "Tranchant blindé";
+"ironclad_edge_description" = "Une épée de fer fiable, choisie par d’innombrables guerriers. Son équilibre et sa durabilité en font une alliée de confiance au combat.";
+"steel_serpent" = "Serpent d’acier";
+"steel_serpent_description" = "Une épée d’acier affûtée qui frappe comme un serpent. Sa lame, finement travaillée, tranche aisément les armures inférieures.";
+"crimson_fang" = "Croc cramoisi";
+"crimson_fang_description" = "Une épée rouge flamboyante animée d’une chaleur intérieure. La lame semble assoiffée de bataille, chauffant à chaque coup.";
+"blazing_fang" = "Croc flamboyant";
+"blazing_fang_description" = "Version améliorée du Croc cramoisi, cette lame brûle si intensément qu’un seul coup peut embraser l’ennemi.";
+"golden_dawn" = "Aube dorée";
+"golden_dawn_description" = "Une épée légendaire dorée qui capture la première lueur de l’aube. Sa lame rayonne chaleur et espoir, inspirant les alliés et terrifiant les ennemis.";
+"thunder_axe" = "Hache-tonnerre";
+"thunder_axe_description" = "Une lourde hache qui crépite d’énergie. Chaque balayage gronde comme le tonnerre et la lame canalise la foudre.";
+"storm_hatchet" = "Hachette des tempêtes";
+"storm_hatchet_description" = "Une petite hache qui vibre d’énergie orageuse. Plus légère, elle canalise tout de même le pouvoir du tonnerre et de l’éclair.";
+"vipers_lash" = "Fouet de la vipère";
+"vipers_lash_description" = "Un fouet souple qui frappe comme un serpent venimeux. Le cuir, traité avec des huiles spéciales, le rend mortel et silencieux.";
+"arcane_staff" = "Bâton arcanique";
+"arcane_staff_description" = "Un bâton magique qui pulse d’énergie. Sculpté dans un bois ancien et serti de cristaux, il amplifie les capacités magiques et canalise de puissants sorts.";
+"iron_maiden" = "Demoiselle de fer";
+"iron_maiden_description" = "Une masse lourde qui frappe avec une force dévastatrice. Sa tête cloutée broie armures et os.";
+"soul_reaper" = "Faucheur d’âmes";
+"soul_reaper_description" = "Une arme mortelle qui semble drainer la vie des victimes. La lame, sombre comme la nuit et froide comme la mort, inspire la terreur.";
+"windseeker_bow" = "Arc cherche-vent";
+"windseeker_bow_description" = "Un arc guidé par le vent lui-même. Les flèches volent avec une précision étonnante, même en pleine tempête.";
+"stormcaller_bow" = "Arc appelle-tempêtes";
+"stormcaller_bow_description" = "Un arc qui invoque les tempêtes. Chaque tir crépite d’éclairs et l’arc bourdonne de puissance.";
+
+"deadly_sword" = "Épée létale";
+"deadly_sword_description" = "Une épée forgée pour une létalité maximale. Lame rasoir, équilibrée pour des frappes rapides et fatales.";
+"battle_axe" = "Hache de bataille";
+"battle_axe_description" = "Une hache lourde conçue pour les combats brutaux. Sa lame massive fend armures et os.";
+"small_battle_axe" = "Petite hache de bataille";
+"small_battle_axe_description" = "Une version plus légère, faite pour la vitesse et la précision. Malgré sa taille, elle inflige des coups dévastateurs.";
+"whip_sword" = "Épée-fouet";
+"whip_sword_description" = "Une épée flexible alliant la portée d’un fouet et le tranchant d’une lame. Son design unique permet des attaques imprévisibles.";
+
+"oakheart_ward" = "Rempart cœur-de-chêne";
+"oakheart_ward_description" = "Un bouclier taillé dans un chêne ancien, usé mais solide. Il a encaissé d’innombrables coups, offrant une défense fiable.";
+"crimson_ward" = "Rempart cramoisi";
+"crimson_ward_description" = "Un bouclier rouge animé d’un feu défensif. Le métal absorbe les attaques et les renvoie en chaleur.";
+"ironclad_bulwark" = "Rempart blindé";
+"ironclad_bulwark_description" = "Un bouclier de fer robuste marqué par les batailles, preuve de sa puissance protectrice.";
+"golden_aegis" = "Égide dorée";
+"golden_aegis_description" = "Un bouclier doré irradiant une protection divine. Sa lumière affaiblit les assauts ennemis.";
+
+"grey_paw" = "Patte grise";
+"grey_paw_description" = "Un chat mystérieux au pelage doux comme l’ombre. Il se déplace en silence et semble comprendre tes pensées.";
+"brown_paw" = "Patte brune";
+"brown_paw_description" = "Un chat fidèle au pelage chaud et terreux. Sa nature douce réconforte lors des longues aventures.";
+"whiskerwind" = "Moustivent";
+"whiskerwind_description" = "Un chat gracieux au pelage scintillant comme la lumière des étoiles. Il sent le danger et te prévient des menaces.";
+"golden_cluck" = "Cocotte dorée";
+"golden_cluck_description" = "Une poule loyale aux plumes dorées. Humble d’apparence, elle a un cœur d’or et te suit partout.";
+
+"crown_of_kings" = "Couronne des rois";
+"crown_of_kings_description" = "Une couronne magnifique portée par d’innombrables souverains. Ses joyaux renferment la sagesse des âges.";
+"mystic_egg" = "Œuf mystique";
+"mystic_egg_description" = "Un œuf mystérieux vibrant d’énergie inconnue. Les légendes parlent de créatures qui en émergent.";
+"thunder_hammer" = "Marteau-tonnerre";
+"thunder_hammer_description" = "Un marteau puissant qui crépite d’électricité. Chaque coup résonne comme un tonnerre.";
+"golden_key_of_ages" = "Clé d’or des âges";
+"golden_key_of_ages_description" = "Une clé dorée qui ouvre plus que des portes. Des inscriptions anciennes évoquent des portails vers des royaumes oubliés.";
+"silver_key_of_secrets" = "Clé d’argent des secrets";
+"silver_key_of_secrets_description" = "Une clé d’argent qui murmure des secrets. Le métal se souvient de chaque serrure et de chaque secret révélé.";
+"medal_of_honor" = "Médaille d’honneur";
+"medal_of_honor_description" = "Une médaille prestigieuse pour actes de courage. Elle inspire le respect à quiconque la voit.";
+"harvest_pumpkin" = "Citrouille des moissons";
+"harvest_pumpkin_description" = "Une citrouille festive irradiant une lueur intérieure, gravée de symboles mystiques.";
+"ring_of_power" = "Anneau de pouvoir";
+"ring_of_power_description" = "Un anneau magique vibrant d’énergie. Des runes anciennes y sont gravées et confèrent des pouvoirs oubliés.";
+"treasure_chest" = "Coffre au trésor";
+"treasure_chest_description" = "Un coffre solide ayant protégé d’innombrables fortunes. Son bois patiné et sa serrure ingénieuse en disent long.";
+"azure_treasure_chest" = "Coffre azur";
+"azure_treasure_chest_description" = "Un coffre bleu rare qui luit d’une lumière intérieure et bourdonne d’énergie magique.";
+"opened_treasure_chest" = "Coffre au trésor ouvert";
+"opened_treasure_chest_description" = "Un coffre ouvert qui a déjà livré ses secrets, mais promet encore aventure et découverte.";
+"bronze_trophy_of_valor" = "Trophée de vaillance en bronze";
+"bronze_trophy_of_valor_description" = "Un trophée de bronze pour bravoure et courage, poli à la perfection.";
+"silver_trophy_of_glory" = "Trophée de gloire en argent";
+"silver_trophy_of_glory_description" = "Un trophée d’argent qui capture l’éclat des victoires passées.";
+"golden_trophy_of_legends" = "Trophée d’or des légendes";
+"golden_trophy_of_legends_description" = "Un trophée doré irradiant le pouvoir des légendes. Les détenteurs sont promis à la renommée.";
+"scroll_of_ancient_wisdom" = "Parchemin de sagesse ancienne";
+"scroll_of_ancient_wisdom_description" = "Un antique parchemin couvert de runes et de savoir oublié, qui chuchote ses secrets.";
+"scroll_of_lost_secrets" = "Parchemin des secrets perdus";
+"scroll_of_lost_secrets_description" = "Un parchemin renfermant des secrets si puissants qu’ils furent cachés des siècles durant.";
+"scroll_of_forbidden_knowledge" = "Parchemin du savoir interdit";
+"scroll_of_forbidden_knowledge_description" = "Un parchemin vibrant d’une énergie dangereuse, scellé jadis par les sages.";
+"bell_of_awakening" = "Cloche de l’éveil";
+"bell_of_awakening_description" = "Une cloche magique dont le son éveille l’âme, brise les enchantements et dissipe les illusions.";
+"chronometer" = "Chronomètre";
+"chronometer_description" = "Un garde-temps mystique mesurant plus que les heures. Ses rouages suivent le flux du temps lui-même.";
+"lucky_four_leaf_clover" = "Trèfle à quatre feuilles porte-bonheur";
+"lucky_four_leaf_clover_description" = "Un trèfle rare irradiant la chance. Le porter apporte protection et fortune.";
+"holy_cross" = "Croix sacrée";
+"holy_cross_description" = "Une croix sacrée qui luit d’une lumière divine, protégeant des forces obscures.";
+"phoenix_feather" = "Plume de phénix";
+"phoenix_feather_description" = "Une plume brûlant d’une flamme éternelle, symbole de chaleur et de renouveau.";
+"essence_of_fire" = "Essence de feu";
+"essence_of_fire_description" = "Un cristal contenant une énergie ignée pure. Les flammes dansent en son cœur.";
+"lightning_bolt" = "Éclair";
+"lightning_bolt_description" = "Un éclair capturé dans un cristal. L’énergie y crépite et bourdonne.";
+"strength_totem" = "Totem de force";
+"strength_totem_description" = "Un totem irradiant la puissance physique, gravé de symboles de vigueur et de courage.";
+"starlight_fragment" = "Fragment de lumière stellaire";
+"starlight_fragment_description" = "Un fragment de starlight cristallisé. Il brille d’une clarté inspirante.";
+"skull_of_the_fallen" = "Crâne des déchus";
+"skull_of_the_fallen_description" = "Un crâne mystérieux semblant contenir les souvenirs de son ancien propriétaire.";
+"skull_of_the_ancient" = "Crâne de l’Ancien";
+"skull_of_the_ancient_description" = "Un crâne si ancien qu’il est fossilisé, d’où émane une sagesse oubliée.";
+
+"sleepy_cat" = "Chat somnolent";
+"sleepy_cat_description" = "Un chat endormi qui te donne envie de faire la sieste plutôt que de travailler";
+"funny_zombie" = "Zombie drôle";
+"funny_zombie_description" = "Un zombie amusant qui te distrait avec son humour";
+"funky_monster" = "Monstre funky";
+"funky_monster_description" = "Un monstre groovy qui te fait danser au lieu de te concentrer";
+"boo_monster" = "Monstre bouh";
+"boo_monster_description" = "Un monstre effrayant qui chasse ta concentration";
+"flying_dragon" = "Dragon volant";
+"flying_dragon_description" = "Un dragon majestueux difficile à vaincre";
+
+"consumable" = "Consommable";
+"booster" = "Booster";
+"collectible" = "Objet de collection";
+"accessory" = "Accessoire";
+"gear" = "Équipement";
+
+"head" = "Tête";
+"wings" = "Ailes";
+"shield" = "Bouclier";
+"pet" = "Familier";
+
+"clips" = "Pinces";
+"eyeglasses" = "Lunettes";
+"earrings" = "Boucles d’oreilles";
+"lashes" = "Cils";
+"eyelashes" = "Cils";
+"eyelash" = "Cil";
+
+"royalty" = "Royauté";
+"weapons" = "Armes";
+"treasure" = "Trésor";
+"accessories" = "Accessoires";
+"trophies" = "Trophées";
+"scrolls" = "Parchemins";
+"elements" = "Éléments";
+
+"common" = "Commun";
+"uncommon" = "Peu commun";
+"rare" = "Rare";
+"epic" = "Épique";
+
+"choose_name" = "Choisir un nom";
+"choose_title" = "Choisir un titre";
+"ready" = "Prêt";
+"create_quests_and_complete_tasks" = "Crée des quêtes et termine des tâches";
+"earn_experience_and_level_up" = "Gagne de l’expérience et monte de niveau";
+"unlock_achievements_and_rewards" = "Débloque succès et récompenses";
+"customize_your_character" = "Personnalise ton personnage";
+"enter_hero_name" = "Entre le nom du héros";
+
+"the_brave" = "Le Brave";
+"the_brave_description" = "Intrépide face au danger";
+"the_wise" = "Le Sage";
+"the_wise_description" = "La connaissance et la sagesse guident sa voie";
+"the_swift" = "Le Rapide";
+"the_swift_description" = "Vif comme le vent, agile comme un chat";
+"the_mighty" = "Le Puissant";
+"the_mighty_description" = "Force et puissance incarnées";
+"the_shadow" = "L’Ombre";
+"the_shadow_description" = "Se déplace invisible, frappe depuis les ténèbres";
+"the_guardian" = "Le Gardien";
+"the_guardian_description" = "Protecteur des innocents et des faibles";
+"the_wanderer" = "Le Vagabond";
+"the_wanderer_description" = "Explorateur de terres inconnues et de secrets";
+"the_legendary" = "Le Légendaire";
+"the_legendary_description" = "Promis à la grandeur et à la gloire";
+"the_whimsical" = "Le Fantasque";
+"the_whimsical_description" = "Apporte joie et émerveillement partout";
+"the_stormborn" = "Né-de-l’orage";
+"the_stormborn_description" = "Né du tonnerre, maître du chaos";
+"the_dreamweaver" = "Tisseur de rêves";
+"the_dreamweaver_description" = "Tisse les rêves pour en faire réalité";
+"the_starlight" = "Lumière stellaire";
+"the_starlight_description" = "Éclaire les sentiers les plus sombres";
+"hero" = "Héros";
+
+"new_quest" = "Nouvelle quête";
+"create_new_adventure" = "Crée une nouvelle aventure";
+"add_premade_quests" = "Ajouter des quêtes préconçues";
+"view_your_stats" = "Voir tes statistiques";
+"view_your_trophies" = "Voir tes trophées";
+"battle_distractions" = "Combattre les distractions";
+"shop" = "Boutique";
+"buy_items_with_coins" = "Acheter des objets avec des pièces";
+"add_currency" = "Ajouter de la monnaie";
+"active_boosters" = "Boosters actifs";
+"coins" = "Pièces";
+
+"quest_reward" = "Récompense de quête";
+"base_reward" = "Récompense de base";
+"task_bonus" = "Bonus de tâche";
+"quest_title_cannot_be_empty" = "Le titre de la quête ne peut pas être vide.";
+
+"select_your_quest_deadline" = "Sélectionne l’échéance de ta quête";
+"selected_date" = "Date sélectionnée";
+"selected_deadline" = "Échéance sélectionnée";
+"confirm_date" = "Confirmer la date";
+
+"ok_button" = "OK";
+"xp" = "XP";
+
+"armor" = "Armure";
+"pets" = "Familiers";
+"consumables" = "Consommables";
+"helmet" = "Casque";
+"potions" = "Potions";
+"boosts" = "Boosts";
+"specials" = "Spéciaux";
+
+"icon_gold" = "Or";
+"icon_gem" = "Gemme";
+
+"select_skin_color" = "Choisir la couleur de peau";
+"choose_hairstyle" = "Choisir la coiffure";
+"choose_hair_back_style" = "Choisir le style arrière des cheveux";
+"select_eye_color" = "Choisir la couleur des yeux";
+"choose_outfit" = "Choisir la tenue";
+"pick_your_weapon" = "Choisir ton arme";
+"add_mustache" = "Ajouter une moustache";
+"add_flower" = "Ajouter une fleur";
+"add_accessories" = "Ajouter des accessoires";
+
+"step_progress" = "Étape %d sur %d";
+"current_selection" = "Sélection actuelle";
+"premium_item" = "Objet Premium";
+"locked_item" = "Objet verrouillé";
+"unlock_premium_to_access" = "Débloque Premium pour accéder à cet objet";
+
+"select_title_description" = "Choisis un titre représentant la personnalité et les exploits de ton personnage";
+
+"skin_color" = "Couleur de peau";
+"hairstyle" = "Coiffure";
+"hair_back_style" = "Style arrière des cheveux";
+"hair_color" = "Couleur des cheveux";
+"eye_color" = "Couleur des yeux";
+
+"no_customization_selected" = "Aucune personnalisation sélectionnée";
+"default_style" = "Style par défaut";
+"classic_style" = "Style classique";
+"modern_style" = "Style moderne";
+"elegant_style" = "Style élégant";
+"warrior_style" = "Style guerrier";
+"mage_style" = "Style mage";
+"rogue_style" = "Style voleur";
+
+"preview_your_character" = "Prévisualise ton personnage";
+"character_customization" = "Personnalisation du personnage";
+
+"character_stats" = "Statistiques du personnage";
+"character_level" = "Niveau";
+"character_experience" = "Expérience";
+"character_health" = "Santé";
+"character_mana" = "Mana";
+"character_strength" = "Force";
+"character_intelligence" = "Intelligence";
+"character_agility" = "Agilité";
+
+"equipped_items" = "Objets équipés";
+"no_items_equipped" = "Aucun objet équipé";
+"equip_item" = "Équiper l’objet";
+"unequip_item" = "Déséquiper l’objet";
+"item_equipped" = "Objet équipé";
+"item_unequipped" = "Objet déséquipé";
+
+"customization_progress" = "Progression de la personnalisation";
+"customization_complete" = "Personnalisation terminée";
+"customization_incomplete" = "Personnalisation incomplète";
+"please_complete_customization" = "Veuillez terminer la personnalisation de votre personnage";
+"customization_saved" = "Personnalisation enregistrée avec succès";
+"customization_failed" = "Échec de l’enregistrement de la personnalisation";
+
+"please_select_skin_color" = "Veuillez choisir une couleur de peau";
+"please_select_hairstyle" = "Veuillez choisir une coiffure";
+"please_select_eye_color" = "Veuillez choisir une couleur d’yeux";
+"please_select_outfit" = "Veuillez choisir une tenue";
+"please_select_weapon" = "Veuillez choisir une arme";
+
+"customization_help" = "Aide à la personnalisation";
+"tap_to_select" = "Appuie pour sélectionner";
+"tap_to_preview" = "Appuie pour prévisualiser";
+"swipe_to_browse" = "Balaye pour parcourir les options";
+"premium_items_available" = "Objets Premium disponibles";
+"unlock_premium_for_more_options" = "Débloque Premium pour plus d’options de personnalisation";
+
+"visit_shop_to_get_boosters" = "Visite la boutique pour obtenir des boosters !";
+"expired" = "Expiré";
+"from_boosters" = "des boosters";
+"base" = "Base";
+"dismiss" = "Fermer";
+"coins_gained" = "Pièces gagnées";
+"quest_rewards" = "Récompenses de quête";
+"reward_animation" = "Animation de récompense";
+"chest_opened" = "Coffre ouvert";
+"chest_closed" = "Coffre fermé";
+"boosted_rewards" = "Récompenses améliorées";
+"booster_bonus" = "Bonus du booster";
+"booster_multiplier" = "Multiplicateur du booster";
+"booster_duration" = "Durée du booster";
+"booster_remaining" = "Booster restant";
+"booster_expired" = "Booster expiré";
+"booster_active" = "Booster actif";
+"booster_inactive" = "Booster inactif";
+"booster_effect" = "Effet du booster";
+"booster_source" = "Source du booster";
+"booster_type" = "Type de booster";
+"booster_value" = "Valeur du booster";
+"booster_time_left" = "Temps restant";
+"booster_minutes" = "minutes";
+"booster_hours" = "heures";
+"booster_days" = "jours";
+"booster_permanent" = "Permanent";
+"booster_temporary" = "Temporaire";
+"booster_consumable" = "Consommable";
+"booster_equipment" = "Équipement";
+"booster_accessory" = "Accessoire";
+"booster_collectible" = "Objet de collection";
+"booster_rarity" = "Rareté";
+"booster_common" = "Commun";
+"booster_uncommon" = "Peu commun";
+"booster_rare" = "Rare";
+"booster_epic" = "Épique";
+"booster_legendary" = "Légendaire";
+"booster_description" = "Description";
+"booster_usage" = "Utilisation";
+"booster_effects" = "Effets";
+"booster_duration_remaining" = "Durée restante";
+"booster_time_remaining" = "Temps restant";
+"booster_expires_in" = "Expire dans";
+"booster_expired_on" = "Expiré le";
+"booster_activated_on" = "Activé le";
+"booster_deactivated_on" = "Désactivé le";
+"booster_activation_time" = "Heure d’activation";
+"booster_expiration_time" = "Heure d’expiration";
+"booster_total_bonus" = "Bonus total";
+"booster_individual_bonus" = "Bonus individuel";
+"booster_combined_bonus" = "Bonus combiné";
+"booster_stack_limit" = "Limite d’empilement";
+"booster_max_stacks" = "Empilements max";
+"booster_current_stacks" = "Empilements actuels";
+"booster_stack_bonus" = "Bonus d’empilement";
+"booster_stack_multiplier" = "Multiplicateur d’empilement";
+"booster_stack_duration" = "Durée d’empilement";
+"booster_stack_remaining" = "Empilement restant";
+"booster_stack_expired" = "Empilement expiré";
+"booster_stack_active" = "Empilement actif";
+"booster_stack_inactive" = "Empilement inactif";
+"booster_stack_effect" = "Effet d’empilement";
+"booster_stack_source" = "Source d’empilement";
+"booster_stack_type" = "Type d’empilement";
+"booster_stack_value" = "Valeur d’empilement";
+"booster_stack_time_left" = "Temps restant de l’empilement";
+"booster_stack_minutes" = "Minutes d’empilement";
+"booster_stack_hours" = "Heures d’empilement";
+"booster_stack_days" = "Jours d’empilement";
+"booster_stack_permanent" = "Empilement permanent";
+"booster_stack_temporary" = "Empilement temporaire";
+"booster_stack_consumable" = "Empilement consommable";
+"booster_stack_equipment" = "Empilement équipement";
+"booster_stack_accessory" = "Empilement accessoire";
+"booster_stack_collectible" = "Empilement objet de collection";
+"booster_stack_rarity" = "Rareté d’empilement";
+"booster_stack_common" = "Empilement commun";
+"booster_stack_uncommon" = "Empilement peu commun";
+"booster_stack_rare" = "Empilement rare";
+"booster_stack_epic" = "Empilement épique";
+"booster_stack_legendary" = "Empilement légendaire";
+"booster_stack_description" = "Description d’empilement";
+"booster_stack_usage" = "Utilisation d’empilement";
+"booster_stack_effects" = "Effets d’empilement";
+"booster_stack_duration_remaining" = "Durée d’empilement restante";
+"booster_stack_time_remaining" = "Temps d’empilement restant";
+"booster_stack_expires_in" = "Empilement expire dans";
+"booster_stack_expired_on" = "Empilement expiré le";
+"booster_stack_activated_on" = "Empilement activé le";
+"booster_stack_deactivated_on" = "Empilement désactivé le";
+"booster_stack_activation_time" = "Heure d’activation de l’empilement";
+"booster_stack_expiration_time" = "Heure d’expiration de l’empilement";
+"booster_stack_total_bonus" = "Bonus total d’empilement";
+"booster_stack_individual_bonus" = "Bonus individuel d’empilement";
+"booster_stack_combined_bonus" = "Bonus combiné d’empilement";
+
+"quest_booster" = "Booster de quête";
+"total_boost_format" = "Bonus total : +%d%% XP, +%d%% pièces";
+"booster_time_format" = "%dh %dm";
+"booster_minutes_format" = "%dm";
+"booster_hours_format" = "%dh";
+"booster_days_format" = "%dd";
+"booster_permanent_text" = "Permanent";
+"booster_temporary_text" = "Temporaire";
+"booster_expired_text" = "Expiré";
+"booster_active_text" = "Actif";
+"booster_inactive_text" = "Inactif";
+"booster_consumable_text" = "Consommable";
+"booster_equipment_text" = "Équipement";
+"booster_accessory_text" = "Accessoire";
+"booster_collectible_text" = "Objet de collection";
+"booster_common_text" = "Commun";
+"booster_uncommon_text" = "Peu commun";
+"booster_rare_text" = "Rare";
+"booster_epic_text" = "Épique";
+"booster_legendary_text" = "Légendaire";
+"booster_description_text" = "Description";
+"booster_usage_text" = "Utilisation";
+"booster_effects_text" = "Effets";
+"booster_duration_remaining_text" = "Durée restante";
+"booster_time_remaining_text" = "Temps restant";
+"booster_expires_in_text" = "Expire dans";
+"booster_expired_on_text" = "Expiré le";
+"booster_activated_on_text" = "Activé le";
+"booster_deactivated_on_text" = "Désactivé le";
+"booster_activation_time_text" = "Heure d’activation";
+"booster_expiration_time_text" = "Heure d’expiration";
+"booster_total_bonus_text" = "Bonus total";
+"booster_individual_bonus_text" = "Bonus individuel";
+"booster_combined_bonus_text" = "Bonus combiné";
+"booster_stack_limit_text" = "Limite d’empilement";
+"booster_max_stacks_text" = "Empilements max";
+"booster_current_stacks_text" = "Empilements actuels";
+"booster_stack_bonus_text" = "Bonus d’empilement";
+"booster_stack_multiplier_text" = "Multiplicateur d’empilement";
+"booster_stack_duration_text" = "Durée d’empilement";
+"booster_stack_remaining_text" = "Empilement restant";
+"booster_stack_expired_text" = "Empilement expiré";
+"booster_stack_active_text" = "Empilement actif";
+"booster_stack_inactive_text" = "Empilement inactif";
+"booster_stack_effect_text" = "Effet d’empilement";
+"booster_stack_source_text" = "Source d’empilement";
+"booster_stack_type_text" = "Type d’empilement";
+"booster_stack_value_text" = "Valeur d’empilement";
+"booster_stack_time_left_text" = "Temps restant de l’empilement";
+"booster_stack_minutes_text" = "Minutes d’empilement";
+"booster_stack_hours_text" = "Heures d’empilement";
+"booster_stack_days_text" = "Jours d’empilement";
+"booster_stack_permanent_text" = "Empilement permanent";
+"booster_stack_temporary_text" = "Empilement temporaire";
+"booster_stack_consumable_text" = "Empilement consommable";
+"booster_stack_equipment_text" = "Empilement équipement";
+"booster_stack_accessory_text" = "Empilement accessoire";
+"booster_stack_collectible_text" = "Empilement objet de collection";
+"booster_stack_rarity_text" = "Rareté d’empilement";
+"booster_stack_common_text" = "Empilement commun";
+"booster_stack_uncommon_text" = "Empilement peu commun";
+"booster_stack_rare_text" = "Empilement rare";
+"booster_stack_epic_text" = "Empilement épique";
+"booster_stack_legendary_text" = "Empilement légendaire";
+"booster_stack_description_text" = "Description d’empilement";
+"booster_stack_usage_text" = "Utilisation d’empilement";
+"booster_stack_effects_text" = "Effets d’empilement";
+"booster_stack_duration_remaining_text" = "Durée d’empilement restante";
+"booster_stack_time_remaining_text" = "Temps d’empilement restant";
+"booster_stack_expires_in_text" = "Empilement expire dans";
+"booster_stack_expired_on_text" = "Empilement expiré le";
+"booster_stack_activated_on_text" = "Empilement activé le";
+"booster_stack_deactivated_on_text" = "Empilement désactivé le";
+"booster_stack_activation_time_text" = "Heure d’activation de l’empilement";
+"booster_stack_expiration_time_text" = "Heure d’expiration de l’empilement";
+"booster_stack_total_bonus_text" = "Bonus total d’empilement";
+"booster_stack_individual_bonus_text" = "Bonus individuel d’empilement";
+"booster_stack_combined_bonus_text" = "Bonus combiné d’empilement";
+
+"quest_completion_cooldown" = "La finalisation de la quête est en recharge";
+"task_completion_cooldown" = "La finalisation de la tâche est en recharge";
+
+"booster_experience_description" = "Augmente l’expérience gagnée via les quêtes";
+"booster_coins_description" = "Augmente les pièces gagnées via les quêtes";
+"booster_both_description" = "Augmente à la fois l’expérience et les pièces gagnées via les quêtes";
+"both" = "Les deux";
+"temporary" = "Temporaire";
+"xp_boost_item" = "Objet bonus d’XP";
+"coin_boost_item" = "Objet bonus de pièces";
+
+"body_type" = "Couleur de peau";
+"hair_back" = "Arrière des cheveux";
+"outfit_style" = "Style de tenue";
+"weapon_style" = "Style d’arme";
+"facial_hair" = "Pilosité faciale";
+"head_accessory" = "Accessoire de tête";
+"body_accessory" = "Accessoire de corps";
+
+"natural_skin" = "Peau naturelle";
+"fair_skin" = "Peau claire";
+"olive_skin" = "Peau olive";
+"dark_skin" = "Peau foncée";
+"tanned_skin" = "Peau hâlée";
+
+"short_hair" = "Cheveux courts";
+"long_hair" = "Cheveux longs";
+"curly_hair" = "Cheveux bouclés";
+"straight_hair" = "Cheveux lisses";
+"wavy_hair" = "Cheveux ondulés";
+"spiky_hair" = "Cheveux hérissés";
+"bald" = "Chauve";
+
+"blue_eyes" = "Yeux bleus";
+"green_eyes" = "Yeux verts";
+"brown_eyes" = "Yeux marron";
+"gray_eyes" = "Yeux gris";
+"hazel_eyes" = "Yeux noisette";
+
+"casual_outfit" = "Tenue décontractée";
+"formal_outfit" = "Tenue formelle";
+"armor_outfit" = "Tenue d’armure";
+"robes_outfit" = "Tenue de robes";
+"adventure_outfit" = "Tenue d’aventure";
+
+"sword_weapon" = "Épée";
+"axe_weapon" = "Hache";
+"bow_weapon" = "Arc";
+"staff_weapon" = "Bâton";
+"dagger_weapon" = "Dague";
+
+"no_mustache" = "Sans moustache";
+"thin_mustache" = "Moustache fine";
+"thick_mustache" = "Moustache épaisse";
+"handlebar_mustache" = "Moustache en guidon";
+
+"no_flower" = "Sans fleur";
+"rose_flower" = "Rose";
+"daisy_flower" = "Marguerite";
+"lily_flower" = "Lys";
+"sunflower_flower" = "Tournesol";
+
+"no_accessory" = "Sans accessoire";
+"glasses_accessory" = "Lunettes";
+"earrings_accessory" = "Boucles d’oreilles";
+"necklace_accessory" = "Collier";
+"hat_accessory" = "Chapeau";
+
+"natural_skin_description" = "Un teint naturel";
+"fair_skin_description" = "Un teint clair et lumineux";
+"olive_skin_description" = "Un teint chaud, olive";
+"dark_skin_description" = "Un teint riche et foncé";
+"tanned_skin_description" = "Un teint hâlé par le soleil";
+
+"short_hair_description" = "Coiffure courte et pratique";
+"long_hair_description" = "Chevelure longue et fluide";
+"curly_hair_description" = "Cheveux naturellement bouclés";
+"straight_hair_description" = "Cheveux lisses";
+"wavy_hair_description" = "Ondulations douces";
+"spiky_hair_description" = "Coiffure hérissée et audacieuse";
+"bald_description" = "Crâne rasé";
+
+"blue_eyes_description" = "Yeux bleus lumineux";
+"green_eyes_description" = "Yeux verts émeraude";
+"brown_eyes_description" = "Yeux marron chaleureux";
+"gray_eyes_description" = "Yeux gris froids";
+"hazel_eyes_description" = "Yeux noisette aux nuances multiples";
+
+"casual_outfit_description" = "Vêtements confortables du quotidien";
+"formal_outfit_description" = "Tenue élégante et formelle";
+"armor_outfit_description" = "Armure de combat protectrice";
+"robes_outfit_description" = "Robes mystiques";
+"adventure_outfit_description" = "Équipement d’aventure pratique";
+
+"sword_weapon_description" = "Une épée fiable";
+"axe_weapon_description" = "Une hache puissante";
+"bow_weapon_description" = "Un arc précis";
+"staff_weapon_description" = "Un bâton magique";
+"dagger_weapon_description" = "Une dague rapide";
+
+"no_mustache_description" = "Visage rasé de près";
+"thin_mustache_description" = "Moustache fine et élégante";
+"thick_mustache_description" = "Moustache épaisse et affirmée";
+"handlebar_mustache_description" = "Moustache en guidon distinctive";
+
+"no_flower_description" = "Aucun accessoire fleur";
+"rose_flower_description" = "Une belle rose rouge";
+"daisy_flower_description" = "Une marguerite joyeuse";
+"lily_flower_description" = "Un lys élégant";
+"sunflower_flower_description" = "Un tournesol éclatant";
+
+"no_accessory_description" = "Aucun accessoire supplémentaire";
+"glasses_accessory_description" = "Lunettes stylées";
+"earrings_accessory_description" = "Boucles d’oreilles décoratives";
+"necklace_accessory_description" = "Collier élégant";
+"hat_accessory_description" = "Chapeau tendance";
+
+"quest_finished" = "Quête terminée !";
+"choose_icon" = "Choisir une icône";
+"quest_finish_confirmation" = "Cette quête est-elle terminée ?";
+"yes_finish_it" = "Oui, terminer !";
+"quest_finish_confirmation_message" = "Es-tu sûr de vouloir marquer « %@ » comme terminée ?";
+"no_damage_yet_message" = "Cette quête n’a encore causé aucun dégât. Continue comme ça !";
+"purchase_error" = "Erreur d’achat";
+"purchase_successful" = "Achat réussi";
+"premium_purchase_success_message" = "Bienvenue en Premium ! Tu as reçu 300 gemmes bonus en cadeau.";
+"an_error_occurred" = "Une erreur est survenue";
+"an_error_occurred_during_purchase" = "Une erreur est survenue pendant l’achat";
+"restore_purchases" = "Restaurer les achats";
+"done_button" = "Terminé";
+"work_phase" = "Travail";
+"short_break_phase" = "Courte pause";
+"long_break_phase" = "Longue pause";
+"battle_phase" = "Combat";
+"victory_phase" = "Victoire !";
+"defeat_phase" = "Défaite";
+"idle_phase" = "Inactif";
+
+"quest_completion_is_finished_check_popup_examples" = "Exemples de pop-up de vérification de fin de quête";
+
+"quest_completion_one_time_message" = "As-tu terminé cette quête ? Cette quête unique sera marquée comme terminée.";
+"quest_completion_daily_message" = "As-tu terminé cette quête ? Cette quête quotidienne sera marquée comme terminée.";
+"quest_completion_weekly_message" = "As-tu terminé cette quête ? Cette quête hebdomadaire sera marquée comme terminée.";
+"quest_completion_scheduled_message" = "As-tu terminé cette quête ? Cette quête planifiée sera marquée comme terminée.";
+
+"quest_finish_one_time_message" = "Ceci est une quête unique. Veux-tu la marquer comme terminée et recevoir tes récompenses ?";
+"quest_finish_daily_message" = "Cette quête quotidienne arrive à son dernier jour. Veux-tu la marquer comme terminée et recevoir tes récompenses ?";
+"quest_finish_weekly_message" = "Cette quête hebdomadaire arrive à sa dernière semaine. Veux-tu la marquer comme terminée et recevoir tes récompenses ?";
+"quest_finish_scheduled_message" = "Cette quête planifiée arrive à son dernier jour. Veux-tu la marquer comme terminée et recevoir tes récompenses ?";
+
+"icon_category_general" = "Général";
+"icon_category_work" = "Travail";
+"icon_category_personal" = "Personnel";
+"icon_category_health" = "Santé";
+"icon_category_study" = "Études";
+"icon_category_travel" = "Voyage";
+"icon_category_food" = "Nourriture";
+"icon_category_nature" = "Nature";
+"icon_category_objects" = "Objets";
+"icon_category_emotions" = "Émotions";
+
+"selected_tags_count" = "Sélectionnés (%d)";
+
+"quest_label" = "Quête :";
+
+"purchase" = "Acheter";
+
+"weekday_sun" = "Dim";
+"weekday_mon" = "Lun";
+"weekday_tue" = "Mar";
+"weekday_wed" = "Mer";
+"weekday_thu" = "Jeu";
+"weekday_fri" = "Ven";
+"weekday_sat" = "Sam";
+
+"purchase_failed" = "Achat échoué";
+"successfully_purchased" = "Achat de %@ réussi !";
+"insufficient_gems" = "Gemmes insuffisantes";
+
+"no_description_available" = "Aucune description disponible";
+
+"app_title" = "RPG Your Life";
+
+"item_not_unlocked" = "Objet non débloqué";
+"item_not_owned" = "Objet non possédé par cet utilisateur";
+"item_category_mismatch" = "La catégorie de l’objet ne correspond pas à l’emplacement";
+"max_accessories_exceeded" = "Maximum de 3 accessoires équipés";
+
+"damage_calculation_result" = "Résultat du calcul des dégâts";
+
+"calculating" = "Calcul en cours...";
+"calculate_damage" = "Calculer les dégâts";
+"unknown_result" = "Résultat inconnu";
+"error_prefix" = "Erreur : ";
+"damage_applied_message" = "%d dégâts appliqués à ta santé pour des quêtes manquées.";
+"no_damage_calculated_message" = "Aucun dégât calculé. Toutes les quêtes sont à jour !";
+"days_overdue" = "%d jour(s) de retard";
+
+"focus_timer_complete" = "Minuteur de focus terminé !";
+"session_finished" = "Ta session de %@ est terminée.";
+
+"difficulty_must_be_between_1_and_5" = "La difficulté doit être comprise entre 1 et 5.";
+"due_date_cannot_be_earlier_than_creation" = "La date d’échéance ne peut pas être antérieure à la date de création.";
+
+"quest_reminder_title" = "Voyageur, n’oublie pas ta quête !";
+
+"others" = "Autres";
+
+"attack" = "Attaque";
+"defense" = "Défense";
+"focus" = "Concentration";
+"luck" = "Chance";
+"speed" = "Vitesse";
+"critical_chance" = "Chance de critique";
+"critical_damage" = "Dégâts critiques";
+"xp_boost" = "Bonus d’XP";
+"coin_boost" = "Bonus de pièces";
+"health_regeneration" = "Régénération de santé";
+"focus_regeneration" = "Régénération de concentration";
+
+"hair_color_brown" = "Châtain";
+"hair_color_black" = "Noir";
+"hair_color_blonde" = "Blond";
+"hair_color_red" = "Roux";
+"hair_color_dark_brown" = "Brun foncé";
+
+"eye_color_black" = "Noir";
+"eye_color_blue" = "Bleu";
+"eye_color_green" = "Vert";
+
+"body_white" = "Clair";
+"body_blue" = "Bleu";
+"body_tan" = "Hâlé";
+"body_tan_2" = "Hâlé moyen";
+"body_tan_3" = "Hâlé foncé";
+"body_purple" = "Violet";
+"body_dark_1" = "Foncé";
+"body_dark_2" = "Très foncé";
+"body_green" = "Vert";
+
+"steel_guardian" = "Gardien d’acier";
+"steel_guardian_description" = "Armure d’acier supérieure aux gravures raffinées. Défense inégalée.";
+"noble_gown" = "Robe noble";
+"noble_gown_description" = "Robe élégante digne de la royauté. Soies fines et gemmes précieuses.";
+"infernal_armor" = "Armure infernale";
+"infernal_armor_description" = "Armure forgée dans les flammes des enfers. Rayonne d’une énergie sombre et puissante.";
+"shadow_cloak" = "Cape d’ombre";
+"shadow_cloak_description" = "Une cape qui semble absorber la lumière. Parfaite pour la discrétion.";
+"crimson_vestments" = "Habits cramoisis";
+"crimson_vestments_description" = "Vêtements rouges somptueux qui imposent le respect. Portés par les figures d’autorité.";
+"travelers_cloak" = "Cape du voyageur";
+"travelers_cloak_description" = "Cape pratique pour les longs trajets. Offre chaleur et protection contre les éléments.";
+
+"mustache_1_brown" = "Classique brun";
+"mustache_1_black" = "Classique noir";
+"mustache_1_blonde" = "Classique blond";
+"mustache_1_dark_brown" = "Classique brun foncé";
+"mustache_2_brown" = "Guidon brun";
+"mustache_2_black" = "Guidon noir";
+"mustache_2_blonde" = "Guidon blond";
+"mustache_2_dark_brown" = "Guidon brun foncé";
+
+"analytics" = "Analytique";
+"analytics_time_period" = "Période";
+"analytics_period_week" = "Semaine";
+"analytics_period_month" = "Mois";
+"analytics_period_quarter" = "Trimestre";
+"analytics_period_year" = "Année";
+"analytics_period_all_time" = "Depuis le début";
+"analytics_loading" = "Chargement des analyses";
+"analytics_loading_description" = "Collecte de tes insights et recommandations personnalisés...";
+"analytics_empty_title" = "Aucune analyse disponible";
+"analytics_empty_description" = "Accomplis des quêtes pour voir tes analyses et insights personnalisés.";
+"analytics_refresh" = "Rafraîchir";
+"analytics_last_updated" = "Dernière mise à jour :";
+"analytics_filters" = "Filtres";
+"analytics_filters_title" = "Filtres d’analyse";
+
+"analytics_quest_performance" = "Performance des quêtes";
+"analytics_performance_score" = "Score de performance";
+"analytics_total_quests" = "Total de quêtes";
+"total" = "Total";
+"analytics_total" = "Total";
+"analytics_finished_quests" = "Terminées";
+"analytics_partially_completed_quests" = "Partiellement terminées";
+"analytics_partial_completion_rate" = "Taux de complétion partielle";
+"analytics_completion_rate" = "Taux de complétion";
+"analytics_completion_progress" = "Progression de complétion";
+"analytics_performance_insights" = "Insights de performance";
+"analytics_avg_completion_time" = "Temps moyen de complétion";
+"analytics_most_productive_hour" = "Heure la plus productive";
+"analytics_preferred_difficulty" = "Difficulté préférée";
+"analytics_difficulty_success_rates" = "Taux de réussite par difficulté";
+"analytics_no_data" = "Pas de données";
+"analytics_time_hours_minutes" = "{hours}h {minutes}m";
+"analytics_time_minutes" = "{minutes}m";
+
+"analytics_progression_overview" = "Vue d’ensemble de la progression";
+"analytics_level_progress" = "Progression de niveau";
+"analytics_level_up_rate" = "Taux de montée de niveau";
+"analytics_total_coins" = "Total des pièces";
+"analytics_total_gems" = "Total des gemmes";
+"analytics_currency_analytics" = "Analyses de monnaie";
+"analytics_avg_coins_per_quest" = "Moy. pièces/quête";
+"analytics_avg_gems_per_quest" = "Moy. gemmes/quête";
+"analytics_earning_rate" = "Taux de gains";
+"analytics_achievements" = "Succès";
+"analytics_achievement_progress" = "Progression des succès";
+"analytics_recent_achievements" = "Succès récents";
+"analytics_next_achievements" = "Prochains succès";
+
+"analytics_streak_insights" = "Insights de séries";
+"analytics_current_streak" = "Série actuelle";
+"analytics_longest_streak" = "Plus longue série";
+"analytics_avg_streak" = "Série moy.";
+"analytics_streak_insights_details" = "Détails de la série";
+"analytics_best_streak_day" = "Meilleur jour de série";
+"analytics_common_break_day" = "Jour d’interruption le plus courant";
+"analytics_streak_motivation" = "Motivation de série";
+"analytics_streak_motivation_record" = "🔥 Tu es en feu ! C’est ta plus longue série. Continue !";
+"analytics_streak_motivation_halfway" = "Tu es à mi-chemin de ton record ! Tu peux le faire !";
+"analytics_streak_motivation_keep_going" = "Super départ ! Continue à bâtir ton élan.";
+
+"analytics_engagement_metrics" = "Mesures d’engagement";
+"analytics_engagement_score" = "Score d’engagement";
+"analytics_sessions_per_week" = "Sessions/semaine";
+"analytics_avg_session" = "Session moy.";
+"analytics_app_opens" = "Ouvertures de l’app";
+"analytics_activity_patterns" = "Schémas d’activité";
+"analytics_most_active_day" = "Jour le plus actif";
+"analytics_most_active_hour" = "Heure la plus active";
+"analytics_feature_usage" = "Utilisation des fonctionnalités";
+
+"analytics_customization_preferences" = "Préférences de personnalisation";
+"analytics_customization_score" = "Score de personnalisation";
+"analytics_customization_frequency" = "Fréquence de personnalisation";
+"analytics_last_customization" = "Dernière personnalisation";
+"analytics_preferences" = "Préférences";
+"analytics_most_used_preset" = "Préréglage le plus utilisé";
+"analytics_preferred_colors" = "Couleurs préférées";
+"analytics_preferred_accessories" = "Accessoires préférés";
+"analytics_customization_tips" = "Conseils de personnalisation";
+"analytics_customization_tip_new" = "Essaie de personnaliser ton personnage pour rendre ton aventure plus personnelle !";
+"analytics_customization_tip_occasional" = "Tu personnalises parfois ton personnage. Teste de nouveaux looks pour changer !";
+"analytics_customization_tip_active" = "Tu es très actif en personnalisation ! Ton héros a la classe !";
+"analytics_never" = "Jamais";
+
+"analytics_recommendations" = "Recommandations personnalisées";
+"analytics_no_recommendations_title" = "Tout est à jour !";
+"analytics_no_recommendations_description" = "Tu t’en sors très bien ! Aucune recommandation pour le moment.";
+"analytics_priority_high" = "ÉLEVÉE";
+
+"analytics_recommendation_create_more_quests_title" = "Crée plus de quêtes";
+"analytics_recommendation_create_more_quests_description" = "Tu as peu de quêtes. En créer davantage t’aidera à construire de meilleures habitudes et à suivre ta progression.";
+"analytics_recommendation_difficulty_title" = "Ajuste la difficulté";
+"analytics_recommendation_difficulty_description" = "Tu peines avec la difficulté actuelle. Essaie de la réduire pour améliorer ton taux de complétion.";
+"analytics_recommendation_increase_difficulty_title" = "Augmente la difficulté";
+"analytics_recommendation_increase_difficulty_description" = "Tu gères très bien la difficulté actuelle ! Augmente le défi pour gagner plus de récompenses.";
+"analytics_recommendation_streak_title" = "Commence une nouvelle série";
+"analytics_recommendation_streak_description" = "Ta série s’est arrêtée. Relance-en une aujourd’hui pour retrouver l’élan.";
+"analytics_recommendation_streak_continue_title" = "Poursuis ta série";
+"analytics_recommendation_streak_continue_description" = "Tu bâtis une belle série ! Continue pour atteindre ton record.";
+"analytics_recommendation_achievements_title" = "Débloque plus de succès";
+"analytics_recommendation_achievements_description" = "Beaucoup de succès restent à débloquer. Termine différents types de quêtes pour en gagner davantage.";
+"analytics_recommendation_timing_title" = "Moment idéal pour les quêtes";
+"analytics_recommendation_timing_description" = "C’est ton heure la plus productive ! Crée ou termine des quêtes maintenant pour de meilleurs résultats.";
+
+"analytics_dashboard" = "Tableau de bord analytique";
+"analytics_tab_overview" = "Aperçu";
+"analytics_tab_performance" = "Performance";
+"analytics_tab_patterns" = "Schémas";
+"analytics_tab_recommendations" = "Recommandations";
+"analytics_performance_overview" = "Aperçu des performances";
+"analytics_streak_status" = "Statut de série";
+"analytics_recent_activity" = "Activité récente";
+"analytics_quick_actions" = "Actions rapides";
+"analytics_last_quest_completed" = "Dernière quête terminée";
+"analytics_new_quest_created" = "Nouvelle quête créée";
+"analytics_level_up" = "Montée de niveau !";
+"analytics_view_details" = "Voir les détails";
+
+"analytics_quest_performance_chart" = "Graphique de performance des quêtes";
+"analytics_difficulty_analysis" = "Analyse de la difficulté";
+"analytics_completion_trends" = "Tendances de complétion";
+"analytics_productivity_heatmap" = "Carte de chaleur de productivité";
+"analytics_time_analysis" = "Analyse temporelle";
+"analytics_customization_patterns" = "Schémas de personnalisation";
+"analytics_priority_recommendations" = "Recommandations prioritaires";
+"analytics_improvement_suggestions" = "Suggestions d’amélioration";
+"analytics_goal_setting" = "Définition d’objectifs";
+
+"adjust_difficulty" = "Ajuster la difficulté";
+"increase_difficulty" = "Augmenter la difficulté";
+"start_streak" = "Commencer une série";
+"continue_streak" = "Poursuivre la série";
+"view_achievements" = "Voir les succès";
+"create_quest_now" = "Créer une quête maintenant";
+
+"gear_slot_head" = "TÊTE";
+"gear_slot_weapon" = "ARME";
+"gear_slot_shield" = "BOUCLIER";
+"gear_slot_outfit" = "TENUE";
+"gear_slot_wings" = "AILLES";
+"gear_slot_pet" = "ANIMAL";
+
+"shop_category_weapons" = "Armes";
+"shop_category_armor" = "Armures";
+"shop_category_wings" = "Ailes";
+"shop_category_pets" = "Animaux";
+"shop_category_consumables" = "Consommables";
+
+"armor_subcategory_helmet" = "Casque";
+"armor_subcategory_outfit" = "Tenue";
+"armor_subcategory_shield" = "Bouclier";
+
+"consumable_subcategory_potions" = "Potions";
+"consumable_subcategory_boosts" = "Boosts";
+
+"analytics_partial_finished" = "Partiellement terminé";
+"analytics_detailed_view_title" = "Vue détaillée de %@";
+"analytics_detailed_view_description" = "Cela affichera des analyses détaillées pour %@";
+
+"achievement_first_steps_title" = "Premiers pas";
+"achievement_streak_master_title" = "Maître des séries";
+"achievement_streak_master_description" = "Maintenir une série de 7 jours";
+"achievement_quest_master_title" = "Maître des quêtes";
+"achievement_level_up_title" = "Niveau supérieur";
+
+"recommendation_create_more_quests_title" = "Crée plus de quêtes";
+"recommendation_create_more_quests_description" = "Tu progresses bien ! Essaie de créer plus de quêtes pour améliorer ta productivité.";
+"recommendation_create_quest_action" = "Créer une quête";
+
+"restores_health_amount" = "Restaure %d Santé";
+"xp_boost_percentage_duration" = "Boost XP %d%% (%@)";
+"coin_boost_percentage_duration" = "Boost pièces %d%% (%@)";
+
+"accessory_equipped" = "Accessoire équipé";
+"armor_equipped" = "Armure équipée";
+"attack_success" = "Attaque réussie !";
+"beard_1_black" = "Barbe noire 1";
+"beard_1_blonde" = "Barbe blonde 1";
+"beard_1_brown" = "Barbe brune 1";
+"beard_2_black" = "Barbe noire 2";
+"beard_2_blonde" = "Barbe blonde 2";
+"beard_2_brown" = "Barbe brune 2";
+"body_dark" = "Peau foncée";
+"body_light" = "Peau claire";
+"body_medium" = "Peau moyenne";
+"boost_active" = "Boost actif";
+"boost_applied" = "Boost appliqué";
+"boost_duration_remaining" = "Durée de boost restante";
+"boost_expired" = "Boost expiré";
+"booster_shop" = "Boutique de boosts";
+"coin_multiplier" = "Multiplicateur de pièces";
+"connection_successful" = "Connexion réussie";
+"critical_hit" = "Coup critique !";
+"daily_bonus_received" = "Bonus quotidien reçu";
+"damage_calculation_in_progress" = "Calcul des dégâts en cours...";
+"damage_log" = "Journal des dégâts";
+"damage_prevention_failed" = "Échec de prévention des dégâts";
+"damage_prevention_success" = "Prévention des dégâts réussie";
+"damage_report" = "Rapport de dégâts";
+"defense_success" = "Défense réussie !";
+"event_ended" = "Événement terminé";
+"event_reward_claimed" = "Récompense d’événement réclamée";
+"event_started" = "Événement commencé";
+"eye_color_aqua" = "Yeux aqua";
+"eye_color_brown" = "Yeux bruns";
+"eye_color_gray" = "Yeux gris";
+"eye_color_hazel" = "Yeux noisette";
+"eye_color_purple" = "Yeux violets";
+"eye_color_yellow" = "Yeux jaunes";
+"hair_color_blue" = "Cheveux bleus";
+"hair_color_gray" = "Cheveux gris";
+"hair_color_green" = "Cheveux verts";
+"hair_color_orange" = "Cheveux orange";
+"hair_color_pink" = "Cheveux roses";
+"hair_color_purple" = "Cheveux violets";
+"hair_color_silver" = "Cheveux argentés";
+"hair_color_white" = "Cheveux blancs";
+"helmet_equipped" = "Casque équipé";
+"insufficient_coins" = "Pièces insuffisantes";
+"level_up_message" = "Niveau supérieur !";
+"loading_completed" = "Chargement terminé";
+"loading_resources" = "Chargement des ressources...";
+"missed_attack" = "Attaque manquée !";
+"monthly_bonus_received" = "Bonus mensuel reçu";
+"mustache_3_black" = "Moustache noire 3";
+"mustache_3_blonde" = "Moustache blonde 3";
+"mustache_3_brown" = "Moustache brune 3";
+"outfit_black" = "Tenue noire";
+"outfit_blue" = "Tenue bleue";
+"outfit_green" = "Tenue verte";
+"outfit_purple" = "Tenue violette";
+"outfit_red" = "Tenue rouge";
+"outfit_white" = "Tenue blanche";
+"quest_bonus_received" = "Bonus de quête reçu";
+"quest_damage_critical" = "Dégâts critiques !";
+"quest_damage_reduced" = "Dégâts réduits";
+"quest_damage_taken" = "Dégâts de quête subis";
+"quest_no_damage" = "Aucun dégât subi";
+"quest_progress_saved" = "Progression de quête sauvegardée";
+"quest_success" = "Quête réussie";
+"retry_connection" = "Réessayer la connexion";
+"reward_available" = "Récompense disponible";
+"reward_claimed" = "Récompense réclamée";
+"reward_locked" = "Récompense verrouillée";
+"reward_unlocked" = "Récompense débloquée";
+"shield_equipped" = "Bouclier équipé";
+"shop_purchase_failed" = "Échec d’achat en boutique";
+"shop_purchase_success" = "Achat en boutique réussi";
+"system_update_available" = "Mise à jour système disponible";
+"update_failed" = "Échec de la mise à jour";
+"update_later" = "Mettre à jour plus tard";
+"update_now" = "Mettre à jour maintenant";
+"weapon_equipped" = "Arme équipée";
+"weekly_bonus_received" = "Bonus hebdomadaire reçu";
+"xp_multiplier" = "Multiplicateur d’XP";
+
+"tutorial_welcome_title" = "Bienvenue, Aventurier ! ✨";
+"tutorial_welcome_subtitle" = "Suis tes habitudes comme des quêtes épiques.";
+"tutorial_create_quests_title" = "Transforme tes tâches quotidiennes en quêtes.";
+"tutorial_complete_rewards_title" = "Accomplis & gagne des récompenses";
+"tutorial_complete_rewards_subtitle" = "Termine des quêtes pour gagner de l’or et des gemmes !";
+"tutorial_grow_character_title" = "Fais grandir ton personnage";
+"tutorial_grow_character_subtitle" = "Monte ton héros de niveau en améliorant tes habitudes.";
+"tutorial_gear_legend_title" = "Transforme ton héros en légende";
+"tutorial_gear_legend_subtitle" = "Passe par la boutique pour des équipements";
+"tutorial_next" = "Suivant";
+"tutorial_skip" = "Ignorer";
+"tutorial_get_started" = "Commencer";
+"tutorial_skip_tutorial" = "Ignorer le tutoriel";

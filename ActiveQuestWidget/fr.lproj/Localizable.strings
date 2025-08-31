@@ -1,0 +1,28 @@
+// MARK: - Focus Timer
+"focus_timer" = "Minuteur de Focus";
+"remaining" = "restant";
+"complete" = "terminé";
+"percent_complete" = "% terminé";
+
+// MARK: - Widget
+"active_quest" = "Quête active";
+"no_active_quests" = "Aucune quête active";
+"all_quests_completed" = "Toutes les quêtes terminées !";
+"start_your_adventure" = "Commence ton aventure";
+"create_your_first_quest" = "Crée ta première quête";
+"overdue" = "En retard !";
+"due_today" = "À faire aujourd’hui";
+"due_tomorrow" = "À faire demain";
+"days_left" = "jours restants";
+"untitled_quest" = "Quête sans titre";
+"progress" = "Progression";
+"widget_description" = "Suis la progression et les échéances de ta quête actuelle.";
+
+// MARK: - Daily Quest Summary Widget
+"daily_quests" = "Quêtes quotidiennes";
+"quests_completed" = "quêtes terminées";
+"more_quests" = "autres quêtes";
+"daily_quest_summary" = "Résumé des quêtes quotidiennes";
+"daily_quest_widget_description" = "Suis tes quêtes quotidiennes et ta progression.";
+"done_for_today" = "Terminé pour aujourd’hui !";
+"all_quests_completed_today" = "Toutes les quêtes du jour sont terminées";

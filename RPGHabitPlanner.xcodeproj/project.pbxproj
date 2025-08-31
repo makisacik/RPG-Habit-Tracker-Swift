@@ -333,6 +333,7 @@
 				Base,
 				tr,
 				ja,
+				fr,
 			);
 			mainGroup = 3290C1DC2CCCD5C3008B92F4;
 			minimizedProjectReferenceProxies = 1;

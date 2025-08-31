@@ -866,6 +866,7 @@
 "language_english" = "英語";
 "language_turkish" = "トルコ語";
 "language_japanese" = "日本語";
+"language_french" = "フランス語";
 
 // MARK: - Shop Categories
 "shop_category_weapons_description" = "戦闘用の強力な武器";
