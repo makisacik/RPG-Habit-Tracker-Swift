@@ -37,13 +37,21 @@ final class QuestDamageTrackingManager: ObservableObject {
     
     /// Calculate damage for all active quests and apply it to the player's health
     func calculateAndApplyQuestDamage(completion: @escaping (Int, Error?) -> Void) {
+        calculateAndApplyQuestDamageDetailed { totalDamage, _, error in
+            completion(totalDamage, error)
+        }
+    }
+    
+    /// Calculate detailed damage for all active quests and apply it to the player's health
+    func calculateAndApplyQuestDamageDetailed(completion: @escaping (Int, [DetailedDamageItem], Error?) -> Void) {
         guard !isCalculatingDamage else {
-            completion(0, NSError(domain: "", code: 409, userInfo: [NSLocalizedDescriptionKey: "Damage calculation already in progress"]))
+            completion(0, [], NSError(domain: "", code: 409, userInfo: [NSLocalizedDescriptionKey: "Damage calculation already in progress"]))
             return
         }
         
         isCalculatingDamage = true
         var totalDamage = 0
+        var detailedDamageItems: [DetailedDamageItem] = []
         var calculationErrors: [Error] = []
         
         // Get all active quests
@@ -53,7 +61,7 @@ final class QuestDamageTrackingManager: ObservableObject {
             if let error = error {
                 DispatchQueue.main.async {
                     self.isCalculatingDamage = false
-                    completion(0, error)
+                    completion(0, [], error)
                 }
                 return
             }
@@ -64,7 +72,7 @@ final class QuestDamageTrackingManager: ObservableObject {
                 DispatchQueue.main.async {
                     self.isCalculatingDamage = false
                     self.lastDamageCalculationDate = Date()
-                    completion(0, nil)
+                    completion(0, [], nil)
                 }
                 return
             }
@@ -74,11 +82,12 @@ final class QuestDamageTrackingManager: ObservableObject {
             for quest in activeQuests {
                 group.enter()
                 
-                self.calculateDamageForQuest(quest) { damageAmount, error in
+                self.calculateDetailedDamageForQuest(quest) { detailedItem, error in
                     if let error = error {
                         calculationErrors.append(error)
-                    } else {
-                        totalDamage += damageAmount
+                    } else if let detailedItem = detailedItem {
+                        totalDamage += detailedItem.damageAmount
+                        detailedDamageItems.append(detailedItem)
                     }
                     group.leave()
                 }
@@ -101,13 +110,13 @@ final class QuestDamageTrackingManager: ObservableObject {
                             }
                             
                             let finalError = calculationErrors.isEmpty ? nil : calculationErrors.first
-                            completion(cappedDamage, finalError)
+                            completion(cappedDamage, detailedDamageItems, finalError)
                         }
                     }
                 } else {
                     self.isCalculatingDamage = false
                     self.lastDamageCalculationDate = Date()
-                    completion(0, calculationErrors.isEmpty ? nil : calculationErrors.first)
+                    completion(0, detailedDamageItems, calculationErrors.isEmpty ? nil : calculationErrors.first)
                 }
             }
         }
@@ -115,12 +124,19 @@ final class QuestDamageTrackingManager: ObservableObject {
     
     /// Calculate damage for a specific quest
     func calculateDamageForQuest(_ quest: Quest, completion: @escaping (Int, Error?) -> Void) {
+        calculateDetailedDamageForQuest(quest) { detailedResult, error in
+            completion(detailedResult?.damageAmount ?? 0, error)
+        }
+    }
+    
+    /// Calculate detailed damage for a specific quest
+    func calculateDetailedDamageForQuest(_ quest: Quest, completion: @escaping (DetailedDamageItem?, Error?) -> Void) {
         // Get or create damage tracker for this quest
         damageTrackingService.fetchDamageTracker(for: quest.id) { [weak self] tracker, error in
             guard let self = self else { return }
             
             if let error = error {
-                completion(0, error)
+                completion(nil, error)
                 return
             }
             
@@ -139,22 +155,40 @@ final class QuestDamageTrackingManager: ObservableObject {
                 lastDamageCheckDate: lastCheckDate
             )
             
+            // Create detailed damage item
+            let detailedItem = DetailedDamageItem(
+                questTitle: quest.title,
+                damageAmount: result.damageAmount,
+                reason: result.reason,
+                questType: quest.repeatType.rawValue
+            )
+            
             // If there's damage to apply, update the tracker and record the event
             if result.damageAmount > 0 {
                 self.updateDamageTrackerAndRecordEvent(
                     quest: quest,
                     tracker: tracker,
-                    result: result,
-                    completion: completion
-                )
+                    result: result
+                ) { _, error in
+                    if let error = error {
+                        completion(nil, error)
+                    } else {
+                        completion(detailedItem, nil)
+                    }
+                }
             } else {
                 // No damage, but still update the last check date
                 self.updateDamageTrackerLastCheckDate(
                     quest: quest,
                     tracker: tracker,
-                    newLastCheckDate: result.newLastCheckDate,
-                    completion: completion
-                )
+                    newLastCheckDate: result.newLastCheckDate
+                ) { _, error in
+                    if let error = error {
+                        completion(nil, error)
+                    } else {
+                        completion(nil, nil) // No damage taken
+                    }
+                }
             }
         }
     }

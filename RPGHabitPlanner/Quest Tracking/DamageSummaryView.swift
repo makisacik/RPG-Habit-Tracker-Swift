@@ -15,6 +15,7 @@ struct DamageSummaryView: View {
     @State private var damageNumberOpacity: Double = 0
     @State private var cardOffset: CGFloat = 50
     @State private var cardOpacity: Double = 0
+    @State private var showDetailedModal = false
     
     var body: some View {
         let theme = themeManager.activeTheme
@@ -93,15 +94,14 @@ struct DamageSummaryView: View {
             .offset(y: cardOffset)
             .opacity(cardOpacity)
             
-            // Action Buttons
-            VStack(spacing: 12) {
+            // Action Button
+            if !damageData.detailedDamage.isEmpty {
                 Button(action: {
-                    // Navigate to damage history or quest management
-                    onDismiss()
+                    showDetailedModal = true
                 }) {
                     HStack {
-                        Image(systemName: "chart.line.uptrend.xyaxis")
-                        Text("View Damage History")
+                        Image(systemName: "list.bullet.clipboard.fill")
+                        Text("View Damage Details")
                     }
                     .font(.appFont(size: 16, weight: .semibold))
                     .foregroundColor(.white)
@@ -110,25 +110,7 @@ struct DamageSummaryView: View {
                     .background(theme.accentColor)
                     .cornerRadius(12)
                 }
-                
-                Button(action: {
-                    // Navigate to active quests
-                    onDismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "list.bullet.clipboard")
-                        Text("Manage Quests")
-                    }
-                    .font(.appFont(size: 16, weight: .medium))
-                    .foregroundColor(theme.accentColor)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(theme.accentColor.opacity(0.1))
-                    .cornerRadius(12)
-                }
             }
-            .offset(y: cardOffset)
-            .opacity(cardOpacity)
             
             Spacer()
         }
@@ -149,6 +131,10 @@ struct DamageSummaryView: View {
                 damageNumberScale = 1.0
                 damageNumberOpacity = 1
             }
+        }
+        .sheet(isPresented: $showDetailedModal) {
+            DetailedDamageModalView(damageData: damageData)
+                .environmentObject(themeManager)
         }
     }
     

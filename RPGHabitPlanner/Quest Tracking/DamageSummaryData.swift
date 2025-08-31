@@ -13,4 +13,13 @@ struct DamageSummaryData {
     let damageDate: Date
     let questsAffected: Int
     let message: String
+    let detailedDamage: [DetailedDamageItem] // New: Detailed breakdown of damage
+}
+
+/// Individual damage item with quest details
+struct DetailedDamageItem {
+    let questTitle: String
+    let damageAmount: Int
+    let reason: String
+    let questType: String
 }

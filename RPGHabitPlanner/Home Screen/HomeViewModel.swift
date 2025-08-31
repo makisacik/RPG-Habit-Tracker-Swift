@@ -256,7 +256,7 @@ class HomeViewModel: ObservableObject {
 
         let damageTrackingManager = QuestDamageTrackingManager.shared
 
-        damageTrackingManager.calculateAndApplyQuestDamage { [weak self] totalDamage, error in
+        damageTrackingManager.calculateAndApplyQuestDamageDetailed { [weak self] totalDamage, detailedDamage, error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.isCheckingDamage = false
@@ -275,14 +275,15 @@ class HomeViewModel: ObservableObject {
                 if cappedDamage > 0 {
                     print("⚠️ HomeViewModel: Applied \(cappedDamage) damage for missed quests (capped from \(totalDamage))")
 
-                    // Create damage summary data
+                    // Create damage summary data with detailed breakdown
                     let summaryData = DamageSummaryData(
                         totalDamage: cappedDamage,
                         damageDate: Date(),
-                        questsAffected: self.getAffectedQuestsCount(),
+                        questsAffected: detailedDamage.count,
                         message: cappedDamage < totalDamage ?
                             "You took \(cappedDamage) damage (capped from \(totalDamage)) from missed quests!" :
-                            "You took \(cappedDamage) damage from missed quests!"
+                            "You took \(cappedDamage) damage from missed quests!",
+                        detailedDamage: detailedDamage
                     )
 
                     self.damageSummaryData = summaryData
@@ -303,7 +304,7 @@ class HomeViewModel: ObservableObject {
 
         let damageTrackingManager = QuestDamageTrackingManager.shared
 
-        damageTrackingManager.calculateAndApplyQuestDamage { [weak self] totalDamage, error in
+        damageTrackingManager.calculateAndApplyQuestDamageDetailed { [weak self] totalDamage, detailedDamage, error in
             DispatchQueue.main.async {
                 self?.isCheckingDamage = false
 
@@ -319,8 +320,9 @@ class HomeViewModel: ObservableObject {
                     let damageData = DamageSummaryData(
                         totalDamage: totalDamage,
                         damageDate: Date(),
-                        questsAffected: 1, // This would be calculated from actual quests
-                        message: "You took \(totalDamage) damage from missed quests!"
+                        questsAffected: detailedDamage.count,
+                        message: "You took \(totalDamage) damage from missed quests!",
+                        detailedDamage: detailedDamage
                     )
 
                     self?.damageSummaryData = damageData
@@ -333,7 +335,8 @@ class HomeViewModel: ObservableObject {
                         totalDamage: 0,
                         damageDate: Date(),
                         questsAffected: 0,
-                        message: "Great job! All your quests are completed on time."
+                        message: "Great job! All your quests are completed on time.",
+                        detailedDamage: []
                     )
 
                     self?.damageSummaryData = damageData

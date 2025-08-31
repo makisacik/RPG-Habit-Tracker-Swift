@@ -147,40 +147,86 @@ struct DamageHistoryView: View {
 struct DamageEventRow: View {
     let event: DamageEvent
     let theme: Theme
+    @State private var isExpanded = false
     
     var body: some View {
-        HStack(spacing: 12) {
-            // Damage icon
-            VStack {
-                Image(systemName: "heart.fill")
-                    .foregroundColor(.red)
-                    .font(.title3)
+        VStack(spacing: 0) {
+            // Main row content
+            HStack(spacing: 12) {
+                // Damage icon
+                VStack {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.red)
+                        .font(.title3)
+                    
+                    Text("\(event.damageAmount)")
+                        .font(.appFont(size: 12, weight: .bold))
+                        .foregroundColor(.red)
+                }
+                .frame(width: 40)
                 
-                Text("\(event.damageAmount)")
-                    .font(.appFont(size: 12, weight: .bold))
-                    .foregroundColor(.red)
-            }
-            .frame(width: 40)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(event.reason)
-                    .font(.appFont(size: 14, weight: .medium))
-                    .foregroundColor(theme.textColor)
-                    .lineLimit(2)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(event.reason)
+                        .font(.appFont(size: 14, weight: .medium))
+                        .foregroundColor(theme.textColor)
+                        .lineLimit(isExpanded ? nil : 2)
+                    
+                    Text(formatDate(event.date))
+                        .font(.appFont(size: 12))
+                        .foregroundColor(theme.textColor.opacity(0.6))
+                }
                 
-                Text(formatDate(event.date))
-                    .font(.appFont(size: 12))
-                    .foregroundColor(theme.textColor.opacity(0.6))
+                Spacer()
+                
+                // Expand/collapse button
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        isExpanded.toggle()
+                    }
+                }) {
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption)
+                        .foregroundColor(theme.textColor.opacity(0.6))
+                        .frame(width: 20, height: 20)
+                        .background(
+                            Circle()
+                                .fill(theme.textColor.opacity(0.1))
+                        )
+                }
             }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.red.opacity(0.05))
+            )
             
-            Spacer()
+            // Expanded content
+            if isExpanded {
+                VStack(alignment: .leading, spacing: 8) {
+                    Divider()
+                        .background(theme.textColor.opacity(0.2))
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Full Reason")
+                            .font(.appFont(size: 12, weight: .semibold))
+                            .foregroundColor(theme.textColor.opacity(0.8))
+                        
+                        Text(event.reason)
+                            .font(.appFont(size: 13))
+                            .foregroundColor(theme.textColor.opacity(0.7))
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.bottom, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.red.opacity(0.03))
+                )
+            }
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.red.opacity(0.05))
-        )
         .listRowBackground(Color.clear)
         .listRowSeparator(.hidden)
     }
