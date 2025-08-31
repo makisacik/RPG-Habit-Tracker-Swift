@@ -261,18 +261,24 @@ class MockInventoryService: InventoryServiceProtocol {
         return items
     }
 
-    func addItem(name: String, info: String, iconName: String, itemType: String?, gearCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
+    func addItem(name: String, info: String, iconName: String, previewImage: String?, itemType: String?, gearCategory: String?, accessoryCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
         let item = ItemEntity()
         item.name = name
         item.info = info
         item.iconName = iconName
+        item.previewImage = previewImage
         item.itemType = itemType
         item.gearCategory = gearCategory
+        item.accessoryCategory = accessoryCategory
         item.rarity = rarity
         item.value = value
         item.collectionCategory = collectionCategory
         item.isRare = isRare
         items.append(item)
+    }
+
+    func addItem(name: String, info: String, iconName: String, itemType: String?, gearCategory: String?, rarity: String?, value: Int32, collectionCategory: String?, isRare: Bool) {
+        addItem(name: name, info: info, iconName: iconName, previewImage: nil, itemType: itemType, gearCategory: gearCategory, accessoryCategory: nil, rarity: rarity, value: value, collectionCategory: collectionCategory, isRare: isRare)
     }
 
     func removeItem(_ item: ItemEntity) {

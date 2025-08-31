@@ -87,9 +87,10 @@ final class QuestDamageTrackingManager: ObservableObject {
             group.notify(queue: .main) { [weak self] in
                 guard let self = self else { return }
                 
-                // Apply total damage to player health
-                if totalDamage > 0 {
-                    self.healthManager.takeDamage(Int16(totalDamage)) { error in
+                // Apply damage cap and total damage to player health
+                let cappedDamage = min(totalDamage, QuestDamageConstants.maxDamagePerSession)
+                if cappedDamage > 0 {
+                    self.healthManager.takeDamage(Int16(cappedDamage)) { error in
                         DispatchQueue.main.async {
                             self.isCalculatingDamage = false
                             self.lastDamageCalculationDate = Date()
@@ -100,7 +101,7 @@ final class QuestDamageTrackingManager: ObservableObject {
                             }
                             
                             let finalError = calculationErrors.isEmpty ? nil : calculationErrors.first
-                            completion(totalDamage, finalError)
+                            completion(cappedDamage, finalError)
                         }
                     }
                 } else {

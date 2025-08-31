@@ -18,6 +18,16 @@ class HomeViewModel: ObservableObject {
     @Published var recentActiveQuests: [Quest] = []
     @Published var recentAchievements: [AchievementDefinition] = []
 
+    // MARK: - Damage Tracking Properties
+    @Published var showDamageSummary = false
+    @Published var damageSummaryData: DamageSummaryData?
+    @Published var isCheckingDamage = false
+    
+    // Damage protection properties
+    private var lastDamageCheckDate: Date?
+    private let damageCheckCooldown: TimeInterval = 86400 // 24 hours cooldown (once per day)
+    private let maxDamagePerSession: Int = QuestDamageConstants.maxDamagePerSession // Maximum damage per session
+
     let userManager: UserManager
     let questDataService: QuestDataServiceProtocol
     private let achievementManager = AchievementManager.shared
@@ -216,5 +226,174 @@ class HomeViewModel: ObservableObject {
                 // No additional action needed here
             }
             .store(in: &cancellables)
+    }
+
+    // MARK: - Damage Tracking Methods
+
+    /// Check for damage on app launch and show summary if damage was taken
+    func checkForDamageOnAppLaunch() {
+        guard !isCheckingDamage else { return }
+        
+        // Check cooldown to prevent excessive damage
+        if let lastCheck = lastDamageCheckDate {
+            let calendar = Calendar.current
+            let isSameDay = calendar.isDate(lastCheck, inSameDayAs: Date())
+            
+            if isSameDay {
+                print("⏰ HomeViewModel: Damage already checked today, skipping...")
+                return
+            }
+            
+            // Also check 24-hour cooldown as backup
+            if Date().timeIntervalSince(lastCheck) < damageCheckCooldown {
+                print("⏰ HomeViewModel: Damage check on cooldown, skipping...")
+                return
+            }
+        }
+
+        isCheckingDamage = true
+        print("🔄 HomeViewModel: Checking for damage on app launch...")
+
+        let damageTrackingManager = QuestDamageTrackingManager.shared
+
+        damageTrackingManager.calculateAndApplyQuestDamage { [weak self] totalDamage, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.isCheckingDamage = false
+                
+                // Update last check date
+                self.lastDamageCheckDate = Date()
+
+                if let error = error {
+                    print("❌ HomeViewModel: Error calculating damage: \(error)")
+                    return
+                }
+
+                // Apply damage cap to prevent excessive damage
+                let cappedDamage = min(totalDamage, self.maxDamagePerSession)
+                
+                if cappedDamage > 0 {
+                    print("⚠️ HomeViewModel: Applied \(cappedDamage) damage for missed quests (capped from \(totalDamage))")
+
+                    // Create damage summary data
+                    let summaryData = DamageSummaryData(
+                        totalDamage: cappedDamage,
+                        damageDate: Date(),
+                        questsAffected: self.getAffectedQuestsCount(),
+                        message: cappedDamage < totalDamage ?
+                            "You took \(cappedDamage) damage (capped from \(totalDamage)) from missed quests!" :
+                            "You took \(cappedDamage) damage from missed quests!"
+                    )
+
+                    self.damageSummaryData = summaryData
+                    self.showDamageSummary = true
+                } else {
+                    print("✅ HomeViewModel: No damage calculated - all quests are up to date")
+                }
+            }
+        }
+    }
+
+    /// Manually check for damage (for testing purposes)
+    func manuallyCheckDamage() {
+        guard !isCheckingDamage else { return }
+
+        isCheckingDamage = true
+        print("🔄 HomeViewModel: Manually checking for damage...")
+
+        let damageTrackingManager = QuestDamageTrackingManager.shared
+
+        damageTrackingManager.calculateAndApplyQuestDamage { [weak self] totalDamage, error in
+            DispatchQueue.main.async {
+                self?.isCheckingDamage = false
+
+                if let error = error {
+                    print("❌ Error checking damage: \(error)")
+                    return
+                }
+
+                if totalDamage > 0 {
+                    print("💥 Damage taken: \(totalDamage)")
+
+                    // Create damage summary data
+                    let damageData = DamageSummaryData(
+                        totalDamage: totalDamage,
+                        damageDate: Date(),
+                        questsAffected: 1, // This would be calculated from actual quests
+                        message: "You took \(totalDamage) damage from missed quests!"
+                    )
+
+                    self?.damageSummaryData = damageData
+                    self?.showDamageSummary = true
+                } else {
+                    print("✅ No damage taken - all quests are up to date!")
+
+                    // Show a success message for testing
+                    let damageData = DamageSummaryData(
+                        totalDamage: 0,
+                        damageDate: Date(),
+                        questsAffected: 0,
+                        message: "Great job! All your quests are completed on time."
+                    )
+
+                    self?.damageSummaryData = damageData
+                    self?.showDamageSummary = true
+                }
+            }
+        }
+    }
+
+    /// Create a test quest for damage demonstration
+    func createTestQuestForDamage() {
+        let calendar = Calendar.current
+        let testDueDate = calendar.date(byAdding: .day, value: -3, to: Date())! // 3 days ago
+
+        let testQuest = Quest(
+            id: UUID(),
+            title: "Test Daily Quest",
+            isMainQuest: false,
+            info: "This is a test quest to demonstrate damage calculation",
+            difficulty: 1,
+            creationDate: Date(),
+            dueDate: testDueDate,
+            isActive: true,
+            progress: 0,
+            isCompleted: false,
+            completionDate: nil,
+            isFinished: false,
+            isFinishedDate: nil,
+            tasks: [],
+            repeatType: .daily,
+            completions: [], // No completions
+            tags: [],
+            showProgress: false,
+            scheduledDays: []
+        )
+
+        // Save the test quest
+        questDataService.saveQuest(testQuest, withTasks: []) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("❌ Failed to create test quest: \(error)")
+                } else {
+                    print("✅ Test quest created successfully")
+                    // Now check for damage
+                    self?.manuallyCheckDamage()
+                }
+            }
+        }
+    }
+
+    /// Get the count of quests that would be affected by damage calculation
+    private func getAffectedQuestsCount() -> Int {
+        // This is a simplified implementation
+        // In a real scenario, you'd query the damage tracking service
+        return activeQuestsCount
+    }
+
+    /// Dismiss the damage summary
+    func dismissDamageSummary() {
+        showDamageSummary = false
+        damageSummaryData = nil
     }
 }

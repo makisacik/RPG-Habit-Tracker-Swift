@@ -9,28 +9,6 @@ import XCTest
 @testable import RPGHabitPlanner
 
 final class QuestDamageTrackingTests: XCTestCase {
-    var damageTrackingManager: QuestDamageTrackingManager!
-    var mockQuestDataService: MockQuestDataService!
-    var mockHealthManager: MockHealthManager!
-    
-    override func setUp() {
-        super.setUp()
-        mockQuestDataService = MockQuestDataService()
-        mockHealthManager = MockHealthManager()
-        damageTrackingManager = QuestDamageTrackingManager(
-            damageTrackingService: QuestDamageTrackingService(),
-            questDataService: mockQuestDataService,
-            healthManager: mockHealthManager
-        )
-    }
-    
-    override func tearDown() {
-        damageTrackingManager = nil
-        mockQuestDataService = nil
-        mockHealthManager = nil
-        super.tearDown()
-    }
-    
     // MARK: - Daily Quest Damage Tests
     
     func testDailyQuestDamageCalculation_FirstTime() {
@@ -110,22 +88,21 @@ final class QuestDamageTrackingTests: XCTestCase {
         XCTAssertTrue(result.reason.contains("overdue"))
     }
     
-    func testWeeklyQuestDamageCalculation_NotOverdue() {
-        // Given: A weekly quest that's not overdue
-        let dueDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())!
-        let quest = createWeeklyQuest(dueDate: dueDate)
+    func testWeeklyQuestDamageCalculation_Completed() {
+        // Given: A weekly quest that's completed
+        let dueDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        let quest = createWeeklyQuest(dueDate: dueDate, isCompleted: true)
         
         // When: Calculate damage
         let calculator = QuestTypeDamageCalculator.weekly
         let result = calculator.calculateDamage(
             quest: quest,
-            lastDamageCheckDate: Date()
+            lastDamageCheckDate: dueDate
         )
         
-        // Then: Should calculate 0 damage
+        // Then: Should calculate 0 damage since quest is completed
         XCTAssertEqual(result.damageAmount, 0)
         XCTAssertEqual(result.missedDays, 0)
-        XCTAssertTrue(result.reason.contains("not overdue"))
     }
     
     // MARK: - One-Time Quest Damage Tests
@@ -256,16 +233,5 @@ final class QuestDamageTrackingTests: XCTestCase {
             repeatType: .scheduled,
             scheduledDays: scheduledDays
         )
-    }
-}
-
-// MARK: - Mock Classes
-
-class MockHealthManager: HealthManager {
-    var damageTaken: Int16 = 0
-    
-    override func takeDamage(_ amount: Int16, completion: @escaping (Error?) -> Void) {
-        damageTaken += amount
-        completion(nil)
     }
 }

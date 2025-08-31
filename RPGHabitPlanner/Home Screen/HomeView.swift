@@ -5,6 +5,8 @@ import StoreKit
 // MARK: - Notification Names
 extension Notification.Name {
     static let showQuestCreation = Notification.Name("showQuestCreation")
+    static let checkDamage = Notification.Name("checkDamage")
+    static let testDamage = Notification.Name("testDamage")
 }
 
 struct HomeView: View {
@@ -82,6 +84,12 @@ struct HomeView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
             shouldNavigateToQuestCreation = true
         }
+        .onReceive(NotificationCenter.default.publisher(for: .checkDamage)) { _ in
+            viewModel.manuallyCheckDamage()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .testDamage)) { _ in
+            viewModel.createTestQuestForDamage()
+        }
         .onAppear {
             // Record streak activity when home view appears
             viewModel.streakManager.recordActivity()
@@ -92,6 +100,9 @@ struct HomeView: View {
                     showTutorial = true
                 }
             }
+
+            // Check for damage on app launch
+            viewModel.checkForDamageOnAppLaunch()
         }
         .overlay(
             Group {
@@ -197,6 +208,25 @@ struct HomeView: View {
                         }
                     )
                     .zIndex(60)
+                }
+
+                                // Damage Summary Overlay
+                if viewModel.showDamageSummary, let damageData = viewModel.damageSummaryData {
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea()
+                        .zIndex(80)
+                        .transition(.opacity)
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.showDamageSummary)
+
+                    DamageSummaryView(
+                        damageData: damageData
+                    ) {
+                        viewModel.dismissDamageSummary()
+                    }
+                    .environmentObject(themeManager)
+                    .zIndex(81)
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.spring(response: 0.6, dampingFraction: 0.8), value: viewModel.showDamageSummary)
                 }
             }
             .navigationTitle("adventure_hub".localized)

@@ -28,6 +28,13 @@ struct RPGHabitPlannerApp: App {
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     BackgroundTimerManager.shared.handleAppWillEnterForeground()
                 }
+                .onAppear {
+                    // Set up damage tracking integration
+                    DamageTrackingIntegration.setupNotificationObservers()
+                    
+                    // Perform initial damage check on app launch
+                    DamageTrackingIntegration.performAppLaunchDamageCheck()
+                }
         }
     }
 }

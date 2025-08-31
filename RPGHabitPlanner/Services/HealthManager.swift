@@ -51,7 +51,7 @@ final class HealthManager: ObservableObject {
             }
 
             let context = self.persistentContainer.viewContext
-            let newHealth = max(0, user.health - amount)
+            let newHealth = max(1, user.health - amount)  // Health should never go below 1
             user.health = newHealth
 
             do {

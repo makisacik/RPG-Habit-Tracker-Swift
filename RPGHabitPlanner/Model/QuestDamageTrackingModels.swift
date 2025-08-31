@@ -60,6 +60,7 @@ enum QuestDamageConstants {
     static let weeklyQuestDamage = 8
     static let oneTimeQuestDamage = 10
     static let scheduledQuestDamagePerDay = 5
+    static let maxDamagePerSession = 12  // Maximum damage that can be taken in one session
 }
 
 // MARK: - Damage Calculation Result
@@ -139,19 +140,20 @@ enum QuestTypeDamageCalculator {
         let calendar = Calendar.current
         let dueDate = calendar.startOfDay(for: quest.dueDate)
         
+        // Add 1 day grace period to due date
+        let gracePeriodDate = calendar.date(byAdding: .day, value: 1, to: dueDate) ?? dueDate
+
         // Calculate missed days from the day after last check until today
         let checkStartDate = calendar.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        let missedDays = calendar.dateComponents([.day], from: checkStartDate, to: endDate).day ?? 0
-        
-        // Only count days that are after the due date and not completed
         var actualMissedDays = 0
         var currentDate = checkStartDate
         
         while currentDate <= endDate {
             let dayStart = calendar.startOfDay(for: currentDate)
             
-            // Only count if the day is after due date and quest wasn't completed on that day
-            if dayStart > dueDate && !quest.completions.contains(dayStart) {
+            // Only count if the day is after grace period date
+            if dayStart > gracePeriodDate {
+                // Once overdue, only check for overdue damage, not completion
                 actualMissedDays += 1
             }
             
@@ -159,13 +161,13 @@ enum QuestTypeDamageCalculator {
         }
         
         let damageAmount = actualMissedDays * QuestDamageConstants.dailyQuestDamagePerDay
-        let reason = "Daily quest '\(quest.title)' missed \(actualMissedDays) day(s)"
+        let reason = "Daily quest '\(quest.title)' missed \(actualMissedDays) day(s) (after grace period)"
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
             missedDays: actualMissedDays,
             reason: reason,
-            lastCheckDate: startDate
+            lastCheckDate: endDate  // Fix: Use endDate as the new last check date
         )
     }
     
@@ -177,18 +179,50 @@ enum QuestTypeDamageCalculator {
         let calendar = Calendar.current
         let dueDate = calendar.startOfDay(for: quest.dueDate)
         
-        // Check if quest is overdue since last check
-        let isOverdue = dueDate < endDate && !quest.isCompleted
+        // Add 1 day grace period to due date
+        let gracePeriodDate = calendar.date(byAdding: .day, value: 1, to: dueDate) ?? dueDate
+
+        // Calculate missed weeks from the day after last check until today
+        let checkStartDate = calendar.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+        var missedWeeks = 0
+        var currentDate = checkStartDate
         
-        let damageAmount = isOverdue ? QuestDamageConstants.weeklyQuestDamage : 0
-        let reason = isOverdue ? "Weekly quest '\(quest.title)' is overdue" : "Weekly quest '\(quest.title)' is not overdue"
+        while currentDate <= endDate {
+            let dayStart = calendar.startOfDay(for: currentDate)
+            
+            // Only check weeks that are after the grace period date
+            if dayStart > gracePeriodDate {
+                // Get the week that just ended (previous week)
+                let previousWeekStart = calendar.date(byAdding: .weekOfYear, value: -1, to: dayStart) ?? dayStart
+                let weekAnchor = weekAnchor(for: previousWeekStart, calendar: calendar)
+                
+                // Check if this previous week is the due date week or later
+                let dueDateWeekAnchor = self.weekAnchor(for: dueDate, calendar: calendar)
+                if weekAnchor >= dueDateWeekAnchor {
+                    // Once overdue, only check for overdue damage, not completion
+                    missedWeeks += 1
+                }
+            }
+            
+            // Move to next week
+            currentDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDate) ?? currentDate
+        }
+        
+        let damageAmount = missedWeeks * QuestDamageConstants.weeklyQuestDamage
+        let reason = missedWeeks > 0 ? "Weekly quest '\(quest.title)' missed \(missedWeeks) week(s) (after grace period)" : "Weekly quest '\(quest.title)' is not overdue"
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
-            missedDays: isOverdue ? 1 : 0,
+            missedDays: missedWeeks,
             reason: reason,
-            lastCheckDate: startDate
+            lastCheckDate: endDate  // Fix: Use endDate as the new last check date
         )
+    }
+    
+    private func weekAnchor(for date: Date, calendar: Calendar = .current) -> Date {
+        let comps = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        let start = calendar.date(from: comps) ?? date
+        return calendar.startOfDay(for: start)
     }
     
     private func calculateOneTimeQuestDamage(
@@ -199,17 +233,20 @@ enum QuestTypeDamageCalculator {
         let calendar = Calendar.current
         let dueDate = calendar.startOfDay(for: quest.dueDate)
         
-        // Check if quest is still overdue since last check
-        let isStillOverdue = dueDate < endDate && !quest.isCompleted
+        // Add 1 day grace period to due date
+        let gracePeriodDate = calendar.date(byAdding: .day, value: 1, to: dueDate) ?? dueDate
+
+        // Check if quest is still overdue since last check (after grace period)
+        let isStillOverdue = gracePeriodDate < endDate
         
         let damageAmount = isStillOverdue ? QuestDamageConstants.oneTimeQuestDamage : 0
-        let reason = isStillOverdue ? "One-time quest '\(quest.title)' is still overdue" : "One-time quest '\(quest.title)' is not overdue"
+        let reason = isStillOverdue ? "One-time quest '\(quest.title)' is still overdue (after grace period)" : "One-time quest '\(quest.title)' is not overdue"
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
             missedDays: isStillOverdue ? 1 : 0,
             reason: reason,
-            lastCheckDate: startDate
+            lastCheckDate: endDate  // Fix: Use endDate as the new last check date
         )
     }
     
@@ -220,6 +257,10 @@ enum QuestTypeDamageCalculator {
     ) -> DamageCalculationResult {
         let calendar = Calendar.current
         
+        // Add 1 day grace period to due date
+        let dueDate = calendar.startOfDay(for: quest.dueDate)
+        let gracePeriodDate = calendar.date(byAdding: .day, value: 1, to: dueDate) ?? dueDate
+        
         // Calculate missed scheduled days from the day after last check until today
         let checkStartDate = calendar.date(byAdding: .day, value: 1, to: startDate) ?? startDate
         var missedScheduledDays = 0
@@ -229,8 +270,10 @@ enum QuestTypeDamageCalculator {
             let dayStart = calendar.startOfDay(for: currentDate)
             let weekday = calendar.component(.weekday, from: dayStart)
             
-            // Check if this day is a scheduled day and quest wasn't completed
-            if quest.scheduledDays.contains(weekday) && !quest.completions.contains(dayStart) {
+            // Check if this day is a scheduled day AND quest wasn't completed AND after grace period
+            if quest.scheduledDays.contains(weekday) &&
+               !quest.completions.contains(dayStart) &&
+               dayStart > gracePeriodDate {
                 missedScheduledDays += 1
             }
             
@@ -238,13 +281,15 @@ enum QuestTypeDamageCalculator {
         }
         
         let damageAmount = missedScheduledDays * QuestDamageConstants.scheduledQuestDamagePerDay
-        let reason = "Scheduled quest '\(quest.title)' missed \(missedScheduledDays) scheduled day(s)"
+        let reason = missedScheduledDays > 0 ?
+            "Scheduled quest '\(quest.title)' missed \(missedScheduledDays) scheduled day(s) (after grace period)" :
+            "Scheduled quest '\(quest.title)' is not overdue"
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
             missedDays: missedScheduledDays,
             reason: reason,
-            lastCheckDate: startDate
+            lastCheckDate: endDate  // Fix: Use endDate as the new last check date
         )
     }
 }
