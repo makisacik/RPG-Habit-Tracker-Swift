@@ -204,7 +204,7 @@ struct TutorialPageView: View {
                 if !subtitle.isEmpty {
                     Text(subtitle)
                         .font(.appFont(size: 16, weight: .regular))
-                        .foregroundColor(theme.textColor.opacity(0.8))
+                        .foregroundColor(theme.textColor)
                         .multilineTextAlignment(.center)
                         .lineLimit(3)
                 }
