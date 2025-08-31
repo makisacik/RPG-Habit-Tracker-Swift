@@ -1,0 +1,35 @@
+/*
+  Localizable.strings
+  ActiveQuestWidget
+  
+  Created by Mehmet Ali Kısacık on 6.08.2025.
+*/
+
+// MARK: - Focus Timer
+"focus_timer" = "集中タイマー";
+"remaining" = "残り";
+"complete" = "完了";
+"percent_complete" = "% 完了";
+
+// MARK: - Widget
+"active_quest" = "進行中のクエスト";
+"no_active_quests" = "進行中のクエストはありません";
+"all_quests_completed" = "すべてのクエストを完了しました！";
+"start_your_adventure" = "冒険を始めよう";
+"create_your_first_quest" = "最初のクエストを作成しよう";
+"overdue" = "期限切れ！";
+"due_today" = "今日が期限";
+"due_tomorrow" = "明日が期限";
+"days_left" = "日残り";
+"untitled_quest" = "無題のクエスト";
+"progress" = "進行状況";
+"widget_description" = "現在のクエストの進行状況と期限を確認できます。";
+
+// MARK: - Daily Quest Summary Widget
+"daily_quests" = "デイリークエスト";
+"quests_completed" = "件のクエストを完了";
+"more_quests" = "件のクエストが残っています";
+"daily_quest_summary" = "デイリークエスト概要";
+"daily_quest_widget_description" = "毎日のクエストと達成状況を追跡しましょう。";
+"done_for_today" = "今日は完了！";
+"all_quests_completed_today" = "今日のクエストをすべて達成しました";

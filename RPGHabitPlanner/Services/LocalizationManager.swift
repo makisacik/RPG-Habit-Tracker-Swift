@@ -35,6 +35,7 @@ class LocalizationManager: ObservableObject {
     enum Language: String, CaseIterable, Identifiable {
         case english = "en"
         case turkish = "tr"
+        case japanese = "ja"
 
         var id: String { rawValue }
 
@@ -44,6 +45,8 @@ class LocalizationManager: ObservableObject {
                 return "language_english".localized
             case .turkish:
                 return "language_turkish".localized
+            case .japanese:
+                return "language_japanese".localized
             }
         }
 
@@ -53,6 +56,8 @@ class LocalizationManager: ObservableObject {
                 return "🇺🇸"
             case .turkish:
                 return "🇹🇷"
+            case .japanese:
+                return "🇯🇵"
             }
         }
 
@@ -62,6 +67,8 @@ class LocalizationManager: ObservableObject {
                 return Locale(identifier: "en_US")
             case .turkish:
                 return Locale(identifier: "tr_TR")
+            case .japanese:
+                return Locale(identifier: "ja_JP")
             }
         }
     }
@@ -95,10 +102,15 @@ class LocalizationManager: ObservableObject {
     // MARK: - Device Language Detection
 
     /// Detects the device language and returns the appropriate app language
-    /// - Returns: Turkish if device is set to Turkish, otherwise English
+    /// - Returns: Japanese if device is set to Japanese, Turkish if device is set to Turkish, otherwise English
     private static func detectDeviceLanguage() -> Language {
         // Get the preferred language from the device
         let preferredLanguage = Locale.preferredLanguages.first ?? "en"
+
+        // Check if the device language is Japanese
+        if preferredLanguage.hasPrefix("ja") {
+            return .japanese
+        }
 
         // Check if the device language is Turkish
         if preferredLanguage.hasPrefix("tr") {

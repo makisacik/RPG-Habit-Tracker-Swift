@@ -808,6 +808,7 @@
 // MARK: - Languages
 "language_english" = "İngilizce";
 "language_turkish" = "Türkçe";
+"language_japanese" = "Japonca";
 
 // MARK: - Shop Categories
 "shop_category_weapons_description" = "Savaş için güçlü bir silah";

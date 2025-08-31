@@ -1,0 +1,2536 @@
+/* Localizable.strings
+   RPGHabitPlanner
+   Created by Mehmet Ali Kısacık on 10.11.2024.
+*/
+
+// MARK: - General
+"ok" = "OK";
+"cancel" = "キャンセル";
+"save" = "保存";
+"delete" = "削除";
+"edit" = "編集";
+"close" = "閉じる";
+"back" = "戻る";
+"next" = "次へ";
+"previous" = "前へ";
+"done" = "完了";
+"error" = "エラー";
+"warning" = "警告";
+"success" = "成功";
+"loading" = "読み込み中...";
+
+// MARK: - Navigation & Titles
+"adventure_hub" = "冒険ハブ";
+"quest_tracking" = "クエスト進行";
+"quest_creation" = "クエスト作成";
+"character_details" = "キャラクター詳細";
+"completed_quests" = "達成済みクエスト";
+"settings" = "設定";
+"about" = "アプリ情報";
+"calendar" = "カレンダー";
+"inventory" = "持ち物";
+"achievements" = "実績";
+
+// MARK: - Quest Related
+"quest" = "クエスト";
+"quests" = "クエスト一覧";
+"quest_type" = "クエストの種類";
+"quick_quests" = "簡易クエスト";
+"choose_from_curated_quest_templates" = "厳選されたクエストから選ぶ";
+"main_quest" = "メインクエスト";
+"side_quest" = "サブクエスト";
+"quest_title" = "タイトル";
+"quest_description" = "説明";
+"quest_difficulty" = "難易度";
+"quest_due_date" = "期限";
+"basic_information" = "基本情報";
+"quest_settings" = "クエスト設定";
+"enter_quest_title" = "クエスト名を入力";
+"enter_quest_description" = "クエストの説明を入力";
+"repeat_type" = "繰り返しタイプ";
+"manage_tasks" = "タスク管理";
+"save_quest" = "クエストを保存";
+"edit_quest" = "クエストを編集";
+"delete_quest" = "クエストを削除";
+"complete_quest" = "クエストを完了";
+"quest_completed" = "クエスト達成！";
+"quest_failed" = "クエスト失敗";
+"quest_expired" = "クエスト期限切れ";
+"mark_as_finished" = "完了にする";
+"finished" = "完了";
+
+// MARK: - First Time Quest
+"first_quest_title" = "最初の一歩";
+"first_quest_description" = "すべての勇者の旅は一歩から始まる。";
+"first_quest_task_1" = "最初のクエストを追加する";
+"first_quest_task_2" = "キャラクターを探索する";
+
+// MARK: - Quest Filters
+"active_today" = "今日のアクティブ";
+"inactive_today" = "今日の非アクティブ";
+"all_quests" = "すべてのクエスト";
+"today" = "今日";
+
+// MARK: - Tasks
+"task" = "タスク";
+"tasks" = "タスク一覧";
+"add_task" = "タスクを追加";
+"add_new_task" = "新しいタスクを追加";
+"edit_tasks" = "タスクを編集";
+"enter_task_description" = "タスクの説明を入力";
+"remove_task" = "タスクを削除";
+"task_completed" = "タスク完了";
+"task_incomplete" = "未完了タスク";
+
+// MARK: - Quest Repeat Types
+"one_time" = "1回のみ";
+"daily" = "毎日";
+"weekly" = "毎週";
+"monthly" = "毎月";
+
+// MARK: - Character & Stats
+"character" = "キャラクター";
+"character_test" = "キャラクターテスト";
+"character_preview" = "キャラクタープレビュー";
+"customize_character" = "キャラクターをカスタマイズ";
+"customizeYourHero" = "勇者をカスタマイズ";
+"createYourUniqueCharacter" = "自分だけのキャラを作成";
+
+// MARK: - Character Background
+"select_background" = "背景を選択";
+"choose_character_background" = "キャラクターの背景を選ぶ";
+"background" = "背景";
+"no_background" = "背景なし";
+"background_1" = "背景1";
+"background_2" = "背景2";
+"background_3" = "背景3";
+"background_4" = "背景4";
+"save_changes" = "変更を保存";
+"tap_to_apply_changes" = "タップして変更を適用";
+"createYourCharacter" = "キャラクターを作成";
+"preview" = "プレビュー";
+"confirmSelection" = "選択を確定";
+"continueButton" = "続ける";
+"yourCharacter" = "あなたのキャラクター";
+"customized" = "カスタマイズ済み";
+
+// MARK: - Character Titles
+"chooseYourTitle" = "称号を選ぶ";
+"selectTitleDescription" = "運命を示す称号を選択してください";
+"selectDifferentTitle" = "別の称号を選ぶ";
+"randomTitle" = "ランダム称号";
+"chooseFromAvailableTitles" = "利用可能な称号から選ぶ";
+"hair_style" = "髪型";
+"eye_style" = "目のスタイル";
+"outfit" = "装備";
+"weapon" = "武器";
+"style" = "スタイル";
+"level" = "レベル";
+"experience" = "経験値";
+"health" = "体力";
+"mana" = "マナ";
+"strength" = "力";
+"intelligence" = "知力";
+"agility" = "敏捷";
+"level_up" = "レベルアップ！";
+"experience_gained" = "経験値獲得";
+"new_level_reached" = "新しいレベルに到達！";
+
+// MARK: - Streak System
+"streak" = "連続記録";
+"current_streak" = "現在の記録";
+"longest_streak" = "最長記録";
+"streak_days" = "日";
+"streak_day" = "日";
+"best_streak" = "最高";
+"today_status" = "今日の状況";
+"streak_calendar" = "連続カレンダー";
+"monthly_activity" = "月間アクティビティ";
+"active_days" = "活動日数";
+"activity_rate" = "活動率";
+
+// MARK: - Rewards & Achievements
+"reward" = "報酬";
+"rewards" = "報酬一覧";
+"premium_bonus" = "プレミアム特典";
+"achievement" = "実績";
+"achievement_unlocked" = "実績解除！";
+"unlocked" = "解除済み！";
+"unlock" = "解除";
+"locked" = "ロック中";
+"experience_points" = "経験ポイント";
+"gold" = "ゴールド";
+"items" = "アイテム";
+
+// MARK: - Notifications
+"notify_me" = "通知する";
+"notify_me_about_quest" = "このクエストの通知を受け取る";
+"notification" = "通知";
+"notifications" = "通知一覧";
+"reminder" = "リマインダー";
+"reminders" = "リマインダー一覧";
+"enabled" = "有効";
+"disabled" = "無効";
+"not_determined" = "未設定";
+"provisional" = "暫定";
+"ephemeral" = "一時的";
+"unknown" = "不明";
+
+// MARK: - Notification Permission
+"notification_permission_title" = "旅人よ、クエストの通知を受け取りたいか？";
+"notification_permission_message" = "壮大な冒険を忘れないように！ クエストを完了し、キャラを成長させるための優しいリマインダーをお届けします。";
+"notification_permission_subtitle" = "設定でいつでも変更できます";
+"notification_permission_allow" = "はい、通知して！";
+"notification_permission_not_now" = "今はやめておく";
+
+// MARK: - Home Screen
+"quick_stats" = "クイック統計";
+"active_quests" = "進行中のクエスト";
+"recent_achievements" = "最近の実績";
+"quick_actions" = "クイックアクション";
+"create_new_quest" = "新しいクエストを作成";
+"view_completed_quests" = "完了したクエストを見る";
+"view_character_details" = "キャラクター詳細を見る";
+
+// MARK: - Calendar
+"calendar_view" = "カレンダー表示";
+"this_week" = "今週";
+"this_month" = "今月";
+"no_quests_scheduled" = "予定されたクエストなし";
+"quests_scheduled" = "予定されたクエスト";
+
+// MARK: - Settings
+"theme" = "テーマ";
+"language" = "言語";
+"choose_your_preferred_language" = "希望する言語を選択";
+"language_changes_will_take_effect_immediately" = "言語の変更はすぐに反映されます";
+"some_system_elements_may_remain_in_previous_language" = "アプリを再起動するまで一部のシステム要素は以前の言語のままです";
+"updating_language" = "言語を更新中...";
+"sound_effects" = "効果音";
+"music" = "音楽";
+"notifications_enabled" = "通知を有効化";
+"data_backup" = "データバックアップ";
+"export_data" = "データをエクスポート";
+"import_data" = "データをインポート";
+"reset_progress" = "進行状況をリセット";
+"about_app" = "アプリについて";
+"version" = "バージョン";
+"privacy_policy" = "プライバシーポリシー";
+"terms_of_service" = "利用規約";
+"support" = "サポート";
+"add_a_review" = "レビューを書く";
+
+// MARK: - Themes
+"theme_classic" = "クラシック";
+"theme_dark" = "ダーク";
+"theme_light" = "ライト";
+"theme_auto" = "自動";
+
+// MARK: - Onboarding
+"welcome" = "ようこそ";
+"welcome_to_rpg_habit_planner" = "RPG習慣プランナーへようこそ";
+"create_your_character" = "キャラクターを作成";
+"choose_your_class" = "クラスを選択";
+"start_your_adventure" = "冒険を始めよう";
+"start_adventure" = "冒険開始！";
+"lets_begin" = "さあ始めよう";
+"confirm_selection" = "選択を確定";
+"enter_your_nickname" = "ニックネームを入力";
+"nickname" = "ニックネーム";
+"transform_habits_into_epic_adventures" = "習慣を壮大な冒険に変えよう";
+"create_epic_quests" = "壮大なクエストを作成";
+"turn_daily_tasks_into_heroic_missions" = "日々のタスクを英雄の使命に変換";
+"earn_rewards" = "報酬を獲得";
+"level_up_and_unlock_achievements" = "レベルアップして実績を解除";
+"track_progress" = "進行状況を追跡";
+"watch_your_character_grow_stronger" = "キャラクターの成長を見届けよう";
+"ready_to_begin_adventure" = "冒険を始める準備はできたか？";
+"choose_your_hero" = "勇者を選択";
+"customize_your_hero" = "勇者をカスタマイズ";
+"choose_weapon_and_see_character_come_to_life" = "武器を選び、キャラクターを生き生きとさせよう";
+"select_your_weapon" = "武器を選択";
+"name_your_hero" = "勇者に名前をつける";
+"choose_legendary_name_for_character" = "伝説的な名前を選択";
+"enter_your_heros_name" = "勇者の名前を入力";
+"maximum_16_characters" = "最大16文字";
+"ready_for_adventure" = "冒険の準備完了！";
+"your_hero_is_ready_to_begin_journey" = "勇者は旅を始める準備ができた";
+
+// MARK: - Focus Timer
+"select_monster" = "モンスターを選択";
+"no_monster_selected" = "モンスター未選択";
+"choose_your_enemy" = "敵を選べ";
+"pomodoros" = "ポモドーロ";
+"monster_defeated" = "モンスター撃破！";
+"you_have_successfully_defeated_monster" = "モンスターを倒すことに成功！";
+"continue" = "続ける";
+"health_points" = "HP";
+
+// MARK: - Character Classes
+"warrior" = "戦士";
+"mage" = "魔法使い";
+"rogue" = "盗賊";
+"paladin" = "聖騎士";
+"archer" = "弓使い";
+
+// MARK: - Error Messages
+"adventurer" = "冒険者";
+"unknown_error" = "不明なエラーが発生しました";
+"heads_up" = "注意";
+"active_quest" = "進行中のクエスト";
+"add_quest" = "クエストを追加";
+"network_error" = "ネットワークエラーが発生しました";
+"data_error" = "データエラーが発生しました";
+"validation_error" = "入力エラー";
+"save_error" = "保存に失敗しました";
+"load_error" = "データ読み込みに失敗しました";
+"delete_error" = "削除に失敗しました";
+"invalid_input" = "無効な入力";
+
+// MARK: - Success Messages
+"quest_saved_successfully" = "クエストを保存しました";
+"quest_deleted_successfully" = "クエストを削除しました";
+"quest_completed_successfully" = "クエストを達成しました";
+"data_saved_successfully" = "データを保存しました";
+"settings_updated" = "設定を更新しました";
+
+// MARK: - Validation Messages
+"title_required" = "タイトルは必須です";
+"description_required" = "説明は必須です";
+"due_date_required" = "期限は必須です";
+"invalid_date" = "無効な日付です";
+"date_in_past" = "過去の日付は使用できません";
+
+// MARK: - Time & Date
+"today" = "今日";
+"yesterday" = "昨日";
+"tomorrow" = "明日";
+"this_week" = "今週";
+"next_week" = "来週";
+"this_month" = "今月";
+"next_month" = "来月";
+
+// MARK: - Progress
+"progress" = "進行状況";
+"completed" = "完了";
+"in_progress" = "進行中";
+"not_started" = "未開始";
+"overdue" = "期限切れ";
+
+// MARK: - Difficulty
+"easy" = "簡単";
+"medium" = "普通";
+"hard" = "難しい";
+"very_hard" = "とても難しい";
+"legendary" = "伝説級";
+
+// MARK: - Empty States
+"no_quests" = "まだクエストがありません";
+"no_active_quests" = "進行中のクエストはありません";
+"no_completed_quests" = "完了したクエストはありません";
+"no_finished_quests_yet" = "完了したクエストはまだありません！";
+"no_achievements" = "実績はまだありません";
+"create_your_first_quest" = "最初のクエストを作成して冒険を始めよう！";
+"complete_quests_to_earn_rewards" = "クエストを達成して報酬を獲得、レベルアップ！";
+
+// MARK: - Tooltips & Help
+"tap_to_complete" = "タップして完了";
+"tap_to_edit" = "タップして編集";
+"swipe_to_delete" = "スワイプで削除";
+"long_press_for_options" = "長押しでオプション";
+"drag_to_reorder" = "ドラッグで並べ替え";
+
+// MARK: - Accessibility
+"accessibility_quest_card" = "クエストカード";
+"accessibility_complete_button" = "クエスト完了ボタン";
+"accessibility_edit_button" = "クエスト編集ボタン";
+"accessibility_delete_button" = "クエスト削除ボタン";
+"accessibility_progress_bar" = "進行バー";
+"accessibility_star_rating" = "星評価";
+"accessibility_date_picker" = "日付ピッカー";
+
+// MARK: - Tab Navigation
+"home" = "ホーム";
+"quests" = "クエスト";
+"character" = "キャラクター";
+"focus_timer" = "フォーカスタイマー";
+"calendar" = "カレンダー";
+"quest_journal" = "クエスト日誌";
+
+// MARK: - Home Screen
+"active" = "進行中";
+"completed" = "完了";
+"view_all" = "すべて表示";
+"create_quest" = "クエストを作成";
+"loading_character" = "キャラクターを読み込み中...";
+"recent_achievements" = "最近の実績";
+"no_achievements_yet" = "実績はまだありません";
+"complete_quests_to_earn_achievements" = "クエストを達成して実績を解除！";
+"quick_actions" = "クイックアクション";
+
+// MARK: - Quest Details
+"quest_details" = "クエスト詳細";
+"close" = "閉じる";
+"edit_quest" = "クエストを編集";
+"delete_quest" = "クエストを削除";
+"delete_quest_confirmation" = "クエストを削除";
+"delete_quest_warning" = "このクエストを削除してもよろしいですか？ この操作は元に戻せません。";
+"progress" = "進行状況";
+"difficulty" = "難易度:";
+"completion_history" = "達成履歴";
+"no_completions_yet" = "まだ達成はありません";
+"mark_as_finished" = "完了にする";
+
+// MARK: - Character Details
+"character_details" = "キャラクター詳細";
+"exp" = "EXP";
+"weapon" = "武器:";
+"equipped_weapon" = "装備中の武器";
+"character_id" = "キャラクターID:";
+
+// MARK: - Calendar
+"quest_calendar" = "クエストカレンダー";
+"calendar" = "カレンダー";
+"tasks" = "タスク";
+"set_due_date" = "期限を設定";
+"due_date" = "期限";
+"default_duration" = "デフォルトの所要時間";
+"add_quest" = "クエストを追加";
+
+// MARK: - Focus Timer
+"choose_your_enemy" = "敵を選べ";
+"focus_timer" = "フォーカスタイマー";
+"remaining" = "残り";
+"complete" = "完了";
+"percent_complete" = "% 完了";
+
+// MARK: - Widget
+"active_quest" = "進行中のクエスト";
+"no_active_quests" = "進行中のクエストなし";
+"all_quests_completed" = "すべてのクエストを完了！";
+"start_your_adventure" = "冒険を始めよう";
+"create_your_first_quest" = "最初のクエストを作成";
+"overdue" = "期限超過！";
+"due_today" = "今日が期限";
+"due_tomorrow" = "明日が期限";
+"days_left" = "日残り";
+"untitled_quest" = "無題のクエスト";
+
+// MARK: - Settings
+"dark_mode" = "ダークモード";
+"switch_between_light_and_dark_themes" = "ライト/ダークテーマを切り替え";
+"notifications" = "通知";
+"notifications_settings" = "通知の設定";
+"data_and_storage" = "データとストレージ";
+"data_and_storage_settings" = "データとストレージの設定";
+"about_app" = "アプリについて";
+"version_info" = "バージョン 1.0 • © You";
+
+// MARK: - Onboarding
+"your_adventure_awaits" = "あなたの冒険が待っている";
+"class_label" = "クラス";
+"weapon_label" = "武器";
+
+// MARK: - Quest Categories
+"health_and_wellness" = "健康とウェルネス";
+"productivity" = "生産性";
+"learning_and_growth" = "学習と成長";
+"mindfulness" = "マインドフルネス";
+"fitness" = "フィットネス";
+"social" = "ソーシャル";
+
+// MARK: - Time Formats
+"days_from_today" = "今日からX日後";
+"weeks_from_today" = "今日からX週間後";
+"months_from_today" = "今日からXか月後";
+
+// MARK: - Battle/Achievement Items
+"focus_crystal" = "フォーカスクリスタル";
+"focus_crystal_description" = "集中力を高める結晶";
+"focus_master" = "フォーカスマスター";
+"focus_master_description" = "1回の戦闘でポモドーロを8回達成";
+"dragon_slayer" = "ドラゴンスレイヤー";
+"dragon_slayer_description" = "飛竜を討伐する";
+
+// MARK: - Labels
+"due_label" = "期限:";
+"use_system_appearance" = "システムの外観を使用";
+"repeat_label" = "繰り返し";
+"mark_incomplete" = "未完了にする";
+"mark_complete" = "完了にする";
+"yes" = "はい";
+"created" = "作成";
+"type" = "種類";
+"main_quest_label" = "メインクエスト";
+"completed_label" = "完了";
+"on_label" = "オン";
+"off_label" = "オフ";
+"widget_description" = "現在のクエストの進行状況と期限を追跡します。";
+
+// MARK: - Gamified Quest Creation
+"quest_board" = "クエスト掲示板";
+"adventure_awaits" = "冒険が君を待っている！";
+"accept_new_quest" = "新しいクエストを受ける";
+"quest_master" = "クエストマスター";
+"quest_details_title" = "クエスト詳細";
+"quest_summary" = "クエスト要約";
+"review_quest" = "クエストを確認";
+"accept_quest" = "クエストを受注";
+"quest_name" = "クエスト名";
+"quest_type" = "クエストの種類";
+"quest_deadline" = "クエスト期限";
+"quest_tasks" = "クエストのタスク";
+"quest_difficulty" = "クエスト難易度";
+"quest_tags" = "クエストタグ";
+"manage_tasks" = "タスク管理";
+"add_tags" = "タグを追加";
+"no_tags_selected" = "タグが選択されていません";
+"untitled_quest" = "無題のクエスト";
+"no_description" = "説明なし";
+"main_quest" = "メインクエスト";
+"side_quest" = "サブクエスト";
+"stars" = "星";
+"tasks_count" = "件のタスク";
+"preparing_quest" = "クエストを準備中...";
+"greetings_adventurer" = "ごきげんよう、勇敢な冒険者よ！ 君に頼みたいクエストがある。旅立つ準備はできているか？";
+"continue" = "続ける";
+
+// MARK: - Character Customization
+"mustache" = "口ひげ";
+"flower" = "花";
+
+// MARK: - New Localization Keys
+"my_quests" = "クエスト";
+"loading_quests" = "クエストを読み込み中...";
+"no_quests_for_date" = "%@ のクエストはありません";
+"create_quest_to_get_started" = "まずはクエストを作成しよう！";
+"adventure_shop" = "冒険ショップ";
+"shop_description" = "コインとジェムを強力なアイテムと交換しよう";
+"quest_board" = "クエスト掲示板";
+"adventure_awaits_brave_one" = "勇者よ、冒険が待っている！";
+"accept_new_quest" = "新しいクエストを受ける";
+"enter_quest_name" = "クエスト名を入力...";
+"describe_quest" = "クエストの内容を記述...";
+"quest_deadline" = "クエスト期限";
+"creating" = "作成中...";
+"create_quest" = "クエストを作成";
+"quest_master" = "クエストマスター";
+"rpg_habit_planner" = "RPG習慣プランナー";
+"transform_daily_tasks_into_epic_adventures" = "日々のタスクを壮大な冒険に変えよう";
+"your_adventure_awaits" = "あなたの冒険が待っている！";
+"name_your_hero" = "勇者に名前をつける";
+"choose_legendary_name_for_character" = "伝説級の名を選ぼう";
+"random_name" = "ランダム名";
+"maximum_16_characters" = "最大16文字";
+"custom_hero" = "カスタムヒーロー";
+"scheduled_days" = "予定日";
+"quest_damage_calculator" = "クエストダメージ計算機";
+"calculate_damage_for_active_quests" = "進行中の全クエストのダメージを計算";
+"no_active_quests_found" = "進行中のクエストが見つかりません";
+"todays_total_damage" = "本日の総ダメージ";
+"last_calculated" = "最終計算: %@";
+"filter" = "フィルター";
+"apply" = "適用";
+"no_active_boosters" = "有効なブースターはありません";
+"visit_shop" = "ショップへ";
+"my_quests" = "クエスト";
+"view_all" = "すべて表示";
+"loading_quests" = "クエストを読み込み中…";
+"create_quest" = "クエストを作成";
+"appearance" = "外観";
+"general" = "一般";
+"about" = "情報";
+"daily" = "毎日";
+"weekly" = "毎週";
+"one_time" = "1回のみ";
+"scheduled" = "予定済み";
+"expires" = "有効期限";
+"failed_to_update_quest_tags" = "クエストタグの更新に失敗しました";
+"daily_quests_can_only_be_toggled_for_today" = "デイリークエストは本日分のみ切り替え可能です";
+"weekly_quests_can_only_be_toggled_in_current_week" = "ウィークリークエストは今週のみ切り替え可能です";
+"quest_can_only_be_completed_between_creation_and_due_date" = "このクエストは作成日から期限内のみ完了できます";
+"quest_can_only_be_completed_on_scheduled_days" = "このクエストは予定日のみ完了できます";
+"failed_to_delete_quest" = "クエストの削除に失敗しました";
+
+// MARK: - Calendar & Streak Views
+"filter" = "フィルター";
+"apply" = "適用";
+"filter_by_tags" = "タグで絞り込む";
+"any" = "いずれか";
+"all" = "すべて";
+"clear_all" = "すべてクリア";
+"available_tags" = "利用可能なタグ";
+"no_tags_available" = "利用可能なタグはありません";
+"create_first_tag_to_get_started" = "まずは最初のタグを作成しよう";
+"create_new_tag" = "新しいタグを作成";
+"selected_tags" = "選択したタグ";
+"no_tags_found" = "タグが見つかりません";
+"try_adjusting_search_or_create_new_tag" = "検索条件を調整するか、新しいタグを作成してください";
+"create_your_first_tag" = "最初のタグを作成";
+"select_tags" = "タグを選択";
+"loading_tags" = "タグを読み込み中...";
+"no_tags_available_for_selection" = "選択可能なタグはありません";
+"create_first_tag_to_get_started_selection" = "まずは最初のタグを作成しましょう";
+"search_tags" = "タグを検索...";
+"browse_all" = "すべて閲覧";
+"work" = "仕事";
+"personal" = "プライベート";
+"urgent" = "緊急";
+"study" = "学習";
+"not_yet" = "まだ";
+"finish_quest" = "クエストを完了";
+"quest_finish_confirmation_popup_examples" = "クエスト完了確認ポップアップ例";
+"tags" = "タグ";
+"add_tags" = "タグを追加";
+"no_tags_assigned" = "タグは未設定";
+"customize_your_character_appearance" = "キャラクターの見た目をカスタマイズ";
+"save_changes" = "変更を保存";
+"customization" = "カスタマイズ";
+"quest_not_found" = "クエストが見つかりません";
+"failed_to_create_user" = "ユーザーの作成に失敗しました";
+"user_not_found" = "ユーザーが見つかりません";
+"total_damage_taken" = "受けた総ダメージ";
+"error_loading_damage_history" = "ダメージ履歴の読み込みエラー";
+"no_damage_history" = "ダメージ履歴はありません";
+"retry" = "再試行";
+
+// MARK: - Achievement Names
+"achievement_first_steps" = "ファーストステップ";
+"achievement_first_steps_description" = "最初のクエストを完了する";
+"achievement_quest_master" = "クエストマスター";
+"achievement_quest_master_description" = "クエストを50個達成する";
+"achievement_speed_runner" = "スピードランナー";
+"achievement_speed_runner_description" = "1日にクエストを3つ完了する";
+"achievement_consistency" = "コンシステンシー";
+"achievement_consistency_description" = "7日連続でクエストを達成する";
+"achievement_level_up" = "レベルアップ！";
+"achievement_level_up_description" = "レベル5に到達する";
+"achievement_veteran" = "ベテラン";
+"achievement_veteran_description" = "レベル20に到達する";
+"achievement_legend" = "レジェンド";
+"achievement_legend_description" = "レベル50に到達する";
+"achievement_experience_hunter" = "経験値ハンター";
+"achievement_experience_hunter_description" = "経験値を1000獲得する";
+"achievement_early_bird" = "アーリーバード";
+"achievement_early_bird_description" = "午前5時〜8時の間にクエストに取り組む";
+"achievement_night_owl" = "ナイトオウル";
+"achievement_night_owl_description" = "午後10時以降にクエストに取り組む";
+"achievement_weekend_warrior" = "ウィークエンドウォリアー";
+"achievement_weekend_warrior_description" = "週末にクエストを5つ完了する";
+"achievement_perfect_day" = "パーフェクトデイ";
+"achievement_perfect_day_description" = "その日のデイリークエストをすべて完了する";
+
+// MARK: - Achievement Types
+"achievement_type_quest" = "クエスト";
+"achievement_type_leveling" = "レベル上げ";
+"achievement_type_focus" = "集中";
+"achievement_type_battle" = "戦闘";
+"achievement_type_special" = "スペシャル";
+
+// MARK: - Achievement Categories
+"achievement_category_all" = "すべて";
+"achievement_category_quests" = "クエスト";
+"achievement_category_leveling" = "レベル上げ";
+"achievement_category_special" = "スペシャル";
+
+// MARK: - Quick Quest Names
+"quick_quest_hydration_hero" = "水分補給の勇者";
+"quick_quest_hydration_hero_description" = "1日を通して水をコップ8杯飲む";
+"quick_quest_hydration_hero_task_1" = "朝に水を2杯飲む";
+"quick_quest_hydration_hero_task_2" = "昼に水を2杯飲む";
+"quick_quest_hydration_hero_task_3" = "午後に水を2杯飲む";
+"quick_quest_hydration_hero_task_4" = "夕方に水を2杯飲む";
+
+"quick_quest_morning_exercise" = "朝のエクササイズ";
+"quick_quest_morning_exercise_description" = "朝の15分ワークアウトを完了する";
+"quick_quest_morning_exercise_task_1" = "腕立て伏せを10回";
+"quick_quest_morning_exercise_task_2" = "ジャンピングジャックを20回";
+"quick_quest_morning_exercise_task_3" = "スクワットを15回";
+"quick_quest_morning_exercise_task_4" = "5分間ストレッチ";
+
+"quick_quest_mindful_reading" = "マインドフル読書";
+"quick_quest_mindful_reading_description" = "集中して20分読書する";
+"quick_quest_mindful_reading_task_1" = "静かな読書スペースを見つける";
+"quick_quest_mindful_reading_task_2" = "20分読書する";
+"quick_quest_mindful_reading_task_3" = "要点をメモする";
+
+"quick_quest_gratitude_practice" = "感謝の実践";
+"quick_quest_gratitude_practice_description" = "今日の感謝を3つ書き出す";
+"quick_quest_gratitude_practice_task_1" = "1日を振り返る";
+"quick_quest_gratitude_practice_task_2" = "感謝を3つ書く";
+"quick_quest_gratitude_practice_task_3" = "前向きな感情を味わう";
+
+"quick_quest_weekly_planning" = "週間プランニング";
+"quick_quest_weekly_planning_description" = "目標と優先度を決めて来週の計画を立てる";
+"quick_quest_weekly_planning_task_1" = "先週の成果を振り返る";
+"quick_quest_weekly_planning_task_2" = "今週の主な目標を3つ設定";
+"quick_quest_weekly_planning_task_3" = "重要タスクをスケジューリング";
+"quick_quest_weekly_planning_task_4" = "セルフケアも計画する";
+
+"quick_quest_skill_development" = "スキル開発";
+"quick_quest_skill_development_description" = "新しいスキル学習または既存スキルの強化に時間を割く";
+"quick_quest_skill_development_task_1" = "集中するスキルを選ぶ";
+"quick_quest_skill_development_task_2" = "学習リソースを調べる";
+"quick_quest_skill_development_task_3" = "毎日30分練習する";
+"quick_quest_skill_development_task_4" = "進捗を記録する";
+
+"quick_quest_social_connection" = "ソーシャルつながり";
+"quick_quest_social_connection_description" = "家族や友人に連絡して関係を保つ";
+"quick_quest_social_connection_task_1" = "家族に電話する";
+"quick_quest_social_connection_task_2" = "旧友にメッセージを送る";
+"quick_quest_social_connection_task_3" = "会う予定を立てる";
+"quick_quest_social_connection_task_4" = "感謝を伝える";
+
+"quick_quest_home_organization" = "おうち整頓";
+"quick_quest_home_organization_description" = "家の一か所を片づけて整理する";
+"quick_quest_home_organization_task_1" = "整理する場所を決める";
+"quick_quest_home_organization_task_2" = "残す/寄付/捨てるに仕分け";
+"quick_quest_home_organization_task_3" = "しっかり掃除する";
+"quick_quest_home_organization_task_4" = "残したものを整える";
+
+"quick_quest_bucket_list_adventure" = "バケットリスト冒険";
+"quick_quest_bucket_list_adventure_description" = "バケットリストを1つ達成するか、新しいことに挑戦する";
+"quick_quest_bucket_list_adventure_task_1" = "達成したい項目を決める";
+"quick_quest_bucket_list_adventure_task_2" = "調査して計画を立てる";
+"quick_quest_bucket_list_adventure_task_3" = "必要な準備を行う";
+"quick_quest_bucket_list_adventure_task_4" = "実際にやってみる";
+"quick_quest_bucket_list_adventure_task_5" = "体験を記録する";
+
+"quick_quest_digital_detox" = "デジタルデトックス";
+"quick_quest_digital_detox_description" = "一定時間、SNSやデジタル機器から完全に離れる";
+"quick_quest_digital_detox_task_1" = "デトックスの時間とルールを決める";
+"quick_quest_digital_detox_task_2" = "家族や友人に知らせる";
+"quick_quest_digital_detox_task_3" = "代わりの活動を見つける";
+"quick_quest_digital_detox_task_4" = "デトックス期間を完了する";
+"quick_quest_digital_detox_task_5" = "体験を振り返る";
+
+"quick_quest_creative_project" = "クリエイティブ制作";
+"quick_quest_creative_project_description" = "やりたかった創作プロジェクトを始めて完了する";
+"quick_quest_creative_project_task_1" = "取り組むプロジェクトを選ぶ";
+"quick_quest_creative_project_task_2" = "材料とリソースを集める";
+"quick_quest_creative_project_task_3" = "マイルストーンと期限を設定";
+"quick_quest_creative_project_task_4" = "定期的に作業する";
+"quick_quest_creative_project_task_5" = "完成させて披露する";
+
+"quick_quest_fitness_challenge" = "フィットネス挑戦";
+"quick_quest_fitness_challenge_description" = "30日間のフィットネスチャレンジを完了して習慣化する";
+"quick_quest_fitness_challenge_task_1" = "取り組むチャレンジを選ぶ";
+"quick_quest_fitness_challenge_task_2" = "記録方法を用意する";
+"quick_quest_fitness_challenge_task_3" = "毎日のワークアウトを実行";
+"quick_quest_fitness_challenge_task_4" = "進捗を追跡して調整";
+"quick_quest_fitness_challenge_task_5" = "30日チャレンジを完遂";
+
+// MARK: - Edit Quest Components
+"scheduled" = "予定済み";
+
+// MARK: - Damage Tracking
+"damage_calculator" = "ダメージ計算機";
+
+// MARK: - Premium Features
+"premium_unlimited_quests" = "無制限クエスト";
+"premium_unlimited_quests_description" = "週7件の制限ではなく無制限のクエストが利用可能";
+"premium_more_rewards" = "報酬アップ";
+"premium_more_rewards_description" = "クエスト完了時の報酬が増加";
+"premium_instant_gems" = "即時ジェム";
+"premium_instant_gems_description" = "ジェムを300個すぐに入手";
+"premium_widgets" = "ウィジェット";
+"premium_widgets_description" = "ウィジェットを利用可能";
+
+// MARK: - Premium Plans
+"monthly" = "月額";
+"lifetime" = "買い切り";
+"per_month" = "／月";
+"one_time_payment" = "一回払い";
+
+// MARK: - Error Messages
+"error" = "エラー";
+"warning" = "警告";
+"failed_to_update_quest" = "クエストの更新に失敗しました";
+"failed_to_delete_quest" = "クエストの削除に失敗しました";
+"please_check_your_input" = "入力内容を確認してください";
+
+// MARK: - Equipment Categories
+"equipment_body_type" = "肌の色";
+"equipment_hair_style" = "髪型";
+"equipment_hair_color" = "髪色";
+"equipment_eye_color" = "目の色";
+"equipment_outfit" = "装備";
+"equipment_weapon" = "武器";
+"equipment_accessory" = "アクセサリー";
+
+// MARK: - Health Status
+"health_status_dead" = "戦闘不能";
+"health_status_critical" = "危険";
+"health_status_injured" = "負傷";
+"health_status_wounded" = "傷あり";
+"health_status_healthy" = "健康";
+"health_status_full_health" = "全快";
+
+// MARK: - Item Types
+"item_type_consumable_description" = "一度使用すると消費される";
+"item_type_accessory_description" = "外見変更用のコスメティックアクセサリー";
+"item_type_gear_description" = "能力値やレア度のある装備品";
+"item_type_booster_description" = "一時的なボーナスを付与";
+"item_type_collectible_description" = "鑑賞・収集用のビジュアルアイテム";
+
+// MARK: - Gear Categories
+"gear_category_head_description" = "兜・ヘッドギア";
+"gear_category_outfit_description" = "防具・衣装";
+"gear_category_weapon_description" = "武器・道具";
+"gear_category_shield_description" = "盾・防御装備";
+"gear_category_wings_description" = "翼アクセサリー";
+"gear_category_pet_description" = "相棒ペット";
+
+// MARK: - Accessory Categories
+"accessory_category_earrings_description" = "耳用アクセサリー";
+"accessory_category_eyeglasses_description" = "目元アクセサリー";
+"accessory_category_lashes_description" = "まつげアクセサリー";
+"accessory_category_clips_description" = "ヘアクリップ・花飾り";
+
+// MARK: - Item Effects
+"item_effect_attack_description" = "攻撃力が上がる";
+"item_effect_defense_description" = "防御力が上がる";
+"item_effect_health_description" = "体力を回復／増加";
+"item_effect_focus_description" = "集中力を回復／増加";
+"item_effect_experience_description" = "経験値を獲得";
+"item_effect_luck_description" = "運が上がる";
+"item_effect_speed_description" = "移動／行動速度が上がる";
+"item_effect_critical_chance_description" = "クリティカル発生率が上がる";
+"item_effect_critical_damage_description" = "クリティカルダメージが上がる";
+"item_effect_xp_boost_description" = "経験値獲得量を倍率アップ";
+"item_effect_coin_boost_description" = "コイン獲得量を倍率アップ";
+"item_effect_health_regeneration_description" = "時間経過で体力を回復";
+"item_effect_focus_regeneration_description" = "時間経過で集中力を回復";
+
+// MARK: - Health Status (Additional)
+"health_status_low" = "低";
+"health_status_moderate" = "中";
+"health_status_full" = "満";
+"health_status_unknown" = "不明";
+
+// MARK: - Health Errors
+"health_error_user_not_found" = "ユーザーが見つかりません";
+"health_error_invalid_damage_amount" = "無効なダメージ量です";
+"health_error_invalid_heal_amount" = "無効な回復量です";
+"health_error_invalid_max_health_amount" = "無効な最大体力量です";
+"health_error_invalid_health_amount" = "無効な体力量です";
+"health_error_invalid_quest_difficulty" = "無効なクエスト難易度です";
+"health_error_health_at_maximum" = "体力はすでに最大です";
+"health_error_health_at_minimum" = "体力はすでに最小です";
+
+// MARK: - Character Asset Categories
+"character_asset_body_type" = "肌の色";
+"character_asset_hair_style" = "髪型";
+"character_asset_hair_back_style" = "後ろ髪スタイル";
+"character_asset_hair_color" = "髪色";
+"character_asset_eye_color" = "目の色";
+"character_asset_outfit" = "装備";
+"character_asset_weapon" = "武器";
+"character_asset_accessory" = "アクセサリー";
+"character_asset_head" = "頭部";
+"character_asset_head_gear" = "ヘッドギア";
+"character_asset_shield" = "盾";
+"character_asset_wings" = "翼";
+"character_asset_mustache" = "口ひげ";
+"character_asset_flower" = "花";
+"character_asset_pet" = "ペット";
+
+// MARK: - Inventory Errors
+"inventory_error_invalid_item" = "無効なアイテムです";
+"inventory_error_item_not_found" = "インベントリにアイテムが見つかりません";
+"inventory_error_insufficient_quantity" = "アイテムが不足しています";
+"inventory_error_item_not_usable" = "このアイテムは使用できません";
+
+// MARK: - Inventory Categories
+"inventory_category_head_description" = "兜・ヘッドギア";
+"inventory_category_weapon_description" = "武器・戦闘アイテム";
+"inventory_category_shield_description" = "盾・防御装備";
+"inventory_category_outfit_description" = "衣装・防具";
+"inventory_category_pet_description" = "相棒ペット";
+"inventory_category_wings_description" = "翼・飛行アイテム";
+"inventory_category_others_description" = "ブースター・ポーション・コレクション";
+
+
+
+// MARK: - General
+"unknown_item" = "不明なアイテム";
+
+// MARK: - Premium Errors
+"premium_error_product_not_found" = "商品が見つかりません";
+"premium_error_user_cancelled" = "購入はキャンセルされました";
+"premium_error_purchase_pending" = "購入は承認待ちです";
+"premium_error_already_premium" = "すでにプレミアム会員です";
+"premium_error_unknown" = "不明なエラーが発生しました";
+
+// MARK: - Languages
+"language_english" = "英語";
+"language_turkish" = "トルコ語";
+"language_japanese" = "日本語";
+
+// MARK: - Shop Categories
+"shop_category_weapons_description" = "戦闘用の強力な武器";
+"shop_category_armor_description" = "冒険を守る防具";
+"shop_category_accessories_description" = "見た目を彩るアクセサリー";
+"shop_category_wings_description" = "魔法の翼";
+"shop_category_pets_description" = "冒険の相棒となるペット";
+"shop_category_consumables_description" = "旅を助ける消費アイテム";
+
+// MARK: - Currency
+"currency_gems" = "ジェム";
+"gem_reward" = "ジェム報酬";
+"currency_coins" = "コイン";
+
+// MARK: - Damage Calculation
+"due_today" = "今日が期限";
+
+// MARK: - Sample Data
+"sample_quest_title" = "サンプルクエスト";
+"sample_quest_description" = "テスト用のサンプルクエスト";
+"sample_task_title" = "サンプルタスク";
+"sample_one_time_quest_title" = "サンプル単発クエスト";
+"sample_one_time_quest_description" = "単発クエストのサンプル説明です。";
+"sample_daily_quest_title" = "サンプルデイリークエスト";
+"sample_daily_quest_description" = "デイリークエストのサンプル説明です。";
+"sample_task_1" = "タスク1";
+"sample_task_2" = "タスク2";
+"sample_task_3" = "タスク3";
+
+"loading_quests" = "クエストを読み込み中…";
+"no_quests" = "まだクエストがありません";
+"add_quest" = "クエストを追加";
+"streak_calendar" = "連続カレンダー";
+"current_streak" = "現在の記録";
+"longest_streak" = "最長記録";
+"streak_day" = "日";
+"streak_days" = "日";
+"best_streak" = "最高記録";
+"today_status" = "今日";
+"monthly_activity" = "月間アクティビティ";
+"active_days" = "活動日数";
+"activity_rate" = "活動率";
+"item_boosters" = "アイテムブースター";
+"total_active_boosters" = "有効なブースター合計";
+"collect_items_to_get_boosters" = "アイテムを集めてブースターを手に入れよう！";
+"go_to_shop" = "ショップへ";
+"view_details" = "詳細を見る";
+"tag_preview_will_appear_here" = "ここにタグのプレビューが表示されます";
+"tag_name" = "タグ名";
+"enter_tag_name" = "タグ名を入力";
+"icon" = "アイコン";
+"browse_all" = "すべて閲覧";
+"selected_icon" = "選択中のアイコン";
+"color" = "色";
+"create_tag" = "タグを作成";
+"create" = "作成";
+"owned" = "所持";
+"buy" = "購入";
+"filters" = "フィルター";
+"rarity" = "レア度";
+"all" = "すべて";
+"show_only_affordable_items" = "購入可能なアイテムのみ表示";
+"item_preview" = "アイテムプレビュー";
+"buy_for" = "%@ で購入";
+"unlock_premium" = "プレミアムを解放";
+"transform_quest_planning_experience" = "クエスト計画体験を進化させよう";
+"premium_features" = "プレミアム機能";
+"choose_your_plan" = "プランを選択";
+"get_premium" = "プレミアムにする";
+"subscription_terms" = "いつでも解約可能。自動更新は、現在の期間終了の24時間前までにオフにしない限り自動的に更新されます。";
+"most_popular" = "一番人気";
+"usage_information" = "利用情報";
+"consumable_item" = "消費アイテム";
+"consumable_item_description" = "使用すると消費され、インベントリから削除されます。";
+"booster_item" = "ブースターアイテム";
+"booster_item_description" = "一時的なボーナスを付与し、使用時に消費されます。";
+"equipment_item" = "装備アイテム";
+"equipment_item_description" = "装備してキャラクターの能力値を強化できます。";
+"collectible_item" = "コレクションアイテム";
+"collectible_item_description" = "鑑賞用・収集用のアイテムです。";
+"item_details" = "アイテム詳細";
+"use" = "使用";
+"equip" = "装備";
+"unequip" = "装備解除";
+"failed_to_use_item" = "アイテムの使用に失敗しました";
+"item_not_found_in_inventory" = "インベントリにアイテムが見つかりません";
+"failed_to_equip_item" = "装備に失敗しました";
+"invalid_gear_category" = "無効な装備カテゴリです";
+"item_equipped_successfully" = "装備しました！";
+"item_unequipped_successfully" = "装備を解除しました！";
+"item_used_successfully" = "アイテムを使用しました！";
+"no_items_for_category" = "%@ のアイテムはありません";
+"visit_shop_to_get_items" = "ショップで %@ のアイテムを手に入れよう！";
+"no_colors_available_for_hair_style" = "この髪型に利用可能な色はありません";
+"price" = "%@";
+"damage_history" = "被ダメージ履歴";
+"total_damage" = "%@ HP";
+"loading_damage_history" = "被ダメージ履歴を読み込み中...";
+"no_damage_taken" = "ダメージは受けていません";
+"damage_amount" = "%@ HP";
+"view_all_damage_events" = "全 %d 件のダメージイベントを見る";
+"damage_info_title" = "ダメージの仕組み";
+"damage_info_message" = "クエストの期限を逃すとダメージを受けます。デイリーは1日ごとに3HP、ウィークリーは8HP、単発クエストは10HPのダメージです。時間通りにクエストを完了してダメージを回避しよう！";
+
+// MARK: - Item Names and Descriptions
+
+// Health Potions
+"lesser_healing_elixir" = "癒しの霊薬・小";
+"lesser_healing_elixir_description" = "HPを15回復。一般的な薬草で作られた基本の回復薬。";
+"vitality_draught" = "活力の霊酒";
+"vitality_draught_description" = "HPを30回復。冒険者に頼られる安定の回復薬。";
+"greater_restoration_tonic" = "大回復の強壮薬";
+"greater_restoration_tonic_description" = "HPを50回復。命を救うこともある強力な回復薬。";
+"supreme_life_essence" = "至高の生命精髄";
+"supreme_life_essence_description" = "HPを75回復。希少素材を用いた極上の回復薬。";
+"phoenix_tears" = "不死鳥の涙";
+"phoenix_tears_description" = "体力を全回復。死の淵からも蘇らせる伝説の秘薬。";
+
+// XP Boosts
+"wisdoms_breath" = "叡智の吐息";
+"wisdoms_breath_description" = "30分間、獲得XPが25%増加";
+"scholars_insight" = "学者の洞察";
+"scholars_insight_description" = "1時間、獲得XPが50%増加";
+"masters_enlightenment" = "達人の悟り";
+"masters_enlightenment_description" = "2時間、獲得XPが100%増加";
+"ancient_knowledge_essence" = "古代知識の精髄";
+"ancient_knowledge_essence_description" = "4時間、獲得XPが200%増加";
+
+// Coin Boosts
+"merchants_blessing" = "商人の加護";
+"merchants_blessing_description" = "30分間、コイン獲得量が25%増加";
+"wealth_attractor" = "富の引き寄せ";
+"wealth_attractor_description" = "1時間、コイン獲得量が50%増加";
+"golden_fortune" = "黄金の幸運";
+"golden_fortune_description" = "2時間、コイン獲得量が100%増加";
+"dragons_hoard_essence" = "竜の財宝の精髄";
+"dragons_hoard_essence_description" = "4時間、コイン獲得量が200%増加";
+
+// Accessories - Flowers
+"azure_bloom" = "蒼穹の花";
+"azure_bloom_description" = "澄みわたる夏空の本質を宿す青い花。花弁は内なる光で瞬き、身に着けた者に安らぎをもたらす。";
+"rose_petal" = "薔薇の花弁";
+"rose_petal_description" = "気高く美しい赤い花弁。ほのかな香りがロマンスと優雅さを添える。";
+"emerald_petal" = "翠玉の花弁";
+"emerald_petal_description" = "朝露のように煌めく葉を持つ緑の花。自然の力を放ち、身に着ける者と自然のつながりを高める。";
+"amethyst_blossom" = "紫晶の花";
+"amethyst_blossom_description" = "神秘の光を帯びる紫の花。叡智と内なる力を与えてくれる。";
+
+// Accessories - Eyeglasses
+"sapphire_spectacles" = "蒼玉の眼鏡";
+"sapphire_spectacles_description" = "視界を常人以上に高める青のレンズ。貴金属のフレームには小さなサファイアが散りばめられている。";
+"shadow_lenses" = "影のレンズ";
+"shadow_lenses_description" = "光を反射せず吸い込む灰色の眼鏡。神秘的な雰囲気を醸し、影に溶け込む助けとなる。";
+"ruby_frames" = "紅玉のフレーム";
+"ruby_frames_description" = "内なる炎を宿す鮮烈な赤の眼鏡。熱を帯びて輝き、威圧感を与える。";
+
+// Accessories - Earrings
+"moonstone_stud" = "月長石のピアス";
+"moonstone_stud_description" = "純粋なムーンストーンで作られた一粒ピアス。水面の月光のように光を捉え、穏やかな力が脈打つ。";
+"starlight_hoop" = "星明かりのフープ";
+"starlight_hoop_description" = "星のきらめきのように輝く上品なピアス。金属の中で小さな星々が瞬き踊る。";
+
+// Accessories - Lashes
+"rose_blush" = "ローズブラッシュ";
+"rose_blush_description" = "自然で健康的な血色を与えるチーク。美しさと自信を引き出し、魅力を放たせる。";
+
+// Gear - Head
+"shadow_veil" = "影のヴェール";
+"shadow_veil_description" = "影の精を織り込んだ謎めくフード。身元を隠し、天候からの基本的な守りを与える。";
+"ironclad_crown" = "鋼鉄の冠";
+"ironclad_crown_description" = "精錬された鉄で鍛えられた冠。高い防護と堂々たる外見を両立し、多くの騎士見習いが戴く。";
+"crimson_crest" = "深紅の紋冠";
+"crimson_crest_description" = "紅の宝玉を飾った印象的な兜。内なる炎が脈打ち、威圧感を与える。";
+
+// Gear - Outfits
+"peasants_garb" = "農民の衣";
+"peasants_garb_description" = "質素だが丈夫な村人の服。見た目は控えめでも、多くの冒険者の最初の一歩を支えてきた。";
+"azure_tunic" = "蒼のチュニック";
+"azure_tunic_description" = "朝露のように光を受ける美しい青の上衣。意外なほど強靭で、スタイルと守りを備える。";
+"comfort_cloak" = "コンフォートクローク";
+"comfort_cloak_description" = "やさしく包み込む暖かなパーカー。長い学びの夜や静かな思索に最適。";
+"silken_grace" = "絹の優雅";
+"silken_grace_description" = "最上の絹で織られた優美なドレス。水のように流れる布地と精緻な刺繍が古の宮廷を物語る。";
+"ironclad_plate" = "鋼鉄の甲冑";
+"ironclad_plate_description" = "重厚な鉄の鎧は威厳ある音を響かせる。一枚一枚が丹念に作られ、打撃への高い防護を誇る。";
+"reinforced_ironclad" = "強化鋼鉄鎧";
+"reinforced_ironclad_description" = "追加補強を施した鉄の鎧。古法で処理され、一般的な武器をほぼ通さない。";
+"crimson_raiment" = "深紅の武装衣";
+"crimson_raiment_description" = "内なる炎を燃やす赤の鎧。熱が脈打ち、敵を威圧し味方を鼓舞する。";
+"arcane_robes" = "秘術の法衣";
+"arcane_robes_description" = "魔力が揺らめく神秘のローブ。魔術の能力を高め、秘術的な攻撃から守る。";
+"nightwing_shroud" = "夜翼の外套";
+"nightwing_shroud_description" = "光そのものを吸い込む謎の装束。影を歩む者がまとうと、異界の存在感を得る。";
+"inferno_mantle" = "煉獄のマント";
+"inferno_mantle_description" = "純粋な炎の力を放つ装束。揺らめく焔が纏い、破壊と力のオーラを生む。";
+
+// Gear - Wings
+"celestial_wings" = "天翼";
+"celestial_wings_description" = "神聖な光に輝く純白の翼。純粋なエネルギーでできており、天を優雅に翔ける。";
+"phoenix_wings" = "フェニックスの翼";
+"phoenix_wings_description" = "永遠の炎で燃える翼。羽は熱を帯び、灰からでも再生する。";
+"blazing_phoenix_wings" = "紅蓮フェニックスの翼";
+"blazing_phoenix_wings_description" = "炎をさらに強めたフェニックスの翼。近づく敵は再生の灼熱を感じる。";
+"blazing_phoenix" = "紅蓮のフェニックス";
+"blazing_phoenix_description" = "炎をさらに強めたフェニックスの翼。近づく敵は再生の灼熱を感じる。";
+"shadow_wings" = "影翼";
+"shadow_wings_description" = "周囲の光を吸い込む黒の翼。静かに夜を翔け、姿を見せたくない者に最適。";
+
+// Gear - Weapons
+"oakheart_blade" = "橡心の刃";
+"oakheart_blade_description" = "古樫から削り出され、長年の乾燥で硬化した剣。素朴ながら、手練には驚くほど扱いやすい。";
+"copper_fang" = "銅の牙";
+"copper_fang_description" = "赤みを帯びた銅の剣。丹念な鍛造により陽光を裂く鋭い刃を持つ。";
+"ironclad_edge" = "鋼鉄の刃";
+"ironclad_edge_description" = "無数の戦士が選んだ信頼の鉄剣。均整と耐久に優れ、戦場の友となる。";
+"steel_serpent" = "鋼の蛇";
+"steel_serpent_description" = "蛇の一撃のように走る鋭刃。精緻な造りで下位の鎧なら容易く断つ。";
+"crimson_fang" = "深紅の牙";
+"crimson_fang_description" = "内なる熱を宿す赤い剣。斬るほどに熱を帯び、戦いを欲する。";
+"blazing_fang" = "炎牙";
+"blazing_fang_description" = "深紅の牙を強化した剣。一撃で敵を炎上させるほどの灼熱を放つ。";
+"golden_dawn" = "黄金の黎明";
+"golden_dawn_description" = "暁光を宿す伝説の黄金剣。刃は温もりと希望を放ち、味方を励まし敵を震え上がらせる。";
+"thunder_axe" = "雷斧";
+"thunder_axe_description" = "電気の力が走る重斧。振るう度に雷鳴が轟き、稲妻を刃に宿す。";
+"storm_hatchet" = "嵐の手斧";
+"storm_hatchet_description" = "嵐の力を唸らせる小型斧。軽量ながら雷と稲妻の力を扱える。";
+"vipers_lash" = "毒蛇の鞭";
+"vipers_lash_description" = "蛇のようにしなる鞭。特製の油で処理され、静かでありながら致命的。";
+"arcane_staff" = "秘術の杖";
+"arcane_staff_description" = "秘めた魔力が脈打つ杖。古木と魔晶から作られ、術を強化し強力な呪文を導く。";
+"iron_maiden" = "鉄の鎚姫";
+"iron_maiden_description" = "破壊的威力の重メイス。棘頭は鎧も骨も砕き、敵に畏怖を与える。";
+"soul_reaper" = "魂狩り";
+"soul_reaper_description" = "命を吸い取るかのような死の刃。漆黒で氷のように冷たく、その名を知る者は皆恐れる。";
+"windseeker_bow" = "風求の弓";
+"windseeker_bow_description" = "風に導かれる弓。放たれた矢は強風の中でも標的を正確に射抜く。";
+"stormcaller_bow" = "雷呼の弓";
+"stormcaller_bow_description" = "矢に嵐を呼ぶ弓。一矢ごとに稲妻が走り、弓そのものが雷鳴を響かせる。";
+
+// Additional Weapons
+"deadly_sword" = "必殺の剣";
+"deadly_sword_description" = "殺傷力を極めた剣。剃刀のような刃とバランスで、迅速に戦いを終わらせる。";
+"battle_axe" = "戦斧";
+"battle_axe_description" = "苛烈な戦いのための重斧。巨大な刃は鎧も骨も断ち、戦場で恐れられる。";
+"small_battle_axe" = "小型戦斧";
+"small_battle_axe_description" = "機敏さと正確さを重視した軽量戦斧。小さくとも的確な一撃は破壊的。";
+"whip_sword" = "鞭剣";
+"whip_sword_description" = "鞭の間合いと刃の斬撃を併せ持つ柔剣。軌道が読みにくく、敵の虚を突く。";
+
+// Gear - Shields
+"oakheart_ward" = "橡心の盾";
+"oakheart_ward_description" = "古樫から削られた堅牢な盾。幾多の打撃を吸収し、頼れる守りを提供する。";
+"crimson_ward" = "深紅の守盾";
+"crimson_ward_description" = "防御の炎を宿す赤い盾。攻撃を熱として呑み込み、相手に躊躇を与える。";
+"ironclad_bulwark" = "鋼鉄の城壁";
+"ironclad_bulwark_description" = "時の試練に耐えた頑丈な鉄盾。無数の傷跡がその防御力を物語る。";
+"golden_aegis" = "黄金のアイギス";
+"golden_aegis_description" = "神聖な加護を放つ黄金の盾。聖なる光が輝き、敵の攻撃を弱める。";
+
+// Gear - Pets
+"grey_paw" = "灰影の爪";
+"grey_paw_description" = "影のように柔らかな毛並みを持つ灰色の猫の相棒。静かに動き、思考を理解してくれる。潜行任務に最適。";
+"brown_paw" = "茶土の爪";
+"brown_paw_description" = "温かな土色の毛並みを持つ忠実な猫の相棒。穏やかな性格で長旅を癒やす。";
+"whiskerwind" = "口髭の風";
+"whiskerwind_description" = "星明かりのようにきらめく毛並みの優雅な猫。危機察知に長け、迫る脅威を警告してくれる。";
+"golden_cluck" = "黄金のコッコ";
+"golden_cluck_description" = "黄金の羽を持つ忠実なニワトリの相棒。見た目は素朴でも、金の心でどこまでも付いてくる。";
+
+// Collectibles
+"crown_of_kings" = "王たちの冠";
+"crown_of_kings_description" = "歴代の王の頭上を飾った壮麗な冠。宝玉には古の叡智が宿り、威厳のオーラを授ける。";
+"mystic_egg" = "神秘の卵";
+"mystic_egg_description" = "未知の力で脈打つ不思議な卵。伝承では幻獣が孵るというが、その瞬間を見た者はいない。";
+"thunder_hammer" = "雷鳴の鎚";
+"thunder_hammer_description" = "電気の力を帯びる強大な鎚。振り下ろすたび雷鳴が轟き、嵐の力を振るう。";
+"golden_key_of_ages" = "古代の黄金鍵";
+"golden_key_of_ages_description" = "物理の扉だけでなく何かをも開く黄金の鍵。古文は忘れられた領域や秘奥への門を示唆する。";
+"silver_key_of_secrets" = "秘匿の銀鍵";
+"silver_key_of_secrets_description" = "持つ者に秘密を囁く銀の鍵。開けた錠も暴いた秘密も、金属が記憶しているかのようだ。";
+"medal_of_honor" = "名誉勲章";
+"medal_of_honor_description" = "勇気と武勲に与えられる栄誉ある勲章。鋳肌は栄光に輝き、見る者に敬意を抱かせる。";
+"harvest_pumpkin" = "収穫のかぼちゃ";
+"harvest_pumpkin_description" = "内なる光で輝く祝祭のかぼちゃ。細やかな彫刻と紋が喜びと祝福をもたらす。";
+"ring_of_power" = "力の指輪";
+"ring_of_power_description" = "秘術の力が脈打つ魔法の指輪。古代文字が刻まれ、忘れられた術への道を開く。";
+"treasure_chest" = "宝箱";
+"treasure_chest_description" = "幾時代もの富を収めてきた頑丈な箱。風雪に耐えた木と巧妙な錠前が特徴。";
+"azure_treasure_chest" = "蒼の宝箱";
+"azure_treasure_chest_description" = "内なる光で淡く輝く青い宝箱。未知の合金で造られ、箱自体が魔力の唸りを放つ。";
+"opened_treasure_chest" = "開かれた宝箱";
+"opened_treasure_chest_description" = "既に秘密を明かした宝箱。今は空でも、冒険と発見の気配を残す。";
+"bronze_trophy_of_valor" = "武勇の銅杯";
+"bronze_trophy_of_valor_description" = "勇気と武勇に贈られる銅のトロフィー。磨き上げられた光沢と職人技が映える。";
+"silver_trophy_of_glory" = "栄光の銀杯";
+"silver_trophy_of_glory_description" = "達成の光で輝く銀のトロフィー。過去の勝利の栄華を映し、次の栄冠を鼓舞する。";
+"golden_trophy_of_legends" = "伝説の黄金杯";
+"golden_trophy_of_legends_description" = "伝説の力を放つ黄金のトロフィー。偉大さの精が宿り、持つ者は名を残す運命にある。";
+"scroll_of_ancient_wisdom" = "古代叡智の巻";
+"scroll_of_ancient_wisdom_description" = "秘紋と失われた知で覆われた古の巻物。耳を澄ませば羊皮紙が秘奥を囁く。";
+"scroll_of_lost_secrets" = "失われし秘儀の巻";
+"scroll_of_lost_secrets_description" = "あまりに強大で世紀を超えて封印された秘儀を記す巻。禁断の光で文字が輝き、忘却の魔術を示す。";
+"scroll_of_forbidden_knowledge" = "禁忌知識の巻";
+"scroll_of_forbidden_knowledge_description" = "危うい力が脈打つ巻物。世界を護るため古賢者が封じたほどの知が収められている。";
+"bell_of_awakening" = "覚醒の鐘";
+"bell_of_awakening_description" = "魂を呼び覚ます響きを持つ魔法の鐘。純粋な共鳴が魔障を破り幻惑を祓う。";
+"chronometer" = "時紋計";
+"chronometer_description" = "時そのものの流れを測る神秘の計器。不可能な精度で歯車が巡る。";
+"lucky_four_leaf_clover" = "幸運の四つ葉";
+"lucky_four_leaf_clover_description" = "幸運を放つ希少な四つ葉のクローバー。内から光を放ち、持つ者に加護を与える。";
+"holy_cross" = "聖なる十字";
+"holy_cross_description" = "神聖な光で輝く十字。祝福を受け、闇と邪悪から護る。";
+"phoenix_feather" = "不死鳥の羽";
+"phoenix_feather_description" = "永遠の炎で燃える羽。本来なら燃え尽きるはずが、温もりと再生を宿している。";
+"essence_of_fire" = "炎の精核";
+"essence_of_fire_description" = "純粋な火の力を閉じ込めた結晶。内で焔が踊り、凍てつく心すら温める。";
+"lightning_bolt" = "稲妻の結晶";
+"lightning_bolt_description" = "稲妻を封じた結晶。内部で電光が弾け、嵐の力が唸る。";
+"strength_totem" = "剛力のトーテム";
+"strength_totem_description" = "肉体の力を高めるトーテム。力の紋様が刻まれ、勇気と剛力を授ける。";
+"starlight_fragment" = "星明かりの欠片";
+"starlight_fragment_description" = "星光を封じた結晶片。遥かな星の輝きで、心に明晰と霊感をもたらす。";
+"skull_of_the_fallen" = "堕ちし者の髑髏";
+"skull_of_the_fallen_description" = "持ち主の記憶を宿すと言われる不気味な頭蓋。過去の秘密を示し、未来の危機を警告する。";
+"skull_of_the_ancient" = "古代の髑髏";
+"skull_of_the_ancient_description" = "化石化するほど古い頭蓋。古の叡智が滲み出し、学ぶ者に失われた知を伝える。";
+
+// MARK: - Enemy Names and Descriptions
+"sleepy_cat" = "ねむねこ";
+"sleepy_cat_description" = "仕事よりお昼寝したくなる眠たいネコ";
+"funny_zombie" = "おどけゾンビ";
+"funny_zombie_description" = "笑いで気を散らすおちゃめなゾンビ";
+"funky_monster" = "ファンキーモンスター";
+"funky_monster_description" = "集中よりノリノリにさせてくるファンキーな怪物";
+"boo_monster" = "ブーモンスター";
+"boo_monster_description" = "集中力を追い払うちょっと不気味な“ブー”モンスター";
+"flying_dragon" = "飛竜";
+"flying_dragon_description" = "討伐が難しい、威厳ある空の覇者";
+
+// MARK: - Item Categories
+"consumable" = "消費";
+"booster" = "ブースター";
+"collectible" = "コレクション";
+"accessory" = "アクセサリー";
+"gear" = "装備";
+
+// MARK: - Gear Categories
+"head" = "頭部";
+"outfit" = "装備";
+"wings" = "翼";
+"weapon" = "武器";
+"shield" = "盾";
+"pet" = "ペット";
+
+// MARK: - Accessory Categories
+"clips" = "ヘアクリップ";
+"eyeglasses" = "眼鏡";
+"earrings" = "ピアス";
+"lashes" = "まつげ";
+"eyelashes" = "まつげ";
+"eyelash" = "まつげ";
+
+// MARK: - Collection Categories
+"royalty" = "王族";
+"general" = "一般";
+"weapons" = "武器";
+"treasure" = "宝物";
+"accessories" = "アクセサリー";
+"trophies" = "トロフィー";
+"scrolls" = "巻物";
+"elements" = "元素";
+
+// MARK: - Item Rarities
+"common" = "コモン";
+"uncommon" = "アンコモン";
+"rare" = "レア";
+"epic" = "エピック";
+"legendary" = "レジェンダリー";
+
+// MARK: - Onboarding Flow
+"next" = "次へ";
+"start_adventure" = "冒険開始";
+"welcome" = "ようこそ";
+"customize_character" = "キャラクターをカスタマイズ";
+"choose_name" = "名前を選ぶ";
+"choose_title" = "称号を選ぶ";
+"ready" = "準備完了";
+"create_quests_and_complete_tasks" = "クエストを作成し、タスクを完了しよう";
+"earn_experience_and_level_up" = "経験値を獲得してレベルアップしよう";
+"unlock_achievements_and_rewards" = "実績と報酬を解除しよう";
+"customize_your_character" = "キャラクターをカスタマイズしよう";
+"enter_hero_name" = "勇者の名前を入力";
+"cancel" = "キャンセル";
+
+// MARK: - Character Titles
+"the_brave" = "勇敢なる者";
+"the_brave_description" = "危険にも恐れず立ち向かう";
+"the_wise" = "賢者";
+"the_wise_description" = "知識と英知が道を導く";
+"the_swift" = "迅速なる者";
+"the_swift_description" = "風のように素早く、猫のようにしなやか";
+"the_mighty" = "剛力";
+"the_mighty_description" = "力と威力の体現者";
+"the_shadow" = "影";
+"the_shadow_description" = "姿を見せず、闇から一撃";
+"the_guardian" = "守護者";
+"the_guardian_description" = "弱き者と無垢なる者の盾";
+"the_wanderer" = "放浪者";
+"the_wanderer_description" = "未知の地と秘密を求める旅人";
+"the_legendary" = "伝説";
+"the_legendary_description" = "偉業と名声を約された存在";
+"the_whimsical" = "気まぐれ";
+"the_whimsical_description" = "行く先々に喜びと驚きを運ぶ";
+"the_stormborn" = "嵐生まれ";
+"the_stormborn_description" = "雷に育まれ、混沌を御する";
+"the_dreamweaver" = "夢織り";
+"the_dreamweaver_description" = "夢を現実へと編み上げる";
+"the_starlight" = "星明かり";
+"the_starlight_description" = "最も暗い道を照らし出す";
+"hero" = "勇者";
+"chooseYourTitle" = "称号を選ぶ";
+"selectTitleDescription" = "キャラクターの個性と実績を表す称号を選んでください";
+"selectDifferentTitle" = "別の称号を選ぶ";
+"randomTitle" = "ランダム称号";
+"chooseFromAvailableTitles" = "利用可能な称号から選択";
+"maximum_16_characters" = "最大16文字";
+"name_your_hero" = "勇者に名前をつける";
+"choose_legendary_name_for_character" = "伝説級の名を与えよう";
+"random_name" = "ランダム名";
+"your_adventure_awaits" = "あなたの冒険が待っている";
+
+// MARK: - Home View
+"new_quest" = "新規クエスト";
+"create_new_adventure" = "新しい冒険を作成";
+"quick_quests" = "クイッククエスト";
+"add_premade_quests" = "既製クエストを追加";
+"character" = "キャラクター";
+"view_your_stats" = "ステータスを見る";
+"finished" = "完了";
+"view_completed_quests" = "完了クエストを見る";
+"achievements" = "実績";
+"view_your_trophies" = "トロフィーを見る";
+"focus_timer" = "フォーカスタイマー";
+"battle_distractions" = "誘惑と戦う";
+"shop" = "ショップ";
+"buy_items_with_coins" = "コインでアイテムを購入";
+"add_currency" = "通貨を追加";
+"active_quests" = "進行中のクエスト";
+"no_active_quests" = "進行中のクエストなし";
+"create_quest" = "クエストを作成";
+"active_boosters" = "有効なブースター";
+"no_active_boosters" = "有効なブースターはありません";
+"experience" = "経験値";
+"coins" = "コイン";
+"visit_shop" = "ショップへ";
+
+// MARK: - Quest Creation & Details
+"quest_title" = "クエスト名";
+"enter_quest_name" = "クエスト名を入力";
+"quest_description" = "クエストの説明";
+"describe_quest" = "クエスト内容を記述";
+"quest_deadline" = "クエスト期限";
+"quest_difficulty" = "クエスト難易度";
+"creating" = "作成中...";
+"error" = "エラー";
+"ok" = "OK";
+"unknown_error" = "不明なエラー";
+"quest_details" = "クエスト詳細";
+"quest_due_date" = "クエスト期限日";
+"created" = "作成";
+"type" = "種類";
+"main_quest_label" = "メインクエスト";
+"completed_label" = "完了";
+"mark_as_finished" = "完了にする";
+"mark_incomplete" = "未完了にする";
+"mark_complete" = "完了にする";
+"view_all_damage_events" = "全 {count} 件のダメージイベントを見る";
+"damage_history" = "被ダメージ履歴";
+"total_damage" = "総ダメージ";
+"loading_damage_history" = "被ダメージ履歴を読み込み中...";
+"no_damage_taken" = "ダメージは受けていません";
+"damage_amount" = "ダメージ量";
+
+// MARK: - Quest Creation Components
+"quest_master" = "クエストマスター";
+"continue" = "続ける";
+"quest_board" = "クエスト掲示板";
+"adventure_awaits_brave_one" = "勇者よ、冒険が君を待っている！";
+"accept_new_quest" = "新しいクエストを受ける";
+"scheduled_days" = "予定日";
+"quest_tasks" = "クエストのタスク";
+"manage_tasks" = "タスク管理";
+"quest_difficulty" = "クエスト難易度";
+"repeat_type" = "繰り返しタイプ";
+"one_time" = "1回のみ";
+"quest_reward" = "クエスト報酬";
+"base_reward" = "基本報酬";
+"task_bonus" = "タスクボーナス";
+"quest_tags" = "クエストタグ";
+"add_tags" = "タグを追加";
+"no_tags_selected" = "タグが選択されていません";
+"quest_title_cannot_be_empty" = "クエスト名は空にできません。";
+
+// MARK: - Enhanced Date Picker
+"select_your_quest_deadline" = "クエストの期限を選択";
+"selected_date" = "選択した日付";
+"selected_deadline" = "選択した期限";
+"confirm_date" = "日付を確定";
+
+// MARK: - Calendar View
+"quest_calendar" = "クエストカレンダー";
+"calendar" = "カレンダー";
+"heads_up" = "注意";
+"ok_button" = "OK";
+"no_quests" = "クエストなし";
+"add_quest" = "クエストを追加";
+"loading_character" = "キャラクターを読み込み中...";
+"recent_achievements" = "最近の実績";
+"no_achievements_yet" = "実績はまだありません";
+"complete_quests_to_earn_achievements" = "クエスト達成で実績を解除しよう";
+"quick_actions" = "クイックアクション";
+"health" = "体力";
+"the_brave" = "勇敢なる者";
+"xp" = "XP";
+
+// MARK: - Shop Categories
+"weapons" = "武器";
+"armor" = "防具";
+"accessories" = "アクセサリー";
+"wings" = "翼";
+"pets" = "ペット";
+"consumables" = "消費アイテム";
+"helmet" = "兜";
+"outfit" = "装備";
+"shield" = "盾";
+"potions" = "ポーション";
+"boosts" = "ブースト";
+"specials" = "スペシャル";
+
+// MARK: - Shop Items
+"icon_gold" = "ゴールド";
+"icon_gem" = "ジェム";
+
+// MARK: - Character Customization Steps
+"select_skin_color" = "肌の色を選択";
+"choose_hairstyle" = "髪型を選択";
+"choose_hair_back_style" = "後ろ髪スタイルを選択";
+"select_eye_color" = "目の色を選択";
+"choose_outfit" = "装備を選択";
+"pick_your_weapon" = "武器を選ぶ";
+"add_mustache" = "口ひげを追加";
+"add_flower" = "花を追加";
+"add_accessories" = "アクセサリーを追加";
+
+// MARK: - Character Customization UI
+"step_progress" = "全%d段階中 %d 段階目";
+"current_selection" = "現在の選択";
+"premium_item" = "プレミアムアイテム";
+"locked_item" = "ロック中のアイテム";
+"unlock_premium_to_access" = "このアイテムを使うにはプレミアムを解放してください";
+
+// MARK: - Character Titles (Additional)
+"the_wise" = "賢者";
+"the_swift" = "迅速なる者";
+"the_mighty" = "剛力";
+"the_shadow" = "影";
+"the_guardian" = "守護者";
+"the_wanderer" = "放浪者";
+"the_legendary" = "伝説";
+"the_whimsical" = "気まぐれ";
+"the_stormborn" = "嵐生まれ";
+"the_dreamweaver" = "夢織り";
+"the_starlight" = "星明かり";
+
+// MARK: - Character Title Descriptions
+"the_brave_description" = "危険にも恐れず立ち向かう";
+"the_wise_description" = "知識と英知が道を導く";
+"the_swift_description" = "風のように素早く、猫のようにしなやか";
+"the_mighty_description" = "力と威力の体現者";
+"the_shadow_description" = "姿を見せず、闇から一撃";
+"the_guardian_description" = "弱き者と無垢なる者の盾";
+"the_wanderer_description" = "未知の地と秘密を求める旅人";
+"the_legendary_description" = "偉業と名声を約された存在";
+"the_whimsical_description" = "行く先々に喜びと驚きを運ぶ";
+"the_stormborn_description" = "雷に育まれ、混沌を御する";
+"the_dreamweaver_description" = "夢を現実へと編み上げる";
+"the_starlight_description" = "最も暗い道を照らし出す";
+
+// MARK: - Onboarding Flow (more)
+"choose_name" = "名前を選ぶ";
+"choose_title" = "称号を選ぶ";
+"ready" = "準備完了";
+"create_quests_and_complete_tasks" = "クエストを作成し、タスクを完了しよう";
+"earn_experience_and_level_up" = "経験値を獲得してレベルアップしよう";
+"unlock_achievements_and_rewards" = "実績と報酬を解除しよう";
+"customize_your_character" = "キャラクターをカスタマイズしよう";
+"enter_hero_name" = "勇者の名前を入力";
+"select_title_description" = "キャラクターの個性と実績を表す称号を選んでください";
+
+// MARK: - Character Customization Categories
+"skin_color" = "肌の色";
+"hairstyle" = "髪型";
+"hair_back_style" = "後ろ髪スタイル";
+"hair_color" = "髪色";
+"eye_color" = "目の色";
+"outfit" = "装備";
+"weapon" = "武器";
+"mustache" = "口ひげ";
+"flower" = "花";
+"accessory" = "アクセサリー";
+
+// MARK: - Character Customization Options
+"no_customization_selected" = "カスタマイズは未選択です";
+"default_style" = "デフォルトスタイル";
+"classic_style" = "クラシックスタイル";
+"modern_style" = "モダンスタイル";
+"elegant_style" = "エレガントスタイル";
+"warrior_style" = "戦士スタイル";
+"mage_style" = "魔法使いスタイル";
+"rogue_style" = "盗賊スタイル";
+
+// MARK: - Character Preview
+"character_preview" = "キャラクタープレビュー";
+"preview_your_character" = "キャラクターをプレビュー";
+"character_customization" = "キャラクターカスタマイズ";
+"customize_your_hero" = "勇者をカスタマイズ";
+"choose_weapon_and_see_character_come_to_life" = "武器を選び、キャラクターを生き生きとさせよう";
+"select_your_weapon" = "武器を選択";
+"name_your_hero" = "勇者に名前をつける";
+"choose_legendary_name_for_character" = "伝説級の名を選ぼう";
+"enter_your_heros_name" = "勇者の名前を入力";
+"maximum_16_characters" = "最大16文字";
+"ready_for_adventure" = "冒険の準備完了！";
+"your_hero_is_ready_to_begin_journey" = "勇者は旅立つ準備ができた";
+
+// MARK: - Character Stats
+"character_stats" = "キャラクターステータス";
+"character_level" = "レベル";
+"character_experience" = "経験値";
+"character_health" = "体力";
+"character_mana" = "マナ";
+"character_strength" = "力";
+"character_intelligence" = "知力";
+"character_agility" = "敏捷";
+
+// MARK: - Character Equipment
+"equipped_items" = "装備中のアイテム";
+"no_items_equipped" = "装備中のアイテムはありません";
+"equip_item" = "装備する";
+"unequip_item" = "装備を外す";
+"item_equipped" = "装備しました";
+"item_unequipped" = "装備を外しました";
+
+// MARK: - Character Customization Flow
+"customization_progress" = "カスタマイズ進行状況";
+"customization_complete" = "カスタマイズ完了";
+"customization_incomplete" = "カスタマイズ未完了";
+"please_complete_customization" = "キャラクターのカスタマイズを完了してください";
+"customization_saved" = "カスタマイズを保存しました";
+"customization_failed" = "カスタマイズの保存に失敗しました";
+
+// MARK: - Character Customization Validation
+"please_select_skin_color" = "肌の色を選択してください";
+"please_select_hairstyle" = "髪型を選択してください";
+"please_select_eye_color" = "目の色を選択してください";
+"please_select_outfit" = "装備を選択してください";
+"please_select_weapon" = "武器を選択してください";
+
+// MARK: - Character Customization Help
+"customization_help" = "カスタマイズのヘルプ";
+"tap_to_select" = "タップで選択";
+"tap_to_preview" = "タップでプレビュー";
+"swipe_to_browse" = "スワイプで候補を閲覧";
+"premium_items_available" = "プレミアムアイテムがあります";
+"unlock_premium_for_more_options" = "より多くの選択肢にはプレミアムを解放してください";
+
+// MARK: - Reward & Booster System
+"active_boosters" = "有効なブースター";
+"total_active_boosters" = "有効ブースター合計";
+"item_boosters" = "アイテムブースター";
+"no_active_boosters" = "有効なブースターはありません";
+"visit_shop_to_get_boosters" = "ショップでブースターを手に入れよう！";
+"collect_items_to_get_boosters" = "アイテムを集めてブースターを獲得しよう！";
+"expired" = "期限切れ";
+"expires" = "有効期限";
+"from_boosters" = "ブースターから";
+"base" = "基本";
+"dismiss" = "閉じる";
+"level_up" = "レベルアップ！";
+"new_level_reached" = "新しいレベルに到達！";
+"experience_gained" = "獲得経験値";
+"coins_gained" = "獲得コイン";
+"quest_completed" = "クエスト達成！";
+"quest_rewards" = "クエスト報酬";
+"reward_animation" = "報酬アニメーション";
+"chest_opened" = "宝箱を開けた";
+"chest_closed" = "宝箱を閉じた";
+"boosted_rewards" = "ブースト報酬";
+"booster_bonus" = "ブースターボーナス";
+"booster_multiplier" = "ブースト倍率";
+"booster_duration" = "効果時間";
+"booster_remaining" = "残り時間";
+"booster_expired" = "ブースター期限切れ";
+"booster_active" = "ブースター有効";
+"booster_inactive" = "ブースター無効";
+"booster_effect" = "ブースト効果";
+"booster_source" = "ブースト源";
+"booster_type" = "ブースター種類";
+"booster_value" = "ブースト値";
+"booster_time_left" = "残り時間";
+"booster_minutes" = "分";
+"booster_hours" = "時間";
+"booster_days" = "日";
+"booster_permanent" = "恒久";
+"booster_temporary" = "一時";
+"booster_consumable" = "消費";
+"booster_equipment" = "装備";
+"booster_accessory" = "アクセサリー";
+"booster_collectible" = "コレクション";
+"booster_rarity" = "レア度";
+"booster_common" = "コモン";
+"booster_uncommon" = "アンコモン";
+"booster_rare" = "レア";
+"booster_epic" = "エピック";
+"booster_legendary" = "レジェンダリー";
+"booster_description" = "説明";
+"booster_usage" = "使い方";
+"booster_effects" = "効果";
+"booster_duration_remaining" = "残り効果時間";
+"booster_time_remaining" = "残り時間";
+"booster_expires_in" = "期限まで";
+"booster_expired_on" = "期限切れ日";
+"booster_activated_on" = "有効化日";
+"booster_deactivated_on" = "無効化日";
+"booster_activation_time" = "有効化時刻";
+"booster_expiration_time" = "期限時刻";
+"booster_total_bonus" = "合計ボーナス";
+"booster_individual_bonus" = "個別ボーナス";
+"booster_combined_bonus" = "合算ボーナス";
+"booster_stack_limit" = "スタック上限";
+"booster_max_stacks" = "最大スタック数";
+"booster_current_stacks" = "現在のスタック";
+"booster_stack_bonus" = "スタックボーナス";
+"booster_stack_multiplier" = "スタック倍率";
+"booster_stack_duration" = "スタック持続";
+"booster_stack_remaining" = "スタック残り";
+"booster_stack_expired" = "スタック期限切れ";
+"booster_stack_active" = "スタック有効";
+"booster_stack_inactive" = "スタック無効";
+"booster_stack_effect" = "スタック効果";
+"booster_stack_source" = "スタック源";
+"booster_stack_type" = "スタック種類";
+"booster_stack_value" = "スタック値";
+"booster_stack_time_left" = "スタック残り時間";
+"booster_stack_minutes" = "スタック分";
+"booster_stack_hours" = "スタック時間";
+"booster_stack_days" = "スタック日";
+"booster_stack_permanent" = "スタック恒久";
+"booster_stack_temporary" = "スタック一時";
+"booster_stack_consumable" = "スタック消費";
+"booster_stack_equipment" = "スタック装備";
+"booster_stack_accessory" = "スタックアクセサリー";
+"booster_stack_collectible" = "スタックコレクション";
+"booster_stack_rarity" = "スタックレア度";
+"booster_stack_common" = "スタック・コモン";
+"booster_stack_uncommon" = "スタック・アンコモン";
+"booster_stack_rare" = "スタック・レア";
+"booster_stack_epic" = "スタック・エピック";
+"booster_stack_legendary" = "スタック・レジェンダリー";
+"booster_stack_description" = "スタック説明";
+"booster_stack_usage" = "スタックの使い方";
+"booster_stack_effects" = "スタック効果";
+"booster_stack_duration_remaining" = "スタック残り効果時間";
+"booster_stack_time_remaining" = "スタック残り時間";
+"booster_stack_expires_in" = "スタック期限まで";
+"booster_stack_expired_on" = "スタック期限切れ日";
+"booster_stack_activated_on" = "スタック有効化日";
+"booster_stack_deactivated_on" = "スタック無効化日";
+"booster_stack_activation_time" = "スタック有効化時刻";
+"booster_stack_expiration_time" = "スタック期限時刻";
+"booster_stack_total_bonus" = "スタック合計ボーナス";
+"booster_stack_individual_bonus" = "スタック個別ボーナス";
+"booster_stack_combined_bonus" = "スタック合算ボーナス";
+
+// MARK: - Additional Booster & Reward Keys
+"quest_booster" = "クエストブースター";
+"total_boost_format" = "合計ブースト: +%d%% XP、+%d%% コイン";
+"booster_time_format" = "%dh %dm";
+"booster_minutes_format" = "%dm";
+"booster_hours_format" = "%dh";
+"booster_days_format" = "%dd";
+"booster_permanent_text" = "恒久";
+"booster_temporary_text" = "一時";
+"booster_expired_text" = "期限切れ";
+"booster_active_text" = "有効";
+"booster_inactive_text" = "無効";
+"booster_consumable_text" = "消費";
+"booster_equipment_text" = "装備";
+"booster_accessory_text" = "アクセサリー";
+"booster_collectible_text" = "コレクション";
+"booster_common_text" = "コモン";
+"booster_uncommon_text" = "アンコモン";
+"booster_rare_text" = "レア";
+"booster_epic_text" = "エピック";
+"booster_legendary_text" = "レジェンダリー";
+"booster_description_text" = "説明";
+"booster_usage_text" = "使い方";
+"booster_effects_text" = "効果";
+"booster_duration_remaining_text" = "残り効果時間";
+"booster_time_remaining_text" = "残り時間";
+"booster_expires_in_text" = "期限まで";
+"booster_expired_on_text" = "期限切れ日";
+"booster_activated_on_text" = "有効化日";
+"booster_deactivated_on_text" = "無効化日";
+"booster_activation_time_text" = "有効化時刻";
+"booster_expiration_time_text" = "期限時刻";
+"booster_total_bonus_text" = "合計ボーナス";
+"booster_individual_bonus_text" = "個別ボーナス";
+"booster_combined_bonus_text" = "合算ボーナス";
+"booster_stack_limit_text" = "スタック上限";
+"booster_max_stacks_text" = "最大スタック数";
+"booster_current_stacks_text" = "現在のスタック";
+"booster_stack_bonus_text" = "スタックボーナス";
+"booster_stack_multiplier_text" = "スタック倍率";
+"booster_stack_duration_text" = "スタック持続";
+"booster_stack_remaining_text" = "スタック残り";
+"booster_stack_expired_text" = "スタック期限切れ";
+"booster_stack_active_text" = "スタック有効";
+"booster_stack_inactive_text" = "スタック無効";
+"booster_stack_effect_text" = "スタック効果";
+"booster_stack_source_text" = "スタック源";
+"booster_stack_type_text" = "スタック種類";
+"booster_stack_value_text" = "スタック値";
+"booster_stack_time_left_text" = "スタック残り時間";
+"booster_stack_minutes_text" = "スタック分";
+"booster_stack_hours_text" = "スタック時間";
+"booster_stack_days_text" = "スタック日";
+"booster_stack_permanent_text" = "スタック恒久";
+"booster_stack_temporary_text" = "スタック一時";
+"booster_stack_consumable_text" = "スタック消費";
+"booster_stack_equipment_text" = "スタック装備";
+"booster_stack_accessory_text" = "スタックアクセサリー";
+"booster_stack_collectible_text" = "スタックコレクション";
+"booster_stack_rarity_text" = "スタックレア度";
+"booster_stack_common_text" = "スタック・コモン";
+"booster_stack_uncommon_text" = "スタック・アンコモン";
+"booster_stack_rare_text" = "スタック・レア";
+"booster_stack_epic_text" = "スタック・エピック";
+"booster_stack_legendary_text" = "スタック・レジェンダリー";
+"booster_stack_description_text" = "スタック説明";
+"booster_stack_usage_text" = "スタックの使い方";
+"booster_stack_effects_text" = "スタック効果";
+"booster_stack_duration_remaining_text" = "スタック残り効果時間";
+"booster_stack_time_remaining_text" = "スタック残り時間";
+"booster_stack_expires_in_text" = "スタック期限まで";
+"booster_stack_expired_on_text" = "スタック期限切れ日";
+"booster_stack_activated_on_text" = "スタック有効化日";
+"booster_stack_deactivated_on_text" = "スタック無効化日";
+"booster_stack_activation_time_text" = "スタック有効化時刻";
+"booster_stack_expiration_time_text" = "スタック期限時刻";
+"booster_stack_total_bonus_text" = "スタック合計ボーナス";
+"booster_stack_individual_bonus_text" = "スタック個別ボーナス";
+"booster_stack_combined_bonus_text" = "スタック合算ボーナス";
+
+// MARK: - Error Messages
+"quest_completion_cooldown" = "クエスト完了はクールダウン中です";
+"task_completion_cooldown" = "タスク完了はクールダウン中です";
+
+// MARK: - Booster Descriptions
+"booster_experience_description" = "クエストで得られる経験値が増加します";
+"booster_coins_description" = "クエストで得られるコインが増加します";
+"booster_both_description" = "クエストの経験値とコインの両方が増加します";
+"both" = "両方";
+"temporary" = "一時";
+"xp_boost_item" = "XPブーストアイテム";
+"coin_boost_item" = "コインブーストアイテム";
+
+// MARK: - Character Customization Categories (Detailed)
+"body_type" = "肌の色";
+"hair_style" = "髪型";
+"hair_back" = "後ろ髪";
+"eye_style" = "目の形";
+"outfit_style" = "装備スタイル";
+"weapon_style" = "武器スタイル";
+"facial_hair" = "顔ひげ";
+"head_accessory" = "頭部アクセサリー";
+"body_accessory" = "身体アクセサリー";
+
+// MARK: - Character Customization Options (Detailed)
+"natural_skin" = "ナチュラルスキン";
+"fair_skin" = "フェアスキン";
+"olive_skin" = "オリーブスキン";
+"dark_skin" = "ダークスキン";
+"tanned_skin" = "タン肌";
+
+"short_hair" = "ショートヘア";
+"long_hair" = "ロングヘア";
+"curly_hair" = "カールヘア";
+"straight_hair" = "ストレートヘア";
+"wavy_hair" = "ウェーブヘア";
+"spiky_hair" = "スパイキーヘア";
+"bald" = "スキンヘッド";
+
+"blue_eyes" = "青い目";
+"green_eyes" = "緑の目";
+"brown_eyes" = "茶色の目";
+"gray_eyes" = "灰色の目";
+"hazel_eyes" = "ヘーゼルの目";
+
+"casual_outfit" = "カジュアルな装い";
+"formal_outfit" = "フォーマルな装い";
+"armor_outfit" = "鎧装束";
+"robes_outfit" = "ローブ装束";
+"adventure_outfit" = "冒険者装備";
+
+"sword_weapon" = "剣";
+"axe_weapon" = "斧";
+"bow_weapon" = "弓";
+"staff_weapon" = "杖";
+"dagger_weapon" = "短剣";
+
+"no_mustache" = "口ひげなし";
+"thin_mustache" = "細い口ひげ";
+"thick_mustache" = "濃い口ひげ";
+"handlebar_mustache" = "ハンドルバーひげ";
+
+"no_flower" = "花なし";
+"rose_flower" = "バラ";
+"daisy_flower" = "デイジー";
+"lily_flower" = "ユリ";
+"sunflower_flower" = "ひまわり";
+
+"no_accessory" = "アクセサリーなし";
+"glasses_accessory" = "眼鏡";
+"earrings_accessory" = "ピアス";
+"necklace_accessory" = "ネックレス";
+"hat_accessory" = "帽子";
+
+// MARK: - Character Customization Descriptions
+"natural_skin_description" = "自然な肌色";
+"fair_skin_description" = "色白の肌色";
+"olive_skin_description" = "温かみのあるオリーブ肌";
+"dark_skin_description" = "深みのあるダーク肌";
+"tanned_skin_description" = "日焼けした小麦色の肌";
+
+"short_hair_description" = "短く実用的な髪型";
+"long_hair_description" = "長く流れる髪";
+"curly_hair_description" = "自然なカールの髪";
+"straight_hair_description" = "なめらかなストレートヘア";
+"wavy_hair_description" = "やわらかなウェーブヘア";
+"spiky_hair_description" = "エッジの効いたスパイキーヘア";
+"bald_description" = "剃り上げた頭";
+
+"blue_eyes_description" = "澄んだ青い瞳";
+"green_eyes_description" = "エメラルドのような緑の瞳";
+"brown_eyes_description" = "あたたかな茶色の瞳";
+"gray_eyes_description" = "クールな灰色の瞳";
+"hazel_eyes_description" = "多色のヘーゼルの瞳";
+
+"casual_outfit_description" = "快適な日常着";
+"formal_outfit_description" = "上品なフォーマルウェア";
+"armor_outfit_description" = "防御に優れた戦闘用の鎧";
+"robes_outfit_description" = "神秘的なローブ";
+"adventure_outfit_description" = "実用的な冒険装備";
+
+"sword_weapon_description" = "信頼できる剣";
+"axe_weapon_description" = "強力な斧";
+"bow_weapon_description" = "正確な弓";
+"staff_weapon_description" = "魔力を宿す杖";
+"dagger_weapon_description" = "素早い短剣";
+
+"no_mustache_description" = "ひげのない顔";
+"thin_mustache_description" = "細く上品な口ひげ";
+"thick_mustache_description" = "濃く力強い口ひげ";
+"handlebar_mustache_description" = "特徴的なハンドルバーひげ";
+
+"no_flower_description" = "花のアクセサリーはなし";
+"rose_flower_description" = "美しい赤いバラ";
+"daisy_flower_description" = "陽気な白いデイジー";
+"lily_flower_description" = "気品あるユリ";
+"sunflower_flower_description" = "明るいひまわり";
+
+"no_accessory_description" = "追加のアクセサリーはなし";
+"glasses_accessory_description" = "スタイリッシュな眼鏡";
+"earrings_accessory_description" = "装飾的なピアス";
+"necklace_accessory_description" = "上品なネックレス";
+"hat_accessory_description" = "おしゃれな帽子";
+
+// MARK: - Additional Hardcoded Strings Found
+"quest_finished" = "クエスト完了！";
+"choose_icon" = "アイコンを選択";
+"damage_calculator" = "ダメージ計算機";
+"quest_finish_confirmation" = "このクエストは完了しましたか？";
+"yes_finish_it" = "はい、完了にする！";
+"quest_finish_confirmation_message" = "「%@」を完了としてマークしてもよろしいですか？";
+"no_damage_yet_message" = "このクエストによるダメージはまだありません。引き続き頑張ろう！";
+"purchase_error" = "購入エラー";
+"purchase_successful" = "購入に成功しました";
+"premium_purchase_success_message" = "プレミアムへようこそ！お礼にボーナスジェム300個を受け取りました。";
+"an_error_occurred" = "エラーが発生しました";
+"an_error_occurred_during_purchase" = "購入処理中にエラーが発生しました";
+"close" = "閉じる";
+"restore_purchases" = "購入を復元";
+"terms_of_service" = "利用規約";
+"privacy_policy" = "プライバシーポリシー";
+"ok_button" = "OK";
+"done_button" = "完了";
+"work_phase" = "作業";
+"short_break_phase" = "小休憩";
+"long_break_phase" = "長休憩";
+"battle_phase" = "バトル";
+"victory_phase" = "勝利！";
+"defeat_phase" = "敗北";
+"idle_phase" = "待機";
+
+// MARK: - Quest Confirmation Popups
+"not_yet" = "まだです";
+"finish_quest" = "はい、完了にする";
+"quest_finish_confirmation_popup_examples" = "クエスト完了確認ポップアップ例";
+"sample_one_time_quest_title" = "サンプル単発クエスト";
+"sample_one_time_quest_description" = "サンプルの単発クエストの説明です";
+"sample_daily_quest_title" = "サンプルデイリークエスト";
+"sample_daily_quest_description" = "サンプルのデイリークエストの説明です";
+"quest_completion_is_finished_check_popup_examples" = "クエスト完了チェックのポップアップ例";
+
+// MARK: - Quest Completion Messages
+"quest_completion_one_time_message" = "このクエストは完了しましたか？この単発クエストは完了としてマークされます。";
+"quest_completion_daily_message" = "このクエストは完了しましたか？このデイリークエストは完了としてマークされます。";
+"quest_completion_weekly_message" = "このクエストは完了しましたか？このウィークリークエストは完了としてマークされます。";
+"quest_completion_scheduled_message" = "このクエストは完了しましたか？この予定クエストは完了としてマークされます。";
+
+// MARK: - Quest Finish Messages
+"quest_finish_one_time_message" = "単発クエストです。完了としてマークして報酬を受け取りますか？";
+"quest_finish_daily_message" = "このデイリークエストは最終日です。完了としてマークして報酬を受け取りますか？";
+"quest_finish_weekly_message" = "このウィークリークエストは最終週です。完了としてマークして報酬を受け取りますか？";
+"quest_finish_scheduled_message" = "この予定クエストは最終日です。完了としてマークして報酬を受け取りますか？";
+
+// MARK: - Icon Categories
+"icon_category_general" = "一般";
+"icon_category_work" = "仕事";
+"icon_category_personal" = "個人";
+"icon_category_health" = "健康";
+"icon_category_study" = "学習";
+"icon_category_travel" = "旅行";
+"icon_category_food" = "食べ物";
+"icon_category_nature" = "自然";
+"icon_category_objects" = "物";
+"icon_category_emotions" = "感情";
+
+// MARK: - Tag Filter
+"selected_tags_count" = "選択済み（%d）";
+
+// MARK: - Damage History
+"quest_label" = "クエスト：";
+
+// MARK: - Shop
+"purchase" = "購入";
+
+// MARK: - Inventory
+"unknown_item" = "不明なアイテム";
+
+// MARK: - Weekdays
+"weekday_sun" = "日";
+"weekday_mon" = "月";
+"weekday_tue" = "火";
+"weekday_wed" = "水";
+"weekday_thu" = "木";
+"weekday_fri" = "金";
+"weekday_sat" = "土";
+
+// MARK: - Shop Messages
+"purchase_failed" = "購入に失敗しました";
+"successfully_purchased" = "%@ を購入しました！";
+"insufficient_gems" = "ジェムが不足しています";
+
+// MARK: - Item Details
+"no_description_available" = "説明はありません";
+"unknown_error" = "不明なエラー";
+
+// MARK: - App Title
+"app_title" = "RPG Your Life";
+
+// MARK: - Equipment Validation Messages
+"item_not_unlocked" = "アイテムは未解放です";
+"item_not_owned" = "このユーザーはアイテムを所持していません";
+"item_category_mismatch" = "アイテムのカテゴリが装備スロットと一致しません";
+"max_accessories_exceeded" = "アクセサリーは最大3個まで装備できます";
+
+// MARK: - Alert Titles
+"damage_calculation_result" = "ダメージ計算結果";
+
+// MARK: - Damage Calculation
+"calculating" = "計算中...";
+"calculate_damage" = "ダメージを計算";
+"unknown_result" = "不明な結果";
+"error_prefix" = "エラー: ";
+"damage_applied_message" = "未達のクエストにより %d ダメージを体力に適用しました。";
+"no_damage_calculated_message" = "ダメージは計上されませんでした。すべてのクエストは最新です！";
+"days_overdue" = "%d日遅れ";
+"days_left" = "残り%d日";
+
+// MARK: - Focus Timer Notifications
+"focus_timer_complete" = "フォーカスタイマー完了！";
+"session_finished" = "%@ のセッションが終了しました。";
+
+// MARK: - Item Details (extra)
+"item_used_successfully" = "アイテムを使用しました！";
+
+// MARK: - Quest Validation
+"quest_title_cannot_be_empty" = "クエスト名は空にできません。";
+"difficulty_must_be_between_1_and_5" = "難易度は1から5の間で指定してください。";
+"due_date_cannot_be_earlier_than_creation" = "期限は作成日より前には設定できません。";
+
+// MARK: - Quest Notifications
+"quest_reminder_title" = "旅人よ、クエストを忘れないで！";
+
+// MARK: - Additional Gear Categories
+"others" = "その他";
+
+// MARK: - Item Effect Types
+"attack" = "攻撃";
+"defense" = "防御";
+"health" = "体力";
+"focus" = "集中";
+"experience" = "経験値";
+"luck" = "運";
+"speed" = "速度";
+"critical_chance" = "クリティカル率";
+"critical_damage" = "クリティカルダメージ";
+"xp_boost" = "XPブースト";
+"coin_boost" = "コインブースト";
+"health_regeneration" = "体力再生";
+"focus_regeneration" = "集中回復";
+
+// MARK: - Hair Colors
+"hair_color_brown" = "茶色";
+"hair_color_black" = "黒";
+"hair_color_blonde" = "金髪";
+"hair_color_red" = "赤";
+"hair_color_dark_brown" = "ダークブラウン";
+
+// MARK: - Eye Colors
+"eye_color_black" = "黒";
+"eye_color_blue" = "青";
+"eye_color_green" = "緑";
+
+// MARK: - Body Types (Skin Colors)
+"body_white" = "色白";
+"body_blue" = "青";
+"body_tan" = "小麦色";
+"body_tan_2" = "中間の小麦色";
+"body_tan_3" = "濃い小麦色";
+"body_purple" = "紫";
+"body_dark_1" = "ダーク";
+"body_dark_2" = "とてもダーク";
+"body_green" = "緑";
+
+// MARK: - Outfits
+"peasants_garb" = "農民の衣服";
+"peasants_garb_description" = "庶民が着る、質素で丈夫な衣服。日常の作業に実用的。";
+
+"azure_tunic" = "蒼穹のチュニック";
+"azure_tunic_description" = "朝空のようにきらめく美しい青のチュニック。軽くて快適。";
+
+"ironclad_plate" = "鉄壁の鎧";
+"ironclad_plate_description" = "優れた防御力を誇る重厚な鉄の鎧。戦士の頼れる相棒。";
+
+"steel_guardian" = "鋼の守護者";
+"steel_guardian_description" = "精緻な彫金が施された上質な鋼の鎧。比類なき防御を提供する。";
+
+"arcane_robes" = "秘術のローブ";
+"arcane_robes_description" = "魔力の糸で織られた神秘のローブ。呪文行使能力を高める。";
+
+"noble_gown" = "貴族の礼装";
+"noble_gown_description" = "王族にふさわしい優雅な衣装。最高級の絹に宝石をあしらう。";
+
+"infernal_armor" = "地獄の鎧";
+"infernal_armor_description" = "冥府の炎で鍛えられた鎧。暗く強大な力を放つ。";
+
+"shadow_cloak" = "影の外套";
+"shadow_cloak_description" = "光を吸い込むような外套。隠密と神秘に最適。";
+
+"crimson_vestments" = "深紅の法衣";
+"crimson_vestments_description" = "威厳を放つ濃紅の衣。大いなる権威の証。";
+
+"travelers_cloak" = "旅人の外套";
+"travelers_cloak_description" = "長旅に適した実用的な外套。防寒と天候からの保護を提供する。";
+
+
+// MARK: - Mustaches
+"mustache_1_brown" = "クラシック（ブラウン）";
+"mustache_1_black" = "クラシック（ブラック）";
+"mustache_1_blonde" = "クラシック（金髪）";
+"mustache_1_dark_brown" = "クラシック（ダークブラウン）";
+"mustache_2_brown" = "ハンドルバー（ブラウン）";
+"mustache_2_black" = "ハンドルバー（ブラック）";
+"mustache_2_blonde" = "ハンドルバー（金髪）";
+"mustache_2_dark_brown" = "ハンドルバー（ダークブラウン）";
+
+// MARK: - Analytics
+"analytics" = "アナリティクス";
+"analytics_time_period" = "期間";
+"analytics_period_week" = "週";
+"analytics_period_month" = "月";
+"analytics_period_quarter" = "四半期";
+"analytics_period_year" = "年";
+"analytics_period_all_time" = "全期間";
+"analytics_loading" = "分析を読み込み中";
+"analytics_loading_description" = "あなた向けのインサイトとおすすめを収集中…";
+"analytics_empty_title" = "利用できる分析がありません";
+"analytics_empty_description" = "まずいくつかクエストを達成して、個別の分析とインサイトを表示しましょう。";
+"analytics_refresh" = "更新";
+"analytics_last_updated" = "最終更新:";
+"analytics_filters" = "フィルター";
+"analytics_filters_title" = "分析フィルター";
+
+// Analytics Cards
+"analytics_quest_performance" = "クエストパフォーマンス";
+"analytics_performance_score" = "パフォーマンススコア";
+"analytics_total_quests" = "総クエスト数";
+"total" = "合計";
+"analytics_total" = "合計";
+"analytics_finished_quests" = "完了";
+"analytics_partially_completed_quests" = "一部完了";
+"analytics_partial_completion_rate" = "一部完了率";
+"analytics_completion_rate" = "完了率";
+"analytics_completion_progress" = "完了進捗";
+"analytics_performance_insights" = "パフォーマンスの洞察";
+"analytics_avg_completion_time" = "平均完了時間";
+"analytics_most_productive_hour" = "最も生産的な時間帯";
+"analytics_preferred_difficulty" = "好みの難易度";
+"analytics_difficulty_success_rates" = "難易度別成功率";
+"analytics_no_data" = "データなし";
+"analytics_time_hours_minutes" = "{hours}時間 {minutes}分";
+"analytics_time_minutes" = "{minutes}分";
+
+"analytics_progression_overview" = "進行状況の概要";
+"analytics_level_progress" = "レベル進行";
+"analytics_level_up_rate" = "レベルアップ率";
+"analytics_total_coins" = "総コイン数";
+"analytics_total_gems" = "総ジェム数";
+"analytics_currency_analytics" = "通貨分析";
+"analytics_avg_coins_per_quest" = "平均コイン/クエスト";
+"analytics_avg_gems_per_quest" = "平均ジェム/クエスト";
+"analytics_earning_rate" = "獲得レート";
+"analytics_achievements" = "実績";
+"analytics_achievement_progress" = "実績の進捗";
+"analytics_recent_achievements" = "最近の実績";
+"analytics_next_achievements" = "次の実績";
+
+"analytics_streak_insights" = "連続達成の洞察";
+"analytics_current_streak" = "現在の連続日数";
+"analytics_longest_streak" = "最長連続日数";
+"analytics_avg_streak" = "平均連続日数";
+"analytics_streak_insights_details" = "連続達成の詳細";
+"analytics_best_streak_day" = "最も好調な曜日";
+"analytics_common_break_day" = "途切れがちな曜日";
+"analytics_streak_motivation" = "モチベーション";
+"analytics_streak_motivation_record" = "🔥 絶好調！自己最長の連続記録です。このまま続けよう！";
+"analytics_streak_motivation_halfway" = "記録の半分まで来ました！いける！";
+"analytics_streak_motivation_keep_going" = "良いスタート！勢いを維持しよう。";
+
+"analytics_engagement_metrics" = "エンゲージメント指標";
+"analytics_engagement_score" = "エンゲージメントスコア";
+"analytics_sessions_per_week" = "週あたりセッション";
+"analytics_avg_session" = "平均セッション";
+"analytics_app_opens" = "アプリ起動回数";
+"analytics_activity_patterns" = "活動パターン";
+"analytics_most_active_day" = "最も活動的な曜日";
+"analytics_most_active_hour" = "最も活動的な時間帯";
+"analytics_feature_usage" = "機能の利用状況";
+
+"analytics_customization_preferences" = "カスタマイズ傾向";
+"analytics_customization_score" = "カスタマイズスコア";
+"analytics_customization_frequency" = "カスタマイズ頻度";
+"analytics_last_customization" = "最終カスタマイズ";
+"analytics_preferences" = "好み";
+"analytics_most_used_preset" = "最も使うプリセット";
+"analytics_preferred_colors" = "好みの色";
+"analytics_preferred_accessories" = "好みのアクセサリー";
+"analytics_customization_tips" = "カスタマイズのヒント";
+"analytics_customization_tip_new" = "キャラクターをカスタマイズして、旅をもっと自分らしく！";
+"analytics_customization_tip_occasional" = "ときどきカスタマイズしています。新しい見た目で新鮮さを保とう！";
+"analytics_customization_tip_active" = "とても積極的にカスタマイズしています！今の見た目は最高！";
+"analytics_never" = "なし";
+
+"analytics_recommendations" = "パーソナライズおすすめ";
+"analytics_no_recommendations_title" = "すべて順調！";
+"analytics_no_recommendations_description" = "とても良い調子です。今は特別な提案はありません。";
+"analytics_priority_high" = "高優先度";
+
+// Analytics Recommendations
+"analytics_recommendation_create_more_quests_title" = "クエストを増やそう";
+"analytics_recommendation_create_more_quests_description" = "クエストが少ないようです。増やすことで習慣化と進捗管理がしやすくなります。";
+"analytics_recommendation_difficulty_title" = "難易度の調整";
+"analytics_recommendation_difficulty_description" = "現在の難易度で苦戦しています。難易度を下げて完了率を上げましょう。";
+"analytics_recommendation_increase_difficulty_title" = "難易度を上げよう";
+"analytics_recommendation_increase_difficulty_description" = "今の難易度は順調です！報酬アップのために挑戦を高めましょう。";
+"analytics_recommendation_streak_title" = "連続記録を開始";
+"analytics_recommendation_streak_description" = "連続記録が途切れました。今日から再スタートして勢いをつけよう。";
+"analytics_recommendation_streak_continue_title" = "連続記録を続けよう";
+"analytics_recommendation_streak_continue_description" = "良い連続記録ができています！最長記録を目指して続けましょう。";
+"analytics_recommendation_achievements_title" = "実績をもっと解除";
+"analytics_recommendation_achievements_description" = "解除できる実績が多数あります。多様なクエストを達成して実績を増やしましょう。";
+"analytics_recommendation_timing_title" = "最適な時間帯";
+"analytics_recommendation_timing_description" = "あなたの最も生産的な時間帯です！今クエストを作成・達成すると効果的です。";
+
+// MARK: - Analytics Dashboard
+"analytics_dashboard" = "分析ダッシュボード";
+"analytics_tab_overview" = "概要";
+"analytics_tab_performance" = "パフォーマンス";
+"analytics_tab_patterns" = "パターン";
+"analytics_tab_recommendations" = "提案";
+"analytics_performance_overview" = "パフォーマンス概要";
+"analytics_streak_status" = "連続達成ステータス";
+"analytics_recent_activity" = "最近の活動";
+"analytics_quick_actions" = "クイックアクション";
+"analytics_last_quest_completed" = "最後に完了したクエスト";
+"analytics_new_quest_created" = "新規クエスト作成";
+"analytics_level_up" = "レベルアップ！";
+"analytics_view_details" = "詳細を見る";
+
+// MARK: - Analytics Dashboard Additional
+"analytics_quest_performance_chart" = "クエストパフォーマンス（グラフ）";
+"analytics_difficulty_analysis" = "難易度分析";
+"analytics_completion_trends" = "完了トレンド";
+"analytics_productivity_heatmap" = "生産性ヒートマップ";
+"analytics_activity_patterns" = "活動パターン";
+"analytics_time_analysis" = "時間分析";
+"analytics_engagement_metrics" = "エンゲージメント指標";
+"analytics_customization_patterns" = "カスタマイズ傾向";
+"analytics_priority_recommendations" = "優先度の高い提案";
+"analytics_improvement_suggestions" = "改善提案";
+"analytics_goal_setting" = "目標設定";
+
+// Analytics Actions
+"create_quest" = "クエストを作成";
+"adjust_difficulty" = "難易度を調整";
+"increase_difficulty" = "難易度を上げる";
+"start_streak" = "連続記録を開始";
+"continue_streak" = "連続記録を続ける";
+"view_achievements" = "実績を見る";
+"create_quest_now" = "今すぐクエスト作成";
+
+// MARK: - Additional Analytics Keys (duplicates kept for completeness)
+"analytics_total_quests" = "総クエスト数";
+"analytics_finished_quests" = "完了";
+"analytics_partially_completed_quests" = "一部完了";
+"analytics_partial_completion_rate" = "一部完了率";
+"analytics_completion_rate" = "完了率";
+"analytics_completion_progress" = "完了進捗";
+"analytics_performance_insights" = "パフォーマンスの洞察";
+"analytics_avg_completion_time" = "平均完了時間";
+"analytics_most_productive_hour" = "最も生産的な時間帯";
+"analytics_preferred_difficulty" = "好みの難易度";
+"analytics_difficulty_success_rates" = "難易度別成功率";
+"analytics_no_data" = "データなし";
+"analytics_time_hours_minutes" = "{hours}時間 {minutes}分";
+"analytics_time_minutes" = "{minutes}分";
+
+"analytics_progression_overview" = "進行状況の概要";
+"analytics_level_progress" = "レベル進行";
+"analytics_level_up_rate" = "レベルアップ率";
+"analytics_currency_analytics" = "通貨分析";
+"analytics_avg_coins_per_quest" = "平均コイン/クエスト";
+"analytics_avg_gems_per_quest" = "平均ジェム/クエスト";
+"analytics_earning_rate" = "獲得レート";
+"analytics_achievements" = "実績";
+"analytics_achievement_progress" = "実績の進捗";
+"analytics_recent_achievements" = "最近の実績";
+"analytics_next_achievements" = "次の実績";
+
+"analytics_streak_insights" = "連続達成の洞察";
+"analytics_current_streak" = "現在の連続日数";
+"analytics_longest_streak" = "最長連続日数";
+"analytics_avg_streak" = "平均連続日数";
+"analytics_streak_insights_details" = "連続達成の詳細";
+"analytics_best_streak_day" = "最も好調な曜日";
+"analytics_common_break_day" = "途切れがちな曜日";
+"analytics_streak_motivation" = "モチベーション";
+"analytics_streak_motivation_record" = "🔥 絶好調！自己最長の連続記録です。このまま続けよう！";
+"analytics_streak_motivation_halfway" = "記録の半分まで来ました！いける！";
+"analytics_streak_motivation_keep_going" = "良いスタート！勢いを維持しよう。";
+
+"analytics_engagement_metrics" = "エンゲージメント指標";
+"analytics_engagement_score" = "エンゲージメントスコア";
+"analytics_sessions_per_week" = "週あたりセッション";
+"analytics_avg_session" = "平均セッション";
+"analytics_app_opens" = "アプリ起動回数";
+"analytics_activity_patterns" = "活動パターン";
+"analytics_most_active_day" = "最も活動的な曜日";
+"analytics_most_active_hour" = "最も活動的な時間帯";
+"analytics_feature_usage" = "機能の利用状況";
+
+"analytics_customization_preferences" = "カスタマイズ傾向";
+"analytics_customization_score" = "カスタマイズスコア";
+"analytics_customization_frequency" = "カスタマイズ頻度";
+"analytics_last_customization" = "最終カスタマイズ";
+"analytics_preferences" = "好み";
+"analytics_most_used_preset" = "最も使うプリセット";
+"analytics_preferred_colors" = "好みの色";
+"analytics_preferred_accessories" = "好みのアクセサリー";
+"analytics_customization_tips" = "カスタマイズのヒント";
+"analytics_customization_tip_new" = "キャラクターをカスタマイズして、旅をもっと自分らしく！";
+"analytics_customization_tip_occasional" = "ときどきカスタマイズしています。新しい見た目で新鮮さを保とう！";
+"analytics_customization_tip_active" = "とても積極的にカスタマイズしています！今の見た目は最高！";
+"analytics_never" = "なし";
+
+// Analytics Recommendations
+"analytics_recommendations" = "パーソナライズおすすめ";
+"analytics_no_recommendations_title" = "すべて順調！";
+"analytics_no_recommendations_description" = "とても良い調子です。今は特別な提案はありません。";
+"analytics_priority_high" = "高";
+
+// Analytics Recommendations
+"analytics_recommendation_create_more_quests_title" = "クエストを増やそう";
+"analytics_recommendation_create_more_quests_description" = "クエストが少ないようです。増やすことで習慣づけや進捗管理がしやすくなります。";
+"analytics_recommendation_difficulty_title" = "クエスト難易度の調整";
+"analytics_recommendation_difficulty_description" = "現在の難易度で苦戦しています。難易度を下げて完了率の改善を目指しましょう。";
+"analytics_recommendation_increase_difficulty_title" = "クエスト難易度を上げる";
+"analytics_recommendation_increase_difficulty_description" = "今の難易度は順調です！挑戦度を上げて報酬を増やしましょう。";
+"analytics_recommendation_streak_title" = "新しい連続記録を開始";
+"analytics_recommendation_streak_description" = "連続記録が途切れました。今日から再スタートして勢いと継続性を高めましょう。";
+"analytics_recommendation_streak_continue_title" = "連続記録を続けよう";
+"analytics_recommendation_streak_continue_description" = "良い連続記録ができています！最長記録に向けて続けましょう。";
+"analytics_recommendation_achievements_title" = "実績をもっと解除";
+"analytics_recommendation_achievements_description" = "解除できる実績が多数あります。異なる種類のクエストを達成して実績を増やしましょう。";
+"analytics_recommendation_timing_title" = "クエストの最適な時間";
+"analytics_recommendation_timing_description" = "今が最も生産的な時間帯です！今すぐクエストを作成・完了して効果を高めましょう。";
+
+// MARK: - Analytics Dashboard
+"analytics_dashboard" = "分析ダッシュボード";
+"analytics_tab_overview" = "概要";
+"analytics_tab_performance" = "パフォーマンス";
+"analytics_tab_patterns" = "パターン";
+"analytics_tab_recommendations" = "提案";
+"analytics_performance_overview" = "パフォーマンス概要";
+"analytics_streak_status" = "連続達成ステータス";
+"analytics_recent_activity" = "最近の活動";
+"analytics_quick_actions" = "クイックアクション";
+"analytics_last_quest_completed" = "最後に完了したクエスト";
+"analytics_new_quest_created" = "新規クエスト作成";
+"analytics_level_up" = "レベルアップ！";
+"analytics_view_details" = "詳細を見る";
+
+// MARK: - Analytics Dashboard Additional
+"analytics_quest_performance_chart" = "クエストパフォーマンス（グラフ）";
+"analytics_difficulty_analysis" = "難易度分析";
+"analytics_completion_trends" = "完了トレンド";
+"analytics_productivity_heatmap" = "生産性ヒートマップ";
+"analytics_activity_patterns" = "活動パターン";
+"analytics_time_analysis" = "時間分析";
+"analytics_engagement_metrics" = "エンゲージメント指標";
+"analytics_customization_patterns" = "カスタマイズ傾向";
+"analytics_priority_recommendations" = "優先度の高い提案";
+"analytics_improvement_suggestions" = "改善提案";
+"analytics_goal_setting" = "目標設定";
+
+// MARK: - Gear Slot Names
+"gear_slot_head" = "頭部";
+"gear_slot_weapon" = "武器";
+"gear_slot_shield" = "盾";
+"gear_slot_outfit" = "装備";
+"gear_slot_wings" = "翼";
+"gear_slot_pet" = "ペット";
+
+// MARK: - Shop Categories
+"shop_category_weapons" = "武器";
+"shop_category_armor" = "防具";
+"shop_category_wings" = "翼";
+"shop_category_pets" = "ペット";
+"shop_category_consumables" = "消耗品";
+
+// MARK: - Armor Subcategories
+"armor_subcategory_helmet" = "兜";
+"armor_subcategory_outfit" = "装束";
+"armor_subcategory_shield" = "盾";
+
+// MARK: - Consumable Subcategories
+"consumable_subcategory_potions" = "ポーション";
+"consumable_subcategory_boosts" = "ブースト";
+
+// MARK: - Analytics Dashboard Additional Keys
+"analytics_partial_finished" = "一部完了";
+"analytics_view_details" = "詳細を見る";
+"analytics_detailed_view_title" = "「%@」の詳細ビュー";
+"analytics_detailed_view_description" = "ここに「%@」の詳細な分析が表示されます";
+"analytics_quest_performance_chart" = "クエストパフォーマンス（グラフ）";
+"analytics_difficulty_analysis" = "難易度分析";
+"analytics_completion_trends" = "完了トレンド";
+"analytics_productivity_heatmap" = "生産性ヒートマップ";
+"analytics_activity_patterns" = "活動パターン";
+"analytics_time_analysis" = "時間分析";
+"analytics_customization_patterns" = "カスタマイズ傾向";
+"analytics_priority_recommendations" = "優先度の高い提案";
+"analytics_improvement_suggestions" = "改善提案";
+"analytics_goal_setting" = "目標設定";
+"analytics_performance_overview" = "パフォーマンス概要";
+"analytics_streak_status" = "連続達成ステータス";
+"analytics_recent_activity" = "最近の活動";
+"analytics_quick_actions" = "クイックアクション";
+"analytics_last_quest_completed" = "最後に完了したクエスト";
+"analytics_new_quest_created" = "新規クエスト作成";
+
+// MARK: - Achievement Titles (for preview data)
+"achievement_first_steps_title" = "最初の一歩";
+"achievement_first_steps_description" = "最初のクエストを完了する";
+"achievement_streak_master_title" = "ストリークマスター";
+"achievement_streak_master_description" = "7日連続を維持する";
+"achievement_quest_master_title" = "クエストマスター";
+"achievement_quest_master_description" = "クエストを50個完了する";
+"achievement_level_up_title" = "レベルアップ";
+"achievement_level_up_description" = "レベル20に到達する";
+
+// MARK: - Recommendation Titles (for preview data)
+"recommendation_create_more_quests_title" = "クエストを増やそう";
+"recommendation_create_more_quests_description" = "とても順調です！さらにクエストを作成して生産性を高めましょう。";
+"recommendation_create_quest_action" = "クエストを作成";
+
+// MARK: - Consumable Item Descriptions
+"restores_health_amount" = "体力を %d 回復";
+"xp_boost_percentage_duration" = "XPブースト %d%%（%@）";
+"coin_boost_percentage_duration" = "コインブースト %d%%（%@）";
+
+// MARK: - Missing Keys (Added from Turkish localization)
+"accessory_equipped" = "アクセサリーを装備しました";
+"ancient_knowledge_essence" = "古代知識の精髄";
+"ancient_knowledge_essence_description" = "XP獲得量が4時間のあいだ200%%増加";
+"armor_equipped" = "防具を装備しました";
+"attack_success" = "攻撃成功！";
+"beard_1_black" = "黒ひげ 1";
+"beard_1_blonde" = "金ひげ 1";
+"beard_1_brown" = "茶ひげ 1";
+"beard_2_black" = "黒ひげ 2";
+"beard_2_blonde" = "金ひげ 2";
+"beard_2_brown" = "茶ひげ 2";
+"body_dark" = "ダーク肌";
+"body_dark_2" = "とてもダークな肌";
+"body_light" = "ライト肌";
+"body_medium" = "ミディアム肌";
+"body_tan" = "小麦色の肌";
+"boost_active" = "ブースト有効";
+"boost_applied" = "ブーストを適用しました";
+"boost_duration_remaining" = "ブースト残り時間";
+"boost_expired" = "ブーストの期限切れ";
+"booster_shop" = "ブースターショップ";
+"calculate_damage" = "ダメージを計算";
+"coin_boost" = "コインブースト";
+"coin_multiplier" = "コイン倍率";
+"connection_successful" = "接続に成功しました";
+"critical_hit" = "クリティカルヒット！";
+"daily_bonus_received" = "デイリーボーナスを受け取りました";
+"damage_applied_message" = "ダメージを適用しました";
+"damage_calculation_in_progress" = "ダメージ計算中…";
+"damage_log" = "ダメージログ";
+"damage_prevention_failed" = "ダメージ防止に失敗";
+"damage_prevention_success" = "ダメージ防止に成功";
+"damage_report" = "ダメージレポート";
+"defense_success" = "防御成功！";
+"difficulty_must_be_between_1_and_5" = "難易度は1から5の間で指定してください。";
+"dragons_hoard_essence" = "竜の財宝の精髄";
+"dragons_hoard_essence_description" = "コイン獲得量が4時間のあいだ200%%増加";
+"event_ended" = "イベントは終了しました";
+"event_reward_claimed" = "イベント報酬を受け取りました";
+"event_started" = "イベントが開始されました";
+"eye_color_aqua" = "アクアの瞳";
+"eye_color_black" = "黒い瞳";
+"eye_color_blue" = "青い瞳";
+"eye_color_brown" = "茶色の瞳";
+"eye_color_gray" = "灰色の瞳";
+"eye_color_green" = "緑の瞳";
+"eye_color_hazel" = "ヘーゼルの瞳";
+"eye_color_purple" = "紫の瞳";
+"eye_color_yellow" = "黄色の瞳";
+"golden_fortune" = "黄金の幸運";
+"golden_fortune_description" = "コイン獲得量が2時間のあいだ100%%増加";
+"hair_color_black" = "黒髪";
+"hair_color_blonde" = "金髪";
+"hair_color_blue" = "青髪";
+"hair_color_brown" = "茶髪";
+"hair_color_gray" = "灰色の髪";
+"hair_color_green" = "緑の髪";
+"hair_color_orange" = "オレンジの髪";
+"hair_color_pink" = "ピンクの髪";
+"hair_color_purple" = "紫の髪";
+"hair_color_red" = "赤髪";
+"hair_color_silver" = "銀髪";
+"hair_color_white" = "白髪";
+"helmet_equipped" = "兜を装備しました";
+"icon_category_general" = "一般";
+"insufficient_coins" = "コインが不足しています";
+"insufficient_gems" = "ジェムが不足しています";
+"level_up_message" = "レベルアップ！";
+"loading_completed" = "読み込み完了";
+"loading_resources" = "リソースを読み込み中…";
+"masters_enlightenment" = "賢者の悟り";
+"masters_enlightenment_description" = "XP獲得量が2時間のあいだ100%%増加";
+"merchants_blessing" = "商人の加護";
+"merchants_blessing_description" = "コイン獲得量が30分のあいだ25%%増加";
+"missed_attack" = "攻撃が外れた！";
+"monthly_bonus_received" = "マンスリーボーナスを受け取りました";
+"mustache_1_black" = "黒い口ひげ 1";
+"mustache_1_blonde" = "金色の口ひげ 1";
+"mustache_1_brown" = "茶色の口ひげ 1";
+"mustache_2_black" = "黒い口ひげ 2";
+"mustache_2_blonde" = "金色の口ひげ 2";
+"mustache_2_brown" = "茶色の口ひげ 2";
+"mustache_3_black" = "黒い口ひげ 3";
+"mustache_3_blonde" = "金色の口ひげ 3";
+"mustache_3_brown" = "茶色の口ひげ 3";
+"network_error" = "ネットワークエラー";
+"outfit_black" = "ブラック装束";
+"outfit_blue" = "ブルー装束";
+"outfit_green" = "グリーン装束";
+"outfit_purple" = "パープル装束";
+"outfit_red" = "レッド装束";
+"outfit_white" = "ホワイト装束";
+"purchase_failed" = "購入に失敗しました";
+"quest_bonus_received" = "クエストボーナスを受け取りました";
+"quest_completion_cooldown" = "クエスト完了はクールダウン中";
+"quest_completion_daily_message" = "デイリークエストを完了しました！";
+"quest_damage_critical" = "クリティカルダメージ！";
+"quest_damage_reduced" = "ダメージを軽減しました";
+"quest_damage_taken" = "クエストのダメージを受けました";
+"quest_failed" = "クエスト失敗";
+"quest_finish_confirmation" = "クエスト完了の確認";
+"quest_finish_scheduled_message" = "この予定クエストは最終日です。完了としてマークし、報酬を受け取りますか？";
+"quest_finish_weekly_message" = "このウィークリークエストは最終週です。完了としてマークし、報酬を受け取りますか？";
+"quest_no_damage" = "ダメージなし";
+"quest_progress_saved" = "クエストの進捗を保存しました";
+"quest_reminder_title" = "クエストのリマインダー";
+"quest_success" = "クエスト成功";
+"retry_connection" = "再接続";
+"reward_available" = "報酬を受け取れます";
+"reward_claimed" = "報酬を受け取りました";
+"reward_locked" = "報酬はロックされています";
+"reward_unlocked" = "報酬がアンロックされました";
+"session_finished" = "セッションが終了しました";
+"shield_equipped" = "盾を装備しました";
+"shop_purchase_failed" = "ショップの購入に失敗しました";
+"shop_purchase_success" = "ショップの購入に成功しました";
+"short_break_phase" = "小休憩フェーズ";
+"system_update_available" = "システム更新があります";
+"task_completion_cooldown" = "タスク完了はクールダウン中";
+"update_failed" = "更新に失敗しました";
+"update_later" = "後で更新";
+"update_now" = "今すぐ更新";
+"wealth_attractor" = "富の磁石";
+"wealth_attractor_description" = "コイン獲得量が1時間のあいだ50%%増加";
+"weapon_equipped" = "武器を装備しました";
+"weekly_bonus_received" = "ウィークリーボーナスを受け取りました";
+"xp_multiplier" = "XP倍率";
+
+// MARK: - Tutorial
+"tutorial_welcome_title" = "ようこそ、冒険者！✨";
+"tutorial_welcome_subtitle" = "習慣を壮大なクエストとして記録しよう。";
+"tutorial_create_quests_title" = "日々のタスクをクエストにしよう。";
+"tutorial_complete_rewards_title" = "完了して報酬を獲得";
+"tutorial_complete_rewards_subtitle" = "クエストを達成してゴールドやジェムを手に入れよう！";
+"tutorial_grow_character_title" = "キャラクターを成長させよう";
+"tutorial_grow_character_subtitle" = "より良い習慣を築きながらヒーローをレベルアップ。";
+"tutorial_gear_legend_title" = "英雄を伝説へ";
+"tutorial_gear_legend_subtitle" = "ショップで装備を整えよう";
+"tutorial_next" = "次へ";
+"tutorial_skip" = "スキップ";
+"tutorial_get_started" = "始める";
+"tutorial_skip_tutorial" = "チュートリアルをスキップ";

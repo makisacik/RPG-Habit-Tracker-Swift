@@ -868,6 +868,7 @@
 // MARK: - Languages
 "language_english" = "English";
 "language_turkish" = "Türkçe";
+"language_japanese" = "日本語";
 
 // MARK: - Shop Categories
 "shop_category_weapons_description" = "A powerful weapon for combat";
