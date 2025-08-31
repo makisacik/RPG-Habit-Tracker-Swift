@@ -161,7 +161,7 @@ enum QuestTypeDamageCalculator {
         }
         
         let damageAmount = actualMissedDays * QuestDamageConstants.dailyQuestDamagePerDay
-        let reason = "Daily quest '\(quest.title)' missed \(actualMissedDays) day(s) (after grace period)"
+        let reason = String(format: "daily_quest_missed_reason".localized, quest.title, actualMissedDays)
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
@@ -209,7 +209,7 @@ enum QuestTypeDamageCalculator {
         }
         
         let damageAmount = missedWeeks * QuestDamageConstants.weeklyQuestDamage
-        let reason = missedWeeks > 0 ? "Weekly quest '\(quest.title)' missed \(missedWeeks) week(s) (after grace period)" : "Weekly quest '\(quest.title)' is not overdue"
+        let reason = missedWeeks > 0 ? String(format: "weekly_quest_missed_reason".localized, quest.title, missedWeeks) : String(format: "weekly_quest_not_overdue_reason".localized, quest.title)
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
@@ -240,7 +240,7 @@ enum QuestTypeDamageCalculator {
         let isStillOverdue = gracePeriodDate < endDate
         
         let damageAmount = isStillOverdue ? QuestDamageConstants.oneTimeQuestDamage : 0
-        let reason = isStillOverdue ? "One-time quest '\(quest.title)' is still overdue (after grace period)" : "One-time quest '\(quest.title)' is not overdue"
+        let reason = isStillOverdue ? String(format: "one_time_quest_overdue_reason".localized, quest.title) : String(format: "one_time_quest_not_overdue_reason".localized, quest.title)
         
         return DamageCalculationResult(
             damageAmount: damageAmount,
@@ -282,8 +282,8 @@ enum QuestTypeDamageCalculator {
         
         let damageAmount = missedScheduledDays * QuestDamageConstants.scheduledQuestDamagePerDay
         let reason = missedScheduledDays > 0 ?
-            "Scheduled quest '\(quest.title)' missed \(missedScheduledDays) scheduled day(s) (after grace period)" :
-            "Scheduled quest '\(quest.title)' is not overdue"
+            String(format: "scheduled_quest_missed_reason".localized, quest.title, missedScheduledDays) :
+            String(format: "scheduled_quest_not_overdue_reason".localized, quest.title)
         
         return DamageCalculationResult(
             damageAmount: damageAmount,

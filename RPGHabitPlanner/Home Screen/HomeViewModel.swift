@@ -281,8 +281,8 @@ class HomeViewModel: ObservableObject {
                         damageDate: Date(),
                         questsAffected: detailedDamage.count,
                         message: cappedDamage < totalDamage ?
-                            "You took \(cappedDamage) damage (capped from \(totalDamage)) from missed quests!" :
-                            "You took \(cappedDamage) damage from missed quests!",
+                            String(format: "damage_taken_capped_message".localized, cappedDamage, totalDamage) :
+                            String(format: "damage_taken_message".localized, cappedDamage),
                         detailedDamage: detailedDamage
                     )
 
@@ -321,7 +321,7 @@ class HomeViewModel: ObservableObject {
                         totalDamage: totalDamage,
                         damageDate: Date(),
                         questsAffected: detailedDamage.count,
-                        message: "You took \(totalDamage) damage from missed quests!",
+                        message: String(format: "damage_taken_message".localized, totalDamage),
                         detailedDamage: detailedDamage
                     )
 
@@ -335,7 +335,7 @@ class HomeViewModel: ObservableObject {
                         totalDamage: 0,
                         damageDate: Date(),
                         questsAffected: 0,
-                        message: "Great job! All your quests are completed on time.",
+                        message: "great_job_message".localized,
                         detailedDamage: []
                     )
 

@@ -1914,6 +1914,38 @@
 "quest_damage_reduced" = "Dégâts réduits";
 "quest_damage_taken" = "Dégâts de quête subis";
 "quest_no_damage" = "Aucun dégât subi";
+
+// MARK: - Damage Breakdown Modal
+"damage_breakdown" = "Détail des dégâts";
+"total_damage_label" = "Dégâts totaux";
+"from_quests_affected" = "de %d quête(s)";
+"damage_reason" = "Raison du dégât";
+"quest_type_label" = "Type de quête :";
+"damage_amount_label" = "Dégâts : %d";
+
+// MARK: - Damage Summary View
+"damage_summary" = "Résumé des dégâts";
+"total_damage_taken" = "Dégâts totaux subis";
+"damage_date" = "Date des dégâts :";
+"quests_affected" = "Quêtes affectées :";
+"view_damage_details" = "Voir les détails des dégâts";
+"damage_check" = "Vérification des dégâts";
+"check_for_missed_quests" = "Vérifier les quêtes manquées";
+"test_damage" = "Test des dégâts";
+"create_test_quest_check" = "Créer une quête de test et vérifier";
+
+// MARK: - Damage Messages
+"damage_taken_message" = "Tu as subi %d dégâts de quêtes manquées !";
+"damage_taken_capped_message" = "Tu as subi %d dégâts (limité de %d) de quêtes manquées !";
+"great_job_message" = "Excellent travail ! Toutes tes quêtes sont terminées à temps.";
+"daily_quest_missed_reason" = "Quête quotidienne '%@' manquée %d jour(s) (après période de grâce)";
+"weekly_quest_missed_reason" = "Quête hebdomadaire '%@' manquée %d semaine(s) (après période de grâce)";
+"weekly_quest_not_overdue_reason" = "Quête hebdomadaire '%@' n'est pas en retard";
+"one_time_quest_overdue_reason" = "Quête unique '%@' est toujours en retard (après période de grâce)";
+"one_time_quest_not_overdue_reason" = "Quête unique '%@' n'est pas en retard";
+"scheduled_quest_missed_reason" = "Quête planifiée '%@' manquée %d jour(s) planifié(s) (après période de grâce)";
+"scheduled_quest_not_overdue_reason" = "Quête planifiée '%@' n'est pas en retard";
+
 "quest_progress_saved" = "Progression de quête sauvegardée";
 "quest_success" = "Quête réussie";
 "retry_connection" = "Réessayer la connexion";
@@ -1946,3 +1978,18 @@
 "tutorial_skip" = "Ignorer le Tutoriel";
 "tutorial_get_started" = "Commencer l'Aventure";
 "tutorial_skip_tutorial" = "Ignorer le tutoriel";
+
+// MARK: - Character Tab Tutorial
+"character_tutorial_welcome_title" = "Les Dieux RPG Veillent Sur Toi";
+"character_tutorial_welcome_subtitle" = "Bienvenue dans le royaume sacré de ton personnage, jeune aventurier. Ici tu apprendras les anciennes lois qui régissent ton destin de quêteur.";
+"character_tutorial_health_title" = "La Colère des Dieux des Quêtes";
+"character_tutorial_health_subtitle" = "Prends garde, mortel ! Les anciens Dieux des Quêtes se fâchent quand les quêtes sont oubliées. Chaque quête manquée apporte une rétribution divine sur ta santé.";
+"character_tutorial_damage_title" = "Les Échelles de Punition Divine";
+"character_tutorial_damage_subtitle" = "Pour les quêtes manquées ou en retard, tu subis des dégâts.\n\nMais ne crains rien - les dieux accordent une période de grâce d'1 jour !";
+"character_tutorial_protection_title" = "Protection Divine & Récupération";
+"character_tutorial_protection_subtitle" = "Les dieux sont miséricordieux - ta santé ne tombera jamais en dessous de 1, et les dégâts sont limités à 12 par session. Utilise les **potions de santé** et complète des quêtes pour restaurer ta vitalité !";
+"character_tutorial_critical_title" = "La Faveur des Dieux Diminue";
+"character_tutorial_critical_subtitle" = "Prends garde, mortel ! Quand ta vitalité atteint des niveaux critiques, la faveur divine diminue. Les dieux peuvent t'accorder moins de récompenses pour tes quêtes jusqu'à ce que tu restaures ta force !";
+"character_tutorial_skip" = "Passer";
+"character_tutorial_next" = "Suivant";
+"character_tutorial_begin_adventure" = "Commencer l'Aventure";

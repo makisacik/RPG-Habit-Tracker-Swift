@@ -27,7 +27,7 @@ struct DamageSummaryView: View {
                     .font(.title)
                     .foregroundColor(.red)
                 
-                Text("Damage Summary")
+                Text("damage_summary".localized)
                     .font(.appFont(size: 24, weight: .bold))
                     .foregroundColor(theme.textColor)
                 
@@ -45,7 +45,7 @@ struct DamageSummaryView: View {
             VStack(spacing: 16) {
                 // Total Damage
                 VStack(spacing: 8) {
-                    Text("Total Damage Taken")
+                    Text("total_damage_taken".localized)
                         .font(.appFont(size: 18, weight: .semibold))
                         .foregroundColor(theme.textColor)
                     
@@ -59,7 +59,7 @@ struct DamageSummaryView: View {
                 // Details
                 VStack(spacing: 12) {
                     HStack {
-                        Text("Damage Date:")
+                        Text("damage_date".localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
@@ -69,7 +69,7 @@ struct DamageSummaryView: View {
                     }
                     
                     HStack {
-                        Text("Quests Affected:")
+                        Text("quests_affected".localized)
                             .font(.appFont(size: 16, weight: .medium))
                             .foregroundColor(theme.textColor)
                         Spacer()
@@ -101,7 +101,7 @@ struct DamageSummaryView: View {
                 }) {
                     HStack {
                         Image(systemName: "list.bullet.clipboard.fill")
-                        Text("View Damage Details")
+                        Text("view_damage_details".localized)
                     }
                     .font(.appFont(size: 16, weight: .semibold))
                     .foregroundColor(.white)
@@ -142,6 +142,7 @@ struct DamageSummaryView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
+        formatter.locale = LocalizationManager.shared.currentLocale
         return formatter.string(from: date)
     }
 }

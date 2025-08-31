@@ -2141,6 +2141,37 @@
 "retry_connection" = "Bağlantıyı yeniden dene";
 "connection_successful" = "Bağlantı başarılı";
 
+// MARK: - Damage Breakdown Modal
+"damage_breakdown" = "Hasar Detayı";
+"total_damage_label" = "Toplam Hasar";
+"from_quests_affected" = "%d görevden";
+"damage_reason" = "Hasar Nedeni";
+"quest_type_label" = "Görev Türü:";
+"damage_amount_label" = "Hasar: %d";
+
+// MARK: - Damage Summary View
+"damage_summary" = "Hasar Özeti";
+"total_damage_taken" = "Alınan Toplam Hasar";
+"damage_date" = "Hasar Tarihi:";
+"quests_affected" = "Etkilenen Görevler:";
+"view_damage_details" = "Hasar Detaylarını Görüntüle";
+"damage_check" = "Hasar Kontrolü";
+"check_for_missed_quests" = "Kaçırılan görevleri kontrol et";
+"test_damage" = "Test Hasarı";
+"create_test_quest_check" = "Test görevi oluştur ve kontrol et";
+
+// MARK: - Damage Messages
+"damage_taken_message" = "Kaçırılan görevlerden %d hasar aldın!";
+"damage_taken_capped_message" = "Kaçırılan görevlerden %d hasar aldın (%d'den sınırlandırıldı)!";
+"great_job_message" = "Harika iş! Tüm görevlerin zamanında tamamlandı.";
+"daily_quest_missed_reason" = "Günlük görev '%@' %d gün kaçırıldı (müsaade süresinden sonra)";
+"weekly_quest_missed_reason" = "Haftalık görev '%@' %d hafta kaçırıldı (müsaade süresinden sonra)";
+"weekly_quest_not_overdue_reason" = "Haftalık görev '%@' gecikmiş değil";
+"one_time_quest_overdue_reason" = "Tek seferlik görev '%@' hala gecikmiş (müsaade süresinden sonra)";
+"one_time_quest_not_overdue_reason" = "Tek seferlik görev '%@' gecikmiş değil";
+"scheduled_quest_missed_reason" = "Planlanmış görev '%@' %d planlanmış gün kaçırıldı (müsaade süresinden sonra)";
+"scheduled_quest_not_overdue_reason" = "Planlanmış görev '%@' gecikmiş değil";
+
 // MARK: - Analytics Dashboard Additional Keys
 "analytics_partial_finished" = "Kısmen Tamamlandı";
 "analytics_view_details" = "Detayları Görüntüle";
@@ -2198,9 +2229,24 @@
 "tutorial_complete_rewards_subtitle" = "Zafer bekliyor! Görevleri tamamlayarak değerli ödüller kazan ve güçlü eşyalar aç!";
 "tutorial_grow_character_title" = "Kahramanını Geliştir";
 "tutorial_grow_character_subtitle" = "Karakterini güçlü ekipman ve efsanevi donanımla geliştirmek için gizemli dükkana git!";
-"tutorial_gear_legend_title" = "Donan ve Yüksel";
+"tutorial_gear_legend_title" = "Kuşan ve Yüksel";
 "tutorial_gear_legend_subtitle" = "Efsanevi zırh kuşan ve güçlü silahlar kullanarak durdurulamaz bir güç ol!";
 "tutorial_next" = "Devam Et";
 "tutorial_skip" = "Öğreticiyi Atla";
 "tutorial_get_started" = "Maceralara Başla";
 "tutorial_skip_tutorial" = "Öğreticiyi Atla";
+
+// MARK: - Character Tab Tutorial
+"character_tutorial_welcome_title" = "RPG Tanrıları Seni Koruyor";
+"character_tutorial_welcome_subtitle" = "Karakterinin kutsal alemine hoş geldin, genç maceracı. Burada görev kaderini yöneten eski yasaları öğreneceksin.";
+"character_tutorial_health_title" = "Görev Tanrılarının Gazabı";
+"character_tutorial_health_subtitle" = "Dikkat et, ölümlü! Eski Görev Tanrıları görevler unutulduğunda hoşnutsuz olur. Her kaçırılan görev sağlığına ilahi ceza getirir.";
+"character_tutorial_damage_title" = "İlahi Cezalandırma Ölçekleri";
+"character_tutorial_damage_subtitle" = "Kaçırılan veya geciken görevler için hasar alırsın.\n\nAma korkma - tanrılar 1 günlük müsaade süresi verir!";
+"character_tutorial_protection_title" = "İlahi Koruma ve İyileşme";
+"character_tutorial_protection_subtitle" = "Tanrılar merhametlidir - sağlığın asla 1'in altına düşmez ve hasar oturum başına 12 ile sınırlıdır. **Can iksirleri** kullan ve görevleri tamamlayarak canlılığını geri yükle!";
+"character_tutorial_critical_title" = "Tanrıların Lütfu Azalıyor";
+"character_tutorial_critical_subtitle" = "Dikkat et, ölümlü! Canlılığın kritik seviyelere ulaştığında ilahi lütuf azalır. Tanrılar gücünü geri yükleyene kadar görevlerin için daha az ödül verebilir!";
+"character_tutorial_skip" = "Atla";
+"character_tutorial_next" = "İleri";
+"character_tutorial_begin_adventure" = "Maceralara Başla";

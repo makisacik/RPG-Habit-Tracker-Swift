@@ -2521,6 +2521,37 @@
 "weekly_bonus_received" = "ウィークリーボーナスを受け取りました";
 "xp_multiplier" = "XP倍率";
 
+// MARK: - Damage Breakdown Modal
+"damage_breakdown" = "ダメージ詳細";
+"total_damage_label" = "総ダメージ";
+"from_quests_affected" = "%dクエストから";
+"damage_reason" = "ダメージ理由";
+"quest_type_label" = "クエストタイプ：";
+"damage_amount_label" = "ダメージ：%d";
+
+// MARK: - Damage Summary View
+"damage_summary" = "ダメージサマリー";
+"total_damage_taken" = "受けた総ダメージ";
+"damage_date" = "ダメージ日時：";
+"quests_affected" = "影響を受けたクエスト：";
+"view_damage_details" = "ダメージ詳細を見る";
+"damage_check" = "ダメージチェック";
+"check_for_missed_quests" = "未達のクエストをチェック";
+"test_damage" = "テストダメージ";
+"create_test_quest_check" = "テストクエストを作成してチェック";
+
+// MARK: - Damage Messages
+"damage_taken_message" = "未達のクエストで%dダメージを受けました！";
+"damage_taken_capped_message" = "未達のクエストで%dダメージを受けました（%dから制限）！";
+"great_job_message" = "素晴らしい！すべてのクエストが時間通りに完了しました。";
+"daily_quest_missed_reason" = "デイリークエスト'%@'が%d日間未達（猶予期間後）";
+"weekly_quest_missed_reason" = "ウィークリークエスト'%@'が%d週間未達（猶予期間後）";
+"weekly_quest_not_overdue_reason" = "ウィークリークエスト'%@'は期限切れではありません";
+"one_time_quest_overdue_reason" = "単発クエスト'%@'はまだ期限切れ（猶予期間後）";
+"one_time_quest_not_overdue_reason" = "単発クエスト'%@'は期限切れではありません";
+"scheduled_quest_missed_reason" = "予定クエスト'%@'が%d予定日未達（猶予期間後）";
+"scheduled_quest_not_overdue_reason" = "予定クエスト'%@'は期限切れではありません";
+
 // MARK: - Tutorial
 "tutorial_welcome_title" = "冒険へようこそ";
 "tutorial_welcome_subtitle" = "各クエストが運命を形作る壮大な旅に出発しよう！";
@@ -2536,3 +2567,18 @@
 "tutorial_skip" = "チュートリアルをスキップ";
 "tutorial_get_started" = "冒険を始める";
 "tutorial_skip_tutorial" = "チュートリアルをスキップ";
+
+// MARK: - Character Tab Tutorial
+"character_tutorial_welcome_title" = "RPGの神々があなたを見守っている";
+"character_tutorial_welcome_subtitle" = "若き冒険者よ、キャラクターの神聖な領域へようこそ。ここでクエストの運命を支配する古代の法則を学ぶでしょう。";
+"character_tutorial_health_title" = "クエストの神々の怒り";
+"character_tutorial_health_subtitle" = "気をつけろ、人間よ！古代のクエストの神々は、クエストが忘れられると不満を抱く。逃したクエストはすべてあなたの健康に神の罰をもたらす。";
+"character_tutorial_damage_title" = "神の罰の尺度";
+"character_tutorial_damage_subtitle" = "逃したまたは期限切れのクエストに対して、ダメージを受ける。\n\nしかし恐れるな - 神々は1日の猶予期間を与える！";
+"character_tutorial_protection_title" = "神の保護と回復";
+"character_tutorial_protection_subtitle" = "神々は慈悲深い - あなたの健康は決して1を下回らず、ダメージはセッションごとに12に制限される。**体力ポーション**を使用し、クエストを完了して活力を回復しよう！";
+"character_tutorial_critical_title" = "神々の恩寵が薄れる";
+"character_tutorial_critical_subtitle" = "気をつけろ、人間よ！あなたの活力が危険なレベルに達すると、神の恩寵が薄れる。神々はあなたが力を回復するまで、クエストに対する報酬を減らすかもしれない！";
+"character_tutorial_skip" = "スキップ";
+"character_tutorial_next" = "次へ";
+"character_tutorial_begin_adventure" = "冒険を始める";

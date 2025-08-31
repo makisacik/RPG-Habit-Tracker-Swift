@@ -48,8 +48,8 @@ struct CharacterTabTutorialView: View {
                     TabView(selection: $currentPage) {
                         // Page 1: Welcome to Your Character
                         CharacterTutorialPageView(
-                            title: "The RPG Gods Watch Over You",
-                            subtitle: "Welcome to your character's sacred realm, young adventurer. Here you shall learn the ancient laws that govern your questing destiny.",
+                            title: "character_tutorial_welcome_title".localized,
+                            subtitle: "character_tutorial_welcome_subtitle".localized,
                             imageName: "person.crop.circle.fill",
                             isSystemImage: true,
                             theme: theme
@@ -58,8 +58,8 @@ struct CharacterTabTutorialView: View {
 
                         // Page 2: Health and Damage System
                         CharacterTutorialPageView(
-                            title: "The Wrath of the Quest Gods",
-                            subtitle: "Beware, mortal! The ancient Quest Gods grow displeased when quests are forgotten. Each missed quest brings divine retribution upon your health.",
+                            title: "character_tutorial_health_title".localized,
+                            subtitle: "character_tutorial_health_subtitle".localized,
                             imageName: "heart.fill",
                             isSystemImage: true,
                             theme: theme
@@ -68,8 +68,8 @@ struct CharacterTabTutorialView: View {
 
                         // Page 3: Damage Types and Consequences
                         CharacterTutorialPageView(
-                            title: "Divine Punishment Scales",
-                            subtitle: "For missed or overdue quests, you get damaged.\n\nBut fear not - the gods grant a 1-day grace period!",
+                            title: "character_tutorial_damage_title".localized,
+                            subtitle: "character_tutorial_damage_subtitle".localized,
                             imageName: "exclamationmark.triangle.fill",
                             isSystemImage: true,
                             theme: theme
@@ -78,8 +78,8 @@ struct CharacterTabTutorialView: View {
 
                         // Page 4: Protection and Recovery
                         CharacterTutorialPageView(
-                            title: "Divine Protection & Recovery",
-                            subtitle: "The gods are merciful - your health shall never fall below 1, and damage is capped at 12 per session. Use **health potions** and complete quests to restore your vitality!",
+                            title: "character_tutorial_protection_title".localized,
+                            subtitle: "character_tutorial_protection_subtitle".localized,
                             imageName: "shield.fill",
                             isSystemImage: true,
                             theme: theme
@@ -88,8 +88,8 @@ struct CharacterTabTutorialView: View {
                         
                         // Page 5: Critical Health Warning
                         CharacterTutorialPageView(
-                            title: "The Gods' Favor Wanes",
-                            subtitle: "Beware, mortal! When your vitality reaches critical levels, the divine favor diminishes. The gods may grant you fewer rewards for your quests until you restore your strength!",
+                            title: "character_tutorial_critical_title".localized,
+                            subtitle: "character_tutorial_critical_subtitle".localized,
                             imageName: "exclamationmark.octagon.fill",
                             isSystemImage: true,
                             theme: theme
@@ -106,7 +106,7 @@ struct CharacterTabTutorialView: View {
                         Button(action: {
                             dismissTutorial()
                         }) {
-                            Text("Skip")
+                            Text("character_tutorial_skip".localized)
                                 .font(.appFont(size: 16, weight: .medium))
                                 .foregroundColor(theme.textColor.opacity(0.7))
                         }
@@ -123,7 +123,7 @@ struct CharacterTabTutorialView: View {
                                 dismissTutorial()
                             }
                         }) {
-                            Text(currentPage < totalPages - 1 ? "Next" : "Begin Adventure")
+                            Text(currentPage < totalPages - 1 ? "character_tutorial_next".localized : "character_tutorial_begin_adventure".localized)
                                 .font(.appFont(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 24)

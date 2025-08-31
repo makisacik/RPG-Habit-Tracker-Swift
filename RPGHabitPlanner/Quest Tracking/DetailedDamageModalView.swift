@@ -24,7 +24,7 @@ struct DetailedDamageModalView: View {
                             .font(.title2)
                             .foregroundColor(.red)
                         
-                        Text("Damage Breakdown")
+                        Text("damage_breakdown".localized)
                             .font(.appFont(size: 20, weight: .bold))
                             .foregroundColor(theme.textColor)
                         
@@ -39,7 +39,7 @@ struct DetailedDamageModalView: View {
                     
                     // Summary card
                     VStack(spacing: 8) {
-                        Text("Total Damage")
+                        Text("total_damage_label".localized)
                             .font(.appFont(size: 14, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.8))
                         
@@ -47,7 +47,7 @@ struct DetailedDamageModalView: View {
                             .font(.appFont(size: 32, weight: .black))
                             .foregroundColor(.red)
                         
-                        Text("from \(damageData.questsAffected) quest(s)")
+                        Text(String(format: "from_quests_affected".localized, damageData.questsAffected))
                             .font(.appFont(size: 12))
                             .foregroundColor(theme.textColor.opacity(0.6))
                     }
@@ -107,7 +107,7 @@ struct DetailedDamageCard: View {
                         .foregroundColor(theme.textColor)
                         .lineLimit(2)
                     
-                    Text(damageItem.questType.capitalized)
+                    Text(localizedQuestType(damageItem.questType))
                         .font(.appFont(size: 12, weight: .medium))
                         .foregroundColor(questTypeColor)
                         .padding(.horizontal, 8)
@@ -147,7 +147,7 @@ struct DetailedDamageCard: View {
                         .background(theme.textColor.opacity(0.2))
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Damage Reason")
+                        Text("damage_reason".localized)
                             .font(.appFont(size: 14, weight: .semibold))
                             .foregroundColor(theme.textColor)
                         
@@ -159,17 +159,17 @@ struct DetailedDamageCard: View {
                     }
                     
                     HStack {
-                        Text("Quest Type:")
+                        Text("quest_type_label".localized)
                             .font(.appFont(size: 12, weight: .medium))
                             .foregroundColor(theme.textColor.opacity(0.6))
                         
-                        Text(damageItem.questType.capitalized)
+                        Text(localizedQuestType(damageItem.questType))
                             .font(.appFont(size: 12, weight: .semibold))
                             .foregroundColor(questTypeColor)
                         
                         Spacer()
                         
-                        Text("Damage: \(damageItem.damageAmount)")
+                        Text(String(format: "damage_amount_label".localized, damageItem.damageAmount))
                             .font(.appFont(size: 12, weight: .bold))
                             .foregroundColor(.red)
                     }
@@ -211,6 +211,21 @@ struct DetailedDamageCard: View {
             return .gray
         }
     }
+    
+    private func localizedQuestType(_ questType: String) -> String {
+        switch questType.lowercased() {
+        case "daily":
+            return "daily".localized
+        case "weekly":
+            return "weekly".localized
+        case "onetime":
+            return "one_time".localized
+        case "scheduled":
+            return "scheduled".localized
+        default:
+            return questType.capitalized
+        }
+    }
 }
 
 // Extension for rounded corners
@@ -239,24 +254,24 @@ struct RoundedCorner: Shape {
         totalDamage: 15,
         damageDate: Date(),
         questsAffected: 3,
-        message: "You took 15 damage from missed quests!",
+        message: String(format: "damage_taken_message".localized, 15),
         detailedDamage: [
             DetailedDamageItem(
                 questTitle: "Daily Workout",
                 damageAmount: 6,
-                reason: "Daily quest 'Daily Workout' missed 2 day(s) (after grace period)",
+                reason: String(format: "daily_quest_missed_reason".localized, "Daily Workout", 2),
                 questType: "daily"
             ),
             DetailedDamageItem(
                 questTitle: "Weekly Report",
                 damageAmount: 8,
-                reason: "Weekly quest 'Weekly Report' missed 1 week(s) (after grace period)",
+                reason: String(format: "weekly_quest_missed_reason".localized, "Weekly Report", 1),
                 questType: "weekly"
             ),
             DetailedDamageItem(
                 questTitle: "Project Deadline",
                 damageAmount: 10,
-                reason: "One-time quest 'Project Deadline' is still overdue (after grace period)",
+                reason: String(format: "one_time_quest_overdue_reason".localized, "Project Deadline"),
                 questType: "oneTime"
             )
         ]

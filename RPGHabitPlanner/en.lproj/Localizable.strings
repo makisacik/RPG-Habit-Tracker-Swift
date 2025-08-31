@@ -2104,6 +2104,37 @@
 "weekly_bonus_received" = "Weekly bonus received";
 "xp_multiplier" = "XP multiplier";
 
+// MARK: - Damage Breakdown Modal
+"damage_breakdown" = "Damage Breakdown";
+"total_damage_label" = "Total Damage";
+"from_quests_affected" = "from %d quest(s)";
+"damage_reason" = "Damage Reason";
+"quest_type_label" = "Quest Type:";
+"damage_amount_label" = "Damage: %d";
+
+// MARK: - Damage Summary View
+"damage_summary" = "Damage Summary";
+"total_damage_taken" = "Total Damage Taken";
+"damage_date" = "Damage Date:";
+"quests_affected" = "Quests Affected:";
+"view_damage_details" = "View Damage Details";
+"damage_check" = "Damage Check";
+"check_for_missed_quests" = "Check for missed quests";
+"test_damage" = "Test Damage";
+"create_test_quest_check" = "Create test quest & check";
+
+// MARK: - Damage Messages
+"damage_taken_message" = "You took %d damage from missed quests!";
+"damage_taken_capped_message" = "You took %d damage (capped from %d) from missed quests!";
+"great_job_message" = "Great job! All your quests are completed on time.";
+"daily_quest_missed_reason" = "Daily quest '%@' missed %d day(s) (after grace period)";
+"weekly_quest_missed_reason" = "Weekly quest '%@' missed %d week(s) (after grace period)";
+"weekly_quest_not_overdue_reason" = "Weekly quest '%@' is not overdue";
+"one_time_quest_overdue_reason" = "One-time quest '%@' is still overdue (after grace period)";
+"one_time_quest_not_overdue_reason" = "One-time quest '%@' is not overdue";
+"scheduled_quest_missed_reason" = "Scheduled quest '%@' missed %d scheduled day(s) (after grace period)";
+"scheduled_quest_not_overdue_reason" = "Scheduled quest '%@' is not overdue";
+
 // MARK: - Tutorial
 "tutorial_welcome_title" = "Welcome to Your Adventure";
 "tutorial_welcome_subtitle" = "Embark on an epic journey where every quest shapes your destiny!";
@@ -2119,3 +2150,18 @@
 "tutorial_skip" = "Skip Tutorial";
 "tutorial_get_started" = "Begin Adventure";
 "tutorial_skip_tutorial" = "Skip Tutorial";
+
+// MARK: - Character Tab Tutorial
+"character_tutorial_welcome_title" = "The RPG Gods Watch Over You";
+"character_tutorial_welcome_subtitle" = "Welcome to your character's sacred realm, young adventurer. Here you shall learn the ancient laws that govern your questing destiny.";
+"character_tutorial_health_title" = "The Wrath of the Quest Gods";
+"character_tutorial_health_subtitle" = "Beware, mortal! The ancient Quest Gods grow displeased when quests are forgotten. Each missed quest brings divine retribution upon your health.";
+"character_tutorial_damage_title" = "Divine Punishment Scales";
+"character_tutorial_damage_subtitle" = "For missed or overdue quests, you get damaged.\n\nBut fear not - the gods grant a 1-day grace period!";
+"character_tutorial_protection_title" = "Divine Protection & Recovery";
+"character_tutorial_protection_subtitle" = "The gods are merciful - your health shall never fall below 1, and damage is capped at 12 per session. Use **health potions** and complete quests to restore your vitality!";
+"character_tutorial_critical_title" = "The Gods' Favor Wanes";
+"character_tutorial_critical_subtitle" = "Beware, mortal! When your vitality reaches critical levels, the divine favor diminishes. The gods may grant you fewer rewards for your quests until you restore your strength!";
+"character_tutorial_skip" = "Skip";
+"character_tutorial_next" = "Next";
+"character_tutorial_begin_adventure" = "Begin Adventure";

@@ -103,8 +103,8 @@ extension HomeView {
                 // Damage Summary Button
                 QuickActionCard(
                     icon: "exclamationmark.triangle.fill",
-                    title: "Damage Check",
-                    subtitle: "Check for missed quests",
+                    title: "damage_check".localized,
+                    subtitle: "check_for_missed_quests".localized,
                     color: .red,
                     theme: theme
                 ) {
@@ -115,8 +115,8 @@ extension HomeView {
                 // Test Damage Button (for demonstration)
                 QuickActionCard(
                     icon: "wrench.and.screwdriver.fill",
-                    title: "Test Damage",
-                    subtitle: "Create test quest & check",
+                    title: "test_damage".localized,
+                    subtitle: "create_test_quest_check".localized,
                     color: .orange,
                     theme: theme
                 ) {
