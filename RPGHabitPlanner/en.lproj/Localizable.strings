@@ -278,7 +278,6 @@
 "archer" = "Archer";
 
 // MARK: - Error Messages
-"unknown" = "Unknown";
 "adventurer" = "Adventurer";
 "unknown_error" = "An unknown error occurred";
 "heads_up" = "Heads up";
@@ -307,12 +306,9 @@
 "date_in_past" = "Date cannot be in the past";
 
 // MARK: - Time & Date
-"today" = "Today";
 "yesterday" = "Yesterday";
 "tomorrow" = "Tomorrow";
-"this_week" = "This Week";
 "next_week" = "Next Week";
-"this_month" = "This Month";
 "next_month" = "Next Month";
 
 // MARK: - Progress
@@ -356,66 +352,43 @@
 
 // MARK: - Tab Navigation
 "home" = "Home";
-"quests" = "Quests";
-"character" = "Character";
 "focus_timer" = "Focus Timer";
-"calendar" = "Calendar";
 "quest_journal" = "Quest Journal";
 
 // MARK: - Home Screen
 "active" = "Active";
-"completed" = "Finished";
 "view_all" = "View All";
 "create_quest" = "Create Quest";
 "loading_character" = "Loading character...";
-"recent_achievements" = "Recent Achievements";
 "no_achievements_yet" = "No achievements yet";
 "complete_quests_to_earn_achievements" = "Complete quests to earn achievements!";
-"quick_actions" = "Quick Actions";
 
 // MARK: - Quest Details
 "quest_details" = "Quest Details";
-"close" = "Close";
-"edit_quest" = "Edit Quest";
-"delete_quest" = "Delete Quest";
 "delete_quest_confirmation" = "Delete Quest";
 "delete_quest_warning" = "Are you sure you want to delete this quest? This action cannot be undone.";
-"progress" = "Progress";
 "difficulty" = "Difficulty:";
 "completion_history" = "Completion History";
 "no_completions_yet" = "No completions yet";
-"mark_as_finished" = "Mark as Finished";
 
 // MARK: - Character Details
-"character_details" = "Character Details";
 "exp" = "EXP";
-"weapon" = "Weapon:";
 "equipped_weapon" = "Equipped Weapon";
 "character_id" = "Character ID:";
 
 // MARK: - Calendar
 "quest_calendar" = "Quest Calendar";
-"calendar" = "Calendar";
-"tasks" = "Tasks";
 "set_due_date" = "Set Due Date";
 "due_date" = "Due Date";
 "default_duration" = "Default Duration";
-"add_quest" = "Add Quest";
 
 // MARK: - Focus Timer
-"choose_your_enemy" = "Choose Your Enemy";
-"focus_timer" = "Focus Timer";
 "remaining" = "remaining";
 "complete" = "complete";
 "percent_complete" = "% complete";
 
 // MARK: - Widget
-"active_quest" = "Active Quest";
-"no_active_quests" = "No Active Quests";
 "all_quests_completed" = "All quests completed!";
-"start_your_adventure" = "Start Your Adventure";
-"create_your_first_quest" = "Create your first quest";
-"overdue" = "Overdue!";
 "due_today" = "Due today";
 "due_tomorrow" = "Due tomorrow";
 "days_left" = "days left";
@@ -424,11 +397,9 @@
 // MARK: - Settings
 "dark_mode" = "Dark Mode";
 "switch_between_light_and_dark_themes" = "Switch between light and dark themes";
-"notifications" = "Notifications";
 "notifications_settings" = "Notifications settings";
 "data_and_storage" = "Data & Storage";
 "data_and_storage_settings" = "Data & Storage settings";
-"about_app" = "About App";
 "version_info" = "Version 1.0 • © You";
 
 // MARK: - Onboarding
@@ -482,23 +453,16 @@
 "review_quest" = "Review Quest";
 "accept_quest" = "Accept Quest";
 "quest_name" = "Quest Name";
-"quest_type" = "Quest Type";
 "quest_deadline" = "Quest Deadline";
 "quest_tasks" = "Quest Tasks";
-"quest_difficulty" = "Quest Difficulty";
 "quest_tags" = "Quest Tags";
-"manage_tasks" = "Manage Tasks";
 "add_tags" = "Add Tags";
 "no_tags_selected" = "No tags selected";
-"untitled_quest" = "Untitled Quest";
 "no_description" = "No description";
-"main_quest" = "Main Quest";
-"side_quest" = "Side Quest";
 "stars" = "Stars";
 "tasks_count" = "tasks";
 "preparing_quest" = "Preparing your quest...";
 "greetings_adventurer" = "Greetings, brave adventurer! I have a quest that requires your attention. Are you ready to embark on this journey?";
-"continue" = "Continue";
 
 // MARK: - Character Customization
 "mustache" = "Mustache";
@@ -511,22 +475,13 @@
 "create_quest_to_get_started" = "Create a quest to get started!";
 "adventure_shop" = "Adventure Shop";
 "shop_description" = "Trade your coins and gems for powerful items";
-"quest_board" = "Quest Board";
 "adventure_awaits_brave_one" = "Adventure awaits, brave one!";
-"accept_new_quest" = "Accept New Quest";
 "enter_quest_name" = "Enter your quest's name...";
 "describe_quest" = "Describe your quest...";
-"quest_deadline" = "Quest Deadline";
 "creating" = "Creating...";
-"create_quest" = "Create Quest";
-"quest_master" = "Quest Master";
 "rpg_habit_planner" = "RPG Habit Planner";
 "transform_daily_tasks_into_epic_adventures" = "Transform your daily tasks into epic adventures";
-"your_adventure_awaits" = "Your Adventure Awaits!";
-"name_your_hero" = "Name Your Hero";
-"choose_legendary_name_for_character" = "Choose a legendary name for your character";
 "random_name" = "Random Name";
-"maximum_16_characters" = "Maximum 16 characters";
 "custom_hero" = "Custom Hero";
 "scheduled_days" = "Scheduled Days";
 "quest_damage_calculator" = "Quest Damage Calculator";
@@ -538,16 +493,8 @@
 "apply" = "Apply";
 "no_active_boosters" = "No active boosters";
 "visit_shop" = "Visit Shop";
-"my_quests" = "Quests";
-"view_all" = "View All";
-"loading_quests" = "Loading quests…";
-"create_quest" = "Create Quest";
 "appearance" = "Appearance";
 "general" = "General";
-"about" = "About";
-"daily" = "Daily";
-"weekly" = "Weekly";
-"one_time" = "One-time";
 "scheduled" = "Scheduled";
 "expires" = "Expires";
 "failed_to_update_quest_tags" = "Failed to update quest tags";
@@ -558,8 +505,6 @@
 "failed_to_delete_quest" = "Failed to delete quest";
 
 // MARK: - Calendar & Streak Views
-"filter" = "Filter";
-"apply" = "Apply";
 "filter_by_tags" = "Filter by Tags";
 "any" = "Any";
 "all" = "All";
@@ -586,10 +531,8 @@
 "finish_quest" = "Finish Quest";
 "quest_finish_confirmation_popup_examples" = "Quest Finish Confirmation Popup Examples";
 "tags" = "Tags";
-"add_tags" = "Add Tags";
 "no_tags_assigned" = "No tags assigned";
 "customize_your_character_appearance" = "Customize your character's appearance";
-"save_changes" = "Save Changes";
 "customization" = "CUSTOMIZATION";
 "quest_not_found" = "Quest not found";
 "failed_to_create_user" = "Failed to create user";
@@ -726,7 +669,6 @@
 "quick_quest_fitness_challenge_task_5" = "Complete the 30-day challenge";
 
 // MARK: - Edit Quest Components
-"scheduled" = "Scheduled";
 
 // MARK: - Damage Tracking
 "damage_calculator" = "Damage Calculator";
@@ -742,16 +684,12 @@
 "premium_widgets_description" = "Use widgets";
 
 // MARK: - Premium Plans
-"monthly" = "Monthly";
 "lifetime" = "Lifetime";
 "per_month" = "per month";
 "one_time_payment" = "one-time payment";
 
 // MARK: - Error Messages
-"error" = "Error";
-"warning" = "Warning";
 "failed_to_update_quest" = "Failed to update quest";
-"failed_to_delete_quest" = "Failed to delete quest";
 "please_check_your_input" = "Please check your input";
 
 // MARK: - Equipment Categories
@@ -884,7 +822,6 @@
 "currency_coins" = "Coins";
 
 // MARK: - Damage Calculation
-"due_today" = "Due today";
 
 // MARK: - Sample Data
 "sample_quest_title" = "Sample Quest";
@@ -898,19 +835,6 @@
 "sample_task_2" = "Task 2";
 "sample_task_3" = "Task 3";
 
-"loading_quests" = "Loading quests…";
-"no_quests" = "No Quests";
-"add_quest" = "Add Quest";
-"streak_calendar" = "Streak Calendar";
-"current_streak" = "Current Streak";
-"longest_streak" = "Longest Streak";
-"streak_day" = "day";
-"streak_days" = "days";
-"best_streak" = "Best Streak";
-"today_status" = "Today";
-"monthly_activity" = "Monthly Activity";
-"active_days" = "Active Days";
-"activity_rate" = "Activity Rate";
 "item_boosters" = "Item Boosters";
 "total_active_boosters" = "Total Active Boosters";
 "collect_items_to_get_boosters" = "Collect items to get boosters!";
@@ -920,7 +844,6 @@
 "tag_name" = "Tag Name";
 "enter_tag_name" = "Enter tag name";
 "icon" = "Icon";
-"browse_all" = "Browse All";
 "selected_icon" = "Selected Icon";
 "color" = "Color";
 "create_tag" = "Create Tag";
@@ -929,7 +852,6 @@
 "buy" = "Buy";
 "filters" = "Filters";
 "rarity" = "Rarity";
-"all" = "All";
 "show_only_affordable_items" = "Show only affordable items";
 "item_preview" = "Item Preview";
 "buy_for" = "Buy for %@";
@@ -1220,9 +1142,7 @@
 
 // MARK: - Gear Categories
 "head" = "Head";
-"outfit" = "Outfit";
 "wings" = "Wings";
-"weapon" = "Weapon";
 "shield" = "Shield";
 "pet" = "Pet";
 
@@ -1236,7 +1156,6 @@
 
 // MARK: - Collection Categories
 "royalty" = "Royalty";
-"general" = "General";
 "weapons" = "Weapons";
 "treasure" = "Treasure";
 "accessories" = "Accessories";
@@ -1249,13 +1168,8 @@
 "uncommon" = "Uncommon";
 "rare" = "Rare";
 "epic" = "Epic";
-"legendary" = "Legendary";
 
 // MARK: - Onboarding Flow
-"next" = "Next";
-"start_adventure" = "Start Adventure";
-"welcome" = "Welcome";
-"customize_character" = "Customize Character";
 "choose_name" = "Choose Name";
 "choose_title" = "Choose Title";
 "ready" = "Ready";
@@ -1264,7 +1178,6 @@
 "unlock_achievements_and_rewards" = "Unlock achievements and rewards";
 "customize_your_character" = "Customize your character";
 "enter_hero_name" = "Enter hero name";
-"cancel" = "Cancel";
 
 // MARK: - Character Titles
 "the_brave" = "The Brave";
@@ -1292,87 +1205,26 @@
 "the_starlight" = "The Starlight";
 "the_starlight_description" = "Illuminates the darkest paths";
 "hero" = "Hero";
-"chooseYourTitle" = "Choose Your Title";
-"selectTitleDescription" = "Select a title that represents your character's personality and achievements";
-"selectDifferentTitle" = "Select Different Title";
-"randomTitle" = "Random Title";
-"chooseFromAvailableTitles" = "Choose from available titles";
-"maximum_16_characters" = "Maximum 16 characters";
-"name_your_hero" = "Name Your Hero";
-"choose_legendary_name_for_character" = "Choose a legendary name for your character";
-"random_name" = "Random Name";
-"your_adventure_awaits" = "Your Adventure Awaits";
 
 // MARK: - Home View
 "new_quest" = "New Quest";
 "create_new_adventure" = "Create a new adventure";
-"quick_quests" = "Quick Quests";
 "add_premade_quests" = "Add premade quests";
-"character" = "Character";
 "view_your_stats" = "View your stats";
-"finished" = "Finished";
-"view_completed_quests" = "View completed quests";
-"achievements" = "Achievements";
 "view_your_trophies" = "View your trophies";
-"focus_timer" = "Focus Timer";
 "battle_distractions" = "Battle distractions";
 "shop" = "Shop";
 "buy_items_with_coins" = "Buy items with coins";
 "add_currency" = "Add Currency";
-"active_quests" = "Active Quests";
-"no_active_quests" = "No Active Quests";
-"create_quest" = "Create Quest";
 "active_boosters" = "Active Boosters";
-"no_active_boosters" = "No Active Boosters";
-"experience" = "Experience";
 "coins" = "Coins";
-"visit_shop" = "Visit Shop";
 
 // MARK: - Quest Creation & Details
-"quest_title" = "Quest Title";
-"enter_quest_name" = "Enter quest name";
-"quest_description" = "Quest Description";
-"describe_quest" = "Describe your quest";
-"quest_deadline" = "Quest Deadline";
-"quest_difficulty" = "Quest Difficulty";
-"creating" = "Creating...";
-"error" = "Error";
-"ok" = "OK";
-"unknown_error" = "Unknown error";
-"quest_details" = "Quest Details";
-"quest_due_date" = "Quest Due Date";
-"created" = "Created";
-"type" = "Type";
-"main_quest_label" = "Main Quest";
-"completed_label" = "Completed";
-"mark_as_finished" = "Mark as Finished";
-"mark_incomplete" = "Mark Incomplete";
-"mark_complete" = "Mark Complete";
-"view_all_damage_events" = "View all {count} damage events";
-"damage_history" = "Damage History";
-"total_damage" = "Total Damage";
-"loading_damage_history" = "Loading damage history...";
-"no_damage_taken" = "No damage taken";
-"damage_amount" = "Damage Amount";
 
 // MARK: - Quest Creation Components
-"quest_master" = "Quest Master";
-"continue" = "Continue";
-"quest_board" = "Quest Board";
-"adventure_awaits_brave_one" = "Adventure awaits, brave one!";
-"accept_new_quest" = "Accept New Quest";
-"scheduled_days" = "Scheduled Days";
-"quest_tasks" = "Quest Tasks";
-"manage_tasks" = "Manage Tasks";
-"quest_difficulty" = "Quest Difficulty";
-"repeat_type" = "Repeat Type";
-"one_time" = "One Time";
 "quest_reward" = "Quest Reward";
 "base_reward" = "Base Reward";
 "task_bonus" = "Task Bonus";
-"quest_tags" = "Quest Tags";
-"add_tags" = "Add Tags";
-"no_tags_selected" = "No tags selected";
 "quest_title_cannot_be_empty" = "Quest title cannot be empty.";
 
 // MARK: - Enhanced Date Picker
@@ -1382,31 +1234,14 @@
 "confirm_date" = "Confirm Date";
 
 // MARK: - Calendar View
-"quest_calendar" = "Quest Calendar";
-"calendar" = "Calendar";
-"heads_up" = "Heads Up";
 "ok_button" = "OK";
-"no_quests" = "No Quests";
-"add_quest" = "Add Quest";
-"loading_character" = "Loading Character...";
-"recent_achievements" = "Recent Achievements";
-"no_achievements_yet" = "No Achievements Yet";
-"complete_quests_to_earn_achievements" = "Complete quests to earn achievements";
-"quick_actions" = "Quick Actions";
-"health" = "Health";
-"the_brave" = "The Brave";
 "xp" = "XP";
 
 // MARK: - Shop Categories
-"weapons" = "Weapons";
 "armor" = "Armor";
-"accessories" = "Accessories";
-"wings" = "Wings";
 "pets" = "Pets";
 "consumables" = "Consumables";
 "helmet" = "Helmet";
-"outfit" = "Outfit";
-"shield" = "Shield";
 "potions" = "Potions";
 "boosts" = "Boosts";
 "specials" = "Specials";
@@ -1434,42 +1269,10 @@
 "unlock_premium_to_access" = "Unlock Premium to access this item";
 
 // MARK: - Character Titles (Additional)
-"the_brave" = "The Brave";
-"the_wise" = "The Wise";
-"the_swift" = "The Swift";
-"the_mighty" = "The Mighty";
-"the_shadow" = "The Shadow";
-"the_guardian" = "The Guardian";
-"the_wanderer" = "The Wanderer";
-"the_legendary" = "The Legendary";
-"the_whimsical" = "The Whimsical";
-"the_stormborn" = "The Stormborn";
-"the_dreamweaver" = "The Dreamweaver";
-"the_starlight" = "The Starlight";
 
 // MARK: - Character Title Descriptions
-"the_brave_description" = "Fearless in the face of danger";
-"the_wise_description" = "Knowledge and wisdom guide their path";
-"the_swift_description" = "Quick as the wind, agile as a cat";
-"the_mighty_description" = "Strength and power personified";
-"the_shadow_description" = "Moves unseen, strikes from darkness";
-"the_guardian_description" = "Protector of the innocent and weak";
-"the_wanderer_description" = "Explorer of unknown lands and secrets";
-"the_legendary_description" = "Destined for greatness and fame";
-"the_whimsical_description" = "Brings joy and wonder wherever they go";
-"the_stormborn_description" = "Born of thunder, master of chaos";
-"the_dreamweaver_description" = "Weaves dreams into reality";
-"the_starlight_description" = "Illuminates the darkest paths";
 
 // MARK: - Onboarding Flow
-"choose_name" = "Choose Name";
-"choose_title" = "Choose Title";
-"ready" = "Ready";
-"create_quests_and_complete_tasks" = "Create quests and complete tasks";
-"earn_experience_and_level_up" = "Earn experience and level up";
-"unlock_achievements_and_rewards" = "Unlock achievements and rewards";
-"customize_your_character" = "Customize your character";
-"enter_hero_name" = "Enter hero name";
 "select_title_description" = "Select a title that represents your character's personality and achievements";
 
 // MARK: - Character Customization Categories
@@ -1478,11 +1281,6 @@
 "hair_back_style" = "Hair Back Style";
 "hair_color" = "Hair Color";
 "eye_color" = "Eye Color";
-"outfit" = "Outfit";
-"weapon" = "Weapon";
-"mustache" = "Mustache";
-"flower" = "Flower";
-"accessory" = "Accessory";
 
 // MARK: - Character Customization Options
 "no_customization_selected" = "No customization selected";
@@ -1495,18 +1293,8 @@
 "rogue_style" = "Rogue Style";
 
 // MARK: - Character Preview
-"character_preview" = "Character Preview";
 "preview_your_character" = "Preview your character";
 "character_customization" = "Character Customization";
-"customize_your_hero" = "Customize Your Hero";
-"choose_weapon_and_see_character_come_to_life" = "Choose your weapon and see your character come to life";
-"select_your_weapon" = "Select Your Weapon";
-"name_your_hero" = "Name Your Hero";
-"choose_legendary_name_for_character" = "Choose a legendary name for your character";
-"enter_your_heros_name" = "Enter your hero's name";
-"maximum_16_characters" = "Maximum 16 characters";
-"ready_for_adventure" = "Ready for Adventure!";
-"your_hero_is_ready_to_begin_journey" = "Your hero is ready to begin their journey";
 
 // MARK: - Character Stats
 "character_stats" = "Character Stats";
@@ -1550,22 +1338,12 @@
 "unlock_premium_for_more_options" = "Unlock premium for more customization options";
 
 // MARK: - Reward & Booster System
-"active_boosters" = "Active Boosters";
-"total_active_boosters" = "Total Active Boosters";
-"item_boosters" = "Item Boosters";
-"no_active_boosters" = "No Active Boosters";
 "visit_shop_to_get_boosters" = "Visit the shop to get boosters!";
-"collect_items_to_get_boosters" = "Collect items to get boosters!";
 "expired" = "Expired";
-"expires" = "Expires";
 "from_boosters" = "from boosters";
 "base" = "Base";
 "dismiss" = "Dismiss";
-"level_up" = "Level Up!";
-"new_level_reached" = "New Level Reached!";
-"experience_gained" = "Experience Gained";
 "coins_gained" = "Coins Gained";
-"quest_completed" = "Quest Completed!";
 "quest_rewards" = "Quest Rewards";
 "reward_animation" = "Reward Animation";
 "chest_opened" = "Chest Opened";
@@ -1752,9 +1530,7 @@
 
 // MARK: - Character Customization Categories (Detailed)
 "body_type" = "Skin Color";
-"hair_style" = "Hair Style";
 "hair_back" = "Hair Back";
-"eye_style" = "Eye Style";
 "outfit_style" = "Outfit Style";
 "weapon_style" = "Weapon Style";
 "facial_hair" = "Facial Hair";
@@ -1864,7 +1640,6 @@
 // MARK: - Additional Hardcoded Strings Found
 "quest_finished" = "Quest Finished!";
 "choose_icon" = "Choose Icon";
-"damage_calculator" = "Damage Calculator";
 "quest_finish_confirmation" = "Is this quest finished?";
 "yes_finish_it" = "Yes, finish it!";
 "quest_finish_confirmation_message" = "Are you sure you want to mark '%@' as finished?";
@@ -1874,11 +1649,7 @@
 "premium_purchase_success_message" = "Welcome to Premium! You've received 300 bonus gems as a thank you gift.";
 "an_error_occurred" = "An error occurred";
 "an_error_occurred_during_purchase" = "An error occurred during purchase";
-"close" = "Close";
 "restore_purchases" = "Restore Purchases";
-"terms_of_service" = "Terms of Service";
-"privacy_policy" = "Privacy Policy";
-"ok_button" = "OK";
 "done_button" = "Done";
 "work_phase" = "Work";
 "short_break_phase" = "Short Break";
@@ -1889,13 +1660,6 @@
 "idle_phase" = "Idle";
 
 // MARK: - Quest Confirmation Popups
-"not_yet" = "Not yet";
-"finish_quest" = "Yes, mark as done";
-"quest_finish_confirmation_popup_examples" = "Quest Finish Confirmation Popup Examples";
-"sample_one_time_quest_title" = "Sample One-Time Quest";
-"sample_one_time_quest_description" = "This is a sample one-time quest description";
-"sample_daily_quest_title" = "Sample Daily Quest";
-"sample_daily_quest_description" = "This is a sample daily quest description";
 "quest_completion_is_finished_check_popup_examples" = "Quest Completion Is Finished Check Popup Examples";
 
 // MARK: - Quest Completion Messages
@@ -1932,7 +1696,6 @@
 "purchase" = "Purchase";
 
 // MARK: - Inventory
-"unknown_item" = "Unknown";
 
 // MARK: - Weekdays
 "weekday_sun" = "Sun";
@@ -1950,7 +1713,6 @@
 
 // MARK: - Item Details
 "no_description_available" = "No description available";
-"unknown_error" = "Unknown error";
 
 // MARK: - App Title
 "app_title" = "RPG Your Life";
@@ -1972,18 +1734,14 @@
 "damage_applied_message" = "Applied %d damage to your health for missed quests.";
 "no_damage_calculated_message" = "No damage calculated. All quests are up to date!";
 "days_overdue" = "%d day(s) overdue";
-"days_left" = "%d day(s) left";
 
 // MARK: - Focus Timer Notifications
 "focus_timer_complete" = "Focus Timer Complete!";
 "session_finished" = "Your %@ session has finished.";
 
 // MARK: - Item Details
-"no_description_available" = "No description available";
-"item_used_successfully" = "Item used successfully!";
 
 // MARK: - Quest Validation
-"quest_title_cannot_be_empty" = "Quest title cannot be empty.";
 "difficulty_must_be_between_1_and_5" = "Difficulty must be between 1 and 5.";
 "due_date_cannot_be_earlier_than_creation" = "Due date cannot be earlier than the creation date.";
 
@@ -1996,9 +1754,7 @@
 // MARK: - Item Effect Types
 "attack" = "Attack";
 "defense" = "Defense";
-"health" = "Health";
 "focus" = "Focus";
-"experience" = "Experience";
 "luck" = "Luck";
 "speed" = "Speed";
 "critical_chance" = "Critical Chance";
@@ -2032,16 +1788,8 @@
 "body_green" = "Green";
 
 // MARK: - Outfits
-"peasants_garb" = "Peasant's Garb";
-"peasants_garb_description" = "Simple, durable clothing worn by common folk. Practical for everyday tasks.";
-"azure_tunic" = "Azure Tunic";
-"azure_tunic_description" = "A beautiful blue tunic that shimmers like the morning sky. Light and comfortable.";
-"ironclad_plate" = "Ironclad Plate";
-"ironclad_plate_description" = "Heavy iron armor that provides excellent protection. A warrior's trusted companion.";
 "steel_guardian" = "Steel Guardian";
 "steel_guardian_description" = "Superior steel armor with intricate engravings. Offers unmatched defense.";
-"arcane_robes" = "Arcane Robes";
-"arcane_robes_description" = "Mystical robes woven with magical threads. Enhances spellcasting abilities.";
 "noble_gown" = "Noble Gown";
 "noble_gown_description" = "An elegant gown fit for royalty. Made from the finest silks and adorned with precious gems.";
 "infernal_armor" = "Infernal Armor";
@@ -2191,16 +1939,13 @@
 "analytics_difficulty_analysis" = "Difficulty Analysis";
 "analytics_completion_trends" = "Completion Trends";
 "analytics_productivity_heatmap" = "Productivity Heatmap";
-"analytics_activity_patterns" = "Activity Patterns";
 "analytics_time_analysis" = "Time Analysis";
-"analytics_engagement_metrics" = "Engagement Metrics";
 "analytics_customization_patterns" = "Customization Patterns";
 "analytics_priority_recommendations" = "Priority Recommendations";
 "analytics_improvement_suggestions" = "Improvement Suggestions";
 "analytics_goal_setting" = "Goal Setting";
 
 // Analytics Actions
-"create_quest" = "Create Quest";
 "adjust_difficulty" = "Adjust Difficulty";
 "increase_difficulty" = "Increase Difficulty";
 "start_streak" = "Start Streak";
@@ -2209,141 +1954,24 @@
 "create_quest_now" = "Create Quest Now";
 
 // MARK: - Additional Analytics Keys
-"analytics" = "Analytics";
-"analytics_loading" = "Loading Analytics";
-"analytics_loading_description" = "Gathering your personalized insights and recommendations...";
-"analytics_empty_title" = "No Analytics Available";
-"analytics_empty_description" = "Complete some quests to see your personalized analytics and insights.";
-"analytics_refresh" = "Refresh";
-"analytics_last_updated" = "Last updated:";
-"analytics_filters" = "Filters";
-"analytics_filters_title" = "Analytics Filters";
-"analytics_time_period" = "Time Period";
-"analytics_period_week" = "Week";
-"analytics_period_month" = "Month";
-"analytics_period_quarter" = "Quarter";
-"analytics_period_year" = "Year";
-"analytics_period_all_time" = "All Time";
 
 // Analytics Performance
-"analytics_quest_performance" = "Quest Performance";
-"analytics_performance_score" = "Performance Score";
-"analytics_total_quests" = "Total Quests";
-"analytics_finished_quests" = "Finished";
-"analytics_partially_completed_quests" = "Partially Completed";
-"analytics_partial_completion_rate" = "Partial Completion Rate";
-"analytics_completion_rate" = "Completion Rate";
-"analytics_completion_progress" = "Completion Progress";
-"analytics_performance_insights" = "Performance Insights";
-"analytics_avg_completion_time" = "Avg. Completion Time";
-"analytics_most_productive_hour" = "Most Productive Hour";
-"analytics_preferred_difficulty" = "Preferred Difficulty";
-"analytics_difficulty_success_rates" = "Difficulty Success Rates";
-"analytics_no_data" = "No data";
-"analytics_time_hours_minutes" = "{hours}h {minutes}m";
-"analytics_time_minutes" = "{minutes}m";
 
 // Analytics Progression
-"analytics_progression_overview" = "Progression Overview";
-"analytics_level_progress" = "Level Progress";
-"analytics_level_up_rate" = "Level Up Rate";
-"analytics_currency_analytics" = "Currency Analytics";
-"analytics_avg_coins_per_quest" = "Avg. Coins/Quest";
-"analytics_avg_gems_per_quest" = "Avg. Gems/Quest";
-"analytics_earning_rate" = "Earning Rate";
-"analytics_achievements" = "Achievements";
-"analytics_achievement_progress" = "Achievement Progress";
-"analytics_recent_achievements" = "Recent Achievements";
-"analytics_next_achievements" = "Next Achievements";
 
 // Analytics Streak
-"analytics_streak_insights" = "Streak Insights";
-"analytics_current_streak" = "Current Streak";
-"analytics_longest_streak" = "Longest Streak";
-"analytics_avg_streak" = "Avg. Streak";
-"analytics_streak_insights_details" = "Streak Details";
-"analytics_best_streak_day" = "Best Streak Day";
-"analytics_common_break_day" = "Common Break Day";
-"analytics_streak_motivation" = "Streak Motivation";
-"analytics_streak_motivation_record" = "🔥 You're on fire! This is your longest streak ever. Keep it up!";
-"analytics_streak_motivation_halfway" = "You're halfway to your record! You can do it!";
-"analytics_streak_motivation_keep_going" = "Great start! Keep building your streak momentum.";
 
 // Analytics Engagement
-"analytics_engagement_metrics" = "Engagement Metrics";
-"analytics_engagement_score" = "Engagement Score";
-"analytics_sessions_per_week" = "Sessions/Week";
-"analytics_avg_session" = "Avg. Session";
-"analytics_app_opens" = "App Opens";
-"analytics_activity_patterns" = "Activity Patterns";
-"analytics_most_active_day" = "Most Active Day";
-"analytics_most_active_hour" = "Most Active Hour";
-"analytics_feature_usage" = "Feature Usage";
 
 // Analytics Customization
-"analytics_customization_preferences" = "Customization Preferences";
-"analytics_customization_score" = "Customization Score";
-"analytics_customization_frequency" = "Customization Frequency";
-"analytics_last_customization" = "Last Customization";
-"analytics_preferences" = "Preferences";
-"analytics_most_used_preset" = "Most Used Preset";
-"analytics_preferred_colors" = "Preferred Colors";
-"analytics_preferred_accessories" = "Preferred Accessories";
-"analytics_customization_tips" = "Customization Tips";
-"analytics_customization_tip_new" = "Try customizing your character to make your journey more personal!";
-"analytics_customization_tip_occasional" = "You occasionally customize your character. Try new looks to keep things fresh!";
-"analytics_customization_tip_active" = "You're very active with customization! Your character looks great!";
-"analytics_never" = "Never";
 
 // Analytics Recommendations
-"analytics_recommendations" = "Personalized Recommendations";
-"analytics_no_recommendations_title" = "All Caught Up!";
-"analytics_no_recommendations_description" = "You're doing great! No specific recommendations at this time.";
-"analytics_priority_high" = "HIGH";
 
 // Analytics Recommendations
-"analytics_recommendation_create_more_quests_title" = "Create More Quests";
-"analytics_recommendation_create_more_quests_description" = "You have few quests. Creating more quests will help you build better habits and track your progress.";
-"analytics_recommendation_difficulty_title" = "Adjust Quest Difficulty";
-"analytics_recommendation_difficulty_description" = "You're struggling with your current difficulty level. Try reducing the difficulty to improve your completion rate.";
-"analytics_recommendation_increase_difficulty_title" = "Increase Quest Difficulty";
-"analytics_recommendation_increase_difficulty_description" = "You're doing great with your current difficulty! Consider increasing the challenge to earn more rewards.";
-"analytics_recommendation_streak_title" = "Start a New Streak";
-"analytics_recommendation_streak_description" = "Your streak has ended. Start a new one today to build momentum and maintain consistency.";
-"analytics_recommendation_streak_continue_title" = "Continue Your Streak";
-"analytics_recommendation_streak_continue_description" = "You're building a good streak! Keep going to reach your longest streak record.";
-"analytics_recommendation_achievements_title" = "Unlock More Achievements";
-"analytics_recommendation_achievements_description" = "You have many achievements to unlock. Focus on completing different types of quests to earn more achievements.";
-"analytics_recommendation_timing_title" = "Perfect Time for Quests";
-"analytics_recommendation_timing_description" = "This is your most productive hour! Create or complete quests now for better results.";
 
 // MARK: - Analytics Dashboard
-"analytics_dashboard" = "Analytics Dashboard";
-"analytics_tab_overview" = "Overview";
-"analytics_tab_performance" = "Performance";
-"analytics_tab_patterns" = "Patterns";
-"analytics_tab_recommendations" = "Recommendations";
-"analytics_performance_overview" = "Performance Overview";
-"analytics_streak_status" = "Streak Status";
-"analytics_recent_activity" = "Recent Activity";
-"analytics_quick_actions" = "Quick Actions";
-"analytics_last_quest_completed" = "Last Quest Completed";
-"analytics_new_quest_created" = "New Quest Created";
-"analytics_level_up" = "Level Up!";
-"analytics_view_details" = "View Details";
 
 // MARK: - Analytics Dashboard Additional
-"analytics_quest_performance_chart" = "Quest Performance Chart";
-"analytics_difficulty_analysis" = "Difficulty Analysis";
-"analytics_completion_trends" = "Completion Trends";
-"analytics_productivity_heatmap" = "Productivity Heatmap";
-"analytics_activity_patterns" = "Activity Patterns";
-"analytics_time_analysis" = "Time Analysis";
-"analytics_engagement_metrics" = "Engagement Metrics";
-"analytics_customization_patterns" = "Customization Patterns";
-"analytics_priority_recommendations" = "Priority Recommendations";
-"analytics_improvement_suggestions" = "Improvement Suggestions";
-"analytics_goal_setting" = "Goal Setting";
 
 // MARK: - Gear Slot Names
 "gear_slot_head" = "HEAD";
@@ -2371,35 +1999,15 @@
 
 // MARK: - Analytics Dashboard Additional Keys
 "analytics_partial_finished" = "Partial Finished";
-"analytics_view_details" = "View Details";
 "analytics_detailed_view_title" = "Detailed %@ View";
 "analytics_detailed_view_description" = "This would show detailed analytics for %@";
-"analytics_quest_performance_chart" = "Quest Performance Chart";
-"analytics_difficulty_analysis" = "Difficulty Analysis";
-"analytics_completion_trends" = "Completion Trends";
-"analytics_productivity_heatmap" = "Productivity Heatmap";
-"analytics_activity_patterns" = "Activity Patterns";
-"analytics_time_analysis" = "Time Analysis";
-"analytics_customization_patterns" = "Customization Patterns";
-"analytics_priority_recommendations" = "Priority Recommendations";
-"analytics_improvement_suggestions" = "Improvement Suggestions";
-"analytics_goal_setting" = "Goal Setting";
-"analytics_performance_overview" = "Performance Overview";
-"analytics_streak_status" = "Streak Status";
-"analytics_recent_activity" = "Recent Activity";
-"analytics_quick_actions" = "Quick Actions";
-"analytics_last_quest_completed" = "Last quest completed";
-"analytics_new_quest_created" = "New quest created";
 
 // MARK: - Achievement Titles (for preview data)
 "achievement_first_steps_title" = "First Steps";
-"achievement_first_steps_description" = "Complete your first quest";
 "achievement_streak_master_title" = "Streak Master";
 "achievement_streak_master_description" = "Maintain a 7-day streak";
 "achievement_quest_master_title" = "Quest Master";
-"achievement_quest_master_description" = "Complete 50 quests";
 "achievement_level_up_title" = "Level Up";
-"achievement_level_up_description" = "Reach level 20";
 
 // MARK: - Recommendation Titles (for preview data)
 "recommendation_create_more_quests_title" = "Create More Quests";
@@ -2413,8 +2021,6 @@
 
 // MARK: - Missing Keys (Added from Turkish localization)
 "accessory_equipped" = "Accessory equipped";
-"ancient_knowledge_essence" = "Ancient Knowledge Essence";
-"ancient_knowledge_essence_description" = "Increases XP gain by 200% for 4 hours";
 "armor_equipped" = "Armor equipped";
 "attack_success" = "Attack successful!";
 "beard_1_black" = "Black beard 1";
@@ -2424,118 +2030,75 @@
 "beard_2_blonde" = "Blonde beard 2";
 "beard_2_brown" = "Brown beard 2";
 "body_dark" = "Dark skin";
-"body_dark_2" = "Very dark skin";
 "body_light" = "Light skin";
 "body_medium" = "Medium skin";
-"body_tan" = "Tan skin";
 "boost_active" = "Boost active";
 "boost_applied" = "Boost applied";
 "boost_duration_remaining" = "Boost duration remaining";
 "boost_expired" = "Boost expired";
 "booster_shop" = "Booster shop";
-"calculate_damage" = "Calculate damage";
-"coin_boost" = "Coin boost";
 "coin_multiplier" = "Coin multiplier";
 "connection_successful" = "Connection successful";
 "critical_hit" = "Critical hit!";
 "daily_bonus_received" = "Daily bonus received";
-"damage_applied_message" = "Damage applied";
 "damage_calculation_in_progress" = "Damage calculation in progress...";
 "damage_log" = "Damage log";
 "damage_prevention_failed" = "Damage prevention failed";
 "damage_prevention_success" = "Damage prevention successful";
 "damage_report" = "Damage report";
 "defense_success" = "Defense successful!";
-"difficulty_must_be_between_1_and_5" = "Difficulty must be between 1 and 5.";
-"dragons_hoard_essence" = "Dragon's Hoard Essence";
-"dragons_hoard_essence_description" = "Increases coin gain by 200% for 4 hours";
 "event_ended" = "Event ended";
 "event_reward_claimed" = "Event reward claimed";
 "event_started" = "Event started";
 "eye_color_aqua" = "Aqua eyes";
-"eye_color_black" = "Black eyes";
-"eye_color_blue" = "Blue eyes";
 "eye_color_brown" = "Brown eyes";
 "eye_color_gray" = "Gray eyes";
-"eye_color_green" = "Green eyes";
 "eye_color_hazel" = "Hazel eyes";
 "eye_color_purple" = "Purple eyes";
 "eye_color_yellow" = "Yellow eyes";
-"golden_fortune" = "Golden Fortune";
-"golden_fortune_description" = "Increases coin gain by 100% for 2 hours";
-"hair_color_black" = "Black hair";
-"hair_color_blonde" = "Blonde hair";
 "hair_color_blue" = "Blue hair";
-"hair_color_brown" = "Brown hair";
 "hair_color_gray" = "Gray hair";
 "hair_color_green" = "Green hair";
 "hair_color_orange" = "Orange hair";
 "hair_color_pink" = "Pink hair";
 "hair_color_purple" = "Purple hair";
-"hair_color_red" = "Red hair";
 "hair_color_silver" = "Silver hair";
 "hair_color_white" = "White hair";
 "helmet_equipped" = "Helmet equipped";
-"icon_category_general" = "General";
 "insufficient_coins" = "Insufficient coins";
-"insufficient_gems" = "Insufficient gems";
 "level_up_message" = "Level up!";
 "loading_completed" = "Loading completed";
 "loading_resources" = "Loading resources...";
-"masters_enlightenment" = "Master's Enlightenment";
-"masters_enlightenment_description" = "Increases XP gain by 100% for 2 hours";
-"merchants_blessing" = "Merchant's Blessing";
-"merchants_blessing_description" = "Increases coin gain by 25% for 30 minutes";
 "missed_attack" = "Attack missed!";
 "monthly_bonus_received" = "Monthly bonus received";
-"mustache_1_black" = "Black mustache 1";
-"mustache_1_blonde" = "Blonde mustache 1";
-"mustache_1_brown" = "Brown mustache 1";
-"mustache_2_black" = "Black mustache 2";
-"mustache_2_blonde" = "Blonde mustache 2";
-"mustache_2_brown" = "Brown mustache 2";
 "mustache_3_black" = "Black mustache 3";
 "mustache_3_blonde" = "Blonde mustache 3";
 "mustache_3_brown" = "Brown mustache 3";
-"network_error" = "Network error";
 "outfit_black" = "Black outfit";
 "outfit_blue" = "Blue outfit";
 "outfit_green" = "Green outfit";
 "outfit_purple" = "Purple outfit";
 "outfit_red" = "Red outfit";
 "outfit_white" = "White outfit";
-"purchase_failed" = "Purchase failed";
 "quest_bonus_received" = "Quest bonus received";
-"quest_completion_cooldown" = "Quest completion cooldown";
-"quest_completion_daily_message" = "Daily quest completed!";
 "quest_damage_critical" = "Critical damage!";
 "quest_damage_reduced" = "Damage reduced";
 "quest_damage_taken" = "Quest damage taken";
-"quest_failed" = "Quest failed";
-"quest_finish_confirmation" = "Quest finish confirmation";
-"quest_finish_scheduled_message" = "This scheduled quest has reached its final day. Would you like to mark it as finished and receive your rewards?";
-"quest_finish_weekly_message" = "This weekly quest has reached its final week. Would you like to mark it as finished and receive your rewards?";
 "quest_no_damage" = "No damage taken";
 "quest_progress_saved" = "Quest progress saved";
-"quest_reminder_title" = "Quest reminder";
 "quest_success" = "Quest successful";
 "retry_connection" = "Retry connection";
 "reward_available" = "Reward available";
 "reward_claimed" = "Reward claimed";
 "reward_locked" = "Reward locked";
 "reward_unlocked" = "Reward unlocked";
-"session_finished" = "Session finished";
 "shield_equipped" = "Shield equipped";
 "shop_purchase_failed" = "Shop purchase failed";
 "shop_purchase_success" = "Shop purchase successful";
-"short_break_phase" = "Short break phase";
 "system_update_available" = "System update available";
-"task_completion_cooldown" = "Task completion cooldown";
 "update_failed" = "Update failed";
 "update_later" = "Update later";
 "update_now" = "Update now";
-"wealth_attractor" = "Wealth Attractor";
-"wealth_attractor_description" = "Increases coin gain by 50% for 1 hour";
 "weapon_equipped" = "Weapon equipped";
 "weekly_bonus_received" = "Weekly bonus received";
 "xp_multiplier" = "XP multiplier";
