@@ -134,6 +134,19 @@ final class UserManager {
             do {
                 try context.save()
                 print("✅ UserManager: Successfully saved user experience update")
+
+                // If leveled up, increase maximum health by 10
+                if leveledUp {
+                    print("🩺 UserManager: Level up detected, increasing max health by 10")
+                    HealthManager.shared.increaseMaxHealth(10) { error in
+                        if let error = error {
+                            print("❌ UserManager: Failed to increase max health on level up: \(error)")
+                        } else {
+                            print("✅ UserManager: Successfully increased max health on level up")
+                        }
+                    }
+                }
+
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: .userDidUpdate, object: nil)
                     print("📢 UserManager: Posted userDidUpdate notification")
