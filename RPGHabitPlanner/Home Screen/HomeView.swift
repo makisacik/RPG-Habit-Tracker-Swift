@@ -5,8 +5,6 @@ import StoreKit
 // MARK: - Notification Names
 extension Notification.Name {
     static let showQuestCreation = Notification.Name("showQuestCreation")
-    static let checkDamage = Notification.Name("checkDamage")
-    static let testDamage = Notification.Name("testDamage")
 }
 
 struct HomeView: View {
@@ -84,12 +82,7 @@ struct HomeView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showQuestCreation)) { _ in
             shouldNavigateToQuestCreation = true
         }
-        .onReceive(NotificationCenter.default.publisher(for: .checkDamage)) { _ in
-            viewModel.manuallyCheckDamage()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .testDamage)) { _ in
-            viewModel.createTestQuestForDamage()
-        }
+
         .onAppear {
             // Record streak activity when home view appears
             viewModel.streakManager.recordActivity()

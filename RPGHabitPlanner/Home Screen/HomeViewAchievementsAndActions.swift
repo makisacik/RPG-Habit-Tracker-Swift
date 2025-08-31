@@ -100,29 +100,7 @@ extension HomeView {
                     isCompletedQuestsPresented.wrappedValue = true
                 }
 
-                // Damage Summary Button
-                QuickActionCard(
-                    icon: "exclamationmark.triangle.fill",
-                    title: "damage_check".localized,
-                    subtitle: "check_for_missed_quests".localized,
-                    color: .red,
-                    theme: theme
-                ) {
-                    // This will be handled by the parent view
-                    NotificationCenter.default.post(name: .checkDamage, object: nil)
-                }
 
-                // Test Damage Button (for demonstration)
-                QuickActionCard(
-                    icon: "wrench.and.screwdriver.fill",
-                    title: "test_damage".localized,
-                    subtitle: "create_test_quest_check".localized,
-                    color: .orange,
-                    theme: theme
-                ) {
-                    // Create test quest and check damage
-                    NotificationCenter.default.post(name: .testDamage, object: nil)
-                }
             }
         }
         .padding(16)

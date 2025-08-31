@@ -85,21 +85,7 @@ struct SettingsView: View {
                 }
                 .listRowBackground(theme.cardBackgroundColor)
 
-                // Damage Tracking Section
-                Section("damage_tracking".localized) {
-                    NavigationLink(destination: DamageCalculationView()) {
-                        HStack {
-                            Label("damage_calculator".localized, systemImage: "bolt.fill")
-                                .font(.appFont(size: 16, weight: .medium))
-                                .foregroundColor(.orange)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundColor(theme.textColor.opacity(0.5))
-                        }
-                    }
-                }
-                .listRowBackground(theme.cardBackgroundColor)
+
 
                 #if DEBUG
                 // Development features section
