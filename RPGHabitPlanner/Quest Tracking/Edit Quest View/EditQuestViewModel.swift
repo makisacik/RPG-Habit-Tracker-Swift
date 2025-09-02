@@ -16,14 +16,11 @@ final class EditQuestViewModel: ObservableObject {
     @Published var title: String
     @Published var description: String
     @Published var dueDate: Date
-    @Published var isMainQuest: Bool
     @Published var difficulty: Int        // 1...5
     @Published var isActiveQuest: Bool
 
     @Published var tasks: [String]        // Task titles only (UI edits)
     @Published var selectedTags: [Tag]    // Selected tags for the quest
-    @Published var repeatType: QuestRepeatType
-    @Published var selectedScheduledDays: Set<Int>
 
     // UI state
     @Published var isSaving: Bool = false
@@ -37,14 +34,11 @@ final class EditQuestViewModel: ObservableObject {
         self.title = quest.title
         self.description = quest.info
         self.dueDate = quest.dueDate
-        self.isMainQuest = quest.isMainQuest
         self.difficulty = quest.difficulty
         self.isActiveQuest = quest.isActive
 
         self.tasks = quest.tasks.map { $0.title }
         self.selectedTags = Array(quest.tags)
-        self.repeatType = quest.repeatType
-        self.selectedScheduledDays = quest.scheduledDays
         self.questDataService = questDataService
     }
 
@@ -80,17 +74,17 @@ final class EditQuestViewModel: ObservableObject {
         questDataService.updateQuest(
             withId: quest.id,
             title: title,
-            isMainQuest: isMainQuest,
+            isMainQuest: quest.isMainQuest,
             info: description,
             difficulty: difficulty,
             dueDate: dueDate,
             isActive: isActiveQuest,
             progress: quest.progress,
-            repeatType: repeatType,
+            repeatType: quest.repeatType,
             tasks: tasks,
             tags: selectedTags,
             showProgress: quest.showProgress,
-            scheduledDays: selectedScheduledDays
+            scheduledDays: quest.scheduledDays
         ) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -123,12 +117,9 @@ final class EditQuestViewModel: ObservableObject {
         quest.title = title
         quest.info = description
         quest.dueDate = dueDate
-        quest.isMainQuest = isMainQuest
         quest.difficulty = difficulty
         quest.isActive = isActiveQuest
 
-        quest.repeatType = repeatType
-        quest.scheduledDays = selectedScheduledDays
         quest.tags = Set(selectedTags)
 
         let existing = quest.tasks

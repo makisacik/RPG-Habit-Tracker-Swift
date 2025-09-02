@@ -94,7 +94,7 @@ struct TaskRow: View {
 
             TextField("enter_task_description".localized, text: $task)
                 .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
+                .textInputAutocapitalization(.sentences)
                 .font(.appFont(size: 14))
                 .foregroundColor(theme.textColor)
                 .padding(.horizontal, 10)

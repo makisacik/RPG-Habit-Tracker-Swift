@@ -217,7 +217,10 @@ struct CustomTabBar: View {
             TabItem(tab: .tracking, selected: $selected, theme: theme)
             
             // Plus Button (centered)
-            Button(action: onPlusTapped) {
+            Button(action: {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                onPlusTapped()
+            }) {
                 ZStack {
                     Circle()
                         .fill(theme.accentColor)
@@ -289,7 +292,6 @@ struct TabItem: View {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
                 selected = tab
             }
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
             VStack(spacing: 4) {
                 Image(systemName: tab.systemImage)

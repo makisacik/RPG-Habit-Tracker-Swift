@@ -63,10 +63,10 @@ struct EditQuestHeaderSection: View {
     }
 
     private var questIconName: String {
-        if viewModel.isMainQuest {
+        if viewModel.quest.isMainQuest {
             return "crown.fill"
         } else {
-            switch viewModel.repeatType {
+            switch viewModel.quest.repeatType {
             case .daily: return "sun.max.fill"
             case .weekly: return "calendar.badge.clock"
             case .oneTime: return "target"
@@ -76,10 +76,10 @@ struct EditQuestHeaderSection: View {
     }
 
     private var questTypeColor: Color {
-        if viewModel.isMainQuest {
+        if viewModel.quest.isMainQuest {
             return .yellow
         } else {
-            switch viewModel.repeatType {
+            switch viewModel.quest.repeatType {
             case .daily: return .orange
             case .weekly: return .blue
             case .oneTime: return .purple
@@ -253,27 +253,6 @@ struct EditQuestSettingsSection: View {
             }
 
             VStack(spacing: 16) {
-                // Main Quest Toggle
-                HStack {
-                    Image(systemName: "crown.fill")
-                        .foregroundColor(.yellow)
-                        .font(.system(size: 16))
-
-                    Text("main_quest".localized)
-                        .font(.appFont(size: 16, weight: .medium))
-                        .foregroundColor(theme.textColor)
-
-                    Spacer()
-
-                    Toggle("", isOn: $viewModel.isMainQuest)
-                        .tint(.yellow)
-                }
-                .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(theme.primaryColor.opacity(0.3))
-                )
-
                 // Due Date
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
@@ -301,35 +280,6 @@ struct EditQuestSettingsSection: View {
                                 )
                                 .shadow(color: theme.shadowColor.opacity(0.1), radius: 4, x: 0, y: 2)
                         )
-                }
-
-                // Repeat Type
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("repeat_type".localized)
-                        .font(.appFont(size: 14, weight: .medium))
-                        .foregroundColor(theme.textColor.opacity(0.8))
-
-                    Picker("repeat_type".localized, selection: $viewModel.repeatType) {
-                        Text("one_time".localized).tag(QuestRepeatType.oneTime)
-                        Text("daily".localized).tag(QuestRepeatType.daily)
-                        Text("weekly".localized).tag(QuestRepeatType.weekly)
-                        Text("scheduled".localized).tag(QuestRepeatType.scheduled)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(theme.primaryColor.opacity(0.3))
-                    )
-
-                    // Show scheduled days selection when scheduled is selected
-                    if viewModel.repeatType == .scheduled {
-                        ScheduledDaysSelectionView(selectedDays: $viewModel.selectedScheduledDays)
-                            .transition(.asymmetric(
-                                insertion: .opacity.combined(with: .move(edge: .top)),
-                                removal: .opacity.combined(with: .move(edge: .top))
-                            ))
-                    }
                 }
 
                 // Difficulty
@@ -537,6 +487,7 @@ struct EditQuestTaskEditorSheet: View {
             TextField("Enter task description", text: $viewModel.tasks[index])
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor)
+                .textInputAutocapitalization(.sentences)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
                 .background(

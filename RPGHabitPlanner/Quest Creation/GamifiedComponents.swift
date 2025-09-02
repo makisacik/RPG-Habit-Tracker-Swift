@@ -22,7 +22,7 @@ struct GamifiedInputField: View {
 
             TextField("", text: $text, prompt: Text(placeholder).foregroundColor(theme.textColor.opacity(0.6)))
                 .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
+                .textInputAutocapitalization(.sentences)
                 .font(.appFont(size: 16))
                 .foregroundColor(theme.textColor)
                 .accentColor(.yellow)
