@@ -202,12 +202,108 @@ struct NavigationQuickActionCard: View {
     }
 }
 
+struct CustomTabBar: View {
+    @Binding var selected: HomeTab
+    let theme: Theme
+    let onPlusTapped: () -> Void
+
+    var body: some View {
+        HStack(spacing: 0) {
+            // Home Tab
+            TabItem(tab: .home, selected: $selected, theme: theme)
+            
+            // Tracking Tab
+            TabItem(tab: .tracking, selected: $selected, theme: theme)
+            
+            // Plus Button (centered)
+            Button(action: onPlusTapped) {
+                ZStack {
+                    Circle()
+                        .fill(theme.accentColor)
+                        .frame(width: 56, height: 56)
+                        .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
+                    
+                    Image(systemName: "plus")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundColor(.white)
+                }
+            }
+            .offset(y: -20) // Lift it slightly above the tab bar
+            
+            // Character Tab
+            TabItem(tab: .character, selected: $selected, theme: theme)
+            
+            // Progress Tab
+            TabItem(tab: .progress, selected: $selected, theme: theme)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .padding(.bottom, 8) // Add extra bottom padding for safe area
+        .background(
+            Rectangle()
+                .fill(theme.cardBackgroundColor)
+                .shadow(color: theme.shadowColor, radius: 8, y: -2)
+        )
+        .ignoresSafeArea(.container, edges: .bottom) // Extend into safe area
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Tab Bar")
+    }
+}
+
 enum HomeTab: Hashable {
     case home
     case tracking
     case character
-    case shop
     case progress
-    case achievements
-    case focusTimer
+
+    var title: String {
+        switch self {
+        case .home:      return "home".localized
+        case .tracking:  return "quests".localized
+        case .character: return "character".localized
+        case .progress:  return "progress".localized
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .home:      return "house.fill"
+        case .tracking:  return "list.bullet.clipboard.fill"
+        case .character: return "person.crop.circle.fill"
+        case .progress:  return "chart.bar.xaxis"
+        }
+    }
+}
+
+// MARK: - Tab Item Component
+
+struct TabItem: View {
+    let tab: HomeTab
+    @Binding var selected: HomeTab
+    let theme: Theme
+
+    var body: some View {
+        Button {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                selected = tab
+            }
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        } label: {
+            VStack(spacing: 4) {
+                Image(systemName: tab.systemImage)
+                    .font(.system(size: 18, weight: .semibold))
+                    .symbolRenderingMode(.hierarchical)
+                Text(tab.title)
+                    .font(.caption2)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity)
+            .foregroundStyle(selected == tab ? theme.accentColor : theme.textColor.opacity(0.7))
+            .padding(.vertical, 8)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(tab.title)
+        .accessibilityAddTraits(selected == tab ? .isSelected : [])
+    }
 }

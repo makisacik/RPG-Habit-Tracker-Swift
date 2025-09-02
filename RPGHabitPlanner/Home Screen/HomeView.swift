@@ -54,11 +54,25 @@ struct HomeView: View {
     var body: some View {
         let theme = themeManager.activeTheme
 
-        TabView(selection: $selectedTab) {
-            homeTabView(theme: theme)
-            questsTabView(theme: theme)
-            characterTabView(theme: theme)
-            progressTabView(theme: theme)
+        ZStack {
+            TabView(selection: $selectedTab) {
+                homeTabView(theme: theme).tag(HomeTab.home)
+                questsTabView(theme: theme).tag(HomeTab.tracking)
+                characterTabView(theme: theme).tag(HomeTab.character)
+                progressTabView(theme: theme).tag(HomeTab.progress)
+            }
+            .background(theme.backgroundColor.ignoresSafeArea())
+            .toolbar(.hidden, for: .tabBar) // Hide system Tab Bar
+
+            // Custom tab bar anchored to bottom
+            VStack(spacing: 0) {
+                Spacer()
+                CustomTabBar(
+                    selected: $selectedTab,
+                    theme: theme
+                ) { handleCreateQuestTap() }
+            }
+            .ignoresSafeArea(.container, edges: .bottom)
         }
         .accentColor(.red)
         .sheet(isPresented: $showAchievements) {
@@ -119,7 +133,9 @@ struct HomeView: View {
     private func homeTabView(theme: Theme) -> some View {
         NavigationStack {
             ZStack {
-                theme.backgroundColor.ignoresSafeArea()
+                // Set the background color for the entire home tab
+                theme.backgroundColor
+                    .ignoresSafeArea()
 
                 ScrollView {
                     VStack(spacing: 20) {
@@ -142,6 +158,7 @@ struct HomeView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 10)
+                    .padding(.bottom, 100) // Add bottom padding to prevent content from going under tab bar
                 }
 
                 // Quest Failure Notification
@@ -269,51 +286,60 @@ struct HomeView: View {
                     .environmentObject(premiumManager)
             }
         }
-        .tabItem { Label("home".localized, systemImage: "house.fill") }
-        .tag(HomeTab.home)
     }
 
     @ViewBuilder
     private func questsTabView(theme: Theme) -> some View {
         NavigationStack {
-            QuestsView(
-                viewModel: QuestsViewModel(
-                    questDataService: questDataService,
-                    userManager: viewModel.userManager
-                ),
-                questDataService: questDataService
-            )
-            .environmentObject(themeManager)
-            .toolbar(content: questsToolbarContent)
+            ZStack {
+                // Set the background color for the quests tab
+                theme.backgroundColor
+                    .ignoresSafeArea()
+
+                QuestsView(
+                    viewModel: QuestsViewModel(
+                        questDataService: questDataService,
+                        userManager: viewModel.userManager
+                    ),
+                    questDataService: questDataService
+                )
+                .environmentObject(themeManager)
+            }
         }
-        .tabItem { Label("quests".localized, systemImage: "list.bullet.clipboard.fill") }
-        .tag(HomeTab.tracking)
     }
 
     @ViewBuilder
     private func characterTabView(theme: Theme) -> some View {
         NavigationStack {
-            if let user = viewModel.user {
-                CharacterView(homeViewModel: viewModel)
-                    .environmentObject(localizationManager)
-            } else {
-                Text("loading_character".localized)
-                    .foregroundColor(theme.textColor)
-                    .onAppear { viewModel.fetchUserData() }
+            ZStack {
+                // Set the background color for the character tab
+                theme.backgroundColor
+                    .ignoresSafeArea()
+
+                if let user = viewModel.user {
+                    CharacterView(homeViewModel: viewModel)
+                        .environmentObject(localizationManager)
+                } else {
+                    Text("loading_character".localized)
+                        .foregroundColor(theme.textColor)
+                        .onAppear { viewModel.fetchUserData() }
+            }
             }
         }
-        .tabItem { Label("character".localized, systemImage: "person.crop.circle.fill") }
-        .tag(HomeTab.character)
     }
 
     @ViewBuilder
     private func progressTabView(theme: Theme) -> some View {
         NavigationStack {
-            AnalyticsView()
-                .environmentObject(themeManager)
+            ZStack {
+                // Set the background color for the progress tab
+                theme.backgroundColor
+                    .ignoresSafeArea()
+
+                AnalyticsView()
+                    .environmentObject(themeManager)
+            }
         }
-        .tabItem { Label("progress".localized, systemImage: "chart.bar.xaxis") }
-        .tag(HomeTab.progress)
     }
 
     private func fetchCurrentQuestCount() {
@@ -360,19 +386,6 @@ struct HomeView: View {
         }
     }
 
-    @ToolbarContentBuilder
-    private func questsToolbarContent() -> some ToolbarContent {
-        let theme = themeManager.activeTheme
-
-        ToolbarItem(placement: .destructiveAction) {
-            Button(action: { handleCreateQuestTap() }) {
-                Image(systemName: "plus.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(theme.textColor)
-            }
-        }
-    }
-    
     private func requestAppReview() {
         if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
             SKStoreReviewController.requestReview(in: scene)
