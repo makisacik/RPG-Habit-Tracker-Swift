@@ -206,6 +206,7 @@ struct CustomTabBar: View {
     @Binding var selected: HomeTab
     let theme: Theme
     let onPlusTapped: () -> Void
+    @EnvironmentObject var localizationManager: LocalizationManager
 
     var body: some View {
         HStack(spacing: 0) {
@@ -256,12 +257,12 @@ enum HomeTab: Hashable {
     case character
     case progress
 
-    var title: String {
+    func title(using localizationManager: LocalizationManager) -> String {
         switch self {
-        case .home:      return "home".localized
-        case .tracking:  return "quests".localized
-        case .character: return "character".localized
-        case .progress:  return "progress".localized
+        case .home:      return localizationManager.localizedString(for: "home")
+        case .tracking:  return localizationManager.localizedString(for: "quests")
+        case .character: return localizationManager.localizedString(for: "character")
+        case .progress:  return localizationManager.localizedString(for: "progress")
         }
     }
 
@@ -281,6 +282,7 @@ struct TabItem: View {
     let tab: HomeTab
     @Binding var selected: HomeTab
     let theme: Theme
+    @EnvironmentObject var localizationManager: LocalizationManager
 
     var body: some View {
         Button {
@@ -293,7 +295,8 @@ struct TabItem: View {
                 Image(systemName: tab.systemImage)
                     .font(.system(size: 18, weight: .semibold))
                     .symbolRenderingMode(.hierarchical)
-                Text(tab.title)
+                    .frame(width: 24, height: 24)
+                Text(tab.title(using: localizationManager))
                     .font(.caption2)
                     .lineLimit(1)
             }
@@ -303,7 +306,7 @@ struct TabItem: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(tab.title)
+        .accessibilityLabel(tab.title(using: localizationManager))
         .accessibilityAddTraits(selected == tab ? .isSelected : [])
     }
 }
