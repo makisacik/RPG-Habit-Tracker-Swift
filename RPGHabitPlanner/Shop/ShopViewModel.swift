@@ -193,7 +193,7 @@ class ShopViewModel: ObservableObject {
                 let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
                 items = assets.map { asset in
                     let itemName = getItemNameFromDatabase(iconName: asset.imageName) ?? asset.name
-                    let description = getItemDescription(for: itemName, category: category)
+                    let description = getItemDescription(for: asset.imageName, category: category)
                     let rarity = asset.rarity.toItemRarity
 
                     // Set gem prices for epic and legendary items based on category
@@ -219,7 +219,7 @@ class ShopViewModel: ObservableObject {
                 let assets = CharacterAssetManager.shared.getAvailableAssets(for: assetCategory)
                 items = assets.map { asset in
                     let itemName = getItemNameFromDatabase(iconName: asset.imageName) ?? asset.name
-                    let description = getItemDescription(for: itemName, category: category)
+                    let description = getItemDescription(for: asset.imageName, category: category)
                     let rarity = asset.rarity.toItemRarity
 
                     // Set gem prices for epic and legendary items based on category
@@ -265,7 +265,7 @@ class ShopViewModel: ObservableObject {
 
                 return ShopItem(
                     name: itemName,
-                    description: getItemDescription(for: itemName, category: .armor),
+                    description: getItemDescription(for: asset.imageName, category: .armor),
                     iconName: asset.imageName, // The actual image name for inventory storage
                     previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
@@ -286,7 +286,7 @@ class ShopViewModel: ObservableObject {
 
                 return ShopItem(
                     name: itemName,
-                    description: getItemDescription(for: itemName, category: .armor),
+                    description: getItemDescription(for: asset.imageName, category: .armor),
                     iconName: asset.imageName, // The actual image name for inventory storage
                     previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
@@ -307,7 +307,7 @@ class ShopViewModel: ObservableObject {
 
                 return ShopItem(
                     name: itemName,
-                    description: getItemDescription(for: itemName, category: .armor),
+                    description: getItemDescription(for: asset.imageName, category: .armor),
                     iconName: asset.imageName, // The actual image name for inventory storage
                     previewImage: asset.previewImage, // The preview image for shop display
                     price: Int(asset.rarity.basePriceMultiplier * 100),
@@ -384,12 +384,9 @@ class ShopViewModel: ObservableObject {
     }
 
     private func getItemDescription(for assetName: String, category: EnhancedShopCategory) -> String {
-        // Try to find the item in ItemDatabase first
-        let itemDatabase = ItemDatabase.shared
-
-        // Search in all items
-        if let item = ItemDatabase.findItem(by: assetName) {
-            return item.description
+        // Try to find the item in ItemDatabase first by iconName
+        if let item = ItemDatabase.findItem(byIconName: assetName) {
+            return item.localizedDescription
         }
 
         // If not found, return a generic description based on category
