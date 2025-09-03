@@ -135,7 +135,9 @@ struct QuestFinishConfirmationPopup: View {
                 dueDate: Date().addingTimeInterval(86400),
                 isActive: true,
                 progress: 100,
-                repeatType: .oneTime
+                repeatType: .oneTime,
+                reminderTimes: [],
+                enableReminders: false
             ),
             onConfirm: {},
             onCancel: {}
@@ -153,7 +155,9 @@ struct QuestFinishConfirmationPopup: View {
                 dueDate: Date().addingTimeInterval(7 * 86400), // 7 days from now
                 isActive: true,
                 progress: 100,
-                repeatType: .daily
+                repeatType: .daily,
+                reminderTimes: [],
+                enableReminders: false
             ),
             onConfirm: {},
             onCancel: {}

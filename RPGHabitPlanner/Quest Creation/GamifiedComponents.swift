@@ -424,26 +424,40 @@ struct GamifiedRepeatTypeSection: View {
             HStack {
                 Image(systemName: "repeat.circle.fill")
                     .foregroundColor(.yellow)
-                                    Text("repeat_type".localized)
+                Text("repeat_type".localized)
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
 
-            Picker("", selection: $repeatType) {
-                                        Text("one_time".localized).tag(QuestRepeatType.oneTime)
-                        Text("daily".localized).tag(QuestRepeatType.daily)
-                        Text("weekly".localized).tag(QuestRepeatType.weekly)
-                        Text("scheduled".localized).tag(QuestRepeatType.scheduled)
+            // Custom segmented control for better touch response
+            HStack(spacing: 0) {
+                ForEach([QuestRepeatType.oneTime, .daily, .weekly, .scheduled], id: \.self) { type in
+                    Button(action: {
+                        repeatType = type
+                        print("Repeat type changed to: \(type)")
+                    }) {
+                        Text(type.localizedTitle)
+                            .font(.appFont(size: 14, weight: repeatType == type ? .black : .medium))
+                            .foregroundColor(repeatType == type ? .white : theme.textColor)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 16)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(repeatType == type ? Color.yellow : Color.clear)
+                            )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
             }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
+            .padding(4)
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .fill(theme.primaryColor.opacity(0.3))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
             )
 
             // Show scheduled days selection when scheduled is selected
@@ -492,7 +506,9 @@ struct QuestRewardPreviewSection: View {
             tasks: tasks,
             repeatType: .oneTime,
             tags: [],
-            scheduledDays: []
+            scheduledDays: [],
+            reminderTimes: [],
+            enableReminders: false
         )
 
         return RewardSystem.shared.calculateQuestReward(quest: tempQuest)
@@ -608,11 +624,11 @@ struct GamifiedTagsSection: View {
                 Spacer()
 
                                     Button("add_tags".localized) {
-                    isButtonPressed = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        isButtonPressed = false
-                        onAddTags()
-                    }
+                                        isButtonPressed = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            isButtonPressed = false
+                                            onAddTags()
+                                        }
                                     }
                 .font(.appFont(size: 14, weight: .medium))
                 .foregroundColor(theme.textColor)
@@ -649,6 +665,225 @@ struct GamifiedTagsSection: View {
                 )
             }
         }
+    }
+}
+
+// MARK: - Time Picker Component
+
+struct GamifiedTimePicker: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
+    
+    let title: String
+    @Binding var selectedTimes: Set<Date>
+    @Binding var isEnabled: Bool
+    
+    @State private var showTimePicker = false
+    @State private var tempTime: Date
+    
+    private let calendar = Calendar.current
+    
+    init(title: String, selectedTimes: Binding<Set<Date>>, isEnabled: Binding<Bool>) {
+        self.title = title
+        self._selectedTimes = selectedTimes
+        self._isEnabled = isEnabled
+        
+        // Default to 12 PM
+        let defaultTime = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) ?? Date()
+        self._tempTime = State(initialValue: defaultTime)
+        
+        // If no times are selected, set the default time
+        if selectedTimes.wrappedValue.isEmpty {
+            selectedTimes.wrappedValue.insert(defaultTime)
+        }
+    }
+    
+    private func formattedTimeString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = localizationManager.currentLocale
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+    
+    private func updateTime() {
+        let roundedTime = calendar.date(bySetting: .second, value: 0, of: tempTime) ?? tempTime
+        selectedTimes.removeAll()
+        selectedTimes.insert(roundedTime)
+        showTimePicker = false
+    }
+    
+    var body: some View {
+        let theme = themeManager.activeTheme
+        
+        VStack(alignment: .leading, spacing: 12) {
+            // Header with toggle
+            HStack {
+                Image(systemName: "clock.circle.fill")
+                    .foregroundColor(.yellow)
+                    .font(.system(size: 16, weight: .medium))
+                
+                Text(title)
+                    .font(.appFont(size: 14, weight: .black))
+                    .foregroundColor(theme.textColor)
+                
+                Spacer()
+                
+                Toggle("", isOn: $isEnabled)
+                    .tint(.yellow)
+            }
+            
+            if isEnabled {
+                // Time selection area
+                VStack(spacing: 12) {
+                    // Current time display with edit button
+                    HStack {
+                        HStack {
+                            Image(systemName: "clock.fill")
+                                .foregroundColor(.blue)
+                                .font(.system(size: 16, weight: .medium))
+                            
+                            if let selectedTime = selectedTimes.first {
+                                Text(formattedTimeString(selectedTime))
+                                    .font(.appFont(size: 16, weight: .medium))
+                                    .foregroundColor(theme.textColor)
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            if let selectedTime = selectedTimes.first {
+                                tempTime = selectedTime
+                            }
+                            showTimePicker = true
+                        }) {
+                            Text("change_time".localized)
+                                .font(.appFont(size: 14, weight: .medium))
+                                .foregroundColor(.blue)
+                                .padding(.vertical, 6)
+                                .padding(.horizontal, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.blue.opacity(0.1))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                                        )
+                                )
+                        }
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(theme.secondaryColor.opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                            )
+                    )
+                }
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(theme.secondaryColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                )
+        )
+        .sheet(isPresented: $showTimePicker) {
+            TimePickerSheet(
+                selectedTime: $tempTime,
+                onAdd: updateTime
+            ) { showTimePicker = false }
+            .environmentObject(themeManager)
+            .environmentObject(localizationManager)
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+        }
+    }
+}
+
+struct TimePickerSheet: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var localizationManager: LocalizationManager
+    @Environment(\.dismiss) private var dismiss
+    
+    @Binding var selectedTime: Date
+    let onAdd: () -> Void
+    let onCancel: () -> Void
+    
+    var body: some View {
+        let theme = themeManager.activeTheme
+        
+        VStack(spacing: 20) {
+            // Header
+            VStack(spacing: 8) {
+                Text("select_reminder_time".localized)
+                    .font(.appFont(size: 20, weight: .black))
+                    .foregroundColor(theme.textColor)
+                    .multilineTextAlignment(.center)
+                
+                Text("reminder_will_be_sent_30_min_before".localized)
+                    .font(.appFont(size: 16))
+                    .foregroundColor(theme.textColor.opacity(0.7))
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, 20)
+            
+            // Time picker
+            DatePicker("", selection: $selectedTime, displayedComponents: [.hourAndMinute])
+                .datePickerStyle(.wheel)
+                .labelsHidden()
+                .environment(\.locale, localizationManager.currentLocale)
+                .environment(\.calendar, Calendar(identifier: .gregorian))
+                .padding(20)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(theme.secondaryColor.opacity(0.8))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                        )
+                )
+            
+            // Action buttons
+            HStack(spacing: 16) {
+                Button(action: onCancel) {
+                    Text("cancel".localized)
+                        .font(.appFont(size: 16, weight: .medium))
+                        .foregroundColor(theme.textColor.opacity(0.7))
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(theme.primaryColor.opacity(0.3))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                }
+                
+                Button(action: onAdd) {
+                    Text("add_time".localized)
+                        .font(.appFont(size: 16, weight: .black))
+                        .foregroundColor(.white)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.green)
+                                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                        )
+                }
+            }
+            .padding(.bottom, 20)
+        }
+        .background(theme.backgroundColor)
     }
 }
 

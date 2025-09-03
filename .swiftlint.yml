@@ -96,6 +96,8 @@ attributes:
 # Number of warnings to fail the build
 # warning_threshold: 60
 
+
+
 # naming rules can set warnings/errors for min_length and max_length
 # additionally they can set excluded names
 type_name:

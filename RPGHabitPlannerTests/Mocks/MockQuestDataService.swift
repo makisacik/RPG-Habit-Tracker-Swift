@@ -96,6 +96,8 @@ class MockQuestDataService: QuestDataServiceProtocol {
         tags: [Tag]?,
         showProgress: Bool?,
         scheduledDays: Set<Int>?,
+        reminderTimes: Set<Date>?,
+        enableReminders: Bool?,
         completion: @escaping (Error?) -> Void
     ) {
         if let error = mockError {
@@ -118,6 +120,8 @@ class MockQuestDataService: QuestDataServiceProtocol {
         if let showProgress = showProgress { mockQuests[index].showProgress = showProgress }
         if let tags = tags { mockQuests[index].tags = Set(tags) }
         if let scheduledDays = scheduledDays { mockQuests[index].scheduledDays = scheduledDays }
+        if let enableReminders = enableReminders { mockQuests[index].enableReminders = enableReminders }
+        if let reminderTimes = reminderTimes { mockQuests[index].reminderTimes = reminderTimes }
 
         completion(nil)
     }

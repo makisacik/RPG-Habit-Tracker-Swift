@@ -170,6 +170,14 @@
 "notifications" = "Bildirimler";
 "reminder" = "Hatırlatma";
 "reminders" = "Hatırlatmalar";
+"quest_reminders" = "Görev Hatırlatmaları";
+"specific_reminder_time" = "Belirli Zaman";
+"change_time" = "Zamanı Değiştir";
+"add_reminder_time" = "Hatırlatma Zamanı Ekle";
+"no_reminder_times_set" = "Hatırlatma zamanı ayarlanmamış";
+"select_reminder_time" = "Hatırlatma Zamanını Seç";
+"reminder_will_be_sent_30_min_before" = "Hatırlatma seçilen zamandan 30 dakika önce gönderilecek";
+"add_time" = "Zaman Ekle";
 "enabled" = "Açık";
 "disabled" = "Kapalı";
 "not_determined" = "Belirlenmedi";

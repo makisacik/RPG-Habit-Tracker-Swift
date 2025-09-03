@@ -30,7 +30,9 @@ final class QuestCoreDataServiceTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date(),
             isActive: true,
-            progress: 50
+            progress: 50,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let expectation = XCTestExpectation(description: "Save quest")
@@ -60,7 +62,9 @@ final class QuestCoreDataServiceTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date(),
             isActive: true,
-            progress: 70
+            progress: 70,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let saveExpectation = XCTestExpectation(description: "Save quest")
@@ -90,7 +94,9 @@ final class QuestCoreDataServiceTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date(),
             isActive: true,
-            progress: 30
+            progress: 30,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let saveExpectation = XCTestExpectation(description: "Save quest to delete")
@@ -125,7 +131,9 @@ final class QuestCoreDataServiceTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date(),
             isActive: true,
-            progress: 20
+            progress: 20,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let saveExpectation = XCTestExpectation(description: "Save quest to update")
@@ -155,7 +163,10 @@ final class QuestCoreDataServiceTests: XCTestCase {
             repeatType: nil,
             tasks: nil,
             tags: nil,
-            showProgress: nil
+            showProgress: nil,
+            scheduledDays: nil,
+            reminderTimes: nil,
+            enableReminders: nil
         ) { error in
             XCTAssertNil(error, "Error updating quest: \(String(describing: error?.localizedDescription))")
             updateExpectation.fulfill()

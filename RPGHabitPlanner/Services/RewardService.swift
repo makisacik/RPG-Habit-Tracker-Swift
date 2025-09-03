@@ -110,7 +110,9 @@ class RewardService {
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400),
             isActive: true,
-            progress: 0
+            progress: 0,
+            reminderTimes: [],
+            enableReminders: false
         )
         
         let reward = rewardSystem.calculateQuestReward(quest: sampleQuest)
@@ -126,7 +128,9 @@ class RewardService {
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(86400),
             isActive: true,
-            progress: 0
+            progress: 0,
+            reminderTimes: [],
+            enableReminders: false
         )
         
         let sampleTask = QuestTask(

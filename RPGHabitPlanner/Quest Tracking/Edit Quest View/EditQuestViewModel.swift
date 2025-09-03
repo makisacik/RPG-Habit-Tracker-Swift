@@ -21,6 +21,8 @@ final class EditQuestViewModel: ObservableObject {
 
     @Published var tasks: [String]        // Task titles only (UI edits)
     @Published var selectedTags: [Tag]    // Selected tags for the quest
+    @Published var reminderTimes: Set<Date>
+    @Published var enableReminders: Bool
 
     // UI state
     @Published var isSaving: Bool = false
@@ -39,6 +41,8 @@ final class EditQuestViewModel: ObservableObject {
 
         self.tasks = quest.tasks.map { $0.title }
         self.selectedTags = Array(quest.tags)
+        self.reminderTimes = quest.reminderTimes
+        self.enableReminders = quest.enableReminders
         self.questDataService = questDataService
     }
 
@@ -84,7 +88,9 @@ final class EditQuestViewModel: ObservableObject {
             tasks: tasks,
             tags: selectedTags,
             showProgress: quest.showProgress,
-            scheduledDays: quest.scheduledDays
+            scheduledDays: quest.scheduledDays,
+            reminderTimes: reminderTimes,
+            enableReminders: enableReminders
         ) { [weak self] error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -101,7 +107,10 @@ final class EditQuestViewModel: ObservableObject {
                 self.applyEditsToLocalQuest()
 
                 // Reschedule notifications if needed
-                if dueDateChanged {
+                let reminderSettingsChanged = self.quest.reminderTimes != self.reminderTimes ||
+                                           self.quest.enableReminders != self.enableReminders
+
+                if dueDateChanged || reminderSettingsChanged {
                     NotificationManager.shared.cancelQuestNotifications(questId: self.quest.id)
                     NotificationManager.shared.scheduleQuestNotification(for: self.quest)
                 }
@@ -121,6 +130,8 @@ final class EditQuestViewModel: ObservableObject {
         quest.isActive = isActiveQuest
 
         quest.tags = Set(selectedTags)
+        quest.reminderTimes = reminderTimes
+        quest.enableReminders = enableReminders
 
         let existing = quest.tasks
 

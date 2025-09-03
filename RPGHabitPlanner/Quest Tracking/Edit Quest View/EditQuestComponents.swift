@@ -241,7 +241,23 @@ struct EditQuestBasicInfoSection: View {
 struct EditQuestSettingsSection: View {
     @ObservedObject var viewModel: EditQuestViewModel
     @EnvironmentObject var localizationManager: LocalizationManager
+    @EnvironmentObject var themeManager: ThemeManager
     let theme: Theme
+    
+    @State private var showTimePicker = false
+    @State private var tempTime: Date
+    
+    init(viewModel: EditQuestViewModel, theme: Theme) {
+        self.viewModel = viewModel
+        self.theme = theme
+        // Initialize with current reminder time or default to 12 PM
+        if let currentTime = viewModel.reminderTimes.first {
+            self._tempTime = State(initialValue: currentTime)
+        } else {
+            let defaultTime = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) ?? Date()
+            self._tempTime = State(initialValue: defaultTime)
+        }
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -295,6 +311,75 @@ struct EditQuestSettingsSection: View {
                                 .fill(theme.primaryColor.opacity(0.3))
                         )
                 }
+
+                // Specific Time
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Image(systemName: "clock.circle.fill")
+                            .foregroundColor(.yellow)
+                            .font(.system(size: 16, weight: .medium))
+                        
+                        Text("specific_reminder_time".localized)
+                            .font(.appFont(size: 14, weight: .black))
+                            .foregroundColor(theme.textColor)
+                        
+                        Spacer()
+                        
+                        Toggle("", isOn: $viewModel.enableReminders)
+                            .tint(.yellow)
+                    }
+                    
+                    if viewModel.enableReminders {
+                        // Time selection area
+                        VStack(spacing: 12) {
+                            // Current time display with edit button
+                            HStack {
+                                HStack {
+                                    Image(systemName: "clock.fill")
+                                        .foregroundColor(.blue)
+                                        .font(.system(size: 16, weight: .medium))
+                                    
+                                    if let selectedTime = viewModel.reminderTimes.first {
+                                        Text(formatTime(selectedTime))
+                                            .font(.appFont(size: 16, weight: .medium))
+                                            .foregroundColor(theme.textColor)
+                                    }
+                                }
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    // Show time picker
+                                    showTimePicker = true
+                                }) {
+                                    Text("change_time".localized)
+                                        .font(.appFont(size: 14, weight: .medium))
+                                        .foregroundColor(.blue)
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 12)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.blue.opacity(0.1))
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                                                )
+                                        )
+                                }
+                            }
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(theme.secondaryColor.opacity(0.8))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                        }
+                    }
+                }
             }
         }
         .padding(20)
@@ -303,6 +388,31 @@ struct EditQuestSettingsSection: View {
                 .fill(theme.primaryColor)
                 .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         )
+        .sheet(isPresented: $showTimePicker) {
+            TimePickerSheet(
+                selectedTime: $tempTime,
+                onAdd: updateTime
+            ) { showTimePicker = false }
+            .environmentObject(themeManager)
+            .environmentObject(localizationManager)
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+        }
+    }
+    
+    private func formatTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = localizationManager.currentLocale
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+    
+    private func updateTime() {
+        let calendar = Calendar.current
+        let roundedTime = calendar.date(bySetting: .second, value: 0, of: tempTime) ?? tempTime
+        viewModel.reminderTimes.removeAll()
+        viewModel.reminderTimes.insert(roundedTime)
+        showTimePicker = false
     }
 }
 

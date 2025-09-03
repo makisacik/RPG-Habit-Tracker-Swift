@@ -33,6 +33,8 @@ extension QuestEntity {
     @NSManaged public var completions: NSSet?
     @NSManaged public var tags: NSSet?
     @NSManaged public var showProgress: Bool
+    @NSManaged public var reminderTimes: String? // Stored as comma-separated ISO date strings
+    @NSManaged public var enableReminders: Bool
 }
 
 extension QuestEntity {

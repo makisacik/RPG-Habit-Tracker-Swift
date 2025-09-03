@@ -26,7 +26,7 @@ final class QuestTrackingViewModelTests: XCTestCase {
 
     func testFetchQuests_Success() {
         let expectation = XCTestExpectation(description: "Quests fetched successfully")
-        let quest = Quest(title: "Test Quest", isMainQuest: true, info: "Test Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 60)
+        let quest = Quest(title: "Test Quest", isMainQuest: true, info: "Test Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 60, reminderTimes: [], enableReminders: false)
         mockService.mockQuests = [quest]
 
         viewModel.fetchQuests()
@@ -63,8 +63,8 @@ final class QuestTrackingViewModelTests: XCTestCase {
     /*
     func testMainQuestsFilter() {
         let expectation = XCTestExpectation(description: "Main quests filtered successfully")
-        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80)
-        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20)
+        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80, reminderTimes: [], enableReminders: false)
+        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20, reminderTimes: [], enableReminders: false)
         mockService.mockQuests = [mainQuest, sideQuest]
 
         viewModel.selectedStatus = .active
@@ -82,8 +82,8 @@ final class QuestTrackingViewModelTests: XCTestCase {
 
     func testSideQuestsFilter() {
         let expectation = XCTestExpectation(description: "Side quests filtered successfully")
-        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80)
-        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20)
+        let mainQuest = Quest(title: "Main Quest", isMainQuest: true, info: "Info", difficulty: 2, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: true, progress: 80, reminderTimes: [], enableReminders: false)
+        let sideQuest = Quest(title: "Side Quest", isMainQuest: false, info: "Info", difficulty: 1, creationDate: Date(), dueDate: Date().addingTimeInterval(3600), isActive: false, progress: 20, reminderTimes: [], enableReminders: false)
         mockService.mockQuests = [mainQuest, sideQuest]
 
         viewModel.fetchQuests()
@@ -108,7 +108,9 @@ final class QuestTrackingViewModelTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(3600),
             isActive: true,
-            progress: 40
+            progress: 40,
+            reminderTimes: [],
+            enableReminders: false
         )
         mockService.mockQuests = [quest]
         viewModel.fetchQuests()
@@ -135,7 +137,9 @@ final class QuestTrackingViewModelTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(3600),
             isActive: true,
-            progress: 60
+            progress: 60,
+            reminderTimes: [],
+            enableReminders: false
         )
         mockService.mockQuests = [quest]
         viewModel.fetchQuests()
@@ -162,7 +166,9 @@ final class QuestTrackingViewModelTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(3600),
             isActive: true,
-            progress: 10
+            progress: 10,
+            reminderTimes: [],
+            enableReminders: false
         )
         mockService.mockQuests = [quest]
         viewModel.fetchQuests()
@@ -189,7 +195,9 @@ final class QuestTrackingViewModelTests: XCTestCase {
             creationDate: Date(),
             dueDate: Date().addingTimeInterval(3600),
             isActive: true,
-            progress: 90
+            progress: 90,
+            reminderTimes: [],
+            enableReminders: false
         )
         mockService.mockQuests = [quest]
         viewModel.fetchQuests()

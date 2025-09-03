@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import WidgetKit
 
+// swiftlint:disable type_body_length
 final class QuestCoreDataService: QuestDataServiceProtocol {
     static let shared = QuestCoreDataService()
     
@@ -34,6 +35,8 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         tags: [Tag]?,
         showProgress: Bool?,
         scheduledDays: Set<Int>? = nil,
+        reminderTimes: Set<Date>? = nil,
+        enableReminders: Bool? = nil,
         completion: @escaping (Error?) -> Void
     ) {
         let context = persistentContainer.viewContext
@@ -57,7 +60,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 progress: progress,
                 repeatType: repeatType,
                 showProgress: showProgress,
-                scheduledDays: scheduledDays
+                scheduledDays: scheduledDays,
+                reminderTimes: reminderTimes,
+                enableReminders: enableReminders
             )
 
             if let tasks = tasks {
@@ -92,7 +97,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         progress: Int?,
         repeatType: QuestRepeatType?,
         showProgress: Bool?,
-        scheduledDays: Set<Int>? = nil
+        scheduledDays: Set<Int>? = nil,
+        reminderTimes: Set<Date>? = nil,
+        enableReminders: Bool? = nil
     ) {
         if let title { questEntity.title = title }
         if let isMainQuest { questEntity.isMainQuest = isMainQuest }
@@ -109,6 +116,18 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
                 questEntity.scheduledDays = scheduledDaysString
             } else {
                 questEntity.scheduledDays = nil
+            }
+        }
+        
+        if let enableReminders { questEntity.enableReminders = enableReminders }
+        
+        if let reminderTimes {
+            if !reminderTimes.isEmpty {
+                let formatter = ISO8601DateFormatter()
+                let reminderTimesString = reminderTimes.map { formatter.string(from: $0) }.joined(separator: ",")
+                questEntity.reminderTimes = reminderTimesString
+            } else {
+                questEntity.reminderTimes = nil
             }
         }
     }
@@ -242,6 +261,14 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
         questEntity.isFinished = quest.isFinished
         questEntity.isFinishedDate = quest.isFinishedDate
         questEntity.showProgress = quest.showProgress
+        questEntity.enableReminders = quest.enableReminders
+
+        // Convert reminderTimes Set<Date> to comma-separated ISO string
+        if !quest.reminderTimes.isEmpty {
+            let formatter = ISO8601DateFormatter()
+            let reminderTimesString = quest.reminderTimes.map { formatter.string(from: $0) }.joined(separator: ",")
+            questEntity.reminderTimes = reminderTimesString
+        }
 
         // Save completion history if provided
         for date in quest.completions {
@@ -383,6 +410,16 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             return Set(dayStrings.compactMap { Int($0.trimmingCharacters(in: .whitespaces)) })
         }()
 
+        // Parse reminderTimes from string to Set<Date>
+        let reminderTimes: Set<Date> = {
+            guard let reminderTimesString = entity.reminderTimes, !reminderTimesString.isEmpty else {
+                return []
+            }
+            let timeStrings = reminderTimesString.components(separatedBy: ",")
+            let formatter = ISO8601DateFormatter()
+            return Set(timeStrings.compactMap { formatter.date(from: $0.trimmingCharacters(in: .whitespaces)) })
+        }()
+
         return Quest(
             id: entity.id ?? UUID(),
             title: entity.title ?? "",
@@ -404,7 +441,9 @@ final class QuestCoreDataService: QuestDataServiceProtocol {
             completions: completions,
             tags: tags,
             showProgress: entity.showProgress,
-            scheduledDays: scheduledDays
+            scheduledDays: scheduledDays,
+            reminderTimes: reminderTimes,
+            enableReminders: entity.enableReminders
         )
     }
 

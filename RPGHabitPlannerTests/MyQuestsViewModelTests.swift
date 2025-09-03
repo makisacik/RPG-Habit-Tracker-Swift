@@ -38,7 +38,9 @@ final class MyQuestsViewModelTests: XCTestCase {
             progress: 0,
             isFinished: true,
             isFinishedDate: Date(),
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Given: An active quest that is not finished
@@ -52,7 +54,9 @@ final class MyQuestsViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Set up mock data
@@ -87,7 +91,9 @@ final class MyQuestsViewModelTests: XCTestCase {
                 QuestTask(id: UUID(), title: "Task 1", isCompleted: false, order: 0),
                 QuestTask(id: UUID(), title: "Task 2", isCompleted: false, order: 1)
             ],
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Set up mock data
