@@ -160,6 +160,7 @@ struct HomeView: View {
                     .padding(.top, 10)
                     .padding(.bottom, 100) // Add bottom padding to prevent content from going under tab bar
                 }
+                .scrollIndicators(.hidden)
 
                 // Quest Failure Notification
                 if questFailureHandler.showFailureNotification {

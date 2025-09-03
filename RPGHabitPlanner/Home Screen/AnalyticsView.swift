@@ -76,6 +76,7 @@ struct AnalyticsView: View {
             .padding(.horizontal, 16)
             .padding(.top, 10)
         }
+        .scrollIndicators(.hidden)
         .refreshable {
             analyticsManager.forceRefreshAnalytics()
         }

@@ -65,6 +65,7 @@ struct CharacterView: View {
                     }
                     .padding(.vertical)
                 }
+                .scrollIndicators(.hidden)
             } else {
                 // Loading state
                 VStack {
