@@ -423,15 +423,15 @@ struct GamifiedRepeatTypeSection: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: "repeat.circle.fill")
-                    .foregroundColor(.yellow)
+                    .foregroundColor(theme.secondaryColor)
                 Text("repeat_type".localized)
                     .font(.appFont(size: 14, weight: .black))
                     .foregroundColor(theme.textColor)
             }
 
             // Custom segmented control for better touch response
-            HStack(spacing: 0) {
-                ForEach([QuestRepeatType.oneTime, .daily, .weekly, .scheduled], id: \.self) { type in
+            HStack(spacing: 2) {
+                ForEach([QuestRepeatType.daily, .scheduled, .weekly, .oneTime], id: \.self) { type in
                     Button(action: {
                         repeatType = type
                         print("Repeat type changed to: \(type)")
@@ -439,12 +439,12 @@ struct GamifiedRepeatTypeSection: View {
                         Text(type.localizedTitle)
                             .font(.appFont(size: 14, weight: repeatType == type ? .black : .medium))
                             .foregroundColor(repeatType == type ? .white : theme.textColor)
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .padding(.horizontal, 4)
                             .frame(maxWidth: .infinity)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(repeatType == type ? Color.yellow : Color.clear)
+                                    .fill(repeatType == type ? theme.secondaryColor : Color.clear)
                             )
                     }
                     .buttonStyle(PlainButtonStyle())
