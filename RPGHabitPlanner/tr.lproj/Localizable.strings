@@ -309,8 +309,8 @@
 "next_week" = "Gelecek Hafta";
 "next_month" = "Gelecek Ay";
 
-// MARK: - Progress
-"progress" = "İlerleme";
+// MARK: - Log
+"log" = "Günlük";
 "completed" = "Tamamlandı";
 "in_progress" = "Devam Ediyor";
 "not_started" = "Başlanmadı";
@@ -1767,6 +1767,7 @@
 "analytics_total_coins" = "Toplam Altın";
 "analytics_total_gems" = "Toplam Mücevher";
 "analytics" = "Analitik";
+"adventure_log" = "Maceracı Günlüğü";
 "analytics_loading" = "Analitik Yükleniyor";
 "analytics_loading_description" = "Kişiselleştirilmiş içgörülerin ve önerilerin toplanıyor...";
 "analytics_empty_title" = "Analitik Mevcut Değil";

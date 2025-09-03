@@ -311,8 +311,8 @@
 "next_week" = "Next Week";
 "next_month" = "Next Month";
 
-// MARK: - Progress
-"progress" = "Progress";
+// MARK: - Log
+"log" = "Log";
 "completed" = "Finished";
 "in_progress" = "In Progress";
 "not_started" = "Not Started";
@@ -1814,6 +1814,7 @@
 
 // MARK: - Analytics
 "analytics" = "Analytics";
+"adventure_log" = "Adventure Log";
 "analytics_time_period" = "Time Period";
 "analytics_period_week" = "Week";
 "analytics_period_month" = "Month";

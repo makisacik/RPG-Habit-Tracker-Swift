@@ -28,7 +28,7 @@ struct AnalyticsView: View {
                 emptyStateView(theme: theme)
             }
         }
-        .navigationTitle("analytics".localized)
+        .navigationTitle("adventure_log".localized)
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {

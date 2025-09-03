@@ -59,7 +59,7 @@ struct HomeView: View {
                 homeTabView(theme: theme).tag(HomeTab.home)
                 questsTabView(theme: theme).tag(HomeTab.tracking)
                 characterTabView(theme: theme).tag(HomeTab.character)
-                progressTabView(theme: theme).tag(HomeTab.progress)
+                progressTabView(theme: theme).tag(HomeTab.log)
             }
             .background(theme.backgroundColor.ignoresSafeArea())
             .toolbar(.hidden, for: .tabBar) // Hide system Tab Bar

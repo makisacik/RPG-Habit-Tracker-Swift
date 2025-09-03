@@ -237,8 +237,8 @@ struct CustomTabBar: View {
             // Character Tab
             TabItem(tab: .character, selected: $selected, theme: theme)
             
-            // Progress Tab
-            TabItem(tab: .progress, selected: $selected, theme: theme)
+            // Log Tab
+            TabItem(tab: .log, selected: $selected, theme: theme)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
@@ -258,14 +258,14 @@ enum HomeTab: Hashable {
     case home
     case tracking
     case character
-    case progress
+    case log
 
     func title(using localizationManager: LocalizationManager) -> String {
         switch self {
         case .home:      return localizationManager.localizedString(for: "home")
         case .tracking:  return localizationManager.localizedString(for: "quests")
         case .character: return localizationManager.localizedString(for: "character")
-        case .progress:  return localizationManager.localizedString(for: "progress")
+        case .log:       return localizationManager.localizedString(for: "log")
         }
     }
 
@@ -274,7 +274,7 @@ enum HomeTab: Hashable {
         case .home:      return "house.fill"
         case .tracking:  return "list.bullet.clipboard.fill"
         case .character: return "person.crop.circle.fill"
-        case .progress:  return "chart.bar.xaxis"
+        case .log:       return "chart.bar.xaxis"
         }
     }
 }

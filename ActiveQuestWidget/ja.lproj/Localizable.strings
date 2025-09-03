@@ -22,7 +22,7 @@
 "due_tomorrow" = "明日が期限";
 "days_left" = "日残り";
 "untitled_quest" = "無題のクエスト";
-"progress" = "進行状況";
+"log" = "ログ";
 "widget_description" = "現在のクエストの進行状況と期限を確認できます。";
 
 // MARK: - Daily Quest Summary Widget

@@ -22,7 +22,7 @@
 "due_tomorrow" = "Due tomorrow";
 "days_left" = "days left";
 "untitled_quest" = "Untitled Quest";
-"progress" = "Progress";
+"log" = "Log";
 "widget_description" = "Track your current quest progress and due dates.";
 
 // MARK: - Daily Quest Summary Widget

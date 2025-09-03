@@ -311,7 +311,7 @@
 "next_week" = "Semaine prochaine";
 "next_month" = "Mois prochain";
 
-"progress" = "Progression";
+"log" = "Journal";
 "completed" = "Terminé";
 "in_progress" = "En cours";
 "not_started" = "Non commencé";
@@ -1676,6 +1676,7 @@
 "mustache_2_dark_brown" = "Guidon brun foncé";
 
 "analytics" = "Analytique";
+"adventure_log" = "Journal d'Aventure";
 "analytics_time_period" = "Période";
 "analytics_period_week" = "Semaine";
 "analytics_period_month" = "Mois";

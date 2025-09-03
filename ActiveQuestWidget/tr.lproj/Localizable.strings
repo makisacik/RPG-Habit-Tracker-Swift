@@ -22,7 +22,7 @@
 "due_tomorrow" = "Yarın son";
 "days_left" = "gün kaldı";
 "untitled_quest" = "Başlıksız Görev";
-"progress" = "İlerleme";
+"log" = "Günlük";
 "widget_description" = "Mevcut görev ilerlemeni ve son tarihleri takip et.";
 
 // MARK: - Daily Quest Summary Widget

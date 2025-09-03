@@ -310,8 +310,8 @@
 "this_month" = "今月";
 "next_month" = "来月";
 
-// MARK: - Progress
-"progress" = "進行状況";
+// MARK: - Log
+"log" = "ログ";
 "completed" = "完了";
 "in_progress" = "進行中";
 "not_started" = "未開始";
@@ -2069,6 +2069,7 @@
 
 // MARK: - Analytics
 "analytics" = "アナリティクス";
+"adventure_log" = "冒険ログ";
 "analytics_time_period" = "期間";
 "analytics_period_week" = "週";
 "analytics_period_month" = "月";

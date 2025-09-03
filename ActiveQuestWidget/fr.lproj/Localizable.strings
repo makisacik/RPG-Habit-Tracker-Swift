@@ -15,7 +15,7 @@
 "due_tomorrow" = "À faire demain";
 "days_left" = "jours restants";
 "untitled_quest" = "Quête sans titre";
-"progress" = "Progression";
+"log" = "Journal";
 "widget_description" = "Suis la progression et les échéances de ta quête actuelle.";
 
 // MARK: - Daily Quest Summary Widget
