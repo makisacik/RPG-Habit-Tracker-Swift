@@ -739,7 +739,7 @@ struct GamifiedTimePicker: View {
                     HStack {
                         HStack {
                             Image(systemName: "clock.fill")
-                                .foregroundColor(.blue)
+                                .foregroundColor(theme.accentColor)
                                 .font(.system(size: 16, weight: .medium))
                             
                             if let selectedTime = selectedTimes.first {
@@ -751,26 +751,26 @@ struct GamifiedTimePicker: View {
                         
                         Spacer()
                         
-                        Button(action: {
-                            if let selectedTime = selectedTimes.first {
-                                tempTime = selectedTime
-                            }
-                            showTimePicker = true
-                        }) {
-                            Text("change_time".localized)
-                                .font(.appFont(size: 14, weight: .medium))
-                                .foregroundColor(.blue)
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 12)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.blue.opacity(0.1))
-                                        .overlay(
+                                                        Button(action: {
+                                    if let selectedTime = selectedTimes.first {
+                                        tempTime = selectedTime
+                                    }
+                                    showTimePicker = true
+                                }) {
+                                    Text("change_time".localized)
+                                        .font(.appFont(size: 14, weight: .medium))
+                                        .foregroundColor(theme.textColor)
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 12)
+                                        .background(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                                                .fill(theme.primaryColor.opacity(0.3))
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
+                                                )
                                         )
-                                )
-                        }
+                                                        }
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 12)
@@ -822,14 +822,9 @@ struct TimePickerSheet: View {
         VStack(spacing: 20) {
             // Header
             VStack(spacing: 8) {
-                Text("select_reminder_time".localized)
+                Text("select_specific_time".localized)
                     .font(.appFont(size: 20, weight: .black))
                     .foregroundColor(theme.textColor)
-                    .multilineTextAlignment(.center)
-                
-                Text("reminder_will_be_sent_30_min_before".localized)
-                    .font(.appFont(size: 16))
-                    .foregroundColor(theme.textColor.opacity(0.7))
                     .multilineTextAlignment(.center)
             }
             .padding(.horizontal, 20)
@@ -841,14 +836,6 @@ struct TimePickerSheet: View {
                 .environment(\.locale, localizationManager.currentLocale)
                 .environment(\.calendar, Calendar(identifier: .gregorian))
                 .padding(20)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(theme.secondaryColor.opacity(0.8))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
-                        )
-                )
             
             // Action buttons
             HStack(spacing: 16) {
@@ -876,15 +863,17 @@ struct TimePickerSheet: View {
                         .padding(.horizontal, 24)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.green)
+                                .fill(theme.accentColor)
                                 .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                         )
                 }
             }
-            .padding(.bottom, 20)
-        }
         .background(theme.backgroundColor)
-    }
+        .cornerRadius(20)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 20)
+        }
+}
 }
 
 // MARK: - Legacy Components (keeping for compatibility)

@@ -336,7 +336,7 @@ struct EditQuestSettingsSection: View {
                             HStack {
                                 HStack {
                                     Image(systemName: "clock.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(theme.accentColor)
                                         .font(.system(size: 16, weight: .medium))
                                     
                                     if let selectedTime = viewModel.reminderTimes.first {
@@ -354,15 +354,15 @@ struct EditQuestSettingsSection: View {
                                 }) {
                                     Text("change_time".localized)
                                         .font(.appFont(size: 14, weight: .medium))
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(theme.textColor)
                                         .padding(.vertical, 6)
                                         .padding(.horizontal, 12)
                                         .background(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .fill(Color.blue.opacity(0.1))
+                                                .fill(theme.primaryColor.opacity(0.3))
                                                 .overlay(
                                                     RoundedRectangle(cornerRadius: 8)
-                                                        .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                                                        .stroke(theme.borderColor.opacity(0.3), lineWidth: 1)
                                                 )
                                         )
                                 }

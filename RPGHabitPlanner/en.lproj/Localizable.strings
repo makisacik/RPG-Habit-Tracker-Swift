@@ -176,8 +176,7 @@
 "specific_reminder_time" = "Specific Time";
 "add_reminder_time" = "Add Reminder Time";
 "no_reminder_times_set" = "No reminder times set";
-"select_reminder_time" = "Select Reminder Time";
-"reminder_will_be_sent_30_min_before" = "Reminder will be sent 30 minutes before the selected time";
+"select_specific_time" = "Select Specific Time";
 "change_time" = "Change Time";
 "add_time" = "Add Time";
 "enabled" = "Enabled";

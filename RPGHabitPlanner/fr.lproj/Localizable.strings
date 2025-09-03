@@ -177,8 +177,7 @@
 "change_time" = "Changer l'heure";
 "add_reminder_time" = "Ajouter un Heure de Rappel";
 "no_reminder_times_set" = "Aucune heure de rappel définie";
-"select_reminder_time" = "Sélectionner l'Heure de Rappel";
-"reminder_will_be_sent_30_min_before" = "Le rappel sera envoyé 30 minutes avant l'heure sélectionnée";
+"select_specific_time" = "Sélectionner l'Heure Spécifique";
 "add_time" = "Ajouter l'Heure";
 "enabled" = "Activé";
 "disabled" = "Désactivé";
