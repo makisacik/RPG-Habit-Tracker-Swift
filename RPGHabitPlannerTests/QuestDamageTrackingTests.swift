@@ -186,7 +186,9 @@ final class QuestDamageTrackingTests: XCTestCase {
             isActive: true,
             progress: 0,
             repeatType: .daily,
-            completions: completions
+            completions: completions,
+            reminderTimes: [],
+            enableReminders: false
         )
     }
     
@@ -201,7 +203,9 @@ final class QuestDamageTrackingTests: XCTestCase {
             isActive: true,
             progress: 0,
             isCompleted: isCompleted,
-            repeatType: .weekly
+            repeatType: .weekly,
+            reminderTimes: [],
+            enableReminders: false
         )
     }
     
@@ -216,7 +220,9 @@ final class QuestDamageTrackingTests: XCTestCase {
             isActive: true,
             progress: 0,
             isCompleted: isCompleted,
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
     }
     
@@ -231,7 +237,9 @@ final class QuestDamageTrackingTests: XCTestCase {
             isActive: true,
             progress: 0,
             repeatType: .scheduled,
-            scheduledDays: scheduledDays
+            scheduledDays: scheduledDays,
+            reminderTimes: [],
+            enableReminders: false
         )
     }
 }

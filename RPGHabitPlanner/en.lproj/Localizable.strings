@@ -172,6 +172,13 @@
 "notifications" = "Notifications";
 "reminder" = "Reminder";
 "reminders" = "Reminders";
+"quest_reminders" = "Quest Reminders";
+"specific_reminder_time" = "Specific Time";
+"add_reminder_time" = "Add Reminder Time";
+"no_reminder_times_set" = "No reminder times set";
+"select_specific_time" = "Select Specific Time";
+"change_time" = "Change Time";
+"add_time" = "Add Time";
 "enabled" = "Enabled";
 "disabled" = "Disabled";
 "not_determined" = "Not Determined";

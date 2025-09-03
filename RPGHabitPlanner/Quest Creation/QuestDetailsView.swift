@@ -56,6 +56,13 @@ struct QuestDetailsView: View {
                     date: $viewModel.questDueDate
                 )
 
+                // Specific Time
+                GamifiedTimePicker(
+                    title: "specific_reminder_time".localized,
+                    selectedTimes: $viewModel.reminderTimes,
+                    isEnabled: $viewModel.enableReminders
+                )
+
                 // Tags
                 GamifiedTagsSection(
                     selectedTags: $viewModel.selectedTags

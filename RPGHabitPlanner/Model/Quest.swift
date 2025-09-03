@@ -12,6 +12,19 @@ enum QuestRepeatType: String, Codable {
     case daily
     case weekly
     case scheduled
+    
+    var localizedTitle: String {
+        switch self {
+        case .oneTime:
+            return "one_time".localized
+        case .daily:
+            return "daily".localized
+        case .weekly:
+            return "weekly".localized
+        case .scheduled:
+            return "scheduled".localized
+        }
+    }
 }
 
 struct Quest: Identifiable, Equatable {
@@ -34,6 +47,8 @@ struct Quest: Identifiable, Equatable {
     var tags: Set<Tag>
     var showProgress: Bool
     var scheduledDays: Set<Int> // Days of week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
+    var reminderTimes: Set<Date> // Times when reminders should be sent (30 minutes before)
+    var enableReminders: Bool // Whether reminders are enabled for this quest
 
     init(
         id: UUID = UUID(),
@@ -54,7 +69,9 @@ struct Quest: Identifiable, Equatable {
         completions: Set<Date> = [],
         tags: Set<Tag> = [],
         showProgress: Bool = false,
-        scheduledDays: Set<Int> = []
+        scheduledDays: Set<Int> = [],
+        reminderTimes: Set<Date> = [],
+        enableReminders: Bool = false
     ) {
         self.id = id
         self.title = title
@@ -75,6 +92,8 @@ struct Quest: Identifiable, Equatable {
         self.tags = tags
         self.showProgress = showProgress
         self.scheduledDays = scheduledDays
+        self.reminderTimes = reminderTimes
+        self.enableReminders = enableReminders
     }
 }
 

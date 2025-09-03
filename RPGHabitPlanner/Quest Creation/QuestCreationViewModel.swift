@@ -33,9 +33,14 @@ final class QuestCreationViewModel: ObservableObject {
     @Published var shouldShowPaywall = false
     @Published var shouldShowNotificationPermission = false
     @Published var pendingQuestForNotification: Quest?
+    @Published var reminderTimes: Set<Date> = []
+    @Published var enableReminders: Bool = false
 
     init(questDataService: QuestDataServiceProtocol) {
         self.questDataService = questDataService
+        // Set default reminder time to 12 PM
+        let defaultTime = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) ?? Date()
+        self.reminderTimes = [defaultTime]
         fetchCurrentQuestCount()
     }
 
@@ -72,7 +77,9 @@ final class QuestCreationViewModel: ObservableObject {
             completionDate: nil,
             repeatType: repeatType,
             tags: Set(selectedTags),
-            scheduledDays: selectedScheduledDays
+            scheduledDays: selectedScheduledDays,
+            reminderTimes: reminderTimes,
+            enableReminders: enableReminders
         )
 
         let taskTitles = tasks
@@ -128,6 +135,10 @@ final class QuestCreationViewModel: ObservableObject {
         selectedScheduledDays = []
         notifyMe = true
         selectedTags = []
+        // Set default reminder time to 12 PM
+        let defaultTime = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) ?? Date()
+        reminderTimes = [defaultTime]
+        enableReminders = false
     }
 
     // MARK: - Premium Methods

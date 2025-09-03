@@ -169,6 +169,13 @@
 "notifications" = "通知一覧";
 "reminder" = "リマインダー";
 "reminders" = "リマインダー一覧";
+"quest_reminders" = "クエストリマインダー";
+"specific_reminder_time" = "特定の時間";
+"change_time" = "時間を変更";
+"add_reminder_time" = "リマインダー時間を追加";
+"no_reminder_times_set" = "リマインダー時間が設定されていません";
+"select_specific_time" = "特定の時間を選択";
+"add_time" = "時間を追加";
 "enabled" = "有効";
 "disabled" = "無効";
 "not_determined" = "未設定";

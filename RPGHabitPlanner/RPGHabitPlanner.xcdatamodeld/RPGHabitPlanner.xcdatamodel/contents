@@ -107,6 +107,8 @@
         <attribute name="scheduledDays" optional="YES" attributeType="String"/>
         <attribute name="showProgress" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="reminderTimes" optional="YES" attributeType="String"/>
+        <attribute name="enableReminders" optional="YES" attributeType="Boolean" usesScalarValueType="YES" defaultValueString="NO"/>
         <relationship name="completions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuestCompletionEntity" inverseName="quest" inverseEntity="QuestCompletionEntity"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TagEntity" inverseName="quests" inverseEntity="TagEntity"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskEntity" inverseName="quest" inverseEntity="TaskEntity"/>

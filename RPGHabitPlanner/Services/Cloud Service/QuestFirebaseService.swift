@@ -42,7 +42,9 @@ final class QuestFirebaseService: QuestDataServiceProtocol {
         completion(nil)
     }
 
-    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, tasks: [String]?, tags: [Tag]?, showProgress: Bool?, scheduledDays: Set<Int>?, completion: @escaping ((any Error)?) -> Void) {
+    func updateQuest(withId id: UUID, title: String?, isMainQuest: Bool?, info: String?, difficulty: Int?, dueDate: Date?, isActive: Bool?, progress: Int?, repeatType: QuestRepeatType?, tasks: [String]?, tags: [Tag]?, showProgress: Bool?, scheduledDays: Set<Int>?, reminderTimes: Set<Date>?, enableReminders: Bool?, completion: @escaping ((any Error)?) -> Void) {
+        // TODO: Implement Firebase quest update with reminder fields
+        completion(nil)
     }
 
     func updateTask(withId id: UUID, title: String?, isCompleted: Bool?, order: Int16?, questId: UUID?, completion: @escaping ((any Error)?) -> Void) {

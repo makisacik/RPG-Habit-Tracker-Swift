@@ -22,9 +22,14 @@ final class NotificationManager {
         let calendar = Calendar.current
         let startDate = quest.creationDate
         let endDate = quest.dueDate
-        let notificationTime = DateComponents(hour: 11, minute: 0)
 
-        // guard endDate >= Date() else { return }
+        // Schedule custom time-based reminders if enabled
+        if quest.enableReminders && !quest.reminderTimes.isEmpty {
+            scheduleCustomTimeReminders(for: quest, calendar: calendar)
+        }
+
+        // Schedule default notifications based on quest type
+        let notificationTime = DateComponents(hour: 11, minute: 0)
 
         switch quest.repeatType {
         case .oneTime:
@@ -90,6 +95,118 @@ final class NotificationManager {
                 print("Failed to schedule:", error.localizedDescription)
             } else {
                 print("Scheduled notification:", id)
+            }
+        }
+    }
+    
+    private func scheduleCustomTimeReminders(for quest: Quest, calendar: Calendar) {
+        let content = UNMutableNotificationContent()
+        content.title = "quest_reminder_title".localized
+        content.body = quest.title
+        content.sound = .default
+
+        let startDate = quest.creationDate
+        let endDate = quest.dueDate
+
+        // Schedule reminders for each selected time
+        for reminderTime in quest.reminderTimes {
+            let timeComponents = calendar.dateComponents([.hour, .minute], from: reminderTime)
+
+            switch quest.repeatType {
+            case .oneTime:
+                // For one-time quests, schedule reminder 30 minutes before the selected time on the due date
+                if let reminderDate = calendar.date(byAdding: .minute, value: -30, to: quest.dueDate) {
+                    let reminderDateComponents = calendar.dateComponents([.year, .month, .day], from: reminderDate)
+                    let finalComponents = DateComponents(
+                        year: reminderDateComponents.year,
+                        month: reminderDateComponents.month,
+                        day: reminderDateComponents.day,
+                        hour: timeComponents.hour,
+                        minute: timeComponents.minute
+                    )
+
+                    scheduleNotification(
+                        id: "\(quest.id.uuidString)_custom_reminder_\(reminderTime.timeIntervalSince1970)",
+                        content: content,
+                        date: reminderDate,
+                        time: finalComponents
+                    )
+                }
+
+            case .daily:
+                // For daily quests, schedule reminders 30 minutes before each selected time on each day
+                var currentDate = startDate
+                while currentDate <= endDate {
+                    if let reminderDate = calendar.date(byAdding: .minute, value: -30, to: currentDate) {
+                        let reminderDateComponents = calendar.dateComponents([.year, .month, .day], from: reminderDate)
+                        let finalComponents = DateComponents(
+                            year: reminderDateComponents.year,
+                            month: reminderDateComponents.month,
+                            day: reminderDateComponents.day,
+                            hour: timeComponents.hour,
+                            minute: timeComponents.minute
+                        )
+
+                        scheduleNotification(
+                            id: "\(quest.id.uuidString)_custom_reminder_\(currentDate.timeIntervalSince1970)_\(reminderTime.timeIntervalSince1970)",
+                            content: content,
+                            date: reminderDate,
+                            time: finalComponents
+                        )
+                    }
+                    currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+                }
+
+            case .weekly:
+                // For weekly quests, schedule reminders 30 minutes before each selected time on each week
+                var currentDate = startDate
+                while currentDate <= endDate {
+                    if let reminderDate = calendar.date(byAdding: .minute, value: -30, to: currentDate) {
+                        let reminderDateComponents = calendar.dateComponents([.year, .month, .day], from: reminderDate)
+                        let finalComponents = DateComponents(
+                            year: reminderDateComponents.year,
+                            month: reminderDateComponents.month,
+                            day: reminderDateComponents.day,
+                            hour: timeComponents.hour,
+                            minute: timeComponents.minute
+                        )
+
+                        scheduleNotification(
+                            id: "\(quest.id.uuidString)_custom_reminder_\(currentDate.timeIntervalSince1970)_\(reminderTime.timeIntervalSince1970)",
+                            content: content,
+                            date: reminderDate,
+                            time: finalComponents
+                        )
+                    }
+                    currentDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDate) ?? currentDate
+                }
+
+            case .scheduled:
+                // For scheduled quests, schedule reminders only on the specified days
+                var currentDate = startDate
+                while currentDate <= endDate {
+                    let weekday = calendar.component(.weekday, from: currentDate)
+                    if quest.scheduledDays.contains(weekday) {
+                        if let reminderDate = calendar.date(byAdding: .minute, value: -30, to: currentDate) {
+                            let reminderDateComponents = calendar.dateComponents([.year, .month, .day], from: reminderDate)
+                            let finalComponents = DateComponents(
+                                year: reminderDateComponents.year,
+                                month: reminderDateComponents.month,
+                                day: reminderDateComponents.day,
+                                hour: timeComponents.hour,
+                                minute: timeComponents.minute
+                            )
+
+                            scheduleNotification(
+                                id: "\(quest.id.uuidString)_custom_reminder_\(currentDate.timeIntervalSince1970)_\(reminderTime.timeIntervalSince1970)",
+                                content: content,
+                                date: reminderDate,
+                                time: finalComponents
+                            )
+                        }
+                    }
+                    currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+                }
             }
         }
     }

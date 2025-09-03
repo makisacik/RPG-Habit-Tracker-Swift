@@ -61,7 +61,9 @@ final class QuestDetailViewModel: ObservableObject {
             tasks: quest.tasks.map { $0.title },
             tags: newTags,
             showProgress: quest.showProgress,
-            scheduledDays: quest.scheduledDays
+            scheduledDays: quest.scheduledDays,
+            reminderTimes: quest.reminderTimes,
+            enableReminders: quest.enableReminders
         ) { [weak self] error in
             DispatchQueue.main.async {
                 if let error = error {

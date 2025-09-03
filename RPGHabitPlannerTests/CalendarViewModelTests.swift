@@ -38,7 +38,9 @@ final class CalendarViewModelTests: XCTestCase {
             progress: 0,
             isFinished: true,
             isFinishedDate: Date(),
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Given: An active quest that is not finished
@@ -52,7 +54,9 @@ final class CalendarViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Set up mock data
@@ -84,7 +88,9 @@ final class CalendarViewModelTests: XCTestCase {
             progress: 0,
             isFinished: true,
             isFinishedDate: Date(),
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let activeQuest1 = Quest(
@@ -97,7 +103,9 @@ final class CalendarViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .daily
+            repeatType: .daily,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let activeQuest2 = Quest(
@@ -110,7 +118,9 @@ final class CalendarViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .weekly
+            repeatType: .weekly,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Set up mock data
@@ -147,7 +157,9 @@ final class CalendarViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let futureQuest = Quest(
@@ -160,7 +172,9 @@ final class CalendarViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         let currentQuest = Quest(
@@ -173,7 +187,9 @@ final class CalendarViewModelTests: XCTestCase {
             isActive: true,
             progress: 0,
             isFinished: false,
-            repeatType: .oneTime
+            repeatType: .oneTime,
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Set up mock data
@@ -206,7 +222,9 @@ final class CalendarViewModelTests: XCTestCase {
             progress: 0,
             isFinished: false,
             repeatType: .weekly,
-            completions: [weekAnchor] // Mark as completed for this week
+            completions: [weekAnchor], // Mark as completed for this week
+            reminderTimes: [],
+            enableReminders: false
         )
 
         // Set up mock data

@@ -33,6 +33,8 @@ protocol QuestDataServiceProtocol {
         tags: [Tag]?,
         showProgress: Bool?,
         scheduledDays: Set<Int>?,
+        reminderTimes: Set<Date>?,
+        enableReminders: Bool?,
         completion: @escaping (Error?) -> Void
     )
 
