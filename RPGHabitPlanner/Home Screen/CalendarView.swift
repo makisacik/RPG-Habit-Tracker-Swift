@@ -277,11 +277,12 @@ struct QuestCalendarRow: View {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(item.quest.title)
                             .font(.appFont(size: 15, weight: .medium))
-                            .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.7 : 1.0))
+                            .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.6 : 1.0))
                             .lineLimit(1)
+                            .strikethrough(item.state == .done)
                         Text(subtitle)
                             .font(.appFont(size: 11, weight: .black))
-                            .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.5 : 0.7))
+                            .foregroundColor(theme.textColor.opacity(item.state == .done ? 0.4 : 0.7))
                     }
                     Spacer()
 
@@ -372,12 +373,25 @@ struct QuestCalendarRow: View {
                 }
             }
             .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(theme.primaryColor.opacity(item.state == .done ? 0.8 : 1.0))
-                    .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(theme.primaryColor.opacity(item.state == .done ? 0.6 : 1.0))
+                        .shadow(color: .black.opacity(item.state == .done ? 0.05 : 0.1), radius: 4, x: 0, y: 2)
+
+                    // Completion overlay for completed quests
+                    if item.state == .done {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.green.opacity(0.1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.green.opacity(0.3), lineWidth: 1)
+                            )
+                    }
+                }
             )
             .padding(.horizontal, 4)
             .padding(.vertical, 2)
+            .opacity(item.state == .done ? 0.8 : 1.0)
         }
     }
 
