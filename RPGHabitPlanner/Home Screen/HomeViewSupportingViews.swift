@@ -227,7 +227,7 @@ struct CustomTabBar: View {
                         .frame(width: 56, height: 56)
                         .shadow(color: theme.shadowColor, radius: 4, x: 0, y: 2)
                     
-                    Image(systemName: "plus")
+                    Image("icon_sword")
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundColor(.white)
                 }
