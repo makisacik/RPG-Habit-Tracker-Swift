@@ -1,45 +1,56 @@
-## Purpose of the Project
+# 🌟 RPG Habit Tracker
 
-The purpose of this project is to create an App Store application that will help users to build their habits, but with a concept of RPG game structure so that user can gamify their lives with concepts such as main quests, side quests, optional quests, and repetitive quests. The app will offer good practice on building iOS apps. It will be built with SwiftUI, MVVM, clean architecture and dependency injection.
+**Turn daily routines into epic quests!**  
+Build habits, track goals, and level up your hero while staying motivated every day.  
+Start your adventure now!
 
-## Current Development Screenshoots
+[![Download on the App Store](https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg)](https://apps.apple.com/app/id6751516528)
 
-<img src="https://github.com/user-attachments/assets/cbf4c983-f39e-49de-ac35-471383de1f1f" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 33 32" width="180">
-<img src="https://github.com/user-attachments/assets/c9aff7cd-ff97-4097-a2d1-13b75526228e" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 41 14" width="180">
-<img src="https://github.com/user-attachments/assets/3dfe7c5a-ae58-45a7-a9c9-6f496ab33a4d" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 40 36" width="180">
-<img src="https://github.com/user-attachments/assets/91c2c945-8c6c-4f85-bf48-0d4df9de7988" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 40 03" width="180">
-<img src="https://github.com/user-attachments/assets/bbc31526-bc75-4b93-a662-c35e30b84da1" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 40 18" width="180">
-<img src="https://github.com/user-attachments/assets/0ae4045f-62e5-406b-9601-4e19d751c57f" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 45 40" width="180">
-<img src="https://github.com/user-attachments/assets/1bd6187c-f668-43ba-a5ea-91185dedfa40" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 45 49" width="180">
-<img src="https://github.com/user-attachments/assets/4b5ae26f-a476-467b-affb-2e40d24c71d2" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 35 25" width="180">
-<img src="https://github.com/user-attachments/assets/9f5c1f99-14af-415e-b422-b174f14e5731" alt="Simulator Screenshot - iPhone 16 - 2025-08-06 at 00 35 52" width="180">
+---
 
+## ✨ Become the Hero of Your Life
 
+RPG Habit Tracker transforms everyday tasks into **epic quests**.  
+Build better habits, track progress, and stay motivated while leveling up your personal hero.  
 
-## Testability
-The app will be designed with testability in mind through the use of abstractions achieved by protocols/interfaces and the dependency injection technique. Although I’m not implementing TDD (Test-Driven Development) as it's currently a solo project, I will write tests for critical components and make the app scalable for future testing.
+---
 
-## Key Features
+## 🗡️ Why Choose RPG Habit Tracker?
 
-**RPG Gamification**: Users can manage their daily tasks as "quests," which are categorized into main quests, side quests, optional quests, and repetitive quests.
+- ⚔️ **Turn goals into quests** – every habit and task becomes part of your journey  
+- 🔥 **Build streaks & habits** – stay consistent and unlock rewards  
+- 🛡️ **Customize your hero** – equip outfits, shields, pets, and wings  
+- 📅 **Quest Calendar** – plan your goals and see progress at a glance  
+- 📖 **Quest Journal** – organize daily, weekly, and long-term habits  
+- 🏆 **Track progress & achievements** – earn XP, coins, and gems as you grow  
+- 🧭 **Personalized insights** – smart tips to keep you motivated  
 
-**Quest Management**: Includes functionality to add, track, and complete quests, with a visual representation of progress.
+Whether it’s drinking more water, writing every day, or mastering a new skill,  
+**RPG Habit Tracker helps you stay on track—and makes the process fun.**
 
-**Widgets**: Interactive widgets will be created to keep users engaged and remind them of their progress, making it easy to access quests and character status directly from the home screen. This is also important to remind the user that they downloaded this app.
+---
 
-**Character Creation**: Users create a character that represents their in-app persona, enhancing engagement.
+## 📱 Screenshots
 
-**Notifications**: Timely notifications to remind users about their quests and encourage them to maintain consistency in completing tasks.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/56a2da75-582c-456c-863a-10e93f9e4ede" alt="Screenshot 1" width="180">
+  <img src="https://github.com/user-attachments/assets/225d6fee-4b9d-4bdb-9449-89c8971e87f4" alt="Screenshot 7" width="180">
+  <img src="https://github.com/user-attachments/assets/a2159833-2eb8-4af0-9aa4-39ce0d996036" alt="Screenshot 4" width="180">
+  <img src="https://github.com/user-attachments/assets/ba448c13-1b22-4e01-844c-0f425ce3e330" alt="Screenshot 3" width="180">
+  <img src="https://github.com/user-attachments/assets/118f0e1d-e943-4151-93a7-9e6c7b556db8" alt="Screenshot 6" width="180">
+  <img src="https://github.com/user-attachments/assets/0944705f-0278-433e-a232-e62e04c1e76f" alt="Screenshot 8" width="180">
+  <img src="https://github.com/user-attachments/assets/18d999b0-e71c-4625-aaeb-bd35cb70d184" alt="Screenshot 5" width="180">
+</p>
 
+---
 
-## What Makes This App Different from Existing Apps in the App Store?
+## 🚀 Start Your Adventure Today
 
-This app should stand out due to its unique combination of habit tracking and RPG mechanics. While many habit trackers and productivity apps exist, few take an approach that transforms habit formation into a gamified experience with RPG elements. Users won’t just complete tasks, instead they’ll embark on quests, develop their character, and receive rewards, creating a sense of achievement and progression.
+Your adventure starts today.  
+**Level up your real life with RPG Habit Tracker!**
 
+👉 [Download now on the App Store](https://apps.apple.com/app/id6751516528)
 
-## Initial Requirements for the Project
-
-<img width="712" alt="Screenshot 2024-10-26 at 08 52 57" src="https://github.com/user-attachments/assets/0bcaff1a-2315-4b31-ab92-9a4da4bd172e">
 
 ## Initial System Design
 
